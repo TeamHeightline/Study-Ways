@@ -1,24 +1,30 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import Navibar from './Components/Navbar/Navibar.tsx';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import  {
+    BrowserRouter as Router,
+    Switch,
+    Route
+} from "react-router-dom";
+
+import {mainPage} from './Pages/mainPage.tsx';
+import {advancedSearch} from './Pages/advancedSearch.tsx';
+import {personalCabinet} from './Pages/personalCabinet.tsx'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+        <Router>
+            <Navibar/>
+            <Switch>
+                <Route exact path="/" component={mainPage}/>
+                <Route exact path="/search" component={advancedSearch}/>
+                <Route exact path="/pc" component={personalCabinet}/>
+            </Switch>
+        </Router>
+    </>
   );
 }
 

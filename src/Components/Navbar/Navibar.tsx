@@ -3,10 +3,11 @@ import 'react-bootstrap';
 import  {Navbar, Form, Nav, FormControl, Dropdown, Button, DropdownButton, Row} from 'react-bootstrap';
 // import IsLogin from '../login';
 import s from'./navibar.module.css';
-
+import NavSearch from "./search"
 
 export default function Navibar(){
     return(
+
             <Navbar bg="light" expand="lg" >
                 <Navbar.Brand>IOT</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -15,11 +16,12 @@ export default function Navibar(){
 
                         <Nav.Link href="/" className="ml-3">Главная</Nav.Link>
                         <Nav.Link href="/search" className="ml-3">Расширенный поиск</Nav.Link>
-                        <Nav.Link href="/pc" className="ml-3">Личный кабинет</Nav.Link>
+                        <Nav.Link href="/lc" className="ml-3">Последняя карточка</Nav.Link>
                     </Nav>
 
                     <Form  className="col-lg-6">
-                        <FormControl type="text" placeholder="Поиск карточки" className="ml-auto"  />
+                        {/*<FormControl type="text" placeholder="Поиск карточки" className="ml-auto"  />*/}
+                        <NavSearch/>
                     </Form>
                     <Button variant="outline-success" className="ml-1 mr-2 ml-3 ">Поиск</Button>
                     {/*<IsLogin className="ml-auto"/>*/}

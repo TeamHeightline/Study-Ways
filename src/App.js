@@ -9,9 +9,9 @@ import  {
     Route
 } from "react-router-dom";
 
-import {mainPage} from './Pages/mainPage.tsx';
-import {advancedSearch} from './Pages/advancedSearch.tsx';
-import {lastCard} from './Pages/lastCard.tsx'
+import {MainPage} from './Pages/mainPage.tsx';
+import {AdvancedSearch} from './Pages/advancedSearch.tsx';
+import {LastCard} from './Pages/lastCard.tsx'
 
 function App() {
   return (
@@ -19,9 +19,9 @@ function App() {
         <Router>
             <Navibar/>
             <Switch>
-                <Route exact path="/" component={mainPage}/>
-                <Route exact path="/search" component={advancedSearch}/>
-                <Route exact path="/lc" component={lastCard}/>
+                <Route exact path="/" component={MainPage}/>
+                <Route exact path="/search" component={AdvancedSearch}/>
+                <Route exact path="/lc" component={LastCard}/>
             </Switch>
         </Router>
     </>

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import 'react-bootstrap';
-import  {Navbar, Form, Nav, FormControl, Dropdown, Button, DropdownButton, Row} from 'react-bootstrap';
+import  {Navbar, Form, Nav, Dropdown, Button, DropdownButton, Row} from 'react-bootstrap';
 // import IsLogin from '../login';
 import s from'./navibar.module.css';
 import NavSearch from "./search"

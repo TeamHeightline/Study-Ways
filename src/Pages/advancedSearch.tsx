@@ -1,4 +1,10 @@
 import * as React from 'react'
-export const advancedSearch = () => (
-    <h1>Advanced Search</h1>
-)
+
+class AdvancedSearch extends React.Component {
+    render() {
+        return (
+            <h1>Advanced Search</h1>
+        )
+    }
+}
+export {AdvancedSearch}

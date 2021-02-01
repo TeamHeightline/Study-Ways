@@ -29,12 +29,12 @@ export default function NavSearch() {
                 const filtered = filter(options, params);
 
                 // Suggest the creation of a new value
-                if (params.inputValue !== '') {
-                    filtered.push({
-                        inputValue: params.inputValue,
-                        title: `Add "${params.inputValue}"`,
-                    });
-                }
+                // if (params.inputValue !== '') {
+                //     filtered.push({
+                //         inputValue: params.inputValue,
+                //         title: `Add "${params.inputValue}"`,
+                //     });
+                // }
 
                 return filtered;
             }}
@@ -56,10 +56,10 @@ export default function NavSearch() {
                 return option.title;
             }}
             renderOption={(option) => option.title}
-            style={{ width: 300 }}
+            
             freeSolo
             renderInput={(params) => (
-                <TextField style={{width:"465px"}} {...params} label="Введите название карточки или темы" variant="outlined" />
+                <TextField {...params} label="Введите название карточки или темы" variant="outlined" />
             )}
         />
     );

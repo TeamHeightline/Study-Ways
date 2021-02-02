@@ -1,6 +1,5 @@
 type CardLevel= 'Выпускникам школ' | 'Успешным лицеистам и гимназистам' | 'Рядовым студентам' | 'Будущим специалистам'
 
-
 interface Card {
     CardTitle: string;
     CardID: string;

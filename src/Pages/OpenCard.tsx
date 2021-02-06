@@ -1,14 +1,17 @@
 import ReactPlayer from "react-player";
 import * as React from 'react'
+import {Comment} from '../Components/OpenCard/CardComments'
 import {ActiveCard} from '../InsteadOfDatabase/ActiveCard'
 import {  Typography, Breadcrumb, Rate  } from 'antd';
 import {LeftOutlined, RightOutlined, DownOutlined, UpOutlined} from '@ant-design/icons';
 import 'antd/dist/antd.css';
+
 import {Alert, Pagination, Row, Col} from "react-bootstrap";
 const { Title } = Typography;
 
 
-class LastCard extends React.Component{
+
+class OpenCard extends React.Component{
     render(){
         return(
             <>
@@ -48,8 +51,9 @@ class LastCard extends React.Component{
                         <Rate allowHalf defaultValue={4} className="ml-3" />
                     </Col>
                 </Row>
+                <Comment/>
             </>
         )
     }
 }
-export {LastCard}
+export {OpenCard}

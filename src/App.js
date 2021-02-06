@@ -11,7 +11,8 @@ import  {
 
 import {MainPage} from './Pages/mainPage.tsx';
 import {AdvancedSearch} from './Pages/advancedSearch.tsx';
-import {LastCard} from './Pages/lastCard.tsx'
+import {OpenCard} from './Pages/OpenCard.tsx'
+import {TestForUser} from './Pages/TestForUser'
 
 function App() {
   return (
@@ -21,7 +22,8 @@ function App() {
             <Switch>
                 <Route exact path="/" component={MainPage}/>
                 <Route exact path="/search" component={AdvancedSearch}/>
-                <Route exact path="/lc" component={LastCard}/>
+                <Route exact path="/lc" component={OpenCard}/>
+                <Route exact path="/test" component={TestForUser}/>
             </Switch>
         </Router>
     </>

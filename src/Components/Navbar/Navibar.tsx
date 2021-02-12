@@ -13,7 +13,6 @@ export default function Navibar(){
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className={s.navlink}>
-
                         <Nav.Link href="/" className="ml-3">Главная</Nav.Link>
                         <Nav.Link href="/search" className="ml-3">Расширенный поиск</Nav.Link>
                         <Nav.Link href="/lc" className="ml-3">Последняя карточка</Nav.Link>
@@ -23,7 +22,7 @@ export default function Navibar(){
                         {/*<FormControl type="text" placeholder="Поиск карточки" className="ml-auto"  />*/}
                         <NavSearch/>
                     </Form>
-                    <Button variant="outline-success" className="ml-1 mr-2 ml-3 ">Поиск</Button>
+                    <Button variant="outline-success" className=" ml-3 ">Поиск</Button>
                     {/*<IsLogin className="ml-auto"/>*/}
                     <Row className="ml-3">
                     <Navbar.Text className="">User name</Navbar.Text>

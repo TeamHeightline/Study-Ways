@@ -85,7 +85,15 @@ export class CreateUserTest extends React.Component{
                 <div className="blockquote ml-5 mt-5 ">Название теста</div>
                     <Form className="ml-2 col-7 mt-5">
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Control type="text" placeholder="Введите название теста" />
+                            <Form.Control type="text" placeholder="Введите название теста"
+                                          value={this.state.userTest.testName}
+                                          onChange={ e =>{
+                                              let data = this.state.userTest
+                                              data.testName = e.target.value
+                                              // console.log(data)
+                                              this.setState({userTest: data})
+                                          }
+                                          }/>
                         </Form.Group>
                     </Form>
                 </Row>
@@ -100,15 +108,42 @@ export class CreateUserTest extends React.Component{
                         <Form className="ml-4 mr-4">
                             <Form.Label>Первая формулировка вопроса</Form.Label>
                             <Form.Group controlId="formBasicEmail">
-                                <Form.Control type="text" placeholder="Введите первую формулировку вопроса" />
+                                <Form.Control type="text" placeholder="Введите первую формулировку вопроса"
+                                value={this.state.userTest.questions[questionIndex].questionTextV1}
+                                onChange={e=>{
+                                    let data = this.state.userTest
+                                    let question = data.questions[questionIndex]
+                                    question.questionTextV1 = e.target.value
+                                    data.questions[questionIndex] = question
+                                    console.log(this.state.userTest)
+                                    this.setState({userTest: data})
+                                }}/>
                             </Form.Group>
                             <Form.Label>Вторая формулировка вопроса</Form.Label>
                             <Form.Group controlId="formBasicEmail">
-                                <Form.Control type="text" placeholder="Введите вторую формулировку вопроса" />
+                                <Form.Control type="text" placeholder="Введите вторую формулировку вопроса"
+                                              value={this.state.userTest.questions[questionIndex].questionTextV2}
+                                              onChange={e=>{
+                                                  let data = this.state.userTest
+                                                  let question = data.questions[questionIndex]
+                                                  question.questionTextV2 = e.target.value
+                                                  data.questions[questionIndex] = question
+                                                  console.log(this.state.userTest)
+                                                  this.setState({userTest: data})
+                                              }}/>
                             </Form.Group>
                             <Form.Label>Третья формулировка вопроса</Form.Label>
                             <Form.Group controlId="formBasicEmail">
-                                <Form.Control type="text" placeholder="Введите третью формулировку вопроса" />
+                                <Form.Control type="text" placeholder="Введите третью формулировку вопроса"
+                                              value={this.state.userTest.questions[questionIndex].questionTextV3}
+                                              onChange={e=>{
+                                                  let data = this.state.userTest
+                                                  let question = data.questions[questionIndex]
+                                                  question.questionTextV3 = e.target.value
+                                                  data.questions[questionIndex] = question
+                                                  console.log(this.state.userTest)
+                                                  this.setState({userTest: data})
+                                              }}/>
                             </Form.Group>
                         </Form>
                         {/*<QuestionAnswers answerArray={question.answers}/>*/}
@@ -119,34 +154,99 @@ export class CreateUserTest extends React.Component{
                                     <Form className="mr-5 ml-4">
 
                                         <Form.Label>Ответ верный/неверный</Form.Label>
-                                        <Form.Control as="select" className="col-6 col-md-3 ">
-                                            <option>Верный</option>
-                                            <option>Неверный</option>
+                                        <Form.Control as="select" className="col-6 col-md-3"
+                                                      onChange={e=>{
+                                                          let data = this.state.userTest
+                                                          let question = data.questions[questionIndex]
+                                                          let answer = question.answers[answerIndex]
+                                                          answer.isTrue = e.target.value
+                                                          question.answers[answerIndex] = answer
+                                                          data.questions[questionIndex] = question
+                                                          console.log(this.state.userTest)
+                                                          this.setState({userTest: data})
+                                                      }}>
+                                            <option value={true}>Верный</option>
+                                            <option value={false}>Неверный</option>
                                         </Form.Control>
 
                                         <Form.Label className="mt-2">Грубость ошибки (чем число больше, тем более грубая ошибка, на ответ с наиболее грубой ошибкой будет дано пояснение)</Form.Label>
                                         <Form.Group>
-                                            <Form.Control  type="number" placeholder="Ведите число, отражающее грубость ошибки" className="col-6 col-md-3"/>
+                                            <Form.Control  type="number" placeholder="Ведите число, отражающее грубость ошибки" className="col-6 col-md-3"
+                                                           value={this.state.userTest.questions[questionIndex].answers[answerIndex].missingCoast}
+                                                           onChange={e=>{
+                                                               let data = this.state.userTest
+                                                               let question = data.questions[questionIndex]
+                                                               let answer = question.answers[answerIndex]
+                                                               answer.missingCoast = e.target.value
+                                                               question.answers[answerIndex] = answer
+                                                               data.questions[questionIndex] = question
+                                                               console.log(this.state.userTest)
+                                                               this.setState({userTest: data})
+                                                           }}/>
                                         </Form.Group>
 
                                         <Form.Label>Формулировка ответа</Form.Label>
                                         <Form.Group controlId="formBasicEmail">
-                                            <Form.Control type="text" placeholder="Введите формулировку ответа" />
+                                            <Form.Control type="text" placeholder="Введите формулировку ответа"
+                                                          value={this.state.userTest.questions[questionIndex].answers[answerIndex].answerText}
+                                                          onChange={e=>{
+                                                              let data = this.state.userTest
+                                                              let question = data.questions[questionIndex]
+                                                              let answer = question.answers[answerIndex]
+                                                              answer.answerText = e.target.value
+                                                              question.answers[answerIndex] = answer
+                                                              data.questions[questionIndex] = question
+                                                              console.log(this.state.userTest)
+                                                              this.setState({userTest: data})
+                                                          }}/>
                                         </Form.Group>
 
                                         <Form.Label>Подсказка для упрощенного уровня</Form.Label>
                                         <Form.Group controlId="formBasicEmail">
-                                            <Form.Control type="text" placeholder="Введите подсказку для упрощенного уровня" />
+                                            <Form.Control type="text" placeholder="Введите подсказку для упрощенного уровня"
+                                                          value={this.state.userTest.questions[questionIndex].answers[answerIndex].helpTextLevelEasy}
+                                                          onChange={e=>{
+                                                              let data = this.state.userTest
+                                                              let question = data.questions[questionIndex]
+                                                              let answer = question.answers[answerIndex]
+                                                              answer.helpTextLevelEasy = e.target.value
+                                                              question.answers[answerIndex] = answer
+                                                              data.questions[questionIndex] = question
+                                                              console.log(this.state.userTest)
+                                                              this.setState({userTest: data})
+                                                          }}/>
                                         </Form.Group>
 
                                         <Form.Label>Подсказка для нормального уровня</Form.Label>
                                         <Form.Group controlId="formBasicEmail">
-                                            <Form.Control type="text" placeholder="Введите подсказку для нормального уровня" />
+                                            <Form.Control type="text" placeholder="Введите подсказку для нормального уровня"
+                                                          value={this.state.userTest.questions[questionIndex].answers[answerIndex].helpTextLevelMedium}
+                                                          onChange={e=>{
+                                                              let data = this.state.userTest
+                                                              let question = data.questions[questionIndex]
+                                                              let answer = question.answers[answerIndex]
+                                                              answer.helpTextLevelMedium = e.target.value
+                                                              question.answers[answerIndex] = answer
+                                                              data.questions[questionIndex] = question
+                                                              console.log(this.state.userTest)
+                                                              this.setState({userTest: data})
+                                                          }}/>
                                         </Form.Group>
 
                                         <Form.Label>Подсказка для усложненного уровня</Form.Label>
                                         <Form.Group controlId="formBasicEmail">
-                                            <Form.Control type="text" placeholder="Введите подсказку для усложненного уровня" />
+                                            <Form.Control type="text" placeholder="Введите подсказку для усложненного уровня"
+                                                          value={this.state.userTest.questions[questionIndex].answers[answerIndex].helpTextLevelHard}
+                                                          onChange={e=>{
+                                                              let data = this.state.userTest
+                                                              let question = data.questions[questionIndex]
+                                                              let answer = question.answers[answerIndex]
+                                                              answer.helpTextLevelHard = e.target.value
+                                                              question.answers[answerIndex] = answer
+                                                              data.questions[questionIndex] = question
+                                                              console.log(this.state.userTest)
+                                                              this.setState({userTest: data})
+                                                          }}/>
                                         </Form.Group>
                                         <Button onClick={() =>this.addAnswer(questionIndex)} className="ml-5">Добавить ответ</Button>
                                     </Form>

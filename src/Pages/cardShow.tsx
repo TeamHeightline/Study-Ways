@@ -9,8 +9,8 @@ class CardShow extends React.Component {
     render() {
         return (
             <>
-                {requestCardContent.map((card: CardPresentView) =>
-                    <Card style={{width: '18rem'}} className="mr-2  mt-3">
+                {requestCardContent.map((card: CardPresentView, cardIndex:number) =>
+                    <Card style={{width: '18rem'}} className="mr-2  mt-3" key={cardIndex}>
                         <Card.Img variant="top" src={card.cardImgUrl}/>
                         <Card.Body>
                             <Card.Title>{card.cardTitle}</Card.Title>

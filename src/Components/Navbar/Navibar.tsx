@@ -14,8 +14,8 @@ export default function Navibar(){
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className={s.navlink}>
                         <Nav.Link href="/" className="ml-3">Главная</Nav.Link>
-                        <Nav.Link href="/search" className="ml-3">Расширенный поиск</Nav.Link>
-                        <Nav.Link href="/lc" className="ml-3">Последняя карточка</Nav.Link>
+                        <Nav.Link href="/test/n" className="ml-3">Редактировать тест</Nav.Link>
+                        <Nav.Link href="/test" className="ml-3">Пройти тест</Nav.Link>
                     </Nav>
 
                     <Form  className="col-lg-6">

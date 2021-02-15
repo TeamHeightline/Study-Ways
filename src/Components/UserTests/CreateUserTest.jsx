@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, Jumbotron, Row} from "react-bootstrap";
+import {Button, Form, Jumbotron, Row, Spinner, Container} from "react-bootstrap";
 
 
 export class CreateUserTest extends React.Component{
@@ -9,15 +9,17 @@ export class CreateUserTest extends React.Component{
         super(props);
         this.addQuestion = this.addQuestion.bind(this);
         this.addAnswer = this.addAnswer.bind(this);
+        this.saveData = this.saveData.bind(this);
         this.state = {
             items: [],
             isLoaded: false
         }
+        setInterval(this.saveData, 10000)
 
     }
 
     componentDidMount() {
-        fetch('http://localhost:3001/api/test/21')
+        fetch('http://localhost:3001/api/test/22')
             .then(res => res.json())
             .then(json => {
                 this.setState({
@@ -27,8 +29,18 @@ export class CreateUserTest extends React.Component{
             }).catch((err) => {
             console.log(err);
         });
+    }
+
+    saveData(){
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(this.state.userTest)
+        }
+        fetch('http://localhost:3001/api/test/update', requestOptions)
 
     }
+
     addQuestion(){
         // console.log(this.state.userTest)
         let data = this.state.userTest
@@ -70,17 +82,18 @@ export class CreateUserTest extends React.Component{
         this.setState({userTest: data})
     }
 
-
     render() {
-
         const { isLoaded } = this.state;
 
         if (!isLoaded)
-            return <div>Loading...</div>;
+            return <div className="display-1 text-center">Loading...;
+                <Spinner animation="grow" variant="primary" />
+            </div>
         // console.log(userTest)
         return (
             <>
                 <div className="display-4 text-center ">Создание теста</div>
+                <Container>
                 <Row className="justify-content-center">
                 <div className="blockquote ml-5 mt-5 ">Название теста</div>
                     <Form className="ml-2 col-7 mt-5">
@@ -110,6 +123,7 @@ export class CreateUserTest extends React.Component{
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Control type="text" placeholder="Введите первую формулировку вопроса"
                                 value={this.state.userTest.questions[questionIndex].questionTextV1}
+                                              as="textarea" rows={3}
                                 onChange={e=>{
                                     let data = this.state.userTest
                                     let question = data.questions[questionIndex]
@@ -123,6 +137,7 @@ export class CreateUserTest extends React.Component{
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Control type="text" placeholder="Введите вторую формулировку вопроса"
                                               value={this.state.userTest.questions[questionIndex].questionTextV2}
+                                              as="textarea" rows={3}
                                               onChange={e=>{
                                                   let data = this.state.userTest
                                                   let question = data.questions[questionIndex]
@@ -136,6 +151,7 @@ export class CreateUserTest extends React.Component{
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Control type="text" placeholder="Введите третью формулировку вопроса"
                                               value={this.state.userTest.questions[questionIndex].questionTextV3}
+                                              as="textarea" rows={3}
                                               onChange={e=>{
                                                   let data = this.state.userTest
                                                   let question = data.questions[questionIndex]
@@ -147,14 +163,17 @@ export class CreateUserTest extends React.Component{
                             </Form.Group>
                         </Form>
                         {/*<QuestionAnswers answerArray={question.answers}/>*/}
+
                         {this.state.userTest.questions[questionIndex].answers.map((answer, answerIndex) =>
                             <div key={answerIndex}>
+
                                 <Jumbotron className="col-11 justify-content-center ml-5">
                                     <h4 className="ml-4">Ответ №{answerIndex}</h4>
                                     <Form className="mr-5 ml-4">
 
                                         <Form.Label>Ответ верный/неверный</Form.Label>
                                         <Form.Control as="select" className="col-6 col-md-3"
+                                                      value={this.state.userTest.questions[questionIndex].answers[answerIndex].isTrue}
                                                       onChange={e=>{
                                                           let data = this.state.userTest
                                                           let question = data.questions[questionIndex]
@@ -173,6 +192,7 @@ export class CreateUserTest extends React.Component{
                                         <Form.Group>
                                             <Form.Control  type="number" placeholder="Ведите число, отражающее грубость ошибки" className="col-6 col-md-3"
                                                            value={this.state.userTest.questions[questionIndex].answers[answerIndex].missingCoast}
+
                                                            onChange={e=>{
                                                                let data = this.state.userTest
                                                                let question = data.questions[questionIndex]
@@ -189,6 +209,7 @@ export class CreateUserTest extends React.Component{
                                         <Form.Group controlId="formBasicEmail">
                                             <Form.Control type="text" placeholder="Введите формулировку ответа"
                                                           value={this.state.userTest.questions[questionIndex].answers[answerIndex].answerText}
+                                                          as="textarea" rows={3}
                                                           onChange={e=>{
                                                               let data = this.state.userTest
                                                               let question = data.questions[questionIndex]
@@ -205,6 +226,7 @@ export class CreateUserTest extends React.Component{
                                         <Form.Group controlId="formBasicEmail">
                                             <Form.Control type="text" placeholder="Введите подсказку для упрощенного уровня"
                                                           value={this.state.userTest.questions[questionIndex].answers[answerIndex].helpTextLevelEasy}
+                                                          as="textarea" rows={3}
                                                           onChange={e=>{
                                                               let data = this.state.userTest
                                                               let question = data.questions[questionIndex]
@@ -221,6 +243,7 @@ export class CreateUserTest extends React.Component{
                                         <Form.Group controlId="formBasicEmail">
                                             <Form.Control type="text" placeholder="Введите подсказку для нормального уровня"
                                                           value={this.state.userTest.questions[questionIndex].answers[answerIndex].helpTextLevelMedium}
+                                                          as="textarea" rows={3}
                                                           onChange={e=>{
                                                               let data = this.state.userTest
                                                               let question = data.questions[questionIndex]
@@ -237,6 +260,7 @@ export class CreateUserTest extends React.Component{
                                         <Form.Group controlId="formBasicEmail">
                                             <Form.Control type="text" placeholder="Введите подсказку для усложненного уровня"
                                                           value={this.state.userTest.questions[questionIndex].answers[answerIndex].helpTextLevelHard}
+                                                          as="textarea" rows={3}
                                                           onChange={e=>{
                                                               let data = this.state.userTest
                                                               let question = data.questions[questionIndex]
@@ -254,7 +278,10 @@ export class CreateUserTest extends React.Component{
                             </div>)}
                     </div>
                 )}
-                <Button onClick={this.addQuestion} className="ml-5">Добавить вопрос</Button>
+                <Button onClick={this.addQuestion} className="ml-5 col-3  ">Добавить вопрос</Button>
+                <br/>
+                <Button onClick={this.saveData} className="ml-5">Сохранить тест</Button>
+                </Container>
             </>
         );
 

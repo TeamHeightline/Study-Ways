@@ -19,7 +19,7 @@ export class CreateUserTest extends React.Component{
     }
 
     componentDidMount() {
-        fetch('http://localhost:3001/api/test/22')
+        fetch('https://iot-show-version.herokuapp.com/api/test/22')
             .then(res => res.json())
             .then(json => {
                 this.setState({
@@ -37,7 +37,7 @@ export class CreateUserTest extends React.Component{
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(this.state.userTest)
         }
-        fetch('http://localhost:3001/api/test/update', requestOptions)
+        fetch('https://iot-show-version.herokuapp.com/api/test/update', requestOptions)
 
     }
 

@@ -119,6 +119,19 @@ export class CreateUserTest extends React.Component{
                     <div key={questionIndex} className="mr-4">
                         <h3 className="ml-4">Вопрос №{questionIndex}</h3>
                         <Form className="ml-4 mr-4">
+                            <Form.Label>Вставьте ссылку на видео-вопрос</Form.Label>
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Control type="text" placeholder="Вставьте ссылку на видео-вопрос"
+                                              value={this.state.userTest.questions[questionIndex].questionVideoUrl}
+                                              onChange={e=>{
+                                                  let data = this.state.userTest
+                                                  let question = data.questions[questionIndex]
+                                                  question.questionVideoUrl = e.target.value
+                                                  data.questions[questionIndex] = question
+                                                  console.log(this.state.userTest)
+                                                  this.setState({userTest: data})
+                                              }}/>
+                            </Form.Group>
                             <Form.Label>Первая формулировка вопроса</Form.Label>
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Control type="text" placeholder="Введите первую формулировку вопроса"

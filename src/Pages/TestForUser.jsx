@@ -5,6 +5,7 @@ import { DataGrid } from '@material-ui/data-grid';
 import { ThemeProvider, createMuiTheme, makeStyles, } from '@material-ui/core/styles';
 import { blue } from '@material-ui/core/colors';
 import {ShowErrorsOnScreen} from "../Components/UserTests/ShowErrorsOnScreen";
+import ReactPlayer from "react-player";
 
 
 const theme = createMuiTheme({
@@ -123,10 +124,11 @@ export class TestForUser extends React.Component{
                         <Card.Header>
                             <Accordion.Toggle as={Button} variant="link" eventKey="1">
                                 Отобразить видео вопрос
+                                {console.log(this.state.userTest.questions[this.state.activeQuestion].questionVideoUrl)}
                             </Accordion.Toggle>
                         </Card.Header>
                         <Accordion.Collapse eventKey="1">
-                            <Card.Body>Hello! Im another body</Card.Body>
+                            <ReactPlayer url={this.state.userTest.questions[this.state.activeQuestion].questionVideoUrl} controls />
                         </Accordion.Collapse>
                     </Card>
                 </Accordion>

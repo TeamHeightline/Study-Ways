@@ -1,6 +1,6 @@
 import React from "react";
 import {Steps} from "antd";
-import {Container, Spinner, Button} from "react-bootstrap";
+import {Container, Spinner, Button, Form, Row, Accordion, Card} from "react-bootstrap";
 import { DataGrid } from '@material-ui/data-grid';
 import { ThemeProvider, createMuiTheme, makeStyles, } from '@material-ui/core/styles';
 import { blue } from '@material-ui/core/colors';
@@ -36,11 +36,11 @@ export class TestForUser extends React.Component{
             selectedRows: [],
             errorArray: [],
             oneTimeErrorCheck: false,
-            HelpLevel: 0,
+            HelpLevel: '0',
         }
     }
     componentDidMount() {
-        fetch('https://iot-show-version.herokuapp.com/api/test/22')
+        fetch('https://iot-show-version.herokuapp.com/api/test/25')
             .then(res => res.json())
             .then(json => {
                 this.setState({
@@ -116,8 +116,21 @@ export class TestForUser extends React.Component{
                 {/*        <Step title="" key={questionIndex}/>*/}
                 {/*    )}*/}
                 {/*</Steps>*/}
+
                 <div className="display-4" style={{fontSize: '40px'}}>{this.state.userTest.questions[this.state.activeQuestion].questionTextV1}</div>
-                <div className="mt-5">
+                <Accordion  className="mt-5">
+                    <Card>
+                        <Card.Header>
+                            <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                Отобразить видео вопрос
+                            </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey="1">
+                            <Card.Body>Hello! Im another body</Card.Body>
+                        </Accordion.Collapse>
+                    </Card>
+                </Accordion>
+                <div>
                     <ThemeProvider theme={theme}>
                         {this.state.getRows}
                     <DataGrid rows={this.state.rows} columns={this.state.columns}  checkboxSelection autoHeight={true}
@@ -130,8 +143,24 @@ export class TestForUser extends React.Component{
                 </div>
                 {/*<Button onClick={this.goToPreviousQuestion}>Назад</Button>*/}
                 {/*<Button onClick={this.goToNextQuestion}>Вперед</Button>*/}
+                <Row>
                 <Button onClick={this.checkUserErrors} variant="outline-info">Проверить ответы</Button>
-
+                <Form className="mr-3 ml-3">
+                    {/*<Form.Label>Выбирите уровень пояснений к ответам</Form.Label>*/}
+                    <Form.Control as="select"
+                                  value={this.state.HelpLevel}
+                                  onChange={e=>{
+                                      this.setState({HelpLevel: e.target.value})
+                                      console.log(e.target.value)
+                                  }}>
+                        <option value={0}>Легкий</option>
+                        <option value={1}>Средний</option>
+                        <option value={2}>Сложный</option>
+                    </Form.Control>
+                </Form>
+                    <div className="display-4 mt-1" style={{fontSize: '20px'}}>Отображать видео подсказку:</div>
+                    <Form.Check type="checkbox" id="autoSizingCheck" inline/>
+                </Row>
                 {/*<div>{this.state.userTest.questions[this.state.activeQuestion].answers[this.state.errorArray[0]].helpTextLevelEasy}</div>*/}
                 <ShowErrorsOnScreen errorArray={this.state.errorArray} answers={this.state.userTest.questions[this.state.activeQuestion].answers}
                                     oneTimeErrorCheck={this.state.oneTimeErrorCheck} HelpLevel={this.state.HelpLevel}/>

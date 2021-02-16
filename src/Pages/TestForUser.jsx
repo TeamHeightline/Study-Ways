@@ -27,7 +27,7 @@ export class TestForUser extends React.Component{
             items: [],
             isLoaded: false,
             columns : [
-                { field: 'answerText', headerName: 'Ответы на вопрос', width: 900 },
+                { field: 'answerText', headerName: 'Ответы на вопрос', width: 2500 },
             ],
             rows: [
                 {id: 1,answerText: ''},
@@ -36,6 +36,7 @@ export class TestForUser extends React.Component{
             selectedRows: [],
             errorArray: [],
             oneTimeErrorCheck: false,
+            HelpLevel: 0,
         }
     }
     componentDidMount() {
@@ -115,7 +116,7 @@ export class TestForUser extends React.Component{
                 {/*        <Step title="" key={questionIndex}/>*/}
                 {/*    )}*/}
                 {/*</Steps>*/}
-                <div className="display-4">{this.state.userTest.questions[this.state.activeQuestion].questionTextV1}</div>
+                <div className="display-4" style={{fontSize: '40px'}}>{this.state.userTest.questions[this.state.activeQuestion].questionTextV1}</div>
                 <div className="mt-5">
                     <ThemeProvider theme={theme}>
                         {this.state.getRows}
@@ -123,17 +124,17 @@ export class TestForUser extends React.Component{
                                disableColumnMenu={true} hideFooter={true} disableExtendRowFullWidth={false}
                               showCellRightBorder={true} showToolbar={false} pageSize={10}
                               onRowSelected={(RowSelectedParams) =>{this.selectDeselectRow(RowSelectedParams)}}
-                              disableColumnSelector={true}
+                              disableColumnSelector={true} rowHeight={60}
                    />
                     </ThemeProvider>
                 </div>
                 {/*<Button onClick={this.goToPreviousQuestion}>Назад</Button>*/}
                 {/*<Button onClick={this.goToNextQuestion}>Вперед</Button>*/}
-                <Button onClick={this.checkUserErrors} variant="outline-warning">Проверить ответы</Button>
+                <Button onClick={this.checkUserErrors} variant="outline-info">Проверить ответы</Button>
 
                 {/*<div>{this.state.userTest.questions[this.state.activeQuestion].answers[this.state.errorArray[0]].helpTextLevelEasy}</div>*/}
                 <ShowErrorsOnScreen errorArray={this.state.errorArray} answers={this.state.userTest.questions[this.state.activeQuestion].answers}
-                                    oneTimeErrorCheck={this.state.oneTimeErrorCheck}/>
+                                    oneTimeErrorCheck={this.state.oneTimeErrorCheck} HelpLevel={this.state.HelpLevel}/>
             </Container>
         )
     }

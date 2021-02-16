@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ReactPlayer from "react-player";
+import {Alert} from "react-bootstrap";
 
 export class ShowErrorsOnScreen extends React.Component{
     constructor(props) {
@@ -11,19 +12,29 @@ export class ShowErrorsOnScreen extends React.Component{
             return <div></div>
         if(this.props.errorArray.length === 0 && this.props.oneTimeErrorCheck)
             return <div className="display-3 text-center">Поздравляем, вы прошли тест!</div>
+        if (this.props.HelpLevel ===0)
         return(
             <>
-            {/*<div>{this.props.answers[this.props.errorArray[0]].helpTextLevelEasy}</div>*/}
-                <ReactPlayer width="auto" height={700} controls
-                             url={this.props.answers[this.props.errorArray[0]].helpTextLevelEasy}
-                />
-
+            <Alert variant="info" style={{fontSize: '20px'}} className="display-4">{this.props.answers[this.props.errorArray[0]].helpTextLevelEasy}</Alert>
             </>
         )
+        if (this.props.HelpLevel === 1)
+            return(
+                <>
+                    <Alert variant="info" style={{fontSize: '20px'}} className="display-4">{this.props.answers[this.props.errorArray[0]].helpTextLevelMedium}</Alert>
+                </>
+            )
+        if (this.props.HelpLevel === 2)
+            return(
+                <>
+                    <Alert variant="info" style={{fontSize: '20px'}} className="display-4">{this.props.answers[this.props.errorArray[0]].helpTextLevelHard}</Alert>
+                </>
+            )
     }
 }
 ShowErrorsOnScreen.propTypes = {
     errorArray: PropTypes.array,
     answers: PropTypes.array,
-    oneTimeErrorCheck: PropTypes.bool
+    oneTimeErrorCheck: PropTypes.bool,
+    HelpLevel: PropTypes.number,
 };

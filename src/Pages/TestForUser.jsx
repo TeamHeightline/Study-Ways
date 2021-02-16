@@ -38,6 +38,7 @@ export class TestForUser extends React.Component{
             errorArray: [],
             oneTimeErrorCheck: false,
             HelpLevel: '0',
+            showHelpVideo: false,
         }
     }
     componentDidMount() {
@@ -161,11 +162,13 @@ export class TestForUser extends React.Component{
                     </Form.Control>
                 </Form>
                     <div className="display-4 mt-1" style={{fontSize: '20px'}}>Отображать видео подсказку:</div>
-                    <Form.Check type="checkbox" id="autoSizingCheck" inline/>
+                    <Form.Check type="checkbox" id="autoSizingCheck" inline onChange={e =>
+                    {this.setState({showHelpVideo: e.target.checked})}}/>
                 </Row>
                 {/*<div>{this.state.userTest.questions[this.state.activeQuestion].answers[this.state.errorArray[0]].helpTextLevelEasy}</div>*/}
                 <ShowErrorsOnScreen errorArray={this.state.errorArray} answers={this.state.userTest.questions[this.state.activeQuestion].answers}
-                                    oneTimeErrorCheck={this.state.oneTimeErrorCheck} HelpLevel={this.state.HelpLevel}/>
+                                    oneTimeErrorCheck={this.state.oneTimeErrorCheck} HelpLevel={this.state.HelpLevel}
+                                    showHelpVideo={this.state.showHelpVideo}/>
             </Container>
         )
     }

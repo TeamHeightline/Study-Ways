@@ -12,10 +12,12 @@ export class CreateUserTest extends React.Component{
         this.saveData = this.saveData.bind(this);
         this.state = {
             items: [],
-            isLoaded: false
+            isLoaded: false,
+            autoSave: false,
         }
-        setInterval(this.saveData, 10000)
-
+        if (this.state.autoSave){
+            setInterval(this.saveData, 10000)
+        }
     }
 
     componentDidMount() {
@@ -38,7 +40,7 @@ export class CreateUserTest extends React.Component{
             body: JSON.stringify(this.state.userTest)
         }
         fetch('https://iot-show-version.herokuapp.com/api/test/update', requestOptions)
-
+        console.log("Saved")
     }
 
     addQuestion(){
@@ -68,7 +70,7 @@ export class CreateUserTest extends React.Component{
     }
     addAnswer(questionId) {
         let data = this.state.userTest
-        console.log(data)
+        // console.log(data)
         const answer = {
             isTrue: true,
             missingCoast: 0,
@@ -114,7 +116,15 @@ export class CreateUserTest extends React.Component{
                 {/*Ниже код, который должен быть вынесен в отдельный компонент, в будующем эта часть должна быть полностью переписана*/}
 
                 {/*<TestQuestions questionArray={userTest[0].questions}/>*/}
-
+                    <Form className="justify-content-center">
+                        <Form.Label>Включить авто сохранение</Form.Label>
+                        <Form.Control as="select" className="col-6 col-md-3"
+                                      value={this.state.autoSave}
+                                      onChange={e=>{this.setState({autoSave: e.target.value})}}>
+                            <option value={true}>Включен</option>
+                            <option value={false}>Выключен</option>
+                        </Form.Control>
+                    </Form>
                 {this.state.userTest.questions.map((question, questionIndex) =>
                     <div key={questionIndex} className="mr-4">
                         <h3 className="ml-4">Вопрос №{questionIndex}</h3>
@@ -128,7 +138,7 @@ export class CreateUserTest extends React.Component{
                                                   let question = data.questions[questionIndex]
                                                   question.questionVideoUrl = e.target.value
                                                   data.questions[questionIndex] = question
-                                                  console.log(this.state.userTest)
+                                                  // console.log(this.state.userTest)
                                                   this.setState({userTest: data})
                                               }}/>
                             </Form.Group>
@@ -142,7 +152,7 @@ export class CreateUserTest extends React.Component{
                                     let question = data.questions[questionIndex]
                                     question.questionTextV1 = e.target.value
                                     data.questions[questionIndex] = question
-                                    console.log(this.state.userTest)
+                                    // console.log(this.state.userTest)
                                     this.setState({userTest: data})
                                 }}/>
                             </Form.Group>
@@ -156,7 +166,7 @@ export class CreateUserTest extends React.Component{
                                                   let question = data.questions[questionIndex]
                                                   question.questionTextV2 = e.target.value
                                                   data.questions[questionIndex] = question
-                                                  console.log(this.state.userTest)
+                                                  // console.log(this.state.userTest)
                                                   this.setState({userTest: data})
                                               }}/>
                             </Form.Group>
@@ -170,7 +180,7 @@ export class CreateUserTest extends React.Component{
                                                   let question = data.questions[questionIndex]
                                                   question.questionTextV3 = e.target.value
                                                   data.questions[questionIndex] = question
-                                                  console.log(this.state.userTest)
+                                                  // console.log(this.state.userTest)
                                                   this.setState({userTest: data})
                                               }}/>
                             </Form.Group>
@@ -194,7 +204,7 @@ export class CreateUserTest extends React.Component{
                                                           answer.isTrue = e.target.value
                                                           question.answers[answerIndex] = answer
                                                           data.questions[questionIndex] = question
-                                                          console.log(this.state.userTest)
+                                                          // console.log(this.state.userTest)
                                                           this.setState({userTest: data})
                                                       }}>
                                             <option value={true}>Верный</option>
@@ -213,7 +223,7 @@ export class CreateUserTest extends React.Component{
                                                                answer.missingCoast = e.target.value
                                                                question.answers[answerIndex] = answer
                                                                data.questions[questionIndex] = question
-                                                               console.log(this.state.userTest)
+                                                               // console.log(this.state.userTest)
                                                                this.setState({userTest: data})
                                                            }}/>
                                         </Form.Group>
@@ -228,7 +238,7 @@ export class CreateUserTest extends React.Component{
                                                               answer.answerVideoUrl = e.target.value
                                                               question.answers[answerIndex] = answer
                                                               data.questions[questionIndex] = question
-                                                              console.log(this.state.userTest)
+                                                              // console.log(this.state.userTest)
                                                               this.setState({userTest: data})
                                                           }}/>
                                         </Form.Group>
@@ -245,7 +255,7 @@ export class CreateUserTest extends React.Component{
                                                               answer.answerText = e.target.value
                                                               question.answers[answerIndex] = answer
                                                               data.questions[questionIndex] = question
-                                                              console.log(this.state.userTest)
+                                                              // console.log(this.state.userTest)
                                                               this.setState({userTest: data})
                                                           }}/>
                                         </Form.Group>
@@ -262,7 +272,7 @@ export class CreateUserTest extends React.Component{
                                                               answer.helpTextLevelEasy = e.target.value
                                                               question.answers[answerIndex] = answer
                                                               data.questions[questionIndex] = question
-                                                              console.log(this.state.userTest)
+                                                              // console.log(this.state.userTest)
                                                               this.setState({userTest: data})
                                                           }}/>
                                         </Form.Group>
@@ -279,7 +289,7 @@ export class CreateUserTest extends React.Component{
                                                               answer.helpTextLevelMedium = e.target.value
                                                               question.answers[answerIndex] = answer
                                                               data.questions[questionIndex] = question
-                                                              console.log(this.state.userTest)
+                                                              // console.log(this.state.userTest)
                                                               this.setState({userTest: data})
                                                           }}/>
                                         </Form.Group>
@@ -296,19 +306,20 @@ export class CreateUserTest extends React.Component{
                                                               answer.helpTextLevelHard = e.target.value
                                                               question.answers[answerIndex] = answer
                                                               data.questions[questionIndex] = question
-                                                              console.log(this.state.userTest)
+                                                              // console.log(this.state.userTest)
                                                               this.setState({userTest: data})
                                                           }}/>
                                         </Form.Group>
-                                        <Button onClick={() =>this.addAnswer(questionIndex)} className="ml-5">Добавить ответ</Button>
+                                        <Button onClick={() =>this.saveData} className="ml-5">Сохранить тест</Button>
                                     </Form>
                                 </Jumbotron>
                             </div>)}
                     </div>
                 )}
-                <Button onClick={this.addQuestion} className="ml-5 col-3  ">Добавить вопрос</Button>
+                {/*<Button onClick={this.addQuestion} className="ml-5 col-3  ">Добавить вопрос</Button>*/}
+                    <Button onClick={() =>this.addAnswer(0)} className="ml-5">Добавить ответ</Button>
                 <br/>
-                <Button onClick={this.saveData} className="ml-5">Сохранить тест</Button>
+                {/*<Button onClick={this.saveData} className="ml-5">Сохранить тест</Button>*/}
                 </Container>
             </>
         );

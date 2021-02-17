@@ -33,7 +33,7 @@ export class ShowErrorsOnScreen extends React.Component{
         if ((this.props.HelpLevel === '0'))
             return(
                 <>
-                    <Alert variant="info" style={{fontSize: '20px'}} className="display-4">{this.props.answers[this.props.errorArray[0]].helpTextLevelEasy}</Alert>
+                    <Alert variant="info" style={{fontSize: '20px'}} className="display-4 mt-2">{this.props.answers[this.props.errorArray[0]].helpTextLevelEasy}</Alert>
                 </>
             )
 
@@ -60,7 +60,7 @@ export class ShowErrorsOnScreen extends React.Component{
         if (this.props.HelpLevel === '1')
             return(
                 <>
-                    <Alert variant="info" style={{fontSize: '20px'}} className="display-4">{this.props.answers[this.props.errorArray[0]].helpTextLevelMedium}</Alert>
+                    <Alert variant="info" style={{fontSize: '20px'}} className="display-4 mt-2">{this.props.answers[this.props.errorArray[0]].helpTextLevelMedium}</Alert>
                 </>
             )
 
@@ -87,7 +87,7 @@ export class ShowErrorsOnScreen extends React.Component{
         if (this.props.HelpLevel === '2')
             return(
                 <>
-                    <Alert variant="info" style={{fontSize: '20px'}} className="display-4">{this.props.answers[this.props.errorArray[0]].helpTextLevelHard}</Alert>
+                    <Alert variant="info" style={{fontSize: '20px'}} className="display-4 mt-2">{this.props.answers[this.props.errorArray[0]].helpTextLevelHard}</Alert>
                 </>
             )
     }

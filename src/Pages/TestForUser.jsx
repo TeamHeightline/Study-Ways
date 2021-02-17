@@ -154,7 +154,7 @@ export class TestForUser extends React.Component{
                 </div>
                 {/*<Button onClick={this.goToPreviousQuestion}>Назад</Button>*/}
                 {/*<Button onClick={this.goToNextQuestion}>Вперед</Button>*/}
-                <Row>
+                <Row className="mt-2 ml-1">
                 <Button onClick={this.checkUserErrors} variant="outline-info">Проверить ответы</Button>
                 <Form className="mr-3 ml-3">
                     {/*<Form.Label>Выбирите уровень пояснений к ответам</Form.Label>*/}
@@ -174,7 +174,10 @@ export class TestForUser extends React.Component{
                     {this.setState({showHelpVideo: e.target.checked})}}/>
                 </Row>
                 {/*<div>{this.state.userTest.questions[this.state.activeQuestion].answers[this.state.errorArray[0]].helpTextLevelEasy}</div>*/}
-
+                <br/>
+                <br/>
+                <br/>
+                <br/>
             </Container>
         )
     }

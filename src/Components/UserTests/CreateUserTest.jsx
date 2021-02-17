@@ -10,14 +10,15 @@ export class CreateUserTest extends React.Component{
         this.addQuestion = this.addQuestion.bind(this);
         this.addAnswer = this.addAnswer.bind(this);
         this.saveData = this.saveData.bind(this);
+        this.autoSaveData = this.autoSaveData.bind(this);
         this.state = {
             items: [],
             isLoaded: false,
             autoSave: false,
         }
-        if (this.state.autoSave){
-            setInterval(this.saveData, 10000)
-        }
+
+        setInterval(this.autoSaveData, 10000)
+
     }
 
     componentDidMount() {
@@ -34,13 +35,25 @@ export class CreateUserTest extends React.Component{
     }
 
     saveData(){
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(this.state.userTest)
+            const requestOptions = {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(this.state.userTest)
+            }
+            fetch('https://iot-show-version.herokuapp.com/api/test/update', requestOptions)
+            console.log("Saved")
+    }
+    autoSaveData(){
+        if (this.state.autoSave === 'true') {
+            const requestOptions = {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(this.state.userTest)
+            }
+            fetch('https://iot-show-version.herokuapp.com/api/test/update', requestOptions)
+            console.log("Saved 111111111")
+            console.log(this.state.autoSave)
         }
-        fetch('https://iot-show-version.herokuapp.com/api/test/update', requestOptions)
-        console.log("Saved")
     }
 
     addQuestion(){
@@ -92,8 +105,10 @@ export class CreateUserTest extends React.Component{
                 <Spinner animation="grow" variant="primary" />
             </div>
         // console.log(userTest)
+
         return (
             <>
+
                 <div className="display-4 text-center ">Создание теста</div>
                 <Container>
                 <Row className="justify-content-center">
@@ -116,7 +131,7 @@ export class CreateUserTest extends React.Component{
                 {/*Ниже код, который должен быть вынесен в отдельный компонент, в будующем эта часть должна быть полностью переписана*/}
 
                 {/*<TestQuestions questionArray={userTest[0].questions}/>*/}
-                    <Form className="justify-content-center">
+                    <Form className="ml-4">
                         <Form.Label>Включить авто сохранение</Form.Label>
                         <Form.Control as="select" className="col-6 col-md-3"
                                       value={this.state.autoSave}

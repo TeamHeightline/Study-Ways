@@ -51,7 +51,7 @@ export class CreateUserTest extends React.Component{
                 body: JSON.stringify(this.state.userTest)
             }
             fetch('https://iot-show-version.herokuapp.com/api/test/update', requestOptions)
-            console.log("Saved 111111111")
+            console.log("Saved")
             console.log(this.state.autoSave)
         }
     }

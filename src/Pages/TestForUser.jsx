@@ -42,7 +42,7 @@ export class TestForUser extends React.Component{
         }
     }
     componentDidMount() {
-        fetch('https://iot-show-version.herokuapp.com/api/test/25')
+        fetch('https://iot-show-version.herokuapp.com/api/test/randq/25')
             .then(res => res.json())
             .then(json => {
                 this.setState({

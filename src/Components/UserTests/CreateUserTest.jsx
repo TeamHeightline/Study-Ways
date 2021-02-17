@@ -201,9 +201,9 @@ export class CreateUserTest extends React.Component{
                                             <option value={false}>Неверный</option>
                                         </Form.Control>
 
-                                        <Form.Label className="mt-2">Грубость ошибки (чем число больше, тем более грубая ошибка, на ответ с наиболее грубой ошибкой будет дано пояснение)</Form.Label>
+                                        <Form.Label className="mt-2">Очередь проверки, чем меньше - тем раньше вопрос будет проверен</Form.Label>
                                         <Form.Group>
-                                            <Form.Control  type="number" placeholder="Ведите число, отражающее грубость ошибки" className="col-6 col-md-3"
+                                            <Form.Control  type="number" placeholder="Ведите число, отражающее очередь проверки" className="col-6 col-md-3"
                                                            value={this.state.userTest.questions[questionIndex].answers[answerIndex].missingCoast}
 
                                                            onChange={e=>{

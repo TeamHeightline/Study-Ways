@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes, {bool} from "prop-types";
 import ReactPlayer from "react-player";
-import {Alert} from "react-bootstrap";
+import {Accordion, Alert, Button, Card} from "react-bootstrap";
 
 export class ShowErrorsOnScreen extends React.Component{
     constructor(props) {
@@ -11,12 +11,23 @@ export class ShowErrorsOnScreen extends React.Component{
         if(this.props.errorArray.length === 0 && !this.props.oneTimeErrorCheck)
             return <div></div>
         if(this.props.errorArray.length === 0 && this.props.oneTimeErrorCheck)
-            return <div className="display-3 text-center">Поздравляем, вы прошли тест!</div>
+            return <Alert className="display-3 text-center mt-2" variant="primary">Поздравляем, вы прошли тест!</Alert>
         if ((this.props.HelpLevel === '0') && this.props.showHelpVideo)
         return(
             <>
-            <Alert variant="info" style={{fontSize: '20px'}} className="display-4">{this.props.answers[this.props.errorArray[0]].helpTextLevelEasy}</Alert>
-                <ReactPlayer url={this.props.answers[this.props.errorArray[0]].answerVideoUrl}/>
+            <Alert variant="info" style={{fontSize: '20px'}} className="display-4 mt-2">
+                {this.props.answers[this.props.errorArray[0]].helpTextLevelEasy}
+                {/*<ReactPlayer url={this.props.answers[this.props.errorArray[0]].answerVideoUrl}/>*/}
+                <Accordion >
+                            <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                Отобразить видео подсказку
+                                {console.log(" ")}
+                            </Accordion.Toggle>
+                        <Accordion.Collapse eventKey="1">
+                            <ReactPlayer url={this.props.answers[this.props.errorArray[0]].answerVideoUrl} controls/>
+                        </Accordion.Collapse>
+                </Accordion>
+            </Alert>
             </>
         )
         if ((this.props.HelpLevel === '0'))
@@ -29,8 +40,21 @@ export class ShowErrorsOnScreen extends React.Component{
         if (this.props.HelpLevel === '1' && this.props.showHelpVideo)
             return(
                 <>
-                    <Alert variant="info" style={{fontSize: '20px'}} className="display-4">{this.props.answers[this.props.errorArray[0]].helpTextLevelMedium}</Alert>
-                    <ReactPlayer url={this.props.answers[this.props.errorArray[0]].answerVideoUrl}/>
+                    {/*<Alert variant="info" style={{fontSize: '20px'}} className="display-4">{this.props.answers[this.props.errorArray[0]].helpTextLevelMedium}</Alert>*/}
+                    {/*<ReactPlayer url={this.props.answers[this.props.errorArray[0]].answerVideoUrl}/>*/}
+                    <Alert variant="info" style={{fontSize: '20px'}} className="display-4 mt-2">
+                        {this.props.answers[this.props.errorArray[0]].helpTextLevelMedium}
+                        {/*<ReactPlayer url={this.props.answers[this.props.errorArray[0]].answerVideoUrl}/>*/}
+                        <Accordion >
+                            <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                Отобразить видео подсказку
+                                {console.log(" ")}
+                            </Accordion.Toggle>
+                            <Accordion.Collapse eventKey="1">
+                                <ReactPlayer url={this.props.answers[this.props.errorArray[0]].answerVideoUrl} controls/>
+                            </Accordion.Collapse>
+                        </Accordion>
+                    </Alert>
                 </>
             )
         if (this.props.HelpLevel === '1')
@@ -43,8 +67,21 @@ export class ShowErrorsOnScreen extends React.Component{
         if (this.props.HelpLevel === '2' && this.props.showHelpVideo)
             return(
                 <>
-                    <Alert variant="info" style={{fontSize: '20px'}} className="display-4">{this.props.answers[this.props.errorArray[0]].helpTextLevelHard}</Alert>
-                    <ReactPlayer url={this.props.answers[this.props.errorArray[0]].answerVideoUrl}/>
+                    {/*<Alert variant="info" style={{fontSize: '20px'}} className="display-4">{this.props.answers[this.props.errorArray[0]].helpTextLevelHard}</Alert>*/}
+                    {/*<ReactPlayer url={this.props.answers[this.props.errorArray[0]].answerVideoUrl}/>*/}
+                    <Alert variant="info" style={{fontSize: '20px'}} className="display-4 mt-2">
+                        {this.props.answers[this.props.errorArray[0]].helpTextLevelHard}
+                        {/*<ReactPlayer url={this.props.answers[this.props.errorArray[0]].answerVideoUrl}/>*/}
+                        <Accordion >
+                            <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                Отобразить видео подсказку
+                                {console.log(" ")}
+                            </Accordion.Toggle>
+                            <Accordion.Collapse eventKey="1">
+                                <ReactPlayer url={this.props.answers[this.props.errorArray[0]].answerVideoUrl} controls/>
+                            </Accordion.Collapse>
+                        </Accordion>
+                    </Alert>
                 </>
             )
         if (this.props.HelpLevel === '2')

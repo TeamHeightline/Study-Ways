@@ -78,10 +78,15 @@ export class TestForUser extends React.Component{
 
     async checkUserErrors(){
         let userErrors= []
-        this.state.userTest.questions[this.state.activeQuestion].answers.forEach( (answers, answersIndex) =>{
-            if(answers.isTrue === (this.state.selectedRows.indexOf(answersIndex) === -1)){
+        let minErrorQuery = 10000
+        this.state.userTest.questions[this.state.activeQuestion].answers.forEach( (answer, answersIndex) =>{
+            if(answer.isTrue === (this.state.selectedRows.indexOf(answersIndex) === -1)){
                 // console.log(answersIndex)
-                userErrors.push(answersIndex)
+                // missing coast становится очередью проверки, чем меньше число, тем раньше будет произведена проверка
+                if (answer.missingCoast < minErrorQuery){
+                    userErrors.push(answersIndex)
+                    minErrorQuery = answer.missingCoast
+                }
             }
         })
         this.setState({oneTimeErrorCheck: true})
@@ -119,8 +124,8 @@ export class TestForUser extends React.Component{
                 {/*    )}*/}
                 {/*</Steps>*/}
 
-                <div className="display-4" style={{fontSize: '40px'}}>{this.state.userTest.questions[this.state.activeQuestion].questionTextV1}</div>
-                <Accordion  className="mt-5">
+                <div className="display-4" style={{fontSize: '35px'}}>{this.state.userTest.questions[this.state.activeQuestion].questionTextV1}</div>
+                <Accordion  className="mt-4">
                     <Card>
                         <Card.Header>
                             <Accordion.Toggle as={Button} variant="link" eventKey="1">
@@ -133,6 +138,9 @@ export class TestForUser extends React.Component{
                         </Accordion.Collapse>
                     </Card>
                 </Accordion>
+                <ShowErrorsOnScreen errorArray={this.state.errorArray} answers={this.state.userTest.questions[this.state.activeQuestion].answers}
+                                    oneTimeErrorCheck={this.state.oneTimeErrorCheck} HelpLevel={this.state.HelpLevel}
+                                    showHelpVideo={this.state.showHelpVideo} className="mt-2"/>
                 <div>
                     <ThemeProvider theme={theme}>
                         {this.state.getRows}
@@ -166,9 +174,7 @@ export class TestForUser extends React.Component{
                     {this.setState({showHelpVideo: e.target.checked})}}/>
                 </Row>
                 {/*<div>{this.state.userTest.questions[this.state.activeQuestion].answers[this.state.errorArray[0]].helpTextLevelEasy}</div>*/}
-                <ShowErrorsOnScreen errorArray={this.state.errorArray} answers={this.state.userTest.questions[this.state.activeQuestion].answers}
-                                    oneTimeErrorCheck={this.state.oneTimeErrorCheck} HelpLevel={this.state.HelpLevel}
-                                    showHelpVideo={this.state.showHelpVideo}/>
+
             </Container>
         )
     }

@@ -1,5 +1,5 @@
 import React from "react";
-import {Steps} from "antd";
+// import {Steps} from "antd";
 import {Container, Spinner, Button, Form, Row, Accordion, Card} from "react-bootstrap";
 import { DataGrid } from '@material-ui/data-grid';
 import { ThemeProvider, createMuiTheme, makeStyles, } from '@material-ui/core/styles';
@@ -15,7 +15,7 @@ const theme = createMuiTheme({
     },
 });
 
-const { Step } = Steps;
+// const { Step } = Steps;
 export class TestForUser extends React.Component{
     constructor(props) {
         super(props);

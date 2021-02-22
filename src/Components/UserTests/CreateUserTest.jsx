@@ -209,7 +209,7 @@ export class CreateUserTest extends React.Component{
                                     <h4 className="ml-4">Ответ №{answerIndex}</h4>
                                     <Form className="mr-5 ml-4">
 
-                                        <Form.Label>Ответ верный/неверный</Form.Label>
+                                        <Form.Label>Ответ правильный/ошибочный</Form.Label>
                                         <Form.Control as="select" className="col-6 col-md-3"
                                                       value={this.state.userTest.questions[questionIndex].answers[answerIndex].isTrue}
                                                       onChange={e=>{
@@ -222,8 +222,8 @@ export class CreateUserTest extends React.Component{
                                                           // console.log(this.state.userTest)
                                                           this.setState({userTest: data})
                                                       }}>
-                                            <option value={true}>Верный</option>
-                                            <option value={false}>Неверный</option>
+                                            <option value={true}>Правильный</option>
+                                            <option value={false}>Ошибочный</option>
                                         </Form.Control>
 
                                         <Form.Label className="mt-2">Очередь проверки, чем меньше - тем раньше вопрос будет проверен</Form.Label>

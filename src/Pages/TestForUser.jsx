@@ -84,6 +84,7 @@ export class TestForUser extends React.Component{
                 // console.log(answersIndex)
                 // missing coast становится очередью проверки, чем меньше число, тем раньше будет произведена проверка
                 if (answer.missingCoast < minErrorQuery){
+                    userErrors=[]
                     userErrors.push(answersIndex)
                     minErrorQuery = answer.missingCoast
                 }

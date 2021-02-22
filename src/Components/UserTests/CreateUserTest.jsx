@@ -325,7 +325,7 @@ export class CreateUserTest extends React.Component{
                                                               this.setState({userTest: data})
                                                           }}/>
                                         </Form.Group>
-                                        <Button onClick={() =>this.saveData} className="ml-5">Сохранить тест</Button>
+                                        <Button onClick={this.saveData} className="ml-5">Сохранить тест</Button>
                                     </Form>
                                 </Jumbotron>
                             </div>)}

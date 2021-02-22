@@ -38,7 +38,7 @@ export class TestForUser extends React.Component{
             errorArray: [],
             oneTimeErrorCheck: false,
             HelpLevel: '0',
-            showHelpVideo: false,
+            showHelpVideo: true,
         }
     }
     componentDidMount() {
@@ -135,7 +135,7 @@ export class TestForUser extends React.Component{
                             </Accordion.Toggle>
                         </Card.Header>
                         <Accordion.Collapse eventKey="1">
-                            <ReactPlayer url={this.state.userTest.questions[this.state.activeQuestion].questionVideoUrl} controls />
+                            <ReactPlayer url={this.state.userTest.questions[this.state.activeQuestion].questionVideoUrl} controls autoPlay={true}/>
                         </Accordion.Collapse>
                     </Card>
                 </Accordion>
@@ -170,9 +170,9 @@ export class TestForUser extends React.Component{
                         <option value={2}>Сложный</option>
                     </Form.Control>
                 </Form>
-                    <div className="display-4 mt-1" style={{fontSize: '20px'}}>Отображать видео подсказку:</div>
-                    <Form.Check type="checkbox" id="autoSizingCheck" inline onChange={e =>
-                    {this.setState({showHelpVideo: e.target.checked})}}/>
+                    {/*<div className="display-4 mt-1" style={{fontSize: '20px'}}>Отображать видео подсказку:</div>*/}
+                    {/*<Form.Check type="checkbox" id="autoSizingCheck" inline onChange={e =>*/}
+                    {/*{this.setState({showHelpVideo: e.target.checked})}}/>*/}
                 </Row>
                 {/*<div>{this.state.userTest.questions[this.state.activeQuestion].answers[this.state.errorArray[0]].helpTextLevelEasy}</div>*/}
                 <br/>

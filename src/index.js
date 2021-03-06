@@ -4,10 +4,32 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { ApolloClient, InMemoryCache, gql, ApolloProvider} from '@apollo/client';
+
+
+const client = new ApolloClient({
+    uri: 'https://iot-backend-v3.herokuapp.com/graphql/',
+    cache: new InMemoryCache()
+});
+
+client
+    .query({
+        query: gql`
+      query {
+        questionById(id: 5){
+          text
+          videoUrl
+        }}
+    `
+    })
+    .then(result => console.log(result));
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <ApolloProvider client={client}>
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+    </ApolloProvider>,
   document.getElementById('root')
 );
 

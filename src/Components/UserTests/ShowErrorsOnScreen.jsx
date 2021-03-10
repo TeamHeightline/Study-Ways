@@ -10,13 +10,15 @@ export class ShowErrorsOnScreen extends React.Component{
     render() {
         if(this.props.errorArray.length === 0 && !this.props.oneTimeErrorCheck)
             return <div></div>
-        if(this.props.errorArray.length === 0 && this.props.oneTimeErrorCheck)
+        if(this.props.errorArray.length === 0 && this.props.oneTimeErrorCheck) {
+            console.log(this.props.errorArray)
             return <Alert className="display-3 text-center mt-2" variant="primary">Поздравляем, вы прошли тест!</Alert>
+        }
         if ((this.props.HelpLevel === '0') && this.props.showHelpVideo)
         return(
             <>
             <Alert variant="info" style={{fontSize: '20px'}} className="display-4 mt-2">
-                {this.props.answers[this.props.errorArray[0]].helpTextLevelEasy}
+                {this.props.answers[this.props.errorArray[0]].helpTextv1}
                 {/*<ReactPlayer url={this.props.answers[this.props.errorArray[0]].answerVideoUrl}/>*/}
                 <Accordion >
                             <Accordion.Toggle as={Button} variant="link" eventKey="1">
@@ -24,7 +26,7 @@ export class ShowErrorsOnScreen extends React.Component{
                                 {console.log(" ")}
                             </Accordion.Toggle>
                         <Accordion.Collapse eventKey="1">
-                            <ReactPlayer url={this.props.answers[this.props.errorArray[0]].answerVideoUrl} controls/>
+                            <ReactPlayer url={this.props.answers[this.props.errorArray[0]].videoUrl} controls/>
                         </Accordion.Collapse>
                 </Accordion>
             </Alert>
@@ -33,7 +35,7 @@ export class ShowErrorsOnScreen extends React.Component{
         if ((this.props.HelpLevel === '0'))
             return(
                 <>
-                    <Alert variant="info" style={{fontSize: '20px'}} className="display-4 mt-2">{this.props.answers[this.props.errorArray[0]].helpTextLevelEasy}</Alert>
+                    <Alert variant="info" style={{fontSize: '20px'}} className="display-4 mt-2">{this.props.answers[this.props.errorArray[0]].helpTextv1}</Alert>
                 </>
             )
 
@@ -43,7 +45,7 @@ export class ShowErrorsOnScreen extends React.Component{
                     {/*<Alert variant="info" style={{fontSize: '20px'}} className="display-4">{this.props.answers[this.props.errorArray[0]].helpTextLevelMedium}</Alert>*/}
                     {/*<ReactPlayer url={this.props.answers[this.props.errorArray[0]].answerVideoUrl}/>*/}
                     <Alert variant="info" style={{fontSize: '20px'}} className="display-4 mt-2">
-                        {this.props.answers[this.props.errorArray[0]].helpTextLevelMedium}
+                        {this.props.answers[this.props.errorArray[0]].helpTextv2}
                         {/*<ReactPlayer url={this.props.answers[this.props.errorArray[0]].answerVideoUrl}/>*/}
                         <Accordion >
                             <Accordion.Toggle as={Button} variant="link" eventKey="1">
@@ -51,7 +53,7 @@ export class ShowErrorsOnScreen extends React.Component{
                                 {console.log(" ")}
                             </Accordion.Toggle>
                             <Accordion.Collapse eventKey="1">
-                                <ReactPlayer url={this.props.answers[this.props.errorArray[0]].answerVideoUrl} controls/>
+                                <ReactPlayer url={this.props.answers[this.props.errorArray[0]].videoUrl} controls/>
                             </Accordion.Collapse>
                         </Accordion>
                     </Alert>
@@ -60,7 +62,7 @@ export class ShowErrorsOnScreen extends React.Component{
         if (this.props.HelpLevel === '1')
             return(
                 <>
-                    <Alert variant="info" style={{fontSize: '20px'}} className="display-4 mt-2">{this.props.answers[this.props.errorArray[0]].helpTextLevelMedium}</Alert>
+                    <Alert variant="info" style={{fontSize: '20px'}} className="display-4 mt-2">{this.props.answers[this.props.errorArray[0]].helpTextv2}</Alert>
                 </>
             )
 
@@ -70,7 +72,7 @@ export class ShowErrorsOnScreen extends React.Component{
                     {/*<Alert variant="info" style={{fontSize: '20px'}} className="display-4">{this.props.answers[this.props.errorArray[0]].helpTextLevelHard}</Alert>*/}
                     {/*<ReactPlayer url={this.props.answers[this.props.errorArray[0]].answerVideoUrl}/>*/}
                     <Alert variant="info" style={{fontSize: '20px'}} className="display-4 mt-2">
-                        {this.props.answers[this.props.errorArray[0]].helpTextLevelHard}
+                        {this.props.answers[this.props.errorArray[0]].helpTextv3}
                         {/*<ReactPlayer url={this.props.answers[this.props.errorArray[0]].answerVideoUrl}/>*/}
                         <Accordion >
                             <Accordion.Toggle as={Button} variant="link" eventKey="1">
@@ -78,7 +80,7 @@ export class ShowErrorsOnScreen extends React.Component{
                                 {console.log(" ")}
                             </Accordion.Toggle>
                             <Accordion.Collapse eventKey="1">
-                                <ReactPlayer url={this.props.answers[this.props.errorArray[0]].answerVideoUrl} controls/>
+                                <ReactPlayer url={this.props.answers[this.props.errorArray[0]].videoUrl} controls/>
                             </Accordion.Collapse>
                         </Accordion>
                     </Alert>
@@ -87,7 +89,7 @@ export class ShowErrorsOnScreen extends React.Component{
         if (this.props.HelpLevel === '2')
             return(
                 <>
-                    <Alert variant="info" style={{fontSize: '20px'}} className="display-4 mt-2">{this.props.answers[this.props.errorArray[0]].helpTextLevelHard}</Alert>
+                    <Alert variant="info" style={{fontSize: '20px'}} className="display-4 mt-2">{this.props.answers[this.props.errorArray[0]].helpTextv3}</Alert>
                 </>
             )
     }

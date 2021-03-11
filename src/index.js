@@ -8,21 +8,21 @@ import { ApolloClient, InMemoryCache, gql, ApolloProvider} from '@apollo/client'
 
 
 const client = new ApolloClient({
-    uri: 'https://iot-backend-v3.herokuapp.com/graphql/',
+    uri: 'https://iot-experemental.herokuapp.com/graphql/',
     cache: new InMemoryCache()
 });
 
-client
-    .query({
-        query: gql`
-      query {
-        questionById(id: 5){
-          text
-          videoUrl
-        }}
-    `
-    })
-    .then(result => console.log(result));
+// client
+//     .query({
+//         query: gql`
+//       query {
+//         questionById(id: 5){
+//           text
+//           videoUrl
+//         }}
+//     `
+//     })
+//     .then(result => console.log(result));
 
 ReactDOM.render(
     <ApolloProvider client={client}>

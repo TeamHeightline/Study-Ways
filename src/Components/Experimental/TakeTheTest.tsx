@@ -55,7 +55,7 @@ const GET_QUESTION_DATA = gql`
     `
 
 export function TakeTheTest(){
-    const { loading, error, data } = useQuery<QuestionById, QuestionVars>(GET_QUESTION_DATA, { variables: { id: 7 } }
+    const { loading, error, data } = useQuery<QuestionById, QuestionVars>(GET_QUESTION_DATA, { variables: { id: 1 } }
     );
     // Уровень сложности проверки
     const [helpLevel, changeHelpLevel] = useState('0')

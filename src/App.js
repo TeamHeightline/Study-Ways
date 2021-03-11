@@ -16,6 +16,7 @@ import {TestForUser} from './Pages/TestForUser';
 import {CreateUserTest} from './Components/UserTests/CreateUserTest';
 import {MainExperimental} from "./Components/Experimental/ExpMain";
 import {TakeTheTest} from "./Components/Experimental/TakeTheTest"
+import Login from "./Components/Navbar/Login"
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
                 <Route exact path='/test/n' component={CreateUserTest}/>
                 <Route exact path="/exp" component={MainExperimental}/>
                 <Route exact path="/exp/testing" component={TakeTheTest}/>
+                <Route exact path="/login" component={Login}/>
             </Switch>
         </Router>
     </>

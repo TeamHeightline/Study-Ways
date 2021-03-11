@@ -25,8 +25,8 @@ export default function Navibar(){
                     <Button variant="outline-success" className=" ml-3 ">Поиск</Button>
                     {/*<IsLogin className="ml-auto"/>*/}
                     <Row className="ml-3">
-                    <Navbar.Text className="">User name</Navbar.Text>
-
+                    {/*<Navbar.Text className="">User name</Navbar.Text>*/}
+                    <Nav.Link href="/login">Войти</Nav.Link>
                     <DropdownButton id="dropdown-navibar-button"  title="" className="ml-4">
                         <Dropdown.Item href="/stat">Статистика</Dropdown.Item>
                         <Dropdown.Item href="/profile">Профиль</Dropdown.Item>

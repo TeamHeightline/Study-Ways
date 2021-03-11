@@ -44,7 +44,7 @@ export class MainExperimental extends React.Component{
                                 <Card.Text>
                                     После нажатия вы будете перенаправлены в среду для прохождения вопроса
                                 </Card.Text>
-                                <Button variant="primary" size="sm" href="/exp/testing">Пройти вопрос</Button>
+                                <Button variant="primary" href="/exp/testing" block size="lg" className="mt-5">Пройти вопрос</Button>
                             </Card.Body>
 
                         </Card>

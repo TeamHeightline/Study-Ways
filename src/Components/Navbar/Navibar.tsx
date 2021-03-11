@@ -4,8 +4,73 @@ import  {Navbar, Form, Nav, Dropdown, Button, DropdownButton, Row} from 'react-b
 // import IsLogin from '../login';
 import s from'./navibar.module.css';
 import NavSearch from "./search"
+import {gql, useMutation} from "@apollo/client";
+import {useEffect} from "react";
+
+const VERIFY_LOGIN = gql`
+    mutation VERIFY_LOGIN($token: String!){
+      verifyToken(token: $token){
+        payload
+        success
+        errors
+      }
+    }
+`
+
+const REFRESH_TOKEN = gql`
+    mutation REFRESH_TOKEN($refresh_token: String!){
+      refreshToken(refreshToken: $refresh_token){
+        token
+        refreshToken
+        payload
+        success
+        errors
+      }
+    }`
 
 export default function Navibar(){
+    const [verify_login, { data, error }] = useMutation(VERIFY_LOGIN, {
+        variables: {
+            token: localStorage.getItem("token")
+        }
+    })
+    // const [refresh_token, { data: data_from_refresh, error: error_from_refresh }] = useMutation(REFRESH_TOKEN, {
+    //     variables: {
+    //         refresh_token: localStorage.getItem("refreshToken")
+    //     }
+    // })
+    // const saveRefreshData = () => {
+    //     localStorage.setItem('token', data_from_refresh.refreshToken.token)
+    //     localStorage.setItem('refreshToken', data_from_refresh.refreshToken.refreshToken)
+    // }
+    // const refreshSystem = () =>{
+    //     refresh_token()
+    //     if(!data_from_refresh){
+    //         setTimeout(refreshSystem, 5000)
+    //     } else{
+    //         saveRefreshData()
+    //     }
+    // }
+    const verifySystem = () => {
+        verify_login()
+        if(data){
+            console.log(data)
+            console.log(data.verifyToken.success)
+            // if (data.verifyToken.success === false){
+            //     refreshSystem()
+            // }
+        }
+        if(error){
+            console.log(error)
+        }
+        console.log("-------------")
+    }
+
+
+    useEffect(() =>{
+        setTimeout(verifySystem, 20000)
+    })
+
     return(
 
             <Navbar bg="light" expand="lg" >

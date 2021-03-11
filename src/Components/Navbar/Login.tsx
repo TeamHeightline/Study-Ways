@@ -5,10 +5,11 @@ import {useState} from "react";
 import {gql, useQuery, useMutation} from "@apollo/client";
 
 
-const LOGIN_MUTATION= gql`
+const LOGIN_MUTATION = gql`
     mutation AUTHORIZATION($pass: String!, $mail: String!){
       tokenAuth(password: $pass, email: $mail){
         token
+        refreshToken
         success
         errors
         user{
@@ -31,10 +32,14 @@ export default function Login(){
         }
     })
 
-    if(data){
-        console.log(data)
+    // if(data){
+    //     console.log(data)
+    // }
+    const saveLoginData = () => {
+        localStorage.setItem('token', data.tokenAuth.token)
+        localStorage.setItem('refreshToken', data.tokenAuth.refreshToken)
     }
-
+    data ?  data.tokenAuth.success ? saveLoginData() : null : null
     return(
         <div>
             <Container>

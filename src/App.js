@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Navibar from './Components/Navbar/Navibar.tsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {useEffect} from "react";
 
 import  {
     BrowserRouter as Router,
@@ -24,7 +25,7 @@ function App() {
         <Router>
             <Navibar/>
             <Switch>
-                <Route exact path="/" component={MainPage}/>
+                <Route exact path="/" component={MainExperimental}/>
                 {/*<Route exact path="/search" component={AdvancedSearch}/>*/}
                 <Route exact path="/lc" component={OpenCard}/>
                 <Route exact path="/test" component={TestForUser}/>

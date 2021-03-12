@@ -4,6 +4,7 @@ import Navibar from './Components/Navbar/Navibar.tsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {useEffect} from "react";
 
+
 import  {
     BrowserRouter as Router,
     Switch,
@@ -18,8 +19,67 @@ import {CreateUserTest} from './Components/UserTests/CreateUserTest';
 import {MainExperimental} from "./Components/Experimental/ExpMain";
 import {TakeTheTest} from "./Components/Experimental/TakeTheTest"
 import Login from "./Components/Navbar/Login"
+import {gql, useMutation} from "@apollo/client";
+
+
+const VERIFY_LOGIN = gql`
+    mutation VERIFY_LOGIN($token: String!){
+      verifyToken(token: $token){
+        payload
+        success
+        errors
+      }
+    }
+`
+
+const REFRESH_TOKEN = gql`
+    mutation REFRESH_TOKEN($refresh_token: String!){
+      refreshToken(refreshToken: $refresh_token){
+        token
+        refreshToken
+        payload
+        success
+        errors
+      }
+    }`
 
 function App() {
+    const checkTokenAndLoginVariablesInLocalStore = () => {
+        if (localStorage.getItem('token') === null){
+            localStorage.setItem('token', 'wrong key')}
+        if (localStorage.getItem('is_login') === null){
+            localStorage.setItem('is_login', 'false')}
+        if (localStorage.getItem('user_name') === null){
+            localStorage.setItem('user_name', '')}
+        if (localStorage.getItem('refreshToken') === null){
+            localStorage.setItem('refreshToken', 'wrong refresh token')}
+        console.log(localStorage.getItem('token'))
+        return(localStorage.getItem('token'))
+    }
+
+    const [verify_login, { data, error }] = useMutation(VERIFY_LOGIN, {
+        variables: {
+            token: checkTokenAndLoginVariablesInLocalStore()
+        },
+        errorPolicy: 'all'
+    })
+
+    useEffect(() =>{
+        verify_login().then().catch(() => {localStorage.setItem('is_login', 'false')})}, [])
+    if (!data){
+        return <div>Loading...</div>
+    }
+    if(data.verifyToken.success === true){
+        localStorage.setItem('is_login', 'true')
+        localStorage.setItem('user_name', data.verifyToken.payload.username)
+    }else{
+        localStorage.setItem('is_login', 'false')
+    }
+    console.log(data)
+    // if (error){
+    //     console.log(error.graphQLErrors)
+    // }
+
   return (
     <>
         <Router>

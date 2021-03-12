@@ -38,6 +38,7 @@ export default function Login(){
     const saveLoginData = () => {
         localStorage.setItem('token', data.tokenAuth.token)
         localStorage.setItem('refreshToken', data.tokenAuth.refreshToken)
+        localStorage.setItem('is_login', 'true')
     }
     data ?  data.tokenAuth.success ? saveLoginData() : null : null
     return(

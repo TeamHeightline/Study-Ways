@@ -17,16 +17,7 @@ const VERIFY_LOGIN = gql`
     }
 `
 
-const REFRESH_TOKEN = gql`
-    mutation REFRESH_TOKEN($refresh_token: String!){
-      refreshToken(refreshToken: $refresh_token){
-        token
-        refreshToken
-        payload
-        success
-        errors
-      }
-    }`
+
 
 export default function Navibar(){
     const [verify_login, { data, error }] = useMutation(VERIFY_LOGIN, {
@@ -51,25 +42,25 @@ export default function Navibar(){
     //         saveRefreshData()
     //     }
     // }
-    const verifySystem = () => {
-        verify_login()
-        if(data){
-            console.log(data)
-            console.log(data.verifyToken.success)
-            // if (data.verifyToken.success === false){
-            //     refreshSystem()
-            // }
-        }
-        if(error){
-            console.log(error)
-        }
-        console.log("-------------")
-    }
-
-
-    useEffect(() =>{
-        setTimeout(verifySystem, 20000)
-    })
+    // const verifySystem = () => {
+    //     verify_login()
+    //     if(data){
+    //         console.log(data)
+    //         console.log(data.verifyToken.success)
+    //         // if (data.verifyToken.success === false){
+    //         //     refreshSystem()
+    //         // }
+    //     }
+    //     if(error){
+    //         console.log(error)
+    //     }
+    //     console.log("-------------")
+    // }
+    //
+    //
+    // useEffect(() =>{
+    //     setTimeout(verifySystem, 20000)
+    // })
 
     return(
 
@@ -91,10 +82,12 @@ export default function Navibar(){
                     {/*<IsLogin className="ml-auto"/>*/}
                     <Row className="ml-3">
                     {/*<Navbar.Text className="">User name</Navbar.Text>*/}
-                    <Nav.Link href="/login">Войти</Nav.Link>
+                    {/*{localStorage.getItam("is_user") ==='true'? <Navbar.Brand>{localStorage.getItem("user_name")}</Navbar.Brand> : <Nav.Link href="/login">Войти</Nav.Link>}*/}
+
                     <DropdownButton id="dropdown-navibar-button"  title="" className="ml-4">
                         <Dropdown.Item href="/stat">Статистика</Dropdown.Item>
                         <Dropdown.Item href="/profile">Профиль</Dropdown.Item>
+
                         <Dropdown.Item href="/courses">Выйти</Dropdown.Item>
                     </DropdownButton>
                     </Row>

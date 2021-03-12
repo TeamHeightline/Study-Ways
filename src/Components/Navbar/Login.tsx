@@ -4,6 +4,7 @@ import {Card, Container, Form, Button, Alert} from "react-bootstrap";
 import {useState} from "react";
 import {gql, useQuery, useMutation} from "@apollo/client";
 
+import { useHistory } from "react-router-dom";
 
 const LOGIN_MUTATION = gql`
     mutation AUTHORIZATION($pass: String!, $mail: String!){
@@ -24,7 +25,7 @@ const LOGIN_MUTATION = gql`
 export default function Login(){
     const [mail, changeMail] = useState('')
     const [password, changePassword] = useState('')
-
+    const history = useHistory();
     const [login, { data, error }] = useMutation(LOGIN_MUTATION, {
         variables: {
             pass: password,
@@ -36,9 +37,11 @@ export default function Login(){
     //     console.log(data)
     // }
     const saveLoginData = () => {
+
         localStorage.setItem('token', data.tokenAuth.token)
         localStorage.setItem('refreshToken', data.tokenAuth.refreshToken)
         localStorage.setItem('is_login', 'true')
+        setTimeout(history.push, 2000, '/')
     }
     data ?  data.tokenAuth.success ? saveLoginData() : null : null
     return(

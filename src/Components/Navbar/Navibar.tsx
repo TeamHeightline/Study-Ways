@@ -70,7 +70,7 @@ export default function Navibar(){
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className={s.navlink}>
                         <Nav.Link href="/" className="ml-3">Главная</Nav.Link>
-                        <Nav.Link href="https://iot-backend-v3.herokuapp.com/admin/" className="ml-3">Редактировать тест</Nav.Link>
+                        <Nav.Link href="https://iot-experemental.herokuapp.com/admin/" className="ml-3">Редактировать тест</Nav.Link>
                         <Nav.Link href="/exp/testing" className="ml-3">Пройти тест</Nav.Link>
                     </Nav>
 
@@ -82,7 +82,7 @@ export default function Navibar(){
                     {/*<IsLogin className="ml-auto"/>*/}
                     <Row className="ml-3">
                     {/*<Navbar.Text className="">User name</Navbar.Text>*/}
-                    {/*{localStorage.getItam("is_user") ==='true'? <Navbar.Brand>{localStorage.getItem("user_name")}</Navbar.Brand> : <Nav.Link href="/login">Войти</Nav.Link>}*/}
+                    {localStorage.getItem("is_login") ==='true'? <Navbar.Text>{localStorage.getItem("user_name")}</Navbar.Text> : <Nav.Link href="/login">Войти</Nav.Link>}
 
                     <DropdownButton id="dropdown-navibar-button"  title="" className="ml-4">
                         <Dropdown.Item href="/stat">Статистика</Dropdown.Item>

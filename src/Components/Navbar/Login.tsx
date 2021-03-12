@@ -43,7 +43,7 @@ export default function Login(){
         localStorage.setItem('is_login', 'true')
         setTimeout(history.push, 2000, '/')
     }
-    data ?  data.tokenAuth.success ? saveLoginData() : null : null
+    {data ?  data.tokenAuth.success ? saveLoginData() : null : null}
     return(
         <div>
             <Container>

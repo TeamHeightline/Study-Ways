@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+
 import * as React from 'react'
 import 'react-bootstrap';
 import {Card, Container, Form, Button, Alert} from "react-bootstrap";

@@ -34,7 +34,7 @@ export class MainExperimental extends React.Component{
                                 <Card.Text>
                                     После нажатия вы будете перенаправлены в редактор вопроса
                                 </Card.Text>
-                                <Button variant="primary" href="https://iot-backend-v3.herokuapp.com/admin/">Создать/Редактировать вопрос</Button>
+                                <Button variant="primary" href="https://iot-experemental.herokuapp.com/admin/">Создать/Редактировать вопрос</Button>
                             </Card.Body>
                         </Card>
                         <Card style={{ width: '18rem' }}>

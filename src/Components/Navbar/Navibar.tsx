@@ -20,46 +20,10 @@ const VERIFY_LOGIN = gql`
 
 
 export default function Navibar(){
-    const [verify_login, { data, error }] = useMutation(VERIFY_LOGIN, {
-        variables: {
-            token: localStorage.getItem("token")
-        }
-    })
-    // const [refresh_token, { data: data_from_refresh, error: error_from_refresh }] = useMutation(REFRESH_TOKEN, {
+    // const [verify_login, { data, error }] = useMutation(VERIFY_LOGIN, {
     //     variables: {
-    //         refresh_token: localStorage.getItem("refreshToken")
+    //         token: localStorage.getItem("token")
     //     }
-    // })
-    // const saveRefreshData = () => {
-    //     localStorage.setItem('token', data_from_refresh.refreshToken.token)
-    //     localStorage.setItem('refreshToken', data_from_refresh.refreshToken.refreshToken)
-    // }
-    // const refreshSystem = () =>{
-    //     refresh_token()
-    //     if(!data_from_refresh){
-    //         setTimeout(refreshSystem, 5000)
-    //     } else{
-    //         saveRefreshData()
-    //     }
-    // }
-    // const verifySystem = () => {
-    //     verify_login()
-    //     if(data){
-    //         console.log(data)
-    //         console.log(data.verifyToken.success)
-    //         // if (data.verifyToken.success === false){
-    //         //     refreshSystem()
-    //         // }
-    //     }
-    //     if(error){
-    //         console.log(error)
-    //     }
-    //     console.log("-------------")
-    // }
-    //
-    //
-    // useEffect(() =>{
-    //     setTimeout(verifySystem, 20000)
     // })
 
     return(
@@ -83,13 +47,14 @@ export default function Navibar(){
                     <Row className="ml-3">
                     {/*<Navbar.Text className="">User name</Navbar.Text>*/}
                     {localStorage.getItem("is_login") ==='true'? <Navbar.Text>{localStorage.getItem("user_name")}</Navbar.Text> : <Nav.Link href="/login">Войти</Nav.Link>}
+                        {localStorage.getItem("is_login") ==='true'? <div>
+                            <DropdownButton id="dropdown-navibar-button"  title="" className="ml-4">
+                            <Dropdown.Item href="/stat">Статистика</Dropdown.Item>
+                            <Dropdown.Item href="/profile">Профиль</Dropdown.Item>
 
-                    <DropdownButton id="dropdown-navibar-button"  title="" className="ml-4">
-                        <Dropdown.Item href="/stat">Статистика</Dropdown.Item>
-                        <Dropdown.Item href="/profile">Профиль</Dropdown.Item>
+                            <Dropdown.Item href="/unlogin">Выйти</Dropdown.Item>
+                        </DropdownButton></div> : null}
 
-                        <Dropdown.Item href="/courses">Выйти</Dropdown.Item>
-                    </DropdownButton>
                     </Row>
                 </Navbar.Collapse>
             </Navbar>

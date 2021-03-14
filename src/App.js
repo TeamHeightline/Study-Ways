@@ -18,8 +18,9 @@ import {TestForUser} from './Pages/TestForUser';
 import {CreateUserTest} from './Components/UserTests/CreateUserTest';
 import {MainExperimental} from "./Components/Experimental/ExpMain";
 import {TakeTheTest} from "./Components/Experimental/TakeTheTest"
-import Login from "./Components/Navbar/Login"
+import Login from "./Components/Login/Login"
 import {gql, useMutation} from "@apollo/client";
+import UnLogin from "./Components/Login/UnLogin";
 
 
 const VERIFY_LOGIN = gql`
@@ -93,6 +94,7 @@ function App() {
                 <Route exact path="/exp" component={MainExperimental}/>
                 <Route exact path="/exp/testing" component={TakeTheTest}/>
                 <Route exact path="/login" component={Login}/>
+                <Route exact path="/unlogin" component={UnLogin}/>
             </Switch>
         </Router>
     </>

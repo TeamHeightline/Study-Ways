@@ -47,13 +47,15 @@ export default function Navibar(){
                     <Row className="ml-3">
                     {/*<Navbar.Text className="">User name</Navbar.Text>*/}
                     {localStorage.getItem("is_login") ==='true'? <Navbar.Text>{localStorage.getItem("user_name")}</Navbar.Text> : <Nav.Link href="/login">Войти</Nav.Link>}
-                        {localStorage.getItem("is_login") ==='true'? <div>
+                    {localStorage.getItem("is_login") ==='true'? <div>
                             <DropdownButton id="dropdown-navibar-button"  title="" className="ml-4">
                             <Dropdown.Item href="/stat">Статистика</Dropdown.Item>
                             <Dropdown.Item href="/profile">Профиль</Dropdown.Item>
 
                             <Dropdown.Item href="/unlogin">Выйти</Dropdown.Item>
                         </DropdownButton></div> : null}
+                        {localStorage.getItem("is_login") ==='true'? null: <Nav.Link href="/registration">Зарегистрироваться</Nav.Link>}
+
 
                     </Row>
                 </Navbar.Collapse>

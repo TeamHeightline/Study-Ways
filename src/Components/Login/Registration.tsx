@@ -70,12 +70,15 @@ export default function Registration(){
                             <Alert variant='danger' className="mt-2" >Этот email уже был использован</Alert>: null: null}
                         { data?.register.errors.username ? data?.register.errors.username[0].message === "Enter a valid username. This value may contain only letters, numbers, and @/./+/-/_ characters." ?
                             <Alert variant='danger' className="mt-2" >Имя пользователя может содержать только буквы, цифры и символы @/./+/-/_</Alert>: null: null}
+                        { data?.register.errors.username ? data?.register.errors.username[0].message === "A user with that username already exists." ?
+                            <Alert variant='danger' className="mt-2" >Пользователь с таким именем уже создан</Alert>: null: null}
                         { data?.register.errors.password2 ? data?.register.errors.password2[0].message === "The two password fields didn’t match." ?
                             <Alert variant='danger' className="mt-2" >Пароли не совпадают</Alert>: null: null}
                         { data?.register.errors.password2 ? (data?.register.errors.password2[0].message === "This password is too short. It must contain at least 8 characters.") ||
                         (data?.register.errors.password2[0].message === "This password is too common.") ||
                         (data?.register.errors.password2[0].message === "This password is entirely numeric.")?
                             <Alert variant='danger' className="mt-2" >Пароль слишком простой</Alert>: null: null}
+
                         {data?.register.success ?  data?.register.success === true? <Alert variant='primary' className="mt-2">Вы зарегистрировались, запрос на подтверждение аккаунта отправлен вам на почту</Alert>: null: null}
 
                     </Form>

@@ -22,7 +22,7 @@ import Login from "./Components/Login/Login"
 import {gql, useMutation} from "@apollo/client";
 import UnLogin from "./Components/Login/UnLogin";
 import Registration from "./Components/Login/Registration";
-
+import TestEditor from "./Components/Experimental/TestEditor"
 
 const VERIFY_LOGIN = gql`
     mutation VERIFY_LOGIN($token: String!){
@@ -34,16 +34,16 @@ const VERIFY_LOGIN = gql`
     }
 `
 
-const REFRESH_TOKEN = gql`
-    mutation REFRESH_TOKEN($refresh_token: String!){
-      refreshToken(refreshToken: $refresh_token){
-        token
-        refreshToken
-        payload
-        success
-        errors
-      }
-    }`
+// const REFRESH_TOKEN = gql`
+//     mutation REFRESH_TOKEN($refresh_token: String!){
+//       refreshToken(refreshToken: $refresh_token){
+//         token
+//         refreshToken
+//         payload
+//         success
+//         errors
+//       }
+//     }`
 
 function App() {
     const checkTokenAndLoginVariablesInLocalStore = () => {
@@ -55,7 +55,7 @@ function App() {
             localStorage.setItem('user_name', '')}
         if (localStorage.getItem('refreshToken') === null){
             localStorage.setItem('refreshToken', 'wrong refresh token')}
-        console.log(localStorage.getItem('token'))
+        // console.log(localStorage.getItem('token'))
         return(localStorage.getItem('token'))
     }
 
@@ -67,20 +67,18 @@ function App() {
     })
 
     useEffect(() =>{
-        verify_login().then().catch(() => {localStorage.setItem('is_login', 'false')})}, [])
+        verify_login().then().catch(() => {localStorage.setItem('is_login', 'false')})}, [])  //для создания фоновой задачи, перед запятой пишем setInterval
     if (!data){
         return <div>Loading...</div>
     }
+
     if(data.verifyToken.success === true){
         localStorage.setItem('is_login', 'true')
         localStorage.setItem('user_name', data.verifyToken.payload.username)
     }else{
         localStorage.setItem('is_login', 'false')
     }
-    console.log(data)
-    // if (error){
-    //     console.log(error.graphQLErrors)
-    // }
+
 
   return (
     <>
@@ -97,6 +95,7 @@ function App() {
                 <Route exact path="/login" component={Login}/>
                 <Route exact path="/unlogin" component={UnLogin}/>
                 <Route exact path="/registration" component={Registration}/>
+                <Route exact path="/testeditor" component={localStorage.getItem('is_login') === 'true'? TestEditor: Login}/>
             </Switch>
         </Router>
     </>

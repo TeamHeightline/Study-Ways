@@ -6,6 +6,7 @@ import {DataGrid} from "@material-ui/data-grid";
 import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
 import {blue} from "@material-ui/core/colors";
 import {ShowErrorsOnScreen} from "../UserTests/ShowErrorsOnScreen"
+import {Typography} from "@material-ui/core";
 
 
 interface Answer{
@@ -77,7 +78,11 @@ export function TakeTheTest(){
     })
 
     //Установка колонок
-    const columns = [{ field: 'text', headerName: 'Ответы на вопрос', width: 2500 }];
+    const columns = [{
+        field: 'text',
+        headerName: 'Ответы на вопрос',
+        width: 2700,
+    }];
     //Установка темы
     const theme = createMuiTheme({
         palette: {

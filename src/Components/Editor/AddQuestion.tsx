@@ -1,18 +1,20 @@
-import React, {useState} from "react";
+import React, {useMemo, useState} from "react";
 import {gql, useMutation, useQuery} from "@apollo/client";
-import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import ListItemText from '@material-ui/core/ListItemText';
+
 import Select from '@material-ui/core/Select';
-import Checkbox from '@material-ui/core/Checkbox';
-import Chip from '@material-ui/core/Chip';
+
 import {Row, Spinner, Col} from "react-bootstrap";
 import TextField from '@material-ui/core/TextField';
 import {Button} from "@material-ui/core";
+
+import { DataGrid, ColDef, ValueGetterParams } from '@material-ui/data-grid';
+import {Alert} from "@material-ui/lab";
+
 
 const GET_THEMES = gql`
 query GET_THEMES{
@@ -25,6 +27,19 @@ query GET_THEMES{
     questionauthorSet{
       id
       name
+    }
+    questionSet{
+      id
+      theme{
+        id
+        name
+      }
+      author{
+        id
+        name
+      }
+      text
+      videoUrl
     }
   }
 }`
@@ -40,32 +55,6 @@ mutation CREATE_QUESTION($createdBy: ID!, $theme: [ID]!, $author: [ID]!, $text: 
   }
 }`
 
-const useStyles = makeStyles((theme) => ({
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 600,
-        maxWidth: 600,
-    },
-    chips: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
-    chip: {
-        margin: 2,
-    },
-    noLabel: {
-        marginTop: theme.spacing(3),
-    },
-    margin: {
-        margin: theme.spacing(1),
-    },
-    root: {
-        '& > *': {
-            margin: theme.spacing(1),
-            width: '25ch',
-        },
-    },
-}));
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -78,56 +67,115 @@ const MenuProps = {
     },
 };
 
+const createRows = (data: any) =>{
+    const rows: any = []
+    if (data){
+        data.me.questionSet.map( (question: any) =>{
+            const themes = question.theme.map((item: any) => item.name).reduce((prev: any, next: any ) => prev + next);
+            const authors =  question.author.map((item: any) => item.name).reduce((prev: any, next: any ) => prev + next);
+            rows.push({id: question.id, text: question.text, themes: themes, authors: authors})
+
+        })
+    }
+    return(rows)
+}
+
+
 
 export default function AddQuestion() {
-    const classes = useStyles();
-    const theme = useTheme();
-    const [author, setAuthor] = React.useState([]);
-    const [questionThemes, setQuestionThemes] = useState([]);
-    const [authorId, setAuthorId] = React.useState([]);
-    const [questionThemesId, setQuestionThemesId] = useState([]);
-    const {data, error, loading} = useQuery(GET_THEMES);
+
+    const {data, error, loading, refetch } = useQuery(GET_THEMES);
+
+
+    const memedRows = useMemo(()=>createRows(data), [data])
+
     const [questionText, changeQuestionText] = useState('');
     const [questionUrl, changeQuestionUrl] = useState('');
-    const [createQuestion, { data: mutation_data, error: mutation_error }] = useMutation(CREATE_QUESTION, {
+    const [authorId, setAuthorId] = React.useState([]);
+    const [questionThemesId, setQuestionThemesId] = useState([]);
+    const [createQuestion, { data: mutation_data}] = useMutation(CREATE_QUESTION, {
         variables: {
             createdBy: 0,
-            theme: questionThemes,
-            author: author,
+            theme: questionThemesId,
+            author: authorId,
             text: questionText,
             videoUrl: questionUrl
         }
     })
-    // const getQuestionThemesId = () =>{
-    //     questionThemes.map((theme) =>{
-    //         const index = Data.findIndex(item => item.name === 'John');
-    //     })
-    // }
 
-    const authorHandleChange = (event: any) => {
-        setAuthor(event.target.value);
+    const columns: ColDef[] = [
+        { field: 'id', headerName: 'ID', width: 70 },
+        { field: 'text', headerName: 'Текст', width: 650 },
+        { field: 'authors', headerName: 'Авторы', width: 550 },
+        { field: 'themes', headerName: 'Темы', width: 450}
+        ]
+
+
+
+    const authorIdHandleChange = (event: any) => {
+        setAuthorId(event.target.value);
     };
 
-    const themesHandleChange = (event: any) => {
-        console.log(event.target.value)
-        setQuestionThemes(event.target.value);
+    const createQuestionFunction = () =>{
+        if (mutation_data.createQuestion.errors.length === 0){
+            setQuestionThemesId([])
+            setAuthorId([])
+            changeQuestionText('')
+            changeQuestionUrl('')
+        }
+       else if(mutation_data.createQuestion.errors[0].field === 'theme'){
+           return(
+               <Alert severity="error">Ошибка в поле темы вопроса, скорее всего вы его оставили пустым</Alert>
+           )
+       }
+       else if(mutation_data.createQuestion.errors[0].field === 'author'){
+            return(
+                <Alert severity="error">Ошибка в поле автора вопроса, скорее всего вы его оставили пустым</Alert>
+            )
+       }
+        else if(mutation_data.createQuestion.errors[0].field === 'text'){
+            return(
+                <Alert severity="error">Ошибка в поле текста вопроса, скорее всего вы его оставили пустым</Alert>
+            )
+        }
+       else{
+            return(
+                <Alert severity="error">This is an error alert — check it out!</Alert>
+            )
+       }
+    }
+
+    const themesIdHandleChange = (event: any) => {
+        setQuestionThemesId(event.target.value);
     };
 
     const urlHandleChange = (event: any) => {
         changeQuestionUrl(event.target.value);
     };
+    const textHandleChange = (event: any) => {
+        changeQuestionText(event.target.value);
+    };
 
+    // if(mutation_data){
+    //     createQuestionFunction()
+    // }
 
-    console.log(data)
+    // console.log(authorId)
+    // console.log(mutation_data)
     if(!data){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
 
+    console.log(data)
+
 
     return (
         <div>
+            <div style={{ height: 600, width: '100%' }}>
+                <DataGrid rows={memedRows} columns={columns}   />
+            </div>
             <div className="display-4 text-center mt-3" style={{fontSize: '35px'}}>Создать новый вопрос</div>
             <Row>
                 <Col className="col-md-6 col-11  ml-5">
@@ -140,7 +188,7 @@ export default function AddQuestion() {
                             rowsMax={4}
                             // style={{width: "50vw"}}
                             value={questionText}
-                            onChange={(e) =>{changeQuestionText(e.target.value)}}
+                            onChange={textHandleChange}
                         />
                         <FormControl  className="col-12" >
                         <TextField
@@ -159,14 +207,14 @@ export default function AddQuestion() {
                                 labelId="demo-mutiple-name-label"
                                 id="demo-mutiple-name"
                                 multiple
-                                value={questionThemes}
-                                onChange={themesHandleChange}
+                                value={questionThemesId}
+                                onChange={themesIdHandleChange}
                                 input={<Input/>}
                                 MenuProps={MenuProps}
                             >
-                                {data.questionThemes.map((theme: any) => (
-                                    <MenuItem key={theme.id} value={theme.name} >
-                                        {theme.name}
+                                {data.me.questionauthorSet.map((author: any) => (
+                                    <MenuItem key={author.name + author.id} value={author.id} >
+                                        {author.name}
                                     </MenuItem>
                                 ))}
                             </Select>
@@ -177,25 +225,28 @@ export default function AddQuestion() {
                                 labelId="demo-mutiple-name-label"
                                 id="demo-mutiple-name"
                                 multiple
-                                value={author}
-                                onChange={authorHandleChange}
+                                value={authorId}
+                                onChange={authorIdHandleChange}
                                 input={<Input/>}
                                 MenuProps={MenuProps}
                             >
                                 {data.me.questionauthorSet.map((author: any) => (
-                                    <MenuItem key={author.id} value={author.name} >
+                                    <MenuItem key={author.name + author.id} value={author.id} >
                                         {author.name}
                                     </MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
+                        <Row>
                         <Button variant="outlined" color="primary" className="mt-2   justify-content-end"
                                 onClick={(event) =>{
-                                    event.preventDefault(); createQuestion().then((returned_data) =>{console.log(returned_data)})}}>
+                                    event.preventDefault(); createQuestion()}}>
                             Создать вопрос
                         </Button>
-                        {console.log(mutation_data)}
-                        {console.log(mutation_error)}
+                            {/*{mutation_data? createQuestionFunction(): null}*/}
+                        </Row>
+                        {/*{console.log(mutation_data)}*/}
+                        {/*{console.log(mutation_error)}*/}
                     </div>
                 </Col>
             </Row>

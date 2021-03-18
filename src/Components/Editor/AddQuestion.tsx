@@ -10,7 +10,7 @@ import Select from '@material-ui/core/Select';
 
 import {Row, Spinner, Col} from "react-bootstrap";
 import TextField from '@material-ui/core/TextField';
-import {Button} from "@material-ui/core";
+import {Button, Snackbar} from "@material-ui/core";
 
 import { DataGrid, ColDef, ValueGetterParams } from '@material-ui/data-grid';
 import {Alert} from "@material-ui/lab";
@@ -97,9 +97,8 @@ export default function AddQuestion() {
 
     const {data, error, loading, refetch } = useQuery(GET_THEMES);
 
-
-    const memedCreateDataGrid = useMemo(()=>createDataGrid(data), [data])
-
+    const [oneTimeChecked, changeOneTimeChecked] = useState(false);
+    const memedCreateDataGrid = useMemo(()=>createDataGrid(data), [data]);
     const [questionText, changeQuestionText] = useState('');
     const [questionUrl, changeQuestionUrl] = useState('');
     const [authorId, setAuthorId] = React.useState([]);
@@ -113,6 +112,13 @@ export default function AddQuestion() {
             videoUrl: questionUrl
         }
     })
+    const [open, setOpen] = React.useState(false);
+
+
+    const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+        if (reason === 'clickaway') {
+            setOpen(false)
+        }}
 
 
     const urlHandleChange = (event: any) => {
@@ -132,10 +138,7 @@ export default function AddQuestion() {
 
     const createQuestionFunction = () =>{
         if (mutation_data.createQuestion.errors.length === 0){
-            setQuestionThemesId([])
-            setAuthorId([])
-            changeQuestionText('')
-            changeQuestionUrl('')
+            return (<></>)
         }
        else if(mutation_data.createQuestion.errors[0].field === 'theme'){
            return(
@@ -152,31 +155,38 @@ export default function AddQuestion() {
                 <Alert severity="error">Ошибка в поле текста вопроса, скорее всего вы его оставили пустым</Alert>
             )
         }
+        else if(mutation_data.createQuestion.errors[0].field === "video_url"){
+            return(
+                <Alert severity="error">Ошибка в поле ссылки на видео-вопрос</Alert>
+            )
+        }
        else{
             return(
-                <Alert severity="error">This is an error alert — check it out!</Alert>
+                <Alert severity="error">Неизвестная ошибка</Alert>
             )
        }
     }
 
-
-
-
-
-    // if(mutation_data){
-    //     createQuestionFunction()
-    // }
-
-    // console.log(authorId)
-    // console.log(mutation_data)
     if(!data){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
 
-    console.log(data)
-
+    console.log(mutation_data)
+    if(mutation_data){
+        if(mutation_data.createQuestion.errors.length === 0){
+            if(oneTimeChecked){
+                setQuestionThemesId([])
+                setAuthorId([])
+                changeQuestionText('')
+                changeQuestionUrl('')
+                refetch()
+                setOpen(true)
+                changeOneTimeChecked(false)
+            }
+        }
+    }
 
     return (
         <div>
@@ -220,7 +230,6 @@ export default function AddQuestion() {
                                 {data.questionThemes.map((theme: any) => (
                                     <MenuItem key={theme.name + theme.id} value={theme.id}>
                                         {theme.name}
-                                        {console.log("new menu items")}
                                     </MenuItem>
                                 ))}
                             </Select>
@@ -243,14 +252,22 @@ export default function AddQuestion() {
                                 ))}
                             </Select>
                         </FormControl>
-                        <Row>
+                        <Row className="ml-2">
                         <Button variant="outlined" color="primary" className="mt-2   justify-content-end"
                                 onClick={(event) =>{
-                                    event.preventDefault(); createQuestion()}}>
+                                    event.preventDefault();
+                                    createQuestion()
+                                    changeOneTimeChecked(true)
+                                }}>
                             Создать вопрос
                         </Button>
                             {mutation_data? createQuestionFunction(): null}
                         </Row>
+                        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                            <Alert onClose={handleClose} severity="success">
+                                Вопрос успешно создан
+                            </Alert>
+                        </Snackbar>
                         {/*{console.log(mutation_data)}*/}
                         {/*{console.log(mutation_error)}*/}
                     </div>

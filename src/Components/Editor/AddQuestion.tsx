@@ -67,7 +67,14 @@ const MenuProps = {
     },
 };
 
-const createRows = (data: any) =>{
+const columns: ColDef[] = [
+    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'text', headerName: 'Текст', width: 650 },
+    { field: 'authors', headerName: 'Авторы', width: 550 },
+    { field: 'themes', headerName: 'Темы', width: 450}
+]
+
+const createDataGrid = (data: any) =>{
     const rows: any = []
     if (data){
         data.me.questionSet.map( (question: any) =>{
@@ -77,7 +84,11 @@ const createRows = (data: any) =>{
 
         })
     }
-    return(rows)
+    return(
+        <div style={{ height: 600, width: '100%' }}>
+            <DataGrid rows={rows} columns={columns}   />
+        </div>
+    )
 }
 
 
@@ -87,7 +98,7 @@ export default function AddQuestion() {
     const {data, error, loading, refetch } = useQuery(GET_THEMES);
 
 
-    const memedRows = useMemo(()=>createRows(data), [data])
+    const memedCreateDataGrid = useMemo(()=>createDataGrid(data), [data])
 
     const [questionText, changeQuestionText] = useState('');
     const [questionUrl, changeQuestionUrl] = useState('');
@@ -103,17 +114,20 @@ export default function AddQuestion() {
         }
     })
 
-    const columns: ColDef[] = [
-        { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'text', headerName: 'Текст', width: 650 },
-        { field: 'authors', headerName: 'Авторы', width: 550 },
-        { field: 'themes', headerName: 'Темы', width: 450}
-        ]
 
+    const urlHandleChange = (event: any) => {
+        changeQuestionUrl(event.target.value);
+    };
+    const textHandleChange = (event: any) => {
+        changeQuestionText(event.target.value);
+    };
 
 
     const authorIdHandleChange = (event: any) => {
         setAuthorId(event.target.value);
+    };
+    const themesIdHandleChange = (event: any) => {
+        setQuestionThemesId(event.target.value);
     };
 
     const createQuestionFunction = () =>{
@@ -145,16 +159,9 @@ export default function AddQuestion() {
        }
     }
 
-    const themesIdHandleChange = (event: any) => {
-        setQuestionThemesId(event.target.value);
-    };
 
-    const urlHandleChange = (event: any) => {
-        changeQuestionUrl(event.target.value);
-    };
-    const textHandleChange = (event: any) => {
-        changeQuestionText(event.target.value);
-    };
+
+
 
     // if(mutation_data){
     //     createQuestionFunction()
@@ -173,9 +180,7 @@ export default function AddQuestion() {
 
     return (
         <div>
-            <div style={{ height: 600, width: '100%' }}>
-                <DataGrid rows={memedRows} columns={columns}   />
-            </div>
+            {memedCreateDataGrid}
             <div className="display-4 text-center mt-3" style={{fontSize: '35px'}}>Создать новый вопрос</div>
             <Row>
                 <Col className="col-md-6 col-11  ml-5">
@@ -212,9 +217,10 @@ export default function AddQuestion() {
                                 input={<Input/>}
                                 MenuProps={MenuProps}
                             >
-                                {data.me.questionauthorSet.map((author: any) => (
-                                    <MenuItem key={author.name + author.id} value={author.id} >
-                                        {author.name}
+                                {data.questionThemes.map((theme: any) => (
+                                    <MenuItem key={theme.name + theme.id} value={theme.id}>
+                                        {theme.name}
+                                        {console.log("new menu items")}
                                     </MenuItem>
                                 ))}
                             </Select>
@@ -243,7 +249,7 @@ export default function AddQuestion() {
                                     event.preventDefault(); createQuestion()}}>
                             Создать вопрос
                         </Button>
-                            {/*{mutation_data? createQuestionFunction(): null}*/}
+                            {mutation_data? createQuestionFunction(): null}
                         </Row>
                         {/*{console.log(mutation_data)}*/}
                         {/*{console.log(mutation_error)}*/}

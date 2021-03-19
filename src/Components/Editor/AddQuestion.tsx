@@ -15,6 +15,18 @@ import {Button, Snackbar} from "@material-ui/core";
 import { DataGrid, ColDef, ValueGetterParams } from '@material-ui/data-grid';
 import {Alert} from "@material-ui/lab";
 
+import Tooltip from '@material-ui/core/Tooltip';
+import Fab from '@material-ui/core/Fab';
+
+import AddIcon from '@material-ui/icons/Add';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+
+import  './styleForAddQuestion.css'
+
+import {
+    CSSTransition,
+    TransitionGroup,
+} from 'react-transition-group';
 
 const GET_THEMES = gql`
 query GET_THEMES{
@@ -86,7 +98,39 @@ const createDataGrid = (data: any) =>{
     }
     return(
         <div style={{ height: 600, width: '100%' }}>
-            <DataGrid rows={rows} columns={columns}   />
+            <DataGrid rows={rows} columns={columns} onRowClick={(e) =>{console.log(e.row.id)}}  />
+        </div>
+    )
+}
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        fab: {
+            margin: theme.spacing(2),
+        },
+        absolute: {
+            position: 'absolute',
+            bottom: theme.spacing(2),
+            right: theme.spacing(3),
+        },
+    }),
+);
+
+const columnsForThemesDataGrid: ColDef[] = [
+    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'name', headerName: 'Темы', width: 500 },
+]
+
+const createThemesDataGrid = (data: any) =>{
+    const rows: any = []
+    if (data){
+        data.questionThemes.map((theme: any)=>{
+            rows.push({id: theme.id, name: theme.name})
+        })
+    }
+    return(
+        <div style={{ height: 300 }}>
+            <DataGrid rows={rows} columns={columnsForThemesDataGrid}   />
         </div>
     )
 }
@@ -95,10 +139,12 @@ const createDataGrid = (data: any) =>{
 
 export default function AddQuestion() {
 
-    const {data, error, loading, refetch } = useQuery(GET_THEMES);
+    const {data, error, loading, refetch } = useQuery(GET_THEMES,{
+        pollInterval: 2000});
 
     const [oneTimeChecked, changeOneTimeChecked] = useState(false);
     const memedCreateDataGrid = useMemo(()=>createDataGrid(data), [data]);
+    const memedCreateThemesDataGrid = useMemo(() => createThemesDataGrid(data), [data])
     const [questionText, changeQuestionText] = useState('');
     const [questionUrl, changeQuestionUrl] = useState('');
     const [authorId, setAuthorId] = React.useState([]);
@@ -112,7 +158,10 @@ export default function AddQuestion() {
             videoUrl: questionUrl
         }
     })
+    const [userWantsToCreateANewQuestion, changeUserWantsToCreateANewQuestion] = useState(false)
     const [open, setOpen] = React.useState(false);
+    const [selectedRow, changeSelectedRow] = useState()
+    const classes = useStyles();
 
 
     const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
@@ -173,7 +222,7 @@ export default function AddQuestion() {
         )
     }
 
-    console.log(mutation_data)
+    console.log(data)
     if(mutation_data){
         if(mutation_data.createQuestion.errors.length === 0){
             if(oneTimeChecked){
@@ -183,6 +232,7 @@ export default function AddQuestion() {
                 changeQuestionUrl('')
                 refetch()
                 setOpen(true)
+                changeUserWantsToCreateANewQuestion(false)
                 changeOneTimeChecked(false)
             }
         }
@@ -190,89 +240,114 @@ export default function AddQuestion() {
 
     return (
         <div>
-            {memedCreateDataGrid}
-            <div className="display-4 text-center mt-3" style={{fontSize: '35px'}}>Создать новый вопрос</div>
-            <Row>
-                <Col className="col-md-6 col-11  ml-5">
-                    <div>
-                        <TextField
-                            id="standard-multiline-flexible"
-                            label="Текст вопроса"
-                            multiline
-                            fullWidth
-                            rowsMax={4}
-                            // style={{width: "50vw"}}
-                            value={questionText}
-                            onChange={textHandleChange}
-                        />
-                        <FormControl  className="col-12" >
-                        <TextField
-                                id="standard-basic"
-                                label="Ссылка на видео-вопрос"
-                                value={questionUrl}
-                                onChange={urlHandleChange}/>
-                        </FormControl>
-                    </div>
-                </Col>
-                <Col className="col-md-4  col-10 offset-md-1">
-                    <div >
-                        <FormControl  className="col-12 ml-2" >
-                            <InputLabel id="question-theme-multiple">Темы вопросов</InputLabel>
-                            <Select
-                                labelId="demo-mutiple-name-label"
-                                id="demo-mutiple-name"
-                                multiple
-                                value={questionThemesId}
-                                onChange={themesIdHandleChange}
-                                input={<Input/>}
-                                MenuProps={MenuProps}
-                            >
-                                {data.questionThemes.map((theme: any) => (
-                                    <MenuItem key={theme.name + theme.id} value={theme.id}>
-                                        {theme.name}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                        <FormControl className='col-12 ml-2'>
-                            <InputLabel id="question-author-multiple">Авторы вопросов</InputLabel>
-                            <Select
-                                labelId="demo-mutiple-name-label"
-                                id="demo-mutiple-name"
-                                multiple
-                                value={authorId}
-                                onChange={authorIdHandleChange}
-                                input={<Input/>}
-                                MenuProps={MenuProps}
-                            >
-                                {data.me.questionauthorSet.map((author: any) => (
-                                    <MenuItem key={author.name + author.id} value={author.id} >
-                                        {author.name}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                        <Row className="ml-2">
-                        <Button variant="outlined" color="primary" className="mt-2   justify-content-end"
-                                onClick={(event) =>{
-                                    event.preventDefault();
-                                    createQuestion()
-                                    changeOneTimeChecked(true)
-                                }}>
-                            Создать вопрос
-                        </Button>
-                            {mutation_data? createQuestionFunction(): null}
-                        </Row>
-                        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-                            <Alert onClose={handleClose} severity="success">
-                                Вопрос успешно создан
-                            </Alert>
-                        </Snackbar>
-                        {/*{console.log(mutation_data)}*/}
-                        {/*{console.log(mutation_error)}*/}
-                    </div>
-                </Col>
-            </Row>
+            <div className="mr-3 ml-3 mt-3">
+                {memedCreateDataGrid}
+            </div>
+
+            <div className= "offset-11">
+                <Tooltip title="Создать вопрос" aria-label="add" >
+                    <Fab color="primary" className={classes.fab}
+                         onClick={() =>{changeUserWantsToCreateANewQuestion( !userWantsToCreateANewQuestion)}}>
+                        <AddIcon />
+                    </Fab>
+                </Tooltip>
+            </div>
+
+            {userWantsToCreateANewQuestion?
+
+                <div>
+                <div className="display-4 text-center mt-3" style={{fontSize: '35px'}}>Создать новый вопрос</div>
+                    <Row>
+                        <Col className="col-md-6 col-11  ml-5">
+                            <div>
+                                <TextField
+                                    id="standard-multiline-flexible"
+                                    label="Текст вопроса"
+                                    multiline
+                                    fullWidth
+                                    rowsMax={4}
+                                    // style={{width: "50vw"}}
+                                    value={questionText}
+                                    onChange={textHandleChange}
+                                />
+                                <FormControl  className="col-12" >
+                                <TextField
+                                        id="standard-basic"
+                                        label="Ссылка на видео-вопрос"
+                                        value={questionUrl}
+                                        onChange={urlHandleChange}/>
+                                </FormControl>
+                            </div>
+                        </Col>
+                        <Col className="col-md-4  col-10 offset-md-1">
+                            <div >
+                                <FormControl  className="col-12 ml-2" >
+                                    <InputLabel id="question-theme-multiple">Темы вопросов</InputLabel>
+                                    <Select
+                                        labelId="demo-mutiple-name-label"
+                                        id="demo-mutiple-name"
+                                        multiple
+                                        value={questionThemesId}
+                                        onChange={themesIdHandleChange}
+                                        input={<Input/>}
+                                        MenuProps={MenuProps}
+                                    >
+                                        {data.questionThemes.map((theme: any) => (
+                                            <MenuItem key={theme.name + theme.id} value={theme.id}>
+                                                {theme.name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                                <FormControl className='col-12 ml-2'>
+                                    <InputLabel id="question-author-multiple">Авторы вопросов</InputLabel>
+                                    <Select
+                                        labelId="demo-mutiple-name-label"
+                                        id="demo-mutiple-name"
+                                        multiple
+                                        value={authorId}
+                                        onChange={authorIdHandleChange}
+                                        input={<Input/>}
+                                        MenuProps={MenuProps}
+                                    >
+                                        {data.me.questionauthorSet.map((author: any) => (
+                                            <MenuItem key={author.name + author.id} value={author.id} >
+                                                {author.name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                                <Row className="ml-2">
+                                <Button variant="outlined" color="primary" className="mt-2   justify-content-end"
+                                        onClick={(event) =>{
+                                            event.preventDefault();
+                                            createQuestion()
+                                            changeOneTimeChecked(true)
+                                        }}>
+                                    Создать вопрос
+                                </Button>
+                                    {mutation_data? createQuestionFunction(): null}
+                                </Row>
+
+                                {/*{console.log(mutation_data)}*/}
+                                {/*{console.log(mutation_error)}*/}
+                            </div>
+                        </Col>
+                    </Row>
+                </div> :
+                null}
+
+                <div className="col-4 mt-3">
+                    {memedCreateThemesDataGrid}
+                </div>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success">
+                    Вопрос успешно создан
+                </Alert>
+            </Snackbar>
+            <br/>
+            <br/>
+            <br/>
         </div>)
 }
 

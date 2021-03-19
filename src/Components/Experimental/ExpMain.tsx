@@ -2,7 +2,7 @@ import React from "react";
 import {Card, Container, Row, Button} from "react-bootstrap"
 import logo from "../../img/createUserTestImg.png"
 import logo2 from "../../img/TestingImg.png"
-
+import backgroundImg from "../../img/LetiLogo.png"
 import { gql, useQuery } from '@apollo/client';
 
 // const QUESTION_DATA = gql`
@@ -14,7 +14,6 @@ import { gql, useQuery } from '@apollo/client';
 //     `
 
 export class MainExperimental extends React.Component{
-
     render() {
         // const { loading, error, data } = useQuery(QUESTION_DATA);
         // //
@@ -24,6 +23,12 @@ export class MainExperimental extends React.Component{
 
         return(
             <>
+                {/*<div style={{backgroundImage: `url(${backgroundImg})`,*/}
+                {/*    // height: '100vh',*/}
+                {/*    opacity: 0.1,*/}
+                {/*    backgroundPosition: 'center',*/}
+                {/*    backgroundSize: 'cover',*/}
+                {/*    backgroundRepeat: 'no-repeat'}}>*/}
                 <div className="display-4 text-center ">Эксперементальный раздел</div>
                 <Container className="mt-3">
                     <Row>
@@ -50,6 +55,7 @@ export class MainExperimental extends React.Component{
                         </Card>
                     </Row>
                 </Container>
+                {/*</div>*/}
             </>
         )
     }

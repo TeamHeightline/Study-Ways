@@ -67,6 +67,16 @@ mutation CREATE_QUESTION($createdBy: ID!, $theme: [ID]!, $author: [ID]!, $text: 
   }
 }`
 
+const CREATE_THEME = gql`
+mutation CREATE_THEME($name: String!, $description: String!, $createdBy: ID!){
+  createQuestionThemes(input: {name: $name, description: $description, createdBy: $createdBy}){
+    errors{
+      field
+      messages
+    }
+    clientMutationId
+  }
+}`
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -135,6 +145,25 @@ const createThemesDataGrid = (data: any) =>{
     )
 }
 
+const columnsForAuthorsDataGrid: ColDef[] = [
+    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'name', headerName: 'Автор вопроса', width: 500 },
+]
+
+const createAuthorsDataGrid = (data: any) =>{
+    const rows: any = []
+    if (data){
+        data.me.questionauthorSet.map((author: any)=>{
+            rows.push({id: author.id, name: author.name})
+        })
+    }
+    return(
+        <div style={{ height: 300 }}>
+            <DataGrid rows={rows} columns={columnsForAuthorsDataGrid}   />
+        </div>
+    )
+}
+
 
 
 export default function AddQuestion() {
@@ -142,13 +171,18 @@ export default function AddQuestion() {
     const {data, error, loading, refetch } = useQuery(GET_THEMES,{
         pollInterval: 2000});
 
-    const [oneTimeChecked, changeOneTimeChecked] = useState(false);
-    const memedCreateDataGrid = useMemo(()=>createDataGrid(data), [data]);
+    const [oneTimeChecked, changeOneTimeChecked] = useState(false);// для проверки на ошибки при сохранение вопроса
+    const [oneTimeCheckedNewTheme, changeOneTimeCheckedNewTheme] = useState(false);
+    const memedCreateDataGrid = useMemo(()=>createDataGrid(data), [data]); //оптимизированное подключение DataGrid
     const memedCreateThemesDataGrid = useMemo(() => createThemesDataGrid(data), [data])
+    const memedCreateAuthorsDataGrid = useMemo(() => createAuthorsDataGrid(data), [data])
     const [questionText, changeQuestionText] = useState('');
     const [questionUrl, changeQuestionUrl] = useState('');
     const [authorId, setAuthorId] = React.useState([]);
     const [questionThemesId, setQuestionThemesId] = useState([]);
+    const [newThemeName, changeNewThemeName] = useState('')
+    const [newThemeDescription, changeNewThemeDescription] = useState('')
+
     const [createQuestion, { data: mutation_data}] = useMutation(CREATE_QUESTION, {
         variables: {
             createdBy: 0,
@@ -158,9 +192,18 @@ export default function AddQuestion() {
             videoUrl: questionUrl
         }
     })
-    const [userWantsToCreateANewQuestion, changeUserWantsToCreateANewQuestion] = useState(false)
-    const [open, setOpen] = React.useState(false);
-    const [selectedRow, changeSelectedRow] = useState()
+    const [createTheme, {data: create_theme_data}] = useMutation(CREATE_THEME, {
+        variables:{
+            createdBy: 0,
+            name: newThemeName,
+            description: newThemeDescription
+        }
+    })
+    const [userWantsToCreateANewQuestion, changeUserWantsToCreateANewQuestion] = useState(false);
+    const [userWantsToCreateANewTheme, changeUserWantsToCreateANewTheme] = useState(false);
+    const [open, setOpen] = React.useState(false); // для оповещения о создание вопроса
+    const [openThemeNotification, setOpenThemeNotification] = React.useState(false)
+    // const [selectedRow, changeSelectedRow] = useState()
     const classes = useStyles();
 
 
@@ -168,7 +211,10 @@ export default function AddQuestion() {
         if (reason === 'clickaway') {
             setOpen(false)
         }}
-
+    const themeNotificationHandleClose = (event?: React.SyntheticEvent, reason?: string) => {
+        if (reason === 'clickaway') {
+            setOpenThemeNotification(false)
+        }}
 
     const urlHandleChange = (event: any) => {
         changeQuestionUrl(event.target.value);
@@ -176,14 +222,18 @@ export default function AddQuestion() {
     const textHandleChange = (event: any) => {
         changeQuestionText(event.target.value);
     };
-
-
     const authorIdHandleChange = (event: any) => {
         setAuthorId(event.target.value);
     };
     const themesIdHandleChange = (event: any) => {
         setQuestionThemesId(event.target.value);
     };
+    const newThemeNameHandleChange = (event: any) =>{
+        changeNewThemeName(event.target.value)
+    }
+    const newThemeDescriptionHandleChange = (event: any) =>{
+        changeNewThemeDescription(event.target.value)
+    }
 
     const createQuestionFunction = () =>{
         if (mutation_data.createQuestion.errors.length === 0){
@@ -216,13 +266,25 @@ export default function AddQuestion() {
        }
     }
 
+    const createThemeFunction = () =>{
+        if (create_theme_data.createQuestionThemes.errors.length === 0){
+            return (<></>)
+        }
+        else if(create_theme_data.createQuestionThemes.errors[0].field === "name"){
+            return <Alert severity='error'>Ошибка в название темы</Alert>
+        }
+        else if(create_theme_data.createQuestionThemes.errors[0].field === "description"){
+            return <Alert severity='error'>Ошибка в описание темы, скорее всего вы его оставили пустым</Alert>
+        }
+    }
+
     if(!data){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
 
-    console.log(data)
+
     if(mutation_data){
         if(mutation_data.createQuestion.errors.length === 0){
             if(oneTimeChecked){
@@ -237,6 +299,18 @@ export default function AddQuestion() {
             }
         }
     }
+    if(create_theme_data){
+        if(create_theme_data.createQuestionThemes.errors.length === 0){
+            if(oneTimeCheckedNewTheme){
+                changeNewThemeName('')
+                changeNewThemeDescription('')
+                refetch()
+                changeUserWantsToCreateANewTheme(false)
+                changeOneTimeCheckedNewTheme(false)
+            }
+        }
+    }
+
 
     return (
         <div>
@@ -244,7 +318,7 @@ export default function AddQuestion() {
                 {memedCreateDataGrid}
             </div>
 
-            <div className= "offset-11">
+            <div className= "offset-9 offset-lg-11">
                 <Tooltip title="Создать вопрос" aria-label="add" >
                     <Fab color="primary" className={classes.fab}
                          onClick={() =>{changeUserWantsToCreateANewQuestion( !userWantsToCreateANewQuestion)}}>
@@ -281,7 +355,7 @@ export default function AddQuestion() {
                         </Col>
                         <Col className="col-md-4  col-10 offset-md-1">
                             <div >
-                                <FormControl  className="col-12 ml-2" >
+                                <FormControl  className="col-12 ml-5" >
                                     <InputLabel id="question-theme-multiple">Темы вопросов</InputLabel>
                                     <Select
                                         labelId="demo-mutiple-name-label"
@@ -299,7 +373,7 @@ export default function AddQuestion() {
                                         ))}
                                     </Select>
                                 </FormControl>
-                                <FormControl className='col-12 ml-2'>
+                                <FormControl className='col-12 ml-5'>
                                     <InputLabel id="question-author-multiple">Авторы вопросов</InputLabel>
                                     <Select
                                         labelId="demo-mutiple-name-label"
@@ -317,8 +391,8 @@ export default function AddQuestion() {
                                         ))}
                                     </Select>
                                 </FormControl>
-                                <Row className="ml-2">
-                                <Button variant="outlined" color="primary" className="mt-2   justify-content-end"
+                                <Row className="ml-1">
+                                <Button variant="outlined" color="primary" className="mt-2   justify-content-end ml-5"
                                         onClick={(event) =>{
                                             event.preventDefault();
                                             createQuestion()
@@ -336,11 +410,65 @@ export default function AddQuestion() {
                     </Row>
                 </div> :
                 null}
+                <Row className="mt-3 mr-2 ml-2">
+                    <Col className="col-lg-4 col-12">
+                        <div >
+                            {memedCreateThemesDataGrid}
+                            <div className= "offset-10">
+                                <Tooltip title="Создать тему" aria-label="add" >
+                                    <Fab color="primary" className={classes.fab}
+                                         onClick={() =>{changeUserWantsToCreateANewTheme( !userWantsToCreateANewTheme)}}>
 
-                <div className="col-4 mt-3">
-                    {memedCreateThemesDataGrid}
-                </div>
+                                        <AddIcon />
+                                    </Fab>
+                                </Tooltip>
+                            </div>
+                            {userWantsToCreateANewTheme? <div className="col-11 ">
+                                <TextField
+                                    id="standard-multiline-flexible"
+                                    label="Название новой темы вопроса"
+                                    multiline
+                                    fullWidth
+                                    rowsMax={4}
+                                    // style={{width: "50vw"}}
+                                    value={newThemeName}
+                                    onChange={newThemeNameHandleChange}
+                                />
+                                <TextField
+                                    id="standard-multiline-flexible"
+                                    label="Описание новой темы вопроса"
+                                    multiline
+                                    fullWidth
+                                    rowsMax={4}
+                                    // style={{width: "50vw"}}
+                                    value={newThemeDescription}
+                                    onChange={newThemeDescriptionHandleChange}
+                                />
+                                <Button variant="outlined" color="primary" className="mt-2   justify-content-end"
+                                        onClick={(event) =>{
+                                            event.preventDefault();
+                                            createTheme()
+                                            // changeOneTimeChecked(true)
+                                            changeOneTimeCheckedNewTheme(true)
+                                        }}>
+                                    Создать новую тему вопроса
+                                </Button>
+                                {create_theme_data? createThemeFunction(): null}
+                            </div>: null}
+                        </div>
+                    </Col>
+                    <Col className="col-lg-4 col-12 offset-lg-4 mt-3">
+                        <div>
+                            {memedCreateAuthorsDataGrid}
+                        </div>
+                    </Col>
+                </Row>
             <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success">
+                    Вопрос успешно создан
+                </Alert>
+            </Snackbar>
+            <Snackbar open={openThemeNotification} autoHideDuration={6000} onClose={themeNotificationHandleClose}>
                 <Alert onClose={handleClose} severity="success">
                     Вопрос успешно создан
                 </Alert>

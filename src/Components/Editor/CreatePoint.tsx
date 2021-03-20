@@ -12,7 +12,7 @@ import {Row, Spinner, Col} from "react-bootstrap";
 import TextField from '@material-ui/core/TextField';
 import {Button, Snackbar} from "@material-ui/core";
 
-import { DataGrid, ColDef, ValueGetterParams } from '@material-ui/data-grid';
+import { DataGrid, ColDef } from '@material-ui/data-grid';
 import {Alert} from "@material-ui/lab";
 
 import Tooltip from '@material-ui/core/Tooltip';
@@ -23,10 +23,6 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
 import  './styleForAddQuestion.css'
 
-import {
-    CSSTransition,
-    TransitionGroup,
-} from 'react-transition-group';
 
 const GET_THEMES = gql`
 query GET_THEMES{
@@ -70,6 +66,17 @@ mutation CREATE_QUESTION($createdBy: ID!, $theme: [ID]!, $author: [ID]!, $text: 
 const CREATE_THEME = gql`
 mutation CREATE_THEME($name: String!, $description: String!, $createdBy: ID!){
   createQuestionThemes(input: {name: $name, description: $description, createdBy: $createdBy}){
+    errors{
+      field
+      messages
+    }
+    clientMutationId
+  }
+}`
+
+const CREATE_AUTHOR = gql`
+mutation CREATE_AUTHOR($name: String!, $createdBy: ID!, ){
+  createQuestionAuthor(input: {name: $name, createdBy: $createdBy}){
     errors{
       field
       messages
@@ -166,13 +173,14 @@ const createAuthorsDataGrid = (data: any) =>{
 
 
 
-export default function AddQuestion() {
+export default function CreatePoint() {
 
     const {data, error, loading, refetch } = useQuery(GET_THEMES,{
         pollInterval: 2000});
 
     const [oneTimeChecked, changeOneTimeChecked] = useState(false);// для проверки на ошибки при сохранение вопроса
     const [oneTimeCheckedNewTheme, changeOneTimeCheckedNewTheme] = useState(false);
+    const [oneTimeCheckedNewAuthor, changeOneTimeCheckedNewAuthor] = useState(false);
     const memedCreateDataGrid = useMemo(()=>createDataGrid(data), [data]); //оптимизированное подключение DataGrid
     const memedCreateThemesDataGrid = useMemo(() => createThemesDataGrid(data), [data])
     const memedCreateAuthorsDataGrid = useMemo(() => createAuthorsDataGrid(data), [data])
@@ -182,6 +190,7 @@ export default function AddQuestion() {
     const [questionThemesId, setQuestionThemesId] = useState([]);
     const [newThemeName, changeNewThemeName] = useState('')
     const [newThemeDescription, changeNewThemeDescription] = useState('')
+    const [newAuthorName, changeNewAuthorName] = useState("")
 
     const [createQuestion, { data: mutation_data}] = useMutation(CREATE_QUESTION, {
         variables: {
@@ -199,10 +208,18 @@ export default function AddQuestion() {
             description: newThemeDescription
         }
     })
+    const [createAuthor, {data: create_author_data}] = useMutation(CREATE_AUTHOR, {
+        variables:{
+            createdBy: 0,
+            name: newAuthorName
+        }
+    })
     const [userWantsToCreateANewQuestion, changeUserWantsToCreateANewQuestion] = useState(false);
     const [userWantsToCreateANewTheme, changeUserWantsToCreateANewTheme] = useState(false);
+    const [userWantToCreateANewAuthor, changeUserWantToCreateANewAuthor] = useState(false);
     const [open, setOpen] = React.useState(false); // для оповещения о создание вопроса
     const [openThemeNotification, setOpenThemeNotification] = React.useState(false)
+    const [openAuthorNotification, setOpenAuthorNotification] = React.useState(false)
     // const [selectedRow, changeSelectedRow] = useState()
     const classes = useStyles();
 
@@ -214,6 +231,10 @@ export default function AddQuestion() {
     const themeNotificationHandleClose = (event?: React.SyntheticEvent, reason?: string) => {
         if (reason === 'clickaway') {
             setOpenThemeNotification(false)
+        }}
+    const authorNotificationHandleClose = (event?: React.SyntheticEvent, reason?: string) => {
+        if (reason === 'clickaway') {
+            setOpenAuthorNotification(false)
         }}
 
     const urlHandleChange = (event: any) => {
@@ -233,6 +254,9 @@ export default function AddQuestion() {
     }
     const newThemeDescriptionHandleChange = (event: any) =>{
         changeNewThemeDescription(event.target.value)
+    }
+    const newAuthorNameHandleChange = (event: any) =>{
+        changeNewAuthorName(event.target.value)
     }
 
     const createQuestionFunction = () =>{
@@ -278,6 +302,16 @@ export default function AddQuestion() {
         }
     }
 
+    const createAuthorFunction = () =>{
+        console.log(create_author_data)
+        if(create_author_data.createQuestionAuthor.errors.length === 0) {
+            return<></>
+        }
+        else {
+            return <Alert severity='error'>Ошибка в имени автора вопроса, скорее всего вы его оставили пустым</Alert>
+        }
+    }
+
     if(!data){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
@@ -307,10 +341,22 @@ export default function AddQuestion() {
                 refetch()
                 changeUserWantsToCreateANewTheme(false)
                 changeOneTimeCheckedNewTheme(false)
+                setOpenThemeNotification(true)
             }
         }
     }
 
+    if(create_author_data){
+        if(create_author_data.createQuestionAuthor.errors.length === 0) {
+            if(oneTimeCheckedNewAuthor){
+                changeNewAuthorName('')
+                refetch()
+                changeUserWantToCreateANewAuthor(false)
+                changeOneTimeCheckedNewAuthor(false)
+                setOpenAuthorNotification(true)
+            }
+        }
+    }
 
     return (
         <div>
@@ -460,6 +506,42 @@ export default function AddQuestion() {
                     <Col className="col-lg-4 col-12 offset-lg-4 mt-3">
                         <div>
                             {memedCreateAuthorsDataGrid}
+                            <div className= "offset-10">
+                                <Tooltip title="Создать автора вопроса" aria-label="add" >
+                                    <Fab color="primary" className={classes.fab}
+                                         onClick={() =>{changeUserWantToCreateANewAuthor( !userWantToCreateANewAuthor)}}>
+
+                                        <AddIcon />
+                                        {console.log(data)}
+                                    </Fab>
+                                </Tooltip>
+                            </div>
+                            {userWantToCreateANewAuthor? <div className="col-11 ">
+                                <TextField
+                                    id="standard-multiline-flexible"
+                                    label="Имя нового автора вопроса"
+                                    multiline
+                                    fullWidth
+                                    rowsMax={4}
+                                    // style={{width: "50vw"}}
+                                    value={newAuthorName}
+                                    onChange={newAuthorNameHandleChange}
+                                />
+                                {console.log(newAuthorName)}
+                                <Button variant="outlined" color="primary" className="mt-2   justify-content-end"
+                                        onClick={(event) =>{
+                                            event.preventDefault();
+                                            // createTheme()
+                                            // changeOneTimeChecked(true)
+                                            createAuthor()
+                                            changeOneTimeCheckedNewAuthor(true)
+                                            changeOneTimeCheckedNewTheme(true)
+                                        }}>
+                                    Создать нового автора вопроса
+                                </Button>
+                                {create_author_data? createAuthorFunction(): null}
+                            </div>:null}
+
                         </div>
                     </Col>
                 </Row>
@@ -469,16 +551,23 @@ export default function AddQuestion() {
                 </Alert>
             </Snackbar>
             <Snackbar open={openThemeNotification} autoHideDuration={6000} onClose={themeNotificationHandleClose}>
-                <Alert onClose={handleClose} severity="success">
-                    Вопрос успешно создан
+                <Alert onClose={themeNotificationHandleClose} severity="success">
+                    Тема вопроса успешно создана
+                </Alert>
+            </Snackbar>
+            <Snackbar open={openAuthorNotification} autoHideDuration={6000} onClose={authorNotificationHandleClose}>
+                <Alert onClose={authorNotificationHandleClose} severity="success">
+                    Автор вопроса успешно создана
                 </Alert>
             </Snackbar>
             <br/>
             <br/>
             <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
         </div>)
 }
-
-
-
-

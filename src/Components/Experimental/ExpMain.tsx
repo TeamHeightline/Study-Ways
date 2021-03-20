@@ -2,7 +2,7 @@ import React from "react";
 import {Card, Container, Row, Button} from "react-bootstrap"
 import logo from "../../img/createUserTestImg.png"
 import logo2 from "../../img/TestingImg.png"
-import backgroundImg from "../../img/LetiLogo.png"
+import logo3 from "../../img/ModernTestEditor.png"
 import { gql, useQuery } from '@apollo/client';
 
 // const QUESTION_DATA = gql`
@@ -51,7 +51,16 @@ export class MainExperimental extends React.Component{
                                 </Card.Text>
                                 <Button variant="primary" href="/exp/testing" block size="lg" className="mt-5">Пройти вопрос</Button>
                             </Card.Body>
-
+                        </Card>
+                        <Card style={{ width: '18rem' }}>
+                            <Card.Img variant="top" src={logo3}  style={{height: '10rem'}}/>
+                            <Card.Body>
+                                <Card.Title>Современный редактор вопросов</Card.Title>
+                                <Card.Text>
+                                    После нажатия вы будете перенаправлены в современный редактор вопроса
+                                </Card.Text>
+                                <Button variant="primary" href="/testeditor"   >Создать/Редактировать вопросы</Button>
+                            </Card.Body>
                         </Card>
                     </Row>
                 </Container>

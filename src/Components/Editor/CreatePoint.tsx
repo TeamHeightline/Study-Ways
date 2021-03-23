@@ -5,6 +5,7 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 import Select from '@material-ui/core/Select';
 
@@ -85,6 +86,16 @@ mutation CREATE_AUTHOR($name: String!, $createdBy: ID!, ){
   }
 }`
 
+const UPDATE_AUTHOR = gql`
+mutation UPDATE_AUTHOR($name: String!, $createdBy: ID!, $id: ID!){
+  updateQuestionAuthor(input:{name: $name, createdBy: $createdBy, id: $id}){
+    errors{
+      field
+      messages
+    }
+  }
+}`
+
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -103,7 +114,7 @@ const columns: ColDef[] = [
     { field: 'themes', headerName: 'Темы', width: 450}
 ]
 
-const createDataGrid = (data: any) =>{
+const createDataGrid = (data: any, changeSelectedRowInQuestionDataGrid: (value: (((prevState: any) => any) | any)) => any) =>{
     const rows: any = []
     if (data){
         data.me.questionSet.map( (question: any) =>{
@@ -115,7 +126,8 @@ const createDataGrid = (data: any) =>{
     }
     return(
         <div style={{ height: 600, width: '100%' }}>
-            <DataGrid rows={rows} columns={columns} onRowClick={(e) =>{console.log(e.row.id)}}  />
+            <DataGrid rows={rows} columns={columns} onRowClick={(e) =>{
+                changeSelectedRowInQuestionDataGrid(e.row)}}/>
         </div>
     )
 }
@@ -138,7 +150,7 @@ const columnsForThemesDataGrid: ColDef[] = [
     { field: 'name', headerName: 'Темы', width: 500 },
 ]
 
-const createThemesDataGrid = (data: any) =>{
+const createThemesDataGrid = (data: any, changeSelectedRowInThemesDataGrid: (value: (((prevState: any) => any) | any)) => any) =>{
     const rows: any = []
     if (data){
         data.questionThemes.map((theme: any)=>{
@@ -147,7 +159,10 @@ const createThemesDataGrid = (data: any) =>{
     }
     return(
         <div style={{ height: 300 }}>
-            <DataGrid rows={rows} columns={columnsForThemesDataGrid}   />
+            <DataGrid rows={rows} columns={columnsForThemesDataGrid}
+            onRowClick={(e) =>{
+                changeSelectedRowInThemesDataGrid(e.row)
+            }}/>
         </div>
     )
 }
@@ -157,7 +172,7 @@ const columnsForAuthorsDataGrid: ColDef[] = [
     { field: 'name', headerName: 'Автор вопроса', width: 500 },
 ]
 
-const createAuthorsDataGrid = (data: any) =>{
+const createAuthorsDataGrid = (data: any, changeSelectedRowInAuthorsDataGrid: (value: any) => any, changeUpdateAuthorName: (value: (((prevState: any) => any) | any)) => any) =>{
     const rows: any = []
     if (data){
         data.me.questionauthorSet.map((author: any)=>{
@@ -166,7 +181,9 @@ const createAuthorsDataGrid = (data: any) =>{
     }
     return(
         <div style={{ height: 300 }}>
-            <DataGrid rows={rows} columns={columnsForAuthorsDataGrid}   />
+            <DataGrid rows={rows} columns={columnsForAuthorsDataGrid}
+            onRowClick={(e) => {changeSelectedRowInAuthorsDataGrid(e.row)
+                changeUpdateAuthorName(e.row.name)}}/>
         </div>
     )
 }
@@ -181,16 +198,21 @@ export default function CreatePoint() {
     const [oneTimeChecked, changeOneTimeChecked] = useState(false);// для проверки на ошибки при сохранение вопроса
     const [oneTimeCheckedNewTheme, changeOneTimeCheckedNewTheme] = useState(false);
     const [oneTimeCheckedNewAuthor, changeOneTimeCheckedNewAuthor] = useState(false);
-    const memedCreateDataGrid = useMemo(()=>createDataGrid(data), [data]); //оптимизированное подключение DataGrid
-    const memedCreateThemesDataGrid = useMemo(() => createThemesDataGrid(data), [data])
-    const memedCreateAuthorsDataGrid = useMemo(() => createAuthorsDataGrid(data), [data])
+    const [selectedRowInQuestionDataGrid, changeSelectedRowInQuestionDataGrid] : any = useState()
+    const [selectedRowInThemesDataGrid, changeSelectedRowInThemesDataGrid] : any = useState()
+    const [selectedRowInAuthorsDataGrid, changeSelectedRowInAuthorsDataGrid] : any = useState({id: -10}) //Такого ID не существует, оно нужно, чтобы проверить кликнул ли пользователь по строке
+    const [updateAuthorName, changeUpdateAuthorName] = useState('');
+    const memedCreateDataGrid = useMemo(()=>createDataGrid(data, changeSelectedRowInQuestionDataGrid), [data]); //оптимизированное подключение DataGrid
+    const memedCreateThemesDataGrid = useMemo(() => createThemesDataGrid(data, changeSelectedRowInThemesDataGrid), [data])
+    const memedCreateAuthorsDataGrid = useMemo(() => createAuthorsDataGrid(data, changeSelectedRowInAuthorsDataGrid, changeUpdateAuthorName), [data])
     const [questionText, changeQuestionText] = useState('');
     const [questionUrl, changeQuestionUrl] = useState('');
     const [authorId, setAuthorId] = React.useState([]);
     const [questionThemesId, setQuestionThemesId] = useState([]);
-    const [newThemeName, changeNewThemeName] = useState('')
-    const [newThemeDescription, changeNewThemeDescription] = useState('')
-    const [newAuthorName, changeNewAuthorName] = useState("")
+    const [newThemeName, changeNewThemeName] = useState('');
+    const [newThemeDescription, changeNewThemeDescription] = useState('');
+    const [newAuthorName, changeNewAuthorName] = useState("");
+
 
     const [createQuestion, { data: mutation_data}] = useMutation(CREATE_QUESTION, {
         variables: {
@@ -214,16 +236,31 @@ export default function CreatePoint() {
             name: newAuthorName
         }
     })
+    const [updateAuthor, {data: update_author_data, loading:  update_author_loading}] = useMutation(UPDATE_AUTHOR, {
+        variables:{
+            name: updateAuthorName,
+            createdBy: 0,
+            id: selectedRowInAuthorsDataGrid.id
+        },
+        onCompleted: (update_author_data) => {
+            if(update_author_data.updateQuestionAuthor.errors.length === 0){
+                refetch()
+                changeUpdateAuthorName('')
+                changeUserWantsToUpdateAuthor(false)
+            }
+        }
+    })
     const [userWantsToCreateANewQuestion, changeUserWantsToCreateANewQuestion] = useState(false);
     const [userWantsToCreateANewTheme, changeUserWantsToCreateANewTheme] = useState(false);
     const [userWantToCreateANewAuthor, changeUserWantToCreateANewAuthor] = useState(false);
+    const [userWantsToUpdateAuthor, changeUserWantsToUpdateAuthor] = useState(false);
     const [open, setOpen] = React.useState(false); // для оповещения о создание вопроса
     const [openThemeNotification, setOpenThemeNotification] = React.useState(false)
     const [openAuthorNotification, setOpenAuthorNotification] = React.useState(false)
     // const [selectedRow, changeSelectedRow] = useState()
     const classes = useStyles();
 
-
+    console.log(selectedRowInQuestionDataGrid)
     const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
         if (reason === 'clickaway') {
             setOpen(false)
@@ -309,6 +346,15 @@ export default function CreatePoint() {
         }
         else {
             return <Alert severity='error'>Ошибка в имени автора вопроса, скорее всего вы его оставили пустым</Alert>
+        }
+    }
+
+    const updateAuthorFunction = () =>{
+        if(update_author_data.updateQuestionAuthor.errors.length === 0){
+            return<></>
+        }
+        else{
+            return  <Alert severity='error'>Ошибка в имени автора вопроса, скорее всего вы его оставили пустым</Alert>
         }
     }
 
@@ -468,6 +514,7 @@ export default function CreatePoint() {
                                         <AddIcon />
                                     </Fab>
                                 </Tooltip>
+
                             </div>
                             {userWantsToCreateANewTheme? <div className="col-11 ">
                                 <TextField
@@ -506,16 +553,29 @@ export default function CreatePoint() {
                     <Col className="col-lg-4 col-12 offset-lg-4 mt-3">
                         <div>
                             {memedCreateAuthorsDataGrid}
-                            <div className= "offset-10">
-                                <Tooltip title="Создать автора вопроса" aria-label="add" >
-                                    <Fab color="primary" className={classes.fab}
-                                         onClick={() =>{changeUserWantToCreateANewAuthor( !userWantToCreateANewAuthor)}}>
+                            <div className= "offset-9">
+                                <Row>
+                                    <Col className="col-4">
+                                        <Tooltip title="Создать автора вопроса" aria-label="add" >
+                                            <Fab color="primary" className={classes.fab}
+                                                 onClick={() =>{changeUserWantToCreateANewAuthor( !userWantToCreateANewAuthor)}}>
 
-                                        <AddIcon />
-                                        {console.log(data)}
-                                    </Fab>
-                                </Tooltip>
+                                                <AddIcon />
+                                                {console.log(data)}
+                                            </Fab>
+                                        </Tooltip>
+                                    </Col>
+                                    <Col className="col-3 ml-2">
+                                        <Tooltip title="Редактировать автора вопроса" aria-label="add">
+                                            <Fab color="primary" className={classes.fab}
+                                            onClick={() => {changeUserWantsToUpdateAuthor(!userWantsToUpdateAuthor)}}>
+                                                <SettingsIcon/>
+                                            </Fab>
+                                        </Tooltip>
+                                    </Col>
+                                </Row>
                             </div>
+                            {console.log(userWantsToUpdateAuthor)}
                             {userWantToCreateANewAuthor? <div className="col-11 ">
                                 <TextField
                                     id="standard-multiline-flexible"
@@ -527,7 +587,7 @@ export default function CreatePoint() {
                                     value={newAuthorName}
                                     onChange={newAuthorNameHandleChange}
                                 />
-                                {console.log(newAuthorName)}
+                                {/*{console.log(newAuthorName)}*/}
                                 <Button variant="outlined" color="primary" className="mt-2   justify-content-end"
                                         onClick={(event) =>{
                                             event.preventDefault();
@@ -541,6 +601,30 @@ export default function CreatePoint() {
                                 </Button>
                                 {create_author_data? createAuthorFunction(): null}
                             </div>:null}
+
+
+                            {console.log(updateAuthorName)}
+                            {userWantsToUpdateAuthor && selectedRowInAuthorsDataGrid.id !== -10 ? <div>
+                                <TextField
+                                    id="standard-multiline-flexible"
+                                    label="Новое имя автора вопроса"
+                                    multiline
+                                    fullWidth
+                                    rowsMax={4}
+                                    // style={{width: "50vw"}}
+                                    value={updateAuthorName}
+                                    onChange={(e) => {changeUpdateAuthorName(e.target.value)}}
+                                />
+                                <Button variant="outlined" color="primary" className="mt-2   justify-content-end"
+                                        onClick={(event) =>{
+                                            event.preventDefault();
+                                            updateAuthor()
+                                        }}>
+                                    Обновить автора вопроса
+                                </Button>
+                            </div>: null}
+                            {update_author_data? updateAuthorFunction(): null}
+                            {console.log(update_author_data)}
 
                         </div>
                     </Col>

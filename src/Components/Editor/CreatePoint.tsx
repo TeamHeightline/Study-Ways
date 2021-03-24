@@ -42,6 +42,7 @@ query GET_THEMES{
       theme{
         id
         name
+        description
       }
       author{
         id
@@ -89,6 +90,16 @@ mutation CREATE_AUTHOR($name: String!, $createdBy: ID!, ){
 const UPDATE_AUTHOR = gql`
 mutation UPDATE_AUTHOR($name: String!, $createdBy: ID!, $id: ID!){
   updateQuestionAuthor(input:{name: $name, createdBy: $createdBy, id: $id}){
+    errors{
+      field
+      messages
+    }
+  }
+}`
+
+const UPDATE_THEME = gql`
+mutation UPDATE_THEME($name: String!, $description: String!, $createdBy: ID!, $id: ID!){
+  updateQuestionThemes(input:{name:$name, description: $description, createdBy: $createdBy, id: $id}){
     errors{
       field
       messages
@@ -150,7 +161,9 @@ const columnsForThemesDataGrid: ColDef[] = [
     { field: 'name', headerName: 'Темы', width: 500 },
 ]
 
-const createThemesDataGrid = (data: any, changeSelectedRowInThemesDataGrid: (value: (((prevState: any) => any) | any)) => any) =>{
+const createThemesDataGrid = (data: any, changeSelectedRowInThemesDataGrid: (value: any) => any,
+                              changeUpdateThemeName: (value: (((prevState: any) => any) | any)) => any,
+                              changeUpdateThemeDescription: (value: (((prevState: any) => any) | any)) => any) =>{
     const rows: any = []
     if (data){
         data.questionThemes.map((theme: any)=>{
@@ -161,7 +174,10 @@ const createThemesDataGrid = (data: any, changeSelectedRowInThemesDataGrid: (val
         <div style={{ height: 300 }}>
             <DataGrid rows={rows} columns={columnsForThemesDataGrid}
             onRowClick={(e) =>{
+                console.log(e.row.name)
                 changeSelectedRowInThemesDataGrid(e.row)
+                changeUpdateThemeName(e.row.name)
+                changeUpdateThemeDescription(data.questionThemes.find((theme: any) => theme.id === e.row.id).description)
             }}/>
         </div>
     )
@@ -172,7 +188,8 @@ const columnsForAuthorsDataGrid: ColDef[] = [
     { field: 'name', headerName: 'Автор вопроса', width: 500 },
 ]
 
-const createAuthorsDataGrid = (data: any, changeSelectedRowInAuthorsDataGrid: (value: any) => any, changeUpdateAuthorName: (value: (((prevState: any) => any) | any)) => any) =>{
+const createAuthorsDataGrid = (data: any, changeSelectedRowInAuthorsDataGrid: (value: any) => any,
+                               changeUpdateAuthorName: (value: (((prevState: any) => any) | any)) => any) =>{
     const rows: any = []
     if (data){
         data.me.questionauthorSet.map((author: any)=>{
@@ -199,11 +216,13 @@ export default function CreatePoint() {
     const [oneTimeCheckedNewTheme, changeOneTimeCheckedNewTheme] = useState(false);
     const [oneTimeCheckedNewAuthor, changeOneTimeCheckedNewAuthor] = useState(false);
     const [selectedRowInQuestionDataGrid, changeSelectedRowInQuestionDataGrid] : any = useState()
-    const [selectedRowInThemesDataGrid, changeSelectedRowInThemesDataGrid] : any = useState()
+    const [selectedRowInThemesDataGrid, changeSelectedRowInThemesDataGrid] : any = useState({id: -10})
     const [selectedRowInAuthorsDataGrid, changeSelectedRowInAuthorsDataGrid] : any = useState({id: -10}) //Такого ID не существует, оно нужно, чтобы проверить кликнул ли пользователь по строке
     const [updateAuthorName, changeUpdateAuthorName] = useState('');
-    const memedCreateDataGrid = useMemo(()=>createDataGrid(data, changeSelectedRowInQuestionDataGrid), [data]); //оптимизированное подключение DataGrid
-    const memedCreateThemesDataGrid = useMemo(() => createThemesDataGrid(data, changeSelectedRowInThemesDataGrid), [data])
+    const [updateThemeName, changeUpdateThemeName] = useState('');
+    const [updateThemeDescription, changeUpdateThemeDescription] = useState('');
+    const memedCreateDataGrid = useMemo(() => createDataGrid(data, changeSelectedRowInQuestionDataGrid), [data]); //оптимизированное подключение DataGrid
+    const memedCreateThemesDataGrid = useMemo(() => createThemesDataGrid(data, changeSelectedRowInThemesDataGrid, changeUpdateThemeName, changeUpdateThemeDescription),  [data])
     const memedCreateAuthorsDataGrid = useMemo(() => createAuthorsDataGrid(data, changeSelectedRowInAuthorsDataGrid, changeUpdateAuthorName), [data])
     const [questionText, changeQuestionText] = useState('');
     const [questionUrl, changeQuestionUrl] = useState('');
@@ -250,17 +269,35 @@ export default function CreatePoint() {
             }
         }
     })
+
+    const [updateTheme, {data: update_theme_data}] = useMutation(UPDATE_THEME, {
+        variables:{
+            name: updateThemeName,
+            description: updateThemeDescription,
+            createdBy: 0,
+            id: selectedRowInThemesDataGrid.id
+        },
+        onCompleted: (update_theme_data) =>{
+            if(update_theme_data.updateQuestionThemes.errors.length === 0){
+                changeUpdateThemeName('')
+                changeUpdateThemeDescription('')
+                changeUserWantsToUpdateTheme(false)
+                refetch()
+            }
+        }
+    })
     const [userWantsToCreateANewQuestion, changeUserWantsToCreateANewQuestion] = useState(false);
     const [userWantsToCreateANewTheme, changeUserWantsToCreateANewTheme] = useState(false);
     const [userWantToCreateANewAuthor, changeUserWantToCreateANewAuthor] = useState(false);
     const [userWantsToUpdateAuthor, changeUserWantsToUpdateAuthor] = useState(false);
+    const [userWantsToUpdateTheme, changeUserWantsToUpdateTheme] = useState(false);
     const [open, setOpen] = React.useState(false); // для оповещения о создание вопроса
     const [openThemeNotification, setOpenThemeNotification] = React.useState(false)
     const [openAuthorNotification, setOpenAuthorNotification] = React.useState(false)
     // const [selectedRow, changeSelectedRow] = useState()
     const classes = useStyles();
 
-    console.log(selectedRowInQuestionDataGrid)
+    // console.log(selectedRowInQuestionDataGrid)
     const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
         if (reason === 'clickaway') {
             setOpen(false)
@@ -340,7 +377,7 @@ export default function CreatePoint() {
     }
 
     const createAuthorFunction = () =>{
-        console.log(create_author_data)
+        // console.log(create_author_data)
         if(create_author_data.createQuestionAuthor.errors.length === 0) {
             return<></>
         }
@@ -364,6 +401,17 @@ export default function CreatePoint() {
         )
     }
 
+    const updateThemeFunction = () =>{
+        if (update_theme_data.updateQuestionThemes.errors.length === 0){
+            return<></>
+        }
+        else if(update_theme_data.updateQuestionThemes.errors[0].field === "name"){
+            return <Alert severity='error'>Ошибка в название темы, скорее всего вы его оставили пустым</Alert>
+        }
+        else if(update_theme_data.updateQuestionThemes.errors[0].field === "description"){
+            return <Alert severity='error'>Ошибка в описание темы, скорее всего вы его оставили пустым</Alert>
+        }
+    }
 
     if(mutation_data){
         if(mutation_data.createQuestion.errors.length === 0){
@@ -506,15 +554,26 @@ export default function CreatePoint() {
                     <Col className="col-lg-4 col-12">
                         <div >
                             {memedCreateThemesDataGrid}
-                            <div className= "offset-10">
-                                <Tooltip title="Создать тему" aria-label="add" >
-                                    <Fab color="primary" className={classes.fab}
-                                         onClick={() =>{changeUserWantsToCreateANewTheme( !userWantsToCreateANewTheme)}}>
+                            <div className= "offset-9">
+                                <Row>
+                                    <Col className="col-4">
+                                        <Tooltip title="Создать тему" aria-label="add" >
+                                            <Fab color="primary" className={classes.fab}
+                                                 onClick={() =>{changeUserWantsToCreateANewTheme( !userWantsToCreateANewTheme)}}>
 
-                                        <AddIcon />
-                                    </Fab>
-                                </Tooltip>
-
+                                                <AddIcon />
+                                            </Fab>
+                                        </Tooltip>
+                                    </Col>
+                                    <Col className="col-3 ml-2">
+                                        <Tooltip title="Редактировать тему вопросов" aria-label="add">
+                                            <Fab color="primary" className={classes.fab}
+                                                 onClick={() => {changeUserWantsToUpdateTheme(!userWantsToUpdateTheme)}}>
+                                                <SettingsIcon/>
+                                            </Fab>
+                                        </Tooltip>
+                                    </Col>
+                                </Row>
                             </div>
                             {userWantsToCreateANewTheme? <div className="col-11 ">
                                 <TextField
@@ -524,8 +583,8 @@ export default function CreatePoint() {
                                     fullWidth
                                     rowsMax={4}
                                     // style={{width: "50vw"}}
-                                    value={newThemeName}
-                                    onChange={newThemeNameHandleChange}
+                                    value={updateThemeName}
+                                    onChange={(e) =>{changeUpdateThemeName(e.target.value)}}
                                 />
                                 <TextField
                                     id="standard-multiline-flexible"
@@ -534,19 +593,50 @@ export default function CreatePoint() {
                                     fullWidth
                                     rowsMax={4}
                                     // style={{width: "50vw"}}
-                                    value={newThemeDescription}
-                                    onChange={newThemeDescriptionHandleChange}
+                                    value={updateThemeDescription}
+                                    onChange={(e) =>{changeUpdateThemeDescription(e.target.value)}}
                                 />
                                 <Button variant="outlined" color="primary" className="mt-2   justify-content-end"
                                         onClick={(event) =>{
                                             event.preventDefault();
                                             createTheme()
+                                        }}>
+                                    Создать тему вопроса
+                                </Button>
+                                {create_theme_data? createThemeFunction(): null}
+                            </div>: null}
+                            {userWantsToUpdateTheme && selectedRowInThemesDataGrid.id !== -10? <div>
+                                <TextField
+                                    id="standard-multiline-flexible"
+                                    label="Обновленное название темы вопроса"
+                                    multiline
+                                    fullWidth
+                                    rowsMax={4}
+                                    // style={{width: "50vw"}}
+                                    value={updateThemeName}
+                                    onChange={(e) =>{changeUpdateThemeName(e.target.value)}}
+                                />
+                                <TextField
+                                    id="standard-multiline-flexible"
+                                    label="Описание обновленной темы вопроса"
+                                    multiline
+                                    fullWidth
+                                    rowsMax={4}
+                                    // style={{width: "50vw"}}
+                                    value={updateThemeDescription}
+                                    onChange={(e) =>{changeUpdateThemeDescription(e.target.value)}}
+                                />
+                                <Button variant="outlined" color="primary" className="mt-2   justify-content-end"
+                                        onClick={(event) =>{
+                                            event.preventDefault();
+                                            updateTheme()
                                             // changeOneTimeChecked(true)
                                             changeOneTimeCheckedNewTheme(true)
                                         }}>
-                                    Создать новую тему вопроса
+                                    Обновить  тему вопроса
                                 </Button>
-                                {create_theme_data? createThemeFunction(): null}
+                                {console.log(update_theme_data)}
+                                {update_theme_data? updateThemeFunction(): null}
                             </div>: null}
                         </div>
                     </Col>
@@ -561,7 +651,7 @@ export default function CreatePoint() {
                                                  onClick={() =>{changeUserWantToCreateANewAuthor( !userWantToCreateANewAuthor)}}>
 
                                                 <AddIcon />
-                                                {console.log(data)}
+                                                {/*{console.log(data)}*/}
                                             </Fab>
                                         </Tooltip>
                                     </Col>
@@ -575,7 +665,7 @@ export default function CreatePoint() {
                                     </Col>
                                 </Row>
                             </div>
-                            {console.log(userWantsToUpdateAuthor)}
+                            {/*{console.log(userWantsToUpdateAuthor)}*/}
                             {userWantToCreateANewAuthor? <div className="col-11 ">
                                 <TextField
                                     id="standard-multiline-flexible"
@@ -603,7 +693,7 @@ export default function CreatePoint() {
                             </div>:null}
 
 
-                            {console.log(updateAuthorName)}
+                            {/*{console.log(updateAuthorName)}*/}
                             {userWantsToUpdateAuthor && selectedRowInAuthorsDataGrid.id !== -10 ? <div>
                                 <TextField
                                     id="standard-multiline-flexible"
@@ -624,7 +714,7 @@ export default function CreatePoint() {
                                 </Button>
                             </div>: null}
                             {update_author_data? updateAuthorFunction(): null}
-                            {console.log(update_author_data)}
+                            {/*{console.log(update_author_data)}*/}
 
                         </div>
                     </Col>

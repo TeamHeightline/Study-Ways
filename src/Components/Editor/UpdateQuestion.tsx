@@ -2,7 +2,7 @@ import React, {useMemo, useState} from "react";
 import {gql, useMutation, useQuery} from "@apollo/client";
 import {Col, Row, Spinner} from "react-bootstrap";
 import {Autocomplete} from "@material-ui/lab";
-import {Button, TextField} from "@material-ui/core";
+import {Button, Container, TextField} from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
@@ -50,6 +50,15 @@ query{
   }
 }`
 
+const CREATE_NEW_ANSWER = gql`mutation CREATE_ANSWER($question: ID!){
+  createAnswer(input: {createdBy:0, question: $question, isTrue:true, text: "Шаблон текста вопроса", helpTextv1: "Шаблон подсказки для легкого уровня сложности", helpTextv2: "Шаблон подсказки для стандартного уровня сложности", helpTextv3: "Шаблон подсказки для стандартного усложненного сложности", 
+  videoUrl: "https://vk.com/", checkQueue: 1, hardLevelOfAnswer:"MEDIUM"}){
+    errors{
+      field
+      messages
+    }
+  }
+}`
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 
@@ -223,7 +232,16 @@ export default function UpdateQuestion() {
                 <AnswerNode className="mt-4" key={answerIndex} answer={answer} answerIndex={answerIndex}
                             answersArray={answersArray}/>)}
 
+            {selectedQuestion?
+                <Container>
+                    <Button variant="outlined" color="primary" className="col-12 mt-3 justify-content-center" size="large" >
+                        Создать новый ответ
+                    </Button>
+                </Container>
+                : null }
 
+            <br/>
+            <br/>
         </div>
     )
 }

@@ -23,6 +23,8 @@ import {gql, useMutation} from "@apollo/client";
 import UnLogin from "./Components/Login/UnLogin";
 import Registration from "./Components/Login/Registration";
 import CreatePoint from "./Components/Editor/CreatePoint"
+import UpdateQuestion from "./Components/Editor/UpdateQuestion";
+import MainEditor from "./Components/Editor/MainEditor";
 
 const VERIFY_LOGIN = gql`
     mutation VERIFY_LOGIN($token: String!){
@@ -95,7 +97,8 @@ function App() {
                 <Route exact path="/login" component={Login}/>
                 <Route exact path="/unlogin" component={UnLogin}/>
                 <Route exact path="/registration" component={Registration}/>
-                <Route exact path="/testeditor" component={localStorage.getItem('is_login') === 'true'? CreatePoint: Login}/>
+                <Route exact path="/testeditor" component={localStorage.getItem('is_login') === 'true'? MainEditor: Login}/>
+                <Route exact path="/updatequestion" component={localStorage.getItem('is_login') === 'true'? UpdateQuestion: Login}/>
             </Switch>
         </Router>
     </>

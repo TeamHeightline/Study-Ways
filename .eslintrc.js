@@ -21,6 +21,7 @@ module.exports = {
         "@typescript-eslint"
     ],
     "rules": {
-        "no-unused-expressions": "off"
+        "no-unused-expressions": "off",
+        "@typescript-eslint/no-explicit-any": "off"
     }
 };

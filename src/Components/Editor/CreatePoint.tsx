@@ -408,6 +408,7 @@ export default function CreatePoint() {
         }
     }
 
+
     if (mutation_data) {
         if (mutation_data.createQuestion.errors.length === 0) {
             if (oneTimeChecked) {

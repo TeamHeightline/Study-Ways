@@ -32,16 +32,16 @@ export class MainExperimental extends React.Component{
                 <div className="display-4 text-center ">Эксперементальный раздел</div>
                 <Container className="mt-3">
                     <Row>
-                        <Card style={{ width: '18rem' }}>
-                            <Card.Img variant="top" src={logo}  style={{height: '10rem'}}/>
-                            <Card.Body>
-                                <Card.Title>Создать/Редактировать вопрос</Card.Title>
-                                <Card.Text>
-                                    После нажатия вы будете перенаправлены в редактор вопроса
-                                </Card.Text>
-                                <Button variant="primary" href="https://iot-experemental.herokuapp.com/admin/">Создать/Редактировать вопрос</Button>
-                            </Card.Body>
-                        </Card>
+                        {/*<Card style={{ width: '18rem' }}>*/}
+                        {/*    <Card.Img variant="top" src={logo}  style={{height: '10rem'}}/>*/}
+                        {/*    <Card.Body>*/}
+                        {/*        <Card.Title>Создать/Редактировать вопрос</Card.Title>*/}
+                        {/*        <Card.Text>*/}
+                        {/*            После нажатия вы будете перенаправлены в редактор вопроса*/}
+                        {/*        </Card.Text>*/}
+                        {/*        <Button variant="primary" href="https://iot-experemental.herokuapp.com/admin/">Создать/Редактировать вопрос</Button>*/}
+                        {/*    </Card.Body>*/}
+                        {/*</Card>*/}
                         <Card style={{ width: '18rem' }}>
                             <Card.Img variant="top" src={logo2}  style={{height: '10rem'}}/>
                             <Card.Body>
@@ -52,12 +52,12 @@ export class MainExperimental extends React.Component{
                                 <Button variant="primary" href="/exp/testing" block size="lg" className="mt-5">Пройти вопрос</Button>
                             </Card.Body>
                         </Card>
-                        <Card style={{ width: '18rem' }}>
+                        <Card style={{ width: '18rem' }} className="ml-2">
                             <Card.Img variant="top" src={logo3}  style={{height: '10rem'}}/>
                             <Card.Body>
-                                <Card.Title>Современный редактор вопросов</Card.Title>
+                                <Card.Title>Редактор вопросов</Card.Title>
                                 <Card.Text>
-                                    После нажатия вы будете перенаправлены в современный редактор вопроса
+                                    После нажатия вы будете перенаправлены в  редактор вопросов
                                 </Card.Text>
                                 <Button variant="primary" href="/testeditor"   >Создать/Редактировать вопросы</Button>
                             </Card.Body>

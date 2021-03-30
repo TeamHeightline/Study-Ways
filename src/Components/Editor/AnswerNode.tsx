@@ -1,6 +1,6 @@
 import React, {useMemo, useState} from "react";
 import {Col, Row} from "react-bootstrap";
-import {Collapse, Fade, InputLabel, Select, Switch, TextField} from "@material-ui/core";
+import {Collapse, Fade, InputLabel, Select, Snackbar, Switch, TextField} from "@material-ui/core";
 import {any, number} from "prop-types";
 import FormControl from "@material-ui/core/FormControl";
 import { MenuItem } from "@material-ui/core";
@@ -9,6 +9,20 @@ import Divider from "@material-ui/core/Divider";
 import Paper from "@material-ui/core/Paper";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Typography from "@material-ui/core/Typography";
+import {gql, useMutation} from "@apollo/client";
+import {Alert} from "@material-ui/lab";
+
+const UPDATE_ANSWER = gql`mutation UPDATE_ANSWER($question: ID!, $id: ID, $isTrue: Boolean, $text: String, $helpTextv1: String,
+$helpTextv2: String, $helpTextv3: String, $videoUrl: String, $checkQueue: Int!, $hardLevelOfAnswer: String!){
+  updateAnswer(input: {createdBy: 0, question: $question, isTrue: $isTrue, text: $text, helpTextv1: $helpTextv1, 
+  helpTextv2: $helpTextv2, helpTextv3: $helpTextv3, videoUrl: $videoUrl, checkQueue: $checkQueue, 
+    hardLevelOfAnswer: $hardLevelOfAnswer, id: $id}){
+    errors{
+      field
+      messages
+    }
+  }
+}`
 
 export default function AnswerNode(props: any) {
     const [text, changeText] = useState(props.answer.text)
@@ -18,16 +32,43 @@ export default function AnswerNode(props: any) {
     const [videoUrl, changeVideoUrl] = useState(props.answer.videoUrl)
     const [hardLevelOfAnswer, changeHardLevelOfAnswer] = useState(props.answer.hardLevelOfAnswer)
     const [isTrue, changeIsTrue] = useState(props.answer.isTrue)
+    const [checkQueue, changeCheckQueue] = useState(props.answer.checkQueue)
     const [showPaper, changeShowPaper] = useState(false)
+    const[ showUpdateNotification, changeShowUpdateNotification] = useState(false)
+    const [update_answer, {data: update_answer_data, loading: update_answer_loading}] = useMutation(UPDATE_ANSWER, {
+        variables: {
+            question: props.questionID,
+            id: props.answer.id,
+            isTrue: (isTrue == 'true'), // isTrue - строковая, потому что селект возвращает только строки
+            text: text,
+            helpTextv1: helpTextv1,
+            helpTextv2: helpTextv2,
+            helpTextv3: helpTextv3,
+            videoUrl: videoUrl,
+            checkQueue: checkQueue,
+            hardLevelOfAnswer: hardLevelOfAnswer,
+        },
+        onCompleted: (update_answer_data) =>{
+            if (update_answer_data.updateAnswer.errors.length === 0){
+                console.log("saved")
+                changeShowUpdateNotification(true)
+            }
+        }
+    })
     const changeTextHandle = (e: any) => {
         changeText(e.target.value)
     }
-    console.log(props)
+    const updateAnswerNotificationHandleClose = (event?: React.SyntheticEvent, reason?: string) => {
+        if (reason === 'clickaway') {
+            changeShowUpdateNotification(false)
+        }
+    }
+    console.log(update_answer_data)
     return (
         <div className="mr-2 ml-2 mt-3 ">
             <Paper elevation={3} className="ml-5 mr-5">
                 <br/>
-                <Typography className="ml-5" color="textSecondary">{text}</Typography>
+                <Typography className="ml-5" color="textSecondary">{"ID: " + props.answer.id + " " + text}</Typography>
                  <FormControlLabel
                      control={<Switch checked={showPaper} onChange={() => changeShowPaper(!showPaper)} />}
                      label="Редактировать"
@@ -39,7 +80,7 @@ export default function AnswerNode(props: any) {
                             <Col className="mr-5 ml-5 col-5 " >
                                 <TextField
                                     className="mt-2"
-                                    key={props.answerIndex + "text"}
+                                    key={props.answer.id + "text"}
                                     id="standard-multiline-flexible"
                                     label="Текст вопроса"
                                     multiline
@@ -51,7 +92,7 @@ export default function AnswerNode(props: any) {
                                 />
                                 <TextField
                                     className="mt-2"
-                                    key={props.answerIndex + "helpTextv1"}
+                                    key={props.answer.id + "helpTextv1"}
                                     id="standard-multiline-flexible"
                                     label="Подсказка для легкого уровня сложности"
                                     multiline
@@ -67,7 +108,7 @@ export default function AnswerNode(props: any) {
                             <Col className="col-5 offset-1">
                                 <TextField
                                     className="mt-2"
-                                    key={props.answerIndex + "helpTextv2"}
+                                    key={props.answer.id + "helpTextv2"}
                                     id="standard-multiline-flexible"
                                     label="Подсказка для стандартного уровня сложности"
                                     multiline
@@ -81,7 +122,7 @@ export default function AnswerNode(props: any) {
                                 />
                                 <TextField
                                     className="mt-2"
-                                    key={props.answerIndex + "helpTextv3"}
+                                    key={props.answer.id + "helpTextv3"}
                                     id="standard-multiline-flexible"
                                     label="Подсказка для усложненного уровня"
                                     multiline
@@ -99,7 +140,7 @@ export default function AnswerNode(props: any) {
                         <Row className="">
                             <Col className="mr-5 ml-5 col-5 mt-2">
                                 <TextField
-                                    key={props.answerIndex + "videoUrl"}
+                                    key={props.answer.id + "videoUrl"}
                                     id="standard-multiline-flexible"
                                     label="Ссылка на видео-ответ"
                                     fullWidth
@@ -122,7 +163,7 @@ export default function AnswerNode(props: any) {
                                     >
                                         <MenuItem value="EASY">Очевидный</MenuItem>
                                         <MenuItem value="MEDIUM">Нормальный</MenuItem>
-                                        <MenuItem value="Hard">Каверзный</MenuItem>
+                                        <MenuItem value="HARD">Каверзный</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Col>
@@ -141,13 +182,20 @@ export default function AnswerNode(props: any) {
                                 </FormControl>
                             </Col>
                             <Col className="col-1 offset-1 ml-auto mr-5 mt-3">
-                                <Button variant="contained" color="primary">
+                                <Button variant="contained" color="primary" onClick={() => {update_answer()}}>
                                     Сохранить
                                 </Button>
                             </Col>
+                            {update_answer_data? update_answer_data.updateAnswer.errors.length !== 0?
+                                <Alert severity='error'>Ошибка при сохранение ответа</Alert>: null :null}
                         </Row>
                     </div>
                 </Collapse>
+                <Snackbar open={showUpdateNotification} autoHideDuration={6000} onClose={updateAnswerNotificationHandleClose}>
+                    <Alert onClose={updateAnswerNotificationHandleClose} severity="success">
+                        Содержание ответа обновлено
+                    </Alert>
+                </Snackbar>
                 <br/>
                 <br/>
             </Paper>

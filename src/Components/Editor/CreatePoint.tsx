@@ -448,7 +448,7 @@ export default function CreatePoint() {
     }
 
     return (
-        <div>
+        <div className="mr-4 ml-4">
             <div className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Создать вопрос</div>
             <div className="mr-3 ml-3 mt-3">
                 {memedCreateDataGrid}

@@ -32,16 +32,6 @@ export class MainExperimental extends React.Component{
                 <div className="display-4 text-center ">Создание и редактирование вопросов</div>
                 <Container className="mt-3">
                     <Row>
-                        {/*<Card style={{ width: '18rem' }}>*/}
-                        {/*    <Card.Img variant="top" src={logo}  style={{height: '10rem'}}/>*/}
-                        {/*    <Card.Body>*/}
-                        {/*        <Card.Title>Создать/Редактировать вопрос</Card.Title>*/}
-                        {/*        <Card.Text>*/}
-                        {/*            После нажатия вы будете перенаправлены в редактор вопроса*/}
-                        {/*        </Card.Text>*/}
-                        {/*        <Button variant="primary" href="https://iot-experemental.herokuapp.com/admin/">Создать/Редактировать вопрос</Button>*/}
-                        {/*    </Card.Body>*/}
-                        {/*</Card>*/}
                         <Card style={{ width: '18rem' }}>
                             <Card.Img variant="top" src={logo2}  style={{height: '10rem'}}/>
                             <Card.Body>

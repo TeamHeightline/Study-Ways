@@ -5,7 +5,7 @@ import ReactPlayer from "react-player";
 import {DataGrid} from "@material-ui/data-grid";
 import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
 import {blue} from "@material-ui/core/colors";
-import {ShowErrorsOnScreen} from "../UserTests/ShowErrorsOnScreen"
+import {ShowErrorsOnScreen} from "./ShowErrorsOnScreen"
 import {Typography} from "@material-ui/core";
 
 

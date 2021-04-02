@@ -1,6 +1,6 @@
 import ReactPlayer from "react-player";
 // import * as React from 'react'
-import {Comment} from '../OpenCard/CardComments'
+import {Comment} from './CardComments'
 // import {ActiveCard} from '../InsteadOfDatabase/ActiveCard'
 // import {  Typography, Breadcrumb, Rate  } from 'antd';
 // import {LeftOutlined, RightOutlined, DownOutlined, UpOutlined} from '@ant-design/icons';

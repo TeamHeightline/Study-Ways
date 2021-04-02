@@ -220,17 +220,6 @@ export default function UpdateQuestion() {
         <div>
             <div className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Редактировать вопрос</div>
             <div className="col-8 offset-2 mt-3 ">
-                {/* Нужно кэшировать!!!*/}
-                {/*<Autocomplete*/}
-                {/*    id="combo-box-demo"*/}
-                {/*    fullWidth*/}
-                {/*    options={data.me.questionSet}*/}
-                {/*    getOptionLabel={(option: any) => option.text}*/}
-                {/*    renderInput={(params) => <TextField {...params} label="Вопрос" variant="outlined"/>}*/}
-                {/*    onChange={(e: any, values: any) => {*/}
-                {/*        autocompliteSelectHandleChange(e, values)*/}
-                {/*    }}*/}
-                {/*/>*/}
                 {memedAutocomplite}
             </div>
             <Row className="mt-3">
@@ -303,21 +292,6 @@ export default function UpdateQuestion() {
 
                             </Select>
                         </FormControl>
-                        {/*<Row className="ml-1">*/}
-                        {/*    <Button variant="outlined" color="primary" className="mt-2   justify-content-end ml-5"*/}
-                        {/*            onClick={(event) =>{*/}
-                        {/*                event.preventDefault();*/}
-                        {/*                createQuestion()*/}
-                        {/*                changeOneTimeChecked(true)*/}
-                        {/*            }}>*/}
-                        {/*        Создать вопрос*/}
-                        {/*    </Button>*/}
-                        {/*    {mutation_data? createQuestionFunction(): null}*/}
-                        {/*</Row>*/}
-
-                        {/*{console.log(mutation_data)}*/}
-                        {/*{console.log(mutation_error)}*/}
-
                     </div>
                 </Col>
             </Row>

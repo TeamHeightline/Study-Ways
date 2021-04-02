@@ -369,6 +369,7 @@ export default function CreatePoint() {
         if (create_theme_data.createQuestionThemes.errors.length === 0) {
             return (<></>)
         } else if (create_theme_data.createQuestionThemes.errors[0].field === "name") {
+            console.log(create_theme_data.createQuestionThemes.errors)
             return <Alert severity='error'>Ошибка в название темы</Alert>
         } else if (create_theme_data.createQuestionThemes.errors[0].field === "description") {
             return <Alert severity='error'>Ошибка в описание темы, скорее всего вы его оставили пустым</Alert>
@@ -454,13 +455,11 @@ export default function CreatePoint() {
             <div className="mr-3 ml-3 mt-3">
                 {memedCreateDataGrid}
             </div>
-
             <div className="offset-9 offset-lg-11">
                 <Tooltip title="Создать вопрос" aria-label="add">
                     <Fab color="primary" className={classes.fab}
                          onClick={() => {
                              changeUserWantsToCreateANewQuestion(!userWantsToCreateANewQuestion)
-
                          }}>
                     <AddIcon/>
                     </Fab>
@@ -587,9 +586,9 @@ export default function CreatePoint() {
                                 fullWidth
                                 rowsMax={4}
                                 // style={{width: "50vw"}}
-                                value={updateThemeName}
+                                value={newThemeName}
                                 onChange={(e) => {
-                                    changeUpdateThemeName(e.target.value)
+                                    changeNewThemeName(e.target.value)
                                 }}
                             />
                             <TextField
@@ -599,15 +598,17 @@ export default function CreatePoint() {
                                 fullWidth
                                 rowsMax={4}
                                 // style={{width: "50vw"}}
-                                value={updateThemeDescription}
+                                value={newThemeDescription}
                                 onChange={(e) => {
-                                    changeUpdateThemeDescription(e.target.value)
+                                    changeNewThemeDescription(e.target.value)
                                 }}
                             />
                             <Button variant="outlined" color="primary" className="mt-2   justify-content-end"
                                     onClick={(event) => {
                                         event.preventDefault();
-                                        createTheme()
+                                        changeOneTimeCheckedNewTheme(true);
+                                        refetch();
+                                        createTheme();
                                     }}>
                                 Создать тему вопроса
                             </Button>

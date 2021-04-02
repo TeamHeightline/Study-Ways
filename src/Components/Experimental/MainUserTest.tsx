@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {gql, useQuery} from "@apollo/client";
 import {Button, Paper, TextField} from "@material-ui/core";
-import {Autocomplete} from "@material-ui/lab";
+import {Alert, Autocomplete} from "@material-ui/lab";
 import {Accordion, Card, Container, Form, Spinner} from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -14,6 +14,8 @@ import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import Checkbox from "@material-ui/core/Checkbox";
 import ReactPlayer from "react-player";
+import {any} from "prop-types";
+import AlertTitle from "@material-ui/lab/AlertTitle";
 
 const GET_ALL_QUESTIONS = gql`
 query GET_ALL_QUESTIONS{
@@ -47,9 +49,20 @@ const useStyles = makeStyles({
     table: {
         minWidth: 650,
     },
+    tableRow: {
+        "&$selected, &$selected:hover": {
+            backgroundColor: '#d8f1ff'
+        }
+    },
+    tableCell: {
+        "$selected &": {
+            color: "yellow"
+        }
+    },
+    selected: {}
 });
 
-export default function BeforeTestMenu (){
+export default function MainUserTest (){
      const {data, error, loading, refetch} = useQuery(GET_ALL_QUESTIONS);
      const [helpLevel, changeHelpLevel] = useState("0");
      const [testHadBeenStarted, changeTestHadBeenStarted] = useState(false)
@@ -63,11 +76,17 @@ export default function BeforeTestMenu (){
     const classes = useStyles();
     const [forRefresh, changeForRefresh] = useState(false)
     const [selected, changeSelected] = useState<number[]>([])
+    const [activeWrongQuestionId, changeActiveWrongQuestionId] = useState(-10)
+    const [activeWrongAnswerIndex, changeActiveWrongAnswerIndex] = useState(-10)
+    const [errorArray, changeErrorArray] = useState<any[]>([])
+    const [tryingCalculation, changeTryingCalculation] = useState(0)
+    const [oneTimePusshCheckErrorButton, changeOneTimePusshCheckErrorButton] = useState(false)
     const onChangeHelpLevel = (event: any) => changeHelpLevel(event.target.value);
     const autocompliteSelectHandleChange = (e : any, values: any) =>{
          // console.log(values.id)
          changeSelectedQuestionId(values.id)
     }
+
 
     function selectDeselectRow(id: any){
         // console.log(id)
@@ -85,8 +104,37 @@ export default function BeforeTestMenu (){
         }
     }
 
+    async function checkErrors(){
+        changeOneTimePusshCheckErrorButton(true)
+        changeTryingCalculation(tryingCalculation + 1)
+        await changeErrorArray([])
+        const oErrArr: any[] = []
+        let minCheckQueue = 100
+        get_question_data.questionById.answers.map((question: any, Index: number) =>{
+            if (question.isTrue !== (selected.indexOf(question.id) !== -1)){
+                if((activeWrongQuestionId === -10) || (question.checkQueue === 100)){
+                    changeActiveWrongQuestionId(question.id)
+                    minCheckQueue = question.checkQueue
+                    changeActiveWrongAnswerIndex(Index)
+                }
+                if(question.checkQueue < minCheckQueue){
+                    changeActiveWrongQuestionId(question.id)
+                    minCheckQueue = question.checkQueue
+                    changeActiveWrongAnswerIndex(Index)
+                }
+
+                oErrArr.push(question.id)
+            }
+        })
+        changeErrorArray(oErrArr)
+    }
     const checkurl=(url: any)=>url.replace("http://","").replace("https://","").replace("www.","").replace("youtu.be/","youtube.com?v=").slice(0,14)==="youtube.com?v=";
 
+    if (!data){
+        return (
+            <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
+        )}
+    // {console.log(activeWrongQuestionId)}
     if (!testHadBeenStarted){
          return(
              <div>
@@ -130,14 +178,47 @@ export default function BeforeTestMenu (){
              </div>
          )
      }
-    else if (!get_question_data){
+
+    if (!get_question_data){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
+        )}
+    if (errorArray.length === 0 && oneTimePusshCheckErrorButton){
+        return (
+            <Container className="mt-5">
+                <Alert severity="success">
+                    <AlertTitle>Прздравляем</AlertTitle>
+                    Вы успешно прошли тест, колличество попыток -  <strong>{tryingCalculation}</strong>
+                </Alert>
+            </Container>
         )
-     }
-
+    }
     return (
             <Container className="mt-4">
+
+                {errorArray.length !== 0?<div>
+                    {helpLevel === "0"? <Alert severity="error" variant="outlined">
+                        {get_question_data.questionById.answers[activeWrongAnswerIndex].helpTextv1}</Alert>: null}
+                    {helpLevel === "1"? <Alert severity="error" variant="outlined">
+                        {get_question_data.questionById.answers[activeWrongAnswerIndex].helpTextv2}</Alert>: null}
+                    {helpLevel === "2"? <Alert severity="error" variant="outlined">
+                        {get_question_data.questionById.answers[activeWrongAnswerIndex].helpTextv3}</Alert>: null}
+                    {checkurl(get_question_data.questionById.answers[activeWrongAnswerIndex].videoUrl)?
+                        <Accordion >
+                            <Card>
+                                <Card.Header>
+                                    <Accordion.Toggle as={Button}  eventKey="1">
+                                        Отобразить видео подсказку
+                                    </Accordion.Toggle>
+                                </Card.Header>
+                                <Accordion.Collapse eventKey="1">
+                                    <ReactPlayer url={get_question_data.questionById.answers[activeWrongAnswerIndex].videoUrl}
+                                                 controls autoPlay={true}/>
+                                </Accordion.Collapse>
+                            </Card>
+                        </Accordion>: null }
+                </div> : null}
+
                 {checkurl(get_question_data.questionById.videoUrl)?
                     <Accordion  >
 
@@ -166,13 +247,18 @@ export default function BeforeTestMenu (){
                     <TableBody>
                         {get_question_data.questionById.answers.map((answer: any) => (
                             <TableRow key={answer.id} hover  role="checkbox"
+                                      classes={{ selected: classes.selected }}
+                                      className={classes.tableRow}
                                       onClick = {(e) => {
                                           changeForRefresh(!forRefresh)
                                           selectDeselectRow(answer.id)
                                       }}
-                            selected={selected.indexOf(answer.id) !== -1}>
-                                <TableCell padding="checkbox">
+                            selected={selected.indexOf(answer.id) !== -1
+                            }>
+                                <TableCell padding="checkbox"
+                                           className={classes.tableCell}>
                                     <Checkbox
+                                        color="primary"
                                         checked={selected.indexOf(answer.id) !== -1}
                                         inputProps={{ 'aria-labelledby': answer.id }}
                                     />
@@ -184,9 +270,21 @@ export default function BeforeTestMenu (){
                     </TableBody>
                 </Table>
             </TableContainer>
-                <Button variant="contained" color="primary" onClick={() =>{changeTestHadBeenStarted(false)}}>
-                    Назад
-                </Button>
+                <Row className="mt-3">
+                    <Col className="col-1">
+                        <Button variant="contained" color="primary" onClick={() =>{changeTestHadBeenStarted(false)}}>
+                            Назад
+                        </Button>
+                    </Col>
+                    <Col className="col-1">
+                        <Button variant="contained" color="primary" onClick={() =>{checkErrors()}}>
+                            Проверить
+                        </Button>
+                    </Col>
+                </Row>
+                <br/>
+                <br/>
+                <br/>
             </Container>
         )
 

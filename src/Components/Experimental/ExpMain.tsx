@@ -29,7 +29,7 @@ export class MainExperimental extends React.Component{
                 {/*    backgroundPosition: 'center',*/}
                 {/*    backgroundSize: 'cover',*/}
                 {/*    backgroundRepeat: 'no-repeat'}}>*/}
-                <div className="display-4 text-center ">Эксперементальный раздел</div>
+                <div className="display-4 text-center ">Создание и редактирование вопросов</div>
                 <Container className="mt-3">
                     <Row>
                         {/*<Card style={{ width: '18rem' }}>*/}

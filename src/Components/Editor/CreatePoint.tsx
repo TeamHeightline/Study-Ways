@@ -22,7 +22,7 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import {makeStyles, Theme, createStyles} from '@material-ui/core/styles';
 
-import './styleForAddQuestion.css'
+
 
 
 const GET_THEMES = gql`

@@ -89,18 +89,12 @@ function App() {
             <Navibar/>
             <Switch>
                 <Route exact path="/" component={MainExperimental}/>
-                {/*<Route exact path="/search" component={AdvancedSearch}/>*/}
-                {/*<Route exact path="/lc" component={OpenCard}/>*/}
-                {/*<Route exact path="/test" component={TestForUser}/>*/}
-                <Route exact path='/test/n' component={CreateUserTest}/>
-                <Route exact path="/exp" component={MainExperimental}/>
-                <Route exact path="/exp/testing" component={TakeTheTest}/>
                 <Route exact path="/login" component={Login}/>
                 <Route exact path="/unlogin" component={UnLogin}/>
                 <Route exact path="/registration" component={Registration}/>
                 <Route exact path="/testeditor" component={localStorage.getItem('is_login') === 'true'? MainEditor: Login}/>
                 <Route exact path="/updatequestion" component={localStorage.getItem('is_login') === 'true'? UpdateQuestion: Login}/>
-                <Route exact path="/testmenu" component={MainUserTest}/>
+                <Route exact path="/test" component={MainUserTest}/>
             </Switch>
         </Router>
     </>

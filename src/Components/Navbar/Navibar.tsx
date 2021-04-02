@@ -35,7 +35,7 @@ export default function Navibar(){
                     <Nav className={s.navlink}>
                         <Nav.Link href="/" className="ml-3">Главная</Nav.Link>
                         <Nav.Link href="/testeditor" className="ml-3">Редактировать тест</Nav.Link>
-                        <Nav.Link href="/exp/testing" className="ml-3">Пройти тест</Nav.Link>
+                        <Nav.Link href="/test" className="ml-3">Пройти тест</Nav.Link>
                     </Nav>
 
                     <Form  className="col-lg-6">

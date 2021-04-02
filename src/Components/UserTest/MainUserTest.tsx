@@ -130,6 +130,7 @@ export default function MainUserTest (){
         })
         changeErrorArray(oErrArr)
     }
+    const url = " "
     const checkurl=(url: any)=>url.replace("http://","").replace("https://","").replace("www.","").replace("youtu.be/","youtube.com?v=").slice(0,14)==="youtube.com?v=";
 
     if (!data){

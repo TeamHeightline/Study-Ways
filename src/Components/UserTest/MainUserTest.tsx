@@ -71,7 +71,8 @@ export default function MainUserTest (){
         refetch: refetch_get_question } = useQuery(GET_QUESTION_DATA, { variables:
             {
                 id: selectedQuestionId
-            }}
+            },
+        pollInterval: 5000},
     );
     const classes = useStyles();
     const [forRefresh, changeForRefresh] = useState(false)
@@ -82,9 +83,10 @@ export default function MainUserTest (){
     const [tryingCalculation, changeTryingCalculation] = useState(0)
     const [oneTimePusshCheckErrorButton, changeOneTimePusshCheckErrorButton] = useState(false)
     const onChangeHelpLevel = (event: any) => changeHelpLevel(event.target.value);
-    const autocompliteSelectHandleChange = (e : any, values: any) =>{
+    const autocompliteSelectHandleChange = async (e : any, values: any) =>{
          // console.log(values.id)
-         changeSelectedQuestionId(values.id)
+         await changeSelectedQuestionId(values.id)
+            refetch_get_question()
     }
 
 

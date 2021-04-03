@@ -130,8 +130,9 @@ export default function MainUserTest (){
         })
         changeErrorArray(oErrArr)
     }
-    const url = " "
-    const checkurl=(url: any)=>url.replace("http://","").replace("https://","").replace("www.","").replace("youtu.be/","youtube.com?v=").slice(0,14)==="youtube.com?v=";
+
+    const checkurl=(url: any)=> url? url.replace("http://","").replace("https://","").replace("www.","")
+        .replace("youtu.be/","youtube.com?v=").replace("youtube.com/watch?v=", "youtube.com?v=").slice(0,14)==="youtube.com?v=": false;
 
     if (!data){
         return (
@@ -206,21 +207,24 @@ export default function MainUserTest (){
                         {get_question_data.questionById.answers[activeWrongAnswerIndex].helpTextv2}</Alert>: null}
                     {helpLevel === "2"? <Alert severity="error" variant="outlined">
                         {get_question_data.questionById.answers[activeWrongAnswerIndex].helpTextv3}</Alert>: null}
+
                     {get_question_data.questionById.answers[activeWrongAnswerIndex].videoUrl ?
-                        checkurl(get_question_data.questionById.answers[activeWrongAnswerIndex].videoUrl)?
-                        <Accordion >
-                            <Card>
-                                <Card.Header>
-                                    <Accordion.Toggle as={Button}  eventKey="1">
-                                        Отобразить видео подсказку
-                                    </Accordion.Toggle>
-                                </Card.Header>
-                                <Accordion.Collapse eventKey="1">
-                                    <ReactPlayer url={get_question_data.questionById.answers[activeWrongAnswerIndex].videoUrl}
-                                                 controls autoPlay={true}/>
-                                </Accordion.Collapse>
-                            </Card>
-                        </Accordion>: null : null}
+                        <div>
+                            {checkurl(get_question_data.questionById.answers[activeWrongAnswerIndex].videoUrl)?
+                                <Accordion >
+                                    <Card>
+                                        <Card.Header>
+                                            <Accordion.Toggle as={Button}  eventKey="1">
+                                                Отобразить видео подсказку
+                                            </Accordion.Toggle>
+                                        </Card.Header>
+                                        <Accordion.Collapse eventKey="1">
+                                            <ReactPlayer url={get_question_data.questionById.answers[activeWrongAnswerIndex].videoUrl}
+                                                         controls autoPlay={true}/>
+                                        </Accordion.Collapse>
+                                    </Card>
+                                </Accordion>: null}
+                        </div>: null}
                 </div> : null}
 
                 {get_question_data.questionById.videoUrl ? checkurl(get_question_data.questionById.videoUrl)?

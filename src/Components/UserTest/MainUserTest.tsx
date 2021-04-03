@@ -206,7 +206,8 @@ export default function MainUserTest (){
                         {get_question_data.questionById.answers[activeWrongAnswerIndex].helpTextv2}</Alert>: null}
                     {helpLevel === "2"? <Alert severity="error" variant="outlined">
                         {get_question_data.questionById.answers[activeWrongAnswerIndex].helpTextv3}</Alert>: null}
-                    {checkurl(get_question_data.questionById.answers[activeWrongAnswerIndex].videoUrl)?
+                    {get_question_data.questionById.answers[activeWrongAnswerIndex].videoUrl ?
+                        checkurl(get_question_data.questionById.answers[activeWrongAnswerIndex].videoUrl)?
                         <Accordion >
                             <Card>
                                 <Card.Header>
@@ -219,10 +220,10 @@ export default function MainUserTest (){
                                                  controls autoPlay={true}/>
                                 </Accordion.Collapse>
                             </Card>
-                        </Accordion>: null }
+                        </Accordion>: null : null}
                 </div> : null}
 
-                {checkurl(get_question_data.questionById.videoUrl)?
+                {get_question_data.questionById.videoUrl ? checkurl(get_question_data.questionById.videoUrl)?
                     <Accordion  >
 
                     <Card>
@@ -236,7 +237,7 @@ export default function MainUserTest (){
                             <ReactPlayer url={get_question_data.questionById.videoUrl} controls autoPlay={true}/>
                         </Accordion.Collapse>
                     </Card>
-                </Accordion>: null }
+                </Accordion>: null : null }
 
             <TableContainer component={Paper} className="">
 

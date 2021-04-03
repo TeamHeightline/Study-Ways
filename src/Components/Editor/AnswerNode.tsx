@@ -83,7 +83,7 @@ export default function AnswerNode(props: any) {
                                     className="mt-2"
                                     key={props.answer.id + "text"}
                                     id="standard-multiline-flexible"
-                                    label="Текст вопроса"
+                                    label="Текст ответа"
                                     multiline
                                     fullWidth
                                     rowsMax={7}

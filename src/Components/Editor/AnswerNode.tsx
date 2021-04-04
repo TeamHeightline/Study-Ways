@@ -40,7 +40,7 @@ export default function AnswerNode(props: any) {
         variables: {
             question: props.questionID,
             id: props.answer.id,
-            isTrue: (isTrue == 'true'), // isTrue - строковая, потому что селект возвращает только строки
+            isTrue: (isTrue == 'true' || isTrue === true), // isTrue - строковая, потому что селект возвращает только строки
             text: text,
             helpTextv1: helpTextv1,
             helpTextv2: helpTextv2,

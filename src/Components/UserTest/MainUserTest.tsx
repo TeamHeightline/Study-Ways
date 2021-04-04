@@ -113,7 +113,10 @@ export default function MainUserTest (){
         const oErrArr: any[] = []
         let minCheckQueue = 100
         get_question_data.questionById.answers.map((question: any, Index: number) =>{
-            if (question.isTrue !== (selected.indexOf(question.id) !== -1)){
+            console.log("---------------")
+            console.log(question)
+            console.log(selected.indexOf(question.id) === -1)
+            if ((question.isTrue && (selected.indexOf(question.id) === -1)) || (!question.isTrue && (selected.indexOf(question.id) !== -1))){
                 if((activeWrongQuestionId === -10) || (question.checkQueue === 100)){
                     changeActiveWrongQuestionId(question.id)
                     minCheckQueue = question.checkQueue
@@ -127,6 +130,7 @@ export default function MainUserTest (){
 
                 oErrArr.push(question.id)
             }
+
         })
         changeErrorArray(oErrArr)
     }
@@ -199,7 +203,7 @@ export default function MainUserTest (){
     }
     return (
             <Container className="mt-4">
-
+                <div className="display-4 text-center" style={{fontSize: '35px'}}>{get_question_data?.questionById?.text}</div>
                 {errorArray.length !== 0?<div>
                     {helpLevel === "0"? <Alert severity="error" variant="outlined">
                         {get_question_data.questionById.answers[activeWrongAnswerIndex].helpTextv1}</Alert>: null}

@@ -123,7 +123,7 @@ export default function MainUserTest (){
         let minCheckQueue = 10000000000000000000000
         answers.map((question: any, Index: number) =>{
             if ((question.isTrue && (selected.indexOf(question.id) === -1)) || (!question.isTrue && (selected.indexOf(question.id) !== -1))){
-                console.log(question)
+                // console.log(question)
                 if(question.checkQueue < minCheckQueue){
                     changeActiveWrongQuestionId(question.id)
                     minCheckQueue = question.checkQueue

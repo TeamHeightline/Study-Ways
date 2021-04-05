@@ -84,7 +84,7 @@ export default function AnswerNode(props: any) {
         <div className="mr-2 ml-2 mt-3 ">
             <Paper elevation={3} className="ml-5 mr-5">
                 <br/>
-                <Typography className="ml-5" color="textSecondary">{"ID: " + props.answer.id + " " + text}</Typography>
+                <Typography className="ml-5" color="inherit">{"ID: " + props.answer.id + " " + text}</Typography>
                  <FormControlLabel
                      control={<Switch checked={showPaper} onChange={() => changeShowPaper(!showPaper)} />}
                      label="Редактировать"

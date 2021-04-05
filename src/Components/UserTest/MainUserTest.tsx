@@ -111,13 +111,13 @@ export default function MainUserTest (){
         changeTryingCalculation(tryingCalculation + 1)
         await changeErrorArray([])
         const oErrArr: any[] = []
-        let minCheckQueue = 100
+        let minCheckQueue = 10000000000000000000000
         get_question_data.questionById.answers.map((question: any, Index: number) =>{
             console.log("---------------")
             console.log(question)
             console.log(selected.indexOf(question.id) === -1)
             if ((question.isTrue && (selected.indexOf(question.id) === -1)) || (!question.isTrue && (selected.indexOf(question.id) !== -1))){
-                if((activeWrongQuestionId === -10) || (question.checkQueue === 100)){
+                if((activeWrongQuestionId === -10) || (question.checkQueue === 10000000000000000000000)){
                     changeActiveWrongQuestionId(question.id)
                     minCheckQueue = question.checkQueue
                     changeActiveWrongAnswerIndex(Index)

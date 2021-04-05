@@ -117,11 +117,14 @@ export default function MainUserTest (){
             console.log(question)
             console.log(selected.indexOf(question.id) === -1)
             if ((question.isTrue && (selected.indexOf(question.id) === -1)) || (!question.isTrue && (selected.indexOf(question.id) !== -1))){
-                if((activeWrongQuestionId === -10) || (question.checkQueue === 10000000000000000000000)){
-                    changeActiveWrongQuestionId(question.id)
-                    minCheckQueue = question.checkQueue
-                    changeActiveWrongAnswerIndex(Index)
-                }
+                // if((activeWrongQuestionId === -10) || (question.checkQueue === 10000000000000000000000)){
+                //     changeActiveWrongQuestionId(question.id)
+                //     minCheckQueue = question.checkQueue
+                //     changeActiveWrongAnswerIndex(Index)
+                // }
+                // if (question.checkQueue === 10000000000000000000000){
+                //     checkErrors()
+                // }
                 if(question.checkQueue < minCheckQueue){
                     changeActiveWrongQuestionId(question.id)
                     minCheckQueue = question.checkQueue

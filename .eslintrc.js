@@ -21,7 +21,9 @@ module.exports = {
         "@typescript-eslint"
     ],
     "rules": {
+        "@typescript-eslint/ban-ts-ignore": "off",
         "no-unused-expressions": "off",
-        "@typescript-eslint/no-explicit-any": "off"
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-explicit-any": "off",
     }
 };

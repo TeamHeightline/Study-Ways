@@ -1,5 +1,5 @@
 import React, {useMemo, useState} from "react";
-import {Col, Row} from "react-bootstrap";
+import {Col, Form, Row} from "react-bootstrap";
 import {Collapse, Fade, InputLabel, Select, Snackbar, Switch, TextField} from "@material-ui/core";
 import {any, number} from "prop-types";
 import FormControl from "@material-ui/core/FormControl";
@@ -12,6 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import {gql, useMutation} from "@apollo/client";
 import {Alert} from "@material-ui/lab";
 import {assertDirective} from "graphql";
+import Input from '@material-ui/core/Input';
 
 const UPDATE_ANSWER = gql`mutation UPDATE_ANSWER($question: ID!, $id: ID, $isTrue: Boolean, $text: String, $helpTextv1: String,
 $helpTextv2: String, $helpTextv3: String, $videoUrl: String, $checkQueue: Int!, $hardLevelOfAnswer: String!){
@@ -25,6 +26,9 @@ $helpTextv2: String, $helpTextv3: String, $videoUrl: String, $checkQueue: Int!, 
   }
 }`
 
+
+
+
 export default function AnswerNode(props: any) {
     const [text, changeText] = useState(props.answer.text)
     const [helpTextv1, changeHelpTextv1] = useState(props.answer.helpTextv1)
@@ -36,6 +40,14 @@ export default function AnswerNode(props: any) {
     const [checkQueue, changeCheckQueue] = useState(props.answer.checkQueue)
     const [showPaper, changeShowPaper] = useState(false)
     const[ showUpdateNotification, changeShowUpdateNotification] = useState(false)
+
+    const queueErrorProtect = () => {
+        if (checkQueue.length === 0) {
+            return 10
+        } else {
+            return checkQueue
+        }
+    };
     const [update_answer, {data: update_answer_data, loading: update_answer_loading}] = useMutation(UPDATE_ANSWER, {
         variables: {
             question: props.questionID,
@@ -46,7 +58,7 @@ export default function AnswerNode(props: any) {
             helpTextv2: helpTextv2,
             helpTextv3: helpTextv3,
             videoUrl: videoUrl,
-            checkQueue: checkQueue,
+            checkQueue: queueErrorProtect(),
             hardLevelOfAnswer: hardLevelOfAnswer,
         },
         onCompleted: (update_answer_data) =>{
@@ -54,7 +66,10 @@ export default function AnswerNode(props: any) {
                 console.log("saved")
                 changeShowUpdateNotification(true)
             }
-        }
+        },
+        onError: error => {console.log(error)
+        console.log(checkQueue)}
+
     })
     const changeTextHandle = (e: any) => {
         changeText(e.target.value)
@@ -180,6 +195,22 @@ export default function AnswerNode(props: any) {
                                         <MenuItem value="true">Верный</MenuItem>
                                         <MenuItem value="false">Неверный</MenuItem>
                                     </Select>
+                                </FormControl>
+                            </Col>
+                            <Col className="col-1 offset-1  mr-5 mt-3">
+                                <FormControl>
+                                    <InputLabel htmlFor="formatted-text-mask-input">Очередь проверки</InputLabel>
+                                    <Input
+
+                                        value={checkQueue}
+                                        onChange={(e) => {
+                                            const valueWithOnlyNumber = e.target.value.replace(/[^\d]/g, '')
+                                            changeCheckQueue(valueWithOnlyNumber)
+                                        }}
+                                        name="textmask"
+                                        id="formatted-text-mask-input"
+
+                                    />
                                 </FormControl>
                             </Col>
                             <Col className="col-1 offset-1 ml-auto mr-5 mt-3">

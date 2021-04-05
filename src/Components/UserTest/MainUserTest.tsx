@@ -16,7 +16,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import ReactPlayer from "react-player";
 import {any} from "prop-types";
 import AlertTitle from "@material-ui/lab/AlertTitle";
-
+import * as _ from "lodash"
 const GET_ALL_QUESTIONS = gql`
 query GET_ALL_QUESTIONS{
   question{
@@ -67,12 +67,21 @@ export default function MainUserTest (){
      const [helpLevel, changeHelpLevel] = useState("0");
      const [testHadBeenStarted, changeTestHadBeenStarted] = useState(false)
     const [selectedQuestionId, changeSelectedQuestionId] = useState(-1)
+    const [answers, setAnswers] = useState([{}])
+    const [kolShowAnswers, setKolShowAnswers] = useState(8)
     const { data: get_question_data, loading: get_question_loading, error: get_question_error,
-        refetch: refetch_get_question } = useQuery(GET_QUESTION_DATA, { variables:
-            {
+        refetch: refetch_get_question } = useQuery(GET_QUESTION_DATA, {
+            variables: {
                 id: selectedQuestionId
             },
-        pollInterval: 5000},
+        onCompleted: get_question_data =>{
+            let ans = get_question_data.questionById.answers;
+            ans = _.shuffle(ans);
+            const trueAns = _.shuffle(_.filter(ans, {isTrue:true}));
+            const wrongAns = _.filter(ans, {isTrue:false}).slice(0, kolShowAnswers - trueAns.length);
+            const trueAndWrongAnswer =  [...trueAns, ...wrongAns]
+            setAnswers(_.shuffle(trueAndWrongAnswer))
+         }}
     );
     const classes = useStyles();
     const [forRefresh, changeForRefresh] = useState(false)
@@ -112,10 +121,7 @@ export default function MainUserTest (){
         await changeErrorArray([])
         const oErrArr: any[] = []
         let minCheckQueue = 10000000000000000000000
-        get_question_data.questionById.answers.map((question: any, Index: number) =>{
-            console.log("---------------")
-            console.log(question)
-            console.log(selected.indexOf(question.id) === -1)
+        answers.map((question: any, Index: number) =>{
             if ((question.isTrue && (selected.indexOf(question.id) === -1)) || (!question.isTrue && (selected.indexOf(question.id) !== -1))){
                 // if((activeWrongQuestionId === -10) || (question.checkQueue === 10000000000000000000000)){
                 //     changeActiveWrongQuestionId(question.id)
@@ -260,7 +266,7 @@ export default function MainUserTest (){
                     {/*    </TableRow>*/}
                     {/*</TableHead>*/}
                     <TableBody>
-                        {get_question_data.questionById.answers.map((answer: any) => (
+                        {answers.map((answer: any) => (
                             <TableRow key={answer.id} hover  role="checkbox"
                                       classes={{ selected: classes.selected }}
                                       className={classes.tableRow}

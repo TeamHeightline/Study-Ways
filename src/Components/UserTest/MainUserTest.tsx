@@ -67,7 +67,7 @@ export default function MainUserTest (){
      const [helpLevel, changeHelpLevel] = useState("0");
      const [testHadBeenStarted, changeTestHadBeenStarted] = useState(false)
     const [selectedQuestionId, changeSelectedQuestionId] = useState(-1)
-    const [answers, setAnswers] = useState([{}])
+    const [answers, setAnswers] = useState<any>([{}])
     const [kolShowAnswers, setKolShowAnswers] = useState(8)
     const { data: get_question_data, loading: get_question_loading, error: get_question_error,
         refetch: refetch_get_question } = useQuery(GET_QUESTION_DATA, {
@@ -123,20 +123,12 @@ export default function MainUserTest (){
         let minCheckQueue = 10000000000000000000000
         answers.map((question: any, Index: number) =>{
             if ((question.isTrue && (selected.indexOf(question.id) === -1)) || (!question.isTrue && (selected.indexOf(question.id) !== -1))){
-                // if((activeWrongQuestionId === -10) || (question.checkQueue === 10000000000000000000000)){
-                //     changeActiveWrongQuestionId(question.id)
-                //     minCheckQueue = question.checkQueue
-                //     changeActiveWrongAnswerIndex(Index)
-                // }
-                // if (question.checkQueue === 10000000000000000000000){
-                //     checkErrors()
-                // }
+                console.log(question)
                 if(question.checkQueue < minCheckQueue){
                     changeActiveWrongQuestionId(question.id)
                     minCheckQueue = question.checkQueue
                     changeActiveWrongAnswerIndex(Index)
                 }
-
                 oErrArr.push(question.id)
             }
 
@@ -215,15 +207,15 @@ export default function MainUserTest (){
                 <div className="display-4 text-center" style={{fontSize: '35px'}}>{get_question_data?.questionById?.text}</div>
                 {errorArray.length !== 0?<div>
                     {helpLevel === "0"? <Alert severity="error" variant="outlined">
-                        {get_question_data.questionById.answers[activeWrongAnswerIndex].helpTextv1}</Alert>: null}
+                        {answers[activeWrongAnswerIndex].helpTextv1}</Alert>: null}
                     {helpLevel === "1"? <Alert severity="error" variant="outlined">
-                        {get_question_data.questionById.answers[activeWrongAnswerIndex].helpTextv2}</Alert>: null}
+                        {answers[activeWrongAnswerIndex].helpTextv2}</Alert>: null}
                     {helpLevel === "2"? <Alert severity="error" variant="outlined">
-                        {get_question_data.questionById.answers[activeWrongAnswerIndex].helpTextv3}</Alert>: null}
+                        {answers[activeWrongAnswerIndex].helpTextv3}</Alert>: null}
 
-                    {get_question_data.questionById.answers[activeWrongAnswerIndex].videoUrl ?
+                    {answers[activeWrongAnswerIndex].videoUrl ?
                         <div>
-                            {checkurl(get_question_data.questionById.answers[activeWrongAnswerIndex].videoUrl)?
+                            {checkurl(answers[activeWrongAnswerIndex].videoUrl)?
                                 <Accordion >
                                     <Card>
                                         <Card.Header>
@@ -232,7 +224,7 @@ export default function MainUserTest (){
                                             </Accordion.Toggle>
                                         </Card.Header>
                                         <Accordion.Collapse eventKey="1">
-                                            <ReactPlayer url={get_question_data.questionById.answers[activeWrongAnswerIndex].videoUrl}
+                                            <ReactPlayer url={answers[activeWrongAnswerIndex].videoUrl}
                                                          controls autoPlay={true}/>
                                         </Accordion.Collapse>
                                     </Card>

@@ -13,6 +13,8 @@ import Checkbox from "@material-ui/core/Checkbox";
 import ReactPlayer from "react-player";
 import AlertTitle from "@material-ui/lab/AlertTitle";
 import * as _ from "lodash"
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 const GET_QUESTION_DATA = gql`
       query GET_QUESTION_DATA($id: ID!) {
             questionById(id: $id){
@@ -121,7 +123,6 @@ export default function QuestionById(props: any) {
     const checkurl = (url: any) => url ? url.replace("http://", "").replace("https://", "").replace("www.", "")
         .replace("youtu.be/", "youtube.com?v=").replace("youtube.com/watch?v=", "youtube.com?v=").slice(0, 14) === "youtube.com?v=" : false;
 
-    console.log(get_question_data)
     if (!get_question_data) {
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
@@ -211,11 +212,26 @@ export default function QuestionById(props: any) {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Row className="mt-2">
+                <Col className="col-3">
+                    <Form.Control
+                        // size="lg"
+                        as="select"
+                        value={helpLevel}
+                        onChange={onChangeHelpLevel}>
+                        <option value={"0"}>Легкий</option>
+                        <option value={"1"}>Средний</option>
+                        <option value={"2"}>Сложный</option>
+                    </Form.Control>
+                </Col>
+                <Col>
             <Button variant="contained" color="primary" onClick={() => {
                 checkErrors()
             }}>
                 Проверить
             </Button>
+                </Col>
+            </Row>
             <br/>
             <br/>
             <br/>

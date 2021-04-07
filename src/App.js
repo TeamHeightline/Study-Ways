@@ -26,6 +26,7 @@ import CreatePoint from "./Components/Editor/CreatePoint"
 import UpdateQuestion from "./Components/Editor/UpdateQuestion";
 import MainEditor from "./Components/Editor/MainEditor";
 import MainUserTest from "./Components/UserTest/MainUserTest";
+import QuestionByID from "./Components/UserTest/QuestionByID";
 
 
 const VERIFY_LOGIN = gql`
@@ -96,6 +97,7 @@ function App() {
                 <Route exact path="/testeditor" component={localStorage.getItem('is_login') === 'true'? MainEditor: Login}/>
                 <Route exact path="/updatequestion" component={localStorage.getItem('is_login') === 'true'? UpdateQuestion: Login}/>
                 <Route exact path="/test" component={MainUserTest}/>
+                <Route  path="/test/question/:id" component={QuestionByID}/>
             </Switch>
         </Router>
     </>

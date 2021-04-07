@@ -25,6 +25,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import Grow from "@material-ui/core/Grow";
+import {useParams} from "react-router";
+
 const GET_ALL_QUESTIONS = gql`
 query GET_ALL_QUESTIONS{
   question{
@@ -77,19 +79,20 @@ const useStyles = makeStyles({
     selected: {}
 });
 
-export default  function MainUserTest() {
+export default function MainUserTest(props: any) {
     const [authorsForSearching, setAuthorsForSearching] = useState<any>([{}])
     const [themesForSearching, setThemesForSearching] = useState<any>([{}])
     const [selectedAuthor, setSelectedAuthor] = useState<any>()
     const [selectedTheme, setSelectedTheme] = useState<any>()
     const [questionsForSelect, setQuestionsForSelect] = useState<any>([{}])
-    function returnThemesOfQuestionsWhereAuthorSameThatSelected(data: any, idOfAuthor: any){
+
+    function returnThemesOfQuestionsWhereAuthorSameThatSelected(data: any, idOfAuthor: any) {
         const themes: any = []
-        const questionsAfterSelectedAuthor: any =[]
+        const questionsAfterSelectedAuthor: any = []
         data.question.map((sameQuestion) => {
-            sameQuestion.author.map((sameAuthor) =>{
-                if(sameAuthor.id === idOfAuthor){
-                    if(!_.some(questionsAfterSelectedAuthor, sameQuestion)){
+            sameQuestion.author.map((sameAuthor) => {
+                if (sameAuthor.id === idOfAuthor) {
+                    if (!_.some(questionsAfterSelectedAuthor, sameQuestion)) {
                         questionsAfterSelectedAuthor.push(sameQuestion)
                     }
                 }
@@ -103,24 +106,25 @@ export default  function MainUserTest() {
             })
         })
         setSelectedTheme(themes[0].id)
-        return(themes)
+        return (themes)
     }
-    function setQuestionForSelectAfterSelectedTheme(justSelectedTheme: any = selectedTheme, justSelectedAuthor: any = selectedAuthor){
-        const questionsAfterSelectedAuthor: any =[]
+
+    function setQuestionForSelectAfterSelectedTheme(justSelectedTheme: any = selectedTheme, justSelectedAuthor: any = selectedAuthor) {
+        const questionsAfterSelectedAuthor: any = []
         data.question.map((sameQuestion) => {
-            sameQuestion.author.map((sameAuthor) =>{
-                if(sameAuthor.id === justSelectedAuthor){
-                    if(!_.some(questionsAfterSelectedAuthor, sameQuestion)){
+            sameQuestion.author.map((sameAuthor) => {
+                if (sameAuthor.id === justSelectedAuthor) {
+                    if (!_.some(questionsAfterSelectedAuthor, sameQuestion)) {
                         questionsAfterSelectedAuthor.push(sameQuestion)
                     }
                 }
             })
         })
-        const questionsAfterSelectedTheme: any =[]
+        const questionsAfterSelectedTheme: any = []
         questionsAfterSelectedAuthor.map((sameQuestion) => {
-            sameQuestion.theme.map((sameTheme) =>{
-                if(sameTheme.id === justSelectedTheme){
-                    if(!_.some(questionsAfterSelectedTheme, sameQuestion)){
+            sameQuestion.theme.map((sameTheme) => {
+                if (sameTheme.id === justSelectedTheme) {
+                    if (!_.some(questionsAfterSelectedTheme, sameQuestion)) {
                         questionsAfterSelectedTheme.push(sameQuestion)
                     }
                 }
@@ -129,6 +133,7 @@ export default  function MainUserTest() {
         console.log(questionsAfterSelectedTheme)
         setQuestionsForSelect(questionsAfterSelectedTheme)
     }
+
     const {data, error, loading, refetch} = useQuery(GET_ALL_QUESTIONS, {
         onCompleted: data => {
             const authors: any = []

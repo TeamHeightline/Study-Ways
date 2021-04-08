@@ -21,6 +21,7 @@ import Fab from '@material-ui/core/Fab';
 
 import AddIcon from '@material-ui/icons/Add';
 import {makeStyles, Theme, createStyles} from '@material-ui/core/styles';
+import AlertTitle from "@material-ui/lab/AlertTitle";
 
 
 
@@ -212,7 +213,7 @@ const createAuthorsDataGrid = (data: any, changeSelectedRowInAuthorsDataGrid: (v
 export default function CreatePoint() {
 
     const {data, error, loading, refetch} = useQuery(GET_THEMES, {
-        pollInterval: 2000
+        pollInterval: 5000
     });
 
     const [oneTimeChecked, changeOneTimeChecked] = useState(false);// для проверки на ошибки при сохранение вопроса
@@ -398,7 +399,6 @@ export default function CreatePoint() {
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
-
     const updateThemeFunction = () => {
         if (update_theme_data.updateQuestionThemes.errors.length === 0) {
             return <></>

@@ -11,18 +11,11 @@ import  {
     Route
 } from "react-router-dom";
 
-// import {MainPage} from './Pages/mainPage.tsx';
-// import {AdvancedSearch} from './Pages/advancedSearch.tsx';
-// import {OpenCard} from './Pages/OpenCard.tsx';
-// import {TestForUser} from './Pages/TestForUser';
-import {CreateUserTest} from './Components/OLD_NOT_USED/CreateUserTest';
 import {MainExperimental} from "./Components/Menu/MainMenu";
-import {TakeTheTest} from "./Components/OLD_NOT_USED/TakeTheTest"
 import Login from "./Components/Login/Login"
 import {gql, useMutation} from "@apollo/client";
 import UnLogin from "./Components/Login/UnLogin";
 import Registration from "./Components/Login/Registration";
-import CreatePoint from "./Components/Editor/CreatePoint"
 import UpdateQuestion from "./Components/Editor/UpdateQuestion";
 import MainEditor from "./Components/Editor/MainEditor";
 import MainUserTest from "./Components/UserTest/MainUserTest";
@@ -95,7 +88,7 @@ function App() {
                 <Route exact path="/unlogin" component={UnLogin}/>
                 <Route exact path="/registration" component={Registration}/>
                 <Route exact path="/testeditor" component={localStorage.getItem('is_login') === 'true'? MainEditor: Login}/>
-                <Route exact path="/updatequestion" component={localStorage.getItem('is_login') === 'true'? UpdateQuestion: Login}/>
+                {/*<Route exact path="/updatequestion" component={localStorage.getItem('is_login') === 'true'? UpdateQuestion: Login}/>*/}
                 <Route exact path="/test" component={MainUserTest}/>
                 <Route  path="/test/question/:id" component={QuestionByID}/>
             </Switch>

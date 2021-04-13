@@ -1,8 +1,8 @@
-import React, {useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {gql, useMutation, useQuery} from "@apollo/client";
 import {Col, Row, Spinner} from "react-bootstrap";
 import {Alert, Autocomplete} from "@material-ui/lab";
-import {Button, Container, Snackbar, TextField} from "@material-ui/core";
+import {Button, Container, Snackbar, TextField, Typography} from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
@@ -135,11 +135,21 @@ export default function UpdateQuestion() {
         changeQuestionText(values.text)
         changeQuestionUrl(values.videoUrl)
         changeAnswersArray(values.answers)
+
+        async function getData(){
+            const img_data = await fetch("https://iot-experemental.herokuapp.com/files/question?id="+ values.id)
+            const img_data_json = await img_data.json()
+            if (img_data_json[0]){
+                setQuestionImageName(img_data_json[0].image.slice(70).split('?')[0])
+            }
+        }
+        getData();
     }
 
 
 
     const [questionText, changeQuestionText] = useState('');
+    const [questionImage, changeQuestionImage] = useState();
     const [questionUrl, changeQuestionUrl] = useState('');
     const [ThemesId, changeThemesId] = useState([]);
     const [authorId, changeAuthorId]: any = useState([]);
@@ -149,6 +159,40 @@ export default function UpdateQuestion() {
     const [questionIndex, changeQuestionIndex]: any = useState()
     const [openQuestionUpdateNotification, changeOpenQuestionUpdateNotification] = useState(false)
     const memedAutocomplite = useMemo(() => AutocompliteForNotUpdate(data, autocompliteSelectHandleChange), [data])
+    const [selectedQuestionImage, setSelectedQuestionImage] = useState<any>();
+    const [isSelectedQuestionImage, setIsSelectedQuestionImage] = useState(false);
+    const [questionImageName, setQuestionImageName] = useState('');
+
+
+    const changeHandlerForQuestionImage = async (event) => {
+        if (event.target.files[0]){
+            await setSelectedQuestionImage(event.target.files[0]);
+            await setIsSelectedQuestionImage(true);
+            handleSubmissionQuestionImage(event.target.files[0])
+        }
+    };
+
+    const handleSubmissionQuestionImage = (img: any) => {
+        console.log("---")
+        const formData = new FormData();
+
+        formData.append('image', img);
+        formData.append('owner_question', questionId);
+        fetch(
+            'https://iot-experemental.herokuapp.com/files/question?update_id='+ questionId,
+            {
+                method: 'POST',
+                body: formData,
+            }
+        )
+            .then((response) => response.json())
+            .then((result) => {
+                console.log('Success:', result);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    };
 
     const [create_answer, {data: create_answer_data, loading: create_answer_loading}] = useMutation(CREATE_NEW_ANSWER, {
         variables: {
@@ -301,12 +345,35 @@ export default function UpdateQuestion() {
                         Сохранить
                     </Button>
                 </Col>
+                <Col className="col-2">
+                    {selectedQuestion? <div>
+                            <Button
+                                color="primary"
+                                variant="outlined"
+                                component="label"
+                            >
+                                <input type="file"  hidden name="file" onChange={changeHandlerForQuestionImage} />
+                                Изображение для вопроса
+                            </Button>
+                            {isSelectedQuestionImage ? (
+                                <div>
+                                     {selectedQuestionImage?.name}
+                                </div>
+                            ) :null}
+                            {questionImageName && !isSelectedQuestionImage? <div>{questionImageName}</div>: null}
+                        </div>
+                    :null}
+                </Col>
                 {update_question_loading? <Col className="col-1">
                     <Spinner animation="border" variant="success"/>
                 </Col> : null }
                 {update_question_data? update_question_data.updateQuestion.errors.length !== 0?
                     <Alert severity="error">Ошибка в одном или нескольких полях</Alert>: null : null}
-
+                {questionId? <Col className="text-center mt-2 col-6">
+                    <Typography variant="body2" color="textSecondary" component="p">
+                    Ссылка на прохождение вопроса - <strong> https://iot-frontend-show-version.herokuapp.com/test/question/{questionId} </strong>
+                    </Typography>
+                    </Col>: null}
             </Row>
             <div className="display-4 text-center mt-3 col-12" style={{fontSize: '33px'}}>Редактировать ответы</div>
             {/* Нужно кэшировать!!!*/}

@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {Col, Form, Row} from "react-bootstrap";
 import {Collapse, Fade, InputLabel, Select, Snackbar, Switch, TextField} from "@material-ui/core";
 import {any, number} from "prop-types";
@@ -40,6 +40,37 @@ export default function AnswerNode(props: any) {
     const [checkQueue, changeCheckQueue] = useState(props.answer.checkQueue)
     const [showPaper, changeShowPaper] = useState(false)
     const[ showUpdateNotification, changeShowUpdateNotification] = useState(false)
+    const [answerImageName, setAnswerImageName] = useState('')
+    const [selectedAnswerImage, setSelectedAnswerImage] = useState<any>();
+    const [isSelectedAnswerImage, setIsSelectedAnswerImage] = useState(false);
+    const changeHandlerForAnswerImage = async (event) => {
+        if (event.target.files[0]){
+            await setSelectedAnswerImage(event.target.files[0]);
+            await setIsSelectedAnswerImage(true);
+            handleSubmissionAnswerImage(event.target.files[0])
+        }
+    };
+
+    const handleSubmissionAnswerImage = (img: any) => {
+        const formData = new FormData();
+
+        formData.append('image', img);
+        formData.append('owner_answer', props.answer.id);
+        fetch(
+            'https://iot-experemental.herokuapp.com/files/answer?update_id=' + props.answer.id,
+            {
+                method: 'POST',
+                body: formData,
+            }
+        )
+            .then((response) => response.json())
+            .then((result) => {
+                console.log('Success:', result);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    };
 
     const queueErrorProtect = () => {
         if (checkQueue.length === 0) {
@@ -68,9 +99,19 @@ export default function AnswerNode(props: any) {
             }
         },
         onError: error => {console.log(error)
-        console.log(checkQueue)}
-
+        // console.log(checkQueue)
+            }
     })
+    useEffect(() =>{
+        async function getData(){
+            const img_data = await fetch("https://iot-experemental.herokuapp.com/files/answer?id="+ props.answer.id)
+            const img_data_json = await img_data.json()
+            if (img_data_json[0]){
+                setAnswerImageName(img_data_json[0].image.slice(68).split('?')[0])
+            }
+        }
+        getData();
+    }, [])
     const changeTextHandle = (e: any) => {
         changeText(e.target.value)
     }
@@ -79,7 +120,6 @@ export default function AnswerNode(props: any) {
             changeShowUpdateNotification(false)
         }
     }
-    console.log(update_answer_data)
     return (
         <div className="mr-2 ml-2 mt-3 ">
             <Paper elevation={3} className="ml-5 mr-5">
@@ -212,6 +252,23 @@ export default function AnswerNode(props: any) {
 
                                     />
                                 </FormControl>
+                            </Col>
+                            <Col className="mr-5 ml-5 col-5 mt-2">
+                                <Button
+                                    color="primary"
+                                    variant="outlined"
+                                    component="label"
+                                >
+                                    <input type="file"  hidden name="file" onChange={changeHandlerForAnswerImage} />
+                                    Изображение для ответа
+                                </Button>
+                                {isSelectedAnswerImage ? (
+                                    <div>
+
+                                         {selectedAnswerImage?.name}
+                                    </div>
+                                ) : null}
+                                {answerImageName && !isSelectedAnswerImage? <div>{answerImageName}</div>: null}
                             </Col>
                             <Col className="col-1 offset-1 ml-auto mr-5 mt-3">
                                 <Button variant="contained" color="primary" onClick={() => {update_answer()}}>

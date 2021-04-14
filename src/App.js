@@ -21,7 +21,7 @@ import MainEditor from "./Components/Editor/MainEditor";
 import MainUserTest from "./Components/UserTest/MainUserTest";
 import QuestionByID from "./Components/UserTest/QuestionByID";
 import CKEDITOR from "./Components/Editor/CKEditor";
-import ImageTest from "./Components/UserTest/ImageTest";
+import ImageQuestion from "./Components/UserTest/ImageQuestion";
 
 
 const VERIFY_LOGIN = gql`
@@ -94,7 +94,7 @@ function App() {
                 <Route exact path="/test" component={MainUserTest}/>
                 <Route exact path="/ckeditor" component={CKEDITOR}/>
                 <Route  path="/test/question/:id" component={QuestionByID}/>
-                <Route exact path="/imagetest" component={ImageTest}/>
+                <Route exact path="/imagetest" component={ImageQuestion}/>
             </Switch>
         </Router>
     </>

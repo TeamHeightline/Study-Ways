@@ -135,6 +135,7 @@ export default function UpdateQuestion() {
         changeQuestionText(values.text)
         changeQuestionUrl(values.videoUrl)
         changeAnswersArray(values.answers)
+        setQuestionImageName('')
 
         async function getData(){
             const img_data = await fetch("https://iot-experemental.herokuapp.com/files/question?id="+ values.id)

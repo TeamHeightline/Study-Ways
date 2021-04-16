@@ -1,6 +1,6 @@
 // https://image-store-iot-experemental.s3.amazonaws.com/question-images/2021/04/11/img020.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA5QESEDVQVQN6BL4P%2F20210411%2Feu-north-1%2Fs3%2Faws4_request&X-Amz-Date=20210411T134742Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=25b7888a08c977a1b910e1feced0f9996ee5863d7b20686a4106c02580e4a777
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Theme, createStyles, makeStyles, useTheme} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -17,6 +17,7 @@ import Row from "react-bootstrap/Row";
 import {gql, useQuery} from "@apollo/client";
 import * as _ from "lodash"
 import ImageAnswerNode from "./ImageAnswerNode";
+import axios from "axios";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -81,6 +82,9 @@ export default function ImageQuestion() {
     const [questionId, setQuestionId] = useState(69)
     const [answers, setAnswers] = useState<any>([{}])
     const [kolShowAnswers, setKolShowAnswers] = useState(8)
+    const [questionImgUrl, setQuestionImgUrl] = useState<any>('')
+    const [urlHasBeenPassed, setUrlHasBeenPassed] = useState(false)
+
     const {
         data: get_question_data, loading: get_question_loading, error: get_question_error, refetch: refetch_get_question
     } = useQuery(GET_QUESTION_DATA, {
@@ -97,6 +101,19 @@ export default function ImageQuestion() {
             }
         }
     );
+    useEffect( () => {
+        const fetchData = async () => {
+            const data = await axios("https://iot-experemental.herokuapp.com/files/question?id=" + questionId)
+            try {
+                setUrlHasBeenPassed(true)
+                setQuestionImgUrl(data.data[0].image)
+            }catch (e) {
+                console.log(e)
+            }
+        }
+        fetchData()
+
+    }, []);
 
     if (!get_question_data){
         return (
@@ -118,14 +135,15 @@ export default function ImageQuestion() {
                 <div className="col-5 ml-2 mt-3">
                     <Card style={{height: 400, width: 780}}>
                         <Row>
-                            <Col className="col-7">
+                            {urlHasBeenPassed && questionImgUrl? <Col className="col-7">
                                 <CardMedia
                                     className="col-11"
                                     style={{height: 400, width: 400}}
-                                    image="https://cdnimg.rg.ru/i/gallery/73f82b4b/2_a937b3ab.jpg"
+                                    image={questionImgUrl}
                                     title="Из при веденных ниже высказываний выберите те, из которых"
                                 />
-                            </Col>
+                            </Col>: null}
+
                             <Col >
                                 <div>
                                     <CardContent >

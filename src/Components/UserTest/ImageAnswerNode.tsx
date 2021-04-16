@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Card from "@material-ui/core/Card";
 import {CardActionArea} from "@material-ui/core";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
+import axios from "axios";
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -44,23 +45,39 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function ImageAnswerNode(props: any){
+    const [answerImgUrl, setAnswerImgUrl] = useState('')
+    const [urlHasBeenPassed, setUrlHasBeenPassed] = useState(false)
+    const [isSelected, changeIsSelected] = useState(false)
+    useEffect( () => {
+        const fetchData = async () => {
+            const data = await axios("https://iot-experemental.herokuapp.com/files/answer?id=" + props.answer.id)
+            try {
+                setUrlHasBeenPassed(true)
+                setAnswerImgUrl(data.data[0].image)
+            }catch (e) {
+                console.log(e)
+            }
+        }
+        fetchData()
 
+    }, []);
     const classes = useStyles();
-    console.log(props)
     return(
         <div className=" mt-3 ml-3" style={{borderColor: "azure"}} >
-            <Card className={classes.root}  >
+            {/*"#93cdf3"*/}
+            <Card className={classes.root}  style={{backgroundColor: isSelected? "#93cdf3" : ""}} onClick={() =>{setTimeout(changeIsSelected, 150,  !isSelected)}}>
                 <CardActionArea>
-                    <CardMedia
-                        className={classes.media}
-                        image="https://cdnimg.rg.ru/i/gallery/73f82b4b/2_a937b3ab.jpg"
-                        title="Contemplative Reptile"
-                    />
-                    <CardContent className="mb-5">
-                        <Typography variant="body2" color="textSecondary" component="p" className="mb-5 pb-5">
-                            {props?.answer?.text}
-                        </Typography>
-                    </CardContent>
+                    {urlHasBeenPassed && answerImgUrl?
+                        <CardMedia
+                            className={classes.media}
+                            image={answerImgUrl}
+                            title="Contemplative Reptile"
+                        />: null}
+                        <CardContent className="mb-5">
+                            <Typography variant="body2" color="textSecondary" component="p" className="mb-5 pb-5">
+                                {props?.answer?.text}
+                            </Typography>
+                        </CardContent>
                 </CardActionArea>
             </Card>
         </div>

@@ -93,8 +93,8 @@ function App() {
                 {/*<Route exact path="/updatequestion" component={localStorage.getItem('is_login') === 'true'? UpdateQuestion: Login}/>*/}
                 <Route exact path="/test" component={MainUserTest}/>
                 <Route exact path="/ckeditor" component={CKEDITOR}/>
-                <Route  path="/test/question/:id" component={QuestionByID}/>
-                <Route exact path="/imagetest" component={ImageQuestion}/>
+                <Route  path="/q/:id" component={QuestionByID}/>
+                <Route exact path="/iq/:id" component={ImageQuestion}/>
             </Switch>
         </Router>
     </>

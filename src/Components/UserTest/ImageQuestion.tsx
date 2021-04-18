@@ -11,13 +11,17 @@ import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 import Col from "react-bootstrap/Col";
-import {Form, Spinner} from "react-bootstrap";
+import {Accordion, Container, Form, Spinner} from "react-bootstrap";
+import BootstrapCard from "react-bootstrap/Card"
 import {Button, CardActionArea, CardActions, Grid} from "@material-ui/core";
 import Row from "react-bootstrap/Row";
 import {gql, useQuery} from "@apollo/client";
 import * as _ from "lodash"
 import ImageAnswerNode from "./ImageAnswerNode";
 import axios from "axios";
+import {Alert} from "@material-ui/lab";
+import AlertTitle from "@material-ui/lab/AlertTitle";
+import ReactPlayer from "react-player";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -76,14 +80,21 @@ const GET_QUESTION_DATA = gql`
             }
       }
     `
-export default function ImageQuestion() {
+export default function ImageQuestion(props: any) {
     const classes = useStyles();
     const theme = useTheme();
-    const [questionId, setQuestionId] = useState(69)
+    const questionId = props?.match?.params?.id? props.match.params.id: props.id
+    const [helpLevel, changeHelpLevel] = useState(props?.helpLevel? props.helpLevel: "0");
     const [answers, setAnswers] = useState<any>([{}])
     const [kolShowAnswers, setKolShowAnswers] = useState(8)
     const [questionImgUrl, setQuestionImgUrl] = useState<any>('')
     const [urlHasBeenPassed, setUrlHasBeenPassed] = useState(false)
+    const [selected, changeSelected] = useState<number[]>([])
+    const [activeWrongQuestionId, changeActiveWrongQuestionId] = useState(-10)
+    const [activeWrongAnswerIndex, changeActiveWrongAnswerIndex] = useState(-10)
+    const [errorArray, changeErrorArray] = useState<any[]>([])
+    const [tryingCalculation, changeTryingCalculation] = useState(0)
+    const [oneTimePusshCheckErrorButton, changeOneTimePusshCheckErrorButton] = useState(false)
 
     const {
         data: get_question_data, loading: get_question_loading, error: get_question_error, refetch: refetch_get_question
@@ -115,6 +126,41 @@ export default function ImageQuestion() {
 
     }, []);
 
+    async function checkErrors() {
+        changeOneTimePusshCheckErrorButton(true)
+        changeTryingCalculation(tryingCalculation + 1)
+        await changeErrorArray([])
+        const oErrArr: any[] = []
+        let minCheckQueue = 10000000000000000000000
+        answers.map((question: any, Index: number) => {
+            if ((question.isTrue && (selected.indexOf(question.id) === -1)) || (!question.isTrue && (selected.indexOf(question.id) !== -1))) {
+                // console.log(question)
+                if (question.checkQueue < minCheckQueue) {
+                    changeActiveWrongQuestionId(question.id)
+                    minCheckQueue = question.checkQueue
+                    changeActiveWrongAnswerIndex(Index)
+                }
+                oErrArr.push(question.id)
+            }
+
+        })
+        changeErrorArray(oErrArr)
+    }
+    const onChangeHelpLevel = (event: any) => changeHelpLevel(event.target.value);
+
+    function selectDeselectAnswer(id: any) {
+        if (selected.indexOf(id) === -1) {
+            const oldSelected = selected
+            oldSelected.push(id)
+            changeSelected(oldSelected)
+        } else {
+            const oldSelected = selected
+            oldSelected.splice(selected.indexOf(id), 1)
+            changeSelected(oldSelected)
+        }
+
+    }
+
     if (!get_question_data){
         return (
             <div>
@@ -122,9 +168,50 @@ export default function ImageQuestion() {
             </div>
         )
     }
-    console.log(get_question_data)
+
+    if (errorArray.length === 0 && oneTimePusshCheckErrorButton) {
+        return (
+            <Container className="mt-5">
+                <Alert severity="success">
+                    <AlertTitle>Прздравляем</AlertTitle>
+                    Вы успешно прошли тест, колличество попыток - <strong>{tryingCalculation}</strong>
+                </Alert>
+            </Container>
+        )
+    }
+    const checkurl = (url: any) => url ? url.replace("http://", "").replace("https://", "").replace("www.", "")
+        .replace("youtu.be/", "youtube.com?v=").replace("youtube.com/watch?v=", "youtube.com?v=").slice(0, 14) === "youtube.com?v=" : false;
+
     return (
         <div>
+            <Grid className="col-8 offset-2 mt-2">
+            {errorArray.length !== 0 ? <div>
+                {helpLevel === "0" ? <Alert severity="error" variant="outlined">
+                    {answers[activeWrongAnswerIndex].helpTextv1}</Alert> : null}
+                {helpLevel === "1" ? <Alert severity="error" variant="outlined">
+                    {answers[activeWrongAnswerIndex].helpTextv2}</Alert> : null}
+                {helpLevel === "2" ? <Alert severity="error" variant="outlined">
+                    {answers[activeWrongAnswerIndex].helpTextv3}</Alert> : null}
+                {answers[activeWrongAnswerIndex].videoUrl ?
+                    <div>
+                        {checkurl(answers[activeWrongAnswerIndex].videoUrl) ?
+                            <Accordion>
+                                <BootstrapCard>
+                                    <BootstrapCard.Header>
+                                        <Accordion.Toggle as={Button} eventKey="1">
+                                            Отобразить видео подсказку
+                                        </Accordion.Toggle>
+                                    </BootstrapCard.Header>
+                                    <Accordion.Collapse eventKey="1">
+                                        <ReactPlayer url={answers[activeWrongAnswerIndex].videoUrl}
+                                                     controls autoPlay={true}/>
+                                    </Accordion.Collapse>
+                                </BootstrapCard>
+                            </Accordion> : null}
+                    </div> : null}
+            </div> : null}
+            </Grid>
+
             <Row className="">
                 <Grid
                     container
@@ -132,6 +219,8 @@ export default function ImageQuestion() {
                     justify="center"
                     alignItems="center"
                 >
+
+
                 <div className="col-5 ml-2 mt-3">
                     <Card style={{height: 400, width: 780}}>
                         <Row>
@@ -155,10 +244,20 @@ export default function ImageQuestion() {
 
                                         </Typography>
                                     </CardContent>
+                                    {props.id? <div className="col-1">
+                                        <Button variant="outlined" color="primary" onClick={() => {
+                                            props.onChange("goBack")
+                                        }}>
+                                            Назад
+                                        </Button>
+                                    </div>: null}
                                     <Row className="ml-auto mr-2 pb-2">
+
                                         <Col className="col-6">
                                             <Form.Control
                                                 // size="lg"
+                                                value={helpLevel}
+                                                onChange={onChangeHelpLevel}
                                                 as="select">
                                                 <option value={"0"}>Легкий</option>
                                                 <option value={"1"}>Средний</option>
@@ -166,7 +265,7 @@ export default function ImageQuestion() {
                                             </Form.Control>
                                         </Col>
                                         <Col>
-                                            <Button variant="contained" color="primary">
+                                            <Button variant="contained" color="primary" onClick={() => checkErrors()}>
                                                 Проверить
                                             </Button>
                                         </Col>
@@ -177,11 +276,9 @@ export default function ImageQuestion() {
                     </Card>
                 </div>
                     {answers.map((answer, answerIndex) =>{
-                        return(<ImageAnswerNode key={answer.id} answer={answer}/>)
+                        return(<ImageAnswerNode key={answer.id} answer={answer} selected={selected} onChange={(e) =>{
+                            selectDeselectAnswer(e)}}/>)
                     })}
-
-
-
                 </Grid>
             </Row>
         </div>

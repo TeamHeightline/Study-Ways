@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {gql, useQuery} from "@apollo/client";
 import {Button, Paper, TextField} from "@material-ui/core";
 import {Alert, Autocomplete} from "@material-ui/lab";
@@ -15,6 +15,7 @@ import AlertTitle from "@material-ui/lab/AlertTitle";
 import * as _ from "lodash"
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import axios from "axios";
 const GET_QUESTION_DATA = gql`
       query GET_QUESTION_DATA($id: ID!) {
             questionById(id: $id){
@@ -53,8 +54,8 @@ const useStyles = makeStyles({
 });
 
 export default function QuestionById(props: any) {
-    const [helpLevel, changeHelpLevel] = useState("0");
-    const selectedQuestionId = props.match.params.id
+    const [helpLevel, changeHelpLevel] = useState(props.helpLevel? props.helpLevel: "0");
+    const selectedQuestionId = props?.match?.params?.id? props.match.params.id : props.id
     const [answers, setAnswers] = useState<any>([{}])
     const [kolShowAnswers, setKolShowAnswers] = useState(8)
     const {
@@ -82,8 +83,25 @@ export default function QuestionById(props: any) {
     const [errorArray, changeErrorArray] = useState<any[]>([])
     const [tryingCalculation, changeTryingCalculation] = useState(0)
     const [oneTimePusshCheckErrorButton, changeOneTimePusshCheckErrorButton] = useState(false)
+    const [questionImgUrl, setQuestionImgUrl] = useState<any>('')
+    const [urlHasBeenPassed, setUrlHasBeenPassed] = useState(false)
     const onChangeHelpLevel = (event: any) => changeHelpLevel(event.target.value);
 
+    const fetchData = async () => {
+        const data = await axios("https://iot-experemental.herokuapp.com/files/question?id=" + selectedQuestionId)
+        try {
+            await setUrlHasBeenPassed(true)
+            await setQuestionImgUrl(data.data[0].image)
+
+        }catch (e) {
+            console.log(e)
+        }
+    }
+
+    useEffect( () => {
+        fetchData()
+
+    }, []);
     function selectDeselectRow(id: any) {
         // console.log(id)
 
@@ -98,6 +116,8 @@ export default function QuestionById(props: any) {
             changeSelected(oldSelected)
         }
     }
+
+
 
     async function checkErrors() {
         changeOneTimePusshCheckErrorButton(true)
@@ -138,10 +158,23 @@ export default function QuestionById(props: any) {
             </Container>
         )
     }
+    if(!urlHasBeenPassed){
+        return (
+            <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
+        )
+    }
+
     return (
         <Container className="mt-4">
             <div className="display-4 text-center"
                  style={{fontSize: '35px'}}>{get_question_data?.questionById?.text}</div>
+            {questionImgUrl? <div className="pb-2">
+                <img
+                    style={{ width: "25%", height: "25%"}}
+                    src={questionImgUrl}
+                    alt="new"
+                />
+            </div>: null}
             {errorArray.length !== 0 ? <div>
                 {helpLevel === "0" ? <Alert severity="error" variant="outlined">
                     {answers[activeWrongAnswerIndex].helpTextv1}</Alert> : null}
@@ -213,6 +246,13 @@ export default function QuestionById(props: any) {
                 </Table>
             </TableContainer>
             <Row className="mt-2">
+                {props.id? <Col className="col-1">
+                    <Button variant="outlined" color="primary" onClick={() => {
+                        props.onChange("goBack")
+                    }}>
+                        Назад
+                    </Button>
+                </Col>: null}
                 <Col className="col-3">
                     <Form.Control
                         // size="lg"

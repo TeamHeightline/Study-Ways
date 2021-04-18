@@ -63,12 +63,17 @@ export default function ImageAnswerNode(props: any){
     }, []);
     const classes = useStyles();
     return(
-        <div className=" mt-3 ml-3" style={{borderColor: "azure"}} >
+        <div className=" mt-3 ml-3"  >
             {/*"#93cdf3"*/}
-            <Card className={classes.root}  style={{backgroundColor: isSelected? "#93cdf3" : ""}} onClick={() =>{setTimeout(changeIsSelected, 150,  !isSelected)}}>
+            <Card className={classes.root}  style={{backgroundColor:  props.selected.indexOf(props.answer.id) !== -1? "#71c3ef" : ""}}
+                  onClick={() =>{
+                        props.onChange(props.answer.id)
+                        setTimeout(changeIsSelected, 150,  !isSelected)
+            }}>
                 <CardActionArea>
                     {urlHasBeenPassed && answerImgUrl?
                         <CardMedia
+                            style={{opacity: props.selected.indexOf(props.answer.id) !== -1? 0.5 : 1}}
                             className={classes.media}
                             image={answerImgUrl}
                             title="Contemplative Reptile"
@@ -83,3 +88,4 @@ export default function ImageAnswerNode(props: any){
         </div>
     )
 }
+

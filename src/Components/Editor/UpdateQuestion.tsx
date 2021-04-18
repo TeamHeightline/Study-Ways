@@ -9,12 +9,15 @@ import Select from "@material-ui/core/Select";
 import Input from "@material-ui/core/Input";
 import MenuItem from "@material-ui/core/MenuItem";
 import AnswerNode from "./AnswerNode";
+import AlertTitle from "@material-ui/lab/AlertTitle";
+import Switch from "@material-ui/core/Switch";
 
 const CONTEXT_DATA = gql`
 query{
   me{
     questionSet{
       id
+      isImageQuestion
       theme{
         id
         name
@@ -59,8 +62,8 @@ const CREATE_NEW_ANSWER = gql`mutation CREATE_ANSWER($question: ID!){
   }
 }`
 
-const UPDATE_QUESTION = gql`mutation UPDATE_QUESTION($createdBy: ID!, $theme: [ID]!, $author: [ID]!, $text: String!, $videoUrl: String, $id: ID!){
-  updateQuestion(input: {createdBy:$createdBy, theme: $theme, author: $author, text: $text, videoUrl: $videoUrl, id: $id}){
+const UPDATE_QUESTION = gql`mutation UPDATE_QUESTION($createdBy: ID!, $theme: [ID]!, $author: [ID]!, $text: String!, $videoUrl: String, $id: ID!, $isImageQuestion: Boolean){
+  updateQuestion(input: {createdBy:$createdBy, theme: $theme, author: $author, text: $text, videoUrl: $videoUrl, id: $id, isImageQuestion: $isImageQuestion}){
     errors{
       field
       messages
@@ -136,6 +139,7 @@ export default function UpdateQuestion() {
         changeQuestionUrl(values.videoUrl)
         changeAnswersArray(values.answers)
         setQuestionImageName('')
+        setIsImageQuestion(values.isImageQuestion)
 
         async function getData(){
             const img_data = await fetch("https://iot-experemental.herokuapp.com/files/question?id="+ values.id)
@@ -150,6 +154,7 @@ export default function UpdateQuestion() {
 
 
     const [questionText, changeQuestionText] = useState('');
+    const [isImageQuestion, setIsImageQuestion] = useState(false)
     const [questionImage, changeQuestionImage] = useState();
     const [questionUrl, changeQuestionUrl] = useState('');
     const [ThemesId, changeThemesId] = useState([]);
@@ -214,7 +219,8 @@ export default function UpdateQuestion() {
             author: authorId,
             text: questionText,
             videoUrl: questionUrl,
-            id: questionId
+            id: questionId,
+            isImageQuestion: isImageQuestion
         },
         onCompleted: (update_question_data) =>{
             if (update_question_data.updateQuestion.errors.length === 0){
@@ -340,6 +346,23 @@ export default function UpdateQuestion() {
                     </div>
                 </Col>
             </Row>
+            {questionId? <Col className="col-md-6 col-11  ml-5 mt-2">
+                <div>
+                    {/*<Alert severity="warning">*/}
+                        Разрешить добавлять изображения к ответам
+                        <Switch
+                            checked={isImageQuestion}
+                            onChange={(e) => {
+                                console.log(e.target.checked)
+                                setIsImageQuestion(e.target.checked)
+                            }}
+                            name="checkedB"
+                            color="secondary"
+                        />
+                    {/*</Alert>*/}
+                </div>
+            </Col>: null}
+
             <Row className="mt-2">
                 <Col className="col-1  ml-5">
                     <Button variant="contained" color="primary" onClick={() =>{update_question()}}>
@@ -372,14 +395,16 @@ export default function UpdateQuestion() {
                     <Alert severity="error">Ошибка в одном или нескольких полях</Alert>: null : null}
                 {questionId? <Col className="text-center mt-2 col-6">
                     <Typography variant="body2" color="textSecondary" component="p">
-                    Ссылка на прохождение вопроса - <strong> https://iot-frontend-show-version.herokuapp.com/test/question/{questionId} </strong>
+                    Ссылка на прохождение вопроса - {isImageQuestion?
+                        <strong>https://iot-frontend-show-version.herokuapp.com/test/iq/{questionId}</strong>:
+                        <strong>https://iot-frontend-show-version.herokuapp.com/test/q/{questionId}</strong>}
                     </Typography>
                     </Col>: null}
             </Row>
             <div className="display-4 text-center mt-3 col-12" style={{fontSize: '33px'}}>Редактировать ответы</div>
             {/* Нужно кэшировать!!!*/}
             {questionIndex? data.me.questionSet[questionIndex].answers.map((answer: any, answerIndex: number) =>
-                <AnswerNode className="mt-4" key={answer.id} answer={answer} answerIndex={answerIndex} questionID={questionId}/>): null}
+                <AnswerNode className="mt-4" key={answer.id} answer={answer} answerIndex={answerIndex} questionID={questionId} isImageQuestion={isImageQuestion}/>): null}
             {selectedQuestion?
                 <Container>
                     <Button variant="outlined" color="primary" className="col-12 mt-3 justify-content-center"

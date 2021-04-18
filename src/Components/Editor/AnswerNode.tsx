@@ -253,7 +253,7 @@ export default function AnswerNode(props: any) {
                                     />
                                 </FormControl>
                             </Col>
-                            <Col className="mr-5 ml-5 col-5 mt-2">
+                            {props.isImageQuestion? <Col className="mr-5 ml-5 col-5 mt-2">
                                 <Button
                                     color="primary"
                                     variant="outlined"
@@ -264,12 +264,12 @@ export default function AnswerNode(props: any) {
                                 </Button>
                                 {isSelectedAnswerImage ? (
                                     <div>
-
-                                         {selectedAnswerImage?.name}
+                                        {selectedAnswerImage?.name}
                                     </div>
                                 ) : null}
                                 {answerImageName && !isSelectedAnswerImage? <div>{answerImageName}</div>: null}
-                            </Col>
+                            </Col>: null}
+
                             <Col className="col-1 offset-1 ml-auto mr-5 mt-3">
                                 <Button variant="contained" color="primary" onClick={() => {update_answer()}}>
                                     Сохранить

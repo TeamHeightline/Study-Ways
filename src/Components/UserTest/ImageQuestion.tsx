@@ -203,7 +203,7 @@ export default function ImageQuestion(props: any) {
         return (
             <Container className="mt-5">
                 <Alert severity="success">
-                    <AlertTitle>Прздравляем</AlertTitle>
+                    <AlertTitle>Поздравляем</AlertTitle>
                     Вы успешно прошли тест, колличество попыток - <strong>{tryingCalculation}</strong>
                 </Alert>
             </Container>

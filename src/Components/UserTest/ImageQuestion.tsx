@@ -15,7 +15,7 @@ import {Accordion, Container, Form, Spinner} from "react-bootstrap";
 import BootstrapCard from "react-bootstrap/Card"
 import {Button, CardActionArea, CardActions, Grid} from "@material-ui/core";
 import Row from "react-bootstrap/Row";
-import {gql, useQuery} from "@apollo/client";
+import {gql, useMutation, useQuery} from "@apollo/client";
 import * as _ from "lodash"
 import ImageAnswerNode from "./ImageAnswerNode";
 import axios from "axios";
@@ -63,6 +63,11 @@ const useStyles = makeStyles((theme: Theme) =>
 const GET_QUESTION_DATA = gql`
       query GET_QUESTION_DATA($id: ID!) {
             questionById(id: $id){
+             questionstatistic{
+                  id
+                  numberOfPasses
+                  sumOfAllAttempts
+                }
               text
               videoUrl
               id
@@ -80,6 +85,17 @@ const GET_QUESTION_DATA = gql`
             }
       }
     `
+
+const STATISTIC = gql`
+mutation STATISTIC_FOR_QUESTION($questionID: ID!, $numberOfPasses: Int!, $sumOfAllAttempts: Int!, $id: ID){
+  statistic(input:{question:$questionID, numberOfPasses: $numberOfPasses, sumOfAllAttempts: $sumOfAllAttempts, id: $id}){
+    errors{
+      field
+      messages
+    }
+  }
+}`
+
 export default function ImageQuestion(props: any) {
     const classes = useStyles();
     const theme = useTheme();
@@ -125,6 +141,17 @@ export default function ImageQuestion(props: any) {
         fetchData()
 
     }, []);
+    const [update_statistic, {data: update_statistic_data, loading: update_statistic_loading}] = useMutation(STATISTIC, {
+        variables: {
+            id: get_question_data?.questionById?.questionstatistic?.id,
+            questionID: questionId,
+            numberOfPasses: get_question_data?.questionById?.questionstatistic?.numberOfPasses ? get_question_data?.questionById?.questionstatistic?.numberOfPasses + 1: 1,
+            sumOfAllAttempts:get_question_data?.questionById?.questionstatistic?.sumOfAllAttempts ? get_question_data?.questionById?.questionstatistic?.sumOfAllAttempts + tryingCalculation: tryingCalculation
+        },
+        onCompleted: data => console.log(data),
+        onError: error => console.log(error)
+    })
+
 
     async function checkErrors() {
         changeOneTimePusshCheckErrorButton(true)
@@ -144,6 +171,9 @@ export default function ImageQuestion(props: any) {
             }
 
         })
+        if (oErrArr.length === 0){
+            update_statistic()
+        }
         changeErrorArray(oErrArr)
     }
     const onChangeHelpLevel = (event: any) => changeHelpLevel(event.target.value);
@@ -182,6 +212,8 @@ export default function ImageQuestion(props: any) {
     const checkurl = (url: any) => url ? url.replace("http://", "").replace("https://", "").replace("www.", "")
         .replace("youtu.be/", "youtube.com?v=").replace("youtube.com/watch?v=", "youtube.com?v=").slice(0, 14) === "youtube.com?v=" : false;
 
+    // console.log(get_question_data?.questionById?.questionstatistic?.numberOfPasses)
+    // console.log(get_question_data?.questionById?.questionstatistic?.sumOfAllAttempts)
     return (
         <div>
             <Grid className="col-8 offset-2 mt-2">
@@ -219,8 +251,6 @@ export default function ImageQuestion(props: any) {
                     justify="center"
                     alignItems="center"
                 >
-
-
                 <div className="col-5 ml-2 mt-3">
                     <Card style={{height: 400, width: 780}}>
                         <Row>

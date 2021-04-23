@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {gql, useQuery} from "@apollo/client";
+import {gql, useMutation, useQuery} from "@apollo/client";
 import {Button, Paper, TextField} from "@material-ui/core";
 import {Alert, Autocomplete} from "@material-ui/lab";
 import {Accordion, Card, Container, Form, Spinner} from "react-bootstrap";
@@ -19,10 +19,15 @@ import axios from "axios";
 const GET_QUESTION_DATA = gql`
       query GET_QUESTION_DATA($id: ID!) {
             questionById(id: $id){
-              text
-              videoUrl
-              id
-              answers{
+             questionstatistic{
+                  id
+                  numberOfPasses
+                  sumOfAllAttempts
+                }
+             text
+             videoUrl
+             id
+             answers{
                 id
                 isTrue
                 text
@@ -36,6 +41,16 @@ const GET_QUESTION_DATA = gql`
             }
       }
     `
+const STATISTIC = gql`
+mutation STATISTIC_FOR_QUESTION($questionID: ID!, $numberOfPasses: Int!, $sumOfAllAttempts: Int!, $id: ID){
+  statistic(input:{question:$questionID, numberOfPasses: $numberOfPasses, sumOfAllAttempts: $sumOfAllAttempts, id: $id}){
+    errors{
+      field
+      messages
+    }
+  }
+}`
+
 const useStyles = makeStyles({
     table: {
         minWidth: 650,
@@ -87,6 +102,17 @@ export default function QuestionById(props: any) {
     const [urlHasBeenPassed, setUrlHasBeenPassed] = useState(false)
     const onChangeHelpLevel = (event: any) => changeHelpLevel(event.target.value);
 
+    const [update_statistic, {data: update_statistic_data, loading: update_statistic_loading}] = useMutation(STATISTIC, {
+        variables: {
+            id: get_question_data?.questionById?.questionstatistic?.id,
+            questionID: selectedQuestionId,
+            numberOfPasses: get_question_data?.questionById?.questionstatistic?.numberOfPasses ? get_question_data?.questionById?.questionstatistic?.numberOfPasses + 1: 1,
+            sumOfAllAttempts:get_question_data?.questionById?.questionstatistic?.sumOfAllAttempts ? get_question_data?.questionById?.questionstatistic?.sumOfAllAttempts + tryingCalculation: tryingCalculation
+        },
+        onCompleted: data => console.log(data),
+        onError: error => console.log(error)
+    })
+
     const fetchData = async () => {
         const data = await axios("https://iot-experemental.herokuapp.com/files/question?id=" + selectedQuestionId)
         try {
@@ -137,6 +163,9 @@ export default function QuestionById(props: any) {
             }
 
         })
+        if (oErrArr.length === 0){
+            update_statistic()
+        }
         changeErrorArray(oErrArr)
     }
 
@@ -168,6 +197,7 @@ export default function QuestionById(props: any) {
         <Container className="mt-4">
             <div className="display-4 text-center"
                  style={{fontSize: '35px'}}>{get_question_data?.questionById?.text}</div>
+
             {questionImgUrl? <div className="pb-2">
                 <img
                     style={{ width: "25%", height: "25%"}}
@@ -275,6 +305,7 @@ export default function QuestionById(props: any) {
             <br/>
             <br/>
             <br/>
+
         </Container>
     )
 

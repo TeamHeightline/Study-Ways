@@ -20,6 +20,17 @@ import TextFieldsIcon from '@material-ui/icons/TextFields';
 import YouTubeIcon from '@material-ui/icons/YouTube';
 import HttpIcon from '@material-ui/icons/Http';
 import SettingsIcon from '@material-ui/icons/Settings';
+import DoneAllIcon from '@material-ui/icons/DoneAll';
+import {gql, useQuery} from "@apollo/client";
+
+
+const QUESTION_BY_ID = gql`
+    query QUESTION_BY_ID($id: ID!){
+        questionById(id: $id){
+            text
+        }
+    }`
+
 
 
 const StyledMenu = withStyles({
@@ -61,13 +72,30 @@ export default function CardEditByID(props:any){
 
     const [cardText, setCardText] = useState('')
     const [cardYoutubeVideoUrl, setCardYoutubeVideoUrl] = useState("https://www.youtube.com/watch?v=vpMJ_rNN9vY")
+    const [cardSrcToOtherSite, setCardSrcToOtherSite] = useState('')
+    const [cardBodyQuestionId, setCardBodyQuestionId] = useState(69)
+    const [cardBeforeCardQuestionId, setCardBeforeCardQuestionId] = useState(70)
 
 
     const [isUseText, setIsUseText] = useState(true)
     const [isUseYoutubeVideo, setIsUseYoutubeVideo] = useState(true)
     const [isUseSrcToOtherSite, setIsUseSrcToOtherSite] = useState(false)
+    const [isUseBodyQuestion, setIsUseBodyQuestion] = useState(false)
+    const [isUseBeforeCardQuestion, setIsUseBeforeCardQuestion] = useState(false)
 
 
+    const [sitePreviewData, setSitePreviewData] = useState()
+    const {data: cardBodyQuestionData, loading: cardBodyQuestionLoading} = useQuery(QUESTION_BY_ID, {
+          variables: {
+              "id" : cardBodyQuestionId
+          },
+    })
+
+    const {data: cardBeforeCardQuestionData, loading: cardBeforeCardQuestionLoading} = useQuery(QUESTION_BY_ID, {
+        variables: {
+            "id" : cardBeforeCardQuestionId
+        },
+    })
 
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -82,23 +110,42 @@ export default function CardEditByID(props:any){
 
 
 
-    const cardHeaderHandle = (e) =>{
-        setCardHeader(e.target.value)
-    }
     const isUseTextHandle = (e) =>{
-        setIsUseText(e.target.checked)
+        setIsUseText(!isUseText)
     }
     const isUseYoutubeVideoHandler = (e) =>{
-        setIsUseYoutubeVideo(e.target.checked)
+        setIsUseYoutubeVideo(!isUseYoutubeVideo)
     }
     const isUseSrcToOtherSiteHandle = (e) =>{
-        setIsUseSrcToOtherSite(e.target.checked)
+        setIsUseSrcToOtherSite(!isUseSrcToOtherSite)
+    }
+    const isUseBodyQuestionHandle = (e) =>{
+        setIsUseBodyQuestion(!isUseBodyQuestion)
+    }
+    const isUseBeforeCardQuestionHandle = (e) =>{
+        setIsUseBeforeCardQuestion(!isUseBeforeCardQuestion)
+    }
+
+
+    const cardHeaderHandle = (e) =>{
+        setCardHeader(e.target.value)
     }
     const cardTextHandle = (e) =>{
         setCardText(e.target.value)
     }
     const cardYoutubeVideoUrlHandle = (e) =>{
         setCardYoutubeVideoUrl(e.target.value)
+    }
+    const cardSrcToOtherSiteHandle = (e) =>{
+        setCardSrcToOtherSite(e.target.value)
+    }
+    const cardBodyQuestionIdHandle = (e)  =>{
+        const valueWithOnlyNumber = e.target.value.replace(/[^\d]/g, '')
+        setCardBodyQuestionId(valueWithOnlyNumber)
+    }
+    const cardBeforeCardQuestionIdHandle = (e) =>{
+        const valueWithOnlyNumber = e.target.value.replace(/[^\d]/g, '')
+        setCardBeforeCardQuestionId(valueWithOnlyNumber)
     }
 
 
@@ -141,7 +188,7 @@ export default function CardEditByID(props:any){
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
                     >
-                        <StyledMenuItem>
+                        <StyledMenuItem onClick={isUseTextHandle}>
                             <Switch
                                 checked={isUseText}
                                 onChange={isUseTextHandle}
@@ -153,7 +200,7 @@ export default function CardEditByID(props:any){
                             </ListItemIcon>
                             Текст
                         </StyledMenuItem>
-                        <StyledMenuItem>
+                        <StyledMenuItem onClick={isUseYoutubeVideoHandler}>
                             <Switch
                                 checked={isUseYoutubeVideo}
                                 onChange={isUseYoutubeVideoHandler}
@@ -165,7 +212,7 @@ export default function CardEditByID(props:any){
                             </ListItemIcon>
                             Видео с Youtube
                         </StyledMenuItem>
-                        <StyledMenuItem>
+                        <StyledMenuItem onClick={isUseSrcToOtherSiteHandle}>
                             <Switch
                                 checked={isUseSrcToOtherSite}
                                 onChange={isUseSrcToOtherSiteHandle}
@@ -177,6 +224,32 @@ export default function CardEditByID(props:any){
                             </ListItemIcon>
                             Ссылка на внешний ресурс
                         </StyledMenuItem>
+                        <StyledMenuItem onClick={isUseBodyQuestionHandle}
+                        >
+                            <Switch
+                                checked={isUseBodyQuestion}
+                                onChange={isUseBodyQuestionHandle}
+                                name="checkedB"
+                                color="secondary"
+                            />
+                            <ListItemIcon>
+                                <DoneAllIcon/>
+                            </ListItemIcon>
+                            Тест в карточке
+                        </StyledMenuItem>
+                        <StyledMenuItem onClick={isUseBeforeCardQuestionHandle}
+                        >
+                            <Switch
+                                checked={isUseBeforeCardQuestion}
+                                onChange={isUseBeforeCardQuestionHandle}
+                                name="checkedB"
+                                color="secondary"
+                            />
+                            <ListItemIcon>
+                                <DoneAllIcon/>
+                            </ListItemIcon>
+                            Тест перед карточкой
+                        </StyledMenuItem>
                     </StyledMenu>
 
 
@@ -186,7 +259,7 @@ export default function CardEditByID(props:any){
             <br/>
             <Row className="mt-4">
 
-                    {isUseYoutubeVideo? <Col className="col-12 col-lg-5 ml-5 mt-4">
+                    {isUseYoutubeVideo? <Col className="col-12 col-lg-5  mt-4 ml-5">
                         <ReactPlayer width="auto"  controls
                                      url={cardYoutubeVideoUrl}
                         />
@@ -200,7 +273,7 @@ export default function CardEditByID(props:any){
                             onChange={cardYoutubeVideoUrlHandle}
                         />
                     </Col>: null}
-                    {isUseText? <Col className="col-12 col-lg-6">
+                    {isUseText? <Col className="col-12 col-lg-6 ml-4">
                         <TextField
                             className="mt-2 col-12 ml-3"
                             key={cardID + "text"}
@@ -215,7 +288,54 @@ export default function CardEditByID(props:any){
                         />
                     </Col>: null}
             </Row>
-            {/*<iframe src = "https://guide.herzen.spb.ru/static/schedule_dates.php?id_group=12460" width="680" height="480" allowFullScreen />*/}
+
+            <Row className="mt-4">
+                {isUseSrcToOtherSite? <Col className="col-12 col-lg-5 ml-5 mt-4">
+                    <TextField
+                        className="mt-2 col-12"
+                        key={cardID + "otherSite"}
+                        id="standard-multiline-flexible"
+                        label="Ссылка на внешний ресурс"
+                        fullWidth
+                        value={cardSrcToOtherSite}
+                        onChange={cardSrcToOtherSiteHandle}
+                    />
+                </Col>: null}
+            </Row>
+
+
+            <Row className="mt-4">
+
+                {isUseBodyQuestion? <Col className="col-12 col-lg-5 ml-5 mt-4">
+                    <TextField
+                        className="mt-2 col-12"
+                        key={cardID + "BodyQuestionId"}
+                        id="standard-multiline-flexible"
+                        label="ID вопроса для тела карточки"
+                        fullWidth
+                        value={cardBodyQuestionId}
+                        onChange={cardBodyQuestionIdHandle}
+                    />
+                    <Typography>
+                        <blockquote/> ТЕКСТ ВОПРОСА: {cardBodyQuestionData?.questionById?.text}<blockquote/>
+                    </Typography>
+
+                </Col>: null}
+                {isUseBeforeCardQuestion? <Col className="col-12 col-lg-5 mt-4 ml-4">
+                    <TextField
+                        className="mt-2 col-12 ml-3"
+                        key={cardID + "BeforeCardQuestionId"}
+                        id="standard-multiline-flexible"
+                        label="ID вопроса перед входом в карточку"
+                        fullWidth
+                        value={cardBeforeCardQuestionId}
+                        onChange={cardBeforeCardQuestionIdHandle}
+                    />
+                    <Typography className="ml-3">
+                        <blockquote/> ТЕКСТ ВОПРОСА: {cardBeforeCardQuestionData?.questionById?.text}<blockquote/>
+                    </Typography>
+                </Col>: null}
+            </Row>
         </div>
     )
 }

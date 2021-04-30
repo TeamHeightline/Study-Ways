@@ -1,0 +1,17 @@
+query QUESTION_BY_ID($id: ID!){
+    questionById(id: $id){
+        text
+        author{
+            id
+            name
+        }
+        isImageQuestion
+        videoUrl
+    }
+}
+query SECOND_QUESTION_BY_ID($id: ID!){
+    questionById(id: $id){
+        text
+
+    }
+}

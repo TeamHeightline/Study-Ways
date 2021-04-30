@@ -16,15 +16,15 @@ import Login from "./Components/Login/Login"
 import {gql, useMutation} from "@apollo/client";
 import UnLogin from "./Components/Login/UnLogin";
 import Registration from "./Components/Login/Registration";
-import UpdateQuestion from "./Components/Editor/UpdateQuestion";
-import MainEditor from "./Components/Editor/MainEditor";
+import UpdateQuestion from "./Components/UserTest/Editor/UpdateQuestion";
+import MainEditor from "./Components/UserTest/Editor/MainEditor";
 import MainUserTest from "./Components/UserTest/MainUserTest";
 import QuestionByID from "./Components/UserTest/QuestionByID";
-import CKEDITOR from "./Components/Editor/CKEditor";
+import CKEDITOR from "./Components/UserTest/Editor/CKEditor";
 import ImageQuestion from "./Components/UserTest/ImageQuestion";
 import CardView from "./Components/Cards/Card";
 import CARDS from "./Components/Cards/Card";
-import CardEditByID from "./Components/Cards/CardEditByID";
+import CardEditByID from "./Components/Cards/Editor/CardEditByID";
 
 
 const VERIFY_LOGIN = gql`

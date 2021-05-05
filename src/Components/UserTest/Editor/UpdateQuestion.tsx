@@ -403,8 +403,8 @@ export default function UpdateQuestion() {
             </Row>
             <div className="display-4 text-center mt-3 col-12" style={{fontSize: '33px'}}>Редактировать ответы</div>
             {/* Нужно кэшировать!!!*/}
-            {questionIndex !== false? console.log(data.me.questionSet[questionIndex].answers): null}
-            {questionIndex !== false? data?.me?.questionSet[questionIndex]?.answers.map((answer: any, answerIndex: number) =>{
+            {questionIndex !== undefined? console.log(data.me.questionSet[questionIndex].answers): null}
+            {questionIndex !== undefined? data?.me?.questionSet[questionIndex]?.answers.map((answer: any, answerIndex: number) =>{
                     console.log(questionIndex)
                     return(<AnswerNode className="mt-4" key={answer.id} answer={answer} answerIndex={answerIndex} questionID={questionId} isImageQuestion={isImageQuestion}/>)
                     }

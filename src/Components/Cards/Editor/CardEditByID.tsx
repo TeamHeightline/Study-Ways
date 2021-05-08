@@ -2,12 +2,12 @@ import React, {useState} from 'react'
 import Typography from "@material-ui/core/Typography";
 import {
     Button,
-    createStyles,
+    createStyles, Divider,
     ListItemIcon,
     makeStyles,
     Menu,
     MenuItem,
-    MenuProps,
+    MenuProps, Select,
     TextField,
     Theme,
     withStyles
@@ -70,21 +70,24 @@ export default function CardEditByID(props:any){
     const [cardID, setCardID] = useState(0)
     const [cardHeader, setCardHeader] = useState("Заголовок по умолчанию")
 
-    const [cardText, setCardText] = useState('')
+    const [mainContentType, setMainContentType] = useState(0)
+    const [cardMainText, setCardMainText] = useState('')
     const [cardYoutubeVideoUrl, setCardYoutubeVideoUrl] = useState("https://www.youtube.com/watch?v=vpMJ_rNN9vY")
-    const [cardSrcToOtherSite, setCardSrcToOtherSite] = useState('')
+    const [cardAdditionalText, setCardAdditionalText] = useState('')
     const [cardBodyQuestionId, setCardBodyQuestionId] = useState(69)
     const [cardBeforeCardQuestionId, setCardBeforeCardQuestionId] = useState(70)
 
 
-    const [isUseText, setIsUseText] = useState(true)
-    const [isUseYoutubeVideo, setIsUseYoutubeVideo] = useState(true)
-    const [isUseSrcToOtherSite, setIsUseSrcToOtherSite] = useState(false)
+
+
+    const [isUseMainContent, setIsUseMainContent] = useState(true)
+    const [isUseMainText, setIsUseMainText] = useState(true)
+    const [isUseAdditionalText, setIsUseAdditionalText] = useState(false)
     const [isUseBodyQuestion, setIsUseBodyQuestion] = useState(false)
     const [isUseBeforeCardQuestion, setIsUseBeforeCardQuestion] = useState(false)
 
 
-    const [sitePreviewData, setSitePreviewData] = useState()
+
     const {data: cardBodyQuestionData, loading: cardBodyQuestionLoading} = useQuery(QUESTION_BY_ID, {
           variables: {
               "id" : cardBodyQuestionId
@@ -110,14 +113,14 @@ export default function CardEditByID(props:any){
 
 
 
-    const isUseTextHandle = (e) =>{
-        setIsUseText(!isUseText)
+    const isUseMainTextHandle = (e) =>{
+        setIsUseMainText(!isUseMainText)
     }
-    const isUseYoutubeVideoHandler = (e) =>{
-        setIsUseYoutubeVideo(!isUseYoutubeVideo)
+    const isUseMainContentHandler = (e) =>{
+        setIsUseMainContent(!isUseMainContent)
     }
-    const isUseSrcToOtherSiteHandle = (e) =>{
-        setIsUseSrcToOtherSite(!isUseSrcToOtherSite)
+    const isUseAdditionalTextHandle = (e) =>{
+        setIsUseAdditionalText(!isUseAdditionalText)
     }
     const isUseBodyQuestionHandle = (e) =>{
         setIsUseBodyQuestion(!isUseBodyQuestion)
@@ -126,18 +129,22 @@ export default function CardEditByID(props:any){
         setIsUseBeforeCardQuestion(!isUseBeforeCardQuestion)
     }
 
+    const mainContentTypeHandle = (e) =>{
+        setMainContentType(e.target.value)
+    }
+
 
     const cardHeaderHandle = (e) =>{
         setCardHeader(e.target.value)
     }
     const cardTextHandle = (e) =>{
-        setCardText(e.target.value)
+        setCardMainText(e.target.value)
     }
     const cardYoutubeVideoUrlHandle = (e) =>{
         setCardYoutubeVideoUrl(e.target.value)
     }
-    const cardSrcToOtherSiteHandle = (e) =>{
-        setCardSrcToOtherSite(e.target.value)
+    const cardAdditionalTextHandle = (e) =>{
+        setCardAdditionalText(e.target.value)
     }
     const cardBodyQuestionIdHandle = (e)  =>{
         const valueWithOnlyNumber = e.target.value.replace(/[^\d]/g, '')
@@ -181,50 +188,69 @@ export default function CardEditByID(props:any){
                         </ListItemIcon>
                         Настроить содержимое
                     </Button>
-                    <StyledMenu
+                    <Menu
                         id="customized-menu"
                         anchorEl={anchorEl}
                         // keepMounted
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
                     >
-                        <StyledMenuItem onClick={isUseTextHandle}>
+                        <MenuItem onClick={isUseMainContentHandler}>
                             <Switch
-                                checked={isUseText}
-                                onChange={isUseTextHandle}
-                                name="checkedB"
-                                color="secondary"
-                            />
-                            <ListItemIcon>
-                                <TextFieldsIcon/>
-                            </ListItemIcon>
-                            Текст
-                        </StyledMenuItem>
-                        <StyledMenuItem onClick={isUseYoutubeVideoHandler}>
-                            <Switch
-                                checked={isUseYoutubeVideo}
-                                onChange={isUseYoutubeVideoHandler}
+                                checked={isUseMainContent}
+                                onChange={isUseMainContentHandler}
                                 name="checkedB"
                                 color="secondary"
                             />
                             <ListItemIcon>
                                 <YouTubeIcon/>
                             </ListItemIcon>
-                            Видео с Youtube
-                        </StyledMenuItem>
-                        <StyledMenuItem onClick={isUseSrcToOtherSiteHandle}>
+                            Основной контент
+                        </MenuItem>
+                        {isUseMainContent?
+                            <div>
+                            <MenuItem>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={mainContentType}
+                                onChange={mainContentTypeHandle}
+                                className="col-11 ml-3"
+                            >
+                                <MenuItem value={0}>Видео с Youtube</MenuItem>
+                                <MenuItem value={1}>Ссылка на внешний ресурс</MenuItem>
+                                <MenuItem value={2}>Изображение</MenuItem>
+                            </Select>
+                        </MenuItem>
+                        <MenuItem onClick={isUseMainTextHandle}>
                             <Switch
-                                checked={isUseSrcToOtherSite}
-                                onChange={isUseSrcToOtherSiteHandle}
+                                checked={isUseMainText}
+                                onChange={isUseMainTextHandle}
+                                name="checkedB"
+                                color="secondary"
+                            />
+                            <ListItemIcon>
+                                <TextFieldsIcon/>
+                            </ListItemIcon>
+                            Основной текст
+                        </MenuItem>
+                            </div>
+                            : null}
+                            <Divider/>
+                        <MenuItem onClick={isUseAdditionalTextHandle}>
+                            <Switch
+                                checked={isUseAdditionalText}
+                                onChange={isUseAdditionalTextHandle}
                                 name="checkedB"
                                 color="secondary"
                             />
                             <ListItemIcon>
                                 <HttpIcon/>
                             </ListItemIcon>
-                            Ссылка на внешний ресурс
-                        </StyledMenuItem>
-                        <StyledMenuItem onClick={isUseBodyQuestionHandle}
+                            Дополнительный текст
+                        </MenuItem>
+                        <Divider/>
+                        <MenuItem onClick={isUseBodyQuestionHandle}
                         >
                             <Switch
                                 checked={isUseBodyQuestion}
@@ -236,8 +262,8 @@ export default function CardEditByID(props:any){
                                 <DoneAllIcon/>
                             </ListItemIcon>
                             Тест в карточке
-                        </StyledMenuItem>
-                        <StyledMenuItem onClick={isUseBeforeCardQuestionHandle}
+                        </MenuItem>
+                        <MenuItem onClick={isUseBeforeCardQuestionHandle}
                         >
                             <Switch
                                 checked={isUseBeforeCardQuestion}
@@ -249,8 +275,8 @@ export default function CardEditByID(props:any){
                                 <DoneAllIcon/>
                             </ListItemIcon>
                             Тест перед карточкой
-                        </StyledMenuItem>
-                    </StyledMenu>
+                        </MenuItem>
+                    </Menu>
 
 
 
@@ -259,7 +285,7 @@ export default function CardEditByID(props:any){
             <br/>
             <Row className="mt-4">
 
-                    {isUseYoutubeVideo? <Col className="col-12 col-lg-5  mt-4 ml-5">
+                    {isUseMainContent && mainContentType === 0? <Col className="col-12 col-lg-5  mt-4 ml-5">
                         <ReactPlayer width="auto"  controls
                                      url={cardYoutubeVideoUrl}
                         />
@@ -273,32 +299,33 @@ export default function CardEditByID(props:any){
                             onChange={cardYoutubeVideoUrlHandle}
                         />
                     </Col>: null}
-                    {isUseText? <Col className="col-12 col-lg-6 ml-4">
+                    {isUseMainContent && isUseMainText? <Col className="col-12 col-lg-6 ml-4">
                         <TextField
                             className="mt-2 col-12 ml-3"
                             key={cardID + "text"}
                             id="standard-multiline-flexible"
-                            label="Текст"
+                            label="Основной текст"
                             multiline
                             fullWidth
                             rowsMax={21}
                             // style={{width: "50vw"}}
-                            value={cardText}
+                            value={cardMainText}
                             onChange={cardTextHandle}
                         />
                     </Col>: null}
             </Row>
 
             <Row className="mt-4">
-                {isUseSrcToOtherSite? <Col className="col-12 col-lg-5 ml-5 mt-4">
+                {isUseAdditionalText? <Col className="col-11 ml-5 mt-4">
                     <TextField
                         className="mt-2 col-12"
-                        key={cardID + "otherSite"}
+                        key={cardID + "AdditionalText"}
                         id="standard-multiline-flexible"
-                        label="Ссылка на внешний ресурс"
+                        label="Дополнительный текст"
                         fullWidth
-                        value={cardSrcToOtherSite}
-                        onChange={cardSrcToOtherSiteHandle}
+                        multiline
+                        value={cardAdditionalText}
+                        onChange={cardAdditionalTextHandle}
                     />
                 </Col>: null}
             </Row>

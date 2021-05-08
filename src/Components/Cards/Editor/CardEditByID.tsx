@@ -22,6 +22,9 @@ import HttpIcon from '@material-ui/icons/Http';
 import SettingsIcon from '@material-ui/icons/Settings';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import {gql, useQuery} from "@apollo/client";
+import { Upload, message } from 'antd';
+import { InboxOutlined } from '@ant-design/icons';
+import 'antd/dist/antd.css';
 
 
 const QUESTION_BY_ID = gql`
@@ -33,41 +36,10 @@ const QUESTION_BY_ID = gql`
 
 
 
-const StyledMenu = withStyles({
-    paper: {
-        border: '1px solid #d3d0d5',
-    },
-})((props: MenuProps) => (
-    <Menu
-        elevation={0}
-        getContentAnchorEl={null}
-        anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-        }}
-        transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-        }}
-        {...props}
-    />
-));
-
-const StyledMenuItem = withStyles((theme) => ({
-    root: {
-        '&:focus': {
-            backgroundColor: theme.palette.primary.main,
-            '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-                color: theme.palette.common.white,
-            },
-        },
-    },
-}))(MenuItem);
-
 export default function CardEditByID(props:any){
 
 
-    const [cardID, setCardID] = useState(0)
+    const [cardID, setCardID] = useState(1)
     const [cardHeader, setCardHeader] = useState("Заголовок по умолчанию")
 
     const [mainContentType, setMainContentType] = useState(0)
@@ -76,7 +48,7 @@ export default function CardEditByID(props:any){
     const [cardAdditionalText, setCardAdditionalText] = useState('')
     const [cardBodyQuestionId, setCardBodyQuestionId] = useState(69)
     const [cardBeforeCardQuestionId, setCardBeforeCardQuestionId] = useState(70)
-
+    const [cardImage, setCardImage] = useState<any>()
 
 
 
@@ -111,6 +83,16 @@ export default function CardEditByID(props:any){
         setAnchorEl(null);
     };
 
+    const { Dragger } = Upload;
+
+
+    const upload_props = {
+        name: 'file',
+        multiple: false,
+        maxCount: 1,
+        accept: "image/png, image/jpeg",
+    };
+
 
 
     const isUseMainTextHandle = (e) =>{
@@ -133,7 +115,29 @@ export default function CardEditByID(props:any){
         setMainContentType(e.target.value)
     }
 
+    const handleUploadImage = (e: any) =>{
+        setCardImage(e)
 
+        const formData = new FormData();
+        formData.append('image', e);
+        formData.append('card', cardID.toString());
+        fetch(
+            'https://iot-experemental.herokuapp.com/cardfiles/card?update_id='+ cardID,
+            {
+                method: 'POST',
+                body: formData,
+            }
+        )
+            .then((response) => response.json())
+            .then((result) => {
+                console.log('Success:', result);
+                message.success(`${e.file.name} успешно загружен.`);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                message.error(`${e.file.name} не удалось загрузить`);
+            });
+    }
     const cardHeaderHandle = (e) =>{
         setCardHeader(e.target.value)
     }
@@ -157,7 +161,7 @@ export default function CardEditByID(props:any){
 
 
     return(
-        <div>
+        <div className="col-12">
             <div className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Редактировать карточку</div>
             <Row>
                 <Col className="col-6">
@@ -283,11 +287,12 @@ export default function CardEditByID(props:any){
                 </Col>
             </Row>
             <br/>
-            <Row className="mt-4">
+            <Row className="mt-4 " >
 
                     {isUseMainContent && mainContentType === 0? <Col className="col-12 col-lg-5  mt-4 ml-5">
                         <ReactPlayer width="auto"  controls
                                      url={cardYoutubeVideoUrl}
+                                     height={440}
                         />
                         <TextField
                             className="mt-2 col-12"
@@ -299,7 +304,22 @@ export default function CardEditByID(props:any){
                             onChange={cardYoutubeVideoUrlHandle}
                         />
                     </Col>: null}
-                    {isUseMainContent && isUseMainText? <Col className="col-12 col-lg-6 ml-4">
+                {isUseMainContent && (mainContentType === 1 || mainContentType === 2)?
+                    <Col className="col-12 col-lg-5  mt-4 ml-5 mr-1" style={{height: "440px"}}>
+                        <Dragger {...upload_props}
+                                 beforeUpload={() => false}
+                                 onChange={handleUploadImage}>
+                            <p className="ant-upload-drag-icon">
+                                <InboxOutlined />
+                            </p>
+                            <p className="ant-upload-text">Нажмите или перетащите изображение для загрузки</p>
+                            <p className="ant-upload-hint">
+                                Поддерживает загрузку одного изображения
+                            </p>
+                        </Dragger>
+                    </Col>
+                    : null}
+                    {isUseMainContent && isUseMainText? <Col className="col-12 col-lg-6 ml-4 mr-1">
                         <TextField
                             className="mt-2 col-12 ml-3"
                             key={cardID + "text"}

@@ -268,7 +268,7 @@ export default function UpdateQuestion() {
         return (<Spinner animation="border" variant="success" className=" offset-6 mt-5"/>)
     }
     return (
-        <div>
+        <div className="col-12">
             <div className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Редактировать вопрос</div>
             <div className="col-8 offset-2 mt-3 ">
                 {memedAutocomplite}

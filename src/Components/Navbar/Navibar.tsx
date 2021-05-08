@@ -28,7 +28,7 @@ export default function Navibar(){
 
     return(
 
-            <Navbar bg="light" expand="lg" >
+            <Navbar bg="light" expand="lg" className="col-12 mr-1" >
                 <Navbar.Brand>IOT</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">

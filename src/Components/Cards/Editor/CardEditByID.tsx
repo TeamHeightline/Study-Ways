@@ -16,6 +16,17 @@ import Switch from "@material-ui/core/Switch";
 import {Alert, Col, Row} from "react-bootstrap";
 import ReactPlayer from "react-player";
 
+import Editor from '../../../ckeditor5-custom-build/build/ckeditor';
+import { CKEditor } from '@ckeditor/ckeditor5-react'
+import './styleForCKEditor.css'
+
+import Context from '@ckeditor/ckeditor5-core/src/context';
+// import Autosave  from '@ckeditor/ckeditor5-autosave';
+// import SpecialCharacters from '@ckeditor/ckeditor5-special-characters';
+// import SpecialCharactersEssentials from '@ckeditor/ckeditor5-special-characters/src/specialcharactersessentials';
+// import Editor from 'ckeditor5-custom-build/build/ckeditor';
+
+
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 import YouTubeIcon from '@material-ui/icons/YouTube';
 import HttpIcon from '@material-ui/icons/Http';
@@ -140,8 +151,8 @@ export default function CardEditByID(props:any){
     const cardHeaderHandle = (e) =>{
         setCardHeader(e.target.value)
     }
-    const cardTextHandle = (e) =>{
-        setCardMainText(e.target.value)
+    const cardMainTextHandle = async (e) =>{
+        e?.target?.value ? setCardMainText(e?.target?.value): null
     }
     const cardYoutubeVideoUrlHandle = (e) =>{
         setCardYoutubeVideoUrl(e.target.value)
@@ -326,18 +337,28 @@ export default function CardEditByID(props:any){
                         </Dragger>
                     </Col>
                     : null}
-                    {isUseMainContent && isUseMainText? <Col className="col-12 col-lg-6 ml-4 mr-1">
-                        <TextField
-                            className="mt-2 col-12 ml-3"
-                            key={cardID + "text"}
-                            id="standard-multiline-flexible"
-                            label="Основной текст"
-                            multiline
-                            fullWidth
-                            rowsMax={21}
-                            // style={{width: "50vw"}}
-                            value={cardMainText}
-                            onChange={cardTextHandle}
+                    {isUseMainContent && isUseMainText?
+                        <Col className="col-12 col-lg-6 ml-4 mr-1 mt-4" style={{height: "440px"}}>
+
+                        <CKEditor
+                            editor={ Editor }
+                            style={{maxHeight: "440px"}}
+                            config={ {
+                                // plugins: [ Paragraph, Bold, Italic, Essentials ],
+                                toolbar: [ 'bold', 'italic', 'fontSize', 'link','|', 'undo', 'redo', '|',
+                                     'MathType', ],
+                                //Можно добавить химические формулы 'ChemType'
+                                //и специальные символы 'specialCharacters',
+
+                            } }
+                            onReady={ editor => {
+                                // You can store the "editor" and use when it is needed.
+                                console.log( 'Editor1 is ready to use!', editor );
+                            } }
+                            onChange={ ( event, editor ) => {
+                                cardMainTextHandle(editor.getData());
+                            } }
+
                         />
                     </Col>: null}
             </Row>
@@ -356,7 +377,6 @@ export default function CardEditByID(props:any){
                     />
                 </Col>: null}
             </Row>
-
 
             <Row className="mt-4">
 

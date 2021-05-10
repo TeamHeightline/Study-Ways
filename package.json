@@ -27,7 +27,6 @@
     "apollo-link-error": "^1.1.13",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
-    "ckeditor5-custom-build": "file:ckeditor5-custom-build",
     "graphql": "^15.5.0",
     "graphql-config": "^3.2.0",
     "graphql.macro": "^1.4.2",

@@ -8,6 +8,10 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.11",
+    "@ckeditor/ckeditor5-autosave": "^27.1.0",
+    "@ckeditor/ckeditor5-build-classic": "^27.1.0",
+    "@ckeditor/ckeditor5-react": "^3.0.2",
+    "@ckeditor/ckeditor5-special-characters": "^27.1.0",
     "@material-ui/core": "^4.11.3",
     "@material-ui/data-grid": "^4.0.0-alpha.19",
     "@material-ui/icons": "^4.11.2",
@@ -23,6 +27,7 @@
     "apollo-link-error": "^1.1.13",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "ckeditor5-custom-build": "file:ckeditor5-custom-build",
     "graphql": "^15.5.0",
     "graphql-config": "^3.2.0",
     "graphql.macro": "^1.4.2",
@@ -71,6 +76,7 @@
     ]
   },
   "devDependencies": {
+    "@ckeditor/ckeditor5-alignment": "^27.1.0",
     "@types/react-router-dom": "^5.1.7",
     "@typescript-eslint/eslint-plugin": "^4.15.0",
     "@typescript-eslint/parser": "^4.15.0",

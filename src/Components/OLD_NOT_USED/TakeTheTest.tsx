@@ -147,12 +147,13 @@ export function TakeTheTest(){
                                     showHelpVideo={true}/>
 
                 <ThemeProvider theme={theme}>
-                <DataGrid rows={rows} columns={columns}  checkboxSelection autoHeight={true}
-                          disableColumnMenu={true} hideFooter={true} disableExtendRowFullWidth={false}
-                          showCellRightBorder={true} showToolbar={false} pageSize={10}
-                          onRowSelected={(RowSelectedParams) =>{selectDeselectRow(RowSelectedParams)}}
-                          disableColumnSelector={true} rowHeight={60}
-                />
+                {/*<DataGrid rows={rows} columns={columns}  checkboxSelection autoHeight={true}*/}
+                {/*          disableColumnMenu={true} hideFooter={true} disableExtendRowFullWidth={false}*/}
+                {/*          showCellRightBorder={true}  pageSize={10}*/}
+                {/*          onRowSelected={(RowSelectedParams) =>{selectDeselectRow(RowSelectedParams)}}*/}
+                {/*          disableColumnSelector={true} rowHeight={60}*/}
+                {/*/>*/}
+
                 <Row>
                     <Button onClick={() =>{checkUserErrors()} } variant="outline-info" className="ml-3 mt-2">Проверить ответы</Button>
                     <Form className="mr-3 ml-3 mt-2">

@@ -116,10 +116,8 @@ export default function CardEditByID(props:any){
     }
 
     const handleUploadImage = (e: any) =>{
-        setCardImage(e)
-
         const formData = new FormData();
-        formData.append('image', e);
+        formData.append('image', e.file);
         formData.append('card', cardID.toString());
         fetch(
             'https://iot-experemental.herokuapp.com/cardfiles/card?update_id='+ cardID,
@@ -132,6 +130,7 @@ export default function CardEditByID(props:any){
             .then((result) => {
                 console.log('Success:', result);
                 message.success(`${e.file.name} успешно загружен.`);
+                setCardImage(result.image)
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -290,9 +289,10 @@ export default function CardEditByID(props:any){
             <Row className="mt-4 " >
 
                     {isUseMainContent && mainContentType === 0? <Col className="col-12 col-lg-5  mt-4 ml-5">
-                        <ReactPlayer width="auto"  controls
+                        <ReactPlayer controls
                                      url={cardYoutubeVideoUrl}
                                      height={440}
+                                     width={770}
                         />
                         <TextField
                             className="mt-2 col-12"
@@ -305,10 +305,17 @@ export default function CardEditByID(props:any){
                         />
                     </Col>: null}
                 {isUseMainContent && (mainContentType === 1 || mainContentType === 2)?
-                    <Col className="col-12 col-lg-5  mt-4 ml-5 mr-1" style={{height: "440px"}}>
+                    <Col className="col-12 col-lg-5  mt-4 ml-5 mr-1" style={{height: "440px"}}
+                         >
                         <Dragger {...upload_props}
                                  beforeUpload={() => false}
-                                 onChange={handleUploadImage}>
+                                 onChange={handleUploadImage}
+                                 style={{backgroundImage: "url(" + cardImage + ")", backgroundSize: "cover",
+                                     backgroundRepeat: "no-repeat", backgroundColor: 'rgba(255, 255, 255, 0.7)'}}
+
+                        >
+                            {/*<iframe src={cardImage}/>*/}
+
                             <p className="ant-upload-drag-icon">
                                 <InboxOutlined />
                             </p>

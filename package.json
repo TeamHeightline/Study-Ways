@@ -27,7 +27,7 @@
     "apollo-link-error": "^1.1.13",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
-    "ckeditor5-custom-build": "file:src/ckeditor5-custom-build",
+    "ckeditor5-custom-build": "file:src/ckeditor5-custom-build/build/ckeditor",
     "file": "^0.2.2",
     "graphql": "^15.5.0",
     "graphql-config": "^3.2.0",
@@ -79,10 +79,6 @@
   "devDependencies": {
     "@ckeditor/ckeditor5-alignment": "^27.1.0",
     "@types/react-router-dom": "^5.1.7",
-    "@typescript-eslint/eslint-plugin": "^4.15.0",
-    "@typescript-eslint/parser": "^4.15.0",
-    "eslint": "^7.18.0",
-    "eslint-plugin-react": "^7.22.0",
     "webpack": "^4.44.2",
     "webpack-cli": "^4.6.0"
   }

@@ -47,7 +47,7 @@ const QUESTION_BY_ID = gql`
 
 
 
-export default function CardEditByID(props:any){
+export default function CardEditByID(props){
 
 
     const [cardID, setCardID] = useState(1)
@@ -59,7 +59,7 @@ export default function CardEditByID(props:any){
     const [cardAdditionalText, setCardAdditionalText] = useState('')
     const [cardBodyQuestionId, setCardBodyQuestionId] = useState(69)
     const [cardBeforeCardQuestionId, setCardBeforeCardQuestionId] = useState(70)
-    const [cardImage, setCardImage] = useState<any>()
+    const [cardImage, setCardImage] = useState()
 
 
 
@@ -84,9 +84,9 @@ export default function CardEditByID(props:any){
     })
 
 
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [anchorEl, setAnchorEl] = React.useState(null);
 
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
@@ -126,7 +126,7 @@ export default function CardEditByID(props:any){
         setMainContentType(e.target.value)
     }
 
-    const handleUploadImage = (e: any) =>{
+    const handleUploadImage = (e) =>{
         const formData = new FormData();
         formData.append('image', e.file);
         formData.append('card', cardID.toString());

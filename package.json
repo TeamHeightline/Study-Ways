@@ -2,7 +2,9 @@
   "name": "iot",
   "version": "0.1.0",
   "babel": {
-    "plugins": [ "@babel/plugin-transform-modules-commonjs" ]
+    "plugins": [
+      "@babel/plugin-transform-modules-commonjs"
+    ]
   },
   "private": true,
   "engines": {
@@ -82,6 +84,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/cli": "^7.13.16",
     "@ckeditor/ckeditor5-alignment": "^27.1.0",
     "@types/react-router-dom": "^5.1.7",
     "webpack": "4.44.2",

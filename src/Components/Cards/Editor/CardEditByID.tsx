@@ -15,7 +15,7 @@ import {
 import Switch from "@material-ui/core/Switch";
 import {Alert, Col, Row} from "react-bootstrap";
 import ReactPlayer from "react-player";
-const Editor = require('../../../ckeditor5-custom-build/build/ckeditor'); // Единственный способ
+import {ClassicEditor} from '../../../ckeditor5-custom-build/build/ckeditor'; // Единственный способ
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import './styleForCKEditor.css'
 
@@ -340,7 +340,7 @@ export default function CardEditByID(props){
                         <Col className="col-12 col-lg-6 ml-4 mr-1 mt-4" style={{height: "440px"}}>
 
                         <CKEditor
-                            editor={ Editor }
+                            editor={ ClassicEditor }
                             style={{maxHeight: "440px"}}
                             config={ {
                                 // plugins: [ Paragraph, Bold, Italic, Essentials ],

@@ -23,7 +23,7 @@ module.exports = {
         rules: [
             {
                 test: /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
-                use: [ 'raw-loader' ]
+                use: [ 'babel-loader' ]
             },
             {
                 test: /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/,

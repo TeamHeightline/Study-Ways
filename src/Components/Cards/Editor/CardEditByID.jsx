@@ -15,12 +15,11 @@ import {
 import Switch from "@material-ui/core/Switch";
 import {Alert, Col, Row} from "react-bootstrap";
 import ReactPlayer from "react-player";
-const Editor = require( '../../../ckeditor5-custom-build/build/ckeditor' ); // Единственный способ
+import Editor from  '../../../ckeditor5-custom-build/build/ckeditor'; // Единственный способ
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import './styleForCKEditor.css'
 
 
-import Context from '@ckeditor/ckeditor5-core/src/context';
 // import Autosave  from '@ckeditor/ckeditor5-autosave';
 // import SpecialCharacters from '@ckeditor/ckeditor5-special-characters';
 // import SpecialCharactersEssentials from '@ckeditor/ckeditor5-special-characters/src/specialcharactersessentials';

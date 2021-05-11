@@ -10,60 +10,60 @@ if (!Array.isArray(nodeModulesLoader.exclude)) {
 nodeModulesLoader.exclude.push(/@ckeditor\/ckeditor5-custom-build/);
 
 module.exports = {
-    // plugins: [
-    //     // ...
-    //
-    //     new CKEditorWebpackPlugin( {
-    //         // See https://ckeditor.com/docs/ckeditor5/latest/features/ui-language.html
-    //         language: 'ru'
-    //     } )
-    // ],
-    //
-    // module: {
-    //     rules: [
-    //         {
-    //             test: /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
-    //             use: [ 'raw-loader' ]
-    //         },
-    //         {
-    //             test: /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/,
-    //             use: [
-    //                 {
-    //                     loader: 'style-loader',
-    //                     options: {
-    //                         injectType: 'singletonStyleTag',
-    //                         attributes: {
-    //                             'data-cke': true
-    //                         }
-    //                     }
-    //                 },
-    //                 {
-    //                     loader: 'postcss-loader',
-    //                     options: styles.getPostCssConfig( {
-    //                         themeImporter: {
-    //                             themePath: require.resolve( '@ckeditor/ckeditor5-theme-lark' )
-    //                         },
-    //                         minify: true
-    //                     } )
-    //                 },
-    //             ]
-    //         }
-    //     ]
-    // }
+    plugins: [
+        // ...
+
+        new CKEditorWebpackPlugin( {
+            // See https://ckeditor.com/docs/ckeditor5/latest/features/ui-language.html
+            language: 'ru'
+        } )
+    ],
 
     module: {
         rules: [
             {
-                test: /\.m?js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: "babel-loader",
-                    options: {
-                        presets: ['@babel/preset-env']
-                    }
-                }
+                test: /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
+                use: [ 'raw-loader' ]
+            },
+            {
+                test: /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/,
+                use: [
+                    {
+                        loader: 'style-loader',
+                        options: {
+                            injectType: 'singletonStyleTag',
+                            attributes: {
+                                'data-cke': true
+                            }
+                        }
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: styles.getPostCssConfig( {
+                            themeImporter: {
+                                themePath: require.resolve( '@ckeditor/ckeditor5-theme-lark' )
+                            },
+                            minify: true
+                        } )
+                    },
+                ]
             }
         ]
     }
+
+    // module: {
+    //     rules: [
+    //         {
+    //             test: /\.m?js$/,
+    //             exclude: /node_modules/,
+    //             use: {
+    //                 loader: "babel-loader",
+    //                 options: {
+    //                     presets: ['@babel/preset-env']
+    //                 }
+    //             }
+    //         }
+    //     ]
+    // }
 
 };

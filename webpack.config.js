@@ -1,6 +1,8 @@
+const path = require('path');
+
 const CKEditorWebpackPlugin = require( '@ckeditor/ckeditor5-dev-webpack-plugin' );
 const { styles } = require( '@ckeditor/ckeditor5-dev-utils' );
-var webpack = require('webpack');
+
 
 // const nodeModulesLoader = environment.loaders.get('nodeModules');
 //
@@ -11,20 +13,66 @@ var webpack = require('webpack');
 // nodeModulesLoader.exclude.push(/@ckeditor\/ckeditor5-custom-build/);
 
 module.exports = {
-    plugins: [
-        // ...
 
+    entry: path.resolve(__dirname, './src/index.js'),
+    resolve: {
+        extensions: ['*', '.js', '.jsx', '.tsx', '.ts'],
+    },
+
+    output: {
+        path: path.resolve(__dirname, './dist'),
+        filename: 'bundle.js',
+    },
+    devServer: {
+        contentBase: path.resolve(__dirname, './dist'),
+    },
+
+    plugins: [
         new CKEditorWebpackPlugin( {
             // See https://ckeditor.com/docs/ckeditor5/latest/features/ui-language.html
-            language: 'ru'
+            // language: 'ru'
         } )
     ],
+
 
     module: {
         rules: [
             {
+                test: /\.ts(x?)$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: "ts-loader"
+                    }
+                ]
+            },
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: ['babel-loader'],
+            },
+            {
+                test: /\.css$/i,
+                use: ["style-loader", "css-loader"],
+            },
+            {
                 test: /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
-                use: [ 'babel-loader' ]
+                use: [ 'raw-loader' ]
+            },
+            {
+                test: /\.(graphql|gql)$/,
+                exclude: /node_modules/,
+                loader: 'graphql-tag/loader',
+            },
+            {
+                test: /\.m?js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
+                }
             },
             {
                 test: /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/,

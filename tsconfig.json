@@ -1,11 +1,4 @@
 {
-//  "compilerOptions": {
-//    "target": "ES6",
-//    "jsx": "react",
-//    "noEmit": true
-//  },
-
-
   "compilerOptions": {
     "target": "ES6",
     "lib": [
@@ -24,9 +17,9 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-//    "noEmit": true,
-    "jsx": "react",
-    "noImplicitAny": false
+    "jsx": "react-jsx",
+    "noImplicitAny": false,
+    "noEmit": true
   },
   "include": [
     "src"

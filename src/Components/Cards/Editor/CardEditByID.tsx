@@ -59,6 +59,7 @@ export default function CardEditByID(props){
     const [cardBodyQuestionId, setCardBodyQuestionId] = useState(69)
     const [cardBeforeCardQuestionId, setCardBeforeCardQuestionId] = useState(70)
     const [cardImage, setCardImage] = useState()
+    const [cardSrcToOtherSite, setCardSrcToOtherSite] = useState('')
 
 
 
@@ -166,6 +167,9 @@ export default function CardEditByID(props){
     const cardBeforeCardQuestionIdHandle = (e) =>{
         const valueWithOnlyNumber = e.target.value.replace(/[^\d]/g, '')
         setCardBeforeCardQuestionId(valueWithOnlyNumber)
+    }
+    const cardSrcToOtherSiteHandle = (e) =>{
+        setCardSrcToOtherSite(e.target.value)
     }
 
     return(
@@ -339,6 +343,17 @@ export default function CardEditByID(props){
 
                             </div>
                         </Dragger>
+                        {mainContentType === 1? <div>
+                            <TextField
+                                className="mt-2 col-12"
+                                key={cardID + "srcToOtherSite"}
+                                id="standard-flexible"
+                                label="Ссылка на внешний сайт"
+                                fullWidth
+                                value={cardSrcToOtherSite}
+                                onChange={cardSrcToOtherSiteHandle}
+                            />
+                        </div>: null}
 
                     </Col>
                     : null}

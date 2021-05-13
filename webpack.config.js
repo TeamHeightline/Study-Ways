@@ -1,4 +1,4 @@
-// const path = require('path');
+const path = require('path');
 //
 const CKEditorWebpackPlugin = require( '@ckeditor/ckeditor5-dev-webpack-plugin' );
 const { styles } = require( '@ckeditor/ckeditor5-dev-utils' );
@@ -13,7 +13,6 @@ const webpack = require('webpack')
 // nodeModulesLoader.exclude.push(/@ckeditor\/ckeditor5-custom-build/);
 
 module.exports = {
-    mode: 'development',
 
     entry: path.resolve(__dirname, './src/index.js'),
     resolve: {
@@ -35,7 +34,7 @@ module.exports = {
     plugins: [
         new CKEditorWebpackPlugin( {
             // See https://ckeditor.com/docs/ckeditor5/latest/features/ui-language.html
-            // language: 'ru'
+            language: 'ru'
         } ),
         new webpack.HotModuleReplacementPlugin(),
     ],

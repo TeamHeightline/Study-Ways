@@ -15,8 +15,8 @@ import {
 import Switch from "@material-ui/core/Switch";
 import {Alert, Col, Row} from "react-bootstrap";
 import ReactPlayer from "react-player";
-import Editor from 'ckeditor5-custom-build/build/ckeditor';
-import { CKEditor } from '@ckeditor/ckeditor5-react'
+// import Editor from 'ckeditor5-custom-build/build/ckeditor';
+// import { CKEditor } from '@ckeditor/ckeditor5-react'
 import './styleForCKEditor.css'
 
 
@@ -339,26 +339,26 @@ export default function CardEditByID(props){
                     {isUseMainContent && isUseMainText?
                         <Col className="col-12 col-lg-6 ml-4 mr-1 mt-4" style={{height: "440px"}}>
 
-                        <CKEditor
-                            editor={ Editor }
-                            style={{maxHeight: "440px"}}
-                            config={ {
-                                // plugins: [ Paragraph, Bold, Italic, Essentials ],
-                                toolbar: [ 'bold', 'italic', 'fontSize', 'link','|', 'undo', 'redo', '|',
-                                     'MathType', ],
-                                //Можно добавить химические формулы 'ChemType'
-                                //и специальные символы 'specialCharacters',
+                        {/*<CKEditor*/}
+                        {/*    editor={ Editor }*/}
+                        {/*    style={{maxHeight: "440px"}}*/}
+                        {/*    config={ {*/}
+                        {/*        // plugins: [ Paragraph, Bold, Italic, Essentials ],*/}
+                        {/*        toolbar: [ 'bold', 'italic', 'fontSize', 'link','|', 'undo', 'redo', '|',*/}
+                        {/*             'MathType', ],*/}
+                        {/*        //Можно добавить химические формулы 'ChemType'*/}
+                        {/*        //и специальные символы 'specialCharacters',*/}
 
-                            } }
-                            onReady={ editor => {
-                                // You can store the "editor" and use when it is needed.
-                                console.log( 'Editor1 is ready to use!', editor );
-                            } }
-                            onChange={ ( event, editor ) => {
-                                cardMainTextHandle(editor.getData());
-                            } }
+                        {/*    } }*/}
+                        {/*    onReady={ editor => {*/}
+                        {/*        // You can store the "editor" and use when it is needed.*/}
+                        {/*        console.log( 'Editor1 is ready to use!', editor );*/}
+                        {/*    } }*/}
+                        {/*    onChange={ ( event, editor ) => {*/}
+                        {/*        cardMainTextHandle(editor.getData());*/}
+                        {/*    } }*/}
 
-                        />
+                        {/*/>*/}
                     </Col>: null}
             </Row>
 

@@ -2,38 +2,31 @@ import React, {useState} from 'react'
 import Typography from "@material-ui/core/Typography";
 import {
     Button,
-    createStyles, Divider,
+    Divider,
     ListItemIcon,
-    makeStyles,
     Menu,
     MenuItem,
-    MenuProps, Select,
+     Select,
     TextField,
-    Theme,
-    withStyles
 } from "@material-ui/core";
 import Switch from "@material-ui/core/Switch";
-import {Alert, Col, Row} from "react-bootstrap";
+import {Col, Row, Spinner} from "react-bootstrap";
 import ReactPlayer from "react-player";
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import './styleForCKEditor.css'
 
-
-// import Autosave  from '@ckeditor/ckeditor5-autosave';
-// import SpecialCharacters from '@ckeditor/ckeditor5-special-characters';
-// import SpecialCharactersEssentials from '@ckeditor/ckeditor5-special-characters/src/specialcharactersessentials';
-// import Editor from 'ckeditor5-custom-build/build/ckeditor';
+import { TreeSelect } from 'antd';
 
 
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 import YouTubeIcon from '@material-ui/icons/YouTube';
-import HttpIcon from '@material-ui/icons/Http';
 import SettingsIcon from '@material-ui/icons/Settings';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import {gql, useQuery} from "@apollo/client";
 import { Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
+import CreateIcon from '@material-ui/icons/Create';
 import 'antd/dist/antd.css';
 
 
@@ -44,6 +37,23 @@ const QUESTION_BY_ID = gql`
         }
     }`
 
+const GET_THEMES = gql`
+    query GET_THEMES{
+        cardGlobalTheme{
+            id
+            name
+            cardthemeSet{
+                id
+                name
+                cardsubthemeSet{
+                    id
+                    name
+                }
+            }
+        }
+    }`
+
+const { SHOW_CHILD, SHOW_ALL } = TreeSelect;
 
 
 export default function CardEditByID(props){
@@ -51,6 +61,7 @@ export default function CardEditByID(props){
 
     const [cardID, setCardID] = useState(1)
     const [cardHeader, setCardHeader] = useState("Заголовок по умолчанию")
+    const [cardSelectedThemeID, setCardSelectedThemeID] = useState([])
 
     const [mainContentType, setMainContentType] = useState(0)
     const [cardMainText, setCardMainText] = useState('')
@@ -69,6 +80,45 @@ export default function CardEditByID(props){
     const [isUseBodyQuestion, setIsUseBodyQuestion] = useState(false)
     const [isUseBeforeCardQuestion, setIsUseBeforeCardQuestion] = useState(false)
 
+    const [dataForThemeTreeView, setDataForThemeTreeView] = useState([])
+
+    const {data: themesData} = useQuery(GET_THEMES, {
+        onCompleted: themesData => {
+            // console.log(themesData.cardGlobalTheme)
+            const data: any = []
+            themesData.cardGlobalTheme.map((GlobalTheme, indexOfGlobalTheme) =>{
+                const ThisGlobalTheme: any = {}
+                ThisGlobalTheme.title = GlobalTheme.name
+                ThisGlobalTheme.id = GlobalTheme.id
+                ThisGlobalTheme.value = GlobalTheme.id
+                ThisGlobalTheme.isLead = false
+                ThisGlobalTheme.pid = 0
+                data.push(ThisGlobalTheme)
+                GlobalTheme.cardthemeSet.map((Theme, indexOfTheme) =>{
+                    const ThisTheme: any = {}
+                    ThisTheme.title = Theme.name
+                    ThisTheme.id = Theme.id * 1000
+                    ThisTheme.value = Theme.id * 1000
+                    ThisTheme.pId = ThisGlobalTheme.id
+                    ThisGlobalTheme.isLead = false
+                    data.push(ThisTheme)
+                    Theme.cardsubthemeSet.map((SubTheme, indexOfSubTheme) =>{
+                        const ThisSubTheme: any = {}
+                        ThisSubTheme.title = SubTheme.name
+                        ThisSubTheme.id = SubTheme.id * 1000000
+                        ThisSubTheme.value = SubTheme.id * 1000000
+                        ThisSubTheme.pId = Theme.id * 1000
+                        ThisGlobalTheme.isLead = true
+                        data.push(ThisSubTheme)
+                    })
+
+                })
+
+            })
+            console.log(data)
+            setDataForThemeTreeView(data)
+        }
+    })
 
     const {data: cardBodyQuestionData, loading: cardBodyQuestionLoading} = useQuery(QUESTION_BY_ID, {
           variables: {
@@ -171,6 +221,30 @@ export default function CardEditByID(props){
     const cardSrcToOtherSiteHandle = (e) =>{
         setCardSrcToOtherSite(e.target.value)
     }
+    const cardSelectedThemeIDHandle = (e) =>{
+        console.log(e)
+        const cleanSubThemes: any = []
+        e.map((id: any) =>{
+            if (id > 1000000){
+                cleanSubThemes.push(id)
+            }
+        })
+        setCardSelectedThemeID(cleanSubThemes)
+    }
+
+    const tProps = {
+        treeDataSimpleMode: true,
+        treeData: dataForThemeTreeView,
+        value: cardSelectedThemeID,
+        onChange: cardSelectedThemeIDHandle,
+        treeCheckable: true,
+
+        showCheckedStrategy: SHOW_CHILD,
+        placeholder: 'Please select',
+        style: {
+            width: '100%',
+        },
+    };
 
     return(
         <div className="col-12">
@@ -261,7 +335,7 @@ export default function CardEditByID(props){
                                 color="secondary"
                             />
                             <ListItemIcon>
-                                <HttpIcon/>
+                                <CreateIcon/>
                             </ListItemIcon>
                             Дополнительный текст
                         </MenuItem>
@@ -294,12 +368,14 @@ export default function CardEditByID(props){
                         </MenuItem>
                     </Menu>
 
-
-
                 </Col>
             </Row>
-            <br/>
-            <Row className="mt-4 " >
+            <Row className="mt-3">
+                <Col className="ml-5 col-6">
+                    {dataForThemeTreeView? <TreeSelect {...tProps} />: <Spinner animation="border" variant="success"/>}
+                </Col>
+            </Row>
+            <Row className="mt-2">
 
                     {isUseMainContent && mainContentType === 0? <Col className="col-12 col-lg-5  mt-4 ml-5">
                         <ReactPlayer controls
@@ -373,7 +449,7 @@ export default function CardEditByID(props){
                             } }
                             onReady={ editor => {
                                 // You can store the "editor" and use when it is needed.
-                                console.log( 'Editor1 is ready to use!', editor );
+                                // console.log( 'Editor1 is ready to use!', editor );
                             } }
                             onChange={ ( event, editor ) => {
                                 cardMainTextHandle(editor.getData());

@@ -15,3 +15,17 @@ query SECOND_QUESTION_BY_ID($id: ID!){
 
     }
 }
+query GET_THEMES{
+    cardGlobalTheme{
+        id
+       name
+        cardthemeSet{
+            id
+            name
+            cardsubthemeSet{
+                id
+                name
+            }
+        }
+    }
+}

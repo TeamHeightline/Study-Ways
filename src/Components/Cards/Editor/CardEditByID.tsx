@@ -168,7 +168,6 @@ export default function CardEditByID(props){
         setCardBeforeCardQuestionId(valueWithOnlyNumber)
     }
 
-
     return(
         <div className="col-12">
             <div className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Редактировать карточку</div>

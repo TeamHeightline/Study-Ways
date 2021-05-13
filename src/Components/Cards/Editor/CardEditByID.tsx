@@ -319,20 +319,27 @@ export default function CardEditByID(props){
                         <Dragger {...upload_props}
                                  beforeUpload={() => false}
                                  onChange={handleUploadImage}
-                                 style={{backgroundImage: "url(" + cardImage + ")", backgroundSize: "cover",
-                                     backgroundRepeat: "no-repeat", backgroundColor: 'rgba(255, 255, 255, 0.7)'}}
-
+                                 style={{backgroundImage: "url(" + cardImage + ")",
+                                     backgroundSize: "cover",
+                                     backgroundRepeat: "no-repeat",
+                                 }}
                         >
                             {/*<iframe src={cardImage}/>*/}
+                            <div className="uploader-content">
 
-                            <p className="ant-upload-drag-icon">
-                                <InboxOutlined />
-                            </p>
-                            <p className="ant-upload-text">Нажмите или перетащите изображение для загрузки</p>
-                            <p className="ant-upload-hint">
-                                Поддерживает загрузку одного изображения
-                            </p>
+                                <br/>
+                                <p className="ant-upload-drag-icon">
+                                    <InboxOutlined />
+                                </p>
+                                <p className="ant-upload-text">Нажмите или перетащите изображение для загрузки</p>
+                                <p className="ant-upload-hint">
+                                    Поддерживает загрузку одного изображения
+                                </p>
+                                <br/>
+
+                            </div>
                         </Dragger>
+
                     </Col>
                     : null}
                     {isUseMainContent && isUseMainText?

@@ -13,7 +13,7 @@ import {Row, Spinner, Col} from "react-bootstrap";
 import TextField from '@material-ui/core/TextField';
 import {Button, Snackbar} from "@material-ui/core";
 
-import {DataGrid, ColDef} from '@material-ui/data-grid';
+import {DataGrid} from '@material-ui/data-grid';
 import {Alert} from "@material-ui/lab";
 
 import Tooltip from '@material-ui/core/Tooltip';
@@ -119,7 +119,7 @@ const MenuProps = {
     },
 };
 
-const columns: ColDef[] = [
+const columns= [
     {field: 'id', headerName: 'ID', width: 70},
     {field: 'text', headerName: 'Текст', width: 650},
     {field: 'authors', headerName: 'Авторы', width: 550},
@@ -158,7 +158,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const columnsForThemesDataGrid: ColDef[] = [
+const columnsForThemesDataGrid = [
     {field: 'id', headerName: 'ID', width: 70},
     {field: 'name', headerName: 'Темы', width: 500},
 ]
@@ -185,7 +185,7 @@ const createThemesDataGrid = (data: any, changeSelectedRowInThemesDataGrid: (val
     )
 }
 
-const columnsForAuthorsDataGrid: ColDef[] = [
+const columnsForAuthorsDataGrid = [
     {field: 'id', headerName: 'ID', width: 70},
     {field: 'name', headerName: 'Автор вопроса', width: 500},
 ]

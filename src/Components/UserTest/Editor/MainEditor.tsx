@@ -1,7 +1,7 @@
 import React, {useMemo, useState} from "react";
 import {BottomNavigation} from "@material-ui/core";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import {AddIcon} from "@material-ui/data-grid";
+import AddIcon from '@material-ui/icons/Add';
 import {ViewList} from "@material-ui/icons";
 import CreatePoint from "./CreatePoint";
 import UpdateQuestion from "./UpdateQuestion";
@@ -18,6 +18,8 @@ query CHECK_USER_LEVEL{
         userAccessLevel
       }
     }`
+
+
 
 
 export default function MainEditor(){

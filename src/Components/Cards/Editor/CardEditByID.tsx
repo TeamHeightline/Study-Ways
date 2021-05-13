@@ -15,12 +15,11 @@ import {
 import Switch from "@material-ui/core/Switch";
 import {Alert, Col, Row} from "react-bootstrap";
 import ReactPlayer from "react-player";
-
-import Editor from '../../../ckeditor5-custom-build/build/ckeditor';
+import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import './styleForCKEditor.css'
 
-import Context from '@ckeditor/ckeditor5-core/src/context';
+
 // import Autosave  from '@ckeditor/ckeditor5-autosave';
 // import SpecialCharacters from '@ckeditor/ckeditor5-special-characters';
 // import SpecialCharactersEssentials from '@ckeditor/ckeditor5-special-characters/src/specialcharactersessentials';
@@ -47,7 +46,7 @@ const QUESTION_BY_ID = gql`
 
 
 
-export default function CardEditByID(props:any){
+export default function CardEditByID(props){
 
 
     const [cardID, setCardID] = useState(1)
@@ -59,7 +58,7 @@ export default function CardEditByID(props:any){
     const [cardAdditionalText, setCardAdditionalText] = useState('')
     const [cardBodyQuestionId, setCardBodyQuestionId] = useState(69)
     const [cardBeforeCardQuestionId, setCardBeforeCardQuestionId] = useState(70)
-    const [cardImage, setCardImage] = useState<any>()
+    const [cardImage, setCardImage] = useState()
 
 
 
@@ -70,12 +69,12 @@ export default function CardEditByID(props:any){
     const [isUseBeforeCardQuestion, setIsUseBeforeCardQuestion] = useState(false)
 
 
-
     const {data: cardBodyQuestionData, loading: cardBodyQuestionLoading} = useQuery(QUESTION_BY_ID, {
           variables: {
               "id" : cardBodyQuestionId
           },
     })
+
 
     const {data: cardBeforeCardQuestionData, loading: cardBeforeCardQuestionLoading} = useQuery(QUESTION_BY_ID, {
         variables: {
@@ -84,9 +83,9 @@ export default function CardEditByID(props:any){
     })
 
 
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [anchorEl, setAnchorEl] = React.useState(null);
 
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
@@ -126,7 +125,7 @@ export default function CardEditByID(props:any){
         setMainContentType(e.target.value)
     }
 
-    const handleUploadImage = (e: any) =>{
+    const handleUploadImage = (e) =>{
         const formData = new FormData();
         formData.append('image', e.file);
         formData.append('card', cardID.toString());

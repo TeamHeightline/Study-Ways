@@ -23,6 +23,9 @@ module.exports = {
     "rules": {
         "@typescript-eslint/ban-ts-ignore": "off",
         "@typescript-eslint/ban-ts-comment": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-var-requires": "off",
         "no-unused-expressions": "off",
         "no-unused-vars": "off",
         "@typescript-eslint/no-unused-vars": "off",

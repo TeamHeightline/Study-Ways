@@ -115,7 +115,7 @@ export default function CardEditByID(props){
                 })
 
             })
-            console.log(data)
+            // console.log(data)
             setDataForThemeTreeView(data)
         }
     })
@@ -222,7 +222,7 @@ export default function CardEditByID(props){
         setCardSrcToOtherSite(e.target.value)
     }
     const cardSelectedThemeIDHandle = (e) =>{
-        console.log(e)
+        // console.log(e)
         const cleanSubThemes: any = []
         e.map((id: any) =>{
             if (id > 1000000){

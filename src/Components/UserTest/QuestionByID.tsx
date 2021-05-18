@@ -146,27 +146,30 @@ export default function QuestionById(props: any) {
 
 
     async function checkErrors() {
-        changeOneTimePusshCheckErrorButton(true)
-        changeTryingCalculation(tryingCalculation + 1)
-        await changeErrorArray([])
-        const oErrArr: any[] = []
-        let minCheckQueue = 10000000000000000000000
-        answers.map((question: any, Index: number) => {
-            if ((question.isTrue && (selected.indexOf(question.id) === -1)) || (!question.isTrue && (selected.indexOf(question.id) !== -1))) {
-                // console.log(question)
-                if (question.checkQueue < minCheckQueue) {
-                    changeActiveWrongQuestionId(question.id)
-                    minCheckQueue = question.checkQueue
-                    changeActiveWrongAnswerIndex(Index)
-                }
-                oErrArr.push(question.id)
-            }
 
-        })
-        if (oErrArr.length === 0){
-            update_statistic()
+        if (selected.length !== 0){
+            changeOneTimePusshCheckErrorButton(true)
+            changeTryingCalculation(tryingCalculation + 1)
+            await changeErrorArray([])
+            const oErrArr: any[] = []
+            let minCheckQueue = 10000000000000000000000
+            answers.map((question: any, Index: number) => {
+                if ((question.isTrue && (selected.indexOf(question.id) === -1)) || (!question.isTrue && (selected.indexOf(question.id) !== -1))) {
+                    // console.log(question)
+                    if (question.checkQueue < minCheckQueue) {
+                        changeActiveWrongQuestionId(question.id)
+                        minCheckQueue = question.checkQueue
+                        changeActiveWrongAnswerIndex(Index)
+                    }
+                    oErrArr.push(question.id)
+                }
+
+            })
+            if (oErrArr.length === 0){
+                update_statistic()
+            }
+            changeErrorArray(oErrArr)
         }
-        changeErrorArray(oErrArr)
     }
 
     const checkurl = (url: any) => url ? url.replace("http://", "").replace("https://", "").replace("www.", "")

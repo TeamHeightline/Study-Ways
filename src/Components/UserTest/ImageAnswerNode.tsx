@@ -52,15 +52,18 @@ export default function ImageAnswerNode(props: any){
         const fetchData = async () => {
             const data = await axios("https://iot-experemental.herokuapp.com/files/answer?id=" + props.answer.id)
             try {
-                setUrlHasBeenPassed(true)
-                setAnswerImgUrl(data.data[0].image)
+                if (!urlHasBeenPassed){
+                    setUrlHasBeenPassed(true)
+                    setAnswerImgUrl(data.data[0].image)
+                    console.log(props.answerIndex)
+                }
             }catch (e) {
                 console.log(e)
             }
         }
         fetchData()
 
-    }, []);
+    }, [props]);
     const classes = useStyles();
     return(
         <div className=" mt-3 ml-3"  >
@@ -71,7 +74,7 @@ export default function ImageAnswerNode(props: any){
                         setTimeout(changeIsSelected, 150,  !isSelected)
             }}>
                 <CardActionArea>
-                    {urlHasBeenPassed && answerImgUrl?
+                    {answerImgUrl?
                         <CardMedia
                             style={{opacity: props.selected.indexOf(props.answer.id) !== -1? 0.5 : 1}}
                             className={classes.media}

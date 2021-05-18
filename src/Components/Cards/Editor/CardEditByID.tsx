@@ -240,7 +240,7 @@ export default function CardEditByID(props){
         treeCheckable: true,
 
         showCheckedStrategy: SHOW_CHILD,
-        placeholder: 'Please select',
+        placeholder: 'Выбирите тему карточки',
         style: {
             width: '100%',
         },

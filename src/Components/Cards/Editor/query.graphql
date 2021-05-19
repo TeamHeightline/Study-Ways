@@ -37,6 +37,17 @@ query GET_OWN_AUTHOR{
          }
      }
 }
-mutation UPDATE_CARD($id: ID!, $author: ID!){
-    card(input: {id: $id, author: })
+mutation UPDATE_CARD($id: ID, $author: [ID], $additionalText:  String, $cardContentType: String!, $subTheme: [ID]!,
+    $title: String!, $text: String, $videoUrl: String, $testInCard: ID, $testBeforeCard: ID, $siteUrl: String,
+    $isCardUseAdditionalText: Boolean, $isCardUseMainContent: Boolean, $isCardUseMainText: Boolean,
+    $isCardUseTestBeforeCard: Boolean, $isCardUseTestInCard: Boolean){
+    card(input: {id: $id, author: $author, subTheme: $subTheme,  additionalText: $additionalText, cardContentType: $cardContentType,
+        createdBy: 0, title: $title, text: $text, videoUrl: $videoUrl, testInCard: $testInCard, testBeforeCard: $testBeforeCard,
+    siteUrl: $siteUrl, isCardUseAdditionalText: $isCardUseAdditionalText, isCardUseMainContent: $isCardUseMainContent,
+    isCardUseMainText: $isCardUseMainText, isCardUseTestBeforeCard: $isCardUseTestBeforeCard, isCardUseTestInCard: $isCardUseTestInCard}){
+        errors{
+            field
+            messages
+        }
+    }
 }

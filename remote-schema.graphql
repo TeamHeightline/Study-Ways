@@ -60,29 +60,22 @@ type CardMutationPayload {
 }
 
 type CardNode {
-    author: CardAuthorNode
-    cardsettings: CardSettingsNode
-    cardurlsSet: [CardUrlsNode!]!
+    additionalText: String
+    author: [CardAuthorNode!]!
+    cardContentType: CardCardContentType!
     id: ID!
+    isCardUseAdditionalText: Boolean!
+    isCardUseMainContent: Boolean!
+    isCardUseMainText: Boolean!
+    isCardUseTestBeforeCard: Boolean!
+    isCardUseTestInCard: Boolean!
     siteUrl: String
-    subTheme: CardSubThemeNode
+    subTheme: [CardSubThemeNode!]!
+    testBeforeCard: QuestionNode
+    testInCard: QuestionNode
     text: String
     title: String!
     videoUrl: String
-}
-
-type CardSettingsMutationPayload {
-    cardSettings: CardSettingsNode
-    clientMutationId: String
-    errors: [ErrorType]
-}
-
-type CardSettingsNode {
-    card: CardNode
-    id: ID!
-    isCardUseImage: Boolean!
-    isCardUseSiteUrl: Boolean!
-    isCardUseVideoFromYoutube: Boolean!
 }
 
 type CardSubThemeMutationPayload {
@@ -109,13 +102,6 @@ type CardThemeNode {
     globalTheme: GlobalCardThemeNode
     id: ID!
     name: String!
-}
-
-type CardUrlsNode {
-    card: CardNode
-    id: ID!
-    name: String
-    url: String
 }
 
 """
@@ -159,7 +145,6 @@ type Mutation {
     archiveAccount(password: String!): ArchiveAccount
     card(input: CardMutationInput!): CardMutationPayload
     cardAuthor(input: CardAuthorMutationInput!): CardAuthorMutationPayload
-    cardSettings(input: CardSettingsMutationInput!): CardSettingsMutationPayload
     cardSubTheme(input: CardSubThemeMutationInput!): CardSubThemeMutationPayload
     cardTheme(input: CardThemeMutationInput!): CardThemeMutationPayload
     createAnswer(input: AnswerMutationInput!): AnswerMutationPayload
@@ -453,6 +438,8 @@ type QuestionMutationPayload {
 type QuestionNode {
     answers: [AnswerNode!]!
     author: [QuestionAuthorNode!]!
+    cardTestBeforeCardSet: [CardNode!]!
+    cardTestInCardSet: [CardNode!]!
     id: ID!
     isImageQuestion: Boolean!
     questionstatistic: QuestionStatisticNode
@@ -694,6 +681,16 @@ enum AnswerHardLevelOfAnswer {
 }
 
 "An enumeration."
+enum CardCardContentType {
+    "youtube видео"
+    A_0
+    "ссылка на внешний ресурс"
+    A_1
+    "просто изображение"
+    A_2
+}
+
+"An enumeration."
 enum CustomUserUserAccessLevel {
     "Admin"
     ADMIN
@@ -726,24 +723,24 @@ input CardAuthorMutationInput {
 }
 
 input CardMutationInput {
-    author: ID!
+    additionalText: String
+    author: [ID]
+    cardContentType: String!
     clientMutationId: String
     createdBy: ID!
     id: ID
+    isCardUseAdditionalText: Boolean
+    isCardUseMainContent: Boolean
+    isCardUseMainText: Boolean
+    isCardUseTestBeforeCard: Boolean
+    isCardUseTestInCard: Boolean
     siteUrl: String
-    subTheme: ID
+    subTheme: [ID]
+    testBeforeCard: ID
+    testInCard: ID
     text: String
     title: String!
     videoUrl: String
-}
-
-input CardSettingsMutationInput {
-    card: ID!
-    clientMutationId: String
-    id: ID
-    isCardUseImage: Boolean
-    isCardUseSiteUrl: Boolean
-    isCardUseVideoFromYoutube: Boolean
 }
 
 input CardSubThemeMutationInput {

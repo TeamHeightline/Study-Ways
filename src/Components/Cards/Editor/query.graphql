@@ -29,3 +29,14 @@ query GET_THEMES{
         }
     }
 }
+query GET_OWN_AUTHOR{
+     me{
+         cardauthorSet{
+             id
+             name
+         }
+     }
+}
+mutation UPDATE_CARD($id: ID!, $author: ID!){
+    card(input: {id: $id, author: })
+}

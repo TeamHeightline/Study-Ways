@@ -28,8 +28,20 @@ import { Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import CreateIcon from '@material-ui/icons/Create';
 import 'antd/dist/antd.css';
+import InputLabel from "@material-ui/core/InputLabel";
+import Input from "@material-ui/core/Input";
+import FormControl from "@material-ui/core/FormControl";
 
-
+const GET_OWN_AUTHOR = gql`
+    query GET_OWN_AUTHOR{
+        me{
+            cardauthorSet{
+                id
+                name
+            }
+        }
+    }
+`
 const QUESTION_BY_ID = gql`
     query QUESTION_BY_ID($id: ID!){
         questionById(id: $id){
@@ -53,6 +65,18 @@ const GET_THEMES = gql`
         }
     }`
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 7.5 + ITEM_PADDING_TOP,
+            // width: "250vw",
+        },
+    },
+};
+
 const { SHOW_CHILD, SHOW_ALL } = TreeSelect;
 
 
@@ -62,6 +86,7 @@ export default function CardEditByID(props){
     const [cardID, setCardID] = useState(1)
     const [cardHeader, setCardHeader] = useState("Заголовок по умолчанию")
     const [cardSelectedThemeID, setCardSelectedThemeID] = useState([])
+    const [cardAuthorId, changeCardAuthorId]: any = useState([]);
 
     const [mainContentType, setMainContentType] = useState(0)
     const [cardMainText, setCardMainText] = useState('')
@@ -82,6 +107,7 @@ export default function CardEditByID(props){
 
     const [dataForThemeTreeView, setDataForThemeTreeView] = useState([])
 
+    const {data: authorData} = useQuery(GET_OWN_AUTHOR)
     const {data: themesData} = useQuery(GET_THEMES, {
         onCompleted: themesData => {
             // console.log(themesData.cardGlobalTheme)
@@ -370,9 +396,32 @@ export default function CardEditByID(props){
 
                 </Col>
             </Row>
-            <Row className="mt-3">
-                <Col className="ml-5 col-6">
+            <Row className="">
+                <Col className="ml-5 col-6 mt-3">
                     {dataForThemeTreeView? <TreeSelect {...tProps} />: <Spinner animation="border" variant="success"/>}
+                </Col>
+                <Col>
+                    <FormControl className='col-9 ml-2'>
+                        <InputLabel id="question-author-multiple">Авторы вопросов</InputLabel>
+                        <Select
+                            labelId="demo-mutiple-name-label"
+                            id="demo-mutiple-name"
+                            multiple
+                            value={cardAuthorId}
+                            onChange={(e: any) => {
+                                changeCardAuthorId(e.target.value)
+                            }}
+                            input={<Input/>}
+                            MenuProps={MenuProps}
+                        >
+                            {cardID && authorData ? authorData.me.cardauthorSet.map((author: any) => (
+                                <MenuItem key={author.name + author.id} value={author.id}>
+                                    {author.name}
+                                </MenuItem>
+                            )) : null}
+
+                        </Select>
+                    </FormControl>
                 </Col>
             </Row>
             <Row className="mt-2">

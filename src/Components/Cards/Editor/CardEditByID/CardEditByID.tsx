@@ -1,36 +1,18 @@
-import React, {useEffect, useMemo, useState} from 'react'
+import React, { useMemo, useState} from 'react'
 import Typography from "@material-ui/core/Typography";
 import {
-    Button,
-    Divider,
-    ListItemIcon,
-    Menu,
-    MenuItem,
-    Select, Snackbar,
+    Snackbar,
     TextField,
 } from "@material-ui/core";
-import Switch from "@material-ui/core/Switch";
 import {Col, Row, Spinner} from "react-bootstrap";
 import ReactPlayer from "react-player";
-import Editor from 'ckeditor5-custom-build/build/ckeditor';
-import { CKEditor } from '@ckeditor/ckeditor5-react'
 import '../styleForCKEditor.css'
 
-import { TreeSelect } from 'antd';
 
-
-import TextFieldsIcon from '@material-ui/icons/TextFields';
-import YouTubeIcon from '@material-ui/icons/YouTube';
-import SettingsIcon from '@material-ui/icons/Settings';
-import DoneAllIcon from '@material-ui/icons/DoneAll';
 import {gql, useMutation, useQuery} from "@apollo/client";
 import { Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
-import CreateIcon from '@material-ui/icons/Create';
 import 'antd/dist/antd.css';
-import InputLabel from "@material-ui/core/InputLabel";
-import Input from "@material-ui/core/Input";
-import FormControl from "@material-ui/core/FormControl";
 import {Alert} from "@material-ui/lab";
 import RichTextEditor from "./#RichTextEditor";
 import ThemeTree from "./#ThemeTree";
@@ -133,11 +115,11 @@ const MenuProps = {
 
 
 
-export default function CardEditByID(props){
+export default function CardEditByID({cardId}: any){
     const [autoSaveTimer, changeAutoSaveTimer] = useState<any>()
     const [stateOfSave, setStateOfSave] = useState(2) // 0- не сохранено 1- сохранение 2- сохранено
 
-    const [cardID, setCardID] = useState(1)
+    const [cardID] = useState(cardId? cardId: 1)
     const [cardHeader, setCardHeader] = useState("Заголовок по умолчанию")
     const [cardSelectedThemeID, setCardSelectedThemeID] = useState([])
     const [cardAuthorId, changeCardAuthorId]: any = useState([]);
@@ -168,7 +150,7 @@ export default function CardEditByID(props){
         onCompleted: themesData => {
             // console.log(themesData.cardGlobalTheme)
             const data: any = []
-            themesData.cardGlobalTheme.map((GlobalTheme, indexOfGlobalTheme) =>{
+            themesData.cardGlobalTheme.map((GlobalTheme) =>{
                 const ThisGlobalTheme: any = {}
                 ThisGlobalTheme.title = GlobalTheme.name
                 ThisGlobalTheme.id = GlobalTheme.id
@@ -176,7 +158,7 @@ export default function CardEditByID(props){
                 ThisGlobalTheme.isLead = false
                 ThisGlobalTheme.pid = 0
                 data.push(ThisGlobalTheme)
-                GlobalTheme.cardthemeSet.map((Theme, indexOfTheme) =>{
+                GlobalTheme.cardthemeSet.map((Theme) =>{
                     const ThisTheme: any = {}
                     ThisTheme.title = Theme.name
                     ThisTheme.id = Theme.id * 1000
@@ -184,7 +166,7 @@ export default function CardEditByID(props){
                     ThisTheme.pId = ThisGlobalTheme.id
                     ThisGlobalTheme.isLead = false
                     data.push(ThisTheme)
-                    Theme.cardsubthemeSet.map((SubTheme, indexOfSubTheme) =>{
+                    Theme.cardsubthemeSet.map((SubTheme) =>{
                         const ThisSubTheme: any = {}
                         ThisSubTheme.title = SubTheme.name
                         ThisSubTheme.id = SubTheme.id * 1000000
@@ -214,7 +196,7 @@ export default function CardEditByID(props){
                 setCardHeader(data.card[0].title)
                 setCardMainText(data.card[0].text)
             },
-            // pollInterval: 3000
+
         }
         )
     const [updateCard, {data: update_card_data}] = useMutation(UPDATE_CARD, {
@@ -244,14 +226,14 @@ export default function CardEditByID(props){
         }
 
     })
-    const {data: cardBodyQuestionData, loading: cardBodyQuestionLoading} = useQuery(QUESTION_BY_ID, {
+    const {data: cardBodyQuestionData, } = useQuery(QUESTION_BY_ID, {
           variables: {
               "id" : cardBodyQuestionId
           },
     })
 
 
-    const {data: cardBeforeCardQuestionData, loading: cardBeforeCardQuestionLoading} = useQuery(QUESTION_BY_ID, {
+    const {data: cardBeforeCardQuestionData, } = useQuery(QUESTION_BY_ID, {
         variables: {
             "id" : cardBeforeCardQuestionId
         },
@@ -267,16 +249,6 @@ export default function CardEditByID(props){
         }, 4000))
     }
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
     const { Dragger } = Upload;
 
 
@@ -289,23 +261,23 @@ export default function CardEditByID(props){
 
 
 
-    const isUseMainTextHandle = (e) =>{
+    const isUseMainTextHandle = () =>{
         autoSave()
         setIsUseMainText(!isUseMainText)
     }
-    const isUseMainContentHandler = (e) =>{
+    const isUseMainContentHandler = () =>{
         autoSave()
         setIsUseMainContent(!isUseMainContent)
     }
-    const isUseAdditionalTextHandle = (e) =>{
+    const isUseAdditionalTextHandle = () =>{
         autoSave()
         setIsUseAdditionalText(!isUseAdditionalText)
     }
-    const isUseBodyQuestionHandle = (e) =>{
+    const isUseBodyQuestionHandle = () =>{
         autoSave()
         setIsUseBodyQuestion(!isUseBodyQuestion)
     }
-    const isUseBeforeCardQuestionHandle = (e) =>{
+    const isUseBeforeCardQuestionHandle = () =>{
         autoSave()
         setIsUseBeforeCardQuestion(!isUseBeforeCardQuestion)
     }

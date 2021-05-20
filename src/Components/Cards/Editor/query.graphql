@@ -51,3 +51,32 @@ mutation UPDATE_CARD($id: ID, $author: [ID], $additionalText:  String, $cardCont
         }
     }
 }
+query GET_CARD_DATA{
+    card{
+        id
+        author{
+            id
+        }
+        subTheme{
+            id
+        }
+        isCardUseAdditionalText
+        isCardUseMainContent
+        isCardUseMainText
+        isCardUseTestBeforeCard
+        isCardUseTestInCard
+        cardContentType
+        text
+        title
+        additionalText
+        siteUrl
+        videoUrl
+        testBeforeCard{
+            id
+        }
+        testInCard{
+            id
+        }
+
+    }
+}

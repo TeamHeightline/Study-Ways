@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import Typography from "@material-ui/core/Typography";
 import {
     Button,
@@ -6,7 +6,7 @@ import {
     ListItemIcon,
     Menu,
     MenuItem,
-     Select,
+    Select, Snackbar,
     TextField,
 } from "@material-ui/core";
 import Switch from "@material-ui/core/Switch";
@@ -14,7 +14,7 @@ import {Col, Row, Spinner} from "react-bootstrap";
 import ReactPlayer from "react-player";
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import { CKEditor } from '@ckeditor/ckeditor5-react'
-import './styleForCKEditor.css'
+import '../styleForCKEditor.css'
 
 import { TreeSelect } from 'antd';
 
@@ -23,7 +23,7 @@ import TextFieldsIcon from '@material-ui/icons/TextFields';
 import YouTubeIcon from '@material-ui/icons/YouTube';
 import SettingsIcon from '@material-ui/icons/Settings';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
-import {gql, useQuery} from "@apollo/client";
+import {gql, useMutation, useQuery} from "@apollo/client";
 import { Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import CreateIcon from '@material-ui/icons/Create';
@@ -31,6 +31,41 @@ import 'antd/dist/antd.css';
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import FormControl from "@material-ui/core/FormControl";
+import {Alert} from "@material-ui/lab";
+import RichTextEditor from "./#RichTextEditor";
+import ThemeTree from "./#ThemeTree";
+
+
+const GET_CARD_DATA = gql`
+    query GET_CARD_DATA{
+        card{
+            id
+            author{
+                id
+            }
+            subTheme{
+                id
+            }
+            isCardUseAdditionalText
+            isCardUseMainContent
+            isCardUseMainText
+            isCardUseTestBeforeCard
+            isCardUseTestInCard
+            cardContentType
+            text
+            title
+            additionalText
+            siteUrl
+            videoUrl
+            testBeforeCard{
+                id
+            }
+            testInCard{
+                id
+            }
+
+        }
+    }`
 
 const GET_OWN_AUTHOR = gql`
     query GET_OWN_AUTHOR{
@@ -64,6 +99,7 @@ const UPDATE_CARD = gql`
             }
         }
     }`
+
 const GET_THEMES = gql`
     query GET_THEMES{
         cardGlobalTheme{
@@ -92,11 +128,12 @@ const MenuProps = {
     },
 };
 
-const { SHOW_CHILD, SHOW_ALL } = TreeSelect;
+
 
 
 export default function CardEditByID(props){
-
+    const [autoSaveTimer, changeAutoSaveTimer] = useState<any>()
+    const [stateOfSave, setStateOfSave] = useState(2) // 0- не сохранено 1- сохранение 2- сохранено
 
     const [cardID, setCardID] = useState(1)
     const [cardHeader, setCardHeader] = useState("Заголовок по умолчанию")
@@ -121,6 +158,8 @@ export default function CardEditByID(props){
     const [isUseBeforeCardQuestion, setIsUseBeforeCardQuestion] = useState(false)
 
     const [dataForThemeTreeView, setDataForThemeTreeView] = useState([])
+
+
 
     const {data: authorData} = useQuery(GET_OWN_AUTHOR)
     const {data: themesData} = useQuery(GET_THEMES, {
@@ -160,7 +199,49 @@ export default function CardEditByID(props){
             setDataForThemeTreeView(data)
         }
     })
+    const {data: card_data} = useQuery(GET_CARD_DATA,
+        {
+            onCompleted: data => {
+                console.log(data.card[0])
+                setIsUseMainContent(data.card[0].isCardUseMainContent)
+                setIsUseMainText(data.card[0].isCardUseMainText)
+                setIsUseAdditionalText(data.card[0].isCardUseAdditionalText)
+                setIsUseBodyQuestion(data.card[0].isCardUseTestInCard)
+                setIsUseBeforeCardQuestion(data.card[0].isCardUseTestBeforeCard)
+                setMainContentType(Number(data.card[0].cardContentType[2]))
+                setCardHeader(data.card[0].title)
+                setCardMainText(data.card[0].text)
+            },
+            // pollInterval: 3000
+        }
+        )
+    const [updateCard, {data: update_card_data}] = useMutation(UPDATE_CARD, {
+        variables: {
+            id: cardID,
+            subTheme: cardSelectedThemeID.map((e) =>{
+                return e / 1000000
+            }),
+            author: cardAuthorId,
+            title: cardHeader,
+            cardContentType: mainContentType,
+            isCardUseMainContent: isUseMainContent,
+            isCardUseMainText: isUseMainText,
+            isCardUseAdditionalText: isUseAdditionalText,
+            isCardUseTestInCard: isUseBodyQuestion,
+            isCardUseTestBeforeCard: isUseBeforeCardQuestion,
+            additionalText: cardAdditionalText,
+            text: cardMainText,
+            videoUrl: cardYoutubeVideoUrl,
+            siteUrl: cardSrcToOtherSite,
 
+        },
+        onError: error => console.log(error),
+        onCompleted: data => {
+            setStateOfSave(2)
+            console.log(data)
+        }
+
+    })
     const {data: cardBodyQuestionData, loading: cardBodyQuestionLoading} = useQuery(QUESTION_BY_ID, {
           variables: {
               "id" : cardBodyQuestionId
@@ -174,6 +255,15 @@ export default function CardEditByID(props){
         },
     })
 
+    const autoSave = () =>{
+        clearTimeout(autoSaveTimer)
+        setStateOfSave(0)
+        changeAutoSaveTimer(setTimeout(() => {
+            setStateOfSave(1)
+            console.log("-----autosave-------")
+            updateCard()
+        }, 4000))
+    }
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -198,22 +288,28 @@ export default function CardEditByID(props){
 
 
     const isUseMainTextHandle = (e) =>{
+        autoSave()
         setIsUseMainText(!isUseMainText)
     }
     const isUseMainContentHandler = (e) =>{
+        autoSave()
         setIsUseMainContent(!isUseMainContent)
     }
     const isUseAdditionalTextHandle = (e) =>{
+        autoSave()
         setIsUseAdditionalText(!isUseAdditionalText)
     }
     const isUseBodyQuestionHandle = (e) =>{
+        autoSave()
         setIsUseBodyQuestion(!isUseBodyQuestion)
     }
     const isUseBeforeCardQuestionHandle = (e) =>{
+        autoSave()
         setIsUseBeforeCardQuestion(!isUseBeforeCardQuestion)
     }
 
     const mainContentTypeHandle = (e) =>{
+        autoSave()
         setMainContentType(e.target.value)
     }
 
@@ -240,29 +336,38 @@ export default function CardEditByID(props){
             });
     }
     const cardHeaderHandle = (e) =>{
+        autoSave()
         setCardHeader(e.target.value)
     }
     const cardMainTextHandle = async (e) =>{
-        e?.target?.value ? setCardMainText(e?.target?.value): null
+        // console.log(e)
+        e ? setCardMainText(e): null
+        autoSave()
     }
     const cardYoutubeVideoUrlHandle = (e) =>{
+        autoSave()
         setCardYoutubeVideoUrl(e.target.value)
     }
     const cardAdditionalTextHandle = (e) =>{
+        autoSave()
         setCardAdditionalText(e.target.value)
     }
     const cardBodyQuestionIdHandle = (e)  =>{
+        autoSave()
         const valueWithOnlyNumber = e.target.value.replace(/[^\d]/g, '')
         setCardBodyQuestionId(valueWithOnlyNumber)
     }
     const cardBeforeCardQuestionIdHandle = (e) =>{
+        autoSave()
         const valueWithOnlyNumber = e.target.value.replace(/[^\d]/g, '')
         setCardBeforeCardQuestionId(valueWithOnlyNumber)
     }
     const cardSrcToOtherSiteHandle = (e) =>{
+        autoSave()
         setCardSrcToOtherSite(e.target.value)
     }
     const cardSelectedThemeIDHandle = (e) =>{
+        autoSave()
         // console.log(e)
         const cleanSubThemes: any = []
         e.map((id: any) =>{
@@ -272,21 +377,20 @@ export default function CardEditByID(props){
         })
         setCardSelectedThemeID(cleanSubThemes)
     }
+    const memedThemeTree = useMemo(() => <ThemeTree dataForThemeTreeView={dataForThemeTreeView}
+                                                    cardSelectedThemeID={cardSelectedThemeID}
+                                                    cardSelectedThemeIDHandle={cardSelectedThemeIDHandle}/>,
+        [dataForThemeTreeView, cardSelectedThemeID])
 
-    const tProps = {
-        treeDataSimpleMode: true,
-        treeData: dataForThemeTreeView,
-        value: cardSelectedThemeID,
-        onChange: cardSelectedThemeIDHandle,
-        treeCheckable: true,
+    const memedRichTextEditor = useMemo(() => <RichTextEditor cardMainText={cardMainText}
+                                                              cardMainTextHandle={cardMainTextHandle} />,
+        [cardMainText])
 
-        showCheckedStrategy: SHOW_CHILD,
-        placeholder: 'Выбирите тему карточки',
-        style: {
-            width: '100%',
-        },
-    };
-
+    if (!card_data){
+        return (
+            <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
+        )
+    }
     return(
         <div className="col-12">
             <div className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Редактировать карточку</div>
@@ -408,12 +512,11 @@ export default function CardEditByID(props){
                             Тест перед карточкой
                         </MenuItem>
                     </Menu>
-
                 </Col>
             </Row>
             <Row className="">
                 <Col className="ml-5 col-6 mt-3">
-                    {dataForThemeTreeView? <TreeSelect {...tProps} />: <Spinner animation="border" variant="success"/>}
+                    {memedThemeTree}
                 </Col>
                 <Col>
                     <FormControl className='col-9 ml-2'>
@@ -424,6 +527,7 @@ export default function CardEditByID(props){
                             multiple
                             value={cardAuthorId}
                             onChange={(e: any) => {
+                                autoSave()
                                 changeCardAuthorId(e.target.value)
                             }}
                             input={<Input/>}
@@ -499,27 +603,7 @@ export default function CardEditByID(props){
                     : null}
                     {isUseMainContent && isUseMainText?
                         <Col className="col-12 col-lg-6 ml-4 mr-1 mt-4" style={{height: "440px"}}>
-
-                        <CKEditor
-                            editor={ Editor }
-                            style={{maxHeight: "440px"}}
-                            config={ {
-                                // plugins: [ Paragraph, Bold, Italic, Essentials ],
-                                toolbar: [ 'bold', 'italic', 'fontSize', 'link','|', 'undo', 'redo', '|',
-                                     'MathType', ],
-                                //Можно добавить химические формулы 'ChemType'
-                                //и специальные символы 'specialCharacters',
-
-                            } }
-                            onReady={ editor => {
-                                // You can store the "editor" and use when it is needed.
-                                // console.log( 'Editor1 is ready to use!', editor );
-                            } }
-                            onChange={ ( event, editor ) => {
-                                cardMainTextHandle(editor.getData());
-                            } }
-
-                        />
+                            {memedRichTextEditor}
                     </Col>: null}
             </Row>
 
@@ -570,6 +654,18 @@ export default function CardEditByID(props){
                     </Typography>
                 </Col>: null}
             </Row>
+            <Snackbar open={true}>
+                <Alert severity="info">
+                    {stateOfSave === 0 &&
+                    "Изменения не сохранены"}
+                    {stateOfSave === 1 &&
+                    "Автосохранение"}
+                    {stateOfSave === 2 &&
+                    "Сохранено"}
+                </Alert>
+            </Snackbar>
+            {/*</Row>*/}
+
         </div>
     )
 }

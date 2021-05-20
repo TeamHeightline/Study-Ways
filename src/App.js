@@ -24,7 +24,7 @@ import CKEDITOR from "./Components/UserTest/Editor/CKEditor";
 import ImageQuestion from "./Components/UserTest/ImageQuestion";
 import CardView from "./Components/Cards/Card";
 import CARDS from "./Components/Cards/Card";
-import CardEditByID from "./Components/Cards/Editor/CardEditByID";
+import CardEditByID from "./Components/Cards/Editor/CardEditByID/CardEditByID";
 
 
 const VERIFY_LOGIN = gql`

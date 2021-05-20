@@ -34,6 +34,8 @@ import FormControl from "@material-ui/core/FormControl";
 import {Alert} from "@material-ui/lab";
 import RichTextEditor from "./#RichTextEditor";
 import ThemeTree from "./#ThemeTree";
+import CardAuthorsSelect from "./#CardAuthorsSelect";
+import CardEditMenu from "./#CardEditMenu";
 
 
 const GET_CARD_DATA = gql`
@@ -385,7 +387,28 @@ export default function CardEditByID(props){
     const memedRichTextEditor = useMemo(() => <RichTextEditor cardMainText={cardMainText}
                                                               cardMainTextHandle={cardMainTextHandle} />,
         [cardMainText])
-
+    const memedCardAuthorSelect = useMemo(() =><CardAuthorsSelect cardAuthorId={cardAuthorId}
+                                                                  changeCardAuthorId={changeCardAuthorId}
+                                                                  autoSave={autoSave}
+                                                                  MenuProps={MenuProps}
+                                                                  authorData={authorData}
+                                                                  cardID={cardID}/>,
+        [authorData, cardAuthorId])
+    const memedCardEditMenu = useMemo(() =><CardEditMenu
+                                                         isUseMainContent={isUseMainContent}
+                                                         mainContentType={mainContentType}
+                                                         isUseMainText={isUseMainText}
+                                                         isUseAdditionalText={isUseAdditionalText}
+                                                         isUseBodyQuestion={isUseBodyQuestion}
+                                                         isUseBeforeCardQuestion={isUseBeforeCardQuestion}
+                                                         isUseMainContentHandler={isUseMainContentHandler}
+                                                         mainContentTypeHandle={mainContentTypeHandle}
+                                                         isUseMainTextHandle={isUseMainTextHandle}
+                                                         isUseAdditionalTextHandle={isUseAdditionalTextHandle}
+                                                         isUseBodyQuestionHandle={isUseBodyQuestionHandle}
+                                                         isUseBeforeCardQuestionHandle={isUseBeforeCardQuestionHandle}
+    />, [isUseMainContent, mainContentType, isUseMainText, isUseAdditionalText, isUseBodyQuestion,
+        isUseBeforeCardQuestion])
     if (!card_data){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
@@ -410,108 +433,7 @@ export default function CardEditByID(props){
                     />
                 </Col>
                 <Col>
-                    <Button
-                        className="ml-5 mt-2"
-                        aria-controls="customized-menu"
-                        aria-haspopup="true"
-                        variant="outlined"
-                        color="primary"
-                        onClick={handleClick}
-                    >
-                        <ListItemIcon>
-                            <SettingsIcon/>
-                        </ListItemIcon>
-                        Настроить содержимое
-                    </Button>
-                    <Menu
-                        id="customized-menu"
-                        anchorEl={anchorEl}
-                        // keepMounted
-                        open={Boolean(anchorEl)}
-                        onClose={handleClose}
-                    >
-                        <MenuItem onClick={isUseMainContentHandler}>
-                            <Switch
-                                checked={isUseMainContent}
-                                onChange={isUseMainContentHandler}
-                                name="checkedB"
-                                color="secondary"
-                            />
-                            <ListItemIcon>
-                                <YouTubeIcon/>
-                            </ListItemIcon>
-                            Основной контент
-                        </MenuItem>
-                        {isUseMainContent?
-                            <div>
-                            <MenuItem>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={mainContentType}
-                                onChange={mainContentTypeHandle}
-                                className="col-11 ml-3"
-                            >
-                                <MenuItem value={0}>Видео с Youtube</MenuItem>
-                                <MenuItem value={1}>Ссылка на внешний ресурс</MenuItem>
-                                <MenuItem value={2}>Изображение</MenuItem>
-                            </Select>
-                        </MenuItem>
-                        <MenuItem onClick={isUseMainTextHandle}>
-                            <Switch
-                                checked={isUseMainText}
-                                onChange={isUseMainTextHandle}
-                                name="checkedB"
-                                color="secondary"
-                            />
-                            <ListItemIcon>
-                                <TextFieldsIcon/>
-                            </ListItemIcon>
-                            Основной текст
-                        </MenuItem>
-                            </div>
-                            : null}
-                            <Divider/>
-                        <MenuItem onClick={isUseAdditionalTextHandle}>
-                            <Switch
-                                checked={isUseAdditionalText}
-                                onChange={isUseAdditionalTextHandle}
-                                name="checkedB"
-                                color="secondary"
-                            />
-                            <ListItemIcon>
-                                <CreateIcon/>
-                            </ListItemIcon>
-                            Дополнительный текст
-                        </MenuItem>
-                        <Divider/>
-                        <MenuItem onClick={isUseBodyQuestionHandle}
-                        >
-                            <Switch
-                                checked={isUseBodyQuestion}
-                                onChange={isUseBodyQuestionHandle}
-                                name="checkedB"
-                                color="secondary"
-                            />
-                            <ListItemIcon>
-                                <DoneAllIcon/>
-                            </ListItemIcon>
-                            Тест в карточке
-                        </MenuItem>
-                        <MenuItem onClick={isUseBeforeCardQuestionHandle}
-                        >
-                            <Switch
-                                checked={isUseBeforeCardQuestion}
-                                onChange={isUseBeforeCardQuestionHandle}
-                                name="checkedB"
-                                color="secondary"
-                            />
-                            <ListItemIcon>
-                                <DoneAllIcon/>
-                            </ListItemIcon>
-                            Тест перед карточкой
-                        </MenuItem>
-                    </Menu>
+                    {memedCardEditMenu}
                 </Col>
             </Row>
             <Row className="">
@@ -519,28 +441,7 @@ export default function CardEditByID(props){
                     {memedThemeTree}
                 </Col>
                 <Col>
-                    <FormControl className='col-9 ml-2'>
-                        <InputLabel id="question-author-multiple">Авторы вопросов</InputLabel>
-                        <Select
-                            labelId="demo-mutiple-name-label"
-                            id="demo-mutiple-name"
-                            multiple
-                            value={cardAuthorId}
-                            onChange={(e: any) => {
-                                autoSave()
-                                changeCardAuthorId(e.target.value)
-                            }}
-                            input={<Input/>}
-                            MenuProps={MenuProps}
-                        >
-                            {cardID && authorData ? authorData.me.cardauthorSet.map((author: any) => (
-                                <MenuItem key={author.name + author.id} value={author.id}>
-                                    {author.name}
-                                </MenuItem>
-                            )) : null}
-
-                        </Select>
-                    </FormControl>
+                    {memedCardAuthorSelect}
                 </Col>
             </Row>
             <Row className="mt-2">

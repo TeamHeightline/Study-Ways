@@ -4,7 +4,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react'
 import '../styleForCKEditor.css'
 
 export default function RichTextEditor({cardMainText, cardMainTextHandle}: any){
-
+    console.log("update in text editor")
     return(
         <CKEditor
             editor={ Editor }

@@ -125,7 +125,8 @@ export default function CardEditByID({cardId}: any){
     const [cardAuthorId, changeCardAuthorId]: any = useState([]);
 
     const [mainContentType, setMainContentType] = useState(0)
-    const [cardMainText, setCardMainText] = useState('')
+    const [cardMainTextInitial, setCardMainTextInitial] = useState('')
+    const [cardMainTextForSave, setCardMainTextForSave] = useState('')
     const [cardYoutubeVideoUrl, setCardYoutubeVideoUrl] = useState("https://www.youtube.com/watch?v=vpMJ_rNN9vY")
     const [cardAdditionalText, setCardAdditionalText] = useState('')
     const [cardBodyQuestionId, setCardBodyQuestionId] = useState(69)
@@ -194,7 +195,7 @@ export default function CardEditByID({cardId}: any){
                 setIsUseBeforeCardQuestion(data.card[0].isCardUseTestBeforeCard)
                 setMainContentType(Number(data.card[0].cardContentType[2]))
                 setCardHeader(data.card[0].title)
-                setCardMainText(data.card[0].text)
+                setCardMainTextInitial(data.card[0].text)
             },
 
         }
@@ -214,7 +215,7 @@ export default function CardEditByID({cardId}: any){
             isCardUseTestInCard: isUseBodyQuestion,
             isCardUseTestBeforeCard: isUseBeforeCardQuestion,
             additionalText: cardAdditionalText,
-            text: cardMainText,
+            text: cardMainTextInitial,
             videoUrl: cardYoutubeVideoUrl,
             siteUrl: cardSrcToOtherSite,
 
@@ -315,7 +316,7 @@ export default function CardEditByID({cardId}: any){
     }
     const cardMainTextHandle = async (e) =>{
         // console.log(e)
-        e ? setCardMainText(e): null
+        e ? setCardMainTextInitial(e): null
         autoSave()
     }
     const cardYoutubeVideoUrlHandle = (e) =>{
@@ -340,6 +341,10 @@ export default function CardEditByID({cardId}: any){
         autoSave()
         setCardSrcToOtherSite(e.target.value)
     }
+    const richTextEditorHandle = (e) =>{
+        setCardMainTextForSave(e)
+        autoSave()
+    }
     const cardSelectedThemeIDHandle = (e) =>{
         autoSave()
         // console.log(e)
@@ -356,9 +361,9 @@ export default function CardEditByID({cardId}: any){
                                                     cardSelectedThemeIDHandle={cardSelectedThemeIDHandle}/>,
         [dataForThemeTreeView, cardSelectedThemeID])
 
-    const memedRichTextEditor = useMemo(() => <RichTextEditor cardMainText={cardMainText}
-                                                              cardMainTextHandle={cardMainTextHandle} />,
-        [cardMainText])
+    const memedRichTextEditor = useMemo(() => <RichTextEditor initialText={cardMainTextInitial}
+        onChange={richTextEditorHandle}/>,
+        [cardMainTextInitial])
     const memedCardAuthorSelect = useMemo(() =><CardAuthorsSelect cardAuthorId={cardAuthorId}
                                                                   changeCardAuthorId={changeCardAuthorId}
                                                                   autoSave={autoSave}

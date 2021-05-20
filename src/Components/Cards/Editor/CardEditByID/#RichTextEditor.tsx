@@ -1,14 +1,24 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import '../styleForCKEditor.css'
 
-export default function RichTextEditor({cardMainText, cardMainTextHandle}: any){
+export default function RichTextEditor({initialText, onChange}: any,){
     console.log("update in text editor")
+    const [localText, setLocalText] = useState(initialText? initialText: null)
+    const [autoSave, setAutoSave] = useState<any>()
+
+    const textHandler = (e)=>{
+        e ? setLocalText(e): null
+        clearTimeout(autoSave)
+        setAutoSave(setTimeout(()  =>{
+            onChange(localText)
+        }, 1000))
+    }
     return(
         <CKEditor
             editor={ Editor }
-            data={cardMainText}
+            data={localText}
             style={{maxHeight: "440px"}}
             config={ {
                 // plugins: [ Paragraph, Bold, Italic, Essentials ],
@@ -18,12 +28,9 @@ export default function RichTextEditor({cardMainText, cardMainTextHandle}: any){
                 //и специальные символы 'specialCharacters',
 
             } }
-            onReady={ editor => {
-                // You can store the "editor" and use when it is needed.
-                // console.log( 'Editor1 is ready to use!', editor );
-            } }
+
             onChange={ ( event, editor ) => {
-                cardMainTextHandle(editor.getData());
+                textHandler(editor.getData());
             } }
 
         />

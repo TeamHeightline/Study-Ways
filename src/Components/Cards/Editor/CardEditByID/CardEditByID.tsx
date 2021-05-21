@@ -184,6 +184,15 @@ export default function CardEditByID({cardId}: any){
             setDataForThemeTreeView(data)
         }
     })
+    const get_card_image = () =>{
+        // https://iot-experemental.herokuapp.com/cardfiles/card?
+        fetch("https://iot-experemental.herokuapp.com/cardfiles/card?id=" + cardID)
+            .then((response) => response.json())
+            .then((data) =>{
+                console.log(data)
+                setCardImage(data[0].image)
+            } )
+    }
     const {data: card_data} = useQuery(GET_CARD_DATA_BY_ID,
         {
             variables: {
@@ -200,6 +209,7 @@ export default function CardEditByID({cardId}: any){
                 await setMainContentType(Number(data.cardById.cardContentType[2]))
                 await setCardHeader(data.cardById.title)
                 await setCardMainTextInitial(data.cardById.text)
+                await setCardMainTextForSave(data.cardById.text)
                 await setCardSelectedThemeID(data.cardById.subTheme.map((e) =>{
                     return(e.id*1000000)
                 }))
@@ -213,6 +223,7 @@ export default function CardEditByID({cardId}: any){
                 await setCardBodyQuestionId(data.cardById.testInCard.id)
                 await setCardBeforeCardQuestionId(data.cardById.testBeforeCard.id)
                 await setIsAllDataHadBeenGotFromServer(true)
+                get_card_image()
             },
 
         })

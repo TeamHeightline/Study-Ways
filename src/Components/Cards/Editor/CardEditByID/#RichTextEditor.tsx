@@ -4,7 +4,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react'
 import '../styleForCKEditor.css'
 
 export default function RichTextEditor({initialText, onChange}: any,){
-    console.log("update in text editor")
+    // console.log("update in text editor")
     const [localText, setLocalText] = useState(initialText? initialText: null)
     const [autoSave, setAutoSave] = useState<any>()
 
@@ -15,7 +15,7 @@ export default function RichTextEditor({initialText, onChange}: any,){
             onChange(e)
         }, 1000))
     }
-    console.log(initialText)
+    // console.log(initialText)
     return(
         <CKEditor
             editor={ Editor }

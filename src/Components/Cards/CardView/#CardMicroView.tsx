@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
         flex: '1 0 auto',
     },
     cover: {
-        width: 151,
+        width: 200,
     },
     controls: {
         display: 'flex',
@@ -81,7 +81,7 @@ const GET_CARD_FOR_MICRO_VIEW_BY_ID = gql`
 
         }
     }`
-export default function CardMicroView({cardID = 1}: any){
+export default function CardMicroView({cardID = 1, ...props}: any){
     const classes = useStyles();
     const theme = useTheme();
     const [contentType, setContentType] = useState(0)
@@ -101,7 +101,7 @@ export default function CardMicroView({cardID = 1}: any){
     }
 
     return(
-        <div className="col-4">
+        <div className="col-4" {...props}>
             <Card className={classes.root}>
                 <CardMedia
                     className={classes.cover}
@@ -140,6 +140,11 @@ export default function CardMicroView({cardID = 1}: any){
                             </Typography>
                         </Breadcrumbs>
                     </Tooltip>
+                    <br/>
+                    <br/>
+
+
+
                 </CardContent>
             </Card>
         </div>

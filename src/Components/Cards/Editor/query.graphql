@@ -79,4 +79,34 @@ query GET_CARD_DATA{
         }
 
     }
+
+}
+query GET_CARD_DATA_BY_ID($id: ID!){
+    cardById(id: $id){
+        id
+        author{
+            id
+        }
+        subTheme{
+            id
+        }
+        isCardUseAdditionalText
+        isCardUseMainContent
+        isCardUseMainText
+        isCardUseTestBeforeCard
+        isCardUseTestInCard
+        cardContentType
+        text
+        title
+        additionalText
+        siteUrl
+        videoUrl
+        testBeforeCard{
+            id
+        }
+        testInCard{
+            id
+        }
+
+    }
 }

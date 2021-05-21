@@ -12,9 +12,10 @@ export default function RichTextEditor({initialText, onChange}: any,){
         e ? setLocalText(e): null
         clearTimeout(autoSave)
         setAutoSave(setTimeout(()  =>{
-            onChange(localText)
+            onChange(e)
         }, 1000))
     }
+    console.log(initialText)
     return(
         <CKEditor
             editor={ Editor }

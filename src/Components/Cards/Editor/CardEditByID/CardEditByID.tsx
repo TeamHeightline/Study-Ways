@@ -20,36 +20,35 @@ import CardAuthorsSelect from "./#CardAuthorsSelect";
 import CardEditMenu from "./#CardEditMenu";
 
 
-const GET_CARD_DATA = gql`
-    query GET_CARD_DATA{
-        card{
+const GET_CARD_DATA_BY_ID = gql`query GET_CARD_DATA_BY_ID($id: ID!){
+    cardById(id: $id){
+        id
+        author{
             id
-            author{
-                id
-            }
-            subTheme{
-                id
-            }
-            isCardUseAdditionalText
-            isCardUseMainContent
-            isCardUseMainText
-            isCardUseTestBeforeCard
-            isCardUseTestInCard
-            cardContentType
-            text
-            title
-            additionalText
-            siteUrl
-            videoUrl
-            testBeforeCard{
-                id
-            }
-            testInCard{
-                id
-            }
-
         }
-    }`
+        subTheme{
+            id
+        }
+        isCardUseAdditionalText
+        isCardUseMainContent
+        isCardUseMainText
+        isCardUseTestBeforeCard
+        isCardUseTestInCard
+        cardContentType
+        text
+        title
+        additionalText
+        siteUrl
+        videoUrl
+        testBeforeCard{
+            id
+        }
+        testInCard{
+            id
+        }
+
+    }
+}`
 
 const GET_OWN_AUTHOR = gql`
     query GET_OWN_AUTHOR{
@@ -118,6 +117,7 @@ const MenuProps = {
 export default function CardEditByID({cardId}: any){
     const [autoSaveTimer, changeAutoSaveTimer] = useState<any>()
     const [stateOfSave, setStateOfSave] = useState(2) // 0- не сохранено 1- сохранение 2- сохранено
+    const [isAllDataHadBeenGotFromServer, setIsAllDataHadBeenGotFromServer] = useState(false)
 
     const [cardID] = useState(cardId? cardId: 1)
     const [cardHeader, setCardHeader] = useState("Заголовок по умолчанию")
@@ -127,7 +127,7 @@ export default function CardEditByID({cardId}: any){
     const [mainContentType, setMainContentType] = useState(0)
     const [cardMainTextInitial, setCardMainTextInitial] = useState('')
     const [cardMainTextForSave, setCardMainTextForSave] = useState('')
-    const [cardYoutubeVideoUrl, setCardYoutubeVideoUrl] = useState("https://www.youtube.com/watch?v=vpMJ_rNN9vY")
+    const [cardYoutubeVideoUrl, setCardYoutubeVideoUrl] = useState("")
     const [cardAdditionalText, setCardAdditionalText] = useState('')
     const [cardBodyQuestionId, setCardBodyQuestionId] = useState(69)
     const [cardBeforeCardQuestionId, setCardBeforeCardQuestionId] = useState(70)
@@ -184,22 +184,38 @@ export default function CardEditByID({cardId}: any){
             setDataForThemeTreeView(data)
         }
     })
-    const {data: card_data} = useQuery(GET_CARD_DATA,
+    const {data: card_data} = useQuery(GET_CARD_DATA_BY_ID,
         {
-            onCompleted: data => {
-                console.log(data.card[0])
-                setIsUseMainContent(data.card[0].isCardUseMainContent)
-                setIsUseMainText(data.card[0].isCardUseMainText)
-                setIsUseAdditionalText(data.card[0].isCardUseAdditionalText)
-                setIsUseBodyQuestion(data.card[0].isCardUseTestInCard)
-                setIsUseBeforeCardQuestion(data.card[0].isCardUseTestBeforeCard)
-                setMainContentType(Number(data.card[0].cardContentType[2]))
-                setCardHeader(data.card[0].title)
-                setCardMainTextInitial(data.card[0].text)
+            variables: {
+              id: cardID
+            },
+            onCompleted: async data => {
+                console.log(data)
+                await setIsUseMainContent(data.cardById.isCardUseMainContent)
+                await setIsUseMainText(data.cardById.isCardUseMainText)
+                await setIsUseAdditionalText(data.cardById.isCardUseAdditionalText)
+                await setIsUseBodyQuestion(data.cardById.isCardUseTestInCard)
+                await setIsUseBeforeCardQuestion(data.cardById.isCardUseTestBeforeCard)
+
+                await setMainContentType(Number(data.cardById.cardContentType[2]))
+                await setCardHeader(data.cardById.title)
+                await setCardMainTextInitial(data.cardById.text)
+                await setCardSelectedThemeID(data.cardById.subTheme.map((e) =>{
+                    return(e.id*1000000)
+                }))
+                await changeCardAuthorId(data.cardById.author.map((e) =>{
+                    return(e.id)
+                }))
+
+                await setCardYoutubeVideoUrl(data.cardById.videoUrl)
+                await setCardSrcToOtherSite(data.cardById.siteUrl)
+                await setCardAdditionalText(data.cardById.additionalText)
+                await setCardBodyQuestionId(data.cardById.testInCard.id)
+                await setCardBeforeCardQuestionId(data.cardById.testBeforeCard.id)
+                await setIsAllDataHadBeenGotFromServer(true)
             },
 
-        }
-        )
+        })
     const [updateCard, {data: update_card_data}] = useMutation(UPDATE_CARD, {
         variables: {
             id: cardID,
@@ -215,10 +231,11 @@ export default function CardEditByID({cardId}: any){
             isCardUseTestInCard: isUseBodyQuestion,
             isCardUseTestBeforeCard: isUseBeforeCardQuestion,
             additionalText: cardAdditionalText,
-            text: cardMainTextInitial,
+            text: cardMainTextForSave,
             videoUrl: cardYoutubeVideoUrl,
             siteUrl: cardSrcToOtherSite,
-
+            testInCard: cardBodyQuestionId,
+            testBeforeCard: cardBeforeCardQuestionId
         },
         onError: error => console.log(error),
         onCompleted: data => {
@@ -481,7 +498,7 @@ export default function CardEditByID({cardId}: any){
                     : null}
                     {isUseMainContent && isUseMainText?
                         <Col className="col-12 col-lg-6 ml-4 mr-1 mt-4" style={{height: "440px"}}>
-                            {memedRichTextEditor}
+                            {isAllDataHadBeenGotFromServer ? memedRichTextEditor: null}
                     </Col>: null}
             </Row>
 

@@ -191,7 +191,7 @@ export default function CardEditByID({cardId}: any){
             .then((data) =>{
                 console.log(data)
                 setCardImage(data[0].image)
-            } )
+            })
     }
     const {data: card_data} = useQuery(GET_CARD_DATA_BY_ID,
         {

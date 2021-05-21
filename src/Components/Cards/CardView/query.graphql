@@ -1,0 +1,26 @@
+query GET_CARD_FOR_MICRO_VIEW_BY_ID($id: ID!){
+    cardById(id: $id){
+        id
+        text
+        title
+        cardContentType
+        videoUrl
+        subTheme{
+            id
+            name
+           theme{
+               id
+               name
+               globalTheme{
+                   id
+                   name
+               }
+           }
+        }
+        author{
+            id
+            name
+        }
+
+    }
+}

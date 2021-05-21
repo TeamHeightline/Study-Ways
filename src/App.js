@@ -25,6 +25,7 @@ import ImageQuestion from "./Components/UserTest/ImageQuestion";
 import CardView from "./Components/Cards/Card";
 import CARDS from "./Components/Cards/Card";
 import CardEditByID from "./Components/Cards/Editor/CardEditByID/CardEditByID";
+import MainCardEditor from './Components/Cards/Editor/MainCardEditor/MainCardEditor'
 
 
 const VERIFY_LOGIN = gql`
@@ -100,6 +101,7 @@ function App() {
                 <Route exact path="/iq/:id" component={ImageQuestion}/>
                 <Route exact path="/c/:id" component={CARDS}/>
                 <Route exact path="/c/edit/:id" component={CardEditByID}/>
+                <Route exact path='/card' component={MainCardEditor}/>
             </Switch>
         </Router>
     </>

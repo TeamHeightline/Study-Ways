@@ -64,8 +64,8 @@ export default function CardEditMenu({isUseMainContentHandler, isUseMainContent,
                                 onChange={mainContentTypeHandle}
                                 className="col-11 ml-3"
                             >
-                                <MenuItem value={0}>Видео с Youtube</MenuItem>
-                                <MenuItem value={1}>Ссылка на внешний ресурс</MenuItem>
+                                <MenuItem value={0}>Видео Youtube</MenuItem>
+                                <MenuItem value={1}>Внешний ресурс</MenuItem>
                                 <MenuItem value={2}>Изображение</MenuItem>
                             </Select>
                         </MenuItem>

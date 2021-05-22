@@ -1,6 +1,7 @@
 import React, { useMemo, useState} from 'react'
 import Typography from "@material-ui/core/Typography";
 import {
+    Button,
     Snackbar,
     TextField,
 } from "@material-ui/core";
@@ -114,7 +115,7 @@ const MenuProps = {
 
 
 
-export default function CardEditByID({cardId}: any){
+export default function CardEditByID({cardId, ...props}: any){
     const [autoSaveTimer, changeAutoSaveTimer] = useState<any>()
     const [stateOfSave, setStateOfSave] = useState(2) // 0- не сохранено 1- сохранение 2- сохранено
     const [isAllDataHadBeenGotFromServer, setIsAllDataHadBeenGotFromServer] = useState(false)
@@ -422,6 +423,13 @@ export default function CardEditByID({cardId}: any){
     return(
         <div className="col-12">
             <div className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Редактировать карточку</div>
+            {cardId ?
+                <Button
+                    className="ml-5"
+                    variant="outlined" color="primary" onClick={() => {
+                    props.onChange("goBack")}}>
+                    Назад
+                </Button>: null}
             <Row>
                 <Col className="col-6">
                     <Typography variant="h6" className="ml-5" color="textPrimary">{"ID: " + cardID + " " + cardHeader}</Typography>

@@ -115,31 +115,52 @@ export default function CardMicroView({cardID = 1, ...props}: any){
                         {contentType === 1 && <Chip size="small" variant="outlined" color="primary" icon={<HttpIcon />} label="Ресурс"/>}
                         {contentType === 2 && <Chip size="small" variant="outlined" color="primary" icon={<ImageIcon />} label="Изображение"/>}
                     </Typography>
-                    <Typography variant="button" display="block" gutterBottom style={{maxHeight: 20}}>
-                        {card_data?.cardById?.title.slice(0, 30)}
-                    </Typography>
-                    <Tooltip title={card_data?.cardById?.subTheme.map((e, eIndex) =>{
-                        return(
-                            <div key={eIndex+ "Tooltip"}>
-                                {e.theme?.globalTheme?.name.slice(0, 20).toString() + " / "
-                                + e?.theme?.name.slice(0, 20).toString() + " / "
-                                + e?.name.slice(0, 20).toString() }
-                                <br/>
-                            </div>
-                        )
-                    })} >
+                    <Tooltip title={card_data?.cardById?.title}>
+                        <Typography variant="button" display="block" gutterBottom style={{maxHeight: 20}}>
+                            {card_data?.cardById?.title.slice(0, 33)}
+                        </Typography>
+                    </Tooltip>
+                    {card_data?.cardById?.subTheme.length !== 0 ?
+                        <Tooltip title={card_data?.cardById?.subTheme.map((e, eIndex) =>{
+                            return(
+                                <div key={eIndex+ "Tooltip"}>
+                                    <Typography>
+                                        {e.theme?.globalTheme?.name.toString() + " / "
+                                        + e?.theme?.name.toString() + " / "
+                                        + e?.name.toString() }
+                                        <br/>
+                                    </Typography>
+                                </div>
+                            )
+                        })} >
                         <Breadcrumbs  aria-label="breadcrumb">
                             <Typography color="inherit" >
-                                {card_data?.cardById?.subTheme[0]?.theme?.globalTheme?.name.slice(0, 20)}
+                                {card_data?.cardById?.subTheme[0]?.theme?.globalTheme?.name.slice(0, 15)}
                             </Typography>
                             <Typography color="inherit">
-                                {card_data?.cardById?.subTheme[0]?.theme?.name.slice(0, 20)}
+                                {card_data?.cardById?.subTheme[0]?.theme?.name.slice(0, 15)}
                             </Typography>
                             <Typography color="textPrimary">
-                                {card_data?.cardById?.subTheme[0]?.name.slice(0, 20)}
+                                {card_data?.cardById?.subTheme[0]?.name.slice(0, 15)}
                             </Typography>
                         </Breadcrumbs>
-                    </Tooltip>
+                    </Tooltip> : <br/>}
+                    {card_data?.cardById?.author.length !== 0 ?
+                        <Tooltip title={card_data?.cardById?.author.map((e, eIndex) =>{
+                            return(
+                                <div key={eIndex + "AuthorTooltip"}>
+                                    <Typography>
+                                        {e.name}
+                                    </Typography>
+                                </div>
+                            )
+                        })}>
+                            <Typography>
+                                {card_data?.cardById?.author[0]?.name.slice(0, 25)}
+                            </Typography>
+
+                        </Tooltip>
+                        : <br/>}
                     <br/>
                     <br/>
 

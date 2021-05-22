@@ -78,32 +78,53 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
     const classes = useStyles();
     const theme = useTheme();
     const [contentType, setContentType] = useState(0)
+    const [cardImage, setCardImage] = useState()
+    const get_card_image = () =>{
+        // https://iot-experemental.herokuapp.com/cardfiles/card?
+        fetch("https://iot-experemental.herokuapp.com/cardfiles/card?id=" + cardID)
+            .then((response) => response.json())
+            .then((data) =>{
+                console.log(data)
+                setCardImage(data[0].image)
+            })
+    }
+
     const {data: card_data} = useQuery(GET_CARD_FOR_MICRO_VIEW_BY_ID, {
         variables:{
             id: cardID
         },
+        pollInterval: 3000,
         onCompleted: data => {
             console.log(data)
             setContentType(Number(data.cardById.cardContentType[2]))
+            get_card_image()
         }
     })
+
     if (!card_data){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
-
+    // console.log(card_data?.cardById.videoUrl.split('?v=')[1])
     return(
         <div className="col-4" {...props}>
             <Card className={classes.root} onClick={() =>{
                 // console.log(cardID)
                 props.onChange(cardID)
             }}>
+                {contentType === 0 && <CardMedia
+                    className={classes.cover}
+                    image={"https://img.youtube.com/vi/"+ card_data?.cardById.videoUrl.split('?v=')[1] + "/mqdefault.jpg"}
+                    title="Live from space album cover"
+                />}
+                {(contentType === 1 || contentType === 0) && cardImage ?
                     <CardMedia
                         className={classes.cover}
-                        image="https://sun9-29.userapi.com/impg/ZCsBXEMbu4-OvmiuBiSRICBFmN2MStsrCpobYQ/gL5vhvz1puo.jpg?size=2560x1707&quality=96&sign=e8dec54ce8579fe0b2c1fbecd4e691c7&type=album"
+                        image={cardImage}
                         title="Live from space album cover"
-                    />
+                    />: null
+                }
                 <CardActionArea >
                     <CardContent className={classes.content}>
                         <Typography  variant="h6" gutterBottom className="pr-5">

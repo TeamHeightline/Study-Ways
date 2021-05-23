@@ -1,0 +1,8 @@
+query GET_OWN_AUTHORS{
+     me{
+         cardauthorSet{
+             id
+             name
+         }
+     }
+}

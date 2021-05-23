@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -24,6 +24,8 @@ import MathJax from 'react-mathjax-preview'
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
+        width: "550px",
+        height: "170px"
     },
     details: {
         display: 'flex',
@@ -98,8 +100,12 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
             console.log(data)
             setContentType(Number(data.cardById.cardContentType[2]))
             get_card_image()
-        }
+        },
+
     })
+    useEffect(() =>{
+        get_card_image()
+    }, [card_data?.cardById?.cardContentType])
 
     if (!card_data){
         return (
@@ -107,18 +113,21 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
         )
     }
     // console.log(card_data?.cardById.videoUrl.split('?v=')[1])
+    // 380 * 110
     return(
-        <div className="col-4" {...props}>
+        <div
+            // className="col-4"
+            {...props}>
             <Card className={classes.root} onClick={() =>{
                 // console.log(cardID)
                 props.onChange(cardID)
             }}>
-                {contentType === 0 && <CardMedia
+                {Number(card_data.cardById.cardContentType[2]) === 0 && <CardMedia
                     className={classes.cover}
                     image={"https://img.youtube.com/vi/"+ card_data?.cardById.videoUrl.split('?v=')[1] + "/mqdefault.jpg"}
                     title="Live from space album cover"
                 />}
-                {(contentType === 1 || contentType === 0) && cardImage ?
+                {(Number(card_data.cardById.cardContentType[2]) === 1 || Number(card_data.cardById.cardContentType[2]) === 2) && cardImage ?
                     <CardMedia
                         className={classes.cover}
                         image={cardImage}
@@ -129,9 +138,9 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                     <CardContent className={classes.content}>
                         <Typography  variant="h6" gutterBottom className="pr-5">
                             ID: {card_data?.cardById.id}
-                            {contentType === 0 && <Chip size="small" variant="outlined" color="secondary" icon={<YouTubeIcon />} label="YouTube"/>}
-                            {contentType === 1 && <Chip size="small" variant="outlined" color="primary" icon={<HttpIcon />} label="Ресурс"/>}
-                            {contentType === 2 && <Chip size="small" variant="outlined" color="default" icon={<ImageIcon />} label="Изображение"/>}
+                            {Number(card_data.cardById.cardContentType[2]) === 0 && <Chip size="small" variant="outlined" color="secondary" icon={<YouTubeIcon />} label="YouTube"/>}
+                            {Number(card_data.cardById.cardContentType[2]) === 1 && <Chip size="small" variant="outlined" color="primary" icon={<HttpIcon />} label="Ресурс"/>}
+                            {Number(card_data.cardById.cardContentType[2]) === 2 && <Chip size="small" variant="outlined" color="default" icon={<ImageIcon />} label="Изображение"/>}
                         </Typography>
                         <Tooltip title={[0].map((e) =>{
                             return(

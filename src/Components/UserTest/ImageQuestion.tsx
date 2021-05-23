@@ -26,8 +26,8 @@ import ReactPlayer from "react-player";
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            display: 'flex',
-            width: 385,
+            // display: 'flex',
+            width: "800px",
             height: 400,
             // paddingBottom: '200px'
 
@@ -219,8 +219,8 @@ export default function ImageQuestion(props: any) {
     // console.log(get_question_data?.questionById?.questionstatistic?.numberOfPasses)
     // console.log(get_question_data?.questionById?.questionstatistic?.sumOfAllAttempts)
     return (
-        <div>
-            <Grid className="col-8 offset-2 mt-2">
+        <div className="col-12">
+            <Grid className="col-12 offset-2 mt-2">
             {errorArray.length !== 0 ? <div>
                 {helpLevel === "0" ? <Alert severity="error" variant="outlined">
                     {answers[activeWrongAnswerIndex].helpTextv1}</Alert> : null}
@@ -248,14 +248,17 @@ export default function ImageQuestion(props: any) {
             </div> : null}
             </Grid>
 
-            <Row className="">
+            <Row
+                // className={classes.root}
+            >
                 <Grid
                     container
                     direction="row"
                     justify="center"
                     alignItems="center"
                 >
-                <div className="col-5 ml-2 mt-3">
+                <div
+                    className=" ml-2 mt-3">
                     <Card style={{height: 400, width: 780}}>
                         <Row>
                             {urlHasBeenPassed && questionImgUrl? <Col className="col-7">

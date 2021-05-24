@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {gql, useMutation, useQuery} from "@apollo/client";
-import {Button, Paper, TextField} from "@material-ui/core";
+import {Button, CardMedia, Paper, TextField} from "@material-ui/core";
 import {Alert, Autocomplete} from "@material-ui/lab";
 import {Accordion, Card, Container, Form, Spinner} from "react-bootstrap";
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -52,6 +52,14 @@ mutation STATISTIC_FOR_QUESTION($questionID: ID!, $numberOfPasses: Int!, $sumOfA
 }`
 
 const useStyles = makeStyles({
+    root: {
+        objectFit: "cover",
+        display: 'flex',
+        width: "254px",
+        height: "170px",
+        backgroundRepeat: "no-repeat"
+
+    },
     table: {
         minWidth: 650,
     },
@@ -114,10 +122,12 @@ export default function QuestionById(props: any) {
     })
 
     const fetchData = async () => {
+        console.log('fetching data')
         const data = await axios("https://iot-experemental.herokuapp.com/files/question?id=" + selectedQuestionId)
         try {
             await setUrlHasBeenPassed(true)
             await setQuestionImgUrl(data.data[0].image)
+            console.log(data)
 
         }catch (e) {
             console.log(e)
@@ -171,6 +181,7 @@ export default function QuestionById(props: any) {
             changeErrorArray(oErrArr)
         }
     }
+    // const classes = useStyles();
 
     const checkurl = (url: any) => url ? url.replace("http://", "").replace("https://", "").replace("www.", "")
         .replace("youtu.be/", "youtube.com?v=").replace("youtube.com/watch?v=", "youtube.com?v=").slice(0, 14) === "youtube.com?v=" : false;
@@ -191,23 +202,39 @@ export default function QuestionById(props: any) {
         )
     }
     if(!urlHasBeenPassed){
+        if (questionImgUrl){
+            setUrlHasBeenPassed(true)
+        }
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
-
+    console.log(questionImgUrl)
     return (
         <Container className="mt-4">
-            <div className="display-4 text-center"
-                 style={{fontSize: '35px'}}>{get_question_data?.questionById?.text}</div>
+            <Row>
+                {questionImgUrl ?
+                    <Col className="col-3">
+                        <Card>
+                            <CardMedia image={questionImgUrl} className={classes.root} >
+                            {/*{questionImgUrl? <div className="pb-2">*/}
+                            {/*    <img*/}
+                            {/*        style={{ width: "100%", height: "100%", }}*/}
+                            {/*        src={questionImgUrl}*/}
+                            {/*        alt="new"*/}
+                            {/*    />*/}
+                            {/*</div>: null}*/}
+                            </CardMedia>
+                        </Card>
+                    </Col>: null
+                }
+                <Col className={questionImgUrl ?  "col-9" : "col-12"}>
+                    <div className="display-4 text-center"
+                         style={{fontSize: '35px'}}>{get_question_data?.questionById?.text}</div>
+                </Col>
+            </Row>
 
-            {questionImgUrl? <div className="pb-2">
-                <img
-                    style={{ width: "25%", height: "25%"}}
-                    src={questionImgUrl}
-                    alt="new"
-                />
-            </div>: null}
+
             {errorArray.length !== 0 ? <div>
                 {helpLevel === "0" ? <Alert severity="error" variant="outlined">
                     {answers[activeWrongAnswerIndex].helpTextv1}</Alert> : null}

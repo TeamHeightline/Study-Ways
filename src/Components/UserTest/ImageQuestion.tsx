@@ -220,14 +220,14 @@ export default function ImageQuestion(props: any) {
     // console.log(get_question_data?.questionById?.questionstatistic?.sumOfAllAttempts)
     return (
         <div className="col-12">
-            <Grid className="col-12 offset-2 mt-2">
+            <Grid className="col-10  mt-2 offset-1">
             {errorArray.length !== 0 ? <div>
                 {helpLevel === "0" ? <Alert severity="error" variant="outlined">
                     {answers[activeWrongAnswerIndex].helpTextv1}</Alert> : null}
                 {helpLevel === "1" ? <Alert severity="error" variant="outlined">
                     {answers[activeWrongAnswerIndex].helpTextv2}</Alert> : null}
                 {helpLevel === "2" ? <Alert severity="error" variant="outlined">
-                    {answers[activeWrongAnswerIndex].helpTextv3}</Alert> : null}
+                    {answers[activeWrongAnswerIndex].helpTextv3}</Alert > : null}
                 {answers[activeWrongAnswerIndex].videoUrl ?
                     <div>
                         {checkurl(answers[activeWrongAnswerIndex].videoUrl) ?

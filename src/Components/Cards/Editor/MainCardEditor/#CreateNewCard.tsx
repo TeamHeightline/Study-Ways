@@ -12,7 +12,7 @@ import 'fontsource-roboto';
 import {useMutation, useQuery} from "@apollo/client";
 import {Row, Spinner} from "react-bootstrap";
 const AddImg = require('../../../../img/add-to-any.jpg')
-
+import 'fontsource-roboto';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -27,6 +27,12 @@ const useStyles = makeStyles((theme) => ({
     },
     content: {
         flex: '1 0 auto',
+    },
+    contentText:{
+        // ...theme.typography.button,
+        fontSize: "20px",
+        marginLeft: "40px",
+
     },
     cover: {
         width: 200,
@@ -83,20 +89,22 @@ export default function CreateNewCard({cardID = 1, ...props}: any,){
                 createNewCardHandle()
             }}>
                 {stateOfCreating === 0 &&
-                    <div>
+                    <>
                         <CardMedia
                             className={classes.cover}
-                            image="https://sun9-15.userapi.com/impg/j0sDW0LCS0xXqk9ckUq0dTAyfmOnePIfOMZtLQ/ffokBfYyyjk.jpg?size=734x979&quality=96&sign=4df79703568167cbfb441be3d23609fa&type=album"
+                            image="https://www.shareicon.net/data/256x256/2017/03/06/880378_blue_512x512.png"
                             title="Live from space album cover"
                         />
                     <CardActionArea >
                         <CardContent className={classes.content}>
                             <Row>
-                                <Typography>Создать новую карточку</Typography>
+                                <Typography className={classes.contentText} variant="overline"  gutterBottom>
+                                    Создать новую карточку
+                                </Typography>
                             </Row>
                         </CardContent>
                     </CardActionArea>
-                    </div>}
+                    </>}
                 {stateOfCreating === 1 && <CardContent>
                     <Typography>
                         Карточка создается

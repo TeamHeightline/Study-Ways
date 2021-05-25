@@ -86,8 +86,13 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
         fetch("https://iot-experemental.herokuapp.com/cardfiles/card?id=" + cardID)
             .then((response) => response.json())
             .then((data) =>{
-                console.log(data)
-                setCardImage(data[0].image)
+                // console.log(data)
+                try{
+                    setCardImage(data[0].image)
+                }
+                catch(e){
+                    console.log(e)
+                }
             })
     }
 
@@ -97,7 +102,7 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
         },
         pollInterval: 3000,
         onCompleted: data => {
-            console.log(data)
+            // console.log(data)
             setContentType(Number(data.cardById.cardContentType[2]))
             get_card_image()
         },
@@ -122,7 +127,7 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                 // console.log(cardID)
                 props.onChange(cardID)
             }}>
-                {Number(card_data.cardById.cardContentType[2]) === 0 && <CardMedia
+                {Number(card_data.cardById.cardContentType[2]) === 0 &&  card_data?.cardById?.videoUrl && <CardMedia
                     className={classes.cover}
                     image={"https://img.youtube.com/vi/"+ card_data?.cardById.videoUrl.split('?v=')[1] + "/mqdefault.jpg"}
                     title="Live from space album cover"

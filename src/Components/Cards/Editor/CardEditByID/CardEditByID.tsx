@@ -190,8 +190,13 @@ export default function CardEditByID({cardId, ...props}: any){
         fetch("https://iot-experemental.herokuapp.com/cardfiles/card?id=" + cardID)
             .then((response) => response.json())
             .then((data) =>{
-                console.log(data)
-                setCardImage(data[0].image)
+                try{
+                    console.log(data)
+                    setCardImage(data[0].image)
+                }
+                catch(e){
+                    console.log(e)
+                }
             })
     }
     const {data: card_data} = useQuery(GET_CARD_DATA_BY_ID,
@@ -221,8 +226,8 @@ export default function CardEditByID({cardId, ...props}: any){
                 await setCardYoutubeVideoUrl(data.cardById.videoUrl)
                 await setCardSrcToOtherSite(data.cardById.siteUrl)
                 await setCardAdditionalText(data.cardById.additionalText)
-                await setCardBodyQuestionId(data.cardById.testInCard.id)
-                await setCardBeforeCardQuestionId(data.cardById.testBeforeCard.id)
+                await setCardBodyQuestionId(data.cardById.testInCard?.id)
+                await setCardBeforeCardQuestionId(data.cardById.testBeforeCard?.id)
                 await setIsAllDataHadBeenGotFromServer(true)
                 get_card_image()
             },

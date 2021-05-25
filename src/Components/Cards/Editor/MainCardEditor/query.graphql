@@ -6,3 +6,12 @@ query GET_OWN_AUTHORS{
          }
      }
 }
+mutation CREATE_NEW_CARD{
+    card(input: {cardContentType: "0", isCardUseMainContent: true, isCardUseMainText: true,
+        title: "Название карточки по умолчанию", createdBy: 0}){
+        errors{
+            field
+
+        }
+    }
+}

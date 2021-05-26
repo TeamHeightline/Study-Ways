@@ -15,9 +15,11 @@ const GET_ALL_CARD_DATA = gql`
                 id
                 author{
                     id
+                    name
                 }
                 subTheme{
                     id
+                    name
                 }
                 isCardUseAdditionalText
                 isCardUseMainContent
@@ -48,9 +50,9 @@ export default function MainCardEditor(){
 
     })
     const selectCardFroEditHandle = async(e) =>{
-        await setIsEditNow(true)
         await setSelectedCardID(e)
         console.log("select" + e)
+        await setIsEditNow(true)
     }
     if (isEditNow){
         return (
@@ -66,7 +68,14 @@ export default function MainCardEditor(){
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
-    console.log(card_data)
+    console.log(_.filter(card_data.me.cardSet, ((obj) =>{
+        if (obj.author.length === 0){
+            return false
+        }
+       return (_.find(obj.author, (item) => {
+           return(item.id == 2)
+       }))
+    })))
     return(
         <div className="col-12">
             <Row className="ml-1">

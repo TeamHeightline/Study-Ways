@@ -43,9 +43,6 @@ export default function Login(){
         localStorage.setItem('token', data.tokenAuth.token)
         localStorage.setItem('refreshToken', data.tokenAuth.refreshToken)
         localStorage.setItem('is_login', 'true')
-        setTimeout(()=>{
-            window.location.reload(false);
-        }, 500)
     }
     {data ?  data.tokenAuth.success ? saveLoginData() : null : null}
     {localStorage.getItem('is_login') === 'true' ? setTimeout(history.push, 1000, '/'): null}

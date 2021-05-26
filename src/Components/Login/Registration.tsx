@@ -32,9 +32,6 @@ export default function Registration(){
         localStorage.setItem('token', data.register.token)
         localStorage.setItem('refreshToken', data.register.refreshToken)
         localStorage.setItem('is_login', 'true')
-        setTimeout(()=>{
-            window.location.reload(false);
-        }, 500)
     }
     {data?.register.success ?  data?.register.success === true? saveData(): null: null}
     {localStorage.getItem('is_login') === 'true' ? setTimeout(history.push, 1000, '/'): null}

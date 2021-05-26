@@ -6,6 +6,7 @@ import s from'./navibar.module.css';
 import NavSearch from "./search"
 import {gql, useMutation} from "@apollo/client";
 import {useEffect} from "react";
+import { Link } from 'react-router-dom';
 
 const VERIFY_LOGIN = gql`
     mutation VERIFY_LOGIN($token: String!){
@@ -20,11 +21,6 @@ const VERIFY_LOGIN = gql`
 
 
 export default function Navibar(){
-    // const [verify_login, { data, error }] = useMutation(VERIFY_LOGIN, {
-    //     variables: {
-    //         token: localStorage.getItem("token")
-    //     }
-    // })
 
     return(
 
@@ -32,10 +28,16 @@ export default function Navibar(){
                 <Navbar.Brand>IOT</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className={s.navlink}>
-                        <Nav.Link href="/" className="ml-3">Главная</Nav.Link>
-                        <Nav.Link href="/testeditor" className="ml-3">Редактировать тест</Nav.Link>
-                        <Nav.Link href="/test" className="ml-3">Пройти тест</Nav.Link>
+
+                    <Nav >
+                        <Nav.Link className="ml-3">
+                            <Link className={s.link} to="/">Главная </Link>
+                        </Nav.Link>
+                        <Nav.Link className="ml-3">
+                            <Link className={s.link} to="/testeditor">Редактировать тест</Link> </Nav.Link>
+                        <Nav.Link className="ml-3">
+                            <Link className={s.link} to="/test">Пройти тест</Link>
+                        </Nav.Link>
                     </Nav>
 
                     <Form  className="col-lg-6">
@@ -46,17 +48,25 @@ export default function Navibar(){
                     {/*<IsLogin className="ml-auto"/>*/}
                     <Row className="ml-3">
                     {/*<Navbar.Text className="">User name</Navbar.Text>*/}
-                    {localStorage.getItem("is_login") ==='true'? <Navbar.Text>{localStorage.getItem("user_name")}</Navbar.Text> : <Nav.Link href="/login">Войти</Nav.Link>}
+                    {localStorage.getItem("is_login") ==='true'? <Navbar.Text>{localStorage.getItem("user_name")}</Navbar.Text> :
+                        <Nav.Link>
+                            <Link className={s.link} to="/login">Войти</Link>
+                        </Nav.Link>}
+
                     {localStorage.getItem("is_login") ==='true'? <div>
                             <DropdownButton id="dropdown-navibar-button"  title="" className="ml-4">
-                            <Dropdown.Item href="/stat">Статистика</Dropdown.Item>
-                            <Dropdown.Item href="/profile">Профиль</Dropdown.Item>
-
-                            <Dropdown.Item href="/unlogin">Выйти</Dropdown.Item>
+                                <Dropdown.Item>
+                                    <Link className={s.link} to="/stat">Статистика </Link>
+                                </Dropdown.Item>
+                                <Dropdown.Item>
+                                    <Link className={s.link} to="/profile">Профиль</Link>
+                                </Dropdown.Item>
+                                <Dropdown.Item>
+                                    <Link className={s.link} to="/unlogin">Выйти</Link>
+                                </Dropdown.Item>
                         </DropdownButton></div> : null}
-                        {localStorage.getItem("is_login") ==='true'? null: <Nav.Link href="/registration">Зарегистрироваться</Nav.Link>}
-
-
+                        {localStorage.getItem("is_login") ==='true'?
+                            null: <Nav.Link className={s.link} href="/registration">Зарегистрироваться</Nav.Link>}
                     </Row>
                 </Navbar.Collapse>
             </Navbar>

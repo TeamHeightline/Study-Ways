@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import Navibar from './Components/Navbar/Navibar.tsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -26,7 +26,7 @@ import CardView from "./Components/Cards/Card";
 import CARDS from "./Components/Cards/Card";
 import CardEditByID from "./Components/Cards/Editor/CardEditByID/CardEditByID";
 import MainCardEditor from './Components/Cards/Editor/MainCardEditor/MainCardEditor'
-
+import Typist from 'react-typist';
 
 const VERIFY_LOGIN = gql`
     mutation VERIFY_LOGIN($token: String!){
@@ -69,11 +69,15 @@ function App() {
         },
         errorPolicy: 'all'
     })
-
+    const [animationState, setAnimationState] = useState(false)
     useEffect(() =>{
-        verify_login().then().catch(() => {localStorage.setItem('is_login', 'false')})}, [])  //для создания фоновой задачи, перед запятой пишем setInterval
-    if (!data){
-        return <div>Loading...</div>
+        verify_login().then().catch(() => {localStorage.setItem('is_login', 'false')})
+        setTimeout(setAnimationState, 3000, true)
+    }, [])  //для создания фоновой задачи, перед запятой пишем setInterval
+    if (!data || !animationState){
+        return  <Typist className="display-4 text-center mt-4" style={{fontSize: '33px'}}>
+            Загрузка IOT
+        </Typist>
     }
 
     if(data.verifyToken.success === true){

@@ -76,7 +76,7 @@ function App() {
     }, [])  //для создания фоновой задачи, перед запятой пишем setInterval
     if (!data || !animationState){
         return  <Typist className="display-4 text-center mt-4" style={{fontSize: '33px'}}>
-            Загрузка IOT
+            Загрузка Study Ways
         </Typist>
     }
 

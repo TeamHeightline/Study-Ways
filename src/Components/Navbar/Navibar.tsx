@@ -52,7 +52,7 @@ export default function Navibar(){
                         </Nav.Link>
                     </Nav>
 
-                    <Form  className="col-lg-6">
+                    <Form  className="col-lg-4">
                         <NavSearch/>
                     </Form>
                     <Button variant="outline-success" className=" ml-3 ">Поиск</Button>

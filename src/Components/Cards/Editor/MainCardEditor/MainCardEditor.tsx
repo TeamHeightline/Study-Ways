@@ -7,6 +7,7 @@ import CreateNewCard from "./#CreateNewCard";
 import {useQuery} from "@apollo/client";
 import {gql} from "graphql.macro";
 import _ from 'lodash'
+import ContentTypeSelector from "./#ContentTypeSelector";
 
 const GET_ALL_CARD_DATA = gql`
     query GET_CARD_DATA{
@@ -44,7 +45,8 @@ const GET_ALL_CARD_DATA = gql`
 export default function MainCardEditor(){
     const [isEditNow, setIsEditNow] = useState(false)
     const [selectedCardID, setSelectedCardID] = useState(0)
-    const [sortedCardsData, setSortedCardsData] = useState()
+    const [cardsDataAfterSelectContentType, setCardsDataAfterSelectContentType] = useState()
+    const [cardsDataAfterSelectAuthor, setCardsDataAfterSelectAuthor] = useState()
     const {data: card_data} = useQuery(GET_ALL_CARD_DATA, {
         pollInterval: 3000,
 
@@ -71,23 +73,25 @@ export default function MainCardEditor(){
     return(
         <div className="col-12">
             <Row className="ml-1">
-                <AuthorSelector cards_data={card_data.me.cardSet} className="ml-5"
+                <ContentTypeSelector className="ml-5 col-4" cards_data={card_data.me.cardSet}
+                onChangeSelectedData={(data) =>{
+                    console.log(data)
+                    setCardsDataAfterSelectContentType(data)
+                }}/>
+                {cardsDataAfterSelectContentType &&
+                <AuthorSelector cards_data={cardsDataAfterSelectContentType} className="ml-2 col-4"
                                 onChangeSelectedData={(data) =>{
                                     console.log(data)
-                                    setSortedCardsData(data)
-                }}/>
+                                    setCardsDataAfterSelectAuthor(data)
+                                }}/>}
+
             </Row>
             <Row className="mr-2 ml-2">
                 <CreateNewCard className="mt-5 ml-5"/>
-                {sortedCardsData && _.sortBy(sortedCardsData, 'id').reverse().map((e) =>{
+                {cardsDataAfterSelectAuthor && _.sortBy(cardsDataAfterSelectAuthor, 'id').reverse().map((e) =>{
                     return(<CardMicroView key={e.id + "CardKey"} cardID={e.id}  className="mt-5 ml-5"
                                    onChange={selectCardForEditHandle}/>)
                 })}
-                {/*<CardMicroView id={1} className="mt-5 ml-5" onChange={selectCardForEditHandle}/>*/}
-                {/*<CardMicroView id={1} className="mt-5 ml-5" onChange={selectCardForEditHandle}/>*/}
-                {/*<CardMicroView id={1} className="mt-5 ml-5" onChange={selectCardForEditHandle}/>*/}
-                {/*<CardMicroView id={1} className="mt-5 ml-5" onChange={selectCardForEditHandle}/>*/}
-                {/*<CardMicroView id={1} className="mt-5 ml-5" onChange={selectCardForEditHandle}/>*/}
             </Row>
         </div>
     )

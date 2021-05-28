@@ -24,10 +24,10 @@ export default function Navibar(){
     const {data: user_data} = useQuery(GET_USER_DATA, {
         pollInterval: 4000,
         onCompleted: data => {
-            console.log(data)
+            // console.log(data)
         },
         onError: error => {
-            console.log(error)
+            // console.log(error)
         }
     })
     if (!user_data){

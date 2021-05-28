@@ -49,7 +49,7 @@ export default function MainCardEditor(){
         pollInterval: 3000,
 
     })
-    const selectCardFroEditHandle = async(e) =>{
+    const selectCardForEditHandle = async(e) =>{
         await setSelectedCardID(e)
         console.log("select" + e)
         await setIsEditNow(true)
@@ -68,30 +68,26 @@ export default function MainCardEditor(){
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
-    console.log(_.filter(card_data.me.cardSet, ((obj) =>{
-        if (obj.author.length === 0){
-            return false
-        }
-       return (_.find(obj.author, (item) => {
-           return(item.id == 2)
-       }))
-    })))
     return(
         <div className="col-12">
             <Row className="ml-1">
-                <AuthorSelector className="ml-5"/>
+                <AuthorSelector cards_data={card_data.me.cardSet} className="ml-5"
+                                onChangeSelectedData={(data) =>{
+                                    console.log(data)
+                                    setSortedCardsData(data)
+                }}/>
             </Row>
             <Row className="mr-2 ml-2">
                 <CreateNewCard className="mt-5 ml-5"/>
-                {_.sortBy(card_data.me.cardSet, 'id').reverse().map((e) =>{
+                {sortedCardsData && _.sortBy(sortedCardsData, 'id').reverse().map((e) =>{
                     return(<CardMicroView key={e.id + "CardKey"} cardID={e.id}  className="mt-5 ml-5"
-                                   onChange={selectCardFroEditHandle}/>)
+                                   onChange={selectCardForEditHandle}/>)
                 })}
-                {/*<CardMicroView id={1} className="mt-5 ml-5" onChange={selectCardFroEditHandle}/>*/}
-                {/*<CardMicroView id={1} className="mt-5 ml-5" onChange={selectCardFroEditHandle}/>*/}
-                {/*<CardMicroView id={1} className="mt-5 ml-5" onChange={selectCardFroEditHandle}/>*/}
-                {/*<CardMicroView id={1} className="mt-5 ml-5" onChange={selectCardFroEditHandle}/>*/}
-                {/*<CardMicroView id={1} className="mt-5 ml-5" onChange={selectCardFroEditHandle}/>*/}
+                {/*<CardMicroView id={1} className="mt-5 ml-5" onChange={selectCardForEditHandle}/>*/}
+                {/*<CardMicroView id={1} className="mt-5 ml-5" onChange={selectCardForEditHandle}/>*/}
+                {/*<CardMicroView id={1} className="mt-5 ml-5" onChange={selectCardForEditHandle}/>*/}
+                {/*<CardMicroView id={1} className="mt-5 ml-5" onChange={selectCardForEditHandle}/>*/}
+                {/*<CardMicroView id={1} className="mt-5 ml-5" onChange={selectCardForEditHandle}/>*/}
             </Row>
         </div>
     )

@@ -1,27 +1,42 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Col, Form, Row, Spinner} from "react-bootstrap";
-import {useQuery} from "@apollo/client";
-import {gql} from "graphql.macro";
 import Typography from '@material-ui/core/Typography';
 import 'fontsource-roboto';
+import _ from 'lodash'
 
-const GET_OWN_AUTHORS = gql`
-    query GET_OWN_AUTHORS{
-        me{
-            cardauthorSet{
-                id
-                name
-            }
-        }
-    }`
-export default function AuthorSelector({...props}: any){
+export default function AuthorSelector({cards_data, ...props}: any){
     const [selectedAuthor, setSelectedAuthor] = useState<any>()
-    const {data: author_data} = useQuery(GET_OWN_AUTHORS)
-    if(!author_data){
+    const [authorsArray, setAuthorsArray] = useState<any>([])
+    const get_cards_data_by_author_id = (author_id) =>{
+        return(_.filter(cards_data, ((obj) =>{
+            if (obj.author.length === 0){
+                return false
+            }
+            return (_.find(obj.author, (item) => {
+                return(item.id == author_id)
+            }))
+        })))
+    }
+    useEffect(() =>{
+        const ConstAuthorsArray: any = []
+        cards_data.map((sameCard) =>{
+            sameCard.author.map((interatedAuthorInSameCard) =>{
+                if (ConstAuthorsArray.indexOf(interatedAuthorInSameCard) === -1){
+                    ConstAuthorsArray.push(interatedAuthorInSameCard)
+                }
+            })
+        })
+        setAuthorsArray(ConstAuthorsArray)
+        props.onChangeSelectedData(cards_data)
+        // console.log(ConstAuthorsArray)
+
+    }, [cards_data])
+    if(!authorsArray){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
+    // console.log(cards_data)
     return(
         <Row {...props}>
             <Col className="col-3 mt-2">
@@ -36,9 +51,15 @@ export default function AuthorSelector({...props}: any){
                     as="select"
                     value={selectedAuthor}
                     onChange={ (event) => {
-                         setSelectedAuthor(event.target.value)
+                        setSelectedAuthor(event.target.value)
+                        if (Number(event.target.value) === 1000000) {
+                            props.onChangeSelectedData(cards_data)
+                        } else {
+                            props.onChangeSelectedData(get_cards_data_by_author_id(event.target.value))
+                        }
                     }}>
-                    {author_data.me.cardauthorSet.map((author: any) => {
+                    <option value={1000000}>Не выбран</option>
+                    {authorsArray.map((author: any) => {
                         return (<option key={author.id + "authorForSelect"}
                                         value={author.id}> {author.name}</option>)
                     })}

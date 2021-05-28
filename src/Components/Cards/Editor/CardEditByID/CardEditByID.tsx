@@ -464,11 +464,13 @@ export default function CardEditByID({cardId, ...props}: any){
             </Row>
             <Row className="mt-2">
 
-                    {isUseMainContent && mainContentType === 0? <Col className="col-12 col-lg-5  mt-4 ml-5">
+                    {isUseMainContent && mainContentType === 0?
+                        <Col className="col-12 col-lg-5  mt-4 ml-5">
                         <ReactPlayer controls
                                      url={cardYoutubeVideoUrl}
                                      height={440}
-                                     width={770}
+                                     width="100%"
+                            // className="col-12 col-lg-5" !!!770 px!!!
                         />
                         <TextField
                             className="mt-2 col-12"

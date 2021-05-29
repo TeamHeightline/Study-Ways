@@ -1,6 +1,6 @@
 import React from 'react'
 import 'react-bootstrap';
-import {Navbar, Form, Nav, Dropdown, Button, DropdownButton, Row, Spinner} from 'react-bootstrap';
+import {Navbar, Form, Nav, Dropdown, Button, DropdownButton, Row, Spinner, Col} from 'react-bootstrap';
 import s from'./navibar.module.css';
 import NavSearch from "./search"
 import {gql, useQuery} from "@apollo/client";
@@ -37,11 +37,11 @@ export default function Navibar(){
     }
     return(
             <Navbar bg="light" expand="lg" className="col-12 mr-1" >
-                <Navbar.Brand>IOT</Navbar.Brand>
+                <Navbar.Brand>SW</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
 
-                    <Nav >
+                    <Nav className="col-4">
                         <Nav.Link className="ml-3">
                             <Link className={s.link} to="/">Главная </Link>
                         </Nav.Link>
@@ -52,31 +52,33 @@ export default function Navibar(){
                         </Nav.Link>
                     </Nav>
 
-                    <Form  className="col-lg-4">
-                        <NavSearch/>
-                    </Form>
-                    <Button variant="outline-success" className=" ml-3 ">Поиск</Button>
-                    <Row className="ml-3">
-                    {user_data.me ? <Navbar.Text>{user_data.me.username}</Navbar.Text> :
-                        <Nav.Link>
-                            <Link className={s.link} to="/login">Войти</Link>
-                        </Nav.Link>}
+                    {/*<Form  className="col-lg-4">*/}
+                    {/*    <NavSearch/>*/}
+                    {/*</Form>*/}
+                    <Col className="col-4 offset-6">
+                        <Row className="ml-3">
+                        {user_data.me ? <Navbar.Text>{user_data.me.username}</Navbar.Text> :
+                            <Nav.Link>
+                                <Link className={s.link} to="/login">Войти</Link>
+                            </Nav.Link>}
 
-                    {user_data.me? <div>
-                            <DropdownButton id="dropdown-navibar-button"  title="" className="ml-4">
-                                <Dropdown.Item>
-                                    <Link className={s.link} to="/stat">Статистика </Link>
-                                </Dropdown.Item>
-                                <Dropdown.Item>
-                                    <Link className={s.link} to="/profile">Профиль</Link>
-                                </Dropdown.Item>
-                                <Dropdown.Item>
-                                    <Link className={s.link} to="/unlogin">Выйти</Link>
-                                </Dropdown.Item>
-                        </DropdownButton></div> : null}
-                        {user_data.me?
-                            null: <Nav.Link><Link className={s.link} to="/registration">Зарегистрироваться</Link></Nav.Link>}
-                    </Row>
+                        {user_data.me? <div>
+                                <DropdownButton id="dropdown-navibar-button"  title="" className="ml-4">
+                                    <Dropdown.Item>
+                                        <Link className={s.link} to="/stat">Статистика </Link>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item>
+                                        <Link className={s.link} to="/profile">Профиль</Link>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item>
+                                        <Link className={s.link} to="/unlogin">Выйти</Link>
+                                    </Dropdown.Item>
+                            </DropdownButton></div> : null}
+                            {user_data.me?
+                                null: <Nav.Link><Link className={s.link} to="/registration">Зарегистрироваться</Link></Nav.Link>}
+                        </Row>
+                    </Col>
+                    {/*<Button variant="outline-success" className=" ml-3 ">Поиск</Button>*/}
                 </Navbar.Collapse>
             </Navbar>
     )

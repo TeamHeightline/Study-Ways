@@ -13,7 +13,7 @@ import  {
 
 import {MainExperimental} from "./Components/Menu/MainMenu";
 import Login from "./Components/Login/Login"
-import {gql, useMutation} from "@apollo/client";
+import {gql, useMutation, useQuery} from "@apollo/client";
 import UnLogin from "./Components/Login/UnLogin";
 import Registration from "./Components/Login/Registration";
 import UpdateQuestion from "./Components/UserTest/Editor/UpdateQuestion";
@@ -48,6 +48,16 @@ const VERIFY_LOGIN = gql`
 //         errors
 //       }
 //     }`
+const GET_USER_DATA = gql`
+    query{
+        me{
+            id
+            firstName
+            username
+            userAccessLevel
+        }
+    }
+`
 
 function App() {
     const checkTokenAndLoginVariablesInLocalStore = () => {
@@ -62,6 +72,14 @@ function App() {
         // console.log(localStorage.getItem('token'))
         return(localStorage.getItem('token'))
     }
+    const {data: user_data} = useQuery(GET_USER_DATA, {
+        onCompleted: data => {
+            console.log(data)
+        },
+        onError: error => {
+            console.log(error)
+        }
+    })
 
     const [verify_login, { data, error }] = useMutation(VERIFY_LOGIN, {
         variables: {
@@ -74,7 +92,8 @@ function App() {
         verify_login().then().catch(() => {localStorage.setItem('is_login', 'false')})
         setTimeout(setAnimationState, 3000, true)
     }, [])  //для создания фоновой задачи, перед запятой пишем setInterval
-    if (!data || !animationState){
+
+    if (!data || !animationState || !user_data){
         return  <Typist className="display-4 text-center mt-4" style={{fontSize: '33px'}}>
             Загрузка Study Ways
         </Typist>
@@ -97,7 +116,7 @@ function App() {
                 <Route exact path="/login" component={Login}/>
                 <Route exact path="/unlogin" component={UnLogin}/>
                 <Route exact path="/registration" component={Registration}/>
-                <Route exact path="/testeditor" component={localStorage.getItem('is_login') === 'true'? MainEditor: Login}/>
+                <Route exact path="/testeditor" component={user_data.me !== null? MainEditor: Login}/>
                 {/*<Route exact path="/updatequestion" component={localStorage.getItem('is_login') === 'true'? UpdateQuestion: Login}/>*/}
                 <Route exact path="/test" component={MainUserTest}/>
                 <Route exact path="/ckeditor" component={CKEDITOR}/>

@@ -8,9 +8,9 @@ export default function ContentTypeSelector({cards_data, ...props}: any){
     // props.onChangeSelectedData(_.filter(cards_data, {'cardContentType': "A_" + selectedContentType}))
     useEffect(() =>{
         if (Number(selectedContentType) != 1000000) {
-            props.onChangeSelectedData(_.filter(cards_data, {'cardContentType': "A_" + selectedContentType}))
+            props.ChangeSelectedData(_.filter(cards_data, {'cardContentType': "A_" + selectedContentType}))
         } else {
-            props.onChangeSelectedData(cards_data)
+            props.ChangeSelectedData(cards_data)
         }}, [cards_data])
     return(
         <Row {...props}>
@@ -29,9 +29,9 @@ export default function ContentTypeSelector({cards_data, ...props}: any){
                         // console.log(event)
                         setSelectedContentType(event.target.value)
                         if (Number(event.target.value) != 1000000) {
-                            props.onChangeSelectedData(_.filter(cards_data, {'cardContentType': "A_" + event.target.value}))
+                            props.ChangeSelectedData(_.filter(cards_data, {'cardContentType': "A_" + event.target.value}))
                         } else {
-                            props.onChangeSelectedData(cards_data)
+                            props.ChangeSelectedData(cards_data)
                         }
                     }}>
                     <option value={1000000}>Не выбран</option>

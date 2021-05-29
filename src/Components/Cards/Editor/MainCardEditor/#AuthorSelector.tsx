@@ -27,7 +27,7 @@ export default function AuthorSelector({cards_data, ...props}: any){
             })
         })
         setAuthorsArray(ConstAuthorsArray)
-        props.onChangeSelectedData(cards_data)
+        props.ChangeSelectedData(cards_data)
         // console.log(ConstAuthorsArray)
 
     }, [cards_data])
@@ -53,9 +53,9 @@ export default function AuthorSelector({cards_data, ...props}: any){
                     onChange={ (event) => {
                         setSelectedAuthor(event.target.value)
                         if (Number(event.target.value) === 1000000) {
-                            props.onChangeSelectedData(cards_data)
+                            props.ChangeSelectedData(cards_data)
                         } else {
-                            props.onChangeSelectedData(get_cards_data_by_author_id(event.target.value))
+                            props.ChangeSelectedData(get_cards_data_by_author_id(event.target.value))
                         }
                     }}>
                     <option value={1000000}>Не выбран</option>

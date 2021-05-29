@@ -8,6 +8,7 @@ import {useQuery} from "@apollo/client";
 import {gql} from "graphql.macro";
 import _ from 'lodash'
 import ContentTypeSelector from "./#ContentTypeSelector";
+import ThemeSelector from "./#ThemeSelector";
 
 const GET_ALL_CARD_DATA = gql`
     query GET_CARD_DATA{
@@ -73,15 +74,16 @@ export default function MainCardEditor(){
     return(
         <div className="col-12">
             <Row className="ml-1">
+                <ThemeSelector cards_data={card_data.me.cardSet}/>
                 <ContentTypeSelector className="ml-5 col-4" cards_data={card_data.me.cardSet}
-                onChangeSelectedData={(data) =>{
-                    console.log(data)
+                ChangeSelectedData={(data) =>{
+                    // console.log(data)
                     setCardsDataAfterSelectContentType(data)
                 }}/>
                 {cardsDataAfterSelectContentType &&
                 <AuthorSelector cards_data={cardsDataAfterSelectContentType} className="ml-2 col-4"
-                                onChangeSelectedData={(data) =>{
-                                    console.log(data)
+                                ChangeSelectedData={(data) =>{
+                                    // console.log(data)
                                     setCardsDataAfterSelectAuthor(data)
                                 }}/>}
 

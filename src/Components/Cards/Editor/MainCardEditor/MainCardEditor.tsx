@@ -46,6 +46,7 @@ const GET_ALL_CARD_DATA = gql`
 export default function MainCardEditor(){
     const [isEditNow, setIsEditNow] = useState(false)
     const [selectedCardID, setSelectedCardID] = useState(0)
+    const [cardsDataAfterSelectTheme, setCardsDataAfterSelectTheme] = useState()
     const [cardsDataAfterSelectContentType, setCardsDataAfterSelectContentType] = useState()
     const [cardsDataAfterSelectAuthor, setCardsDataAfterSelectAuthor] = useState()
     const {data: card_data} = useQuery(GET_ALL_CARD_DATA, {
@@ -74,12 +75,17 @@ export default function MainCardEditor(){
     return(
         <div className="col-12">
             <Row className="ml-1">
-                <ThemeSelector cards_data={card_data.me.cardSet}/>
-                <ContentTypeSelector className="ml-5 col-4" cards_data={card_data.me.cardSet}
-                ChangeSelectedData={(data) =>{
-                    // console.log(data)
-                    setCardsDataAfterSelectContentType(data)
+                <ThemeSelector className="ml-5 col-4" cards_data={card_data.me.cardSet}
+                changeSelectedData={(data)=>{
+                    setCardsDataAfterSelectTheme(data)
                 }}/>
+                {cardsDataAfterSelectTheme &&
+                <ContentTypeSelector className="ml-5 col-4" cards_data={cardsDataAfterSelectTheme}
+                                     ChangeSelectedData={(data) =>{
+                                         // console.log(data)
+                                         setCardsDataAfterSelectContentType(data)
+                                     }}/>}
+
                 {cardsDataAfterSelectContentType &&
                 <AuthorSelector cards_data={cardsDataAfterSelectContentType} className="ml-2 col-4"
                                 ChangeSelectedData={(data) =>{

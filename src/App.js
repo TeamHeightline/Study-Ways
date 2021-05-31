@@ -74,7 +74,7 @@ function App() {
     }
     const {data: user_data} = useQuery(GET_USER_DATA, {
         onCompleted: data => {
-            console.log(data)
+            // console.log(data)
         },
         onError: error => {
             console.log(error)

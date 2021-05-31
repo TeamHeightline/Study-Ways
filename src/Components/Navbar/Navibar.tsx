@@ -42,25 +42,22 @@ export default function Navibar(){
                 <Navbar.Collapse id="basic-navbar-nav">
 
                     <Nav className="col-4">
-                        <Nav.Link className="ml-3">
+                        {/*<Nav.Link className="ml-3">*/}
                             <Link className={s.link} to="/">Главная </Link>
-                        </Nav.Link>
-                        <Nav.Link className="ml-3">
-                            <Link className={s.link} to="/testeditor">Редактировать тест</Link> </Nav.Link>
-                        <Nav.Link className="ml-3">
+                        {/*</Nav.Link>*/}
+                        {/*<Nav.Link className="ml-3">*/}
+                            <Link className={s.link} to="/testeditor">Редактировать тест</Link>
+                        {/*<Nav.Link className="ml-3">*/}
                             <Link className={s.link} to="/test">Пройти тест</Link>
-                        </Nav.Link>
+                        {/*</Nav.Link>*/}
                     </Nav>
 
-                    {/*<Form  className="col-lg-4">*/}
-                    {/*    <NavSearch/>*/}
-                    {/*</Form>*/}
                     <Col className="col-4 offset-6">
                         <Row className="ml-3">
                         {user_data.me ? <Navbar.Text>{user_data.me.username}</Navbar.Text> :
-                            <Nav.Link>
+
                                 <Link className={s.link} to="/login">Войти</Link>
-                            </Nav.Link>}
+                            }
 
                         {user_data.me? <div>
                                 <DropdownButton id="dropdown-navibar-button"  title="" className="ml-4">
@@ -75,11 +72,13 @@ export default function Navibar(){
                                     </Dropdown.Item>
                             </DropdownButton></div> : null}
                             {user_data.me?
-                                null: <Nav.Link><Link className={s.link} to="/registration">Зарегистрироваться</Link></Nav.Link>}
+                                null: <Nav.Link>
+                                    <Link className={s.link} to="/registration">Зарегистрироваться</Link></Nav.Link>}
                         </Row>
                     </Col>
                     {/*<Button variant="outline-success" className=" ml-3 ">Поиск</Button>*/}
                 </Navbar.Collapse>
             </Navbar>
+
     )
 }

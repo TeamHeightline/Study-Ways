@@ -36,6 +36,7 @@ export default function Navibar(){
         )
     }
     return(
+        <div >
             <Navbar bg="light" expand="lg" className="col-12 mr-1" >
                 <Navbar.Brand>SW</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -43,23 +44,23 @@ export default function Navibar(){
 
                     <Nav className="col-4">
                         {/*<Nav.Link className="ml-3">*/}
-                            <Link className={s.link} to="/">Главная </Link>
+                        <Link className={s.link} to="/">Главная </Link>
                         {/*</Nav.Link>*/}
                         {/*<Nav.Link className="ml-3">*/}
-                            <Link className={s.link} to="/testeditor">Редактировать тест</Link>
+                        <Link className={s.link} to="/testeditor">Редактировать тест</Link>
                         {/*<Nav.Link className="ml-3">*/}
-                            <Link className={s.link} to="/test">Пройти тест</Link>
+                        <Link className={s.link} to="/test">Пройти тест</Link>
                         {/*</Nav.Link>*/}
                     </Nav>
 
-                    <Col className="col-4 offset-6">
+                    <Col className="col-2 offset-6">
                         <Row className="ml-3">
-                        {user_data.me ? <Navbar.Text>{user_data.me.username}</Navbar.Text> :
+                            {user_data.me ? <Navbar.Text>{user_data.me.username}</Navbar.Text> :
 
                                 <Link className={s.link} to="/login">Войти</Link>
                             }
 
-                        {user_data.me? <div>
+                            {user_data.me? <div className="col-3">
                                 <DropdownButton id="dropdown-navibar-button"  title="" className="ml-4">
                                     <Dropdown.Item>
                                         <Link className={s.link} to="/stat">Статистика </Link>
@@ -70,7 +71,7 @@ export default function Navibar(){
                                     <Dropdown.Item>
                                         <Link className={s.link} to="/unlogin">Выйти</Link>
                                     </Dropdown.Item>
-                            </DropdownButton></div> : null}
+                                </DropdownButton></div> : null}
                             {user_data.me?
                                 null: <Nav.Link>
                                     <Link className={s.link} to="/registration">Зарегистрироваться</Link></Nav.Link>}
@@ -79,6 +80,6 @@ export default function Navibar(){
                     {/*<Button variant="outline-success" className=" ml-3 ">Поиск</Button>*/}
                 </Navbar.Collapse>
             </Navbar>
-
+        </div>
     )
 }

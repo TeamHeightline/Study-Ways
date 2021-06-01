@@ -56,8 +56,9 @@ export default function Navibar(){
                     <Col className="col-2 offset-6">
                         <Row className="ml-3">
                             {user_data.me ? <Navbar.Text>{user_data.me.username}</Navbar.Text> :
-
-                                <Link className={s.link} to="/login">Войти</Link>
+                                <Col>
+                                    <Link className={s.link} to="/login">Войти</Link>
+                                </Col>
                             }
 
                             {user_data.me? <div className="col-3">
@@ -73,8 +74,9 @@ export default function Navibar(){
                                     </Dropdown.Item>
                                 </DropdownButton></div> : null}
                             {user_data.me?
-                                null: <Nav.Link>
-                                    <Link className={s.link} to="/registration">Зарегистрироваться</Link></Nav.Link>}
+                                null: <Col>
+                                    <Link className={s.link} to="/registration">Зарегистрироваться</Link>
+                            </Col>}
                         </Row>
                     </Col>
                     {/*<Button variant="outline-success" className=" ml-3 ">Поиск</Button>*/}

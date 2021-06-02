@@ -44,7 +44,7 @@ export default function AuthorSelector({cards_data, ...props}: any){
                     Автор:
                 </Typography>
             </Col>
-            <Col className="col-8">
+            <Col className="col-7">
                 <Form.Control
                     className="mt-1"
                     // size="lg"

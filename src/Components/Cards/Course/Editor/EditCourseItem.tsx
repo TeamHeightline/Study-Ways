@@ -96,7 +96,6 @@ export default function EditCourseItem({item_id}: any){
             get_card_image()
         }
     })
-    console.log(card_data)
     return(
         <Card style={{height:80}}>
             <Tooltip title={card_data &&
@@ -121,7 +120,7 @@ export default function EditCourseItem({item_id}: any){
                     </div>
                     <TextField
                         className="col-10 ml-2"
-                        id="standard-multiline-flexible"
+                        id={"courseItemID" + itemID}
                         label=""
                         fullWidth
                         value={itemID}

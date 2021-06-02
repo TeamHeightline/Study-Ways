@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import CardMicroView from "../../CardView/#CardMicroView";
-import {Row, Spinner} from "react-bootstrap";
+import {Col, Row, Spinner} from "react-bootstrap";
 import CardEditByID from "../CardEditByID/CardEditByID";
 import AuthorSelector from "./#AuthorSelector";
 import CreateNewCard from "./#CreateNewCard";
@@ -75,23 +75,29 @@ export default function MainCardEditor(){
     return(
         <div className="col-12">
             <Row className="ml-1">
-                <ThemeSelector className="ml-5 col-4" cards_data={card_data.me.cardSet}
-                changeSelectedData={(data)=>{
-                    setCardsDataAfterSelectTheme(data)
-                }}/>
-                {cardsDataAfterSelectTheme &&
-                <ContentTypeSelector className="ml-5 col-4" cards_data={cardsDataAfterSelectTheme}
-                                     ChangeSelectedData={(data) =>{
-                                         // console.log(data)
-                                         setCardsDataAfterSelectContentType(data)
-                                     }}/>}
+                <Col className="ml-5 col-4">
+                    <ThemeSelector cards_data={card_data.me.cardSet}
+                    changeSelectedData={(data)=>{
+                        setCardsDataAfterSelectTheme(data)
+                    }}/>
+                </Col>
+                <Col className="col-3">
+                    {cardsDataAfterSelectTheme &&
+                    <ContentTypeSelector cards_data={cardsDataAfterSelectTheme}
+                                         ChangeSelectedData={(data) =>{
+                                             // console.log(data)
+                                             setCardsDataAfterSelectContentType(data)
+                                         }}/>}
+                </Col>
+                <Col className="ml-2 col-3">
+                    {cardsDataAfterSelectContentType &&
+                    <AuthorSelector cards_data={cardsDataAfterSelectContentType}
+                                    ChangeSelectedData={(data) =>{
+                                        // console.log(data)
+                                        setCardsDataAfterSelectAuthor(data)
+                                    }}/>}
+                </Col>
 
-                {cardsDataAfterSelectContentType &&
-                <AuthorSelector cards_data={cardsDataAfterSelectContentType} className="ml-2 col-4"
-                                ChangeSelectedData={(data) =>{
-                                    // console.log(data)
-                                    setCardsDataAfterSelectAuthor(data)
-                                }}/>}
 
             </Row>
             <Row className="mr-2 ml-2">

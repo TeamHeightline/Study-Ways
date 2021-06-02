@@ -1,6 +1,7 @@
 import React from 'react'
 import {Col, Row} from "antd";
 import EditCourseItem from "./EditCourseItem";
+import MainCardEditor from "../../Editor/MainCardEditor/MainCardEditor";
 
 export default function EditCourseByID(){
     return(
@@ -23,6 +24,7 @@ export default function EditCourseByID(){
                         <EditCourseItem item_id={id}/>
                     </Col>)
                 })}
+                <MainCardEditor/>
             </Row>
         </div>
     )

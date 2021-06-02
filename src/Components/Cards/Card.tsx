@@ -11,7 +11,7 @@ import {Rating} from "@material-ui/lab";
 export default function CARDS(props: any){
     const [rating, setRating] = useState<number | null>(4);
     return(
-        <div>
+        <div className="ml-5">
             <Row className="ml-2 mt-4 " >
                 <Col className="col-12 col-md-8">
                     <Row>

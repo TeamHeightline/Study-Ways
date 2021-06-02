@@ -53,7 +53,7 @@ export default function Navibar(){
                         {/*</Nav.Link>*/}
                     </Nav>
 
-                    <Col className="col-2 offset-6">
+                    <Col className="col-2 offset-5">
                         <Row className="ml-3">
                             {user_data.me ? <Navbar.Text>{user_data.me.username}</Navbar.Text> :
                                 <Col>

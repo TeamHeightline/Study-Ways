@@ -23,11 +23,31 @@ const LOGIN_MUTATION = gql`
         }
       }
     }`
+const GET_USER_DATA = gql`
+    query{
+        me{
+            id
+            firstName
+            username
+            userAccessLevel
+        }
+    }
+`
 
 export default function Login(){
     const [mail, changeMail] = useState('')
     const [password, changePassword] = useState('')
     const history = useHistory();
+    const {data: user_data} = useQuery(GET_USER_DATA, {
+        pollInterval: 4000,
+        onCompleted: data => {
+            // console.log(data)
+        },
+        onError: error => {
+            // console.log(error)
+        }
+    })
+
     const [login, { data, error }] = useMutation(LOGIN_MUTATION, {
         variables: {
             pass: password,
@@ -45,7 +65,7 @@ export default function Login(){
         localStorage.setItem('is_login', 'true')
     }
     {data ?  data.tokenAuth.success ? saveLoginData() : null : null}
-    {localStorage.getItem('is_login') === 'true' ? setTimeout(history.push, 1000, '/'): null}
+    {localStorage.getItem('is_login') === 'true'  && user_data !== null? setTimeout(history.push, 1000, '/'): null}
     return(
         <div>
             <Container>

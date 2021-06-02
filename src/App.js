@@ -73,6 +73,7 @@ function App() {
         return(localStorage.getItem('token'))
     }
     const {data: user_data} = useQuery(GET_USER_DATA, {
+        pollInterval: 4000,
         onCompleted: data => {
             // console.log(data)
         },

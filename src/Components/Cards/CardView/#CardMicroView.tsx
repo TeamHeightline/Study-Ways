@@ -24,7 +24,7 @@ import MathJax from 'react-mathjax-preview'
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
-        width: "550px",
+        width: "400px",
         height: "170px"
     },
     details: {
@@ -155,7 +155,7 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                             )
                         })}>
                             <Typography variant="button" display="block" gutterBottom style={{maxHeight: 20}}>
-                                {card_data?.cardById?.title.slice(0, 33)}
+                                {card_data?.cardById?.title.slice(0, 25)}
                             </Typography>
                         </Tooltip>
                         {card_data?.cardById?.text.length !== 0 ?
@@ -187,13 +187,13 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                             })} >
                             <Breadcrumbs  aria-label="breadcrumb">
                                 <Typography color="inherit" >
-                                    {card_data?.cardById?.subTheme[0]?.theme?.globalTheme?.name.slice(0, 15)}
+                                    {card_data?.cardById?.subTheme[0]?.theme?.globalTheme?.name.slice(0, 8)}
                                 </Typography>
                                 <Typography color="inherit">
-                                    {card_data?.cardById?.subTheme[0]?.theme?.name.slice(0, 15)}
+                                    {card_data?.cardById?.subTheme[0]?.theme?.name.slice(0, 8)}
                                 </Typography>
                                 <Typography color="textPrimary">
-                                    {card_data?.cardById?.subTheme[0]?.name.slice(0, 15)}
+                                    {card_data?.cardById?.subTheme[0]?.name.slice(0, 10)}
                                 </Typography>
                             </Breadcrumbs>
                         </Tooltip> : <br/>}

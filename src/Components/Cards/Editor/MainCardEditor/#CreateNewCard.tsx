@@ -18,7 +18,7 @@ import 'fontsource-roboto';
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
-        width: "550px",
+        width: "400px",
         height: "170px"
     },
     details: {

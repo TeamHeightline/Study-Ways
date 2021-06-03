@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
         flex: '1 0 auto',
     },
     cover: {
-        width: 110,
+        width: 150,
         height: 50,
         objectFit: 'cover'
     },

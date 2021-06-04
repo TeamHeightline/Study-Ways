@@ -6,7 +6,6 @@ import YouTubeIcon from "@material-ui/icons/YouTube";
 import HttpIcon from "@material-ui/icons/Http";
 import ImageIcon from "@material-ui/icons/Image";
 import Typography from "@material-ui/core/Typography";
-import CardMedia from "@material-ui/core/CardMedia";
 import {makeStyles} from "@material-ui/core/styles";
 
 const GET_CARD_DATA_BY_ID=gql`

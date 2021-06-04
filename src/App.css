@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dosis&display=swap');
 .App {
   text-align: center;
 }
@@ -27,6 +29,11 @@
 .App-link {
   color: #61dafb;
 }
+.rl{
+  font-family: 'Raleway', sans-serif;
+  /*font-family: 'Dosis', sans-serif;*/
+}
+
 
 @keyframes App-logo-spin {
   from {
@@ -36,3 +43,4 @@
     transform: rotate(360deg);
   }
 }
+

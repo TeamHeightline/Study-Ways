@@ -28,7 +28,6 @@ import CardEditByID from "./Components/Cards/Editor/CardEditByID/CardEditByID";
 import MainCardEditor from './Components/Cards/Editor/MainCardEditor/MainCardEditor'
 import Typist from 'react-typist';
 import EditCourseByID from "./Components/Cards/Course/Editor/EditCourseByID";
-
 const VERIFY_LOGIN = gql`
     mutation VERIFY_LOGIN($token: String!){
       verifyToken(token: $token){
@@ -96,7 +95,7 @@ function App() {
     }, [])  //для создания фоновой задачи, перед запятой пишем setInterval
 
     if (!data || !animationState || !user_data){
-        return  <Typist className="display-4 text-center mt-4" style={{fontSize: '33px'}}>
+        return  <Typist className="display-4 text-center mt-4 rl" style={{fontSize: '33px', fontFamily: "Raleway"}}>
             Загрузка Study Ways
         </Typist>
     }

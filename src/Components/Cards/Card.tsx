@@ -7,9 +7,16 @@ import KeyboardArrowRightOutlinedIcon from '@material-ui/icons/KeyboardArrowRigh
 import KeyboardArrowDownOutlinedIcon from '@material-ui/icons/KeyboardArrowDownOutlined';
 import KeyboardArrowUpOutlinedIcon from '@material-ui/icons/KeyboardArrowUpOutlined';
 import {Rating} from "@material-ui/lab";
+import {Cropper} from "react-cropper";
 
 export default function CARDS(props: any){
     const [rating, setRating] = useState<number | null>(4);
+    const cropperRef = useRef<HTMLImageElement>(null);
+    const onCrop = () => {
+        const imageElement: any = cropperRef?.current;
+        const cropper: any = imageElement?.cropper;
+        console.log(cropper.getCroppedCanvas().toDataURL());
+    };
     return(
         <div className="ml-5">
             <Row className="ml-2 mt-4 " >

@@ -119,7 +119,7 @@ export default function EditCourseItem({item_id}: any){
                     </div>
                     <TextField
                         className="col-10 ml-2"
-                        id={"courseItemID" + itemID}
+                        // id={"courseItemID" + itemID}
                         label=""
                         fullWidth
                         value={itemID}

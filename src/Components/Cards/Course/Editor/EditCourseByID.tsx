@@ -19,8 +19,6 @@ export default function EditCourseByID(){
         </div>
     )
 }
-// какой язык на сколько востребован //
-
 
 // Курс
 //      -строка курса

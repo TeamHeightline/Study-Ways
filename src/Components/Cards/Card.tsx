@@ -8,15 +8,12 @@ import KeyboardArrowDownOutlinedIcon from '@material-ui/icons/KeyboardArrowDownO
 import KeyboardArrowUpOutlinedIcon from '@material-ui/icons/KeyboardArrowUpOutlined';
 import {Rating} from "@material-ui/lab";
 import {Cropper} from "react-cropper";
+import ReactCrop from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
 
 export default function CARDS(props: any){
     const [rating, setRating] = useState<number | null>(4);
-    const cropperRef = useRef<HTMLImageElement>(null);
-    const onCrop = () => {
-        const imageElement: any = cropperRef?.current;
-        const cropper: any = imageElement?.cropper;
-        console.log(cropper.getCroppedCanvas().toDataURL());
-    };
+    const [crop, setCrop] = useState({ aspect: 5/3 });
     return(
         <div className="ml-5">
             <Row className="ml-2 mt-4 " >
@@ -65,6 +62,8 @@ export default function CARDS(props: any){
                     />
                 </Col>
             </Row>
+            <ReactCrop crop={crop} onChange={newCrop => setCrop(newCrop)} src="https://sun9-15.userapi.com/impg/j0sDW0LCS0xXqk9ckUq0dTAyfmOnePIfOMZtLQ/ffokBfYyyjk.jpg?size=734x979&quality=96&sign=4df79703568167cbfb441be3d23609fa&type=album"
+            />
         </div>
     )
 }

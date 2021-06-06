@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function EditCourseItem({item_id}: any){
+export default function EditCourseItem({item_id, item_position, ...props}: any){
     const classes = useStyles();
     const [itemID, setItemID] = useState(item_id)
     const [cardImage, setCardImage] = useState()
@@ -95,6 +95,7 @@ export default function EditCourseItem({item_id}: any){
             get_card_image()
         }
     })
+    // console.log(itemID)
     return(
         <Card style={{height:80}}>
             <Tooltip title={card_data &&
@@ -125,6 +126,10 @@ export default function EditCourseItem({item_id}: any){
                         value={itemID}
                         onChange={(e) =>{
                             const valueWithOnlyNumber = e.target.value.replace(/[^\d]/g, '')
+                            props.updateItem({
+                                itemID: valueWithOnlyNumber,
+                                itemPosition: item_position
+                            })
                             setItemID(valueWithOnlyNumber)
                         }}
                     />

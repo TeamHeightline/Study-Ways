@@ -1,17 +1,24 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Col, Row} from "antd";
 import EditCourseItem from "./##EditCourseItem";
 import MainCardEditor from "../../Editor/MainCardEditor/MainCardEditor";
 import CourseFragment from "./#CourseFragment";
 import CourseRow from "./#CourseRow";
 
-export default function EditCourseByID(){
+export default function EditCourseByID({course_id}: any){
+    const [CourseLinesData, setCourseLineData] = useState(CourseLines)
     return(
         <div className="mt-4 ml-4">
             <div style={{overflowY: "scroll"}} className="ml-5 mr-5">
-                {CourseLines.map((line, lIndex) =>{
+                {CourseLinesData.map((line, lIndex) =>{
                     return(
-                        <CourseRow key={lIndex} row={line}/>
+                        <CourseRow key={lIndex} row={line}
+                                   updateCourseRow={new_row =>{
+                                        const newRowsData = CourseLinesData
+                                        newRowsData[lIndex] = new_row
+                                        // console.log(newRowsData)
+                                        setCourseLineData(newRowsData)
+                        }}/>
                     )
                 })}
             </div>
@@ -45,73 +52,73 @@ const CourseLines =
                     CourseFragment: [
                         {
                             CourseElement: {
-                                id: 1,
+                                id: null,
                                 haveInputTest: false
                             }
                         },
                         {
                             CourseElement: {
-                                id: 1,
+                                id: null,
                                 haveInputTest: false
                             }
                         },
                         {
                             CourseElement: {
-                                id: 1,
+                                id: null,
                                 haveInputTest: false
                             }
                         },
                         {
                             CourseElement: {
-                                id: 1,
+                                id: null,
                                 haveInputTest: false
                             }
                         },
                         {
                             CourseElement: {
-                                id: 1,
+                                id: null,
                                 haveInputTest: false
                             }
                         },
                         {
                             CourseElement: {
-                                id: 1,
+                                id: null,
                                 haveInputTest: false
                             }
                         },
                         {
                             CourseElement: {
-                                id: 1,
+                                id: null,
                                 haveInputTest: false
                             }
                         },
                         {
                             CourseElement: {
-                                id: 1,
+                                id: null,
                                 haveInputTest: false
                             }
                         },
                         {
                             CourseElement: {
-                                id: 1,
+                                id: null,
                                 haveInputTest: false
                             }
                         },
                         {
                             CourseElement: {
-                                id: 1,
+                                id: null,
                                 haveInputTest: false
                             }
                         },
                         {
                             CourseElement: {
-                                id: 1,
+                                id: null,
                                 haveInputTest: false
                             }
                         },
                         {
                             CourseElement: {
-                                id: 1,
+                                id: null,
                                 haveInputTest: false
                             }
                         },
@@ -126,154 +133,73 @@ const CourseLines =
                      CourseFragment: [
                          {
                              CourseElement: {
-                                 id: 1,
+                                 id: null,
                                  haveInputTest: false
                              }
                          },
                          {
                              CourseElement: {
-                                 id: 1,
+                                 id: null,
                                  haveInputTest: false
                              }
                          },
                          {
                              CourseElement: {
-                                 id: 1,
+                                 id: null,
                                  haveInputTest: false
                              }
                          },
                          {
                              CourseElement: {
-                                 id: 1,
+                                 id: null,
                                  haveInputTest: false
                              }
                          },
                          {
                              CourseElement: {
-                                 id: 1,
+                                 id: null,
                                  haveInputTest: false
                              }
                          },
                          {
                              CourseElement: {
-                                 id: 1,
+                                 id: null,
                                  haveInputTest: false
                              }
                          },
                          {
                              CourseElement: {
-                                 id: 1,
+                                 id: null,
                                  haveInputTest: false
                              }
                          },
                          {
                              CourseElement: {
-                                 id: 1,
+                                 id: null,
                                  haveInputTest: false
                              }
                          },
                          {
                              CourseElement: {
-                                 id: 1,
+                                 id: null,
                                  haveInputTest: false
                              }
                          },
                          {
                              CourseElement: {
-                                 id: 1,
+                                 id: null,
                                  haveInputTest: false
                              }
                          },
                          {
                              CourseElement: {
-                                 id: 1,
+                                 id: null,
                                  haveInputTest: false
                              }
                          },
                          {
                              CourseElement: {
-                                 id: 1,
-                                 haveInputTest: false
-                             }
-                         },
-                     ]
-                 }
-             ]
-
-         },
-         {
-             SameLine: [
-                 {
-                     CourseFragment: [
-                         {
-                             CourseElement: {
-                                 id: 1,
-                                 haveInputTest: false
-                             }
-                         },
-                         {
-                             CourseElement: {
-                                 id: 1,
-                                 haveInputTest: false
-                             }
-                         },
-                         {
-                             CourseElement: {
-                                 id: 1,
-                                 haveInputTest: false
-                             }
-                         },
-                         {
-                             CourseElement: {
-                                 id: 1,
-                                 haveInputTest: false
-                             }
-                         },
-                         {
-                             CourseElement: {
-                                 id: 1,
-                                 haveInputTest: false
-                             }
-                         },
-                         {
-                             CourseElement: {
-                                 id: 1,
-                                 haveInputTest: false
-                             }
-                         },
-                         {
-                             CourseElement: {
-                                 id: 1,
-                                 haveInputTest: false
-                             }
-                         },
-                         {
-                             CourseElement: {
-                                 id: 1,
-                                 haveInputTest: false
-                             }
-                         },
-                         {
-                             CourseElement: {
-                                 id: 1,
-                                 haveInputTest: false
-                             }
-                         },
-                         {
-                             CourseElement: {
-                                 id: 1,
-                                 haveInputTest: false
-                             }
-                         },
-                         {
-                             CourseElement: {
-                                 id: 1,
-                                 haveInputTest: false
-                             }
-                         },
-                         {
-                             CourseElement: {
-                                 id: 1,
+                                 id: null,
                                  haveInputTest: false
                              }
                          },
@@ -288,73 +214,154 @@ const CourseLines =
                      CourseFragment: [
                          {
                              CourseElement: {
-                                 id: 1,
+                                 id: null,
                                  haveInputTest: false
                              }
                          },
                          {
                              CourseElement: {
-                                 id: 1,
+                                 id: null,
                                  haveInputTest: false
                              }
                          },
                          {
                              CourseElement: {
-                                 id: 1,
+                                 id: null,
                                  haveInputTest: false
                              }
                          },
                          {
                              CourseElement: {
-                                 id: 1,
+                                 id: null,
                                  haveInputTest: false
                              }
                          },
                          {
                              CourseElement: {
-                                 id: 1,
+                                 id: null,
                                  haveInputTest: false
                              }
                          },
                          {
                              CourseElement: {
-                                 id: 1,
+                                 id: null,
                                  haveInputTest: false
                              }
                          },
                          {
                              CourseElement: {
-                                 id: 1,
+                                 id: null,
                                  haveInputTest: false
                              }
                          },
                          {
                              CourseElement: {
-                                 id: 1,
+                                 id: null,
                                  haveInputTest: false
                              }
                          },
                          {
                              CourseElement: {
-                                 id: 1,
+                                 id: null,
                                  haveInputTest: false
                              }
                          },
                          {
                              CourseElement: {
-                                 id: 1,
+                                 id: null,
                                  haveInputTest: false
                              }
                          },
                          {
                              CourseElement: {
-                                 id: 1,
+                                 id: null,
                                  haveInputTest: false
                              }
                          },
                          {
                              CourseElement: {
-                                 id: 1,
+                                 id: null,
+                                 haveInputTest: false
+                             }
+                         },
+                     ]
+                 }
+             ]
+
+         },
+         {
+             SameLine: [
+                 {
+                     CourseFragment: [
+                         {
+                             CourseElement: {
+                                 id: null,
+                                 haveInputTest: false
+                             }
+                         },
+                         {
+                             CourseElement: {
+                                 id: null,
+                                 haveInputTest: false
+                             }
+                         },
+                         {
+                             CourseElement: {
+                                 id: null,
+                                 haveInputTest: false
+                             }
+                         },
+                         {
+                             CourseElement: {
+                                 id: null,
+                                 haveInputTest: false
+                             }
+                         },
+                         {
+                             CourseElement: {
+                                 id: null,
+                                 haveInputTest: false
+                             }
+                         },
+                         {
+                             CourseElement: {
+                                 id: null,
+                                 haveInputTest: false
+                             }
+                         },
+                         {
+                             CourseElement: {
+                                 id: null,
+                                 haveInputTest: false
+                             }
+                         },
+                         {
+                             CourseElement: {
+                                 id: null,
+                                 haveInputTest: false
+                             }
+                         },
+                         {
+                             CourseElement: {
+                                 id: null,
+                                 haveInputTest: false
+                             }
+                         },
+                         {
+                             CourseElement: {
+                                 id: null,
+                                 haveInputTest: false
+                             }
+                         },
+                         {
+                             CourseElement: {
+                                 id: null,
+                                 haveInputTest: false
+                             }
+                         },
+                         {
+                             CourseElement: {
+                                 id: null,
                                  haveInputTest: false
                              }
                          },

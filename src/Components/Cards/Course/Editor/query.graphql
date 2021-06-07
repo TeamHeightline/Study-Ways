@@ -27,3 +27,12 @@ query GET_CARD_DATA_BY_ID($id: ID!){
 
     }
 }
+
+mutation CREATE_COURSE_WITH_DEFAULT_VALUE($default_data: GenericScalar){
+     createCardCourse(input: {courseData: $default_data}){
+         course{
+             courseData
+             id
+         }
+     }
+}

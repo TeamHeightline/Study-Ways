@@ -396,8 +396,8 @@ export default function UpdateQuestion() {
                 {questionId? <Col className="text-center mt-2 col-6">
                     <Typography variant="body2" color="textSecondary" component="p">
                     Ссылка на прохождение вопроса - {isImageQuestion?
-                        <strong>https://iot-frontend-show-version.herokuapp.com/iq/{questionId}</strong>:
-                        <strong>https://iot-frontend-show-version.herokuapp.com/q/{questionId}</strong>}
+                        <strong>https://www.sw-university.com/iq/{questionId}</strong>:
+                        <strong>https://www.sw-university.com/q/{questionId}</strong>}
                     </Typography>
                     </Col>: null}
             </Row>

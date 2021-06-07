@@ -44,7 +44,7 @@ export default function EditCourseByID({course_id}: any){
 //                                  -id
 //                                  -дополнительная информация
 // ----------------------------------------------------------------|
-const CourseLines =
+export const CourseLines =
      [
         {
             SameLine: [

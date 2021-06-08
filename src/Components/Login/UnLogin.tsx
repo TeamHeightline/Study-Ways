@@ -1,3 +1,5 @@
+// Все гениальное - просто, а UnLogin - еще проще, еще бы работал с первого раза
+
 import * as React from 'react'
 // import 'react-bootstrap';
 import {Spinner} from "react-bootstrap";

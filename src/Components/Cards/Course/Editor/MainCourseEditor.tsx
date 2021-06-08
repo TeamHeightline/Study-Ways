@@ -1,9 +1,13 @@
 import React from 'react'
-import {Button, Container} from "@material-ui/core";
+import {Button, Card, Container, Paper, Typography} from "@material-ui/core";
 import {gql} from "graphql.macro";
 import {useMutation} from "@apollo/client";
 import {CourseLines} from "./EditCourseByID";
+import {Col, Tabs} from "antd";
+import {Row} from "antd";
+import CourseMicroView from "./CourseMicroView";
 
+const { TabPane } = Tabs;
 const CREATE_COURSE_WITH_DEFAULT_VALUE = gql`
     mutation CREATE_COURSE_WITH_DEFAULT_VALUE($default_data: GenericScalar){
         createCardCourse(input: {courseData: $default_data}){
@@ -15,7 +19,7 @@ const CREATE_COURSE_WITH_DEFAULT_VALUE = gql`
     }
 `
 
-export default function ({...props}: any) {
+export default function MainCourseEditor({...props}: any) {
     const [create_course, {data: create_course_data, error: create_course_error}] = useMutation(CREATE_COURSE_WITH_DEFAULT_VALUE,
         {
             variables:{
@@ -29,6 +33,7 @@ export default function ({...props}: any) {
                         size="large"  onClick={() => create_course()}>
                     Создать новый курс
                 </Button>
+                <CourseMicroView/>
             </Container>
         </div>
     )

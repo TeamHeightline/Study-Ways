@@ -1,3 +1,5 @@
+// Лицо проекта, первое, с чем сталкнется пользователь, работает на 3+
+
 import * as React from 'react'
 import {Alert, Button, Container, Form} from "react-bootstrap";
 import {useState} from "react";
@@ -36,11 +38,11 @@ export default function Registration(){
         localStorage.setItem('refreshToken', data.register.refreshToken)
         localStorage.setItem('is_login', 'true')
     }
+    //Если пользователь залогинелся, то сохраняем его данные
     {data?.register.success ?  data?.register.success === true? saveData(): null: null}
+    //Если данные сохранены и доступны, то происходит редирект на главную страницу
     {localStorage.getItem('is_login') === 'true' ? setTimeout(history.push, 1000, '/'): null}
-    {data ? console.log(data): null}
-    {error ? console.log(error): null}
-    console.log(mail)
+
     return(
         <div>
             <Container>
@@ -48,6 +50,8 @@ export default function Registration(){
                 <div className="col-4 offset-4 mt-3">
                     {/*<Card>*/}
                     <Form>
+                        {/*Стандартный набор, юзерныйм, мэил и два пароля, заметьте, для второго пароля честно
+                        используется именно отдельная ячейка, хоть это и жутко бесит*/}
                         <Form.Group>
                             <Form.Label>Введите имя пользователя</Form.Label>
                             <Form.Control type="text" placeholder="Имя пользователя" value={userName} onChange={(event) =>{changeUserName(event.target.value)}}/>
@@ -64,9 +68,11 @@ export default function Registration(){
                             <Form.Label>Повторно введите пароль</Form.Label>
                             <Form.Control type="password" placeholder="Пароль" value={password2} onChange={(event) =>{changePassword2(event.target.value)}}/>
                         </Form.Group>
+                        {/*При нажатие тригерит регистрационную мутацию*/}
                         <Button variant="primary" type="submit" className="mr-auto" size="lg" block onClick={(event => {event.preventDefault(); registration()})}>
                             Зарегистрироваться
                         </Button>
+                        {/*Проверка вообще всех возможных ошибок, по сути, приходится играть в google translate*/}
                         { data?.register?.errors?.email ? data?.register.errors.email[0].message === "A user with that email already exists." ?
                             <Alert variant='danger' className="mt-2" >Этот email уже был использован</Alert>: null: null}
                         { data?.register?.errors?.username ? data?.register.errors.username[0].message === "Enter a valid username. This value may contain only letters, numbers, and @/./+/-/_ characters." ?
@@ -79,7 +85,7 @@ export default function Registration(){
                         (data?.register?.errors?.password2[0].message === "This password is too common.") ||
                         (data?.register?.errors?.password2[0].message === "This password is entirely numeric.")?
                             <Alert variant='danger' className="mt-2" >Пароль слишком простой</Alert>: null: null}
-
+                        {/*Занятный факт, эту надпись невозможно прочесть, редирект произойдет раньше*/}
                         {data?.register?.success ?  data?.register.success === true? <Alert variant='primary' className="mt-2">Вы зарегистрировались, запрос на подтверждение аккаунта отправлен вам на почту</Alert>: null: null}
 
                     </Form>

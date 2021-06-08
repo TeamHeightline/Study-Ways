@@ -1,3 +1,7 @@
+// Это типа главное меню, он заменяет собой главную страницу, тоже в будущем будет переработано
+// Здесь всего две карточки, из важного, только то, что для перехода на новые вкладки
+// мы используем history.push("/новый урл");
+
 import React from "react";
 import {Card, Container, Row, Button} from "react-bootstrap"
 import { useHistory } from "react-router-dom";

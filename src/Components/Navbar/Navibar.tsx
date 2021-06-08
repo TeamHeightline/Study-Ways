@@ -1,8 +1,11 @@
+// Мы в панели навигации, ВСЕ ПЕРЕХОДЫ СДЕЛАНЫ ЧЕРЕЗ LINK, никаких href, иначе все приложение
+// будет перегружаться, вообще, сейчас здесь странные роуты, в будущем, все изменится
+
 import React from 'react'
 import 'react-bootstrap';
 import {Navbar, Form, Nav, Dropdown, Button, DropdownButton, Row, Spinner, Col} from 'react-bootstrap';
 import s from'./navibar.module.css';
-import NavSearch from "./search"
+import NavSearch from "../OLD_NOT_USED/search"
 import {gql, useQuery} from "@apollo/client";
 import { Link } from 'react-router-dom';
 

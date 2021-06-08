@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-expressions */
 
+// Неизвестно почему, но оно не работает, вернее, работает через раз
 import * as React from 'react'
 import 'react-bootstrap';
 import {Card, Container, Form, Button, Alert} from "react-bootstrap";
@@ -65,29 +66,33 @@ export default function Login(){
         localStorage.setItem('is_login', 'true')
     }
     {data ?  data.tokenAuth.success ? saveLoginData() : null : null}
+    //Если в локальном хранилище считают, что пользователь залогинен и есть данные из "me" запроса, то
+    //происходит редирект на основную страницу
     {localStorage.getItem('is_login') === 'true'  && user_data !== null? setTimeout(history.push, 1000, '/'): null}
     return(
         <div>
             <Container>
+                {/*Теоретически, здесь должен быть вариант с социальными сетями, но увы и ах*/}
                 <div className="display-4 text-center mt-5" style={{fontSize: '33px'}}>Введите email и пароль</div>
                 <div className="col-4 offset-4 mt-3">
-                    {/*<Card>*/}
+                    {/*Стандартная форма мэйла и пароля*/}
                         <Form>
                             <Form.Group>
                                 <Form.Label>Введите ваш email</Form.Label>
                                 <Form.Control type="email" placeholder="email" value={mail} onChange={(event) =>{changeMail(event.target.value)}}/>
                             </Form.Group>
                             <Form.Group>
+                                {/*Пароль отображается скрытым*/}
                                 <Form.Label>Введите пароль</Form.Label>
                                 <Form.Control type="password" placeholder="Пароль" value={password} onChange={(event) =>{changePassword(event.target.value)}}/>
                             </Form.Group>
                             <Button variant="primary" type="submit" className="mr-auto" size="lg" block onClick={(event => {event.preventDefault(); login()})}>
                                 Войти
                             </Button>
-                            {data ? data.tokenAuth.success ? <Alert variant="success" className="mt-2">Поздравляем, вы вошли</Alert> : <Alert variant='danger' className="mt-2">Ошибка в логине или пароле</Alert> : null}
-                            {/*{data ? data.tokenAuth.success === false ? <div>Ошибка в логине или пароле</div>: null: null}*/}
+                            {data ? data.tokenAuth.success ? <Alert variant="success" className="mt-2">Поздравляем, вы вошли</Alert> :
+                                <Alert variant='danger' className="mt-2">Ошибка в логине или пароле</Alert> : null}
+                        {/*    проверка на вход проста и гениальна*/}
                         </Form>
-                    {/*</Card>*/}
                 </div>
             </Container>
         </div>

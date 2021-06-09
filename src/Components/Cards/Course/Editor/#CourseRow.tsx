@@ -1,19 +1,24 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Row} from "antd";
 import CourseFragment from "./#CourseFragment";
 export default function CourseRow({row, ...props}: any){
+    const [RowState, setRow] = useState(row.SameLine)
     // console.log(data)
     return(
         <div style={{width: row.SameLine.length * 2000}}>
             <br/>
             <Row>
-                {row.SameLine.map((fragment, fIndex)=>{
+                {RowState.map((fragment, fIndex)=>{
                     return(<CourseFragment key={fIndex} fragment={fragment}
                                            updateFragment={(new_data =>{
-                                               // console.log(new_data)
-                                               row.SameLine[fIndex] = new_data
-                                               // console.log(row)
-                                               props.updateCourseRow(row)
+                                               const update_fragment = {
+                                                   CourseFragment: new_data
+                                               }
+                                               const newRow = RowState.slice()
+                                               newRow[fIndex] = update_fragment
+                                               // console.log(newRow)
+                                               setRow(newRow)
+                                                props.updateCourseRow(newRow)
                                            })}/>)
                 })}
                 {/*<CourseFragment/>*/}

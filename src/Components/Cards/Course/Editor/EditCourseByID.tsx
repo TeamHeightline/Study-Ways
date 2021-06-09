@@ -4,9 +4,35 @@ import EditCourseItem from "./##EditCourseItem";
 import MainCardEditor from "../../Editor/MainCardEditor/MainCardEditor";
 import CourseFragment from "./#CourseFragment";
 import CourseRow from "./#CourseRow";
+import {gql} from "graphql.macro";
+import {useQuery} from "@apollo/client";
+import {Spinner} from "react-bootstrap";
 
-export default function EditCourseByID({course_id}: any){
-    const [CourseLinesData, setCourseLineData] = useState(CourseLines)
+const GET_COURSE_BY_ID = gql`
+    query GET_COURSE_BY_ID($id: ID!){
+        cardCourseById(id: $id){
+            courseData
+            id
+        }
+    }`
+export default function EditCourseByID({course_id, ...props}: any){
+    const [CourseLinesData, setCourseLineData] = useState<any>([])
+    const {data: course_data, refetch} = useQuery(GET_COURSE_BY_ID, {
+        variables:{
+            id: props?.match?.params?.id? props?.match?.params?.id : course_id
+        },
+        onCompleted: data => {
+            console.log(data)
+            setCourseLineData(data.cardCourseById.courseData)
+        }
+
+    })
+    // console.log(course_data)
+    if(!course_data){
+        return (
+            <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
+        )
+    }
     return(
         <div className="mt-4 ml-4">
             <div style={{overflowY: "scroll"}} className="ml-5 mr-5">
@@ -14,10 +40,12 @@ export default function EditCourseByID({course_id}: any){
                     return(
                         <CourseRow key={lIndex} row={line}
                                    updateCourseRow={new_row =>{
-                                        const newRowsData = CourseLinesData
-                                        newRowsData[lIndex] = new_row
-                                        // console.log(newRowsData)
-                                        setCourseLineData(newRowsData)
+                                       const newSameLine = {
+                                           SameLine: new_row
+                                       }
+                                       const newCourseLinesData = CourseLinesData.slice()
+                                       newCourseLinesData[lIndex] = newSameLine
+                                       setCourseLineData(newCourseLinesData)
                         }}/>
                     )
                 })}
@@ -374,4 +402,4 @@ export const CourseLines =
 
 // console.log(CourseLines[0].SameLine[0].CourseFragment[0].CourseElement.id)
 
-console.log(CourseLines)
+// console.log(CourseLines)

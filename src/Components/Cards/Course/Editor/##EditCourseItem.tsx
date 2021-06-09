@@ -127,8 +127,9 @@ export default function EditCourseItem({item_id, item_position, ...props}: any){
                         onChange={(e) =>{
                             const valueWithOnlyNumber = e.target.value.replace(/[^\d]/g, '')
                             props.updateItem({
-                                itemID: valueWithOnlyNumber,
-                                itemPosition: item_position
+                                CourseElement: {
+                                    id: valueWithOnlyNumber
+                                }
                             })
                             setItemID(valueWithOnlyNumber)
                         }}

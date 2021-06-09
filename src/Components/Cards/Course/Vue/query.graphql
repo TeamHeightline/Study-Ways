@@ -1,0 +1,6 @@
+query GET_OWN_COURSE{
+    cardCourse{
+        courseData
+        id
+    }
+}

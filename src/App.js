@@ -140,7 +140,7 @@ function App() {
                 <Route exact path="/c/:id" component={CARDS}/>
                 <Route exact path="/c/edit/:id" component={CardEditByID}/>
                 <Route exact path='/card' component={MainCardEditor}/>
-                <Route exact path="/course/:1" component={EditCourseByID}/>
+                <Route exact path="/course/:id" component={EditCourseByID}/>
                 <Route exact path="/mce" component={MainCourseEditor}/>
             </Switch>
         </Router>

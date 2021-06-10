@@ -1,8 +1,8 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Button, Card, Container, Paper, Typography} from "@material-ui/core";
 import {gql} from "graphql.macro";
 import {useMutation, useQuery} from "@apollo/client";
-import {CourseLines} from "./EditCourseByID";
+import EditCourseByID, {CourseLines} from "./EditCourseByID";
 import {Col, Tabs} from "antd";
 import {Row} from "antd";
 import CourseMicroView from "./CourseMicroView";
@@ -27,6 +27,8 @@ const GET_OWN_COURSE = gql`
         }
     }`
 export default function MainCourseEditor({...props}: any) {
+    const [isEditCourseNow, setIsEditCourseNow] = useState(false)
+    const [selectedCourseID, setSelectedCourseID] = useState<any>()
     const [create_course, {data: create_course_data, error: create_course_error}] = useMutation(CREATE_COURSE_WITH_DEFAULT_VALUE,
         {
             variables:{
@@ -35,6 +37,12 @@ export default function MainCourseEditor({...props}: any) {
         })
     const {data: own_course_data, refetch} = useQuery(GET_OWN_COURSE)
     console.log(own_course_data)
+    if(isEditCourseNow){
+        return (
+            <EditCourseByID course_id={selectedCourseID} />
+        )
+    }
+
     return(
         <div>
             <Container>
@@ -47,7 +55,12 @@ export default function MainCourseEditor({...props}: any) {
 
                 {own_course_data?.cardCourse.map((course, cIndex) =>{
                     return(
-                        <CourseMicroView key={cIndex} course={course}/>
+                        <CourseMicroView key={cIndex} course={course} className="ml-3 mt-4"
+                                         onEdit={(data) =>{
+                                             console.log(data)
+                                             setSelectedCourseID(data)
+                                             setIsEditCourseNow(true)
+                                         }}/>
                     )
                 }) }
             </Container>

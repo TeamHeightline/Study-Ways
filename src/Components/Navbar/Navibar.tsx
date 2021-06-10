@@ -25,7 +25,7 @@ const GET_USER_DATA = gql`
 
 export default function Navibar(){
     const {data: user_data} = useQuery(GET_USER_DATA, {
-        pollInterval: 4000,
+        // pollInterval: 10000,
         onCompleted: data => {
             // console.log(data)
         },

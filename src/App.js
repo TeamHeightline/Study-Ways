@@ -100,6 +100,7 @@ function App() {
         variables: {
             token: checkTokenAndLoginVariablesInLocalStore()
         },
+        onCompleted: data1 => console.log("---------new login verify --------"),
         errorPolicy: 'all'
     })
     const [animationState, setAnimationState] = useState(false)

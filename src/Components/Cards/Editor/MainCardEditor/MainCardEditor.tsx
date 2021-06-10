@@ -49,8 +49,8 @@ export default function MainCardEditor(){
     const [cardsDataAfterSelectTheme, setCardsDataAfterSelectTheme] = useState()
     const [cardsDataAfterSelectContentType, setCardsDataAfterSelectContentType] = useState()
     const [cardsDataAfterSelectAuthor, setCardsDataAfterSelectAuthor] = useState()
-    const {data: card_data} = useQuery(GET_ALL_CARD_DATA, {
-        pollInterval: 3000,
+    const {data: card_data, refetch} = useQuery(GET_ALL_CARD_DATA, {
+        // pollInterval: 3000,
 
     })
     const selectCardForEditHandle = async(e) =>{
@@ -63,6 +63,7 @@ export default function MainCardEditor(){
             <CardEditByID cardId={selectedCardID} onChange={(e) =>{
                 if (e === "goBack"){
                     setIsEditNow(false)
+                    refetch()
                 }
             }}/>
         )

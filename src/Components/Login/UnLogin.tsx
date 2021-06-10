@@ -8,6 +8,7 @@ import {useHistory} from "react-router-dom";
 export default function UnLogin(){
     const history = useHistory();
     setTimeout(history.push, 200, '/')
+    setTimeout(window.location.reload, 400)
     localStorage.setItem('token', 'wrong key')
     localStorage.setItem('is_login', 'false')
     localStorage.setItem('user_name', '')

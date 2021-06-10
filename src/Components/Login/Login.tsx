@@ -69,6 +69,7 @@ export default function Login(){
     //Если в локальном хранилище считают, что пользователь залогинен и есть данные из "me" запроса, то
     //происходит редирект на основную страницу
     {localStorage.getItem('is_login') === 'true'  && user_data !== null? setTimeout(history.push, 1000, '/'): null}
+    localStorage.getItem('is_login') === 'true'  && user_data !== null? setTimeout(window.location.reload, 1200): null
     return(
         <div>
             <Container>

@@ -47,7 +47,7 @@ export default function MainCourseEditor({...props}: any) {
 
                 {own_course_data?.cardCourse.map((course, cIndex) =>{
                     return(
-                        <CourseMicroView key={cIndex}/>
+                        <CourseMicroView key={cIndex} course={course}/>
                     )
                 }) }
             </Container>

@@ -5,8 +5,10 @@ import MainCardEditor from "../../Editor/MainCardEditor/MainCardEditor";
 import CourseFragment from "./#CourseFragment";
 import CourseRow from "./#CourseRow";
 import {gql} from "graphql.macro";
-import {useQuery} from "@apollo/client";
+import {useMutation, useQuery} from "@apollo/client";
 import {Spinner} from "react-bootstrap";
+import {Alert} from "@material-ui/lab";
+import {Snackbar} from "@material-ui/core";
 
 const GET_COURSE_BY_ID = gql`
     query GET_COURSE_BY_ID($id: ID!){
@@ -15,18 +17,50 @@ const GET_COURSE_BY_ID = gql`
             id
         }
     }`
+const UPDATE_COURSE_DATA = gql`
+    mutation UPDATE_COURSE_DATA($new_data: GenericScalar, $course_id: ID!){
+        updateCardCourse(input: {courseData: $new_data, courseId: $course_id}){
+            course{
+                id
+            }
+        }
+    }`
 export default function EditCourseByID({course_id, ...props}: any){
     const [CourseLinesData, setCourseLineData] = useState<any>([])
+    const [autoSaveTimer, changeAutoSaveTimer] = useState<any>()
+    const [stateOfSave, setStateOfSave] = useState(2) // 0- не сохранено 1- сохранение 2- сохранено
+
+    const [update_course] = useMutation(UPDATE_COURSE_DATA, {
+        variables:{
+            new_data: CourseLinesData,
+            course_id: props?.match?.params?.id? props?.match?.params?.id : course_id
+        },
+        onError: error => console.log("Save error - " + error),
+        onCompleted: data => {
+            setStateOfSave(2)
+        }
+    })
+
     const {data: course_data, refetch} = useQuery(GET_COURSE_BY_ID, {
         variables:{
             id: props?.match?.params?.id? props?.match?.params?.id : course_id
         },
         onCompleted: data => {
-            console.log(data)
+            // console.log(data)
             setCourseLineData(data.cardCourseById.courseData)
         }
 
     })
+    const autoSave = async () =>{
+        clearTimeout(autoSaveTimer)
+        setStateOfSave(0)
+        changeAutoSaveTimer(setTimeout(() => {
+            setStateOfSave(1)
+            console.log("-----autosave-------")
+            update_course()
+        }, 4000))
+    }
+
     // console.log(course_data)
     if(!course_data){
         return (
@@ -46,11 +80,24 @@ export default function EditCourseByID({course_id, ...props}: any){
                                        const newCourseLinesData = CourseLinesData.slice()
                                        newCourseLinesData[lIndex] = newSameLine
                                        setCourseLineData(newCourseLinesData)
+                                       // console.log("update course ----------------------")
+                                       // console.log(newCourseLinesData)
+                                       autoSave()
                         }}/>
                     )
                 })}
             </div>
                 <MainCardEditor/>
+            <Snackbar open={true}>
+                <Alert severity="info">
+                    {stateOfSave === 0 &&
+                    "Изменения не сохранены"}
+                    {stateOfSave === 1 &&
+                    "Автосохранение"}
+                    {stateOfSave === 2 &&
+                    "Сохранено"}
+                </Alert>
+            </Snackbar>
         </div>
     )
 }

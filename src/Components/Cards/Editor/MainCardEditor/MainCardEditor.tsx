@@ -43,7 +43,7 @@ const GET_ALL_CARD_DATA = gql`
             }
         }
     }`
-export default function MainCardEditor(){
+export default function MainCardEditor({...props}: any){
     const [isEditNow, setIsEditNow] = useState(false)
     const [selectedCardID, setSelectedCardID] = useState(0)
     const [cardsDataAfterSelectTheme, setCardsDataAfterSelectTheme] = useState()
@@ -57,14 +57,20 @@ export default function MainCardEditor(){
         await setSelectedCardID(e)
         console.log("select" + e)
         await setIsEditNow(true)
+        props.onSetIsEditNow(true)
     }
     if (isEditNow){
         return (
-            <CardEditByID cardId={selectedCardID} onChange={(e) =>{
-                if (e === "goBack"){
-                    setIsEditNow(false)
-                    refetch()
-                }
+            <CardEditByID cardId={selectedCardID}
+                          returnStateOfSave={(e) =>{
+                              props.returnStateOfSave(e)
+                          }}
+                          onChange={(e) =>{
+                                if (e === "goBack"){
+                                    setIsEditNow(false)
+                                    props.onSetIsEditNow(false)
+                                    refetch()
+                                }
             }}/>
         )
     }

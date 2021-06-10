@@ -70,7 +70,7 @@ export default function EditCourseByID({course_id, ...props}: any){
         )
     }
     return(
-        <div className="mt-4 ml-4">
+        <div className="mt-4 ">
             {course_id ?
                 <Button
                     className="ml-5"

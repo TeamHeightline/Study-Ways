@@ -107,10 +107,10 @@ export default function MainCardEditor({...props}: any){
 
 
             </Row>
-            <Row className="mr-2 ml-2">
-                <CreateNewCard className="mt-5 ml-4"/>
+            <Row className="mr-2 justify-content-between">
+                <CreateNewCard className="mt-5 ml-3"/>
                 {cardsDataAfterSelectAuthor && _.sortBy(cardsDataAfterSelectAuthor, 'id').reverse().map((e) =>{
-                    return(<CardMicroView key={e.id + "CardKey"} cardID={e.id}  className="mt-5 ml-4"
+                    return(<CardMicroView key={e.id + "CardKey"} cardID={e.id}  className="mt-5 ml-3"
                                    onChange={selectCardForEditHandle}/>)
                 })}
             </Row>

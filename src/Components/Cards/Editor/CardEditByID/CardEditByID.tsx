@@ -257,6 +257,7 @@ export default function CardEditByID({cardId, ...props}: any){
         onError: error => console.log(error),
         onCompleted: data => {
             setStateOfSave(2)
+            props.returnStateOfSave(2)
             console.log(data)
         }
 
@@ -277,8 +278,10 @@ export default function CardEditByID({cardId, ...props}: any){
     const autoSave = () =>{
         clearTimeout(autoSaveTimer)
         setStateOfSave(0)
+        props.returnStateOfSave(0)
         changeAutoSaveTimer(setTimeout(() => {
             setStateOfSave(1)
+            props.returnStateOfSave(1)
             console.log("-----autosave-------")
             updateCard()
         }, 4000))

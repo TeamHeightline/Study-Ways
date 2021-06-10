@@ -28,6 +28,8 @@ const UPDATE_COURSE_DATA = gql`
 export default function EditCourseByID({course_id, ...props}: any){
     const [CourseLinesData, setCourseLineData] = useState<any>([])
     const [autoSaveTimer, changeAutoSaveTimer] = useState<any>()
+    const [isCardEditNow, setIsCardEditNow] = useState(false)
+    const [cardStateOfSave, setCardStateOfSave] = useState(2)
     const [stateOfSave, setStateOfSave] = useState(2) // 0- не сохранено 1- сохранение 2- сохранено
 
     const [update_course] = useMutation(UPDATE_COURSE_DATA, {
@@ -94,16 +96,35 @@ export default function EditCourseByID({course_id, ...props}: any){
                     )
                 })}
             </div>
-                <MainCardEditor/>
+                <MainCardEditor
+                    returnStateOfSave={(data) =>{
+                        setCardStateOfSave(data)
+                    }}
+                    onSetIsEditNow={(data) =>{
+                        setIsCardEditNow(data)
+                }}/>
             <Snackbar open={true}>
-                <Alert severity="info">
-                    {stateOfSave === 0 &&
-                    "Изменения не сохранены"}
-                    {stateOfSave === 1 &&
-                    "Автосохранение"}
-                    {stateOfSave === 2 &&
-                    "Сохранено"}
-                </Alert>
+                {isCardEditNow?
+                    <Alert severity="info">
+                        {stateOfSave === 0 &&
+                        "Курс: не сохранен"}
+                        {stateOfSave === 1 &&
+                        "Курс: сохранияется"}
+                        {stateOfSave === 2 &&
+                        "Курс: сохранен"}
+                        {cardStateOfSave === 0 && " | Карточка: не сохранена"}
+                        {cardStateOfSave === 1 && " | Карточка: сохранияется"}
+                        {cardStateOfSave === 2 && " | Карточка: сохранена"}
+                    </Alert>:
+                    <Alert severity="info">
+                        {stateOfSave === 0 &&
+                        "Курс: не сохранен"}
+                        {stateOfSave === 1 &&
+                        "Курс: сохранияется"}
+                        {stateOfSave === 2 &&
+                        "Курс: сохранен"}
+                    </Alert>
+                }
             </Snackbar>
         </div>
     )

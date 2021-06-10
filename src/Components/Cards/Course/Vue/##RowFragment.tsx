@@ -1,11 +1,17 @@
 import React from 'react';
 import {Button} from "@material-ui/core";
-export default function RowFragment(){
+import './RowFragment.css'
+export default function RowFragment({rowFragment, ...props}: any){
+    console.log(rowFragment)
     return(
         <>
-            {[1,2,3,4,5,6,7,8,9,10,11,12].map((element) =>{
+            {rowFragment.CourseFragment.map((element) =>{
                 return(
-                    <Button className="ml-1 mt-1" color="primary" variant="outlined"  key={element+ "Key2"}>{element * 100}</Button>
+                    <Button className="ml-1 mt-1" color={element?.CourseElement?.id ? "primary" : "primary"}
+                            variant={element?.CourseElement?.id ? "outlined": "text"}
+                            key={element+ "Key2"}>
+                        {element?.CourseElement?.id ? element?.CourseElement?.id : <br/>}
+                    </Button>
                 )
             })}
         </>

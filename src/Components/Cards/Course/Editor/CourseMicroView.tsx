@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function CourseMicroView({...props}: any) {
+export default function CourseMicroView({course, ...props}: any) {
     const classes = useStyles();
     return(
         <div className="mt-4">
@@ -38,7 +38,7 @@ export default function CourseMicroView({...props}: any) {
                     className={classes.cover}
                     image="https://content.skyscnr.com/m/5462d448281ea355/original/GettyImages-468945589.jpg?resize=1800px:1800px&quality=100"
                 />
-                <CourseNavigation/>
+                <CourseNavigation course={course}/>
             </Card>
         </div>
     )

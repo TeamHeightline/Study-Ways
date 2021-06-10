@@ -39,7 +39,12 @@ export default function MainCourseEditor({...props}: any) {
     console.log(own_course_data)
     if(isEditCourseNow){
         return (
-            <EditCourseByID course_id={selectedCourseID} />
+            <EditCourseByID course_id={selectedCourseID} onChange={(data) =>{
+                if(data === "goBack"){
+                    setIsEditCourseNow(false)
+                    refetch()
+                }
+            }}/>
         )
     }
 

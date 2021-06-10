@@ -8,9 +8,10 @@ export default function CourseNavigation({course, ...props}: any){
         <div style={{width: 820, overflowY: "scroll", marginBottom:5}}>
             {course.courseData.map((courseRow, CRI) =>{
                 return(
-                    <NavigationRow key={CRI} courseRow={courseRow}/>
+                    <NavigationRow key={CRI + "NavigationRow"} courseRow={courseRow}/>
                 )
             })}
+            <br/>
             {/*<NavigationRow/>*/}
             {/*<NavigationRow/>*/}
             {/*<NavigationRow/>*/}

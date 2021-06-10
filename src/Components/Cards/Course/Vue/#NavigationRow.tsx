@@ -9,7 +9,7 @@ export default function NavigationRow({courseRow, ...props}: any){
         <Row style={{width: 830 * courseRow.SameLine.length}}>
             {courseRow.SameLine.map((rowFragment, rIndex) =>{
                 return(
-                    <RowFragment key={rIndex} rowFragment={rowFragment}/>
+                    <RowFragment key={rIndex + "RowFragment"} rowFragment={rowFragment}/>
                 )
             })}
             {/*<RowFragment/>*/}

@@ -8,7 +8,7 @@ import {gql} from "graphql.macro";
 import {useMutation, useQuery} from "@apollo/client";
 import {Spinner} from "react-bootstrap";
 import {Alert} from "@material-ui/lab";
-import {Snackbar} from "@material-ui/core";
+import {Button, Snackbar} from "@material-ui/core";
 
 const GET_COURSE_BY_ID = gql`
     query GET_COURSE_BY_ID($id: ID!){
@@ -69,6 +69,13 @@ export default function EditCourseByID({course_id, ...props}: any){
     }
     return(
         <div className="mt-4 ml-4">
+            {course_id ?
+                <Button
+                    className="ml-5"
+                    variant="outlined" color="primary" onClick={() => {
+                    props.onChange("goBack")}}>
+                    Назад
+                </Button>: null}
             <div style={{overflowY: "scroll"}} className="ml-5 mr-5">
                 {CourseLinesData.map((line, lIndex) =>{
                     return(

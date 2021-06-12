@@ -8,7 +8,7 @@ import {gql} from "graphql.macro";
 import {useMutation, useQuery} from "@apollo/client";
 import {Spinner} from "react-bootstrap";
 import {Alert} from "@material-ui/lab";
-import {Button, Snackbar} from "@material-ui/core";
+import {Button, Snackbar, TextField} from "@material-ui/core";
 
 const GET_COURSE_BY_ID = gql`
     query GET_COURSE_BY_ID($id: ID!){
@@ -27,6 +27,7 @@ const UPDATE_COURSE_DATA = gql`
     }`
 export default function EditCourseByID({course_id, ...props}: any){
     const [CourseLinesData, setCourseLineData] = useState<any>([])
+    const [courseName, setCourseName] = useState('')
     const [autoSaveTimer, changeAutoSaveTimer] = useState<any>()
     const [isCardEditNow, setIsCardEditNow] = useState(false)
     const [cardStateOfSave, setCardStateOfSave] = useState(2)
@@ -78,6 +79,12 @@ export default function EditCourseByID({course_id, ...props}: any){
                     props.onChange("goBack")}}>
                     Назад
                 </Button>: null}
+            <br/>
+            <TextField className="ml-5 mt-2 col-4" value={courseName}
+                       onChange={(e) =>{
+                            setCourseName(e.target.value)}
+                       }
+                id="filled-basic" label="Назавние курса" variant="outlined" size="small"/>
             <div style={{overflowY: "scroll"}} className="ml-5 mr-5">
                 {CourseLinesData.map((line, lIndex) =>{
                     return(

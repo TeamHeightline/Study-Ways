@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {Col, Row} from "antd";
 import EditCourseItem from "./##EditCourseItem";
-import MainCardEditor from "../../Editor/MainCardEditor/MainCardEditor";
+import MainCardEditor from "../../Cards/Editor/MainCardEditor/MainCardEditor";
 import CourseFragment from "./#CourseFragment";
 import CourseRow from "./#CourseRow";
 import {gql} from "graphql.macro";

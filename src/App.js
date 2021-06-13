@@ -40,8 +40,8 @@ import CARDS from "./Components/Cards/Card";
 import CardEditByID from "./Components/Cards/Editor/CardEditByID/CardEditByID";
 import MainCardEditor from './Components/Cards/Editor/MainCardEditor/MainCardEditor'
 import Typist from 'react-typist';
-import EditCourseByID from "./Components/Cards/Course/Editor/EditCourseByID";
-import MainCourseEditor from "./Components/Cards/Course/Editor/MainCourseEditor";
+import EditCourseByID from "./Components/Course/Editor/EditCourseByID";
+import MainCourseEditor from "./Components/Course/Editor/MainCourseEditor";
 const VERIFY_LOGIN = gql`
     mutation VERIFY_LOGIN($token: String!){
       verifyToken(token: $token){

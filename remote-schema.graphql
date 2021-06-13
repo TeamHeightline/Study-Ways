@@ -56,6 +56,7 @@ type CardAuthorNode {
 type CardCourseNode {
     courseData: GenericScalar
     id: ID!
+    name: String
 }
 
 type CardMutationPayload {
@@ -830,6 +831,7 @@ input UpdateCardCourseInput {
     clientMutationId: String
     courseData: GenericScalar
     courseId: ID!
+    name: String
 }
 
 

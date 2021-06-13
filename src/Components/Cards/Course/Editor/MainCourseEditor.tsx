@@ -24,6 +24,7 @@ const GET_OWN_COURSE = gql`
         cardCourse{
             courseData
             id
+            name
         }
     }`
 export default function MainCourseEditor({...props}: any) {

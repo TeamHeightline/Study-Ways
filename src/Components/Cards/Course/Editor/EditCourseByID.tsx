@@ -15,11 +15,12 @@ const GET_COURSE_BY_ID = gql`
         cardCourseById(id: $id){
             courseData
             id
+            name
         }
     }`
 const UPDATE_COURSE_DATA = gql`
-    mutation UPDATE_COURSE_DATA($new_data: GenericScalar, $course_id: ID!){
-        updateCardCourse(input: {courseData: $new_data, courseId: $course_id}){
+    mutation UPDATE_COURSE_DATA($new_data: GenericScalar, $course_id: ID!, $name: String){
+        updateCardCourse(input: {courseData: $new_data, courseId: $course_id, name: $name}){
             course{
                 id
             }
@@ -36,7 +37,8 @@ export default function EditCourseByID({course_id, ...props}: any){
     const [update_course] = useMutation(UPDATE_COURSE_DATA, {
         variables:{
             new_data: CourseLinesData,
-            course_id: props?.match?.params?.id? props?.match?.params?.id : course_id
+            course_id: props?.match?.params?.id? props?.match?.params?.id : course_id,
+            name: courseName
         },
         onError: error => console.log("Save error - " + error),
         onCompleted: data => {
@@ -51,6 +53,7 @@ export default function EditCourseByID({course_id, ...props}: any){
         onCompleted: data => {
             // console.log(data)
             setCourseLineData(data.cardCourseById.courseData)
+            setCourseName(data.cardCourseById.name)
         }
 
     })
@@ -82,11 +85,14 @@ export default function EditCourseByID({course_id, ...props}: any){
             <br/>
             <TextField className="ml-5 mt-2 col-4" value={courseName}
                        onChange={(e) =>{
-                            setCourseName(e.target.value)}
+                            setCourseName(e.target.value)
+                            autoSave()
+
+                       }
                        }
                 id="filled-basic" label="Назавние курса" variant="outlined" size="small"/>
             <div style={{overflowY: "scroll"}} className="ml-5 mr-5">
-                {CourseLinesData.map((line, lIndex) =>{
+                {CourseLinesData.length !== 0 && CourseLinesData.map((line, lIndex) =>{
                     return(
                         <CourseRow key={lIndex} row={line}
                                    updateCourseRow={new_row =>{

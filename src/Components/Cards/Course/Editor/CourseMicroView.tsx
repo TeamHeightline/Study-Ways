@@ -32,8 +32,8 @@ export default function CourseMicroView({course, ...props}: any) {
                     console.log("Click")
                     props.onEdit(course.id)
                 }}>
-                    <Typography variant="h5" className="text-center rl" style={{fontFamily: "Raleway"}}>
-                        Прикладная физика для студентов 3 курса
+                    <Typography variant="h5" className="text-center rl mr-1 ml-1" style={{fontFamily: "Raleway"}}>
+                        {(course.name && course.name.length !== 0) ? course.name: "Название курса по умолчанию"}
                     </Typography>
                 </CardActionArea>
                 <Divider orientation="vertical" flexItem className="ml-1" />

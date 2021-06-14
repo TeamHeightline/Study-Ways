@@ -21,10 +21,12 @@ const CREATE_COURSE_WITH_DEFAULT_VALUE = gql`
 
 const GET_OWN_COURSE = gql`
     query GET_OWN_COURSE{
-        cardCourse{
-            courseData
-            id
-            name
+        me{
+            cardcourseSet{
+                courseData
+                id
+                name
+            }
         }
     }`
 export default function MainCourseEditor({...props}: any) {
@@ -59,7 +61,7 @@ export default function MainCourseEditor({...props}: any) {
                     Создать новый курс
                 </Button>
 
-                {own_course_data?.cardCourse.map((course, cIndex) =>{
+                {own_course_data?.me.cardcourseSet.map((course, cIndex) =>{
                     return(
                         <CourseMicroView key={cIndex} course={course} className="ml-3 mt-4"
                                          onEdit={(data) =>{

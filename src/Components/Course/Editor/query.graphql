@@ -55,3 +55,11 @@ query GET_OWN_COURSE{
         id
     }
 }
+
+query GET_COURSE_BY_ID($id: ID!){
+    cardCourseById(id: $id){
+        courseData
+        id
+        name
+    }
+}

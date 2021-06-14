@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Alert, Col, Row, Spinner} from "react-bootstrap";
 import ReactPlayer from "react-player";
-import {Breadcrumbs, Button, ButtonGroup, Typography, Tooltip} from "@material-ui/core";
+import {Breadcrumbs, Button, ButtonGroup, Typography, Tooltip, Paper} from "@material-ui/core";
 import KeyboardArrowLeftOutlinedIcon from '@material-ui/icons/KeyboardArrowLeftOutlined';
 import KeyboardArrowRightOutlinedIcon from '@material-ui/icons/KeyboardArrowRightOutlined';
 import KeyboardArrowDownOutlinedIcon from '@material-ui/icons/KeyboardArrowDownOutlined';
@@ -12,6 +12,8 @@ import {useQuery} from "@apollo/client";
 import MathJax from 'react-mathjax-preview'
 import { Card } from 'antd';
 import "../../App.css"
+import CourseNavigation from "../Course/Vue/CourseNavigation";
+import CourseMicroView from "../Course/Editor/CourseMicroView";
 
 const SHOW_CARD_BY_ID = gql`
     query SHOW_CARD_BY_ID($id: ID!){
@@ -47,11 +49,25 @@ const SHOW_CARD_BY_ID = gql`
 
         }
     }`
+
+const GET_COURSE_BY_ID = gql`
+    query GET_COURSE_BY_ID($id: ID!){
+        cardCourseById(id: $id){
+            courseData
+            id
+            name
+        }
+    }`
 const { Meta } = Card;
 
 export default function CARDS({id, course, ...props}: any){
     const [rating, setRating] = useState<number | null>(4);
     const [cardImage, setCardImage] = useState()
+    const {data: course_data} = useQuery(GET_COURSE_BY_ID, {
+        variables:{
+            id: 6
+        }
+    })
     const {data: card_data} = useQuery(SHOW_CARD_BY_ID, {
         variables:{
             id: props?.match?.params?.id? props?.match?.params?.id : id,
@@ -75,7 +91,7 @@ export default function CARDS({id, course, ...props}: any){
             })
     }
     console.log(card_data)
-    if(!card_data){
+    if(!card_data || !course_data){
         return(
                 <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
@@ -167,7 +183,12 @@ export default function CARDS({id, course, ...props}: any){
             <Alert>
                 {card_data?.cardById?.additionalText}
             </Alert>
-
+            <div className="ml-2">
+                <CourseMicroView course={course_data.cardCourseById}/>
+            </div>
+            <br/>
+            <br/>
+            <br/>
         </div>
     )
 }

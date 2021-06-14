@@ -3,12 +3,14 @@ import {BottomNavigation} from "@material-ui/core";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import AddIcon from '@material-ui/icons/Add';
 import {ViewList} from "@material-ui/icons";
-import CreatePoint from "./CreatePoint";
-import UpdateQuestion from "./UpdateQuestion";
+import CreatePoint from "./UserTest/Editor/CreatePoint";
+import UpdateQuestion from "./UserTest/Editor/UpdateQuestion";
 import {Alert} from "@material-ui/lab";
 import AlertTitle from "@material-ui/lab/AlertTitle";
 import {gql, useQuery} from "@apollo/client";
 import {Spinner} from "react-bootstrap";
+import ArtTrackIcon from '@material-ui/icons/ArtTrack';
+import MainCardEditor from "./Cards/Editor/MainCardEditor/MainCardEditor";
 
 const CHECK_USER_LEVEL = gql`
 query CHECK_USER_LEVEL{
@@ -22,7 +24,7 @@ query CHECK_USER_LEVEL{
 
 
 
-export default function MainEditor(){
+export default function EditorsRouter(){
     const [value, setValue] = React.useState(0);
     const {data: check_level_data, error: check_error} = useQuery(CHECK_USER_LEVEL,{
         pollInterval: 10000
@@ -50,10 +52,13 @@ export default function MainEditor(){
             showLabels
             className="col-12"
         >
+            <BottomNavigationAction label="Редактор карточек" icon={<ArtTrackIcon/>}/>
             <BottomNavigationAction label="Создание вопроса" icon={ <AddIcon />} />
             <BottomNavigationAction label="Редактор вопроса" icon={<ViewList />} />
         </BottomNavigation>
-        {value === 0 ? <CreatePoint/>: <UpdateQuestion/>}
+            {value === 0 && <MainCardEditor/>}
+            {value === 1 && <CreatePoint/>}
+            {value === 2 && <UpdateQuestion/>}
         </div>
     );
 }

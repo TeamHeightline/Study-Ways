@@ -120,7 +120,7 @@ export default function CardEditByID({cardId, ...props}: any){
     const [stateOfSave, setStateOfSave] = useState(2) // 0- не сохранено 1- сохранение 2- сохранено
     const [isAllDataHadBeenGotFromServer, setIsAllDataHadBeenGotFromServer] = useState(false)
 
-    const [cardID] = useState(cardId? cardId: 1)
+    const [cardID] = useState(cardId? cardId: props?.match?.params?.id)
     const [cardHeader, setCardHeader] = useState("Заголовок по умолчанию")
     const [cardSelectedThemeID, setCardSelectedThemeID] = useState([])
     const [cardAuthorId, changeCardAuthorId]: any = useState([]);

@@ -139,8 +139,8 @@ function App() {
                 <Route exact path="/ckeditor" component={CKEDITOR}/>
                 <Route  path="/q/:id" component={QuestionByID}/>
                 <Route exact path="/iq/:id" component={ImageQuestion}/>
+                <Route exact path="/card/edit/:id" component={CardEditByID}/>
                 <Route exact path="/c/:id" component={CARDS}/>
-                <Route exact path="/c/edit/:id" component={CardEditByID}/>
                 <Route exact path='/card' component={MainCardEditor}/>
                 <Route exact path="/course/:id" component={EditCourseByID}/>
                 <Route exact path="/mce" component={MainCourseEditor}/>

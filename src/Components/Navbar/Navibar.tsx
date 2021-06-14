@@ -8,6 +8,7 @@ import s from'./navibar.module.css';
 import NavSearch from "../OLD_NOT_USED/search"
 import {gql, useQuery} from "@apollo/client";
 import { Link } from 'react-router-dom';
+import {Typography} from "antd";
 
 const GET_USER_DATA = gql`
     query{
@@ -45,15 +46,12 @@ export default function Navibar(){
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
 
-                    <Nav className="col-4">
-                        {/*<Nav.Link className="ml-3">*/}
+                    <Nav className="col-5">
                         <Link className={s.link} to="/">Главная </Link>
-                        {/*</Nav.Link>*/}
-                        {/*<Nav.Link className="ml-3">*/}
-                        <Link className={s.link} to="/testeditor">Редактировать тест</Link>
-                        {/*<Nav.Link className="ml-3">*/}
+                        <Link className={s.link} to="/cards">Катрочки</Link>
                         <Link className={s.link} to="/test">Пройти тест</Link>
-                        {/*</Nav.Link>*/}
+                        <Typography className={s.link}> | </Typography>
+                        <Link className={s.link} to="/testeditor">Редактировать тест</Link>
                     </Nav>
 
                     <Col className="col-2 offset-5">

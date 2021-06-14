@@ -65,10 +65,10 @@ export default function CARDS({id, course, ...props}: any){
     const [cardImage, setCardImage] = useState()
     const {data: course_data} = useQuery(GET_COURSE_BY_ID, {
         variables:{
-            id: 6
+            id: id
         }
     })
-    const {data: card_data} = useQuery(SHOW_CARD_BY_ID, {
+    const {data: card_data, refetch} = useQuery(SHOW_CARD_BY_ID, {
         variables:{
             id: props?.match?.params?.id? props?.match?.params?.id : id,
         },
@@ -76,6 +76,9 @@ export default function CARDS({id, course, ...props}: any){
             get_card_image()
         }
     })
+    useEffect(() =>{
+        refetch()
+    }, [id, course])
     const get_card_image = () =>{
         // https://iot-experemental.herokuapp.com/cardfiles/card?
         fetch("https://iot-experemental.herokuapp.com/cardfiles/card?id=" +  card_data.cardById?.id )
@@ -91,13 +94,21 @@ export default function CARDS({id, course, ...props}: any){
             })
     }
     console.log(card_data)
-    if(!card_data || !course_data){
+    if(!card_data ){
         return(
-                <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
+            <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
     return(
         <div className="ml-5">
+            {id &&
+                <Button
+                    className="ml-2 mt-4 "
+                    variant="outlined" color="primary" onClick={() => {
+                    props.onChange("goBack")}}>
+                    Назад
+                </Button>
+            }
             <Row className="ml-2 mt-4 " >
                 <Col className="col-12 col-md-8">
                     <Row>
@@ -133,10 +144,23 @@ export default function CARDS({id, course, ...props}: any){
                 </Col>
                 <Col className="mt-3 col-10 col-md-3">
                     <ButtonGroup size="large" color="primary" aria-label="large outlined primary button group">
-                        <Button><KeyboardArrowLeftOutlinedIcon/></Button>
-                        <Button><KeyboardArrowDownOutlinedIcon/></Button>
-                        <Button><KeyboardArrowUpOutlinedIcon/></Button>
-                        <Button><KeyboardArrowRightOutlinedIcon/></Button>
+                        {/*Если катрочка открывается из курса, то нам нужны кнопки вверх и вниз, если её открыли
+                        просто как карточку из MainCardPublicView, то нам нужно только вперед и назад для перемещения
+                        по id вперед и назад*/}
+                        <Button onClick={ () => props.ButtonClick("Back")}>
+                            <KeyboardArrowLeftOutlinedIcon/>
+                        </Button>
+                        {course && <>
+                            <Button onClick={ () => props.ButtonClick("Down")}>
+                                <KeyboardArrowDownOutlinedIcon/>
+                            </Button>
+                            <Button onClick={ () => props.ButtonClick("Up")}>
+                                <KeyboardArrowUpOutlinedIcon/>
+                            </Button>
+                        </>}
+                        <Button onClick={ () => props.ButtonClick("Next")}>
+                            <KeyboardArrowRightOutlinedIcon/>
+                        </Button>
                     </ButtonGroup>
                 </Col>
             </Row>
@@ -183,9 +207,11 @@ export default function CARDS({id, course, ...props}: any){
             <Alert>
                 {card_data?.cardById?.additionalText}
             </Alert>
+            {course &&
             <div className="ml-2">
                 <CourseMicroView course={course_data.cardCourseById}/>
-            </div>
+            </div>}
+
             <br/>
             <br/>
             <br/>

@@ -15,3 +15,10 @@ mutation CREATE_NEW_CARD{
         }
     }
 }
+query CHECK_USER_STATUS{
+    me{
+        id
+        username
+        userAccessLevel
+    }
+}

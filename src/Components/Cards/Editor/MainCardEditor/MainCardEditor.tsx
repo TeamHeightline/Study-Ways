@@ -9,6 +9,8 @@ import {gql} from "graphql.macro";
 import _ from 'lodash'
 import ContentTypeSelector from "./#ContentTypeSelector";
 import ThemeSelector from "./#ThemeSelector";
+import AlertTitle from "@material-ui/lab/AlertTitle";
+import {Alert} from "@material-ui/lab";
 
 const GET_ALL_CARD_DATA = gql`
     query GET_CARD_DATA{
@@ -43,6 +45,15 @@ const GET_ALL_CARD_DATA = gql`
             }
         }
     }`
+
+const CHECK_USER_STATUS = gql`
+    query CHECK_USER_STATUS{
+        me{
+            id
+            username
+            userAccessLevel
+        }
+    }`
 export default function MainCardEditor({...props}: any){
     const [isEditNow, setIsEditNow] = useState(false)
     const [selectedCardID, setSelectedCardID] = useState(0)
@@ -51,8 +62,9 @@ export default function MainCardEditor({...props}: any){
     const [cardsDataAfterSelectAuthor, setCardsDataAfterSelectAuthor] = useState()
     const {data: card_data, refetch} = useQuery(GET_ALL_CARD_DATA, {
         // pollInterval: 3000,
-
     })
+    const {data: user_data} = useQuery(CHECK_USER_STATUS)
+
     const selectCardForEditHandle = async(e) =>{
         await setSelectedCardID(e)
         console.log("select" + e)
@@ -74,9 +86,17 @@ export default function MainCardEditor({...props}: any){
             }}/>
         )
     }
-    if(!card_data){
+    if(!card_data || !user_data){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
+        )
+    }
+    if(user_data.me.userAccessLevel !== "TEACHER" && user_data.me.userAccessLevel !== "ADMIN"){
+        return (
+            <Alert severity="error">
+                <AlertTitle>Доступ ограничен</AlertTitle>
+                Вы не обладаете достаточными правами, чтобы просматривать этот раздел, для дополнитльной информации обратитесь к администрации
+            </Alert>
         )
     }
     return(

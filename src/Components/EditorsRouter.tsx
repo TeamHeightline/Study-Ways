@@ -11,7 +11,10 @@ import {gql, useQuery} from "@apollo/client";
 import {Spinner} from "react-bootstrap";
 import ArtTrackIcon from '@material-ui/icons/ArtTrack';
 import MainCardEditor from "./Cards/Editor/MainCardEditor/MainCardEditor";
-
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+import MainCourseEditor from "./Course/Editor/MainCourseEditor";
+import BlurLinearIcon from '@material-ui/icons/BlurLinear';
+import LinearScaleIcon from '@material-ui/icons/LinearScale'; // оставим для серии вопросов
 const CHECK_USER_LEVEL = gql`
 query CHECK_USER_LEVEL{
       me{
@@ -52,13 +55,15 @@ export default function EditorsRouter(){
             showLabels
             className="col-12"
         >
+            <BottomNavigationAction label="Редактор курсов" icon={<BlurLinearIcon/>}/>
             <BottomNavigationAction label="Редактор карточек" icon={<ArtTrackIcon/>}/>
             <BottomNavigationAction label="Создание вопроса" icon={ <AddIcon />} />
-            <BottomNavigationAction label="Редактор вопроса" icon={<ViewList />} />
+            <BottomNavigationAction label="Редактор вопроса" icon={<FormatListBulletedIcon />} />
         </BottomNavigation>
-            {value === 0 && <MainCardEditor/>}
-            {value === 1 && <CreatePoint/>}
-            {value === 2 && <UpdateQuestion/>}
+            {value === 0 && <MainCourseEditor/>}
+            {value === 1 && <MainCardEditor/>}
+            {value === 2 && <CreatePoint/>}
+            {value === 3 && <UpdateQuestion/>}
         </div>
     );
 }

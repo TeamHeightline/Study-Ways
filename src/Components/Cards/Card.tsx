@@ -10,6 +10,8 @@ import {Rating} from "@material-ui/lab";
 import {gql} from "graphql.macro";
 import {useQuery} from "@apollo/client";
 import MathJax from 'react-mathjax-preview'
+import { Card } from 'antd';
+import "../../App.css"
 
 const SHOW_CARD_BY_ID = gql`
     query SHOW_CARD_BY_ID($id: ID!){
@@ -45,6 +47,7 @@ const SHOW_CARD_BY_ID = gql`
 
         }
     }`
+const { Meta } = Card;
 
 export default function CARDS({id, course, ...props}: any){
     const [rating, setRating] = useState<number | null>(4);
@@ -131,11 +134,18 @@ export default function CARDS({id, course, ...props}: any){
                     }
                     {(card_data?.cardById.cardContentType === "A_1" || card_data?.cardById.cardContentType === "A_2") &&
                     <div
+                        className={card_data?.cardById.cardContentType === "A_1" ? "hoverImage": ""}
                         style={{backgroundImage: "url(" + cardImage + ")",
                         backgroundSize: "cover",
                         backgroundRepeat: "no-repeat",
                         width: "100%",
-                        height: 400
+                        height: 400,
+                    }}
+                        onClick={() =>{
+                            if(card_data?.cardById.cardContentType === "A_1"){
+                                console.log("click on image")
+                                window.open(card_data?.cardById.videoUrl,'_blank')
+                            }
                     }}>
                     </div>}
                 </Col>

@@ -44,3 +44,6 @@
   }
 }
 
+.hoverImage:hover{
+  opacity: 0.3
+}

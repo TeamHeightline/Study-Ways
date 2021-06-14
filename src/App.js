@@ -42,6 +42,7 @@ import MainCardEditor from './Components/Cards/Editor/MainCardEditor/MainCardEdi
 import Typist from 'react-typist';
 import EditCourseByID from "./Components/Course/Editor/EditCourseByID";
 import MainCourseEditor from "./Components/Course/Editor/MainCourseEditor";
+import MainCardPublicView from "./Components/Cards/Public/MainCardPublicView";
 const VERIFY_LOGIN = gql`
     mutation VERIFY_LOGIN($token: String!){
       verifyToken(token: $token){
@@ -143,6 +144,7 @@ function App() {
                 <Route exact path='/card' component={MainCardEditor}/>
                 <Route exact path="/course/:id" component={EditCourseByID}/>
                 <Route exact path="/mce" component={MainCourseEditor}/>
+                <Route exact path="/cards" component={MainCardPublicView}/>
             </Switch>
         </Router>
     </>

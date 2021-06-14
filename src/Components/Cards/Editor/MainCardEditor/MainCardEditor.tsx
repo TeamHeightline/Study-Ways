@@ -59,7 +59,7 @@ export default function MainCardEditor({...props}: any){
     const [selectedCardID, setSelectedCardID] = useState(0)
     const [cardsDataAfterSelectTheme, setCardsDataAfterSelectTheme] = useState()
     const [cardsDataAfterSelectContentType, setCardsDataAfterSelectContentType] = useState()
-    const [cardsDataAfterSelectAuthor, setCardsDataAfterSelectAuthor] = useState()
+    const [cardsDataAfterSelectAuthor, setCardsDataAfterSelectAuthor] = useState<any>()
     const {data: card_data, refetch} = useQuery(GET_ALL_CARD_DATA, {
         // pollInterval: 3000,
     })
@@ -127,9 +127,9 @@ export default function MainCardEditor({...props}: any){
 
 
             </Row>
-            <Row className="mr-2 justify-content-between">
+            <Row className="mr-2 justify-content-around">
                 <CreateNewCard className="mt-5 ml-3"/>
-                {cardsDataAfterSelectAuthor && _.sortBy(cardsDataAfterSelectAuthor, 'id').reverse().map((e) =>{
+                {cardsDataAfterSelectAuthor && cardsDataAfterSelectAuthor.map((e) =>{
                     return(<CardMicroView key={e.id + "CardKey"} cardID={e.id}  className="mt-5 ml-3"
                                    onChange={selectCardForEditHandle}/>)
                 })}

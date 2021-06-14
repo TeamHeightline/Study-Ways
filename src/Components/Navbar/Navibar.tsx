@@ -49,7 +49,7 @@ export default function Navibar(){
                     <Nav className="col-5">
                         <Link className={s.link} to="/">Главная </Link>
                         <Link className={s.link} to="/cards">Катрочки</Link>
-                        <Link className={s.link} to="/test">Пройти тест</Link>
+                        <Link className={s.link} to="/test">Тесты</Link>
                         <Typography className={s.link}> | </Typography>
                         <Link className={s.link} to="/testeditor">Редактировать тест</Link>
                     </Nav>

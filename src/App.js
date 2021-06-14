@@ -30,7 +30,7 @@ import {gql, useMutation, useQuery} from "@apollo/client";
 import UnLogin from "./Components/Login/UnLogin";
 import Registration from "./Components/Login/Registration";
 import UpdateQuestion from "./Components/UserTest/Editor/UpdateQuestion";
-import MainEditor from "./Components/UserTest/Editor/MainEditor";
+import EditorsRouter from "./Components/EditorsRouter";
 import MainUserTest from "./Components/UserTest/MainUserTest";
 import QuestionByID from "./Components/UserTest/QuestionByID";
 import CKEDITOR from "./Components/UserTest/Editor/CKEditor";
@@ -133,7 +133,7 @@ function App() {
                 <Route exact path="/login" component={Login}/>
                 <Route exact path="/unlogin" component={UnLogin}/>
                 <Route exact path="/registration" component={Registration}/>
-                <Route exact path="/testeditor" component={user_data.me !== null? MainEditor: Login}/>
+                <Route exact path="/editor" component={user_data.me !== null? EditorsRouter: Login}/>
                 {/*<Route exact path="/updatequestion" component={localStorage.getItem('is_login') === 'true'? UpdateQuestion: Login}/>*/}
                 <Route exact path="/test" component={MainUserTest}/>
                 <Route exact path="/ckeditor" component={CKEDITOR}/>

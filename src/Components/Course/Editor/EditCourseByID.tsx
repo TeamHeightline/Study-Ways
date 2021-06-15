@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Col, Row} from "antd";
 import EditCourseItem from "./##EditCourseItem";
 import MainCardEditor from "../../Cards/Editor/MainCardEditor/MainCardEditor";
@@ -85,19 +85,26 @@ export default function EditCourseByID({course_id, ...props}: any){
             .then((response) => response.json())
             .then((result) => {
                 console.log('Success:', result);
+                setCardCourseImageName(result.image.slice(74).split('?')[0])
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
     };
     async function getCourseImageData(){
-        const img_data = await fetch("https://iot-experemental.herokuapp.com/cardfiles/course?id="+ props?.match?.params?.id? props?.match?.params?.id : course_id)
-        const img_data_json = await img_data.json()
-        if (img_data_json[0]){
-            setCardCourseImageName(img_data_json[0].image.slice(70).split('?')[0])
-        }
+        fetch("https://iot-experemental.herokuapp.com/cardfiles/course?id=" + course_id)
+            .then((response) => response.json())
+            .then((result) => {
+                console.log('Success:', result);
+                setCardCourseImageName(result[0].image.slice(74).split('?')[0])
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
     }
-    getCourseImageData();
+    useEffect(()=>{
+        getCourseImageData();
+    }, [course_id])
     const changeHandlerForCardCourseImage = async (event) => {
         if (event.target.files[0]){
             await setSelectedCardCourseImage(event.target.files[0]);
@@ -130,18 +137,21 @@ export default function EditCourseByID({course_id, ...props}: any){
                                 autoSave()
                            }}
                     id="filled-basic" label="Назавние курса" variant="outlined" size="small"/>
-                {course_id && <Button
-                    color="primary"
-                    variant="outlined"
-                    component="label"
-                    size="small"
-                    className="ml-3"
-                >
-                    <input type="file"  hidden name="file" onChange={changeHandlerForCardCourseImage} />
-                    Изображение для курса
-                </Button>}
-
-                {course_id && cardCourseImageName && !isSelectedCardCourseImage? <div>{cardCourseImageName}</div>: null}
+                <div>
+                    {course_id &&
+                    <Button
+                        color="primary"
+                        variant="outlined"
+                        component="label"
+                        size="small"
+                        className="ml-3"
+                    >
+                        <input type="file"  hidden name="file" onChange={changeHandlerForCardCourseImage} />
+                        Изображение для курса
+                    </Button>}
+                    <br/>
+                    {course_id && cardCourseImageName && <div className="ml-3">{cardCourseImageName}</div>}
+                </div>
             </Row>
             <div style={{overflowY: "scroll"}} className="ml-5 mr-5">
                 {CourseLinesData.length !== 0 && CourseLinesData.map((line, lIndex) =>{

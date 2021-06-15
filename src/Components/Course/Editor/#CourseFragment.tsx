@@ -11,9 +11,9 @@ export default function CourseFragment({fragment, ...props}: any){
             <div style={{width: 2000}}>
                 <Row gutter={[16, 16]}>
                     {Fragment.map((item, iIndex) =>{
-                        // console.log(item)
+                        // console.log(iIndex+ "Fragment" + props.fIndex + "row" + props.lIndex + "course" + props.cIndex)
                         return(
-                            <Col span={2} key={`${iIndex}_${item}`} >
+                            <Col span={2} key={iIndex+ "Fragment" + props.fIndex + "row" + props.lIndex + "course" + props.cIndex} >
                             <EditCourseItem item_id={item.CourseElement.id}
                                             item_position={iIndex}
                                             updateItem={(new_data) =>{

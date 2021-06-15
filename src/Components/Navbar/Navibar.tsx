@@ -47,9 +47,9 @@ export default function Navibar(){
                 <Navbar.Collapse id="basic-navbar-nav">
 
                     <Nav className="col-5">
-                        <Link className={s.link} to="/">Главная </Link>
+                        <Link className={s.link} to="/courses">Курсы </Link>
                         <Link className={s.link} to="/cards">Карточки</Link>
-                        <Link className={s.link} to="/test">Тесты</Link>
+                        <Link className={s.link} to="/test">Вопросы</Link>
                         <Typography className={s.link}> | </Typography>
                         <Link className={s.link} to="/editor">Редакторы</Link>
                     </Nav>

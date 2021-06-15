@@ -8,7 +8,8 @@ export default function CourseRow({row, ...props}: any){
         <div style={{width: row.SameLine.length * 2000}}>
             <Row className="mt-3">
                 {RowState.map((fragment, fIndex)=>{
-                    return(<CourseFragment key={fIndex} fragment={fragment}
+                    return(<CourseFragment key={fIndex + "row" + props.lIndex + "course" + props.cIndex} fragment={fragment} fIndex={fIndex}
+                                           lIndex={props.lIndex} cIndex={props.cIndex}
                                            updateFragment={(new_data =>{
                                                const update_fragment = {
                                                    CourseFragment: new_data

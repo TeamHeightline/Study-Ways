@@ -39,7 +39,7 @@ export default function MainCourseEditor({...props}: any) {
             }
         })
     const {data: own_course_data, refetch} = useQuery(GET_OWN_COURSE)
-    console.log(own_course_data)
+    // console.log(own_course_data)
     if(isEditCourseNow){
         return (
             <EditCourseByID course_id={selectedCourseID} onChange={(data) =>{
@@ -63,9 +63,9 @@ export default function MainCourseEditor({...props}: any) {
 
                 {own_course_data?.me.cardcourseSet.map((course, cIndex) =>{
                     return(
-                        <CourseMicroView key={cIndex} course={course} className="ml-3 mt-4"
+                        <CourseMicroView key={course.id} course={course} className="ml-3 mt-4" cIndex={course.id}
                                          onEdit={(data) =>{
-                                             console.log(data)
+                                             // console.log(data)
                                              setSelectedCourseID(data)
                                              setIsEditCourseNow(true)
                                          }}/>

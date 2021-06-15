@@ -10,7 +10,7 @@ export default function CourseNavigation({course, ...props}: any){
             <div style={{width: 820, overflowY: "scroll", marginBottom:5}}>
                 {course.courseData.length !== 0 && course.courseData.map((courseRow, CRI) =>{
                     return(
-                        <NavigationRow key={CRI + "NavigationRow"} courseRow={courseRow}/>
+                        <NavigationRow key={CRI + "NavigationRow"} CRI={CRI} courseRow={courseRow}/>
                     )
                 })}
                 <br/>

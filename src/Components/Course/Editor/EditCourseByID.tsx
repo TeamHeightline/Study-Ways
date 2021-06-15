@@ -27,6 +27,9 @@ const UPDATE_COURSE_DATA = gql`
         }
     }`
 export default function EditCourseByID({course_id, ...props}: any){
+    const [selectedCardCourseImage, setSelectedCardCourseImage] = useState<any>();
+    const [isSelectedCardCourseImage, setIsSelectedCardCourseImage] = useState(false);
+    const [cardCourseImageName, setCardCourseImageName] = useState('');
     const [CourseLinesData, setCourseLineData] = useState<any>([])
     const [courseName, setCourseName] = useState('')
     const [autoSaveTimer, changeAutoSaveTimer] = useState<any>()
@@ -66,6 +69,43 @@ export default function EditCourseByID({course_id, ...props}: any){
             update_course()
         }, 4000))
     }
+    const handleSubmissionCardCourseImage = (img: any) => {
+        console.log("---")
+        const formData = new FormData();
+
+        formData.append('image', img);
+        formData.append('card_course', course_id);
+        fetch(
+            'https://iot-experemental.herokuapp.com/cardfiles/course?update_id=' + course_id,
+            {
+                method: 'POST',
+                body: formData,
+            }
+        )
+            .then((response) => response.json())
+            .then((result) => {
+                console.log('Success:', result);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    };
+    async function getCourseImageData(){
+        const img_data = await fetch("https://iot-experemental.herokuapp.com/cardfiles/course?id="+ props?.match?.params?.id? props?.match?.params?.id : course_id)
+        const img_data_json = await img_data.json()
+        if (img_data_json[0]){
+            setCardCourseImageName(img_data_json[0].image.slice(70).split('?')[0])
+        }
+    }
+    getCourseImageData();
+    const changeHandlerForCardCourseImage = async (event) => {
+        if (event.target.files[0]){
+            await setSelectedCardCourseImage(event.target.files[0]);
+            await setIsSelectedCardCourseImage(true);
+            // console.log(event.target.files)
+            handleSubmissionCardCourseImage(event.target.files[0])
+        }
+    };
 
     // console.log(course_data)
     if(!course_data){
@@ -83,18 +123,31 @@ export default function EditCourseByID({course_id, ...props}: any){
                     Назад
                 </Button>: null}
             <br/>
-            <TextField className="ml-5 mt-2 col-4" value={courseName}
-                       onChange={(e) =>{
-                            setCourseName(e.target.value)
-                            autoSave()
+            <Row>
+                <TextField className="ml-5 mt-2 col-4" value={courseName}
+                           onChange={(e) =>{
+                                setCourseName(e.target.value)
+                                autoSave()
+                           }}
+                    id="filled-basic" label="Назавние курса" variant="outlined" size="small"/>
+                {course_id && <Button
+                    color="primary"
+                    variant="outlined"
+                    component="label"
+                    size="small"
+                    className="ml-3"
+                >
+                    <input type="file"  hidden name="file" onChange={changeHandlerForCardCourseImage} />
+                    Изображение для курса
+                </Button>}
 
-                       }
-                       }
-                id="filled-basic" label="Назавние курса" variant="outlined" size="small"/>
+                {course_id && cardCourseImageName && !isSelectedCardCourseImage? <div>{cardCourseImageName}</div>: null}
+            </Row>
             <div style={{overflowY: "scroll"}} className="ml-5 mr-5">
                 {CourseLinesData.length !== 0 && CourseLinesData.map((line, lIndex) =>{
                     return(
-                        <CourseRow key={lIndex} row={line}
+                        <CourseRow key={lIndex + "course" + props.cIndex} row={line} lIndex={lIndex}
+                                   cIndex={props.cIndex}
                                    updateCourseRow={new_row =>{
                                        const newSameLine = {
                                            SameLine: new_row

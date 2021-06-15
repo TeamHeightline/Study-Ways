@@ -92,13 +92,15 @@ export default function EditCourseItem({item_id, item_position, ...props}: any){
             id: itemID
         },
         onCompleted: () =>{
-            get_card_image()
+            if (itemID){
+                get_card_image()
+            }
         }
     })
     // console.log(itemID)
     return(
         <Card style={{height:80}}>
-            <Tooltip title={card_data &&
+            <Tooltip title={itemID && card_data &&
                 <div>
                     <Typography  variant="h6" gutterBottom className="pr-5">
                         {Number(card_data?.cardById?.cardContentType[2]) === 0 && <Chip size="small" variant="outlined" color="secondary" icon={<YouTubeIcon />} label="YouTube"/>}
@@ -109,6 +111,7 @@ export default function EditCourseItem({item_id, item_position, ...props}: any){
                 </div>
             }>
                 <div>
+                    {itemID ?
                     <div className={classes.cover}>
                         {Number(card_data?.cardById.cardContentType[2]) === 0 &&  card_data?.cardById?.videoUrl &&
                         <>
@@ -117,7 +120,9 @@ export default function EditCourseItem({item_id, item_position, ...props}: any){
                         {(Number(card_data?.cardById.cardContentType[2]) === 1 || Number(card_data?.cardById?.cardContentType[2]) === 2) && cardImage ?
                             <img className={classes.cover} src={cardImage}/>: null
                         }
-                    </div>
+                    </div>: <div className={classes.cover}/>}
+
+
                     <TextField
                         className="col-10 ml-2"
                         // id={"courseItemID" + itemID}

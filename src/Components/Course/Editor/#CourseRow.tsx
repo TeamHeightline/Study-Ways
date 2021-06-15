@@ -6,8 +6,7 @@ export default function CourseRow({row, ...props}: any){
     // console.log(data)
     return(
         <div style={{width: row.SameLine.length * 2000}}>
-            <br/>
-            <Row>
+            <Row className="mt-3">
                 {RowState.map((fragment, fIndex)=>{
                     return(<CourseFragment key={fIndex} fragment={fragment}
                                            updateFragment={(new_data =>{
@@ -24,7 +23,6 @@ export default function CourseRow({row, ...props}: any){
                 {/*<CourseFragment/>*/}
                 {/*<CourseFragment/>*/}
             </Row>
-            <br/>
         </div>
     )
 }

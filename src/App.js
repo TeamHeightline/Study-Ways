@@ -18,10 +18,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {useEffect} from "react";
 
 
-import  {
-    BrowserRouter as Router,
+import  { BrowserRouter as Router,
     Switch,
-    Route
+    Route,
+    Redirect
 } from "react-router-dom";
 
 import {MainExperimental} from "./Components/Menu/MainMenu";
@@ -43,6 +43,7 @@ import Typist from 'react-typist';
 import EditCourseByID from "./Components/Course/Editor/EditCourseByID";
 import MainCourseEditor from "./Components/Course/Editor/MainCourseEditor";
 import MainCardPublicView from "./Components/Cards/Public/MainCardPublicView";
+import MainCoursePublicView from "./Components/Course/Public/MainCoursePublicView";
 const VERIFY_LOGIN = gql`
     mutation VERIFY_LOGIN($token: String!){
       verifyToken(token: $token){
@@ -129,7 +130,7 @@ function App() {
         <Router>
             <Navibar/>
             <Switch>
-                <Route exact path="/" component={MainExperimental}/>
+                {/*<Route exact path="/" ><Redirect to="/courses"/></Route>*/}
                 <Route exact path="/login" component={Login}/>
                 <Route exact path="/unlogin" component={UnLogin}/>
                 <Route exact path="/registration" component={Registration}/>
@@ -145,6 +146,8 @@ function App() {
                 <Route exact path="/course/:id" component={EditCourseByID}/>
                 <Route exact path="/mce" component={MainCourseEditor}/>
                 <Route exact path="/cards" component={MainCardPublicView}/>
+                <Route exact path="/courses" component={MainCoursePublicView}/>
+                <Redirect to="/courses"/>
             </Switch>
         </Router>
     </>

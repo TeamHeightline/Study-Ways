@@ -115,7 +115,8 @@ export default function CARDS({id, course, ...props}: any){
                         <div className="display-4 text-left mr-sm-2" style={{fontSize: '35px'}}>{card_data.cardById.title}</div>
                         <div className="display-4 text-left mr-sm-2"  style={{fontSize: '15px'}}>{card_data.cardById.id}</div>
                     </Row>
-                    <Tooltip title={card_data?.cardById?.subTheme.map((e, eIndex) =>{
+
+                    {card_data?.cardById?.subTheme[0] && <Tooltip title={card_data?.cardById?.subTheme.map((e, eIndex) =>{
                         return(
                             <div key={eIndex+ "Tooltip"}>
                                 <Typography>
@@ -133,7 +134,8 @@ export default function CARDS({id, course, ...props}: any){
                             <Typography color="textPrimary">{card_data?.cardById?.subTheme[0]?.name}</Typography>
                             {/*<Typography color="textPrimary">Уровень 4</Typography>*/}
                         </Breadcrumbs>
-                    </Tooltip>
+                    </Tooltip> }
+
                     {card_data?.cardById?.author && card_data?.cardById?.author.length !==0 &&
                     <Typography color="textPrimary">{card_data?.cardById?.author.map((sameAuthor, aIndex) =>{
                         if(aIndex !== 0 ){

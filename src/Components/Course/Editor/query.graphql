@@ -63,3 +63,10 @@ query GET_COURSE_BY_ID($id: ID!){
         name
     }
 }
+query GET_ALL_COURSE{
+    cardCourse{
+        id
+        name
+        courseData
+    }
+}

@@ -211,7 +211,7 @@ export default function CARDS({id, course, ...props}: any){
             </Alert>
             {course &&
             <div className="ml-2">
-                <CourseMicroView course={course_data.cardCourseById}/>
+                <CourseMicroView course={course_data.cardCourseById} buttonClick={data=>console.log(data)}/>
             </div>}
 
             <br/>

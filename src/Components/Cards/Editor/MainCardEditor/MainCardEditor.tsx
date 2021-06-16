@@ -69,7 +69,9 @@ export default function MainCardEditor({...props}: any){
         await setSelectedCardID(e)
         console.log("select" + e)
         await setIsEditNow(true)
-        props.onSetIsEditNow(true)
+        if(props.onSetIsEditNow){
+            props.onSetIsEditNow(true)
+        }
     }
     if (isEditNow){
         return (

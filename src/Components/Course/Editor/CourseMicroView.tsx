@@ -25,7 +25,7 @@ export default function CourseMicroView({course, ...props}: any) {
         fetch("https://iot-experemental.herokuapp.com/cardfiles/course?id=" + course.id)
             .then((response) => response.json())
             .then((result) => {
-                console.log('Success:', result);
+                // console.log('Success:', result);
                 setCardCourseImageURL(result[0].image)
             })
             .catch((error) => {

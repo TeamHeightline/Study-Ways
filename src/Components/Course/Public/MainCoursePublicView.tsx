@@ -15,10 +15,15 @@ const GET_ALL_COURSE = gql`
 export default function MainCoursePublicView({...props}){
     const [isOpenCard, setIsOpenCard] = useState(false)
     const [cardPositionData, setCardPositionData] = useState<any>()
+    const [cardID, setCardID] = useState<any>()
     const {data: course_data} = useQuery(GET_ALL_COURSE)
-    const get_card_id_by_position = (cardPositionData) =>{
-        return(course_data.cardCourse[cardPositionData.courseIndex].courseData[cardPositionData.row]
-            .SameLine[cardPositionData.fragment].CourseFragment[cardPositionData.buttonIndex].CourseElement.id)
+    function get_card_id_by_position(cardPositionData, stepRight= 0, stepUp = 0){
+        if(cardPositionData.buttonIndex + stepRight >= 0){
+            return(course_data.cardCourse[cardPositionData.courseIndex].courseData[Number(cardPositionData.row) + stepUp]
+                .SameLine[cardPositionData.fragment].CourseFragment[Number(cardPositionData.buttonIndex) + stepRight].CourseElement.id)
+        }else{
+            return null
+        }
     }
     if (!course_data) {
         return (
@@ -27,12 +32,23 @@ export default function MainCoursePublicView({...props}){
     }
     if(isOpenCard){
         return (
-            <Card id={get_card_id_by_position(cardPositionData)}
+            <Card id={cardID}
+                  openFromCourse={true}
+                  disabledNext={get_card_id_by_position(cardPositionData, 1) === null}
+                  disabledBack={get_card_id_by_position(cardPositionData, -1) === null}
+                  course={course_data.cardCourse[cardPositionData.courseIndex]}
                   ButtonClick={(data) =>{
                       if(data === "Next"){
                           const newCardPositionData = cardPositionData
                           newCardPositionData.buttonIndex = Number(newCardPositionData.buttonIndex) + 1
                           setCardPositionData(newCardPositionData)
+                          setCardID(get_card_id_by_position(newCardPositionData))
+                      }
+                      if(data === "Back"){
+                          const newCardPositionData = cardPositionData
+                          newCardPositionData.buttonIndex = Number(newCardPositionData.buttonIndex) - 1
+                          setCardPositionData(newCardPositionData)
+                          setCardID(get_card_id_by_position(newCardPositionData))
                       }
                   }}
                   onChange={(data) =>{
@@ -52,8 +68,11 @@ export default function MainCoursePublicView({...props}){
                                          data.courseIndex=cIndex
                                          data.courseID=sameCourse.id
                                          // console.log(data)
-                                         await setCardPositionData(data)
-                                         await setIsOpenCard(true)
+                                         if(get_card_id_by_position(data)){
+                                             await setCardID(get_card_id_by_position(data))
+                                             await setCardPositionData(data)
+                                             await setIsOpenCard(true)
+                                         }
                                          // get_card_id_by_position(data)
                                      }}
                     onEdit={(get_data) =>{

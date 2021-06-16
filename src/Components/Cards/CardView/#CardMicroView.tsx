@@ -146,7 +146,7 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                             {Number(card_data.cardById.cardContentType[2]) === 1 && <Chip size="small" variant="outlined" color="primary" icon={<HttpIcon />} label="Ресурс"/>}
                             {Number(card_data.cardById.cardContentType[2]) === 2 && <Chip size="small" variant="outlined" color="default" icon={<ImageIcon />} label="Изображение"/>}
                         </Typography>
-                        <Popover title="Название карточки" content={[0].map((e) =>{
+                        <Popover trigger="hover" title="Название карточки" content={[0].map((e) =>{
                             return(
                                 <Typography key={e + "TitleToolTip"}>
                                     {card_data?.cardById?.title}
@@ -158,7 +158,7 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                             </Typography>
                         </Popover>
                         {card_data?.cardById?.text.length !== 0 ?
-                            <Popover title="Контент карточки" content={[0].map((e) => {
+                            <Popover trigger="hover" title="Контент карточки" content={[0].map((e) => {
                                     return(
                                         <div key={e + "MainTextToolTip"}>
                                             <MathJax math={card_data?.cardById?.text}/>
@@ -172,7 +172,7 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                             </Popover>
                             : <br/>}
                         {card_data?.cardById?.subTheme.length !== 0 ?
-                            <Popover title="Темы карточки" content={card_data?.cardById?.subTheme.map((e, eIndex) =>{
+                            <Popover trigger="hover" title="Темы карточки" content={card_data?.cardById?.subTheme.map((e, eIndex) =>{
                                 return(
                                     <div key={eIndex+ "Tooltip"}>
                                         {/*<Typography>*/}
@@ -197,7 +197,7 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                             </Breadcrumbs>
                         </Popover> : <br/>}
                         {card_data?.cardById?.author.length !== 0 ?
-                            <Popover title="Авторы карточки" content={card_data?.cardById?.author.map((e, eIndex) =>{
+                            <Popover trigger="hover" title="Авторы карточки" content={card_data?.cardById?.author.map((e, eIndex) =>{
                                 return(
                                     <div key={eIndex + "AuthorTooltip"}>
                                         <Typography>

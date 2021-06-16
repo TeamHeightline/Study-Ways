@@ -5,9 +5,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import SkipNextIcon from '@material-ui/icons/SkipNext';
+import { Popover } from 'antd';
+
 import {Breadcrumbs, CardActionArea, Chip, Grid, Paper, Tooltip} from "@material-ui/core";
 import {gql} from "@apollo/client/core";
 import 'fontsource-roboto';
@@ -147,7 +146,7 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                             {Number(card_data.cardById.cardContentType[2]) === 1 && <Chip size="small" variant="outlined" color="primary" icon={<HttpIcon />} label="Ресурс"/>}
                             {Number(card_data.cardById.cardContentType[2]) === 2 && <Chip size="small" variant="outlined" color="default" icon={<ImageIcon />} label="Изображение"/>}
                         </Typography>
-                        <Tooltip title={[0].map((e) =>{
+                        <Popover title="Название карточки" content={[0].map((e) =>{
                             return(
                                 <Typography key={e + "TitleToolTip"}>
                                     {card_data?.cardById?.title}
@@ -157,9 +156,9 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                             <Typography variant="button" display="block" gutterBottom style={{maxHeight: 20}}>
                                 {card_data?.cardById?.title.slice(0, 25)}
                             </Typography>
-                        </Tooltip>
+                        </Popover>
                         {card_data?.cardById?.text.length !== 0 ?
-                            <Tooltip title= {[0].map((e) => {
+                            <Popover title="Контент карточки" content={[0].map((e) => {
                                     return(
                                         <div key={e + "MainTextToolTip"}>
                                             <MathJax math={card_data?.cardById?.text}/>
@@ -170,18 +169,18 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                                 <Typography>
                                     Основной текст
                                 </Typography>
-                            </Tooltip>
+                            </Popover>
                             : <br/>}
                         {card_data?.cardById?.subTheme.length !== 0 ?
-                            <Tooltip title={card_data?.cardById?.subTheme.map((e, eIndex) =>{
+                            <Popover title="Темы карточки" content={card_data?.cardById?.subTheme.map((e, eIndex) =>{
                                 return(
                                     <div key={eIndex+ "Tooltip"}>
-                                        <Typography>
+                                        {/*<Typography>*/}
                                             {e.theme?.globalTheme?.name.toString() + " / "
                                             + e?.theme?.name.toString() + " / "
                                             + e?.name.toString() }
-                                            <br/>
-                                        </Typography>
+                                            {/*<br/>*/}
+                                        {/*</Typography>*/}
                                     </div>
                                 )
                             })} >
@@ -196,9 +195,9 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                                     {card_data?.cardById?.subTheme[0]?.name.slice(0, 10)}
                                 </Typography>
                             </Breadcrumbs>
-                        </Tooltip> : <br/>}
+                        </Popover> : <br/>}
                         {card_data?.cardById?.author.length !== 0 ?
-                            <Tooltip title={card_data?.cardById?.author.map((e, eIndex) =>{
+                            <Popover title="Авторы карточки" content={card_data?.cardById?.author.map((e, eIndex) =>{
                                 return(
                                     <div key={eIndex + "AuthorTooltip"}>
                                         <Typography>
@@ -211,7 +210,7 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                                     {card_data?.cardById?.author[0]?.name.slice(0, 25)}
                                 </Typography>
 
-                            </Tooltip>
+                            </Popover>
                             : <br/>}
                         {/*<br/>*/}
                         {/*<br/>*/}

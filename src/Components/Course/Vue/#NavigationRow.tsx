@@ -9,7 +9,13 @@ export default function NavigationRow({courseRow, ...props}: any){
         <Row style={{width: 830 * courseRow.SameLine.length}}>
             {courseRow.SameLine.map((rowFragment, rIndex) =>{
                 return(
-                    <RowFragment key={rIndex + "RowFragment" + props.CRI + "NavigationRow"} rowFragment={rowFragment}/>
+                    <RowFragment buttonClick={(data) =>{
+                        // console.log(data)
+                        props.buttonClick({
+                            buttonIndex: data,
+                            fragment: rIndex,
+                        })
+                    }} key={rIndex + "RowFragment" + props.CRI + "NavigationRow"} rowFragment={rowFragment}/>
                 )
             })}
             {/*<RowFragment/>*/}

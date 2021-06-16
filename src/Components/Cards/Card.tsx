@@ -65,7 +65,7 @@ export default function CARDS({id, course, ...props}: any){
     const [cardImage, setCardImage] = useState()
     const {data: course_data} = useQuery(GET_COURSE_BY_ID, {
         variables:{
-            id: id
+            id: course.id
         }
     })
     const {data: card_data, refetch} = useQuery(SHOW_CARD_BY_ID, {
@@ -99,6 +99,7 @@ export default function CARDS({id, course, ...props}: any){
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
+    // console.log("disabledNext " + props.disabledNext)
     return(
         <div className="ml-5">
             {id &&
@@ -145,25 +146,34 @@ export default function CARDS({id, course, ...props}: any){
                     })}</Typography>}
                 </Col>
                 <Col className="mt-3 col-10 col-md-3">
-                    <ButtonGroup size="large" color="primary" aria-label="large outlined primary button group">
                         {/*Если катрочка открывается из курса, то нам нужны кнопки вверх и вниз, если её открыли
                         просто как карточку из MainCardPublicView, то нам нужно только вперед и назад для перемещения
                         по id вперед и назад*/}
-                        <Button onClick={ () => props.ButtonClick("Back")}>
-                            <KeyboardArrowLeftOutlinedIcon/>
-                        </Button>
-                        {course && <>
+
+                        {course ?  <ButtonGroup size="large" color="primary" aria-label="group">
+                            <Button onClick={ () => props.ButtonClick("Back")} disabled={props.disabledBack}>
+                                <KeyboardArrowLeftOutlinedIcon/>
+                            </Button>
                             <Button onClick={ () => props.ButtonClick("Down")}>
                                 <KeyboardArrowDownOutlinedIcon/>
                             </Button>
                             <Button onClick={ () => props.ButtonClick("Up")}>
                                 <KeyboardArrowUpOutlinedIcon/>
                             </Button>
-                        </>}
-                        <Button onClick={ () => props.ButtonClick("Next")}>
-                            <KeyboardArrowRightOutlinedIcon/>
-                        </Button>
-                    </ButtonGroup>
+                            <Button onClick={ () => props.ButtonClick("Next")} disabled={props.disabledNext}>
+                                <KeyboardArrowRightOutlinedIcon/>
+                            </Button>
+                        </ButtonGroup>:
+                            <ButtonGroup size="large" color="primary" aria-label="group">
+                                <Button onClick={ () => props.ButtonClick("Back")}>
+                                    <KeyboardArrowLeftOutlinedIcon/>
+                                </Button>
+                                <Button onClick={ () => props.ButtonClick("Next")}>
+                                    <KeyboardArrowRightOutlinedIcon/>
+                                </Button>
+                            </ButtonGroup>
+                        }
+
                 </Col>
             </Row>
             <Row className="mt-1">
@@ -209,7 +219,7 @@ export default function CARDS({id, course, ...props}: any){
             <Alert>
                 {card_data?.cardById?.additionalText}
             </Alert>
-            {course &&
+            {course && course_data &&
             <div className="ml-2">
                 <CourseMicroView course={course_data.cardCourseById} buttonClick={data=>console.log(data)}/>
             </div>}

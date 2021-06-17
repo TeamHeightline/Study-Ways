@@ -82,7 +82,9 @@ export default function MainCardEditor({...props}: any){
                           onChange={(e) =>{
                                 if (e === "goBack"){
                                     setIsEditNow(false)
-                                    props.onSetIsEditNow(false)
+                                    if(props.onSetIsEditNow){
+                                        props.onSetIsEditNow(false)
+                                    }
                                     refetch()
                                 }
             }}/>

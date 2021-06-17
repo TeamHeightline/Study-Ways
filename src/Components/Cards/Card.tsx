@@ -78,14 +78,14 @@ export default function CARDS({id, course, ...props}: any){
     })
     useEffect(() =>{
         refetch()
-    }, [id, course])
+    })
     const get_card_image = () =>{
         // https://iot-experemental.herokuapp.com/cardfiles/card?
         fetch("https://iot-experemental.herokuapp.com/cardfiles/card?id=" +  card_data.cardById?.id )
             .then((response) => response.json())
             .then((data) =>{
                 try{
-                    console.log(data)
+                    // console.log(data)
                     setCardImage(data[0].image)
                 }
                 catch(e){
@@ -93,7 +93,7 @@ export default function CARDS({id, course, ...props}: any){
                 }
             })
     }
-    console.log(card_data)
+    // console.log(card_data)
     if(!card_data ){
         return(
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
@@ -154,10 +154,10 @@ export default function CARDS({id, course, ...props}: any){
                             <Button onClick={ () => props.ButtonClick("Back")} disabled={props.disabledBack}>
                                 <KeyboardArrowLeftOutlinedIcon/>
                             </Button>
-                            <Button onClick={ () => props.ButtonClick("Down")}>
+                            <Button onClick={ () => props.ButtonClick("Down")} disabled={props.disabledDown}>
                                 <KeyboardArrowDownOutlinedIcon/>
                             </Button>
-                            <Button onClick={ () => props.ButtonClick("Up")}>
+                            <Button onClick={ () => props.ButtonClick("Up")} disabled={props.disabledUp}>
                                 <KeyboardArrowUpOutlinedIcon/>
                             </Button>
                             <Button onClick={ () => props.ButtonClick("Next")} disabled={props.disabledNext}>

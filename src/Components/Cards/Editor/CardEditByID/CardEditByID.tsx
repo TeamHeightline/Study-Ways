@@ -257,7 +257,9 @@ export default function CardEditByID({cardId, ...props}: any){
         onError: error => console.log(error),
         onCompleted: data => {
             setStateOfSave(2)
-            props.returnStateOfSave(2)
+            if(props.returnStateOfSave){
+                props.returnStateOfSave(2)
+            }
             console.log(data)
         }
 

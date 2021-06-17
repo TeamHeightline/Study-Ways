@@ -77,7 +77,9 @@ export default function MainCardEditor({...props}: any){
         return (
             <CardEditByID cardId={selectedCardID}
                           returnStateOfSave={(e) =>{
-                              props.returnStateOfSave(e)
+                              if(props.returnStateOfSave){
+                                  props.returnStateOfSave(e)
+                              }
                           }}
                           onChange={(e) =>{
                                 if (e === "goBack"){

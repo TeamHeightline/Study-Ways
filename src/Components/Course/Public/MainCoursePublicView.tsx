@@ -17,8 +17,10 @@ export default function MainCoursePublicView({...props}){
     const [cardPositionData, setCardPositionData] = useState<any>()
     const [cardID, setCardID] = useState<any>()
     const {data: course_data} = useQuery(GET_ALL_COURSE)
-    function get_card_id_by_position(cardPositionData, stepRight= 0, stepUp = 0){
-        if(cardPositionData.buttonIndex + stepRight >= 0){
+    function get_card_id_by_position(cardPositionData, stepRight = 0, stepUp = 0){
+        console.log(cardPositionData.row + stepUp)
+        if(cardPositionData.buttonIndex + stepRight >= 0 && cardPositionData.buttonIndex + stepRight <= 11 &&
+            Number(cardPositionData.row) + stepUp >= 0 && Number(cardPositionData.row) + stepUp <= 3){
             return(course_data.cardCourse[cardPositionData.courseIndex].courseData[Number(cardPositionData.row) + stepUp]
                 .SameLine[cardPositionData.fragment].CourseFragment[Number(cardPositionData.buttonIndex) + stepRight].CourseElement.id)
         }else{
@@ -36,6 +38,8 @@ export default function MainCoursePublicView({...props}){
                   openFromCourse={true}
                   disabledNext={get_card_id_by_position(cardPositionData, 1) === null}
                   disabledBack={get_card_id_by_position(cardPositionData, -1) === null}
+                  disabledUp={get_card_id_by_position(cardPositionData, 0, -1) === null}
+                  disabledDown={get_card_id_by_position(cardPositionData, 0, +1) === null}
                   course={course_data.cardCourse[cardPositionData.courseIndex]}
                   ButtonClick={(data) =>{
                       if(data === "Next"){
@@ -47,6 +51,18 @@ export default function MainCoursePublicView({...props}){
                       if(data === "Back"){
                           const newCardPositionData = cardPositionData
                           newCardPositionData.buttonIndex = Number(newCardPositionData.buttonIndex) - 1
+                          setCardPositionData(newCardPositionData)
+                          setCardID(get_card_id_by_position(newCardPositionData))
+                      }
+                      if(data === "Up"){
+                          const newCardPositionData = cardPositionData
+                          newCardPositionData.row = Number(newCardPositionData.row) - 1
+                          setCardPositionData(newCardPositionData)
+                          setCardID(get_card_id_by_position(newCardPositionData))
+                      }
+                      if(data === "Down"){
+                          const newCardPositionData = cardPositionData
+                          newCardPositionData.row = Number(newCardPositionData.row) + 1
                           setCardPositionData(newCardPositionData)
                           setCardID(get_card_id_by_position(newCardPositionData))
                       }

@@ -65,7 +65,7 @@ export default function CARDS({id, course, ...props}: any){
     const [cardImage, setCardImage] = useState()
     const {data: course_data} = useQuery(GET_COURSE_BY_ID, {
         variables:{
-            id: course.id
+            id: course?.id
         }
     })
     const {data: card_data, refetch} = useQuery(SHOW_CARD_BY_ID, {

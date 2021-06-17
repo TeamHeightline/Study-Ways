@@ -18,7 +18,7 @@ export default function MainCoursePublicView({...props}){
     const [cardID, setCardID] = useState<any>()
     const {data: course_data} = useQuery(GET_ALL_COURSE)
     function get_card_id_by_position(cardPositionData, stepRight = 0, stepUp = 0){
-        console.log(cardPositionData.row + stepUp)
+        // console.log(cardPositionData.row + stepUp)
         if(cardPositionData.buttonIndex + stepRight >= 0 && cardPositionData.buttonIndex + stepRight <= 11 &&
             Number(cardPositionData.row) + stepUp >= 0 && Number(cardPositionData.row) + stepUp <= 3){
             return(course_data.cardCourse[cardPositionData.courseIndex].courseData[Number(cardPositionData.row) + stepUp]

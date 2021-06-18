@@ -35,6 +35,14 @@ export default function MainCoursePublicView({...props}){
     if(isOpenCard){
         return (
             <Card id={cardID}
+                  buttonClick={async data => {
+                      data.courseIndex=cardPositionData.courseIndex
+                      data.courseID=cardPositionData.courseID
+                      if(get_card_id_by_position(data)){
+                          await setCardID(get_card_id_by_position(data))
+                          await setCardPositionData(data)
+                      }
+                  }}
                   openFromCourse={true}
                   cardPositionData={cardPositionData}
                   disabledNext={get_card_id_by_position(cardPositionData, 1) === null}

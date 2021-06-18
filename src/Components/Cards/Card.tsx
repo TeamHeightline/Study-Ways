@@ -109,7 +109,7 @@ export default function CARDS({id, course, ...props}: any){
         <div className="ml-5">
             {course && course_data &&
             <div className="ml-2">
-                <CourseMicroView course={course_data.cardCourseById} buttonClick={data=>console.log(data)}
+                <CourseMicroView course={course_data.cardCourseById} buttonClick={data=>props.buttonClick(data)}
                 inCardNavigationMode={true} cardPositionData={props.cardPositionData}/>
             </div>}
             <Row className="ml-2">

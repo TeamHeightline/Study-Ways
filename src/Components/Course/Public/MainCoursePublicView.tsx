@@ -36,6 +36,7 @@ export default function MainCoursePublicView({...props}){
         return (
             <Card id={cardID}
                   openFromCourse={true}
+                  cardPositionData={cardPositionData}
                   disabledNext={get_card_id_by_position(cardPositionData, 1) === null}
                   disabledBack={get_card_id_by_position(cardPositionData, -1) === null}
                   disabledUp={get_card_id_by_position(cardPositionData, 0, -1) === null}
@@ -92,17 +93,17 @@ export default function MainCoursePublicView({...props}){
                                          // get_card_id_by_position(data)
                                      }}
                     onEdit={(get_data) =>{
-                        const data = {
-                            courseIndex: cIndex,
-                            courseID: get_data,
-                            buttonIndex: 0,
-                            fragment: 0,
-                            row:1
-                        }
-                        console.log(data)
-                        setCardPositionData(data)
-                        setIsOpenCard(true)
-                        get_card_id_by_position(data)
+                        // const data = {
+                        //     courseIndex: cIndex,
+                        //     courseID: get_data,
+                        //     buttonIndex: 0,
+                        //     fragment: 0,
+                        //     row:1
+                        // }
+                        console.log("_")
+                        // setCardPositionData(data)
+                        // setIsOpenCard(true)
+                        // get_card_id_by_position(data)
                     }}/>
                 )
             })}

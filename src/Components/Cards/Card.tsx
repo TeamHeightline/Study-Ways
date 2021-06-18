@@ -98,12 +98,7 @@ export default function CARDS({id, course, ...props}: any){
                 }
             })
     }
-    // console.log(card_data)
-    if(!card_data ){
-        return(
-            <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
-        )
-    }
+
     // console.log("disabledNext " + props.disabledNext)
     return(
         <div className="ml-5">
@@ -148,96 +143,98 @@ export default function CARDS({id, course, ...props}: any){
                             </Button>
                         </ButtonGroup>
                     }
-
-                </Col>
-
-            </Row>
-            <Row className="ml-2 mt-4 " >
-                <Col className="col-12">
-                    <Row>
-                        <div className="display-4 text-left mr-sm-2" style={{fontSize: '35px'}}>{card_data.cardById.title}</div>
-                        <div className="display-4 text-left mr-sm-2"  style={{fontSize: '15px'}}>{card_data.cardById.id}</div>
-                    </Row>
-
-                    {card_data?.cardById?.subTheme[0] && <Tooltip title={card_data?.cardById?.subTheme.map((e, eIndex) =>{
-                        return(
-                            <div key={eIndex+ "Tooltip"}>
-                                <Typography>
-                                    {e.theme?.globalTheme?.name.toString() + " / "
-                                    + e?.theme?.name.toString() + " / "
-                                    + e?.name.toString() }
-                                    <br/>
-                                </Typography>
-                            </div>
-                        )
-                    })} >
-                        <Breadcrumbs aria-label="breadcrumb">
-                            <Typography color="textPrimary">{card_data?.cardById?.subTheme[0]?.theme?.globalTheme?.name}</Typography>
-                            <Typography color="textPrimary">{card_data?.cardById?.subTheme[0]?.theme?.name}</Typography>
-                            <Typography color="textPrimary">{card_data?.cardById?.subTheme[0]?.name}</Typography>
-                            {/*<Typography color="textPrimary">Уровень 4</Typography>*/}
-                        </Breadcrumbs>
-                    </Tooltip> }
-
-                    {card_data?.cardById?.author && card_data?.cardById?.author.length !==0 &&
-                    <Typography color="textPrimary">{card_data?.cardById?.author.map((sameAuthor, aIndex) =>{
-                        if(aIndex !== 0 ){
-                            return (" | " + sameAuthor.name)
-                        }
-                        return(sameAuthor.name)
-                    })}</Typography>}
                 </Col>
             </Row>
-            <Row className="mt-1">
-                <Col className="col-12 col-lg-5 ml-2 mt-4">
-                    {card_data?.cardById?.cardContentType === "A_0" &&
-                        <ReactPlayer width="auto" height={400} controls
-                                     // url="https://www.youtube.com/watch?v=vpMJ_rNN9vY"
-                                        url={card_data?.cardById?.videoUrl}
-                        />
-                    }
-                    {(card_data?.cardById.cardContentType === "A_1" || card_data?.cardById.cardContentType === "A_2") &&
-                    <div
-                        className={card_data?.cardById.cardContentType === "A_1" ? "hoverImage": ""}
-                        style={{backgroundImage: "url(" + cardImage + ")",
-                        backgroundSize: "cover",
-                        backgroundRepeat: "no-repeat",
-                        width: "100%",
-                        height: 400,
-                    }}
-                        onClick={() =>{
-                            if(card_data?.cardById.cardContentType === "A_1"){
-                                console.log("click on image")
-                                window.open(card_data?.cardById.videoUrl,'_blank')
+
+            {!card_data ? <Spinner animation="border" variant="success" className=" offset-6 mt-5"/> :
+            <div>
+                <Row className="ml-2 mt-4 " >
+                    <Col className="col-12">
+                        <Row>
+                            <div className="display-4 text-left mr-sm-2" style={{fontSize: '35px'}}>{card_data.cardById.title}</div>
+                            <div className="display-4 text-left mr-sm-2"  style={{fontSize: '15px'}}>{card_data.cardById.id}</div>
+                        </Row>
+
+                        {card_data?.cardById?.subTheme[0] && <Tooltip title={card_data?.cardById?.subTheme.map((e, eIndex) =>{
+                            return(
+                                <div key={eIndex+ "Tooltip"}>
+                                    <Typography>
+                                        {e.theme?.globalTheme?.name.toString() + " / "
+                                        + e?.theme?.name.toString() + " / "
+                                        + e?.name.toString() }
+                                        <br/>
+                                    </Typography>
+                                </div>
+                            )
+                        })} >
+                            <Breadcrumbs aria-label="breadcrumb">
+                                <Typography color="textPrimary">{card_data?.cardById?.subTheme[0]?.theme?.globalTheme?.name}</Typography>
+                                <Typography color="textPrimary">{card_data?.cardById?.subTheme[0]?.theme?.name}</Typography>
+                                <Typography color="textPrimary">{card_data?.cardById?.subTheme[0]?.name}</Typography>
+                                {/*<Typography color="textPrimary">Уровень 4</Typography>*/}
+                            </Breadcrumbs>
+                        </Tooltip> }
+
+                        {card_data?.cardById?.author && card_data?.cardById?.author.length !==0 &&
+                        <Typography color="textPrimary">{card_data?.cardById?.author.map((sameAuthor, aIndex) =>{
+                            if(aIndex !== 0 ){
+                                return (" | " + sameAuthor.name)
                             }
-                    }}>
-                    </div>}
-                </Col>
-                <Col className="col-12 col-lg-6">
-                    {/*<Alert className="blockquote" variant="light" >*/}
-
-                   <MathJax math={card_data?.cardById?.text}/>
-                    {/*{renderHTML(card_data?.cardById?.text)}*/}
-
-                    {/*</Alert>*/}
-                    <Alert className="blockquote">На сколько эта карточка была полезна?</Alert>
-                    <Rating
-                        className="ml-3"
-                        name="simple-controlled"
-                        value={rating}
-                        onChange={(event, newValue) => {
-                            setRating(newValue);
+                            return(sameAuthor.name)
+                        })}</Typography>}
+                    </Col>
+                </Row>
+                <Row className="mt-1">
+                    <Col className="col-12 col-lg-5 ml-2 mt-4">
+                        {card_data?.cardById?.cardContentType === "A_0" &&
+                            <ReactPlayer width="auto" height={400} controls
+                                         // url="https://www.youtube.com/watch?v=vpMJ_rNN9vY"
+                                            url={card_data?.cardById?.videoUrl}
+                            />
+                        }
+                        {(card_data?.cardById.cardContentType === "A_1" || card_data?.cardById.cardContentType === "A_2") &&
+                        <div
+                            className={card_data?.cardById.cardContentType === "A_1" ? "hoverImage": ""}
+                            style={{backgroundImage: "url(" + cardImage + ")",
+                            backgroundSize: "cover",
+                            backgroundRepeat: "no-repeat",
+                            width: "100%",
+                            height: 400,
                         }}
-                    />
-                </Col>
-            </Row>
-            <Alert>
-                {card_data?.cardById?.additionalText}
-            </Alert>
+                            onClick={() =>{
+                                if(card_data?.cardById.cardContentType === "A_1"){
+                                    console.log("click on image")
+                                    window.open(card_data?.cardById.videoUrl,'_blank')
+                                }
+                        }}>
+                        </div>}
+                    </Col>
+                    <Col className="col-12 col-lg-6">
+                        {/*<Alert className="blockquote" variant="light" >*/}
 
-            <br/>
-            <br/>
-            <br/>
+                       <MathJax math={card_data?.cardById?.text}/>
+                        {/*{renderHTML(card_data?.cardById?.text)}*/}
+
+                        {/*</Alert>*/}
+                        <Alert className="blockquote">На сколько эта карточка была полезна?</Alert>
+                        <Rating
+                            className="ml-3"
+                            name="simple-controlled"
+                            value={rating}
+                            onChange={(event, newValue) => {
+                                setRating(newValue);
+                            }}
+                        />
+                    </Col>
+                </Row>
+                <Alert>
+                    {card_data?.cardById?.additionalText}
+                </Alert>
+
+                <br/>
+                <br/>
+                <br/>
+            </div>}
         </div>
     )
 }

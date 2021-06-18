@@ -125,7 +125,6 @@ export default function CARDS({id, course, ...props}: any){
                     {/*Если катрочка открывается из курса, то нам нужны кнопки вверх и вниз, если её открыли
                         просто как карточку из MainCardPublicView, то нам нужно только вперед и назад для перемещения
                         по id вперед и назад*/}
-
                     {course ?  <ButtonGroup size="large" color="primary" aria-label="group">
                             <Button onClick={ () => props.ButtonClick("Back")} disabled={props.disabledBack}>
                                 <KeyboardArrowLeftOutlinedIcon/>

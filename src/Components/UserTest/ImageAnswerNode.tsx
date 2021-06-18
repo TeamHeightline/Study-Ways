@@ -48,22 +48,21 @@ export default function ImageAnswerNode(props: any){
     const [answerImgUrl, setAnswerImgUrl] = useState('')
     const [urlHasBeenPassed, setUrlHasBeenPassed] = useState(false)
     const [isSelected, changeIsSelected] = useState(false)
-    useEffect( () => {
-        const fetchData = async () => {
-            const data = await axios("https://iot-experemental.herokuapp.com/files/answer?id=" + props.answer.id)
-            try {
-                if (!urlHasBeenPassed){
-                    setUrlHasBeenPassed(true)
-                    setAnswerImgUrl(data.data[0].image)
-                    console.log(props.answerIndex)
-                }
-            }catch (e) {
-                console.log(e)
+    const fetchData = async () => {
+        const data = await axios("https://iot-experemental.herokuapp.com/files/answer?id=" + props.answer.id)
+        try {
+            if (!urlHasBeenPassed){
+                setUrlHasBeenPassed(true)
+                setAnswerImgUrl(data.data[0].image)
+                // console.log(props.answerIndex)
             }
+        }catch (e) {
+            console.log(e)
         }
+    }
+    useEffect( () => {
         fetchData()
-
-    }, [props]);
+    }, [props.answerIndex]);
     const classes = useStyles();
     return(
         <div className=" mt-3 ml-3"  >

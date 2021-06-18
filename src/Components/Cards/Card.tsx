@@ -112,16 +112,49 @@ export default function CARDS({id, course, ...props}: any){
                 <CourseMicroView course={course_data.cardCourseById} buttonClick={data=>console.log(data)}
                 inCardNavigationMode={true} cardPositionData={props.cardPositionData}/>
             </div>}
-            {id &&
-                <Button
-                    className="ml-2 mt-4 "
-                    variant="outlined" color="primary" onClick={() => {
-                    props.onChange("goBack")}}>
-                    Назад
-                </Button>
-            }
+            <Row className="ml-2">
+                {id &&
+                    <Button
+                        className="ml-2 mt-4 "
+                        variant="outlined" color="primary" onClick={() => {
+                        props.onChange("goBack")}}>
+                        Назад
+                    </Button>
+                }
+                <Col className="mt-3 offset-8 col-3">
+                    {/*Если катрочка открывается из курса, то нам нужны кнопки вверх и вниз, если её открыли
+                        просто как карточку из MainCardPublicView, то нам нужно только вперед и назад для перемещения
+                        по id вперед и назад*/}
+
+                    {course ?  <ButtonGroup size="large" color="primary" aria-label="group">
+                            <Button onClick={ () => props.ButtonClick("Back")} disabled={props.disabledBack}>
+                                <KeyboardArrowLeftOutlinedIcon/>
+                            </Button>
+                            <Button onClick={ () => props.ButtonClick("Down")} disabled={props.disabledDown}>
+                                <KeyboardArrowDownOutlinedIcon/>
+                            </Button>
+                            <Button onClick={ () => props.ButtonClick("Up")} disabled={props.disabledUp}>
+                                <KeyboardArrowUpOutlinedIcon/>
+                            </Button>
+                            <Button onClick={ () => props.ButtonClick("Next")} disabled={props.disabledNext}>
+                                <KeyboardArrowRightOutlinedIcon/>
+                            </Button>
+                        </ButtonGroup>:
+                        <ButtonGroup size="large" color="primary" aria-label="group">
+                            <Button onClick={ () => props.ButtonClick("Back")}>
+                                <KeyboardArrowLeftOutlinedIcon/>
+                            </Button>
+                            <Button onClick={ () => props.ButtonClick("Next")}>
+                                <KeyboardArrowRightOutlinedIcon/>
+                            </Button>
+                        </ButtonGroup>
+                    }
+
+                </Col>
+
+            </Row>
             <Row className="ml-2 mt-4 " >
-                <Col className="col-12 col-md-8">
+                <Col className="col-12">
                     <Row>
                         <div className="display-4 text-left mr-sm-2" style={{fontSize: '35px'}}>{card_data.cardById.title}</div>
                         <div className="display-4 text-left mr-sm-2"  style={{fontSize: '15px'}}>{card_data.cardById.id}</div>
@@ -154,36 +187,6 @@ export default function CARDS({id, course, ...props}: any){
                         }
                         return(sameAuthor.name)
                     })}</Typography>}
-                </Col>
-                <Col className="mt-3 col-10 col-md-3">
-                        {/*Если катрочка открывается из курса, то нам нужны кнопки вверх и вниз, если её открыли
-                        просто как карточку из MainCardPublicView, то нам нужно только вперед и назад для перемещения
-                        по id вперед и назад*/}
-
-                        {course ?  <ButtonGroup size="large" color="primary" aria-label="group">
-                            <Button onClick={ () => props.ButtonClick("Back")} disabled={props.disabledBack}>
-                                <KeyboardArrowLeftOutlinedIcon/>
-                            </Button>
-                            <Button onClick={ () => props.ButtonClick("Down")} disabled={props.disabledDown}>
-                                <KeyboardArrowDownOutlinedIcon/>
-                            </Button>
-                            <Button onClick={ () => props.ButtonClick("Up")} disabled={props.disabledUp}>
-                                <KeyboardArrowUpOutlinedIcon/>
-                            </Button>
-                            <Button onClick={ () => props.ButtonClick("Next")} disabled={props.disabledNext}>
-                                <KeyboardArrowRightOutlinedIcon/>
-                            </Button>
-                        </ButtonGroup>:
-                            <ButtonGroup size="large" color="primary" aria-label="group">
-                                <Button onClick={ () => props.ButtonClick("Back")}>
-                                    <KeyboardArrowLeftOutlinedIcon/>
-                                </Button>
-                                <Button onClick={ () => props.ButtonClick("Next")}>
-                                    <KeyboardArrowRightOutlinedIcon/>
-                                </Button>
-                            </ButtonGroup>
-                        }
-
                 </Col>
             </Row>
             <Row className="mt-1">

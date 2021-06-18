@@ -52,7 +52,8 @@ export default function CourseMicroView({course, ...props}: any) {
                     </Typography>
                 </CardActionArea>
                 <Divider orientation="vertical" flexItem className="ml-1" />
-                <CourseNavigation course={course} buttonClick={data => props.buttonClick(data)}/>
+                <CourseNavigation course={course} buttonClick={data => props.buttonClick(data)}
+                                  cardPositionData={props.cardPositionData} inCardNavigationMode={props.inCardNavigationMode}/>
             </Card>
         </div>
     )

@@ -15,7 +15,12 @@ export default function NavigationRow({courseRow, ...props}: any){
                             buttonIndex: data,
                             fragment: rIndex,
                         })
-                    }} key={rIndex + "RowFragment" + props.CRI + "NavigationRow"} rowFragment={rowFragment}/>
+                    }} key={rIndex + "RowFragment" + props.CRI + "NavigationRow"}
+                                 CRI={props.CRI}
+                                 rIndex={rIndex}
+                                 rowFragment={rowFragment}
+                                 cardPositionData={props.cardPositionData}
+                                 inCardNavigationMode={props.inCardNavigationMode}/>
                 )
             })}
             {/*<RowFragment/>*/}

@@ -76,12 +76,14 @@ export default function CARDS({id, course, ...props}: any){
             id: props?.match?.params?.id? props?.match?.params?.id : id,
         },
         onCompleted: data => {
-            get_card_image()
+            if(data.cardById.cardContentType !== "A_0"){
+                get_card_image()
+            }
         }
     })
     useEffect(() =>{
         refetch()
-    })
+    }, [id, course])
     const get_card_image = () =>{
         // https://iot-experemental.herokuapp.com/cardfiles/card?
         fetch("https://iot-experemental.herokuapp.com/cardfiles/card?id=" +  card_data.cardById?.id )
@@ -105,6 +107,11 @@ export default function CARDS({id, course, ...props}: any){
     // console.log("disabledNext " + props.disabledNext)
     return(
         <div className="ml-5">
+            {course && course_data &&
+            <div className="ml-2">
+                <CourseMicroView course={course_data.cardCourseById} buttonClick={data=>console.log(data)}
+                inCardNavigationMode={true} cardPositionData={props.cardPositionData}/>
+            </div>}
             {id &&
                 <Button
                     className="ml-2 mt-4 "
@@ -225,11 +232,6 @@ export default function CARDS({id, course, ...props}: any){
             <Alert>
                 {card_data?.cardById?.additionalText}
             </Alert>
-            {course && course_data &&
-            <div className="ml-2">
-                <CourseMicroView course={course_data.cardCourseById} buttonClick={data=>console.log(data)}
-                inCardNavigationMode={true} cardPositionData={props.cardPositionData}/>
-            </div>}
 
             <br/>
             <br/>

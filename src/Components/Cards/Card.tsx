@@ -15,6 +15,9 @@ import "../../App.css"
 import CourseNavigation from "../Course/Vue/CourseNavigation";
 import CourseMicroView from "../Course/Editor/CourseMicroView";
 
+
+import renderHTML from 'react-render-html';
+
 const SHOW_CARD_BY_ID = gql`
     query SHOW_CARD_BY_ID($id: ID!){
         cardById(id: $id){
@@ -202,9 +205,12 @@ export default function CARDS({id, course, ...props}: any){
                     </div>}
                 </Col>
                 <Col className="col-12 col-lg-6">
-                    <Alert className="blockquote" variant="light" >
-                        <MathJax math={card_data?.cardById?.text}/>
-                    </Alert>
+                    {/*<Alert className="blockquote" variant="light" >*/}
+
+                   <MathJax math={card_data?.cardById?.text}/>
+                    {/*{renderHTML(card_data?.cardById?.text)}*/}
+
+                    {/*</Alert>*/}
                     <Alert className="blockquote">На сколько эта карточка была полезна?</Alert>
                     <Rating
                         className="ml-3"
@@ -221,7 +227,8 @@ export default function CARDS({id, course, ...props}: any){
             </Alert>
             {course && course_data &&
             <div className="ml-2">
-                <CourseMicroView course={course_data.cardCourseById} buttonClick={data=>console.log(data)}/>
+                <CourseMicroView course={course_data.cardCourseById} buttonClick={data=>console.log(data)}
+                inCardNavigationMode={true} cardPositionData={props.cardPositionData}/>
             </div>}
 
             <br/>

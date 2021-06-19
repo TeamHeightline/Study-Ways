@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {gql} from "graphql.macro";
 import {useMutation, useQuery} from "@apollo/client";
 import Typography from "@material-ui/core/Typography";
@@ -37,23 +37,28 @@ export default  function CardAuthorEditor(){
     const [isEditNowCardAuthor, setIsEditNowCardAuthor] = useState(false)
     const [isCreatingNowCardAuthor, setIsCreatingNowCardAuthor] = useState(false)
 
+    const update_row_by_data = (data, called_after_mutation = false) =>{
+        const _rows: any = []
+        console.log(data)
+        const sorted_cardauthorSet = _.sortBy(data.me.cardauthorSet, 'id');
+        sorted_cardauthorSet.map((sameAuthor) =>{
+            _rows.push({id: sameAuthor.id, name: sameAuthor.name})
+        })
+        setRows(_rows)
+        setActiveEditCardAuthorName(_rows[0].name)
+        setSelectedAuthorRow(_rows[0])
+    }
 
     const {data: card_author_data, refetch: refetch_card_author} = useQuery(GET_CARD_AUTHOR, {
         onCompleted: (data) =>{
             if(data){
-                const _rows: any = []
-                console.log(data)
-                const sorted_cardauthorSet = _.sortBy(data.me.cardauthorSet, 'id');
-                sorted_cardauthorSet.map((sameAuthor) =>{
-                    _rows.push({id: sameAuthor.id, name: sameAuthor.name})
-                })
-                setRows(_rows)
-                setActiveEditCardAuthorName(_rows[0].name)
-                setSelectedAuthorRow(_rows[0])
+                update_row_by_data(data)
             }
         },
-        notifyOnNetworkStatusChange: true
     })
+    useEffect(() =>{
+        update_row_by_data(card_author_data)
+    }, [card_author_data])
 
     const [update_author, {loading: update_author_loading}] = useMutation(UPDATE_CARD_AUTHOR, {
         variables:{
@@ -63,17 +68,12 @@ export default  function CardAuthorEditor(){
         onCompleted: async  data => {
             await refetch_card_author()
         },
-        refetchQueries: [
-            { query: GET_CARD_AUTHOR, }
-        ]
     })
     if(!rows){
         return(
                 <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
             )
     }
-    // update_rows(card_author_data)
-    // console.log(selectedAuthorRow)
     return(
         <div>
             <div style={{width: 600, height: 400}}>

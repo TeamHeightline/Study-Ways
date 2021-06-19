@@ -110,3 +110,17 @@ query GET_CARD_DATA_BY_ID($id: ID!){
 
     }
 }
+
+query GET_CARD_AUTHOR{
+    me{
+        cardauthorSet{
+            id
+            name
+        }
+    }
+}
+mutation UPDATE_CARD_AUTHOR($name: String!, $id: ID!){
+    cardAuthor(input: {name: $name, id: $id, createdBy: 0}){
+        clientMutationId
+    }
+}

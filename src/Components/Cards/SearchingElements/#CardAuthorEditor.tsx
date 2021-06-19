@@ -1,14 +1,15 @@
 import React, {useState} from 'react'
 import {gql} from "graphql.macro";
-import {useQuery} from "@apollo/client";
+import {useMutation, useQuery} from "@apollo/client";
 import Typography from "@material-ui/core/Typography";
-import {Row, Spinner} from "react-bootstrap";
+import {Col, Row, Spinner} from "react-bootstrap";
 import {DataGrid} from "@material-ui/data-grid";
 import IconButton from "@material-ui/core/IconButton";
 import SettingsIcon from '@material-ui/icons/Settings';
-import {Fab} from "@material-ui/core";
+import {Button, Fab} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import TextField from "@material-ui/core/TextField";
+import * as _ from 'lodash'
 const GET_CARD_AUTHOR= gql`
     query GET_CARD_AUTHOR{
         me{
@@ -16,6 +17,12 @@ const GET_CARD_AUTHOR= gql`
                 id
                 name
             }
+        }
+    }`
+const UPDATE_CARD_AUTHOR= gql`
+    mutation UPDATE_CARD_AUTHOR($name: String!, $id: ID!){
+        cardAuthor(input: {name: $name, id: $id, createdBy: 0}){
+            clientMutationId
         }
     }`
 const columnsForAuthorsDataGrid = [
@@ -30,21 +37,43 @@ export default  function CardAuthorEditor(){
     const [isEditNowCardAuthor, setIsEditNowCardAuthor] = useState(false)
     const [isCreatingNowCardAuthor, setIsCreatingNowCardAuthor] = useState(false)
 
-    const {data: card_author_data} = useQuery(GET_CARD_AUTHOR, {
-        onCompleted: data=>{
-            const rows: any = []
-            // console.log(data.me)
-            data.me.cardauthorSet.map((sameAuthor) =>{
-                rows.push({id: sameAuthor.id, name: sameAuthor.name})
-            })
-            setRows(rows)
-        }
+
+    const {data: card_author_data, refetch: refetch_card_author} = useQuery(GET_CARD_AUTHOR, {
+        onCompleted: (data) =>{
+            if(data){
+                const _rows: any = []
+                console.log(data)
+                const sorted_cardauthorSet = _.sortBy(data.me.cardauthorSet, 'id');
+                sorted_cardauthorSet.map((sameAuthor) =>{
+                    _rows.push({id: sameAuthor.id, name: sameAuthor.name})
+                })
+                setRows(_rows)
+                setActiveEditCardAuthorName(_rows[0].name)
+                setSelectedAuthorRow(_rows[0])
+            }
+        },
+        notifyOnNetworkStatusChange: true
     })
-    if(!card_author_data || !rows){
+
+    const [update_author, {loading: update_author_loading}] = useMutation(UPDATE_CARD_AUTHOR, {
+        variables:{
+            id: selectedAuthorRow?.id,
+            name: activeEditCardAuthorName
+        },
+        onCompleted: async  data => {
+            await refetch_card_author()
+        },
+        refetchQueries: [
+            { query: GET_CARD_AUTHOR, }
+        ]
+    })
+    if(!rows){
         return(
                 <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
             )
     }
+    // update_rows(card_author_data)
+    // console.log(selectedAuthorRow)
     return(
         <div>
             <div style={{width: 600, height: 400}}>
@@ -81,6 +110,14 @@ export default  function CardAuthorEditor(){
                             setActiveEditCardAuthorName(e.target.value)}
                         }
                     />
+                    <Row className="mt-2 ml-2">
+                        <Button variant="contained" color="primary" onClick={() =>{
+                            update_author()}}>
+                            Сохранить
+                        </Button>
+                        {update_author_loading &&
+                        <Spinner animation="border" variant="success" className="ml-2 mt-2"/>}
+                    </Row>
                 </div>}
             </div>
         </div>

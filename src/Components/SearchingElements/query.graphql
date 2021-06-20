@@ -1,0 +1,13 @@
+query GET_MY_USER_TEST_AUTHORS{
+    me{
+        questionauthorSet{
+            id
+            name
+        }
+    }
+}
+mutation UPDATE_USER_TEST_AUTHOR($name: String!, $id: ID!){
+    updateQuestionAuthor(input: {name: $name, id: $id, createdBy: 0}){
+        clientMutationId
+    }
+}

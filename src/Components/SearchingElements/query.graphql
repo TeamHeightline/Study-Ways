@@ -11,3 +11,8 @@ mutation UPDATE_USER_TEST_AUTHOR($name: String!, $id: ID!){
         clientMutationId
     }
 }
+mutation CREATE_NEW_USER_TEST_AUTHOR($name: String!){
+    createQuestionAuthor(input: {name: $name, createdBy: 0}){
+        clientMutationId
+    }
+}

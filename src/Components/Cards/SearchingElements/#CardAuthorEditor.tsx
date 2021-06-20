@@ -6,7 +6,7 @@ import {Col, Row, Spinner} from "react-bootstrap";
 import {DataGrid} from "@material-ui/data-grid";
 import IconButton from "@material-ui/core/IconButton";
 import SettingsIcon from '@material-ui/icons/Settings';
-import {Button, Fab} from "@material-ui/core";
+import {Button, Fab, Paper} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import TextField from "@material-ui/core/TextField";
 import * as _ from 'lodash'
@@ -25,6 +25,12 @@ const UPDATE_CARD_AUTHOR= gql`
             clientMutationId
         }
     }`
+const CREATE_NEW_AUTHOR = gql`
+    mutation CREATE_NEW_AUTHOR($name:String!){
+        cardAuthor(input: {name: $name, createdBy: 0, }){
+            clientMutationId
+        }
+    }`
 const columnsForAuthorsDataGrid = [
     {field: 'id', headerName: 'ID', width: 70},
     {field: 'name', headerName: 'Автор карточки', width: 500},
@@ -36,17 +42,23 @@ export default  function CardAuthorEditor(){
     const [activeEditCardAuthorName, setActiveEditCardAuthorName] = useState<string>()
     const [isEditNowCardAuthor, setIsEditNowCardAuthor] = useState(false)
     const [isCreatingNowCardAuthor, setIsCreatingNowCardAuthor] = useState(false)
+    const [nameOfNewAuthor, setNameOfNewAuthor] = useState<any>()
 
     const update_row_by_data = (data, called_after_mutation = false) =>{
-        const _rows: any = []
-        console.log(data)
-        const sorted_cardauthorSet = _.sortBy(data.me.cardauthorSet, 'id');
-        sorted_cardauthorSet.map((sameAuthor) =>{
-            _rows.push({id: sameAuthor.id, name: sameAuthor.name})
-        })
-        setRows(_rows)
-        setActiveEditCardAuthorName(_rows[0].name)
-        setSelectedAuthorRow(_rows[0])
+        if(data){
+            const _rows: any = []
+            const sorted_cardauthorSet = _.sortBy(data.me.cardauthorSet, 'id');
+            sorted_cardauthorSet.map((sameAuthor) =>{
+                _rows.push({id: sameAuthor.id, name: sameAuthor.name})
+            })
+            setRows(_rows)
+            if(!selectedAuthorRow){
+                setSelectedAuthorRow(_rows[0])
+            }
+            if(!activeEditCardAuthorName){
+                setActiveEditCardAuthorName(_rows[0].name)
+            }
+        }
     }
 
     const {data: card_author_data, refetch: refetch_card_author} = useQuery(GET_CARD_AUTHOR, {
@@ -67,6 +79,16 @@ export default  function CardAuthorEditor(){
         },
         onCompleted: async  data => {
             await refetch_card_author()
+            // setIsEditNowCardAuthor(false)
+        },
+    })
+    const [create_author, {loading: create_author_loading}] = useMutation(CREATE_NEW_AUTHOR, {
+        variables:{
+            name: nameOfNewAuthor
+        },
+        onCompleted: async  data => {
+            await refetch_card_author()
+            // setIsCreatingNowCardAuthor(false)
         },
     })
     if(!rows){
@@ -87,6 +109,9 @@ export default  function CardAuthorEditor(){
                     <Fab color="primary"
 
                          onClick={() =>{
+                             if(isCreatingNowCardAuthor){
+                                 setIsCreatingNowCardAuthor(false)
+                             }
                             setIsEditNowCardAuthor(!isEditNowCardAuthor)
                          }}>
                         <SettingsIcon />
@@ -94,6 +119,9 @@ export default  function CardAuthorEditor(){
                     <Fab color="primary"
                          className="ml-2"
                          onClick={() =>{
+                             if(isEditNowCardAuthor){
+                                 setIsEditNowCardAuthor(false)
+                             }
                              setIsCreatingNowCardAuthor(!isCreatingNowCardAuthor)
                          }}>
                         <AddIcon/>
@@ -116,6 +144,26 @@ export default  function CardAuthorEditor(){
                             Сохранить
                         </Button>
                         {update_author_loading &&
+                        <Spinner animation="border" variant="success" className="ml-2 mt-2"/>}
+                    </Row>
+                </div>}
+                {isCreatingNowCardAuthor && <div>
+                    <TextField
+                        className="ml-2"
+                        id="standard-multiline-flexible"
+                        label="Имя нового автора"
+                        fullWidth
+                        value={nameOfNewAuthor}
+                        onChange={(e) =>{
+                            setNameOfNewAuthor(e.target.value)}
+                        }
+                    />
+                    <Row className="mt-2 ml-2">
+                        <Button variant="contained" color="primary" onClick={() =>{
+                            create_author()}}>
+                            Сохранить
+                        </Button>
+                        {create_author_loading &&
                         <Spinner animation="border" variant="success" className="ml-2 mt-2"/>}
                     </Row>
                 </div>}

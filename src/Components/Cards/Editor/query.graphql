@@ -124,3 +124,8 @@ mutation UPDATE_CARD_AUTHOR($name: String!, $id: ID!){
         clientMutationId
     }
 }
+mutation CREATE_NEW_AUTHOR($name:String!){
+    cardAuthor(input: {name: $name, createdBy: 0, }){
+        clientMutationId
+    }
+}

@@ -44,7 +44,7 @@ import EditCourseByID from "./Components/Course/Editor/EditCourseByID";
 import MainCourseEditor from "./Components/Course/Editor/MainCourseEditor";
 import MainCardPublicView from "./Components/Cards/Public/MainCardPublicView";
 import MainCoursePublicView from "./Components/Course/Public/MainCoursePublicView";
-import CardAuthorEditor from "./Components/Cards/SearchingElements/#CardAuthorEditor";
+import CardAuthorEditor from "./Components/SearchingElements/#CardAuthorEditor";
 const VERIFY_LOGIN = gql`
     mutation VERIFY_LOGIN($token: String!){
       verifyToken(token: $token){

@@ -45,6 +45,7 @@ import MainCourseEditor from "./Components/Course/Editor/MainCourseEditor";
 import MainCardPublicView from "./Components/Cards/Public/MainCardPublicView";
 import MainCoursePublicView from "./Components/Course/Public/MainCoursePublicView";
 import CardAuthorEditor from "./Components/SearchingElements/#CardAuthorEditor";
+import UserTestAuthorEditor from "./Components/SearchingElements/#UserTestAuthorEditor";
 const VERIFY_LOGIN = gql`
     mutation VERIFY_LOGIN($token: String!){
       verifyToken(token: $token){
@@ -132,21 +133,26 @@ function App() {
             <Navibar/>
             <Switch>
                 {/*<Route exact path="/" ><Redirect to="/courses"/></Route>*/}
+                {/*------------TEMP------------------*/}
                 <Route exact path="/cad" component={CardAuthorEditor}/>
+                <Route exact path="/utae" component={UserTestAuthorEditor}/>
+                {/*----------TEMP--------------------*/}
+
                 <Route exact path="/login" component={Login}/>
                 <Route exact path="/unlogin" component={UnLogin}/>
                 <Route exact path="/registration" component={Registration}/>
                 <Route exact path="/editor" component={user_data.me !== null? EditorsRouter: Login}/>
                 {/*<Route exact path="/updatequestion" component={localStorage.getItem('is_login') === 'true'? UpdateQuestion: Login}/>*/}
                 <Route exact path="/test" component={MainUserTest}/>
-                <Route exact path="/ckeditor" component={CKEDITOR}/>
+
                 <Route  path="/q/:id" component={QuestionByID}/>
                 <Route exact path="/iq/:id" component={ImageQuestion}/>
-                <Route exact path="/card/edit/:id" component={CardEditByID}/>
-                <Route exact path="/c/:id" component={CARDS}/>
-                <Route exact path='/card' component={MainCardEditor}/>
-                <Route exact path="/course/:id" component={EditCourseByID}/>
-                <Route exact path="/mce" component={MainCourseEditor}/>
+
+                {/*<Route exact path="/card/edit/:id" component={CardEditByID}/>*/}
+                {/*<Route exact path="/c/:id" component={CARDS}/>*/}
+                {/*<Route exact path='/card' component={MainCardEditor}/>*/}
+                {/*<Route exact path="/course/:id" component={EditCourseByID}/>*/}
+                {/*<Route exact path="/mce" component={MainCourseEditor}/>*/}
                 <Route exact path="/cards" component={MainCardPublicView}/>
                 <Route exact path="/courses" component={MainCoursePublicView}/>
                 <Redirect to="/courses"/>

@@ -44,7 +44,7 @@ export default  function CardAuthorEditor(){
     const [isCreatingNowCardAuthor, setIsCreatingNowCardAuthor] = useState(false)
     const [nameOfNewAuthor, setNameOfNewAuthor] = useState<any>()
 
-    const update_row_by_data = (data, called_after_mutation = false) =>{
+    const update_row_by_data = (data) =>{
         if(data){
             const _rows: any = []
             const sorted_cardauthorSet = _.sortBy(data.me.cardauthorSet, 'id');

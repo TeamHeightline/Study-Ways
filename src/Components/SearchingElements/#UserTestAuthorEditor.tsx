@@ -25,7 +25,12 @@ const UPDATE_USER_TEST_AUTHOR = gql`
             clientMutationId
         }
     }`
-
+const CREATE_NEW_USER_TEST_AUTHOR = gql`
+    mutation CREATE_NEW_USER_TEST_AUTHOR($name: String!){
+        createQuestionAuthor(input: {name: $name, createdBy: 0}){
+            clientMutationId
+        }
+    }`
 const columnsForAuthorsDataGrid = [
     {field: 'id', headerName: 'ID', width: 70},
     {field: 'name', headerName: 'Автор вопросов/тестов', width: 500},
@@ -36,6 +41,7 @@ export default function UserTestAuthorEditor(){
 
     const [selectedAuthorRow, setSelectedAuthorRow] = useState<any>()
     const [activeEditUserTestAuthorName, setActiveEditUserTestAuthorName] = useState<string>()
+    const [newUserTestAuthorName, setNewUserTestAuthorName] = useState<any>()
     const [isCreatingNowTestAuthor, setIsCreatingNowTestAuthor] = useState(false)
     const [isEditNowTestAuthor, setIsEditNowTestAuthor] = useState(false)
 
@@ -64,6 +70,14 @@ export default function UserTestAuthorEditor(){
         variables:{
             name: activeEditUserTestAuthorName,
             id: selectedAuthorRow?.id
+        },
+        onCompleted: data =>{
+            refetch_author_data()
+        }
+    })
+    const [create_author, {loading: create_author_loading}] = useMutation(CREATE_NEW_USER_TEST_AUTHOR, {
+        variables:{
+            name: newUserTestAuthorName
         },
         onCompleted: data =>{
             refetch_author_data()
@@ -122,10 +136,36 @@ export default function UserTestAuthorEditor(){
                     />
                     <Row className="mt-2 ml-2">
                         <Button variant="contained" color="primary" onClick={() =>{
-                            update_author()}}>
+                            if(activeEditUserTestAuthorName){
+                                update_author()
+                            }
+                        }}>
                             Сохранить
                         </Button>
                         {update_author_loading &&
+                        <Spinner animation="border" variant="success" className="ml-2 mt-2"/>}
+                    </Row>
+                </div>}
+                {isCreatingNowTestAuthor && <div>
+                    <TextField
+                        className="ml-2"
+                        id="standard-multiline-flexible"
+                        label="Имя нового автора"
+                        fullWidth
+                        value={newUserTestAuthorName}
+                        onChange={(e) =>{
+                            setNewUserTestAuthorName(e.target.value)}
+                        }
+                    />
+                    <Row className="mt-2 ml-2">
+                        <Button variant="contained" color="primary" onClick={() =>{
+                            if(newUserTestAuthorName){
+                                create_author()
+                            }
+                        }}>
+                            Сохранить
+                        </Button>
+                        {create_author_loading &&
                         <Spinner animation="border" variant="success" className="ml-2 mt-2"/>}
                     </Row>
                 </div>}

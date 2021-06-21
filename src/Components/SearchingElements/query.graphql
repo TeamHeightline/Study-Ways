@@ -29,3 +29,8 @@ mutation UPDATE_USER_TEST_THEME($name: String!, $id: ID!){
         clientMutationId
     }
 }
+mutation CREATE_NEW_USER_TEST_THEME($name: String!){
+    createQuestionThemes(input: {name: $name, createdBy: 0}){
+        clientMutationId
+    }
+}

@@ -24,3 +24,8 @@ query GET_MY_USER_TEST_THEMES{
         }
     }
 }
+mutation UPDATE_USER_TEST_THEME($name: String!, $id: ID!){
+    updateQuestionThemes(input: {name: $name, createdBy: 0, id: $id}){
+        clientMutationId
+    }
+}

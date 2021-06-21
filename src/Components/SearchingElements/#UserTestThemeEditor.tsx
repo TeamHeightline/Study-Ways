@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import {gql} from "graphql.macro";
-import {useQuery} from "@apollo/client";
+import {useMutation, useQuery} from "@apollo/client";
 import {Row, Spinner} from "react-bootstrap";
 import * as _ from 'lodash'
 import {DataGrid} from "@material-ui/data-grid";
-import {Fab} from "@material-ui/core";
+import {Button, Fab} from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/Settings";
 import AddIcon from "@material-ui/icons/Add";
+import TextField from "@material-ui/core/TextField";
 
 const  GET_MY_USER_TEST_THEMES = gql`
     query GET_MY_USER_TEST_THEMES{
@@ -18,6 +19,13 @@ const  GET_MY_USER_TEST_THEMES = gql`
         }
     }
 `
+const UPDATE_USER_TEST_THEME = gql`
+    mutation UPDATE_USER_TEST_THEME($name: String!, $id: ID!){
+        updateQuestionThemes(input: {name: $name, createdBy: 0, id: $id}){
+            clientMutationId
+        }
+    }`
+
 const columnsForAuthorsDataGrid = [
     {field: 'id', headerName: 'ID', width: 70},
     {field: 'name', headerName: 'Тема вопросов/тестов', width: 500},
@@ -31,6 +39,7 @@ export default function UserTestThemeEditor(){
     const [rows, setRows] = useState<any>()
     const [selectedThemeRow, setSelectedThemeRow] = useState<any>()
     const [activeEditUserTestThemeName, setActiveEditUserTestThemeName] = useState<any>()
+
 
     const [isEditNowUserTestTheme, setIsEditNowUserTestTheme] = useState(false)
     const [isCreatingNowUserTestTheme, setIsCreatingNowUserTestTheme] = useState(false)
@@ -52,9 +61,19 @@ export default function UserTestThemeEditor(){
         }
     }
 
-
-    const {data: user_test_themes_data} = useQuery(GET_MY_USER_TEST_THEMES, {
+    const {data: user_test_themes_data, refetch: refetch_user_test_themes} = useQuery(GET_MY_USER_TEST_THEMES, {
         onCompleted: data => update_row_by_data(data)
+    })
+
+    const [update_theme, {loading: update_theme_loading}] = useMutation(UPDATE_USER_TEST_THEME, {
+        variables:{
+            id: selectedThemeRow?.id,
+            name: activeEditUserTestThemeName
+        },
+        onCompleted: async  data => {
+            await refetch_user_test_themes()
+            // setIsEditNowCardAuthor(false)
+        },
     })
     useEffect(() =>{
         update_row_by_data(user_test_themes_data)
@@ -94,9 +113,30 @@ export default function UserTestThemeEditor(){
                              setIsCreatingNowUserTestTheme(!isCreatingNowUserTestTheme)
                          }}>
                         <AddIcon/>
+
                     </Fab>
                 </Row>
+                {isEditNowUserTestTheme && <div>
+                    <TextField
+                        className="ml-2"
+                        id="standard-multiline-flexible"
+                        label="Имя автора"
+                        fullWidth
+                        value={activeEditUserTestThemeName}
+                        onChange={(e) =>{
+                            setActiveEditUserTestThemeName(e.target.value)}
+                        }
+                    />
+                    <Row className="mt-2 ml-2">
+                        <Button variant="contained" color="primary" onClick={() =>{
+                            update_theme()}}>
+                            Сохранить
+                        </Button>
+                        {update_theme_loading &&
+                        <Spinner animation="border" variant="success" className="ml-2 mt-2"/>}
+                    </Row>
+                </div>}
             </div>
-            </div>
+        </div>
     )
 }

@@ -16,3 +16,11 @@ mutation CREATE_NEW_USER_TEST_AUTHOR($name: String!){
         clientMutationId
     }
 }
+query GET_MY_USER_TEST_THEMES{
+    me{
+        questionthemesSet{
+           name
+            id
+        }
+    }
+}

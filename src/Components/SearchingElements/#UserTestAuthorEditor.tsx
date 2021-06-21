@@ -38,27 +38,28 @@ const columnsForAuthorsDataGrid = [
 
 export default function UserTestAuthorEditor(){
     const [rows, setRows] = useState<any>()
-
+    const [rowsHasBeenCalculated, setRowsNasBeenCalculated] = useState(false)
     const [selectedAuthorRow, setSelectedAuthorRow] = useState<any>()
     const [activeEditUserTestAuthorName, setActiveEditUserTestAuthorName] = useState<string>()
     const [newUserTestAuthorName, setNewUserTestAuthorName] = useState<any>()
     const [isCreatingNowTestAuthor, setIsCreatingNowTestAuthor] = useState(false)
     const [isEditNowTestAuthor, setIsEditNowTestAuthor] = useState(false)
 
-    const update_row_by_data = (data) =>{
+    const update_row_by_data = async (data) =>{
         if(data){
             const _rows: any = []
             const sorted_questionauthorSet = _.sortBy(data.me.questionauthorSet, 'id');
             sorted_questionauthorSet.map((sameAuthor) =>{
                 _rows.push({id: sameAuthor.id, name: sameAuthor.name})
             })
-            setRows(_rows)
+            await setRows(_rows)
             if(!selectedAuthorRow){
-                setSelectedAuthorRow(_rows[0])
+                await setSelectedAuthorRow(_rows[0])
             }
             if(!activeEditUserTestAuthorName){
-                setActiveEditUserTestAuthorName(_rows[0].name)
+                await setActiveEditUserTestAuthorName(_rows[0].name)
             }
+            await setRowsNasBeenCalculated(true)
         }
     }
     const {data: author_data, refetch: refetch_author_data} = useQuery(GET_MY_USER_TEST_AUTHORS, {
@@ -87,7 +88,7 @@ export default function UserTestAuthorEditor(){
         update_row_by_data(author_data)
     }, [author_data])
 
-    if(!rows){
+    if(!rowsHasBeenCalculated){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )

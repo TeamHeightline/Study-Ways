@@ -37,6 +37,7 @@ const columnsForAuthorsDataGrid = [
 ]
 
 export default  function CardAuthorEditor(){
+    const [rowsHasBeenCalculated, setRowsNasBeenCalculated] = useState(false)
     const [rows, setRows] = useState<any>()
     const [selectedAuthorRow, setSelectedAuthorRow] = useState<any>()
     const [activeEditCardAuthorName, setActiveEditCardAuthorName] = useState<string>()
@@ -44,7 +45,7 @@ export default  function CardAuthorEditor(){
     const [isCreatingNowCardAuthor, setIsCreatingNowCardAuthor] = useState(false)
     const [nameOfNewAuthor, setNameOfNewAuthor] = useState<any>()
 
-    const update_row_by_data = (data) =>{
+    const update_row_by_data = async (data) =>{
         if(data){
             const _rows: any = []
             const sorted_cardauthorSet = _.sortBy(data.me.cardauthorSet, 'id');
@@ -53,11 +54,12 @@ export default  function CardAuthorEditor(){
             })
             setRows(_rows)
             if(!selectedAuthorRow){
-                setSelectedAuthorRow(_rows[0])
+                await setSelectedAuthorRow(_rows[0])
             }
             if(!activeEditCardAuthorName){
-                setActiveEditCardAuthorName(_rows[0].name)
+                await setActiveEditCardAuthorName(_rows[0].name)
             }
+            await setRowsNasBeenCalculated(true)
         }
     }
 
@@ -91,7 +93,7 @@ export default  function CardAuthorEditor(){
             // setIsCreatingNowCardAuthor(false)
         },
     })
-    if(!rows){
+    if(!rowsHasBeenCalculated){
         return(
                 <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
             )

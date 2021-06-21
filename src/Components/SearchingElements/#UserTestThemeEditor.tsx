@@ -25,6 +25,12 @@ const UPDATE_USER_TEST_THEME = gql`
             clientMutationId
         }
     }`
+const CREATE_NEW_USER_TEST_THEME = gql`
+    mutation CREATE_NEW_USER_TEST_THEME($name: String!){
+        createQuestionThemes(input: {name: $name, createdBy: 0}){
+            clientMutationId
+        }
+    }`
 
 const columnsForAuthorsDataGrid = [
     {field: 'id', headerName: 'ID', width: 70},
@@ -39,7 +45,7 @@ export default function UserTestThemeEditor(){
     const [rows, setRows] = useState<any>()
     const [selectedThemeRow, setSelectedThemeRow] = useState<any>()
     const [activeEditUserTestThemeName, setActiveEditUserTestThemeName] = useState<any>()
-
+    const [nameOfNewUserTestTheme, setNameOfNewUserTestTheme] = useState<any>()
 
     const [isEditNowUserTestTheme, setIsEditNowUserTestTheme] = useState(false)
     const [isCreatingNowUserTestTheme, setIsCreatingNowUserTestTheme] = useState(false)
@@ -70,10 +76,16 @@ export default function UserTestThemeEditor(){
             id: selectedThemeRow?.id,
             name: activeEditUserTestThemeName
         },
-        onCompleted: async  data => {
-            await refetch_user_test_themes()
+        onCompleted: data => {
+            refetch_user_test_themes()
             // setIsEditNowCardAuthor(false)
         },
+    })
+    const [create_theme, {loading: create_theme_loading}] = useMutation(CREATE_NEW_USER_TEST_THEME, {
+        variables:{
+            name: nameOfNewUserTestTheme
+        },
+        onCompleted: data => refetch_user_test_themes()
     })
     useEffect(() =>{
         update_row_by_data(user_test_themes_data)
@@ -133,6 +145,26 @@ export default function UserTestThemeEditor(){
                             Сохранить
                         </Button>
                         {update_theme_loading &&
+                        <Spinner animation="border" variant="success" className="ml-2 mt-2"/>}
+                    </Row>
+                </div>}
+                {isCreatingNowUserTestTheme && <div>
+                    <TextField
+                        className="ml-2"
+                        id="standard-multiline-flexible"
+                        label="Имя нового автора"
+                        fullWidth
+                        value={nameOfNewUserTestTheme}
+                        onChange={(e) =>{
+                            setNameOfNewUserTestTheme(e.target.value)}
+                        }
+                    />
+                    <Row className="mt-2 ml-2">
+                        <Button variant="contained" color="primary" onClick={() =>{
+                            create_theme()}}>
+                            Сохранить
+                        </Button>
+                        {create_theme_loading &&
                         <Spinner animation="border" variant="success" className="ml-2 mt-2"/>}
                     </Row>
                 </div>}

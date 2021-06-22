@@ -42,13 +42,14 @@ export default function UserTestThemeEditor(){
     // возможноть, что у пользователя еще нет тем, то нужно завести отдельную переменную, чтобы понимать, что процесс
     // обработки данных с сервера уже прошел, иначе, если просто проверять rows, то если у пользователя нет тем, то он
     // получит бесконечную загрузку
-    const [rows, setRows] = useState<any>()
-    const [selectedThemeRow, setSelectedThemeRow] = useState<any>()
-    const [activeEditUserTestThemeName, setActiveEditUserTestThemeName] = useState<any>()
-    const [nameOfNewUserTestTheme, setNameOfNewUserTestTheme] = useState<any>()
+    const [rows, setRows] = useState<any>() //строки для визуализации, структура [{name: , id: }]
+    const [selectedThemeRow, setSelectedThemeRow] = useState<any>() //строка, на которую кликнули, по
+    // умолчанию - первая строка,нужно, чтобы можно было редактировать тему
+    const [activeEditUserTestThemeName, setActiveEditUserTestThemeName] = useState<any>() //поле для редактирования названия темы
+    const [nameOfNewUserTestTheme, setNameOfNewUserTestTheme] = useState<any>() //поле для названия новой темы
 
-    const [isEditNowUserTestTheme, setIsEditNowUserTestTheme] = useState(false)
-    const [isCreatingNowUserTestTheme, setIsCreatingNowUserTestTheme] = useState(false)
+    const [isEditNowUserTestTheme, setIsEditNowUserTestTheme] = useState(false) //если true -> активен режим редактирования темы
+    const [isCreatingNowUserTestTheme, setIsCreatingNowUserTestTheme] = useState(false) // если true -> активер режим создания темы
     const update_row_by_data = async(data) =>{
         if(data){
             const _rows: any = []

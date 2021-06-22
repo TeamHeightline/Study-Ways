@@ -36,6 +36,7 @@ const columnsForAuthorsDataGrid = [
     {field: 'name', headerName: 'Автор вопросов/тестов', width: 500},
 ]
 
+//Вся документация в UserTestThemeEditor, он идентичен этому компоненту
 export default function UserTestAuthorEditor(){
     const [rows, setRows] = useState<any>()
     const [rowsHasBeenCalculated, setRowsNasBeenCalculated] = useState(false)

@@ -35,7 +35,7 @@ const columnsForAuthorsDataGrid = [
     {field: 'id', headerName: 'ID', width: 70},
     {field: 'name', headerName: 'Автор карточки', width: 500},
 ]
-
+//Вся документация в UserTestThemeEditor, он идентичен этому компоненту
 export default  function CardAuthorEditor(){
     const [rowsHasBeenCalculated, setRowsNasBeenCalculated] = useState(false)
     const [rows, setRows] = useState<any>()

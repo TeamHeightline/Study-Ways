@@ -6,6 +6,11 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import AddIcon from "@material-ui/icons/Add";
 import TextField from "@material-ui/core/TextField";
 export default function CardAuthorEditorDumb({...props}: any){
+    if(!props.rowsHasBeenCalculated){
+        return(
+            <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
+        )
+    }
     return(
         <div>
             <div style={{width: 600, height: 400}}>

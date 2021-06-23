@@ -1,12 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {gql} from "graphql.macro";
 import {useMutation, useQuery} from "@apollo/client";
-import {Col, Row, Spinner} from "react-bootstrap";
-import {DataGrid} from "@material-ui/data-grid";
-import SettingsIcon from '@material-ui/icons/Settings';
-import {Button, Fab, Paper} from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import TextField from "@material-ui/core/TextField";
 import * as _ from 'lodash'
 import  {GET_CARD_AUTHOR, CREATE_NEW_AUTHOR, UPDATE_CARD_AUTHOR} from './Structs'
 import CardAuthorEditorDumb from "./##CardAuthorEditorDumb";
@@ -73,11 +66,6 @@ export default  function CardAuthorEditorLogic(){
             // setIsCreatingNowCardAuthor(false)
         },
     })
-    if(!rowsHasBeenCalculated){
-        return(
-            <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
-        )
-    }
     return(
         <CardAuthorEditorDumb rowsHasBeenCalculated={rowsHasBeenCalculated}
                               columnsForAuthorsDataGrid={columnsForAuthorsDataGrid}

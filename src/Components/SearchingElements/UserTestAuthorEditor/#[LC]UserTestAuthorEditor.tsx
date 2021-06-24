@@ -7,7 +7,7 @@ import {GET_MY_USER_TEST_AUTHORS, columnsForAuthorsDataGrid, CREATE_NEW_USER_TES
 
 import DCUserTestAuthorEditor from "./##[DC]UserTestAuthorEditor";
 
-//Вся документация в UserTestThemeEditor, он идентичен этому компоненту
+//Вся документация в LCUserTestThemeEditor, он идентичен этому компоненту
 export default function LCUserTestAuthorEditor(){
     const [rows, setRows] = useState<any>()
     const [rowsHasBeenCalculated, setRowsNasBeenCalculated] = useState(false)

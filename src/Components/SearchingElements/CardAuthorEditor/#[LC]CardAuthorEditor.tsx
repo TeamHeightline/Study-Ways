@@ -8,7 +8,7 @@ const columnsForAuthorsDataGrid = [
     {field: 'id', headerName: 'ID', width: 70},
     {field: 'name', headerName: 'Автор карточки', width: 500},
 ]
-//Вся документация в UserTestThemeEditor, он идентичен этому компоненту
+//Вся документация в LCUserTestThemeEditor, он идентичен этому компоненту
 export default  function LCCardAuthorEditor(){
     const [rowsHasBeenCalculated, setRowsNasBeenCalculated] = useState(false)
     const [rows, setRows] = useState<any>()

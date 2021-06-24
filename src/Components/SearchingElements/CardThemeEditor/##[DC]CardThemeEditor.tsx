@@ -30,7 +30,6 @@ export default function DCCardThemeEditor({...props}: any){
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
-    console.log(props.expanded)
     return(
         <div>
             <TreeView

@@ -46,7 +46,7 @@ import MainCardPublicView from "./Components/Cards/Public/MainCardPublicView";
 import MainCoursePublicView from "./Components/Course/Public/MainCoursePublicView";
 import LCCardAuthorEditor from "./Components/SearchingElements/CardAuthorEditor/#[LC]CardAuthorEditor";
 import LCUserTestAuthorEditor from "./Components/SearchingElements/UserTestAuthorEditor/#[LC]UserTestAuthorEditor";
-import UserTestThemeEditor from "./Components/SearchingElements/#UserTestThemeEditor";
+import LCUserTestThemeEditor from "./Components/SearchingElements/UserTestThemeEditor/#[LC]UserTestThemeEditor";
 const VERIFY_LOGIN = gql`
     mutation VERIFY_LOGIN($token: String!){
       verifyToken(token: $token){
@@ -137,7 +137,7 @@ function App() {
                 {/*------------TEMP------------------*/}
                 <Route exact path="/cad" component={LCCardAuthorEditor}/>
                 <Route exact path="/utae" component={LCUserTestAuthorEditor}/>
-                <Route exact path="/utte" component={UserTestThemeEditor}/>
+                <Route exact path="/utte" component={LCUserTestThemeEditor}/>
                 {/*----------TEMP--------------------*/}
 
                 <Route exact path="/login" component={Login}/>

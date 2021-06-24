@@ -5,7 +5,7 @@ import {Button, Fab} from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/Settings";
 import AddIcon from "@material-ui/icons/Add";
 import TextField from "@material-ui/core/TextField";
-export default function CardAuthorEditorDumb({...props}: any){
+export default function DCCardAuthorEditor({...props}: any){
     if(!props.rowsHasBeenCalculated){
         return(
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>

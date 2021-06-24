@@ -2,14 +2,14 @@ import React, {useEffect, useState} from 'react'
 import {useMutation, useQuery} from "@apollo/client";
 import * as _ from 'lodash'
 import  {GET_CARD_AUTHOR, CREATE_NEW_AUTHOR, UPDATE_CARD_AUTHOR} from './Structs'
-import CardAuthorEditorDumb from "./##CardAuthorEditorDumb";
+import DCCardAuthorEditor from "./##[DC]CardAuthorEditor";
 
 const columnsForAuthorsDataGrid = [
     {field: 'id', headerName: 'ID', width: 70},
     {field: 'name', headerName: 'Автор карточки', width: 500},
 ]
 //Вся документация в UserTestThemeEditor, он идентичен этому компоненту
-export default  function CardAuthorEditorLogic(){
+export default  function LCCardAuthorEditor(){
     const [rowsHasBeenCalculated, setRowsNasBeenCalculated] = useState(false)
     const [rows, setRows] = useState<any>()
     const [selectedAuthorRow, setSelectedAuthorRow] = useState<any>()
@@ -67,7 +67,7 @@ export default  function CardAuthorEditorLogic(){
         },
     })
     return(
-        <CardAuthorEditorDumb {...{rowsHasBeenCalculated, columnsForAuthorsDataGrid, setSelectedAuthorRow,
+        <DCCardAuthorEditor {...{rowsHasBeenCalculated, columnsForAuthorsDataGrid, setSelectedAuthorRow,
             setActiveEditCardAuthorName, isCreatingNowCardAuthor, setIsCreatingNowCardAuthor, setIsEditNowCardAuthor,
             activeEditCardAuthorName, update_author, setNameOfNewAuthor, create_author, create_author_loading,rows,
             isEditNowCardAuthor

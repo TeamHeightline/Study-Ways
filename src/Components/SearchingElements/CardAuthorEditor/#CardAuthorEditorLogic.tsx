@@ -67,19 +67,10 @@ export default  function CardAuthorEditorLogic(){
         },
     })
     return(
-        <CardAuthorEditorDumb rowsHasBeenCalculated={rowsHasBeenCalculated}
-                              columnsForAuthorsDataGrid={columnsForAuthorsDataGrid}
-                              setSelectedAuthorRow={setSelectedAuthorRow}
-                              setActiveEditCardAuthorName={setActiveEditCardAuthorName}
-                              isCreatingNowCardAuthor={isCreatingNowCardAuthor}
-                              setIsCreatingNowCardAuthor={setIsCreatingNowCardAuthor}
-                              setIsEditNowCardAuthor={setIsEditNowCardAuthor}
-                              isEditNowCardAuthor={isEditNowCardAuthor}
-                              activeEditCardAuthorName={activeEditCardAuthorName}
-                              update_author={update_author}
-                              setNameOfNewAuthor={setNameOfNewAuthor}
-                              create_author={create_author}
-                              create_author_loading={create_author_loading}
-                              rows={rows}/>
+        <CardAuthorEditorDumb {...{rowsHasBeenCalculated, columnsForAuthorsDataGrid, setSelectedAuthorRow,
+            setActiveEditCardAuthorName, isCreatingNowCardAuthor, setIsCreatingNowCardAuthor, setIsEditNowCardAuthor,
+            activeEditCardAuthorName, update_author, setNameOfNewAuthor, create_author, create_author_loading,rows,
+            isEditNowCardAuthor
+        }}/>
     )
 }

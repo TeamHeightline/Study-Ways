@@ -1,17 +1,12 @@
 import React, {useEffect, useState} from 'react'
-import {gql} from "graphql.macro";
 import {useMutation, useQuery} from "@apollo/client";
 import * as _ from 'lodash'
-import {DataGrid} from "@material-ui/data-grid";
-import {Row, Spinner} from "react-bootstrap";
-import {Button, Fab} from "@material-ui/core";
-import SettingsIcon from "@material-ui/icons/Settings";
-import AddIcon from "@material-ui/icons/Add";
-import TextField from "@material-ui/core/TextField";
 
 import {GET_MY_USER_TEST_AUTHORS, columnsForAuthorsDataGrid, CREATE_NEW_USER_TEST_AUTHOR,
     UPDATE_USER_TEST_AUTHOR} from './Structs'
+
 import DCUserTestAuthorEditor from "./##[DC]UserTestAuthorEditor";
+
 //Вся документация в UserTestThemeEditor, он идентичен этому компоненту
 export default function LCUserTestAuthorEditor(){
     const [rows, setRows] = useState<any>()
@@ -64,14 +59,8 @@ export default function LCUserTestAuthorEditor(){
     useEffect(() =>{
         update_row_by_data(author_data)
     }, [author_data])
-
-    if(!rowsHasBeenCalculated){
-        return (
-            <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
-        )
-    }
     return (
-        <DCUserTestAuthorEditor {...{rows, columnsForAuthorsDataGrid, setSelectedAuthorRow,
+        <DCUserTestAuthorEditor {...{rows, rowsHasBeenCalculated, columnsForAuthorsDataGrid, setSelectedAuthorRow,
             setActiveEditUserTestAuthorName, isCreatingNowTestAuthor, setIsCreatingNowTestAuthor,
             setIsEditNowTestAuthor, isEditNowTestAuthor, activeEditUserTestAuthorName,
             update_author, update_author_loading, newUserTestAuthorName, setNewUserTestAuthorName,

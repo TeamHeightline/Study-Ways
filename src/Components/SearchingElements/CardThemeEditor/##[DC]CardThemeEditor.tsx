@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 
 export default function DCCardThemeEditor({...props}: any){
     const classes = useStyles();
-    const [selected, setSelected] = React.useState('');
+
     const handleToggle = (event, nodeIds) => {
         // console.log(nodeIds)
         props.setExpanded(nodeIds);
@@ -32,19 +32,22 @@ export default function DCCardThemeEditor({...props}: any){
         //Редактирование подтем
         if(nodeIds < 999){
             props.setActiveEditData(props.all_sub_themes.find(obj => {return obj.id == nodeIds}).name)
+            props.set_selected_sub_theme_ID(nodeIds)
             // console.log(props.all_sub_themes.find(obj => {return obj.id == nodeIds}).name)
         }
         //Редактирование тем
         if(nodeIds > 1000 && nodeIds < 999999){
             // console.log(props.all_themes.find(obj => {return obj.id * 1000 == nodeIds}).name)
             props.setActiveEditData(props.all_themes.find(obj => {return obj.id * 1000 == nodeIds}).name)
+            props.set_selected_theme_ID(Number(nodeIds) /1000)
         }
         //Редактирование глобальных тем
         if( nodeIds > 999999){
             // console.log(props.all_global_themes.find(obj => {return obj.id * 1000000 == nodeIds}).name)
             props.setActiveEditData(props.all_global_themes.find(obj => {return obj.id * 1000000 == nodeIds}).name)
+            props.set_selected_global_theme_ID(Number(nodeIds)/1000000)
         }
-        setSelected(nodeIds);
+        props.set_selected_id(nodeIds);
     };
     if(!props.all_card_themes_data){
         return (
@@ -60,7 +63,7 @@ export default function DCCardThemeEditor({...props}: any){
                     defaultCollapseIcon={<ExpandMoreIcon />}
                     defaultExpandIcon={<ChevronRightIcon />}
                     expanded={props.expanded}
-                    selected={selected}
+                    selected={props.selected_id}
                     onNodeToggle={handleToggle}
                     onNodeSelect={handleSelect}
                     defaultExpanded={props.expanded}
@@ -116,7 +119,7 @@ export default function DCCardThemeEditor({...props}: any){
 
                     </Fab>
                 </Row>
-                {props.isEditNowCardTheme  && Number(selected) < 999 && <div>
+                {props.isEditNowCardTheme  && Number(props.selected_id) < 999 && <div>
                     <TextField
                         className="ml-2"
                         id="standard-multiline-flexible"
@@ -129,16 +132,16 @@ export default function DCCardThemeEditor({...props}: any){
                     />
                     <Row className="mt-2 ml-2">
                         <Button variant="contained" color="primary"
-                                // onClick={() =>{
-                            // props.update_theme()}}
+                                onClick={() =>{
+                                    props.update_sub_theme()}}
                             >
-                            Сохранить подтему
+                            Обновить подтему
                         </Button>
-                        {props.update_theme_loading &&
+                        {props.update_sub_theme_loading &&
                         <Spinner animation="border" variant="success" className="ml-2 mt-2"/>}
                     </Row>
                 </div>}
-                {props.isEditNowCardTheme  && Number(selected) > 1000 && Number(selected) < 1000000 && <div>
+                {props.isEditNowCardTheme  && Number(props.selected_id) > 1000 && Number(props.selected_id) < 1000000 && <div>
                     <TextField
                         className="ml-2"
                         id="standard-multiline-flexible"
@@ -160,7 +163,7 @@ export default function DCCardThemeEditor({...props}: any){
                         <Spinner animation="border" variant="success" className="ml-2 mt-2"/>}
                     </Row>
                 </div>}
-                {props.isEditNowCardTheme   && Number(selected) > 999999 && <div>
+                {props.isEditNowCardTheme   && Number(props.selected_id) > 999999 && <div>
                     <TextField
                         className="ml-2"
                         id="standard-multiline-flexible"

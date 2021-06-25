@@ -12,6 +12,9 @@ export default function LCCardThemeEditor(){
     const [my_card_sub_themes, set_my_card_sub_themes] = useState<CARD_SUB_THEMES>()
     const [expanded, setExpanded] = useState<string[]>([])
     const [selected_value, set_selected_value] = useState()
+    const [isCreatingNowCardTheme, setIsCreatingNowCardTheme] = useState(false)
+    const [isEditNowCardTheme, setIsEditNowCardTheme] = useState(false)
+
     const {data: my_card_themes_data, } = useQuery<Query, null>(GET_MY_CARD_THEMES)
     const {data: all_card_themes_data, } = useQuery<Query, null>(ALL_CARD_THEMES)
     // console.log(my_card_themes_data)
@@ -50,7 +53,9 @@ export default function LCCardThemeEditor(){
     return(
         <div>
             <DCCardThemeEditor {...{selected_value, set_selected_value, all_card_themes_data, expanded,
-                setExpanded}}/>
+                setExpanded, isCreatingNowCardTheme, setIsCreatingNowCardTheme,  isEditNowCardTheme,
+                setIsEditNowCardTheme
+            }}/>
         </div>
     )
 }

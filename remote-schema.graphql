@@ -769,13 +769,13 @@ input CardSubThemeMutationInput {
     createdBy: ID!
     id: ID
     name: String!
-    theme: ID!
+    theme: ID
 }
 
 input CardThemeMutationInput {
     clientMutationId: String
     createdBy: ID!
-    globalTheme: ID!
+    globalTheme: ID
     id: ID
     name: String!
 }

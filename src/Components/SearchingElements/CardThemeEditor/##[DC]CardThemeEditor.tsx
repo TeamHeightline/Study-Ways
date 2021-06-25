@@ -29,9 +29,20 @@ export default function DCCardThemeEditor({...props}: any){
 
     const handleSelect = (event, nodeIds) => {
         console.log(nodeIds)
-        if(nodeIds < 1000){
+        //Редактирование подтем
+        if(nodeIds < 999){
             props.setActiveEditData(props.all_sub_themes.find(obj => {return obj.id == nodeIds}).name)
-            console.log(props.all_sub_themes.find(obj => {return obj.id == nodeIds}).name)
+            // console.log(props.all_sub_themes.find(obj => {return obj.id == nodeIds}).name)
+        }
+        //Редактирование тем
+        if(nodeIds > 1000 && nodeIds < 999999){
+            // console.log(props.all_themes.find(obj => {return obj.id * 1000 == nodeIds}).name)
+            props.setActiveEditData(props.all_themes.find(obj => {return obj.id * 1000 == nodeIds}).name)
+        }
+        //Редактирование глобальных тем
+        if( nodeIds > 999999){
+            // console.log(props.all_global_themes.find(obj => {return obj.id * 1000000 == nodeIds}).name)
+            props.setActiveEditData(props.all_global_themes.find(obj => {return obj.id * 1000000 == nodeIds}).name)
         }
         setSelected(nodeIds);
     };
@@ -105,7 +116,7 @@ export default function DCCardThemeEditor({...props}: any){
 
                     </Fab>
                 </Row>
-                {props.isEditNowCardTheme  && Number(selected) < 1000 && <div>
+                {props.isEditNowCardTheme  && Number(selected) < 999 && <div>
                     <TextField
                         className="ml-2"
                         id="standard-multiline-flexible"
@@ -149,7 +160,7 @@ export default function DCCardThemeEditor({...props}: any){
                         <Spinner animation="border" variant="success" className="ml-2 mt-2"/>}
                     </Row>
                 </div>}
-                {props.isEditNowCardTheme   && Number(selected) > 1000000 && <div>
+                {props.isEditNowCardTheme   && Number(selected) > 999999 && <div>
                     <TextField
                         className="ml-2"
                         id="standard-multiline-flexible"

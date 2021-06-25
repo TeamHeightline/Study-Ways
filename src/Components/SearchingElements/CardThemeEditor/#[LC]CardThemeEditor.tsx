@@ -17,6 +17,8 @@ export default function LCCardThemeEditor(){
     const [all_sub_themes, set_all_sub_themes] = useState<{id: string , name: string}[]>()
     const [all_themes, set_all_themes] = useState<{id: string, name: string}[]>()
     const [all_global_themes, set_all_global_themes] = useState<{id: string | undefined, name: string | undefined}[]>()
+    const [activeEditData, setActiveEditData] = useState<string>('') //Текстовое поле для редактирования
+    // темы/подтемы/глобальной темы
 
     const {data: my_card_themes_data, } = useQuery<Query, null>(GET_MY_CARD_THEMES)
     const {data: all_card_themes_data, } = useQuery<Query, null>(ALL_CARD_THEMES)
@@ -75,7 +77,8 @@ export default function LCCardThemeEditor(){
         <div>
             <DCCardThemeEditor {...{selected_value, set_selected_value, all_card_themes_data, expanded,
                 setExpanded, isCreatingNowCardTheme, setIsCreatingNowCardTheme,  isEditNowCardTheme,
-                setIsEditNowCardTheme
+                setIsEditNowCardTheme, all_sub_themes, all_themes, all_global_themes, setActiveEditData,
+                activeEditData
             }}/>
         </div>
     )

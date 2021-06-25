@@ -51,8 +51,8 @@ export const ALL_CARD_THEMES = gql`
     }
 `
 export const UPDATE_CARD_SUB_THEME = gql`
-    mutation UPDATE_CARD_SUB_THEME{
-        cardSubTheme(input: {name: "", id: 0, createdBy: 0}){
+    mutation UPDATE_CARD_SUB_THEME($name: String!, $id: ID!){
+        cardSubTheme(input: {name: $name, id: $id, createdBy: 0}){
             clientMutationId
         }
     }

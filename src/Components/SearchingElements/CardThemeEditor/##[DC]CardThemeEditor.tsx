@@ -27,28 +27,7 @@ export default function DCCardThemeEditor({...props}: any){
         props.setExpanded(nodeIds);
     };
 
-    const handleSelect = (event, nodeIds) => {
-        console.log(nodeIds)
-        //Редактирование подтем
-        if(nodeIds < 999){
-            props.setActiveEditData(props.all_sub_themes.find(obj => {return obj.id == nodeIds}).name)
-            props.set_selected_sub_theme_ID(nodeIds)
-            // console.log(props.all_sub_themes.find(obj => {return obj.id == nodeIds}).name)
-        }
-        //Редактирование тем
-        if(nodeIds > 1000 && nodeIds < 999999){
-            // console.log(props.all_themes.find(obj => {return obj.id * 1000 == nodeIds}).name)
-            props.setActiveEditData(props.all_themes.find(obj => {return obj.id * 1000 == nodeIds}).name)
-            props.set_selected_theme_ID(Number(nodeIds) /1000)
-        }
-        //Редактирование глобальных тем
-        if( nodeIds > 999999){
-            // console.log(props.all_global_themes.find(obj => {return obj.id * 1000000 == nodeIds}).name)
-            props.setActiveEditData(props.all_global_themes.find(obj => {return obj.id * 1000000 == nodeIds}).name)
-            props.set_selected_global_theme_ID(Number(nodeIds)/1000000)
-        }
-        props.set_selected_id(nodeIds);
-    };
+
     if(!props.all_card_themes_data){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
@@ -65,7 +44,7 @@ export default function DCCardThemeEditor({...props}: any){
                     expanded={props.expanded}
                     selected={props.selected_id}
                     onNodeToggle={handleToggle}
-                    onNodeSelect={handleSelect}
+                    onNodeSelect={props.handleSelect}
                     defaultExpanded={props.expanded}
                 >
                     {props.all_card_themes_data?.cardGlobalTheme?.map((sameGlobalTheme) =>{

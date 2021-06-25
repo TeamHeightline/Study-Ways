@@ -2,26 +2,39 @@ import React, {useEffect, useState} from 'react'
 import {
     GET_MY_CARD_THEMES,
     ALL_CARD_THEMES,
-    CARD_SUB_THEMES,
+    CARD_SUB_THEMES, UPDATE_CARD_SUB_THEME,
 } from './Structs'
-import {useQuery} from "@apollo/client";
-import {Query, UserNode} from "../../../../SchemaTypes";
+import {useMutation, useQuery} from "@apollo/client";
+import {Mutation, Query, UserNode} from "../../../../SchemaTypes";
 import DCCardThemeEditor from "./##[DC]CardThemeEditor";
 import {string} from "prop-types";
 export default function LCCardThemeEditor(){
     const [my_card_sub_themes, set_my_card_sub_themes] = useState<CARD_SUB_THEMES>()
     const [expanded, setExpanded] = useState<string[]>([])
-    const [selected_value, set_selected_value] = useState()
-    const [isCreatingNowCardTheme, setIsCreatingNowCardTheme] = useState(false)
-    const [isEditNowCardTheme, setIsEditNowCardTheme] = useState(false)
-    const [all_sub_themes, set_all_sub_themes] = useState<{id: string , name: string}[]>()
-    const [all_themes, set_all_themes] = useState<{id: string, name: string}[]>()
-    const [all_global_themes, set_all_global_themes] = useState<{id: string | undefined, name: string | undefined}[]>()
+    const [selected_id, set_selected_id] = useState<string>('') //Это значение будет "испорчено"
+    //корректором ID для дерева, по этому нужно завести отдельно "чистые" выбранные ID
+    const [selected_sub_theme_ID, set_selected_sub_theme_ID] = useState('')
+    const [selected_theme_ID, set_selected_theme_ID] = useState('')
+    const [selected_global_theme_ID, set_selected_global_theme_ID] = useState('')
+
+    const [isCreatingNowCardTheme, setIsCreatingNowCardTheme] = useState(false) //Режим создания новой темы
+    const [isEditNowCardTheme, setIsEditNowCardTheme] = useState(false) //Режим редактирования темы
+    const [all_sub_themes, set_all_sub_themes] = useState<{id: string , name: string}[]>() //Чистый массив подтем, нужен для поиска в нем
+    const [all_themes, set_all_themes] = useState<{id: string, name: string}[]>() //Чистый массив тем, нужен для поиска в нем
+    const [all_global_themes, set_all_global_themes] = useState<{id: string | undefined, name: string | undefined}[]>() //Чистый массив глобальных тем, нужен для поиска в нем
     const [activeEditData, setActiveEditData] = useState<string>('') //Текстовое поле для редактирования
     // темы/подтемы/глобальной темы
 
     const {data: my_card_themes_data, } = useQuery<Query, null>(GET_MY_CARD_THEMES)
-    const {data: all_card_themes_data, } = useQuery<Query, null>(ALL_CARD_THEMES)
+    const {data: all_card_themes_data, refetch: refetch_all_card_themes_data} = useQuery<Query, null>(ALL_CARD_THEMES)
+    const [update_sub_theme, {loading: update_sub_theme_loading}] = useMutation<Mutation, {name: string, id: string}>(UPDATE_CARD_SUB_THEME, {
+        variables:{
+            name: activeEditData,
+            id: selected_sub_theme_ID,
+        },
+        onCompleted: data => refetch_all_card_themes_data(),
+        onError: error => console.log("Sub Theme Save Error: " + error)
+    })
     // console.log(my_card_themes_data)
     useEffect(() =>{
         //Собираем массив подтем, которые принадлежат тому, кто редактирует, понадобится потом уже для того,
@@ -75,10 +88,12 @@ export default function LCCardThemeEditor(){
     }, [all_card_themes_data]) //подписка на любые изменения в данных о темах
     return(
         <div>
-            <DCCardThemeEditor {...{selected_value, set_selected_value, all_card_themes_data, expanded,
+            <DCCardThemeEditor {...{selected_id, set_selected_id, all_card_themes_data, expanded,
                 setExpanded, isCreatingNowCardTheme, setIsCreatingNowCardTheme,  isEditNowCardTheme,
                 setIsEditNowCardTheme, all_sub_themes, all_themes, all_global_themes, setActiveEditData,
-                activeEditData
+                activeEditData, selected_sub_theme_ID, set_selected_sub_theme_ID, selected_theme_ID,
+                set_selected_theme_ID, selected_global_theme_ID, set_selected_global_theme_ID,
+                update_sub_theme, update_sub_theme_loading
             }}/>
         </div>
     )

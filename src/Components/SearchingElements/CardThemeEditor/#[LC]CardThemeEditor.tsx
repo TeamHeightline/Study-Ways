@@ -14,15 +14,15 @@ export default function LCCardThemeEditor(){
     const [selected_id, set_selected_id] = useState<string>('') //Это значение будет "испорчено"
     //корректором ID для дерева, по этому нужно завести отдельно "чистые" выбранные ID
     const [selected_sub_theme_ID, set_selected_sub_theme_ID] = useState('')
-    const [selected_theme_ID, set_selected_theme_ID] = useState('')
+    const [selected_theme_ID, set_selected_theme_ID] = useState<string| undefined>('')
     const [selected_global_theme_ID, set_selected_global_theme_ID] = useState('')
 
     const [isCreatingNowCardTheme, setIsCreatingNowCardTheme] = useState(false) //Режим создания новой темы
     const [isEditNowCardTheme, setIsEditNowCardTheme] = useState(false) //Режим редактирования темы
-    const [all_sub_themes, set_all_sub_themes] = useState<{id: string , name: string}[]>() //Чистый массив подтем, нужен для поиска в нем
+    const [all_sub_themes, set_all_sub_themes] = useState<{id: string , name: string}[] | undefined>() //Чистый массив подтем, нужен для поиска в нем
     const [all_themes, set_all_themes] = useState<{id: string, name: string}[]>() //Чистый массив тем, нужен для поиска в нем
     const [all_global_themes, set_all_global_themes] = useState<{id: string | undefined, name: string | undefined}[]>() //Чистый массив глобальных тем, нужен для поиска в нем
-    const [activeEditData, setActiveEditData] = useState<string>('') //Текстовое поле для редактирования
+    const [activeEditData, setActiveEditData] = useState<string | any>('') //Текстовое поле для редактирования
     // темы/подтемы/глобальной темы
 
     const {data: my_card_themes_data, } = useQuery<Query, null>(GET_MY_CARD_THEMES)
@@ -86,6 +86,28 @@ export default function LCCardThemeEditor(){
             set_all_sub_themes(__all_sub_themes)
         }
     }, [all_card_themes_data]) //подписка на любые изменения в данных о темах
+    const handleSelect = (event, nodeIds) => {
+        console.log(nodeIds)
+        //Редактирование подтем
+        if(nodeIds < 999){
+            setActiveEditData(all_sub_themes?.find(obj => {return obj?.id == nodeIds})?.name)
+            set_selected_sub_theme_ID(nodeIds)
+            // console.log(props.all_sub_themes.find(obj => {return obj.id == nodeIds}).name)
+        }
+        //Редактирование тем
+        if(nodeIds > 1000 && nodeIds < 999999){
+            // console.log(props.all_themes.find(obj => {return obj.id * 1000 == nodeIds}).name)
+            setActiveEditData(all_themes?.find(obj => {return Number(obj?.id) * 1000 == Number(nodeIds)})?.name)
+            set_selected_theme_ID(String(Number(nodeIds) /1000))
+        }
+        //Редактирование глобальных тем
+        if( nodeIds > 999999){
+            // console.log(props.all_global_themes.find(obj => {return obj.id * 1000000 == nodeIds}).name)
+            setActiveEditData(all_global_themes?.find(obj => {return Number(obj?.id) * 1000000 == Number(nodeIds)})?.name)
+            set_selected_global_theme_ID(String(Number(nodeIds)/1000000))
+        }
+        set_selected_id(nodeIds);
+    };
     return(
         <div>
             <DCCardThemeEditor {...{selected_id, set_selected_id, all_card_themes_data, expanded,
@@ -93,7 +115,7 @@ export default function LCCardThemeEditor(){
                 setIsEditNowCardTheme, all_sub_themes, all_themes, all_global_themes, setActiveEditData,
                 activeEditData, selected_sub_theme_ID, set_selected_sub_theme_ID, selected_theme_ID,
                 set_selected_theme_ID, selected_global_theme_ID, set_selected_global_theme_ID,
-                update_sub_theme, update_sub_theme_loading
+                update_sub_theme, update_sub_theme_loading, handleSelect
             }}/>
         </div>
     )

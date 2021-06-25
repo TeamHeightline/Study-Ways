@@ -21,14 +21,18 @@ const useStyles = makeStyles({
 
 export default function DCCardThemeEditor({...props}: any){
     const classes = useStyles();
-    const [selected, setSelected] = React.useState(['']);
+    const [selected, setSelected] = React.useState('');
     const handleToggle = (event, nodeIds) => {
         // console.log(nodeIds)
         props.setExpanded(nodeIds);
     };
 
     const handleSelect = (event, nodeIds) => {
-        console.log(selected)
+        console.log(nodeIds)
+        if(nodeIds < 1000){
+            props.setActiveEditData(props.all_sub_themes.find(obj => {return obj.id == nodeIds}).name)
+            console.log(props.all_sub_themes.find(obj => {return obj.id == nodeIds}).name)
+        }
         setSelected(nodeIds);
     };
     if(!props.all_card_themes_data){
@@ -107,15 +111,61 @@ export default function DCCardThemeEditor({...props}: any){
                         id="standard-multiline-flexible"
                         label="Название подтемы"
                         fullWidth
-                        value={props.activeEditUserTestThemeName}
+                        value={props.activeEditData}
                         onChange={(e) =>{
-                            props.setActiveEditUserTestThemeName(e.target.value)}
+                            props.setActiveEditData(e.target.value)}
                         }
                     />
                     <Row className="mt-2 ml-2">
-                        <Button variant="contained" color="primary" onClick={() =>{
-                            props.update_theme()}}>
-                            Сохранить
+                        <Button variant="contained" color="primary"
+                                // onClick={() =>{
+                            // props.update_theme()}}
+                            >
+                            Сохранить подтему
+                        </Button>
+                        {props.update_theme_loading &&
+                        <Spinner animation="border" variant="success" className="ml-2 mt-2"/>}
+                    </Row>
+                </div>}
+                {props.isEditNowCardTheme  && Number(selected) > 1000 && Number(selected) < 1000000 && <div>
+                    <TextField
+                        className="ml-2"
+                        id="standard-multiline-flexible"
+                        label="Название темы"
+                        fullWidth
+                        value={props.activeEditData}
+                        onChange={(e) =>{
+                            props.setActiveEditData(e.target.value)}
+                        }
+                    />
+                    <Row className="mt-2 ml-2">
+                        <Button variant="contained" color="primary"
+                                // onClick={() =>{
+                            // props.update_theme()}}
+                                    >
+                            Сохранить тему
+                        </Button>
+                        {props.update_theme_loading &&
+                        <Spinner animation="border" variant="success" className="ml-2 mt-2"/>}
+                    </Row>
+                </div>}
+                {props.isEditNowCardTheme   && Number(selected) > 1000000 && <div>
+                    <TextField
+                        className="ml-2"
+                        id="standard-multiline-flexible"
+                        label="Название глобальной темы"
+                        fullWidth
+                        value={props.activeEditData}
+                        onChange={(e) =>{
+                            props.setActiveEditData(e.target.value)}
+                        }
+                    />
+                    <Row className="mt-2 ml-2">
+                        <Button variant="contained" color="primary"
+                            // onClick={() =>{
+                            // props.update_theme()}}
+                        >
+                            Сохранить глобальную тему
                         </Button>
                         {props.update_theme_loading &&
                         <Spinner animation="border" variant="success" className="ml-2 mt-2"/>}

@@ -2,14 +2,15 @@ import React, {useEffect, useState} from 'react'
 import {
     GET_MY_CARD_THEMES,
     ALL_CARD_THEMES,
-    CARD_SUB_THEMES, UPDATE_CARD_SUB_THEME,
+    CARD_SUB_THEMES,
+    UPDATE_CARD_SUB_THEME,
+    GET_MY_SUB_THEMES
 } from './Structs'
 import {useMutation, useQuery} from "@apollo/client";
 import {Mutation, Query, UserNode} from "../../../../SchemaTypes";
 import DCCardThemeEditor from "./##[DC]CardThemeEditor";
 import {string} from "prop-types";
 export default function LCCardThemeEditor(){
-    const [my_card_sub_themes, set_my_card_sub_themes] = useState<CARD_SUB_THEMES>()
     const [expanded, setExpanded] = useState<string[]>([])
     const [selected_id, set_selected_id] = useState<string>('') //Это значение будет "испорчено"
     //корректором ID для дерева, по этому нужно завести отдельно "чистые" выбранные ID
@@ -25,8 +26,7 @@ export default function LCCardThemeEditor(){
     const [all_global_themes, set_all_global_themes] = useState<{id: string | undefined, name: string | undefined}[]>() //Чистый массив глобальных тем, нужен для поиска в нем
     const [activeEditData, setActiveEditData] = useState<string | any>('') //Текстовое поле для редактирования
     // темы/подтемы/глобальной темы
-
-    const {data: my_card_themes_data, } = useQuery<Query, null>(GET_MY_CARD_THEMES)
+    const {data: my_sub_theme_data} = useQuery<Query, null>(GET_MY_SUB_THEMES)
     const {data: all_card_themes_data, refetch: refetch_all_card_themes_data} = useQuery<Query, null>(ALL_CARD_THEMES)
     const [update_sub_theme, {loading: update_sub_theme_loading}] = useMutation<Mutation, {name: string, id: string}>(UPDATE_CARD_SUB_THEME, {
         variables:{
@@ -36,24 +36,6 @@ export default function LCCardThemeEditor(){
         onCompleted: data => refetch_all_card_themes_data(),
         onError: error => console.log("Sub Theme Save Error: " + error)
     })
-    // console.log(my_card_themes_data)
-    useEffect(() =>{
-        //Собираем массив подтем, которые принадлежат тому, кто редактирует, понадобится потом уже для того,
-        //чтобы отображать или нет кнопку редактирования для подтемы/темы/глобальной темы
-        if(my_card_themes_data){
-            const __my_card_sub_themes__: CARD_SUB_THEMES =[{name:'', id: "10000"}]//костыль, не знаю, как правильно
-             __my_card_sub_themes__.splice(0, 1) //инициализировать пустые объекты
-            console.log(my_card_themes_data)
-            my_card_themes_data?.me?.globalcardthemeSet.map((sameGlobalTheme) =>{
-                sameGlobalTheme.cardthemeSet.map((sameCardTheme) =>{
-                    sameCardTheme.cardsubthemeSet.map((sameSubTheme) =>{
-                        __my_card_sub_themes__.push({name: sameSubTheme.name, id: sameSubTheme.id})
-                    })
-                })
-            })
-            set_my_card_sub_themes(__my_card_sub_themes__)
-        }
-    }, [my_card_themes_data]) // подписка на любые изменения в собственных темах
     useEffect(() =>{
         const __expanded: string[] = [] //собираем адйдишники, чтобы про появление списка он уже был
         //раскрыт на этих элементах
@@ -93,12 +75,13 @@ export default function LCCardThemeEditor(){
         //Редактирование подтем
         let __canBeEdited = false
         if(nodeIds < 999){
-            if(my_card_sub_themes?.find(obj => { //просто проходим по подтемат, пренадлежащим пользователю, если там
-                // есть совпедение с кликнутым - редактровать можно
+            if(my_sub_theme_data?.me?.cardsubthemeSet?.find(obj => {
+                //просто проходим по подтемат, пренадлежащим пользователю, если там
+                // есть совпедение с кликнутым - редактровать можно, обязательно получать подтемы именно отдельным запросом,
+                //потому что если попробовать достать подтемы из me запроса для более высокого уровня, то там будут чужие
+                //варианты
                 return(obj?.id == nodeIds)
             })){
-                console.log(my_card_sub_themes)
-                console.log(nodeIds)
                 __canBeEdited = true
             }
             setActiveEditData(all_sub_themes?.find(obj => {return obj?.id == nodeIds})?.name)

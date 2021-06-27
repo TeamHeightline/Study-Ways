@@ -20,6 +20,15 @@ export const GET_MY_CARD_THEMES = gql`
         }
     }
 `
+export const GET_MY_SUB_THEMES = gql`
+    query GET_MY_SUB_THEMES{
+        me{
+            cardsubthemeSet{
+                id
+                name
+            }
+        }
+    }`
 
 export type GlobalCardThemeNode = {
     __typename?: "GlobalCardThemeNode"

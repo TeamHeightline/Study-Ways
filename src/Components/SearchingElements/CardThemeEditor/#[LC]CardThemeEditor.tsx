@@ -19,6 +19,7 @@ export default function LCCardThemeEditor(){
 
     const [isCreatingNowCardTheme, setIsCreatingNowCardTheme] = useState(false) //Режим создания новой темы
     const [isEditNowCardTheme, setIsEditNowCardTheme] = useState(false) //Режим редактирования темы
+    const [canBeEdited, setCanBeEdited] = useState(false)//Может ли юзер редактировать тему (прописан он в created_by или нет)
     const [all_sub_themes, set_all_sub_themes] = useState<{id: string , name: string}[] | undefined>() //Чистый массив подтем, нужен для поиска в нем
     const [all_themes, set_all_themes] = useState<{id: string, name: string}[]>() //Чистый массив тем, нужен для поиска в нем
     const [all_global_themes, set_all_global_themes] = useState<{id: string | undefined, name: string | undefined}[]>() //Чистый массив глобальных тем, нужен для поиска в нем
@@ -42,6 +43,7 @@ export default function LCCardThemeEditor(){
         if(my_card_themes_data){
             const __my_card_sub_themes__: CARD_SUB_THEMES =[{name:'', id: "10000"}]//костыль, не знаю, как правильно
              __my_card_sub_themes__.splice(0, 1) //инициализировать пустые объекты
+            console.log(my_card_themes_data)
             my_card_themes_data?.me?.globalcardthemeSet.map((sameGlobalTheme) =>{
                 sameGlobalTheme.cardthemeSet.map((sameCardTheme) =>{
                     sameCardTheme.cardsubthemeSet.map((sameSubTheme) =>{
@@ -89,7 +91,16 @@ export default function LCCardThemeEditor(){
     const handleSelect = (event, nodeIds) => {
         console.log(nodeIds)
         //Редактирование подтем
+        let __canBeEdited = false
         if(nodeIds < 999){
+            if(my_card_sub_themes?.find(obj => { //просто проходим по подтемат, пренадлежащим пользователю, если там
+                // есть совпедение с кликнутым - редактровать можно
+                return(obj?.id == nodeIds)
+            })){
+                console.log(my_card_sub_themes)
+                console.log(nodeIds)
+                __canBeEdited = true
+            }
             setActiveEditData(all_sub_themes?.find(obj => {return obj?.id == nodeIds})?.name)
             set_selected_sub_theme_ID(nodeIds)
             // console.log(props.all_sub_themes.find(obj => {return obj.id == nodeIds}).name)
@@ -107,6 +118,8 @@ export default function LCCardThemeEditor(){
             set_selected_global_theme_ID(String(Number(nodeIds)/1000000))
         }
         set_selected_id(nodeIds);
+        setCanBeEdited(__canBeEdited); //Устонавливаем уже после всех возможных проверок на то, что эта подтема или тема или глобальная тема
+        //принадлежит этому пользователю
     };
     return(
         <div>
@@ -115,7 +128,7 @@ export default function LCCardThemeEditor(){
                 setIsEditNowCardTheme, all_sub_themes, all_themes, all_global_themes, setActiveEditData,
                 activeEditData, selected_sub_theme_ID, set_selected_sub_theme_ID, selected_theme_ID,
                 set_selected_theme_ID, selected_global_theme_ID, set_selected_global_theme_ID,
-                update_sub_theme, update_sub_theme_loading, handleSelect
+                update_sub_theme, update_sub_theme_loading, handleSelect, canBeEdited, setCanBeEdited
             }}/>
         </div>
     )

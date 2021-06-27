@@ -74,17 +74,17 @@ export default function DCCardThemeEditor({...props}: any){
                 </TreeView>
                 <Divider />
                 <Row className="col-3 offset-9 mt-2">
-                    <Fab color="primary"
-
-                         onClick={() =>{
-                             if(props.isCreatingNowCardTheme){
-                                 props.setIsCreatingNowCardTheme(false)
-                             }
-                             props.setIsEditNowCardTheme(!props.isEditNowCardTheme)
-                         }}
-                    >
-                        <SettingsIcon />
-                    </Fab>
+                     <Fab color="primary"
+                          disabled={!props.canBeEdited}
+                          onClick={() =>{
+                              if(props.isCreatingNowCardTheme){
+                                  props.setIsCreatingNowCardTheme(false)
+                              }
+                              props.setIsEditNowCardTheme(!props.isEditNowCardTheme)
+                          }}
+                     >
+                         <SettingsIcon />
+                     </Fab>
                     <Fab color="primary"
                          className="ml-2"
                          onClick={() =>{
@@ -98,7 +98,7 @@ export default function DCCardThemeEditor({...props}: any){
 
                     </Fab>
                 </Row>
-                {props.isEditNowCardTheme  && Number(props.selected_id) < 999 && <div>
+                {props.isEditNowCardTheme && props.canBeEdited  && Number(props.selected_id) < 999 && <div>
                     <TextField
                         className="ml-2"
                         id="standard-multiline-flexible"

@@ -72,3 +72,10 @@ export const UPDATE_CARD_GLOBAL_THEME = gql`
             clientMutationId
         }
     }`
+
+export const CREATE_SUB_THEME = gql`
+    mutation CREATE_SUB_THEME($name: String!, $theme: ID!){
+        cardSubTheme(input: {name: $name, theme: $theme, createdBy: 0}){
+            clientMutationId
+        }
+    }`

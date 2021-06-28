@@ -5,18 +5,20 @@ import {
     UPDATE_CARD_SUB_THEME,
     GET_MY_SUB_THEMES,
     GET_MY_THEMES,
-    GET_MY_GLOBAL_THEMES
+    GET_MY_GLOBAL_THEMES,
+    UPDATE_CARD_GLOBAL_THEME
 } from './Structs'
 import {useMutation, useQuery} from "@apollo/client";
 import {Mutation, Query, UserNode} from "../../../../SchemaTypes";
 import DCCardThemeEditor from "./##[DC]CardThemeEditor";
 import {string} from "prop-types";
 export default function LCCardThemeEditor(){
-    const [expanded, setExpanded] = useState<string[]>([])
+    const [expanded, setExpanded] = useState<string[]>([])//Это массив в котором все IDs тем подтем
+    // и глобальных тем, которые нужно отобразить
     const [selected_id, set_selected_id] = useState<string>('') //Это значение будет "испорчено"
     //корректором ID для дерева, по этому нужно завести отдельно "чистые" выбранные ID
     const [selected_sub_theme_ID, set_selected_sub_theme_ID] = useState('')
-    const [selected_theme_ID, set_selected_theme_ID] = useState<string| undefined>('')
+    const [selected_theme_ID, set_selected_theme_ID] = useState<string| any>('')
     const [selected_global_theme_ID, set_selected_global_theme_ID] = useState('')
 
     const [isCreatingNowCardTheme, setIsCreatingNowCardTheme] = useState(false) //Режим создания новой темы
@@ -38,6 +40,14 @@ export default function LCCardThemeEditor(){
         },
         onCompleted: data => refetch_all_card_themes_data(),
         onError: error => console.log("Sub Theme Save Error: " + error)
+    })
+    const [update_global_theme, {loading: update_global_theme_loading}] = useMutation<Mutation, {name: string, id: string}>(UPDATE_CARD_GLOBAL_THEME,{
+        variables:{
+            name: activeEditData,
+            id: selected_global_theme_ID
+        },
+        onCompleted: data => refetch_all_card_themes_data(),
+        onError: error => console.log("Theme Save Error: " + error)
     })
     useEffect(() =>{
         const __expanded: string[] = [] //собираем адйдишники, чтобы про появление списка он уже был
@@ -126,7 +136,8 @@ export default function LCCardThemeEditor(){
                 setIsEditNowCardTheme, all_sub_themes, all_themes, all_global_themes, setActiveEditData,
                 activeEditData, selected_sub_theme_ID, set_selected_sub_theme_ID, selected_theme_ID,
                 set_selected_theme_ID, selected_global_theme_ID, set_selected_global_theme_ID,
-                update_sub_theme, update_sub_theme_loading, handleSelect, canBeEdited, setCanBeEdited
+                update_sub_theme, update_sub_theme_loading, handleSelect, canBeEdited, setCanBeEdited,
+                update_global_theme, update_global_theme_loading
             }}/>
         </div>
     )

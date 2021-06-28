@@ -120,7 +120,7 @@ export default function DCCardThemeEditor({...props}: any){
                         <Spinner animation="border" variant="success" className="ml-2 mt-2"/>}
                     </Row>
                 </div>}
-                {props.isEditNowCardTheme  && Number(props.selected_id) > 1000 && Number(props.selected_id) < 1000000 && <div>
+                {props.isEditNowCardTheme && props.canBeEdited && Number(props.selected_id) > 1000 && Number(props.selected_id) < 1000000 && <div>
                     <TextField
                         className="ml-2"
                         id="standard-multiline-flexible"

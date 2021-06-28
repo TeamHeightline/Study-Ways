@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react'
 import {
     ALL_CARD_THEMES,
-    CARD_SUB_THEMES,
     UPDATE_CARD_SUB_THEME,
     GET_MY_SUB_THEMES,
     GET_MY_THEMES,
     GET_MY_GLOBAL_THEMES,
-    UPDATE_CARD_GLOBAL_THEME
+    UPDATE_CARD_GLOBAL_THEME,
+    UPDATE_CARD_THEMES
 } from './Structs'
 import {useMutation, useQuery} from "@apollo/client";
 import {Mutation, Query, UserNode} from "../../../../SchemaTypes";
@@ -41,13 +41,21 @@ export default function LCCardThemeEditor(){
         onCompleted: data => refetch_all_card_themes_data(),
         onError: error => console.log("Sub Theme Save Error: " + error)
     })
+    const [update_theme, {loading: update_theme_loading}] = useMutation<Mutation, {name: string, id: string}>(UPDATE_CARD_THEMES, {
+        variables:{
+            name: activeEditData,
+            id: selected_theme_ID
+        },
+        onCompleted: data => refetch_all_card_themes_data(),
+        onError: error => console.log("Theme Save Error: " + error)
+    })
     const [update_global_theme, {loading: update_global_theme_loading}] = useMutation<Mutation, {name: string, id: string}>(UPDATE_CARD_GLOBAL_THEME,{
         variables:{
             name: activeEditData,
             id: selected_global_theme_ID
         },
         onCompleted: data => refetch_all_card_themes_data(),
-        onError: error => console.log("Theme Save Error: " + error)
+        onError: error => console.log("Global Theme Save Error: " + error)
     })
     useEffect(() =>{
         const __expanded: string[] = [] //собираем адйдишники, чтобы про появление списка он уже был
@@ -137,7 +145,7 @@ export default function LCCardThemeEditor(){
                 activeEditData, selected_sub_theme_ID, set_selected_sub_theme_ID, selected_theme_ID,
                 set_selected_theme_ID, selected_global_theme_ID, set_selected_global_theme_ID,
                 update_sub_theme, update_sub_theme_loading, handleSelect, canBeEdited, setCanBeEdited,
-                update_global_theme, update_global_theme_loading
+                update_global_theme, update_global_theme_loading, update_theme, update_theme_loading
             }}/>
         </div>
     )

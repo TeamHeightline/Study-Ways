@@ -106,7 +106,7 @@ export default function DCCardThemeEditor({...props}: any){
                                  props.setIsEditNowCardTheme(false)
                                  props.setIsCreatingNowCardTheme(false)
 
-                                 props.setIsAddingNowSubInstance(!props.setIsAddingNowSubInstance)
+                                 props.setIsAddingNowSubInstance(!props.isAddingNowSubInstance)
                              }}
                         >
                             <SubdirectoryArrowRightIcon/>
@@ -180,7 +180,31 @@ export default function DCCardThemeEditor({...props}: any){
                         <Spinner animation="border" variant="success" className="ml-2 mt-2"/>}
                     </Row>
                 </div>}
-
+                {((props.isCreatingNowCardTheme && Number(props.selected_id) < 1000) ||
+                    (props.isAddingNowSubInstance && Number(props.selected_id) >= 1000 && Number(props.selected_id) < 1000000))
+                && <div>
+                    <TextField
+                        className="ml-2"
+                        id="standard-multiline-flexible"
+                        label="Название новой подтемы"
+                        fullWidth
+                        value={props.activeAddData}
+                        onChange={(e) =>{
+                        props.setActiveAddData(e.target.value)}
+                    }
+                        />
+                        <Row className="mt-2 ml-2">
+                        <Button variant="contained" color="primary"
+                        onClick={() =>{
+                        props.create_sub_theme()}}
+                        >
+                            Создать подтему
+                        </Button>
+                    {props.create_sub_theme_loading &&
+                        <Spinner animation="border" variant="success" className="ml-2 mt-2"/>}
+                        </Row>
+                </div>
+                }
             </div>
         </div>
     )

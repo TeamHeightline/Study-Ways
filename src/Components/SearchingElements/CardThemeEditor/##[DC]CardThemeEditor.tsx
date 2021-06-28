@@ -134,8 +134,9 @@ export default function DCCardThemeEditor({...props}: any){
                     <Row className="mt-2 ml-2">
                         <Button variant="contained" color="primary"
                                 // onClick={() =>{
-                            // props.update_theme()}}
-                                    >
+                                //     props.update_theme()}
+                                // }
+                        >
                             Сохранить тему
                         </Button>
                         {props.update_theme_loading &&
@@ -155,12 +156,12 @@ export default function DCCardThemeEditor({...props}: any){
                     />
                     <Row className="mt-2 ml-2">
                         <Button variant="contained" color="primary"
-                            // onClick={() =>{
-                            // props.update_theme()}}
+                            onClick={() =>{
+                            props.update_global_theme()}}
                         >
                             Сохранить глобальную тему
                         </Button>
-                        {props.update_theme_loading &&
+                        {props.update_global_theme_loading &&
                         <Spinner animation="border" variant="success" className="ml-2 mt-2"/>}
                     </Row>
                 </div>}

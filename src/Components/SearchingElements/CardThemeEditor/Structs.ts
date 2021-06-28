@@ -2,24 +2,6 @@ import {gql} from "graphql.macro";
 import {number} from "prop-types";
 import {CardThemeNode, Scalars} from "../../../../SchemaTypes";
 
-export const GET_MY_CARD_THEMES = gql`
-    query GET_MY_CARD_THEMES{
-        me{
-            globalcardthemeSet{
-                id
-                name
-                cardthemeSet{
-                    id
-                    name
-                    cardsubthemeSet{
-                        id
-                        name
-                    }
-                }
-            }
-        }
-    }
-`
 export const GET_MY_SUB_THEMES = gql`
     query GET_MY_SUB_THEMES{
         me{
@@ -29,7 +11,15 @@ export const GET_MY_SUB_THEMES = gql`
             }
         }
     }`
-
+export const GET_MY_THEMES = gql`
+    query GET_MY_THEMES{
+        me{
+            cardthemeSet{
+                id
+                name
+            }
+        }
+    }`
 export type GlobalCardThemeNode = {
     __typename?: "GlobalCardThemeNode"
     cardthemeSet: Array<CardThemeNode>

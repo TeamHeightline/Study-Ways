@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import {
-    GET_MY_CARD_THEMES,
     ALL_CARD_THEMES,
     CARD_SUB_THEMES,
     UPDATE_CARD_SUB_THEME,
-    GET_MY_SUB_THEMES
+    GET_MY_SUB_THEMES,
+    GET_MY_THEMES
 } from './Structs'
 import {useMutation, useQuery} from "@apollo/client";
 import {Mutation, Query, UserNode} from "../../../../SchemaTypes";
@@ -26,7 +26,8 @@ export default function LCCardThemeEditor(){
     const [all_global_themes, set_all_global_themes] = useState<{id: string | undefined, name: string | undefined}[]>() //Чистый массив глобальных тем, нужен для поиска в нем
     const [activeEditData, setActiveEditData] = useState<string | any>('') //Текстовое поле для редактирования
     // темы/подтемы/глобальной темы
-    const {data: my_sub_theme_data} = useQuery<Query, null>(GET_MY_SUB_THEMES)
+    const {data: my_sub_theme_data} = useQuery<Query, null>(GET_MY_SUB_THEMES)//Получаем подтемы карточек
+    const {data: my_themes_data} = useQuery<Query, null>(GET_MY_THEMES)//Получаем наши темы
     const {data: all_card_themes_data, refetch: refetch_all_card_themes_data} = useQuery<Query, null>(ALL_CARD_THEMES)
     const [update_sub_theme, {loading: update_sub_theme_loading}] = useMutation<Mutation, {name: string, id: string}>(UPDATE_CARD_SUB_THEME, {
         variables:{
@@ -90,6 +91,13 @@ export default function LCCardThemeEditor(){
         }
         //Редактирование тем
         if(nodeIds > 1000 && nodeIds < 999999){
+            if(my_themes_data?.me?.cardthemeSet?.find(obj =>{
+                //Проверяем, есть ли в массиве моих тем тема с ID
+                //как у выбранного, про этом стоит помнить, что ID для обычных тем умножаются на 10^3
+                return(Number(obj?.id)*1000 == nodeIds)
+            })){
+                __canBeEdited = true
+            }
             // console.log(props.all_themes.find(obj => {return obj.id * 1000 == nodeIds}).name)
             setActiveEditData(all_themes?.find(obj => {return Number(obj?.id) * 1000 == Number(nodeIds)})?.name)
             set_selected_theme_ID(String(Number(nodeIds) /1000))

@@ -6,7 +6,8 @@ import {
     GET_MY_THEMES,
     GET_MY_GLOBAL_THEMES,
     UPDATE_CARD_GLOBAL_THEME,
-    UPDATE_CARD_THEMES
+    UPDATE_CARD_THEMES,
+    CREATE_SUB_THEME
 } from './Structs'
 import {useMutation, useQuery} from "@apollo/client";
 import {Mutation, Query, UserNode} from "../../../../SchemaTypes";
@@ -21,19 +22,25 @@ export default function LCCardThemeEditor(){
     const [selected_theme_ID, set_selected_theme_ID] = useState<string| any>('')
     const [selected_global_theme_ID, set_selected_global_theme_ID] = useState('')
 
+    const [themeIDForAddSubTheme, setThemeIDForAddSubTheme] = useState<number | any>()
+
     const [isCreatingNowCardTheme, setIsCreatingNowCardTheme] = useState(false) //Режим создания новой темы
     const [isEditNowCardTheme, setIsEditNowCardTheme] = useState(false) //Режим редактирования темы
     const [isAddingNowSubInstance, setIsAddingNowSubInstance] = useState(false)//Режим добавления подсущности (например для тем - это добавление подтемы)
+
     const [canBeEdited, setCanBeEdited] = useState(false)//Может ли юзер редактировать тему (прописан он в created_by или нет)
     const [canAddSubItem, setCanAddSubItem] = useState(false)//Может ли юзер добавить подсущность (для темы - подтему, для глобальной темы- просто тему)
+
     const [all_sub_themes, set_all_sub_themes] = useState<{id: string , name: string}[] | undefined>() //Чистый массив подтем, нужен для поиска в нем
     const [all_themes, set_all_themes] = useState<{id: string, name: string}[]>() //Чистый массив тем, нужен для поиска в нем
     const [all_global_themes, set_all_global_themes] = useState<{id: string | undefined, name: string | undefined}[]>() //Чистый массив глобальных тем, нужен для поиска в нем
+
     const [activeEditData, setActiveEditData] = useState<string | any>('') //Текстовое поле для редактирования
+    const [activeAddData, setActiveAddData] = useState<string | any>('')//Текстовое поле для добавления
     // темы/подтемы/глобальной темы
-    const {data: my_sub_theme_data} = useQuery<Query, null>(GET_MY_SUB_THEMES)//Получаем подтемы карточек
-    const {data: my_themes_data} = useQuery<Query, null>(GET_MY_THEMES)//Получаем наши темы
-    const {data: my_global_themes_data} = useQuery<Query, null>(GET_MY_GLOBAL_THEMES)//Получаем наши глобальные темы
+    const {data: my_sub_theme_data, refetch: refetch_my_sub_theme_data} = useQuery<Query, null>(GET_MY_SUB_THEMES)//Получаем подтемы карточек
+    const {data: my_themes_data, refetch: refetch_my_theme_data} = useQuery<Query, null>(GET_MY_THEMES)//Получаем наши темы
+    const {data: my_global_themes_data, refetch: refetch_my_global_theme_data} = useQuery<Query, null>(GET_MY_GLOBAL_THEMES)//Получаем наши глобальные темы
     const {data: all_card_themes_data, refetch: refetch_all_card_themes_data} = useQuery<Query, null>(ALL_CARD_THEMES)
     const [update_sub_theme, {loading: update_sub_theme_loading}] = useMutation<Mutation, {name: string, id: string}>(UPDATE_CARD_SUB_THEME, {
         variables:{
@@ -58,6 +65,18 @@ export default function LCCardThemeEditor(){
         },
         onCompleted: data => refetch_all_card_themes_data(),
         onError: error => console.log("Global Theme Save Error: " + error)
+    })
+    const [create_sub_theme, {loading: create_sub_theme_loading}] = useMutation<Mutation, {name: string, theme: number}>(CREATE_SUB_THEME,{
+        variables:{
+            name: activeAddData,
+            theme: themeIDForAddSubTheme
+        },
+        onCompleted: data => {
+            refetch_all_card_themes_data()
+            refetch_my_sub_theme_data()
+        },
+
+        onError: error => console.log("Sub Theme Create Error: " + error)
     })
     useEffect(() =>{
         const __expanded: string[] = [] //собираем адйдишники, чтобы про появление списка он уже был
@@ -94,7 +113,7 @@ export default function LCCardThemeEditor(){
         }
     }, [all_card_themes_data]) //подписка на любые изменения в данных о темах
     const handleSelect = (event, nodeIds) => {
-        console.log(nodeIds)
+        // console.log(nodeIds)
         let __canBeEdited = false //Можно ли редактиовать подтему/тему/глобальную тему
         let __canAddSubItem = false
         if(nodeIds < 999){
@@ -108,6 +127,17 @@ export default function LCCardThemeEditor(){
                 __canBeEdited = true
                 // __canAddSubItem = false - потому что для подтемы нет под под темы, т.е. нельзя создать подсущность
             }
+
+            //Поиск темы, которй пренадлежит подтема, на которую кликнули
+            all_card_themes_data?.cardGlobalTheme?.map((subGlobalTheme) =>{ //проходим по всем глобальным темам
+                subGlobalTheme?.cardthemeSet?.map((sameTheme) =>{ //проходимся по всем темам
+                    sameTheme?.cardsubthemeSet?.map((sameSubTheme) =>{ //если в подтеме есть такое же ID какое выбрано
+                        if(sameSubTheme == nodeIds){
+                            setThemeIDForAddSubTheme(sameTheme.id) //То бирем ID ТЕМЫ и устанавливаем его в качестве ID темы для будующей подтемы
+                        }
+                    })
+                })
+            })
             setActiveEditData(all_sub_themes?.find(obj => {return obj?.id == nodeIds})?.name)
             set_selected_sub_theme_ID(nodeIds)
             // console.log(props.all_sub_themes.find(obj => {return obj.id == nodeIds}).name)
@@ -125,6 +155,7 @@ export default function LCCardThemeEditor(){
             // console.log(props.all_themes.find(obj => {return obj.id * 1000 == nodeIds}).name)
             setActiveEditData(all_themes?.find(obj => {return Number(obj?.id) * 1000 == Number(nodeIds)})?.name)
             set_selected_theme_ID(String(Number(nodeIds) /1000))
+            setThemeIDForAddSubTheme(Number(nodeIds) /1000)//Если кликнули на тему, то устанавливаем её ID, потому что есть возможность добавить для темы подтему
         }
         //Редактирование глобальных тем
         if( nodeIds > 999999){
@@ -143,6 +174,8 @@ export default function LCCardThemeEditor(){
         setCanBeEdited(__canBeEdited); //Устанавливаем уже после всех возможных проверок на то, что эта подтема или тема или глобальная тема
         //принадлежит этому пользователю
     };
+
+    // console.log(themeIDForAddSubTheme)
     return(
         <div>
             <DCCardThemeEditor {...{selected_id, set_selected_id, all_card_themes_data, expanded,
@@ -152,7 +185,8 @@ export default function LCCardThemeEditor(){
                 set_selected_theme_ID, selected_global_theme_ID, set_selected_global_theme_ID,
                 update_sub_theme, update_sub_theme_loading, handleSelect, canBeEdited, setCanBeEdited,
                 update_global_theme, update_global_theme_loading, update_theme, update_theme_loading,
-                canAddSubItem, isAddingNowSubInstance, setIsAddingNowSubInstance
+                canAddSubItem, isAddingNowSubInstance, setIsAddingNowSubInstance, activeAddData, setActiveAddData,
+                create_sub_theme, create_sub_theme_loading
             }}/>
         </div>
     )

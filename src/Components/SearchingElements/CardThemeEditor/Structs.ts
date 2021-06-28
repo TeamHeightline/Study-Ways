@@ -20,6 +20,15 @@ export const GET_MY_THEMES = gql`
             }
         }
     }`
+export const GET_MY_GLOBAL_THEMES = gql`
+    query GET_MY_GLOBAL_THEMES{
+        me{
+            globalcardthemeSet{
+                id
+                name
+            }
+        }
+    }`
 export type GlobalCardThemeNode = {
     __typename?: "GlobalCardThemeNode"
     cardthemeSet: Array<CardThemeNode>

@@ -205,6 +205,31 @@ export default function DCCardThemeEditor({...props}: any){
                         </Row>
                 </div>
                 }
+                {((props.isCreatingNowCardTheme && Number(props.selected_id) >= 1000)  && (props.isCreatingNowCardTheme && Number(props.selected_id) < 1000000)||
+                    props.isAddingNowSubInstance && Number(props.selected_id) >= 1000000)
+                && <div>
+                    <TextField
+                        className="ml-2"
+                        id="standard-multiline-flexible"
+                        label="Название новой темы"
+                        fullWidth
+                        value={props.activeAddData}
+                        onChange={(e) =>{
+                            props.setActiveAddData(e.target.value)}
+                        }
+                    />
+                    <Row className="mt-2 ml-2">
+                        <Button variant="contained" color="primary"
+                                onClick={() =>{
+                                    props.create_theme()}}
+                        >
+                            Создать тему
+                        </Button>
+                        {props.create_theme_loading &&
+                        <Spinner animation="border" variant="success" className="ml-2 mt-2"/>}
+                    </Row>
+                </div>
+                }
             </div>
         </div>
     )

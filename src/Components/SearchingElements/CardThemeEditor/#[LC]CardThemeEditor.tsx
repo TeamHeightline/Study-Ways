@@ -23,6 +23,7 @@ export default function LCCardThemeEditor(){
 
     const [isCreatingNowCardTheme, setIsCreatingNowCardTheme] = useState(false) //Режим создания новой темы
     const [isEditNowCardTheme, setIsEditNowCardTheme] = useState(false) //Режим редактирования темы
+    const [isAddingNowSubInstance, setIsAddingNowSubInstance] = useState(false)//Режим добавления подсущности (например для тем - это добавление подтемы)
     const [canBeEdited, setCanBeEdited] = useState(false)//Может ли юзер редактировать тему (прописан он в created_by или нет)
     const [canAddSubItem, setCanAddSubItem] = useState(false)//Может ли юзер добавить подсущность (для темы - подтему, для глобальной темы- просто тему)
     const [all_sub_themes, set_all_sub_themes] = useState<{id: string , name: string}[] | undefined>() //Чистый массив подтем, нужен для поиска в нем
@@ -112,7 +113,7 @@ export default function LCCardThemeEditor(){
             // console.log(props.all_sub_themes.find(obj => {return obj.id == nodeIds}).name)
         }
         //Редактирование тем
-        if(nodeIds > 1000 && nodeIds < 999999){
+        if(nodeIds >= 1000 && nodeIds < 999999){
             if(my_themes_data?.me?.cardthemeSet?.find(obj =>{
                 //Проверяем, есть ли в массиве моих тем тема с ID
                 //как у выбранного, про этом стоит помнить, что ID для обычных тем умножаются на 10^3
@@ -151,7 +152,7 @@ export default function LCCardThemeEditor(){
                 set_selected_theme_ID, selected_global_theme_ID, set_selected_global_theme_ID,
                 update_sub_theme, update_sub_theme_loading, handleSelect, canBeEdited, setCanBeEdited,
                 update_global_theme, update_global_theme_loading, update_theme, update_theme_loading,
-                canAddSubItem
+                canAddSubItem, isAddingNowSubInstance, setIsAddingNowSubInstance
             }}/>
         </div>
     )

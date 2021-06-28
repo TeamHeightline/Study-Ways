@@ -79,9 +79,9 @@ export default function DCCardThemeEditor({...props}: any){
                               className=""
                               disabled={!props.canBeEdited}
                               onClick={() =>{
-                                  if(props.isCreatingNowCardTheme){
-                                      props.setIsCreatingNowCardTheme(false)
-                                  }
+                                  props.setIsAddingNowSubInstance(false)
+                                  props.setIsCreatingNowCardTheme(false)
+
                                   props.setIsEditNowCardTheme(!props.isEditNowCardTheme)
                               }}
                          >
@@ -90,9 +90,9 @@ export default function DCCardThemeEditor({...props}: any){
                         <Fab color="primary"
                              className="ml-2"
                              onClick={() =>{
-                                 if(props.isEditNowCardTheme){
-                                     props.setIsEditNowCardTheme(false)
-                                 }
+                                 props.setIsAddingNowSubInstance(false)
+                                 props.setIsEditNowCardTheme(false)
+
                                  props.setIsCreatingNowCardTheme(!props.isCreatingNowCardTheme)
                              }}
                         >
@@ -102,12 +102,12 @@ export default function DCCardThemeEditor({...props}: any){
                         <Fab color="primary"
                              className="ml-2"
                              disabled={!props.canAddSubItem}
-                             // onClick={() =>{
-                             //     if(props.isEditNowCardTheme){
-                             //         props.setIsEditNowCardTheme(false)
-                             //     }
-                             //     props.setIsCreatingNowCardTheme(!props.isCreatingNowCardTheme)
-                             // }}
+                             onClick={() =>{
+                                 props.setIsEditNowCardTheme(false)
+                                 props.setIsCreatingNowCardTheme(false)
+
+                                 props.setIsAddingNowSubInstance(!props.setIsAddingNowSubInstance)
+                             }}
                         >
                             <SubdirectoryArrowRightIcon/>
 
@@ -135,7 +135,7 @@ export default function DCCardThemeEditor({...props}: any){
                         <Spinner animation="border" variant="success" className="ml-2 mt-2"/>}
                     </Row>
                 </div>}
-                {props.isEditNowCardTheme && props.canBeEdited && Number(props.selected_id) > 1000 && Number(props.selected_id) < 1000000 && <div>
+                {props.isEditNowCardTheme && props.canBeEdited && Number(props.selected_id) >= 1000 && Number(props.selected_id) < 1000000 && <div>
                     <TextField
                         className="ml-2"
                         id="standard-multiline-flexible"
@@ -180,6 +180,7 @@ export default function DCCardThemeEditor({...props}: any){
                         <Spinner animation="border" variant="success" className="ml-2 mt-2"/>}
                     </Row>
                 </div>}
+
             </div>
         </div>
     )

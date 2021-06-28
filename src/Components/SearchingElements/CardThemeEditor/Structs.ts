@@ -35,12 +35,6 @@ export type GlobalCardThemeNode = {
     id: Scalars["ID"]
     name: Scalars["String"]
 }
-export type CARD_SUB_THEMES =
-    [
-        {name: string,
-        id: string}
-    ]
-
 
 export const ALL_CARD_THEMES = gql`
     query ALL_CARD_THEMES{
@@ -65,6 +59,12 @@ export const UPDATE_CARD_SUB_THEME = gql`
         }
     }
     `
+export const UPDATE_CARD_THEMES = gql`
+    mutation UPDATE_CARD_THEMES($name: String!, $id: ID!){
+        cardTheme(input: {name: $name, id: $id, createdBy: 0, }){
+            clientMutationId
+        }
+    }`
 
 export const UPDATE_CARD_GLOBAL_THEME = gql`
     mutation UPDATE_CARD_GLOBAL_THEME($name: String!, $id: ID!){

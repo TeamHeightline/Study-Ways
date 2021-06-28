@@ -1,5 +1,5 @@
 import React from 'react'
-import {Row, Spinner} from "react-bootstrap";
+import {Row, Spinner, Col} from "react-bootstrap";
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -9,6 +9,7 @@ import {Button, Divider, Fab} from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/Settings";
 import AddIcon from "@material-ui/icons/Add";
 import TextField from "@material-ui/core/TextField";
+import SubdirectoryArrowRightIcon from '@material-ui/icons/SubdirectoryArrowRight';
 
 const useStyles = makeStyles({
     root: {
@@ -73,30 +74,43 @@ export default function DCCardThemeEditor({...props}: any){
                     })}
                 </TreeView>
                 <Divider />
-                <Row className="col-3 offset-9 mt-2">
-                     <Fab color="primary"
-                          disabled={!props.canBeEdited}
-                          onClick={() =>{
-                              if(props.isCreatingNowCardTheme){
-                                  props.setIsCreatingNowCardTheme(false)
-                              }
-                              props.setIsEditNowCardTheme(!props.isEditNowCardTheme)
-                          }}
-                     >
-                         <SettingsIcon />
-                     </Fab>
-                    <Fab color="primary"
-                         className="ml-2"
-                         onClick={() =>{
-                             if(props.isEditNowCardTheme){
-                                 props.setIsEditNowCardTheme(false)
-                             }
-                             props.setIsCreatingNowCardTheme(!props.isCreatingNowCardTheme)
-                         }}
-                    >
-                        <AddIcon/>
+                <Row className="col-6 offset-7 mt-2">
+                         <Fab color="primary"
+                              className=""
+                              disabled={!props.canBeEdited}
+                              onClick={() =>{
+                                  if(props.isCreatingNowCardTheme){
+                                      props.setIsCreatingNowCardTheme(false)
+                                  }
+                                  props.setIsEditNowCardTheme(!props.isEditNowCardTheme)
+                              }}
+                         >
+                             <SettingsIcon />
+                         </Fab>
+                        <Fab color="primary"
+                             className="ml-2"
+                             onClick={() =>{
+                                 if(props.isEditNowCardTheme){
+                                     props.setIsEditNowCardTheme(false)
+                                 }
+                                 props.setIsCreatingNowCardTheme(!props.isCreatingNowCardTheme)
+                             }}
+                        >
+                            <AddIcon/>
 
-                    </Fab>
+                        </Fab>
+                        <Fab color="primary"
+                             className="ml-2"
+                             // onClick={() =>{
+                             //     if(props.isEditNowCardTheme){
+                             //         props.setIsEditNowCardTheme(false)
+                             //     }
+                             //     props.setIsCreatingNowCardTheme(!props.isCreatingNowCardTheme)
+                             // }}
+                        >
+                            <SubdirectoryArrowRightIcon/>
+
+                        </Fab>
                 </Row>
                 {props.isEditNowCardTheme && props.canBeEdited  && Number(props.selected_id) < 999 && <div>
                     <TextField
@@ -133,9 +147,9 @@ export default function DCCardThemeEditor({...props}: any){
                     />
                     <Row className="mt-2 ml-2">
                         <Button variant="contained" color="primary"
-                                // onClick={() =>{
-                                //     props.update_theme()}
-                                // }
+                                onClick={() =>{
+                                    props.update_theme()}
+                                }
                         >
                             Сохранить тему
                         </Button>

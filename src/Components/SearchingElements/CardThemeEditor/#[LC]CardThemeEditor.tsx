@@ -4,7 +4,8 @@ import {
     CARD_SUB_THEMES,
     UPDATE_CARD_SUB_THEME,
     GET_MY_SUB_THEMES,
-    GET_MY_THEMES
+    GET_MY_THEMES,
+    GET_MY_GLOBAL_THEMES
 } from './Structs'
 import {useMutation, useQuery} from "@apollo/client";
 import {Mutation, Query, UserNode} from "../../../../SchemaTypes";
@@ -28,6 +29,7 @@ export default function LCCardThemeEditor(){
     // темы/подтемы/глобальной темы
     const {data: my_sub_theme_data} = useQuery<Query, null>(GET_MY_SUB_THEMES)//Получаем подтемы карточек
     const {data: my_themes_data} = useQuery<Query, null>(GET_MY_THEMES)//Получаем наши темы
+    const {data: my_global_themes_data} = useQuery<Query, null>(GET_MY_GLOBAL_THEMES)//Получаем наши глобальные темы
     const {data: all_card_themes_data, refetch: refetch_all_card_themes_data} = useQuery<Query, null>(ALL_CARD_THEMES)
     const [update_sub_theme, {loading: update_sub_theme_loading}] = useMutation<Mutation, {name: string, id: string}>(UPDATE_CARD_SUB_THEME, {
         variables:{
@@ -104,6 +106,11 @@ export default function LCCardThemeEditor(){
         }
         //Редактирование глобальных тем
         if( nodeIds > 999999){
+            if(my_global_themes_data?.me?.globalcardthemeSet?.find(obj =>{
+                return(Number(obj?.id) * 1000000 == nodeIds)
+            })){
+                __canBeEdited = true
+            }
             // console.log(props.all_global_themes.find(obj => {return obj.id * 1000000 == nodeIds}).name)
             setActiveEditData(all_global_themes?.find(obj => {return Number(obj?.id) * 1000000 == Number(nodeIds)})?.name)
             set_selected_global_theme_ID(String(Number(nodeIds)/1000000))

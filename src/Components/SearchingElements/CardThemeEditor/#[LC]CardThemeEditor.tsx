@@ -24,6 +24,7 @@ export default function LCCardThemeEditor(){
     const [isCreatingNowCardTheme, setIsCreatingNowCardTheme] = useState(false) //Режим создания новой темы
     const [isEditNowCardTheme, setIsEditNowCardTheme] = useState(false) //Режим редактирования темы
     const [canBeEdited, setCanBeEdited] = useState(false)//Может ли юзер редактировать тему (прописан он в created_by или нет)
+    const [canAddSubItem, setCanAddSubItem] = useState(false)//Может ли юзер добавить подсущность (для темы - подтему, для глобальной темы- просто тему)
     const [all_sub_themes, set_all_sub_themes] = useState<{id: string , name: string}[] | undefined>() //Чистый массив подтем, нужен для поиска в нем
     const [all_themes, set_all_themes] = useState<{id: string, name: string}[]>() //Чистый массив тем, нужен для поиска в нем
     const [all_global_themes, set_all_global_themes] = useState<{id: string | undefined, name: string | undefined}[]>() //Чистый массив глобальных тем, нужен для поиска в нем
@@ -93,8 +94,8 @@ export default function LCCardThemeEditor(){
     }, [all_card_themes_data]) //подписка на любые изменения в данных о темах
     const handleSelect = (event, nodeIds) => {
         console.log(nodeIds)
-        //Редактирование подтем
-        let __canBeEdited = false
+        let __canBeEdited = false //Можно ли редактиовать подтему/тему/глобальную тему
+        let __canAddSubItem = false
         if(nodeIds < 999){
             if(my_sub_theme_data?.me?.cardsubthemeSet?.find(obj => {
                 //просто проходим по подтемат, пренадлежащим пользователю, если там
@@ -104,6 +105,7 @@ export default function LCCardThemeEditor(){
                 return(obj?.id == nodeIds)
             })){
                 __canBeEdited = true
+                // __canAddSubItem = false - потому что для подтемы нет под под темы, т.е. нельзя создать подсущность
             }
             setActiveEditData(all_sub_themes?.find(obj => {return obj?.id == nodeIds})?.name)
             set_selected_sub_theme_ID(nodeIds)
@@ -118,6 +120,7 @@ export default function LCCardThemeEditor(){
             })){
                 __canBeEdited = true
             }
+            __canAddSubItem = true//У тем есть подтемы, по этому можно добавлять подсущность
             // console.log(props.all_themes.find(obj => {return obj.id * 1000 == nodeIds}).name)
             setActiveEditData(all_themes?.find(obj => {return Number(obj?.id) * 1000 == Number(nodeIds)})?.name)
             set_selected_theme_ID(String(Number(nodeIds) /1000))
@@ -129,12 +132,14 @@ export default function LCCardThemeEditor(){
             })){
                 __canBeEdited = true
             }
+            __canAddSubItem = true //У глобальных тем есть просто темы, по этому можно добавлять подсущность
             // console.log(props.all_global_themes.find(obj => {return obj.id * 1000000 == nodeIds}).name)
             setActiveEditData(all_global_themes?.find(obj => {return Number(obj?.id) * 1000000 == Number(nodeIds)})?.name)
             set_selected_global_theme_ID(String(Number(nodeIds)/1000000))
         }
         set_selected_id(nodeIds);
-        setCanBeEdited(__canBeEdited); //Устонавливаем уже после всех возможных проверок на то, что эта подтема или тема или глобальная тема
+        setCanAddSubItem(__canAddSubItem) //записываем в стейт, что можно создать подсущность
+        setCanBeEdited(__canBeEdited); //Устанавливаем уже после всех возможных проверок на то, что эта подтема или тема или глобальная тема
         //принадлежит этому пользователю
     };
     return(
@@ -145,7 +150,8 @@ export default function LCCardThemeEditor(){
                 activeEditData, selected_sub_theme_ID, set_selected_sub_theme_ID, selected_theme_ID,
                 set_selected_theme_ID, selected_global_theme_ID, set_selected_global_theme_ID,
                 update_sub_theme, update_sub_theme_loading, handleSelect, canBeEdited, setCanBeEdited,
-                update_global_theme, update_global_theme_loading, update_theme, update_theme_loading
+                update_global_theme, update_global_theme_loading, update_theme, update_theme_loading,
+                canAddSubItem
             }}/>
         </div>
     )

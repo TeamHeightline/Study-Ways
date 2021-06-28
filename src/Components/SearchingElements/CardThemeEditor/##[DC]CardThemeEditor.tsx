@@ -101,6 +101,7 @@ export default function DCCardThemeEditor({...props}: any){
                         </Fab>
                         <Fab color="primary"
                              className="ml-2"
+                             disabled={!props.canAddSubItem}
                              // onClick={() =>{
                              //     if(props.isEditNowCardTheme){
                              //         props.setIsEditNowCardTheme(false)

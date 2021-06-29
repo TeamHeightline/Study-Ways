@@ -35,7 +35,8 @@ export default function DCCardThemeEditor({...props}: any){
         )
     }
     return(
-        <div>
+        <div style={{width: 600, height: props.isEditNowCardTheme || props.isCreatingNowCardTheme ||
+                props.isAddingNowSubInstance ? 600 :450}}>
             <div style={{width: 600, height: 450}}>
                 <Paper elevation={2}>
                     <TreeView

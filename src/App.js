@@ -29,7 +29,7 @@ import Login from "./Components/Login/Login"
 import {gql, useMutation, useQuery} from "@apollo/client";
 import UnLogin from "./Components/Login/UnLogin";
 import Registration from "./Components/Login/Registration";
-import UpdateQuestion from "./Components/UserTest/Editor/UpdateQuestion";
+import LCUpdateQuestion from "./Components/UserTest/Editor/UpdateQuestion/[LC]UpdateQuestion";
 import EditorsRouter from "./Components/EditorsRouter";
 import MainUserTest from "./Components/UserTest/MainUserTest";
 import QuestionByID from "./Components/UserTest/QuestionByID";

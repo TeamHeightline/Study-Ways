@@ -1,19 +1,13 @@
 import React, {useEffect, useMemo, useState} from "react";
-import {gql, useMutation, useQuery} from "@apollo/client";
-import {Col, Row, Spinner} from "react-bootstrap";
-import {Alert, Autocomplete} from "@material-ui/lab";
-import {Button, Container, Snackbar, TextField, Typography} from "@material-ui/core";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-import Input from "@material-ui/core/Input";
-import MenuItem from "@material-ui/core/MenuItem";
-import AnswerNode from "../AnswerNode";
-import AlertTitle from "@material-ui/lab/AlertTitle";
-import Switch from "@material-ui/core/Switch";
+import { useMutation, useQuery} from "@apollo/client";
+import {Spinner} from "react-bootstrap";
+import {Autocomplete} from "@material-ui/lab";
+import { TextField} from "@material-ui/core";
 
-import {CONTEXT_DATA, CREATE_NEW_ANSWER, MenuProps, UPDATE_QUESTION} from "./Struct"
+
+import {CONTEXT_DATA, CREATE_NEW_ANSWER, CREATE_NEW_QUESTION, UPDATE_QUESTION} from "./Struct"
 import DCUpdateQuestion from "./[DC]UpdateQuestion";
+import {Mutation} from "../../../../../SchemaTypes";
 
 const AutocompliteForNotUpdate = (data: any, autocompliteSelectHandleChange: (e: any, values: any) => any) => {
     if (data){
@@ -160,6 +154,13 @@ export default function LCUpdateQuestion() {
             }
         }
     })
+    const [create_new_question, {loading: create_question_loading}] = useMutation<Mutation, null>(CREATE_NEW_QUESTION,{
+        onCompleted: data1 =>{
+            refetch()
+            console.log(data)
+        },
+        onError: error1 => console.log(error1)
+    })
 
     const updateQuestionNotificationHandleClose = (event?: React.SyntheticEvent, reason?: string) => {
         if (reason === 'clickaway') {
@@ -199,5 +200,5 @@ export default function LCUpdateQuestion() {
         update_question, changeHandlerForQuestionImage, isSelectedQuestionImage,
         selectedQuestionImage, questionImageName, update_question_loading,update_question_data,
         questionIndex, create_answer, create_answer_loading, openQuestionUpdateNotification,
-        updateQuestionNotificationHandleClose}}/>)
+        updateQuestionNotificationHandleClose, create_new_question, create_question_loading}}/>)
 }

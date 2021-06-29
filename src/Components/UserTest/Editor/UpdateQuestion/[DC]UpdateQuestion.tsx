@@ -18,10 +18,10 @@ export default function DCUpdateQuestion({...props}: any){
     return (
         <div className="col-12">
             <Button variant="outlined" color="primary" className="col-12 mt-3 justify-content-center"
-                    size="large"
-                //         onClick={() => {
-                //         create_course().then(() => refetch())
-                // }}
+                    size="large" disabled={props.create_question_loading}
+                        onClick={() => {
+                            props.create_new_question()
+                }}
             >
                 Создать новый вопрос
             </Button>

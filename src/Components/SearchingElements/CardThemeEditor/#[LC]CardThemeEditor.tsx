@@ -8,7 +8,8 @@ import {
     UPDATE_CARD_GLOBAL_THEME,
     UPDATE_CARD_THEMES,
     CREATE_SUB_THEME,
-    CREATE_THEME
+    CREATE_THEME,
+    CREATE_GLOBAL_THEME
 } from './Structs'
 import {useMutation, useQuery} from "@apollo/client";
 import {Mutation, Query, UserNode} from "../../../../SchemaTypes";
@@ -90,7 +91,18 @@ export default function LCCardThemeEditor(){
             refetch_my_theme_data()
         },
 
-        onError: error => console.log("Sub Theme Create Error: " + error)
+        onError: error => console.log("Theme Create Error: " + error)
+    })
+    const [create_global_theme, {loading: create_global_theme_loading}] = useMutation<Mutation, {name: string}>(CREATE_GLOBAL_THEME,{
+        variables:{
+            name: activeAddData
+        },
+        onCompleted: data => {
+            refetch_all_card_themes_data()
+            refetch_my_global_theme_data()
+        },
+
+        onError: error => console.log("Global Theme Create Error: " + error)
     })
     useEffect(() =>{
         const __expanded: string[] = [] //собираем адйдишники, чтобы про появление списка он уже был
@@ -209,7 +221,8 @@ export default function LCCardThemeEditor(){
                 update_sub_theme, update_sub_theme_loading, handleSelect, canBeEdited, setCanBeEdited,
                 update_global_theme, update_global_theme_loading, update_theme, update_theme_loading,
                 canAddSubItem, isAddingNowSubInstance, setIsAddingNowSubInstance, activeAddData, setActiveAddData,
-                create_sub_theme, create_sub_theme_loading, create_theme, create_theme_loading
+                create_sub_theme, create_sub_theme_loading, create_theme, create_theme_loading, create_global_theme,
+                create_global_theme_loading
             }}/>
         </div>
     )

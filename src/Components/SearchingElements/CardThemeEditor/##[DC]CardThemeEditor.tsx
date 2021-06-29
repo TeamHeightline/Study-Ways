@@ -1,5 +1,5 @@
 import React from 'react'
-import {Row, Spinner, Col} from "react-bootstrap";
+import {Row, Spinner} from "react-bootstrap";
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';

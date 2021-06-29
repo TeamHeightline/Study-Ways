@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Row, Spinner} from "react-bootstrap";
 import {DataGrid} from "@material-ui/data-grid";
 import {Button, Fab} from "@material-ui/core";
@@ -6,13 +6,15 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import AddIcon from "@material-ui/icons/Add";
 import TextField from "@material-ui/core/TextField";
 export default function DCCardAuthorEditor({...props}: any){
+    //Нужно, чтобы при открытие текстового
+    //поля компонент становился больше, чтобы опустить не перекрыть те элементы, которые находятся ниже
     if(!props.rowsHasBeenCalculated){
         return(
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
     return(
-        <div>
+        <div style={{width: 600, height: props.isCreatingNowCardAuthor || props.isEditNowCardAuthor? 600: 400}}>
             <div style={{width: 600, height: 400}}>
                 <DataGrid rows={props.rows} columns={props.columnsForAuthorsDataGrid}
                           onRowClick={(e) => {

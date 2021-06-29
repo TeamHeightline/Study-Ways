@@ -12,9 +12,8 @@ import {
     CREATE_GLOBAL_THEME
 } from './Structs'
 import {useMutation, useQuery} from "@apollo/client";
-import {Mutation, Query, UserNode} from "../../../../SchemaTypes";
+import {Mutation, Query} from "../../../../SchemaTypes";
 import DCCardThemeEditor from "./##[DC]CardThemeEditor";
-import {string} from "prop-types";
 export default function LCCardThemeEditor(){
     const [expanded, setExpanded] = useState<string[]>([])//Это массив в котором все IDs тем подтем
     // и глобальных тем, которые нужно отобразить
@@ -50,7 +49,7 @@ export default function LCCardThemeEditor(){
             name: activeEditData,
             id: selected_sub_theme_ID,
         },
-        onCompleted: data => refetch_all_card_themes_data(),
+        onCompleted: () => refetch_all_card_themes_data(),
         onError: error => console.log("Sub Theme Save Error: " + error)
     })
     const [update_theme, {loading: update_theme_loading}] = useMutation<Mutation, {name: string, id: string}>(UPDATE_CARD_THEMES, {
@@ -58,7 +57,7 @@ export default function LCCardThemeEditor(){
             name: activeEditData,
             id: selected_theme_ID
         },
-        onCompleted: data => refetch_all_card_themes_data(),
+        onCompleted: () => refetch_all_card_themes_data(),
         onError: error => console.log("Theme Save Error: " + error)
     })
     const [update_global_theme, {loading: update_global_theme_loading}] = useMutation<Mutation, {name: string, id: string}>(UPDATE_CARD_GLOBAL_THEME,{
@@ -66,7 +65,7 @@ export default function LCCardThemeEditor(){
             name: activeEditData,
             id: selected_global_theme_ID
         },
-        onCompleted: data => refetch_all_card_themes_data(),
+        onCompleted: () => refetch_all_card_themes_data(),
         onError: error => console.log("Global Theme Save Error: " + error)
     })
     const [create_sub_theme, {loading: create_sub_theme_loading}] = useMutation<Mutation, {name: string, theme: number}>(CREATE_SUB_THEME,{
@@ -74,7 +73,7 @@ export default function LCCardThemeEditor(){
             name: activeAddData,
             theme: themeIDForAddSubTheme
         },
-        onCompleted: data => {
+        onCompleted: () => {
             refetch_all_card_themes_data()
             refetch_my_sub_theme_data()
         },
@@ -86,7 +85,7 @@ export default function LCCardThemeEditor(){
             name: activeAddData,
             globalTheme: globalThemeIDForAddTheme
         },
-        onCompleted: data => {
+        onCompleted: () => {
             refetch_all_card_themes_data()
             refetch_my_theme_data()
         },
@@ -97,7 +96,7 @@ export default function LCCardThemeEditor(){
         variables:{
             name: activeAddData
         },
-        onCompleted: data => {
+        onCompleted: () => {
             refetch_all_card_themes_data()
             refetch_my_global_theme_data()
         },

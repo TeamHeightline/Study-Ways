@@ -4,7 +4,7 @@ import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import AddIcon from '@material-ui/icons/Add';
 import {ViewList} from "@material-ui/icons";
 import CreatePoint from "./UserTest/Editor/CreatePoint";
-import UpdateQuestion from "./UserTest/Editor/UpdateQuestion";
+import LCUpdateQuestion from "./UserTest/Editor/UpdateQuestion/[LC]UpdateQuestion";
 import {Alert} from "@material-ui/lab";
 import AlertTitle from "@material-ui/lab/AlertTitle";
 import {gql, useQuery} from "@apollo/client";
@@ -68,7 +68,7 @@ export default function EditorsRouter(){
             {value === 1 && <MainCardEditor/>}
             {value === 2 && <SearchingElementsPage/>}
             {value === 3 && <CreatePoint/>}
-            {value === 4 && <UpdateQuestion/>}
+            {value === 4 && <LCUpdateQuestion/>}
         </div>
     );
 }

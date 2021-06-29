@@ -1,9 +1,6 @@
 import React, {useMemo, useState} from "react";
 import {BottomNavigation} from "@material-ui/core";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import AddIcon from '@material-ui/icons/Add';
-import {ViewList} from "@material-ui/icons";
-import CreatePoint from "./UserTest/Editor/CreatePoint";
 import LCUpdateQuestion from "./UserTest/Editor/UpdateQuestion/[LC]UpdateQuestion";
 import {Alert} from "@material-ui/lab";
 import AlertTitle from "@material-ui/lab/AlertTitle";
@@ -16,8 +13,8 @@ import MainCourseEditor from "./Course/Editor/MainCourseEditor";
 import BlurLinearIcon from '@material-ui/icons/BlurLinear';
 import RecentActorsIcon from '@material-ui/icons/RecentActors';
 
-import LinearScaleIcon from '@material-ui/icons/LinearScale';
-import SearchingElementsPage from "./SearchingElements/SearchingElementsPage"; // оставим для серии вопросов
+import LinearScaleIcon from '@material-ui/icons/LinearScale'; // оставим для серии вопросов
+import SearchingElementsPage from "./SearchingElements/SearchingElementsPage";
 const CHECK_USER_LEVEL = gql`
 query CHECK_USER_LEVEL{
       me{
@@ -26,8 +23,6 @@ query CHECK_USER_LEVEL{
         userAccessLevel
       }
     }`
-
-
 
 
 export default function EditorsRouter(){
@@ -61,14 +56,12 @@ export default function EditorsRouter(){
             <BottomNavigationAction label="Редактор курсов" icon={<BlurLinearIcon/>}/>
             <BottomNavigationAction label="Редактор карточек" icon={<ArtTrackIcon/>}/>
             <BottomNavigationAction label="Темы и авторы" icon={<RecentActorsIcon/>}/>
-            <BottomNavigationAction label="Создание вопроса" icon={ <AddIcon />} />
             <BottomNavigationAction label="Редактор вопроса" icon={<FormatListBulletedIcon />} />
         </BottomNavigation>
             {value === 0 && <MainCourseEditor/>}
             {value === 1 && <MainCardEditor/>}
             {value === 2 && <SearchingElementsPage/>}
-            {value === 3 && <CreatePoint/>}
-            {value === 4 && <LCUpdateQuestion/>}
+            {value === 3 && <LCUpdateQuestion/>}
         </div>
     );
 }

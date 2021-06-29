@@ -86,3 +86,10 @@ export const CREATE_THEME = gql`
             clientMutationId
         }
     }`
+
+export const CREATE_GLOBAL_THEME = gql`
+    mutation CREATE_GLOBAL_THEME($name: String!){
+        globalCardTheme(input: {name: $name, createdBy: 0}){
+            clientMutationId
+        }
+    }`

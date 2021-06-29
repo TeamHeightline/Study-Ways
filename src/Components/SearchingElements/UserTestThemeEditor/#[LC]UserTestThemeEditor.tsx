@@ -31,7 +31,7 @@ export default function LCUserTestThemeEditor(){
                 await setSelectedThemeRow(_rows[0])
             }
             if(!activeEditUserTestThemeName){
-                await setActiveEditUserTestThemeName(_rows[0].name)
+                await setActiveEditUserTestThemeName(_rows[0]?.name)
             }
             await setRowsNasBeenCalculated(true)
         }

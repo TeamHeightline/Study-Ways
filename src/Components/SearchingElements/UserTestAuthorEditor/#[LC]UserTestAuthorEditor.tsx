@@ -29,7 +29,7 @@ export default function LCUserTestAuthorEditor(){
                 await setSelectedAuthorRow(_rows[0])
             }
             if(!activeEditUserTestAuthorName){
-                await setActiveEditUserTestAuthorName(_rows[0].name)
+                await setActiveEditUserTestAuthorName(_rows[0]?.name)
             }
             await setRowsNasBeenCalculated(true)
         }

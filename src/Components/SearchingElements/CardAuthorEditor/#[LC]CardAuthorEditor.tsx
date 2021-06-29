@@ -30,7 +30,7 @@ export default  function LCCardAuthorEditor(){
                 await setSelectedAuthorRow(_rows[0])
             }
             if(!activeEditCardAuthorName){
-                await setActiveEditCardAuthorName(_rows[0].name)
+                await setActiveEditCardAuthorName(_rows[0]?.name)
             }
             await setRowsNasBeenCalculated(true)
         }

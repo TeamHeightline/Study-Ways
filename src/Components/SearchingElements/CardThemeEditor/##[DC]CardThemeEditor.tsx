@@ -5,7 +5,7 @@ import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
-import {Button, Divider, Fab} from "@material-ui/core";
+import {Button, Divider, Fab, Paper} from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/Settings";
 import AddIcon from "@material-ui/icons/Add";
 import TextField from "@material-ui/core/TextField";
@@ -36,44 +36,46 @@ export default function DCCardThemeEditor({...props}: any){
     }
     return(
         <div>
-            <div style={{width: 600, height: 400}}>
-                <TreeView
-                    style={{width: "100%", height: 350, overflowY: "auto"}}
-                    className={classes.root}
-                    defaultCollapseIcon={<ExpandMoreIcon />}
-                    defaultExpandIcon={<ChevronRightIcon />}
-                    expanded={props.expanded}
-                    selected={props.selected_id}
-                    onNodeToggle={handleToggle}
-                    onNodeSelect={props.handleSelect}
-                    defaultExpanded={props.expanded}
-                >
-                    {props.all_card_themes_data?.cardGlobalTheme?.map((sameGlobalTheme) =>{
-                        return(
-                            <TreeItem nodeId={String(sameGlobalTheme.id * 1000000)}
-                                      label={sameGlobalTheme.name}
-                                      key={sameGlobalTheme.id *1000000} >
-                                {
-                                    sameGlobalTheme?.cardthemeSet.map((sameTheme) =>{
-                                        return(
-                                            <TreeItem nodeId={String(sameTheme.id * 1000)}
-                                                      label={sameTheme.name}
-                                                      key={sameTheme.id * 1000}>
-                                                {sameTheme?.cardsubthemeSet.map((sameSubTheme) =>{
-                                                    // setExpanded(__expanded)
-                                                    return(<TreeItem nodeId={String(sameSubTheme.id)}
-                                                                     label={sameSubTheme.name}
-                                                                     key={sameSubTheme.id}/>)
-                                                })}
-                                            </TreeItem>
-                                        )
-                                    })
-                                }
-                            </TreeItem>
-                        )
-                    })}
-                </TreeView>
-                <Divider />
+            <div style={{width: 600, height: 450}}>
+                <Paper elevation={2}>
+                    <TreeView
+                        style={{width: "100%", height: 400, overflowY: "auto"}}
+                        className={classes.root}
+                        defaultCollapseIcon={<ExpandMoreIcon />}
+                        defaultExpandIcon={<ChevronRightIcon />}
+                        expanded={props.expanded}
+                        selected={props.selected_id}
+                        onNodeToggle={handleToggle}
+                        onNodeSelect={props.handleSelect}
+                        defaultExpanded={props.expanded}
+                    >
+                        {props.all_card_themes_data?.cardGlobalTheme?.map((sameGlobalTheme) =>{
+                            return(
+                                <TreeItem nodeId={String(sameGlobalTheme.id * 1000000)}
+                                          label={sameGlobalTheme.name}
+                                          key={sameGlobalTheme.id *1000000} >
+                                    {
+                                        sameGlobalTheme?.cardthemeSet.map((sameTheme) =>{
+                                            return(
+                                                <TreeItem nodeId={String(sameTheme.id * 1000)}
+                                                          label={sameTheme.name}
+                                                          key={sameTheme.id * 1000}>
+                                                    {sameTheme?.cardsubthemeSet.map((sameSubTheme) =>{
+                                                        // setExpanded(__expanded)
+                                                        return(<TreeItem nodeId={String(sameSubTheme.id)}
+                                                                         label={sameSubTheme.name}
+                                                                         key={sameSubTheme.id}/>)
+                                                    })}
+                                                </TreeItem>
+                                            )
+                                        })
+                                    }
+                                </TreeItem>
+                            )
+                        })}
+                    </TreeView>
+                </Paper>
+                {/*<Divider />*/}
                 <Row className="col-6 offset-7 mt-2">
                          <Fab color="primary"
                               className=""

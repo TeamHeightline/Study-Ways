@@ -161,7 +161,7 @@ export default function AnswerNode(props: any) {
                                     }}
                                 />
                             </Col>
-                            <Col className="col-5 offset-1">
+                            <Col className="col-5 offset-1 mr-5 ml-5">
                                 <TextField
                                     className="mt-2"
                                     key={props.answer.id + "helpTextv2"}
@@ -194,7 +194,7 @@ export default function AnswerNode(props: any) {
 
                         </Row>
                         <Row className="">
-                            <Col className="mr-5 ml-5 col-5 mt-2">
+                            <Col className="mr-5 ml-5 col-5 " >
                                 <TextField
                                     key={props.answer.id + "videoUrl"}
                                     id="standard-multiline-flexible"
@@ -208,40 +208,40 @@ export default function AnswerNode(props: any) {
                                     }}
                                 />
                             </Col>
-                            <Col className="col-1 offset-1 mt-2">
-                                <FormControl style={{width: "220px"}}>
-                                    <InputLabel id="demo-simple-select-label">Сложность ответа</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={hardLevelOfAnswer}
-                                        onChange={(e) =>{changeHardLevelOfAnswer(e.target.value)}}
-                                    >
-                                        <MenuItem value="EASY">Очевидный</MenuItem>
-                                        <MenuItem value="MEDIUM">Нормальный</MenuItem>
-                                        <MenuItem value="HARD">Каверзный</MenuItem>
-                                    </Select>
-                                </FormControl>
+                            <Col className="col-5 offset-1 mr-5 ml-5">
+                                <Row className="ml-1">
+                                    <FormControl style={{width: 220}} >
+                                        <InputLabel id="demo-simple-select-label">Сложность ответа</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={hardLevelOfAnswer}
+                                            onChange={(e) =>{changeHardLevelOfAnswer(e.target.value)}}
+                                        >
+                                            <MenuItem value="EASY">Очевидный</MenuItem>
+                                            <MenuItem value="MEDIUM">Нормальный</MenuItem>
+                                            <MenuItem value="HARD">Каверзный</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                    <FormControl style={{width: 220}} className="ml-2" >
+                                        <InputLabel id="demo-simple-select-label">Ответ верный/неверный</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={isTrue}
+                                            onChange={(e) =>{changeIsTrue(e.target.value)}}
+                                        >
+                                            <MenuItem value="true">Верный</MenuItem>
+                                            <MenuItem value="false">Неверный</MenuItem>
+                                        </Select>
+                                    </FormControl>
+
+                                </Row>
                             </Col>
-                            <Col className="col-1 offset-1 mt-2">
-                                <FormControl style={{width: "220px"}}>
-                                    <InputLabel id="demo-simple-select-label">Ответ верный/неверный</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={isTrue}
-                                        onChange={(e) =>{changeIsTrue(e.target.value)}}
-                                    >
-                                        <MenuItem value="true">Верный</MenuItem>
-                                        <MenuItem value="false">Неверный</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Col>
-                            <Col className="col-1 offset-1  mr-5 mt-3">
-                                <FormControl>
+                            <Row className="ml-3">
+                                <FormControl className="ml-5 col-3">
                                     <InputLabel htmlFor="formatted-text-mask-input">Очередь проверки</InputLabel>
                                     <Input
-
                                         value={checkQueue}
                                         onChange={(e) => {
                                             const valueWithOnlyNumber = e.target.value.replace(/[^\d]/g, '')
@@ -252,29 +252,34 @@ export default function AnswerNode(props: any) {
 
                                     />
                                 </FormControl>
-                            </Col>
-                            {props.isImageQuestion? <Col className="mr-5 ml-5 col-5 mt-2">
-                                <Button
-                                    color="primary"
-                                    variant="outlined"
-                                    component="label"
-                                >
-                                    <input type="file"  hidden name="file" onChange={changeHandlerForAnswerImage} />
-                                    Изображение для ответа
-                                </Button>
-                                {isSelectedAnswerImage ? (
-                                    <div>
-                                        {selectedAnswerImage?.name}
-                                    </div>
-                                ) : null}
-                                {answerImageName && !isSelectedAnswerImage? <div>{answerImageName}</div>: null}
-                            </Col>: null}
+                                <Col className="col-7 mt-2 ">
+                                    {props.isImageQuestion &&
+                                        <Button
+                                            className="col-10 ml-2 mr-5"
+                                            color="primary"
+                                            variant="outlined"
+                                            component="label"
+                                        >
+                                            <input type="file"  hidden name="file" onChange={changeHandlerForAnswerImage} />
+                                            Изображение для ответа
+                                        </Button>}
+                                        {props.isImageQuestion && isSelectedAnswerImage &&
+                                            <div className="col-7 ">
+                                                {selectedAnswerImage?.name}
+                                            </div>
+                                       }
+                                        {answerImageName && !isSelectedAnswerImage && <div className="col-7 ">
+                                            {answerImageName}
+                                        </div>}
 
-                            <Col className="col-1 offset-1 ml-auto mr-5 mt-3">
-                                <Button variant="contained" color="primary" onClick={() => {update_answer()}}>
-                                    Сохранить
-                                </Button>
-                            </Col>
+                                </Col>
+                            </Row>
+                        </Row>
+                        <Row>
+                            <Button  className="ml-auto mr-5"
+                                variant="contained" color="primary" onClick={() => {update_answer()}}>
+                                Сохранить
+                            </Button>
                             {update_answer_data? update_answer_data.updateAnswer.errors.length !== 0?
                                 <Alert severity='error'>Ошибка при сохранение ответа</Alert>: null :null}
                         </Row>

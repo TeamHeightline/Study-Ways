@@ -47,6 +47,7 @@ import LCCardAuthorEditor from "./Components/SearchingElements/CardAuthorEditor/
 import LCUserTestAuthorEditor from "./Components/SearchingElements/UserTestAuthorEditor/#[LC]UserTestAuthorEditor";
 import LCUserTestThemeEditor from "./Components/SearchingElements/UserTestThemeEditor/#[LC]UserTestThemeEditor";
 import LCCardThemeEditor from "./Components/SearchingElements/CardThemeEditor/#[LC]CardThemeEditor";
+import SearchingElementsPage from "./Components/SearchingElements/SearchingElementsPage";
 const VERIFY_LOGIN = gql`
     mutation VERIFY_LOGIN($token: String!){
       verifyToken(token: $token){
@@ -101,11 +102,11 @@ function App() {
         }
     })
 
-    const [verify_login, { data, error }] = useMutation(VERIFY_LOGIN, {
+    const [verify_login, { data }] = useMutation(VERIFY_LOGIN, {
         variables: {
             token: checkTokenAndLoginVariablesInLocalStore()
         },
-        onCompleted: data1 => console.log("---------new login verify --------"),
+        onCompleted: () => console.log("---------new login verify --------"),
         errorPolicy: 'all'
     })
     const [animationState, setAnimationState] = useState(false)
@@ -135,27 +136,22 @@ function App() {
             <Switch>
                 {/*<Route exact path="/" ><Redirect to="/courses"/></Route>*/}
                 {/*------------TEMP------------------*/}
-                <Route exact path="/cad" component={LCCardAuthorEditor}/>
-                <Route exact path="/utae" component={LCUserTestAuthorEditor}/>
-                <Route exact path="/utte" component={LCUserTestThemeEditor}/>
-                <Route exact path="/cte" component={LCCardThemeEditor}/>
+                <Route exact path="/se" component={SearchingElementsPage}/>
+                {/*<Route exact path="/cad" component={LCCardAuthorEditor}/>*/}
+                {/*<Route exact path="/utae" component={LCUserTestAuthorEditor}/>*/}
+                {/*<Route exact path="/utte" component={LCUserTestThemeEditor}/>*/}
+                {/*<Route exact path="/cte" component={LCCardThemeEditor}/>*/}
                 {/*----------TEMP--------------------*/}
 
                 <Route exact path="/login" component={Login}/>
                 <Route exact path="/unlogin" component={UnLogin}/>
                 <Route exact path="/registration" component={Registration}/>
                 <Route exact path="/editor" component={user_data.me !== null? EditorsRouter: Login}/>
-                {/*<Route exact path="/updatequestion" component={localStorage.getItem('is_login') === 'true'? UpdateQuestion: Login}/>*/}
-                <Route exact path="/test" component={MainUserTest}/>
 
                 <Route  path="/q/:id" component={QuestionByID}/>
                 <Route exact path="/iq/:id" component={ImageQuestion}/>
 
-                {/*<Route exact path="/card/edit/:id" component={CardEditByID}/>*/}
-                {/*<Route exact path="/c/:id" component={CARDS}/>*/}
-                {/*<Route exact path='/card' component={MainCardEditor}/>*/}
-                {/*<Route exact path="/course/:id" component={EditCourseByID}/>*/}
-                {/*<Route exact path="/mce" component={MainCourseEditor}/>*/}
+                <Route exact path="/test" component={MainUserTest}/>
                 <Route exact path="/cards" component={MainCardPublicView}/>
                 <Route exact path="/courses" component={MainCoursePublicView}/>
                 <Redirect to="/courses"/>

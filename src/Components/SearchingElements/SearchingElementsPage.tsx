@@ -8,12 +8,12 @@ import {Row} from "react-bootstrap";
 export default function SearchingElementsPage({...props}: any){
     return(
         <div {...props}>
-            <div className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Темы и виртуальные автроры для карточек</div>
+            <div className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Темы и виртуальные авторы для карточек</div>
             <Row className="justify-content-around mt-3">
                 <LCCardThemeEditor/>
                 <LCCardAuthorEditor/>
             </Row>
-            <div className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Темы и виртуальные автроры для вопросов и тестов</div>
+            <div className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Темы и виртуальные авторы для вопросов и тестов</div>
             <Row className="justify-content-around mt-4">
                 <LCUserTestThemeEditor/>
                 <LCUserTestAuthorEditor/>

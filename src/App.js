@@ -48,6 +48,7 @@ import LCUserTestAuthorEditor from "./Components/SearchingElements/UserTestAutho
 import LCUserTestThemeEditor from "./Components/SearchingElements/UserTestThemeEditor/#[LC]UserTestThemeEditor";
 import LCCardThemeEditor from "./Components/SearchingElements/CardThemeEditor/#[LC]CardThemeEditor";
 import SearchingElementsPage from "./Components/SearchingElements/SearchingElementsPage";
+import useWindowDimensions from "./CustomHooks/useWindowDimensions";
 const VERIFY_LOGIN = gql`
     mutation VERIFY_LOGIN($token: String!){
       verifyToken(token: $token){
@@ -58,16 +59,6 @@ const VERIFY_LOGIN = gql`
     }
 `
 
-// const REFRESH_TOKEN = gql`
-//     mutation REFRESH_TOKEN($refresh_token: String!){
-//       refreshToken(refreshToken: $refresh_token){
-//         token
-//         refreshToken
-//         payload
-//         success
-//         errors
-//       }
-//     }`
 const GET_USER_DATA = gql`
     query{
         me{
@@ -80,6 +71,7 @@ const GET_USER_DATA = gql`
 `
 
 function App() {
+    const{height, width} = useWindowDimensions();
     const checkTokenAndLoginVariablesInLocalStore = () => {
         if (localStorage.getItem('token') === null){
             localStorage.setItem('token', 'wrong key')}
@@ -132,7 +124,7 @@ function App() {
   return (
     <>
         <Router>
-            <Navibar/>
+             <Navibar/>
             <Switch>
                 {/*<Route exact path="/" ><Redirect to="/courses"/></Route>*/}
                 {/*------------TEMP------------------*/}
@@ -156,6 +148,7 @@ function App() {
                 <Route exact path="/courses" component={MainCoursePublicView}/>
                 <Redirect to="/courses"/>
             </Switch>
+            {/*{height/width >= 1 && <Navibar/>}*/}
         </Router>
     </>
   );

@@ -31,7 +31,7 @@ import UnLogin from "./Components/Login/UnLogin";
 import Registration from "./Components/Login/Registration";
 import LCUpdateQuestion from "./Components/UserTest/Editor/UpdateQuestion/[LC]UpdateQuestion";
 import EditorsRouter from "./Components/EditorsRouter";
-import MainUserTest from "./Components/UserTest/MainUserTest";
+import LCMainUserQuestion from "./Components/UserTest/MainUserQuestionPage/[LC]MainUserQuestion";
 import QuestionByID from "./Components/UserTest/QuestionByID";
 import ImageQuestion from "./Components/UserTest/ImageQuestion";
 import CardView from "./Components/Cards/Card";
@@ -151,7 +151,7 @@ function App() {
                 <Route  path="/q/:id" component={QuestionByID}/>
                 <Route exact path="/iq/:id" component={ImageQuestion}/>
 
-                <Route exact path="/test" component={MainUserTest}/>
+                <Route exact path="/test" component={LCMainUserQuestion}/>
                 <Route exact path="/cards" component={MainCardPublicView}/>
                 <Route exact path="/courses" component={MainCoursePublicView}/>
                 <Redirect to="/courses"/>

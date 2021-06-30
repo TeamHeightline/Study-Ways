@@ -18,7 +18,7 @@ export default function PCDCMainUserQuestion({...props}: any){
     if (!props.testHadBeenStarted) {
         return (
             <div>
-                <Container className="justify-content-center col-12 col-lg-3 mt-5">
+                <Container className="justify-content-center col-12 col-lg-4 mt-5">
                     <Paper className="justify-content-center">
                         <div className="mr-2 ml-2">
                             <br/>

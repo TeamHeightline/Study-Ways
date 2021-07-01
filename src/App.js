@@ -49,6 +49,7 @@ import LCUserTestThemeEditor from "./Components/SearchingElements/UserTestThemeE
 import LCCardThemeEditor from "./Components/SearchingElements/CardThemeEditor/#[LC]CardThemeEditor";
 import SearchingElementsPage from "./Components/SearchingElements/SearchingElementsPage";
 import useWindowDimensions from "./CustomHooks/useWindowDimensions";
+import QuestionSequence from "./Components/QuestionSequence/QuestionSequence";
 const VERIFY_LOGIN = gql`
     mutation VERIFY_LOGIN($token: String!){
       verifyToken(token: $token){
@@ -129,6 +130,7 @@ function App() {
                 {/*<Route exact path="/" ><Redirect to="/courses"/></Route>*/}
                 {/*------------TEMP------------------*/}
                 <Route exact path="/se" component={SearchingElementsPage}/>
+                <Route exact path="/qe" component={QuestionSequence}/>
                 {/*<Route exact path="/cad" component={LCCardAuthorEditor}/>*/}
                 {/*<Route exact path="/utae" component={LCUserTestAuthorEditor}/>*/}
                 {/*<Route exact path="/utte" component={LCUserTestThemeEditor}/>*/}

@@ -115,6 +115,11 @@ type CreateCardCoursePayload {
     course: CardCourseNode
 }
 
+type CreateQuestionSequencePayload {
+    clientMutationId: String
+    sequence: QuestionSequenceNode
+}
+
 """
 
 Delete account permanently or make `user.is_active=False`.
@@ -162,6 +167,7 @@ type Mutation {
     createCardCourse(input: CreateCardCourseInput!): CreateCardCoursePayload
     createQuestion(input: QuestionMutationInput!): QuestionMutationPayload
     createQuestionAuthor(input: QuestionAuthorMutationInput!): QuestionAuthorMutationPayload
+    createQuestionSequence(input: CreateQuestionSequenceInput!): CreateQuestionSequencePayload
     createQuestionThemes(input: QuestionThemesMutationInput!): QuestionThemesMutationPayload
     """
 
@@ -299,6 +305,7 @@ type Mutation {
     updateCardCourse(input: UpdateCardCourseInput!): UpdateCardCoursePayload
     updateQuestion(input: QuestionMutationInput!): QuestionMutationPayload
     updateQuestionAuthor(input: QuestionAuthorMutationInput!): QuestionAuthorMutationPayload
+    updateQuestionSequence(input: UpdateQuestionSequenceInput!): UpdateQuestionSequencePayload
     updateQuestionThemes(input: QuestionThemesMutationInput!): QuestionThemesMutationPayload
     """
 
@@ -426,6 +433,8 @@ type Query {
     question: [QuestionNode]
     questionAuthor: [QuestionAuthorNode]
     questionById(id: ID): QuestionNode
+    questionSequence: [QuestionSequenceNode]
+    questionSequenceById(id: ID): QuestionSequenceNode
     questionThemes: [QuestionThemesNode]
     "The ID of the object"
     user(id: ID!): UserNode
@@ -461,6 +470,12 @@ type QuestionNode {
     text: String!
     theme: [QuestionThemesNode!]!
     videoUrl: String
+}
+
+type QuestionSequenceNode {
+    id: ID!
+    name: String
+    sequenceData: GenericScalar
 }
 
 type QuestionStatisticNode {
@@ -605,6 +620,11 @@ type UpdateCardCoursePayload {
     course: CardCourseNode
 }
 
+type UpdateQuestionSequencePayload {
+    clientMutationId: String
+    sequence: QuestionSequenceNode
+}
+
 type UserNode implements Node {
     answerSet: [AnswerNode!]!
     archived: Boolean
@@ -628,6 +648,7 @@ type UserNode implements Node {
     pk: Int
     questionSet: [QuestionNode!]!
     questionauthorSet: [QuestionAuthorNode!]!
+    questionsequenceSet: [QuestionSequenceNode!]!
     questionthemesSet: [QuestionThemesNode!]!
     secondaryEmail: String
     userAccessLevel: CustomUserUserAccessLevel!
@@ -786,6 +807,12 @@ input CreateCardCourseInput {
     createdBy: ID
 }
 
+input CreateQuestionSequenceInput {
+    clientMutationId: String
+    createdBy: ID
+    sequenceData: GenericScalar
+}
+
 input GlobalCardThemeMutationInput {
     clientMutationId: String
     createdBy: ID!
@@ -832,6 +859,13 @@ input UpdateCardCourseInput {
     courseData: GenericScalar
     courseId: ID!
     name: String
+}
+
+input UpdateQuestionSequenceInput {
+    clientMutationId: String
+    name: String
+    sequenceData: GenericScalar
+    sequenceId: ID!
 }
 
 

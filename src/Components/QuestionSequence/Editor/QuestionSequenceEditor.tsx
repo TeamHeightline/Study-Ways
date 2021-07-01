@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {GET_QUESTION_SEQUENCE_BY_ID} from "./Struct";
+import {GET_QUESTION_SEQUENCE_BY_ID, GET_THEMES} from "./Struct";
 import {useQuery} from "@apollo/client";
 import {Query} from "../../../../SchemaTypes";
 import {Row, Spinner} from "react-bootstrap";
@@ -13,6 +13,7 @@ import {
     Switch,
     TextField, Typography
 } from "@material-ui/core";
+import ThemeTree from "../../Cards/Editor/CardEditByID/#ThemeTree";
 
 export default function QuestionSequenceEditor({...props}: any) {
     const {data: sequence_data} = useQuery<Query, {id: string}>(GET_QUESTION_SEQUENCE_BY_ID, {
@@ -20,12 +21,66 @@ export default function QuestionSequenceEditor({...props}: any) {
             id: props?.activeEditSeSequenceID,
         }
     })
-    const [use_random_position_for_questions, set_use_random_position_for_questions] = useState<boolean | undefined>()
-    const [can_switch_pages, set_can_switch_pages] = useState<boolean | undefined>()
-    const [show_help_text, set_show_help_text] = useState<boolean | undefined>()
-    const [need_await_full_true_answers, set_need_await_full_true_answers] = useState<boolean | undefined>()
-    const [max_sum_of_attempts, set_max_sum_of_attempts] = useState<string | undefined>("10")
-    const [hard_level, set_hard_level] = useState<string>("EASY") //"EASY" "HARD", "MEDIUM"
+    const [use_random_position_for_questions, set_use_random_position_for_questions] = useState<boolean | undefined>() //Включить перемешивание вопросов
+    const [can_switch_pages, set_can_switch_pages] = useState<boolean | undefined>() // Резрешить переключение между вопросами
+    const [show_help_text, set_show_help_text] = useState<boolean | undefined>() //Показывать подсказки или нет
+    const [need_await_full_true_answers, set_need_await_full_true_answers] = useState<boolean | undefined>() //Нужно ли ждать пока пользователь выбирет все правильные ответы
+    const [max_sum_of_attempts, set_max_sum_of_attempts] = useState<string | undefined>("10") //Максимальное количество попыток для каждого вопроса
+    const [hard_level, set_hard_level] = useState<string>("EASY") //"EASY" "HARD", "MEDIUM" Уровень сложности подсказок
+    const [cardSelectedThemeID, setCardSelectedThemeID] = useState([]) //Темы карточек, на которые этот тест
+    const [dataForThemeTreeView, setDataForThemeTreeView] = useState([])//Нужно для дерева тем
+    const autoSave = () =>{
+        console.log("--save--")
+    }
+    const cardSelectedThemeIDHandle = (e) =>{
+        autoSave()
+        // console.log(e)
+        const cleanSubThemes: any = []
+        e.map((id: any) =>{
+            if (id > 1000000){
+                cleanSubThemes.push(id)
+            }
+        })
+        setCardSelectedThemeID(cleanSubThemes)
+    }
+    const {data: themesData} = useQuery(GET_THEMES, {
+        onCompleted: themesData => {
+            // console.log(themesData.cardGlobalTheme)
+            const data: any = []
+            themesData.cardGlobalTheme.map((GlobalTheme) =>{
+                const ThisGlobalTheme: any = {}
+                ThisGlobalTheme.title = GlobalTheme.name
+                ThisGlobalTheme.id = GlobalTheme.id
+                ThisGlobalTheme.value = GlobalTheme.id
+                ThisGlobalTheme.isLead = false
+                ThisGlobalTheme.pid = 0
+                data.push(ThisGlobalTheme)
+                GlobalTheme.cardthemeSet.map((Theme) =>{
+                    const ThisTheme: any = {}
+                    ThisTheme.title = Theme.name
+                    ThisTheme.id = Theme.id * 1000
+                    ThisTheme.value = Theme.id * 1000
+                    ThisTheme.pId = ThisGlobalTheme.id
+                    ThisGlobalTheme.isLead = false
+                    data.push(ThisTheme)
+                    Theme.cardsubthemeSet.map((SubTheme) =>{
+                        const ThisSubTheme: any = {}
+                        ThisSubTheme.title = SubTheme.name
+                        ThisSubTheme.id = SubTheme.id * 1000000
+                        ThisSubTheme.value = SubTheme.id * 1000000
+                        ThisSubTheme.pId = Theme.id * 1000
+                        ThisGlobalTheme.isLead = true
+                        data.push(ThisSubTheme)
+                    })
+
+                })
+
+            })
+            // console.log(data)
+            setDataForThemeTreeView(data)
+        }
+    })
+
 
     if(!sequence_data){
         return (
@@ -106,6 +161,12 @@ export default function QuestionSequenceEditor({...props}: any) {
                                         </TextField>
                                     }
                                 />
+                                <Typography style={{fontSize: 12}} color="textSecondary">
+                                    Темы карточек, с которыми связан этот тест. В случае плохого прохождения,
+                                    пользователю предложат перейти на карточки по этим темам:
+                                </Typography>
+                                <ThemeTree {...{dataForThemeTreeView, cardSelectedThemeID, cardSelectedThemeIDHandle}}
+                                           className="col-3" style={{width: 300}}/>
                             </FormGroup>
                         </FormControl>
                     </Row>

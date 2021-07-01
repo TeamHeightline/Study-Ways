@@ -8,3 +8,19 @@ export const GET_QUESTION_SEQUENCE_BY_ID = gql`
             id
         }
     }`
+
+export const GET_THEMES = gql`
+    query GET_THEMES{
+        cardGlobalTheme{
+            id
+            name
+            cardthemeSet{
+                id
+                name
+                cardsubthemeSet{
+                    id
+                    name
+                }
+            }
+        }
+    }`

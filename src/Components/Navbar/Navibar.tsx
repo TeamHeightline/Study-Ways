@@ -47,7 +47,6 @@ export default function Navibar(){
     const history = useHistory();
 
     const mobileMunuClickHandleChange = (event, newValue) => {
-        console.log(newValue)
         if(newValue == 0){
             history.push('/courses')
         }

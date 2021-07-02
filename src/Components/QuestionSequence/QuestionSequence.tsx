@@ -37,12 +37,15 @@ export default function QuestionSequence(){
     return(
         <div className="mr-5 ml-5">
             <Button variant="outlined" color="primary" className="col-12 mt-3 justify-content-center"
-                    size="large"  onClick={() => createQuestionSequence()}>
+                    size="large"  onClick={() => {
+                        createQuestionSequence()
+                        setTimeout(refetch_question_sequence_data, 2000)
+            }}
+                >
                 Создать новую серию вопросов
             </Button>
             <Row className="justify-content-around">
                 {question_sequence_data?.me?.questionsequenceSet?.map((sequence, sIndex) => {
-                    // console.log(sequence)
                     return(
                         <Card key={sequence?.id + "SequenceKey"} className="mt-3 col-5" style={{padding: 0}}
                         onClick={ async() => {

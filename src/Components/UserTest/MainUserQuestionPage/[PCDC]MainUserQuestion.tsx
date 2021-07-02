@@ -134,7 +134,7 @@ export default function PCDCMainUserQuestion({...props}: any){
         )
     }
     return (
-        <QuestionById id={props.selectedQuestionId} helpLevel={props.helpLevel} onChange={(e) =>{
+        <ImageQuestion id={props.selectedQuestionId} helpLevel={props.helpLevel} onChange={(e) =>{
             if(e === "goBack"){
                 props.changeTestHadBeenStarted(false)
             }

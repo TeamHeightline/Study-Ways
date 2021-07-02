@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Card, TextField} from "@material-ui/core";
 import {Form} from "react-bootstrap";
 import {useQuery} from "@apollo/client";
@@ -93,6 +93,9 @@ export default function AnswerCard({...props}: any) {
             setQuestionsForSelect(data.question)
         }
     });
+    useEffect(() =>{
+        props.onChange({questionID: selectedQuestionId})
+    }, [selectedQuestionId])
 
 
 
@@ -137,7 +140,6 @@ export default function AnswerCard({...props}: any) {
                 <div className="mr-3 ml-3 pb-3">
                     <Autocomplete
                         className="mt-3"
-                        id="combo-box-demo"
                         fullWidth
                         options={questionsForSelect}
                         getOptionLabel={(option: any) => option.text}

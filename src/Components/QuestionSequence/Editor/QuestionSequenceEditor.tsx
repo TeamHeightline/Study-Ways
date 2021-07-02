@@ -29,6 +29,8 @@ export default function QuestionSequenceEditor({...props}: any) {
     const [hard_level, set_hard_level] = useState<string>("EASY") //"EASY" "HARD", "MEDIUM" Уровень сложности подсказок
     const [cardSelectedThemeID, setCardSelectedThemeID] = useState([]) //Темы карточек, на которые этот тест
     const [dataForThemeTreeView, setDataForThemeTreeView] = useState([])//Нужно для дерева тем
+    const [use_random_position_for_answers, set_use_random_position_for_answers] = useState<boolean | undefined>() //Перемешивать ли ответы в вопросах
+
     const autoSave = () =>{
         console.log("--save--")
     }
@@ -91,12 +93,15 @@ export default function QuestionSequenceEditor({...props}: any) {
         <div>
             <div className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Редактировать серию вопросов</div>
             {props?.activeEditSeSequenceID &&
-                <Button
-                    className="ml-5"
-                    variant="outlined" color="primary" onClick={() => {
-                    props.onChange("goBack")}}>
-                    Назад
-                </Button>}
+                <div className="ml-4">
+                    <Button
+                        className="ml-5"
+                        variant="outlined" color="primary" onClick={() => {
+                        props.onChange("goBack")}}>
+                        Назад
+                    </Button>
+                </div>
+            }
             <br/>
             <Row className="justify-content-around">
                 <FormControl component="fieldset" className="mt-2 ml-5 col-5">
@@ -128,7 +133,13 @@ export default function QuestionSequenceEditor({...props}: any) {
                 <div className="col-5">
                     <Row>
                         <FormControl component="fieldset" className="mt-2">
+                            <FormLabel component="legend">Настройки для конкретно каждого вопроса: </FormLabel>
                             <FormGroup>
+                                <FormControlLabel
+                                    control={<Switch checked={use_random_position_for_answers}
+                                                     onChange={(e) =>{set_use_random_position_for_answers(e.target.checked)}} name="jason" />}
+                                    label="Перемешивать ли ответы в вопросах"
+                                />
                                 <FormControlLabel
                                     className="mr-5"
                                     label="Максимальное количество попыток для каждого вопроса"
@@ -136,7 +147,7 @@ export default function QuestionSequenceEditor({...props}: any) {
                                         <TextField value={max_sum_of_attempts} onChange={(e) =>{
                                             set_max_sum_of_attempts(e.target.value)
                                         }} size="small" id="outlined-basic" label="Количество"
-                                                   variant="outlined" className="col-3 mr-3" type="number"
+                                                   variant="outlined" className="col-3 mr-3 ml-2" type="number"
                                         />
                                     }
                                 />
@@ -146,8 +157,8 @@ export default function QuestionSequenceEditor({...props}: any) {
                                     control={
                                         <TextField value={hard_level} onChange={(e) =>{
                                             set_hard_level(e.target.value)
-                                        }} size="small" id="outlined-basic" label="Количество" select
-                                                   variant="outlined" className="col-3 mr-3" type="number"
+                                        }} size="small" id="outlined-basic" label="Уровень" select
+                                                   variant="outlined" className="col-3 mr-3 ml-2" type="number"
                                         >
                                             <MenuItem  value={"EASY"}>
                                                 Легкий

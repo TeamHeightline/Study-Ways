@@ -247,6 +247,7 @@ export default function QuestionSequenceEditor({...props}: any) {
             {questionsIDArray && questionsIDArray?.map((question, qIndex) =>{
                 return(
                     <AnswerCard className="col-3 ml-5 mt-3" key={qIndex}
+                                questionID={question}
                     onChange={(data) =>{
                         autoSave()
                         const newQuestionsIDArray =[...questionsIDArray]

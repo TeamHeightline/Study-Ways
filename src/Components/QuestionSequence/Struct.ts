@@ -17,9 +17,9 @@ export const question_sequence_struct = {
         card_themes: []//массив айдишников тех тем, на которые этот вопрос
     },
     sequence: [
-        one_question_struct,
-        one_question_struct,
-        one_question_struct
+        null,
+        null,
+        null
     ]
 }
 

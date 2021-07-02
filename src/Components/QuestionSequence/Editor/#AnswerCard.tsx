@@ -94,7 +94,7 @@ export default function AnswerCard({...props}: any) {
         }
     });
     useEffect(() =>{
-        props.onChange({questionID: selectedQuestionId})
+        props.onChange(selectedQuestionId)
     }, [selectedQuestionId])
 
 

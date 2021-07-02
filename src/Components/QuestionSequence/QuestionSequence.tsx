@@ -10,6 +10,7 @@ export default function QuestionSequence(){
     const {data: question_sequence_data, refetch: refetch_question_sequence_data} = useQuery<Query, null>(GET_MY_QUESTION_SEQUENCE)
     const [isEditNow, setIsEditNow] = useState(false)
     const [activeEditSeSequenceID, setActiveEditSequenceID] = useState<string | undefined>()
+    const [activeEditSequenceIndex, setActiveEditSequenceIndex] = useState<number>(0)
     const [createQuestionSequence, {loading: create_question_loading}] = useMutation<Mutation,{sequenceData : any}>(CREATE_QUESTION_SEQUENCE, {
         variables:{
             sequenceData: question_sequence_struct
@@ -24,7 +25,9 @@ export default function QuestionSequence(){
     }
     if(isEditNow){
         return (
-            <QuestionSequenceEditor {...{activeEditSeSequenceID}} onChange={(data) =>{
+            <QuestionSequenceEditor
+                sequence = {question_sequence_data?.me?.questionsequenceSet[activeEditSequenceIndex]}
+                onChange={(data) =>{
                 if(data === "goBack"){
                     setIsEditNow(false)
                 }
@@ -38,12 +41,13 @@ export default function QuestionSequence(){
                 Создать новую серию вопросов
             </Button>
             <Row className="justify-content-around">
-                {question_sequence_data?.me?.questionsequenceSet?.map((sequence) => {
-                    console.log(sequence)
+                {question_sequence_data?.me?.questionsequenceSet?.map((sequence, sIndex) => {
+                    // console.log(sequence)
                     return(
                         <Card key={sequence?.id + "SequenceKey"} className="mt-3 col-5" style={{padding: 0}}
                         onClick={ async() => {
                             await setActiveEditSequenceID(sequence?.id)
+                            await setActiveEditSequenceIndex(sIndex)
                             await setTimeout( setIsEditNow, 500, true)
                         }
                         }>

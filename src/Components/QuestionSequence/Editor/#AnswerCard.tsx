@@ -104,7 +104,6 @@ export default function AnswerCard({...props}: any) {
     }, [selectedQuestion])
 
 
-    console.log(selectedQuestion)
     return(
         <div {...props}>
             <Card>

@@ -25,7 +25,7 @@ export default function QuestionSequenceEditor({...props}: any) {
     const [need_await_full_true_answers, set_need_await_full_true_answers] = useState<boolean | undefined>(props?.sequence?.sequenceData?.settings?.need_await_full_true_answers) //Нужно ли ждать пока пользователь выбирет все правильные ответы
     const [max_sum_of_attempts, set_max_sum_of_attempts] = useState<string | undefined>(props?.sequence?.sequenceData?.settings?.max_sum_of_attempts) //Максимальное количество попыток для каждого вопроса
     const [hard_level, set_hard_level] = useState<string>(props?.sequence?.sequenceData?.settings?.hard_level) //"EASY" "HARD", "MEDIUM" Уровень сложности подсказок
-    const [cardSelectedThemeID, setCardSelectedThemeID] = useState(props?.sequence?.sequenceData?.settings?.cardSelectedThemeID) //Темы карточек, на которые этот тест
+    const [cardSelectedThemeID, setCardSelectedThemeID] = useState(props?.sequence?.sequenceData?.settings?.card_themes) //Темы карточек, на которые этот тест
     const [dataForThemeTreeView, setDataForThemeTreeView] = useState([])//Нужно для дерева тем
     const [use_random_position_for_answers, set_use_random_position_for_answers] = useState<boolean | undefined>(props?.sequence?.sequenceData?.settings?.use_random_position_for_answers) //Перемешивать ли ответы в вопросах
     const [questionsIDArray, setQuestionsIDArray] = useState<number[] >(props?.sequence?.sequenceData?.sequence)//Нужно для хранения массива айдишников вопросов
@@ -113,7 +113,7 @@ export default function QuestionSequenceEditor({...props}: any) {
         }
     })
 
-
+    console.log(props?.sequence?.sequenceData?.settings?.card_themes)
     if(!props.sequence){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>

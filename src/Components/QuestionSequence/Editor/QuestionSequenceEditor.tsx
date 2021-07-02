@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {GET_QUESTION_SEQUENCE_BY_ID, GET_THEMES} from "./Struct";
 import {useQuery} from "@apollo/client";
 import {Query} from "../../../../SchemaTypes";
-import {Row, Spinner} from "react-bootstrap";
+import {Col, Row, Spinner} from "react-bootstrap";
 import {
     Button,
     FormControl,
@@ -14,13 +14,17 @@ import {
     TextField, Typography
 } from "@material-ui/core";
 import ThemeTree from "../../Cards/Editor/CardEditByID/#ThemeTree";
+import AnswerCard from "./#AnswerCard";
 
 export default function QuestionSequenceEditor({...props}: any) {
-    const {data: sequence_data} = useQuery<Query, {id: string}>(GET_QUESTION_SEQUENCE_BY_ID, {
-        variables:{
-            id: props?.activeEditSeSequenceID,
-        }
-    })
+    // const {data: sequence_data} = useQuery<Query, {id: string}>(GET_QUESTION_SEQUENCE_BY_ID, {
+    //     variables:{
+    //         id: props?.activeEditSeSequenceID,
+    //     },
+    //     onCompleted: data =>{
+    //         console.log(props?.activeEditSeSequenceID)
+    //         console.log(data)}
+    // })
     const [use_random_position_for_questions, set_use_random_position_for_questions] = useState<boolean | undefined>() //Включить перемешивание вопросов
     const [can_switch_pages, set_can_switch_pages] = useState<boolean | undefined>() // Резрешить переключение между вопросами
     const [show_help_text, set_show_help_text] = useState<boolean | undefined>() //Показывать подсказки или нет
@@ -84,24 +88,23 @@ export default function QuestionSequenceEditor({...props}: any) {
     })
 
 
-    if(!sequence_data){
+    if(!props.sequence){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
+    console.log(props.sequence)
     return(
         <div>
             <div className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Редактировать серию вопросов</div>
-            {props?.activeEditSeSequenceID &&
-                <div className="ml-4">
-                    <Button
-                        className="ml-5"
-                        variant="outlined" color="primary" onClick={() => {
-                        props.onChange("goBack")}}>
-                        Назад
-                    </Button>
-                </div>
-            }
+            <div className="ml-4">
+                <Button
+                    className="ml-5"
+                    variant="outlined" color="primary" onClick={() => {
+                    props.onChange("goBack")}}>
+                    Назад
+                </Button>
+            </div>
             <br/>
             <Row className="justify-content-around">
                 <FormControl component="fieldset" className="mt-2 ml-5 col-5">
@@ -182,6 +185,14 @@ export default function QuestionSequenceEditor({...props}: any) {
                         </FormControl>
                     </Row>
                 </div>
+            </Row>
+            <Row className="justify-content-around" >
+            {props.sequence?.sequenceData?.sequence?.map((question, qIndex) =>{
+                console.log(props.sequence?.sequenceData)
+                return(
+                    <AnswerCard className="col-3 ml-5" key={qIndex}/>
+                )
+            })}
             </Row>
         </div>
     )

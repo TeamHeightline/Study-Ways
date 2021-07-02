@@ -8,13 +8,14 @@ import {
     FormControlLabel,
     FormGroup,
     FormHelperText,
-    FormLabel, MenuItem,
+    FormLabel, MenuItem, Snackbar,
     Switch,
     TextField, Typography
 } from "@material-ui/core";
 import ThemeTree from "../../Cards/Editor/CardEditByID/#ThemeTree";
 import AnswerCard from "./#AnswerCard";
 import {Mutation} from "../../../../SchemaTypes";
+import {Alert} from "@material-ui/lab";
 
 export default function QuestionSequenceEditor({...props}: any) {
 
@@ -27,16 +28,13 @@ export default function QuestionSequenceEditor({...props}: any) {
     const [cardSelectedThemeID, setCardSelectedThemeID] = useState(props?.sequence?.sequenceData?.settings?.cardSelectedThemeID) //Темы карточек, на которые этот тест
     const [dataForThemeTreeView, setDataForThemeTreeView] = useState([])//Нужно для дерева тем
     const [use_random_position_for_answers, set_use_random_position_for_answers] = useState<boolean | undefined>(props?.sequence?.sequenceData?.settings?.use_random_position_for_answers) //Перемешивать ли ответы в вопросах
-    const [questionsIDArray, setQuestionsIDArray] = useState<number[] >([])//Нужно для хранения массива айдишников вопросов
+    const [questionsIDArray, setQuestionsIDArray] = useState<number[] >(props?.sequence?.sequenceData?.sequence)//Нужно для хранения массива айдишников вопросов
     const [sequenceName, setSequenceName] = useState<string>(props?.sequence?.name)//Название последовательности вопросов
 
 
-    useEffect( () => {
-        setQuestionsIDArray(
-            props?.sequence?.sequenceData?.sequence.map((sameQuestion) =>{
-                return(sameQuestion.questionId)
-            })
-        )}, [props?.sequence])
+    const [stateOfSave, setStateOfSave] = useState(2) // 0- не сохранено 1- сохранение 2- сохранено
+    const [autoSaveTimer, changeAutoSaveTimer] = useState<any>()
+
     const [updateQuestionSequence, {loading: update_sequence_loading}] = useMutation<Mutation, {sequenceData: any, sequenceId: number, name: string}>(UPDATE_QUESTION_SEQUENCE, {
             variables:{
                 sequenceId: props?.sequence?.id,
@@ -55,11 +53,19 @@ export default function QuestionSequenceEditor({...props}: any) {
                     sequence: questionsIDArray //массив ID вопросов
                 }
 
-            }
+            },
+        onCompleted: data =>{
+                setStateOfSave(2)}
         })
 
     const autoSave = () =>{
-        console.log("--save--")
+        clearTimeout(autoSaveTimer)
+        setStateOfSave(0)
+        changeAutoSaveTimer(setTimeout(() => {
+            setStateOfSave(1)
+            console.log("-----autosave-------")
+            updateQuestionSequence()
+        }, 4000))
     }
     const cardSelectedThemeIDHandle = (e) =>{
         autoSave()
@@ -250,6 +256,16 @@ export default function QuestionSequenceEditor({...props}: any) {
                 )
             })}
             </Row>
+            <Snackbar open={true}>
+                <Alert severity="info">
+                    {stateOfSave === 0 &&
+                    "Изменения не сохранены"}
+                    {stateOfSave === 1 &&
+                    "Автосохранение"}
+                    {stateOfSave === 2 &&
+                    "Сохранено"}
+                </Alert>
+            </Snackbar>
         </div>
     )
 }

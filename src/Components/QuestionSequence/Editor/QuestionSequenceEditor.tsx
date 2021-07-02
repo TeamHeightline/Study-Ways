@@ -1,10 +1,9 @@
 import React, {useState} from 'react'
-import {GET_QUESTION_SEQUENCE_BY_ID, GET_THEMES} from "./Struct";
+import {GET_THEMES} from "./Struct";
 import {useQuery} from "@apollo/client";
-import {Query} from "../../../../SchemaTypes";
-import {Col, Row, Spinner} from "react-bootstrap";
+import { Row, Spinner} from "react-bootstrap";
 import {
-    Button, Divider,
+    Button,
     FormControl,
     FormControlLabel,
     FormGroup,
@@ -17,14 +16,7 @@ import ThemeTree from "../../Cards/Editor/CardEditByID/#ThemeTree";
 import AnswerCard from "./#AnswerCard";
 
 export default function QuestionSequenceEditor({...props}: any) {
-    // const {data: sequence_data} = useQuery<Query, {id: string}>(GET_QUESTION_SEQUENCE_BY_ID, {
-    //     variables:{
-    //         id: props?.activeEditSeSequenceID,
-    //     },
-    //     onCompleted: data =>{
-    //         console.log(props?.activeEditSeSequenceID)
-    //         console.log(data)}
-    // })
+
     const [use_random_position_for_questions, set_use_random_position_for_questions] = useState<boolean | undefined>() //Включить перемешивание вопросов
     const [can_switch_pages, set_can_switch_pages] = useState<boolean | undefined>() // Резрешить переключение между вопросами
     const [show_help_text, set_show_help_text] = useState<boolean | undefined>() //Показывать подсказки или нет
@@ -34,13 +26,13 @@ export default function QuestionSequenceEditor({...props}: any) {
     const [cardSelectedThemeID, setCardSelectedThemeID] = useState([]) //Темы карточек, на которые этот тест
     const [dataForThemeTreeView, setDataForThemeTreeView] = useState([])//Нужно для дерева тем
     const [use_random_position_for_answers, set_use_random_position_for_answers] = useState<boolean | undefined>() //Перемешивать ли ответы в вопросах
+    const [questionsIDArray, setQuestionsIDArray] = useState<number[] >([])//Нужно для хранения массива айдишников вопросов
 
     const autoSave = () =>{
         console.log("--save--")
     }
     const cardSelectedThemeIDHandle = (e) =>{
         autoSave()
-        // console.log(e)
         const cleanSubThemes: any = []
         e.map((id: any) =>{
             if (id > 1000000){
@@ -51,7 +43,6 @@ export default function QuestionSequenceEditor({...props}: any) {
     }
     const {data: themesData} = useQuery(GET_THEMES, {
         onCompleted: themesData => {
-            // console.log(themesData.cardGlobalTheme)
             const data: any = []
             themesData.cardGlobalTheme.map((GlobalTheme) =>{
                 const ThisGlobalTheme: any = {}
@@ -82,7 +73,6 @@ export default function QuestionSequenceEditor({...props}: any) {
                 })
 
             })
-            // console.log(data)
             setDataForThemeTreeView(data)
         }
     })
@@ -93,7 +83,6 @@ export default function QuestionSequenceEditor({...props}: any) {
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
-    console.log(props.sequence)
     return(
         <div>
             <div className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Редактировать серию вопросов</div>
@@ -112,22 +101,34 @@ export default function QuestionSequenceEditor({...props}: any) {
                     <FormGroup>
                         <FormControlLabel
                             control={<Switch checked={use_random_position_for_questions}
-                                             onChange={(e) => {set_use_random_position_for_questions(e.target.checked)}} name="gilad"/>}
+                                             onChange={(e) => {
+                                                 autoSave()
+                                                 set_use_random_position_for_questions(e.target.checked)
+                                             }} name="gilad"/>}
                             label="Включить перемешивание вопросов"
                         />
                         <FormControlLabel
                             control={<Switch checked={can_switch_pages}
-                                             onChange={(e) =>{set_can_switch_pages(e.target.checked)}} name="jason" />}
+                                             onChange={(e) =>{
+                                                 autoSave()
+                                                 set_can_switch_pages(e.target.checked)
+                                             }} name="jason" />}
                             label="Резрешить переключение между вопросами"
                         />
                         <FormControlLabel
                             control={<Switch checked={show_help_text}
-                                             onChange={(e) =>{set_show_help_text(e.target.checked)}} name="jason" />}
+                                             onChange={(e) =>{
+                                                 autoSave()
+                                                 set_show_help_text(e.target.checked)
+                                             }} name="jason" />}
                             label="Показывать подсказки или нет"
                         />
                         <FormControlLabel
                             control={<Switch checked={need_await_full_true_answers}
-                                             onChange={(e) =>{set_need_await_full_true_answers(e.target.checked)}} name="jason" />}
+                                             onChange={(e) =>{
+                                                 autoSave()
+                                                 set_need_await_full_true_answers(e.target.checked)
+                                             }} name="jason" />}
                             label="Нужно ли ждать пока пользователь выбирет все правильные ответы"
                         />
                     </FormGroup>
@@ -140,7 +141,10 @@ export default function QuestionSequenceEditor({...props}: any) {
                             <FormGroup>
                                 <FormControlLabel
                                     control={<Switch checked={use_random_position_for_answers}
-                                                     onChange={(e) =>{set_use_random_position_for_answers(e.target.checked)}} name="jason" />}
+                                                     onChange={(e) =>{
+                                                         autoSave()
+                                                         set_use_random_position_for_answers(e.target.checked)
+                                                     }} name="jason" />}
                                     label="Перемешивать ли ответы в вопросах"
                                 />
                                 <FormControlLabel
@@ -148,6 +152,7 @@ export default function QuestionSequenceEditor({...props}: any) {
                                     label="Максимальное количество попыток для каждого вопроса"
                                     control={
                                         <TextField value={max_sum_of_attempts} onChange={(e) =>{
+                                            autoSave()
                                             set_max_sum_of_attempts(e.target.value)
                                         }} size="small" id="outlined-basic" label="Количество"
                                                    variant="outlined" className="col-3 mr-3 ml-2" type="number"
@@ -159,6 +164,7 @@ export default function QuestionSequenceEditor({...props}: any) {
                                     label="Уровень сложности подсказок"
                                     control={
                                         <TextField value={hard_level} onChange={(e) =>{
+                                            autoSave()
                                             set_hard_level(e.target.value)
                                         }} size="small" id="outlined-basic" label="Уровень" select
                                                    variant="outlined" className="col-3 mr-3 ml-2" type="number"
@@ -188,9 +194,15 @@ export default function QuestionSequenceEditor({...props}: any) {
             </Row>
             <Row className="justify-content-around" >
             {props.sequence?.sequenceData?.sequence?.map((question, qIndex) =>{
-                console.log(props.sequence?.sequenceData)
                 return(
-                    <AnswerCard className="col-3 ml-5 mt-3" key={qIndex}/>
+                    <AnswerCard className="col-3 ml-5 mt-3" key={qIndex}
+                    onChange={(data) =>{
+                        autoSave()
+                        const newQuestionsIDArray =[...questionsIDArray]
+                        newQuestionsIDArray[qIndex] = data
+                        setQuestionsIDArray(newQuestionsIDArray)
+                        console.log(newQuestionsIDArray)
+                    }}/>
                 )
             })}
             </Row>

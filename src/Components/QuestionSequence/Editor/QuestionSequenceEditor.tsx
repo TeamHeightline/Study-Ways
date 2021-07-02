@@ -4,7 +4,7 @@ import {useQuery} from "@apollo/client";
 import {Query} from "../../../../SchemaTypes";
 import {Col, Row, Spinner} from "react-bootstrap";
 import {
-    Button,
+    Button, Divider,
     FormControl,
     FormControlLabel,
     FormGroup,
@@ -190,7 +190,7 @@ export default function QuestionSequenceEditor({...props}: any) {
             {props.sequence?.sequenceData?.sequence?.map((question, qIndex) =>{
                 console.log(props.sequence?.sequenceData)
                 return(
-                    <AnswerCard className="col-3 ml-5" key={qIndex}/>
+                    <AnswerCard className="col-3 ml-5 mt-3" key={qIndex}/>
                 )
             })}
             </Row>

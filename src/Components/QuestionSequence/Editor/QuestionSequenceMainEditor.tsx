@@ -1,12 +1,12 @@
 import React, {useState} from 'react'
 import {useMutation, useQuery} from "@apollo/client";
-import {Mutation, Query} from "../../../SchemaTypes";
+import {Mutation, Query} from "../../../../SchemaTypes";
 import {CREATE_QUESTION_SEQUENCE, GET_MY_QUESTION_SEQUENCE, question_sequence_struct} from "./Struct"
 import {Button, Paper, Typography, Card, CardActionArea} from "@material-ui/core";
 import {Row, Spinner} from "react-bootstrap";
-import QuestionSequenceEditor from "./Editor/QuestionSequenceEditor";
+import QuestionSequenceEditByID from "./EditByID/QuestionSequenceEditByID";
 
-export default function QuestionSequence(){
+export default function QuestionSequenceMainEditor(){
     const {data: question_sequence_data, refetch: refetch_question_sequence_data} = useQuery<Query, null>(GET_MY_QUESTION_SEQUENCE)
     const [isEditNow, setIsEditNow] = useState(false)
     const [activeEditSeSequenceID, setActiveEditSequenceID] = useState<string | undefined>()
@@ -25,7 +25,7 @@ export default function QuestionSequence(){
     }
     if(isEditNow){
         return (
-            <QuestionSequenceEditor
+            <QuestionSequenceEditByID
                 sequence = {question_sequence_data?.me?.questionsequenceSet[activeEditSequenceIndex]}
                 onChange={(data) =>{
                 if(data === "goBack"){

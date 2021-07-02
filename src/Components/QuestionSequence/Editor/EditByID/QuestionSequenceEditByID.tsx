@@ -12,13 +12,14 @@ import {
     Switch,
     TextField, Typography
 } from "@material-ui/core";
-import ThemeTree from "../../Cards/Editor/CardEditByID/#ThemeTree";
-import AnswerCard from "./#AnswerCard";
-import {Mutation} from "../../../../SchemaTypes";
+import ThemeTree from "../../../Cards/Editor/CardEditByID/#ThemeTree";
+import QuestionCard from "./#QuestionCard";
+
+import {Mutation} from "../../../../../SchemaTypes";
 import {Alert} from "@material-ui/lab";
 import CardMedia from "@material-ui/core/CardMedia";
 
-export default function QuestionSequenceEditor({...props}: any) {
+export default function QuestionSequenceEditByID({...props}: any) {
 
     const [use_random_position_for_questions, set_use_random_position_for_questions] = useState<boolean | undefined>(props?.sequence?.sequenceData?.settings?.use_random_position_for_questions) //Включить перемешивание вопросов
     const [can_switch_pages, set_can_switch_pages] = useState<boolean | undefined>(props?.sequence?.sequenceData?.settings?.can_switch_pages) // Резрешить переключение между вопросами
@@ -265,9 +266,9 @@ export default function QuestionSequenceEditor({...props}: any) {
                 </div>
             {questionsIDArray && questionsIDArray?.map((question, qIndex) =>{
                 return(
-                    <AnswerCard className="col-3 ml-5 mt-3" key={qIndex}
-                                questionID={question}
-                    onChange={(data) =>{
+                    <QuestionCard className="col-3 ml-5 mt-3" key={qIndex}
+                                  questionID={question}
+                                  onChange={(data) =>{
                         autoSave()
                         const newQuestionsIDArray =[...questionsIDArray]
                         newQuestionsIDArray[qIndex] = data

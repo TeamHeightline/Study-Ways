@@ -1,66 +1,42 @@
 import {gql} from "graphql.macro";
-import {makeStyles} from "@material-ui/core/styles";
 
-export const GET_QUESTION_SEQUENCE_BY_ID = gql`
-    query GET_QUESTION_SEQUENCE_BY_ID($id: ID!){
-        questionSequenceById(id: $id){
-            sequenceData
-            name
-            id
-        }
-    }`
+export const one_question_struct = {
+    question_id: null, //ID вопроса
 
-export const GET_THEMES = gql`
-    query GET_THEMES{
-        cardGlobalTheme{
-            id
-            name
-            cardthemeSet{
-                id
-                name
-                cardsubthemeSet{
-                    id
-                    name
-                }
-            }
-        }
-    }`
+}
 
-export const UPDATE_QUESTION_SEQUENCE = gql`
-    mutation UPDATE_QUESTION_SEQUENCE($sequenceData: GenericScalar!, $sequenceId: ID!, $name: String!){
-        updateQuestionSequence(input: {name: $name, sequenceId: $sequenceId, sequenceData: $sequenceData}){
+export const question_sequence_struct = {
+    settings: {
+        can_switch_pages: true,//может ли пользователь сам переключаться между вопросами
+        use_random_position_for_questions: true, //Перемешивать ли все вопросы в серии вопросов
+        show_help_text: true,//Показывать подсказки или нет
+        need_await_full_true_answers: false, //Нужно ли ждать пока пользователь ответит все правильно, или можно переключаться дальше
+        use_random_position_for_answers: true, //Перемешивать ли ответы
+        max_sum_of_attempts: 12, //Максимальное количество попыток
+        hard_level: "MEDIUM",// "HARD", "MEDIUM", "EASY"
+        card_themes: []//массив айдишников тех тем, на которые этот вопрос
+    },
+    sequence: [
+        null,
+        null,
+        null
+    ]
+}
+
+export const CREATE_QUESTION_SEQUENCE = gql`
+    mutation CREATE_QUESTION_SEQUENCE($sequenceData: GenericScalar!){
+        createQuestionSequence(input: {sequenceData: $sequenceData,}){
             clientMutationId
         }
     }`
-export const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        height: "170px"
-    },
-    details: {
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    content: {
-        flex: '1 0 auto',
-    },
-    contentText:{
-        // ...theme.typography.button,
-        fontSize: "20px",
-        marginLeft: "40px",
 
-    },
-    cover: {
-        width: 200,
-    },
-    controls: {
-        display: 'flex',
-        alignItems: 'center',
-        paddingLeft: theme.spacing(1),
-        paddingBottom: theme.spacing(1),
-    },
-    playIcon: {
-        height: 38,
-        width: 38,
-    },
-}));
+export const GET_MY_QUESTION_SEQUENCE = gql`
+    query GET_MY_QUESTION_SEQUENCE{
+        me{
+            questionsequenceSet{
+                sequenceData
+                id
+                name
+            }
+        }
+    }`

@@ -2,11 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {Card, TextField} from "@material-ui/core";
 import {Form} from "react-bootstrap";
 import {useQuery} from "@apollo/client";
-import {GET_ALL_QUESTIONS, GET_QUESTION_DATA} from "../../UserTest/MainUserQuestionPage/Structs";
+import {GET_ALL_QUESTIONS, GET_QUESTION_DATA} from "../../../UserTest/MainUserQuestionPage/Structs";
 import * as _ from "lodash"
 import {Autocomplete} from "@material-ui/lab";
 
-export default function AnswerCard({...props}: any) {
+export default function QuestionCard({...props}: any) {
     //Логика для выбора тем, скопирована с [LC]MainUserQuestion
     const [authorsForSearching, setAuthorsForSearching] = useState<any>([{}]) //Массив всех авторов из которых можно выбирать
     const [themesForSearching, setThemesForSearching] = useState<any>([{}]) //Массив всех тем, остались только те, для которых есть вопрос при выбранной теме

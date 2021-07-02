@@ -76,9 +76,9 @@ export default function QuestionSequence(){
                                     <Typography>
                                     </Typography>
                                     <Row className="mr-3 ml-3" style={{overflowY: "auto"}}>
-                                        {sequence?.sequenceData?.sequence?.map( question =>{
+                                        {sequence?.sequenceData?.sequence?.map( (question, qIndex) =>{
                                             return(
-                                                <Card className="col-2 mr-2 ml-2 mt-2" key={sequence?.id + "SequenceKey"+ question?.id + "QuestionKey"}>
+                                                <Card className="col-2 mr-2 ml-2 mt-2" key={sequence?.id + "SequenceKey"+ qIndex + "QuestionKey"}>
                                                     {question?.id ? question.id : "Null"}
                                                     <br/>
                                                 </Card>

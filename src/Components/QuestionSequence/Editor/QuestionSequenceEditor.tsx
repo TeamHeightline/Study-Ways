@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react'
-import {GET_THEMES, UPDATE_QUESTION_SEQUENCE} from "./Struct";
+import {GET_THEMES, UPDATE_QUESTION_SEQUENCE, useStyles} from "./Struct";
 import {useMutation, useQuery} from "@apollo/client";
 import { Row, Spinner} from "react-bootstrap";
 import {
-    Button,
+    Button, Card, CardActionArea,
     FormControl,
     FormControlLabel,
     FormGroup,
@@ -16,6 +16,7 @@ import ThemeTree from "../../Cards/Editor/CardEditByID/#ThemeTree";
 import AnswerCard from "./#AnswerCard";
 import {Mutation} from "../../../../SchemaTypes";
 import {Alert} from "@material-ui/lab";
+import CardMedia from "@material-ui/core/CardMedia";
 
 export default function QuestionSequenceEditor({...props}: any) {
 
@@ -28,7 +29,7 @@ export default function QuestionSequenceEditor({...props}: any) {
     const [cardSelectedThemeID, setCardSelectedThemeID] = useState(props?.sequence?.sequenceData?.settings?.card_themes) //Темы карточек, на которые этот тест
     const [dataForThemeTreeView, setDataForThemeTreeView] = useState([])//Нужно для дерева тем
     const [use_random_position_for_answers, set_use_random_position_for_answers] = useState<boolean | undefined>(props?.sequence?.sequenceData?.settings?.use_random_position_for_answers) //Перемешивать ли ответы в вопросах
-    const [questionsIDArray, setQuestionsIDArray] = useState<number[] >(props?.sequence?.sequenceData?.sequence)//Нужно для хранения массива айдишников вопросов
+    const [questionsIDArray, setQuestionsIDArray] = useState<(number| null)[] >(props?.sequence?.sequenceData?.sequence)//Нужно для хранения массива айдишников вопросов
     const [sequenceName, setSequenceName] = useState<string>(props?.sequence?.name)//Название последовательности вопросов
 
 
@@ -112,8 +113,14 @@ export default function QuestionSequenceEditor({...props}: any) {
             setDataForThemeTreeView(data)
         }
     })
+    const classes = useStyles();
+    const addQuestion = () =>{
+        autoSave()
+        const __questionsIDArray =[...questionsIDArray]
+        __questionsIDArray.push(null)
+        setQuestionsIDArray(__questionsIDArray)
+    }
 
-    console.log(props?.sequence?.sequenceData?.settings?.card_themes)
     if(!props.sequence){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
@@ -244,6 +251,18 @@ export default function QuestionSequenceEditor({...props}: any) {
                 </div>
             </Row>
             <Row className="justify-content-around" >
+                <div className="col-3 ml-5 mt-3">
+                    <Card className={classes.root} style={{padding: 0}} >
+                        <CardMedia
+                            className={classes.cover}
+                            image="https://www.shareicon.net/data/256x256/2017/03/06/880378_blue_512x512.png"
+                            title="add question"
+                        />
+                        <CardActionArea onClick={() =>{addQuestion()}}>
+                            <div className="display-4 text-center" style={{fontSize: '33px'}}>Добавить вопрос</div>
+                        </CardActionArea>
+                    </Card>
+                </div>
             {questionsIDArray && questionsIDArray?.map((question, qIndex) =>{
                 return(
                     <AnswerCard className="col-3 ml-5 mt-3" key={qIndex}

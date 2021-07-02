@@ -29,6 +29,7 @@ export default function QuestionSequence(){
                 sequence = {question_sequence_data?.me?.questionsequenceSet[activeEditSequenceIndex]}
                 onChange={(data) =>{
                 if(data === "goBack"){
+                    refetch_question_sequence_data()
                     setIsEditNow(false)
                 }
             }}/>
@@ -82,7 +83,7 @@ export default function QuestionSequence(){
                                         {sequence?.sequenceData?.sequence?.map( (question, qIndex) =>{
                                             return(
                                                 <Card className="col-2 mr-2 ml-2 mt-2" key={sequence?.id + "SequenceKey"+ qIndex + "QuestionKey"}>
-                                                    {question?.id ? question.id : "Null"}
+                                                    {question ? question : "Null"}
                                                     <br/>
                                                 </Card>
                                             )

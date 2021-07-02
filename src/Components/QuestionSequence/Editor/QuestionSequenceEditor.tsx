@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
-import {GET_THEMES} from "./Struct";
-import {useQuery} from "@apollo/client";
+import React, {useEffect, useState} from 'react'
+import {GET_THEMES, UPDATE_QUESTION_SEQUENCE} from "./Struct";
+import {useMutation, useQuery} from "@apollo/client";
 import { Row, Spinner} from "react-bootstrap";
 import {
     Button,
@@ -14,19 +14,49 @@ import {
 } from "@material-ui/core";
 import ThemeTree from "../../Cards/Editor/CardEditByID/#ThemeTree";
 import AnswerCard from "./#AnswerCard";
+import {Mutation} from "../../../../SchemaTypes";
 
 export default function QuestionSequenceEditor({...props}: any) {
 
-    const [use_random_position_for_questions, set_use_random_position_for_questions] = useState<boolean | undefined>() //Включить перемешивание вопросов
-    const [can_switch_pages, set_can_switch_pages] = useState<boolean | undefined>() // Резрешить переключение между вопросами
-    const [show_help_text, set_show_help_text] = useState<boolean | undefined>() //Показывать подсказки или нет
-    const [need_await_full_true_answers, set_need_await_full_true_answers] = useState<boolean | undefined>() //Нужно ли ждать пока пользователь выбирет все правильные ответы
-    const [max_sum_of_attempts, set_max_sum_of_attempts] = useState<string | undefined>("10") //Максимальное количество попыток для каждого вопроса
-    const [hard_level, set_hard_level] = useState<string>("EASY") //"EASY" "HARD", "MEDIUM" Уровень сложности подсказок
-    const [cardSelectedThemeID, setCardSelectedThemeID] = useState([]) //Темы карточек, на которые этот тест
+    const [use_random_position_for_questions, set_use_random_position_for_questions] = useState<boolean | undefined>(props?.sequence?.sequenceData?.settings?.use_random_position_for_questions) //Включить перемешивание вопросов
+    const [can_switch_pages, set_can_switch_pages] = useState<boolean | undefined>(props?.sequence?.sequenceData?.settings?.can_switch_pages) // Резрешить переключение между вопросами
+    const [show_help_text, set_show_help_text] = useState<boolean | undefined>(props?.sequence?.sequenceData?.settings?.show_help_text) //Показывать подсказки или нет
+    const [need_await_full_true_answers, set_need_await_full_true_answers] = useState<boolean | undefined>(props?.sequence?.sequenceData?.settings?.need_await_full_true_answers) //Нужно ли ждать пока пользователь выбирет все правильные ответы
+    const [max_sum_of_attempts, set_max_sum_of_attempts] = useState<string | undefined>(props?.sequence?.sequenceData?.settings?.max_sum_of_attempts) //Максимальное количество попыток для каждого вопроса
+    const [hard_level, set_hard_level] = useState<string>(props?.sequence?.sequenceData?.settings?.hard_level) //"EASY" "HARD", "MEDIUM" Уровень сложности подсказок
+    const [cardSelectedThemeID, setCardSelectedThemeID] = useState(props?.sequence?.sequenceData?.settings?.cardSelectedThemeID) //Темы карточек, на которые этот тест
     const [dataForThemeTreeView, setDataForThemeTreeView] = useState([])//Нужно для дерева тем
-    const [use_random_position_for_answers, set_use_random_position_for_answers] = useState<boolean | undefined>() //Перемешивать ли ответы в вопросах
+    const [use_random_position_for_answers, set_use_random_position_for_answers] = useState<boolean | undefined>(props?.sequence?.sequenceData?.settings?.use_random_position_for_answers) //Перемешивать ли ответы в вопросах
     const [questionsIDArray, setQuestionsIDArray] = useState<number[] >([])//Нужно для хранения массива айдишников вопросов
+    const [sequenceName, setSequenceName] = useState<string>(props?.sequence?.name)//Название последовательности вопросов
+
+
+    useEffect( () => {
+        setQuestionsIDArray(
+            props?.sequence?.sequenceData?.sequence.map((sameQuestion) =>{
+                return(sameQuestion.questionId)
+            })
+        )}, [props?.sequence])
+    const [updateQuestionSequence, {loading: update_sequence_loading}] = useMutation<Mutation, {sequenceData: any, sequenceId: number, name: string}>(UPDATE_QUESTION_SEQUENCE, {
+            variables:{
+                sequenceId: props?.sequence?.id,
+                name: sequenceName,
+                sequenceData: {
+                    settings: {
+                        can_switch_pages: can_switch_pages,//может ли пользователь сам переключаться между вопросами
+                        use_random_position_for_questions: use_random_position_for_questions, //Перемешивать ли все вопросы в серии вопросов
+                        show_help_text: show_help_text,//Показывать подсказки или нет
+                        need_await_full_true_answers: need_await_full_true_answers, //Нужно ли ждать пока пользователь ответит все правильно, или можно переключаться дальше
+                        use_random_position_for_answers: use_random_position_for_answers, //Перемешивать ли ответы
+                        max_sum_of_attempts: max_sum_of_attempts, //Максимальное количество попыток
+                        hard_level: hard_level,// "HARD", "MEDIUM", "EASY"
+                        card_themes: cardSelectedThemeID//массив айдишников тех тем, на которые этот вопрос
+                    },
+                    sequence: questionsIDArray //массив ID вопросов
+                }
+
+            }
+        })
 
     const autoSave = () =>{
         console.log("--save--")
@@ -95,6 +125,21 @@ export default function QuestionSequenceEditor({...props}: any) {
                 </Button>
             </div>
             <br/>
+            <Row className="justify-content-around">
+                {/*Обманный ход, чтобы текстовое поле было на такой же позиции, что и меню, которое под ним*/}
+                <TextField value={sequenceName}
+                           onChange={(e) =>{
+                                autoSave()
+                                setSequenceName(e.target.value)
+                           }}
+                           size="small"
+                           label="Название серии вопросов"
+                           variant="outlined" className="ml-5 col-5"
+                />
+                {/*Этот див нужен только для того, чтобы правильно поставить текстовое поле кодом выше*/}
+                <div className="col-5">
+                </div>
+            </Row>
             <Row className="justify-content-around">
                 <FormControl component="fieldset" className="mt-2 ml-5 col-5">
                     <FormLabel component="legend">Настройки серии вопросов:</FormLabel>
@@ -193,7 +238,7 @@ export default function QuestionSequenceEditor({...props}: any) {
                 </div>
             </Row>
             <Row className="justify-content-around" >
-            {props.sequence?.sequenceData?.sequence?.map((question, qIndex) =>{
+            {questionsIDArray && questionsIDArray?.map((question, qIndex) =>{
                 return(
                     <AnswerCard className="col-3 ml-5 mt-3" key={qIndex}
                     onChange={(data) =>{
@@ -201,7 +246,6 @@ export default function QuestionSequenceEditor({...props}: any) {
                         const newQuestionsIDArray =[...questionsIDArray]
                         newQuestionsIDArray[qIndex] = data
                         setQuestionsIDArray(newQuestionsIDArray)
-                        console.log(newQuestionsIDArray)
                     }}/>
                 )
             })}

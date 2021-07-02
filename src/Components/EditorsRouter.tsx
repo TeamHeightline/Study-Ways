@@ -15,6 +15,7 @@ import RecentActorsIcon from '@material-ui/icons/RecentActors';
 
 import LinearScaleIcon from '@material-ui/icons/LinearScale'; // оставим для серии вопросов
 import SearchingElementsPage from "./SearchingElements/SearchingElementsPage";
+import QuestionSequenceMainEditor from "./QuestionSequence/Editor/QuestionSequenceMainEditor";
 const CHECK_USER_LEVEL = gql`
 query CHECK_USER_LEVEL{
       me{
@@ -57,11 +58,13 @@ export default function EditorsRouter(){
             <BottomNavigationAction label="Редактор карточек" icon={<ArtTrackIcon/>}/>
             <BottomNavigationAction label="Темы и авторы" icon={<RecentActorsIcon/>}/>
             <BottomNavigationAction label="Редактор вопроса" icon={<FormatListBulletedIcon />} />
+            <BottomNavigationAction label="Редактор серии вопросов" icon={<LinearScaleIcon />} />
         </BottomNavigation>
             {value === 0 && <MainCourseEditor/>}
             {value === 1 && <MainCardEditor/>}
             {value === 2 && <SearchingElementsPage/>}
             {value === 3 && <LCUpdateQuestion/>}
+            {value === 4 && <QuestionSequenceMainEditor/>}
         </div>
     );
 }

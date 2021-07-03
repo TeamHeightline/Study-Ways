@@ -19,7 +19,7 @@ export default function PCDCMainUserQuestion({...props}: any){
         return (
             <div>
                 <Container className="justify-content-center col-12 col-lg-4 mt-5">
-                    <Paper className="justify-content-center">
+                    <Paper className="justify-content-center" style={{maxWidth: "500px"}}>
                         <div className="mr-2 ml-2">
                             <br/>
                             <div className="display-4 text-center " style={{fontSize: '33px'}}>

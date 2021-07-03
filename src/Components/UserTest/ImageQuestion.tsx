@@ -210,16 +210,6 @@ export default function ImageQuestion(props: any) {
         )
     }
 
-    // if (errorArray.length === 0 && oneTimePusshCheckErrorButton) {
-    //     return (
-    //         <Container className="mt-5">
-    //             <Alert severity="success">
-    //                 <AlertTitle>Поздравляем</AlertTitle>
-    //                 Вы успешно прошли тест, колличество попыток - <strong>{tryingCalculation}</strong>
-    //             </Alert>
-    //         </Container>
-    //     )
-    // }
     const checkurl = (url: any) => url ? url.replace("http://", "").replace("https://", "").replace("www.", "")
         .replace("youtu.be/", "youtube.com?v=").replace("youtube.com/watch?v=", "youtube.com?v=").slice(0, 14) === "youtube.com?v=" : false;
 
@@ -231,20 +221,16 @@ export default function ImageQuestion(props: any) {
         <div className="col-12">
             <Row>
                 {/*Раздел подсказок текстовых/видео*/}
-                <Grid
-                    direction="row"
-                    justify="center"
-                    alignItems="center"
-                    className="justify-content-center"
-                >
+                <Row className="justify-content-center">
+                    {/*Отдельный компонент только для телефонов, он располагается до раздела с подсказками*/}
                     {height/width >= 1 &&
                     <div className="col-12">
                         <Card elevation={3}>
-                            <CardMedia
+                            {questionImgUrl && <CardMedia
                                 className="col-12"
                                 style={{height: 300, width: "100%"}}
                                 image={questionImgUrl}
-                            />
+                            />}
                             <div className="ml-3 mr-3 mt-2">
                                 <Typography component="h5" variant="h5">
                                     Вопрос:
@@ -305,12 +291,12 @@ export default function ImageQuestion(props: any) {
                         </div> : null}
                     </div>
                     {height/width < 1 &&
-                        <Card style={{height: 400, padding: 0, overflowY: "scroll",}} className="col-10 offset-1">
+                        <Card style={{height: 400, padding: 0, overflowY: "scroll",}} className="col-9 ">
                             <Row className="justify-content-center" >
-                                {urlHasBeenPassed && questionImgUrl? <Col className="col-4">
+                                {urlHasBeenPassed && questionImgUrl? <Col className="col-6">
                                     <CardMedia
-                                        className="col-11"
-                                        style={{height: 400, width: 400}}
+                                        className="col-12"
+                                        style={{height: 400, width: "100%"}}
                                         image={questionImgUrl}
                                     />
                                 </Col>: null}
@@ -358,10 +344,10 @@ export default function ImageQuestion(props: any) {
                                 </Col>
                             </Row>
                         </Card>}
-            </Grid>
+            </Row>
             </Row>
             <div style={{overflowY: "scroll"}}>
-                <div style={{width: height/width >= 1 ? answers.length * (width/3 + 280 ) : answers.length * (width/3 - 60 )}}>
+                <div style={{width: height/width >= 1 ? answers.length * (width + 40): answers.length * (width/3 - 60 )}}>
                     <Row className="justify-content-around">
                         {answers.map((answer, answerIndex) =>{
                             return(

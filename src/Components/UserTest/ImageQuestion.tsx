@@ -239,7 +239,7 @@ export default function ImageQuestion(props: any) {
                 >
                     {height/width >= 1 &&
                     <div className="col-12">
-                        <Card>
+                        <Card elevation={3}>
                             <CardMedia
                                 className="col-12"
                                 style={{height: 300, width: "100%"}}

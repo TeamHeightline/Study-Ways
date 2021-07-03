@@ -67,7 +67,7 @@ export default function ImageAnswerNode(props: any){
     return(
         <div className=" mt-3 ml-3"  >
             {/*"#93cdf3"*/}
-            <Card className={classes.root}  style={{backgroundColor:  props.selected.indexOf(props.answer.id) !== -1? "#71c3ef" : ""}}
+            <Card elevation={2} className={classes.root}  style={{backgroundColor:  props.selected.indexOf(props.answer.id) !== -1? "#71c3ef" : ""}}
                   onClick={() =>{
                         props.onChange(props.answer.id)
                         setTimeout(changeIsSelected, 150,  !isSelected)

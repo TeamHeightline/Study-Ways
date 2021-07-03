@@ -237,8 +237,48 @@ export default function ImageQuestion(props: any) {
                     alignItems="center"
                     className="justify-content-center"
                 >
+                    {height/width >= 1 &&
+                    <div className="col-12">
+                        <Card>
+                            <CardMedia
+                                className="col-12"
+                                style={{height: 300, width: "100%"}}
+                                image={questionImgUrl}
+                            />
+                            <div className="ml-3 mr-3 mt-2">
+                                <Typography component="h5" variant="h5">
+                                    Вопрос:
+                                </Typography>
+                                <Typography variant="body2" color="textSecondary" component="p">
+                                    {get_question_data?.questionById?.text}
+                                </Typography>
+                                <Button
+                                    className="col-12 mt-4"
+                                    variant="outlined" color="primary" onClick={() => {
+                                    props.onChange("goBack")}}>
+                                    Назад
+                                </Button>
+                                <Form.Control
+                                    className="col-12 mt-2"
+                                    // size="lg"
+                                    value={helpLevel}
+                                    onChange={onChangeHelpLevel}
+                                    as="select">
+                                    <option value={"0"}>Легкий</option>
+                                    <option value={"1"}>Средний</option>
+                                    <option value={"2"}>Сложный</option>
+                                </Form.Control>
+                                <Button variant="contained" color="primary" className="col-12 mt-2"
+                                        onClick={() => checkErrors()}>
+                                    Проверить
+                                </Button>
+                                <br/>
+                                <br/>
+                            </div>
+                        </Card>
+                    </div>}
                     <div className="col-12  mt-2">
-                        {errorArray.length !== 0 ? <div className="col-10 offset-1">
+                        {errorArray.length !== 0 ? <div className="col-lg-10 col-12 offset-lg-1">
                             {helpLevel === "0" ? <Alert severity="error" variant="outlined">
                                 {answers[activeWrongAnswerIndex]?.helpTextv1}</Alert> : null}
                             {helpLevel === "1" ? <Alert severity="error" variant="outlined">
@@ -264,63 +304,64 @@ export default function ImageQuestion(props: any) {
                                 </div> : null}
                         </div> : null}
                     </div>
+                    {height/width < 1 &&
+                        <Card style={{height: 400, padding: 0, overflowY: "scroll",}} className="col-10 offset-1">
+                            <Row className="justify-content-center" >
+                                {urlHasBeenPassed && questionImgUrl? <Col className="col-4">
+                                    <CardMedia
+                                        className="col-11"
+                                        style={{height: 400, width: 400}}
+                                        image={questionImgUrl}
+                                    />
+                                </Col>: null}
+                                <Col >
+                                    <div>
+                                        <CardContent >
+                                            <Typography component="h5" variant="h5">
+                                                Вопрос
+                                            </Typography>
+                                            <Typography variant="body2" color="textSecondary" component="p">
+                                                {get_question_data?.questionById?.text}
 
-                <Card style={{height: 400, padding: 0}} className="col-10 offset-1">
-                    <Row className="justify-content-center">
-                        {urlHasBeenPassed && questionImgUrl? <Col className="col-4">
-                            <CardMedia
-                                className="col-11"
-                                style={{height: 400, width: 400}}
-                                image={questionImgUrl}
-                            />
-                        </Col>: null}
-                        <Col >
-                            <div>
-                                <CardContent >
-                                    <Typography component="h5" variant="h5">
-                                        Вопрос
-                                    </Typography>
-                                    <Typography variant="body2" color="textSecondary" component="p">
-                                        {get_question_data?.questionById?.text}
+                                            </Typography>
+                                        </CardContent>
+                                        {props.id &&
+                                        <div className="ml-4">
+                                            <Button
+                                                className=""
+                                                variant="outlined" color="primary" onClick={() => {
+                                                props.onChange("goBack")}}>
+                                                Назад
+                                            </Button>
+                                        </div>
+                                        }
+                                        <Row className="ml-auto mr-2 pb-2 ">
+                                            <Col className="col-6">
+                                                <Form.Control
+                                                    // size="lg"
+                                                    value={helpLevel}
+                                                    onChange={onChangeHelpLevel}
+                                                    as="select">
+                                                    <option value={"0"}>Легкий</option>
+                                                    <option value={"1"}>Средний</option>
+                                                    <option value={"2"}>Сложный</option>
+                                                </Form.Control>
+                                            </Col>
+                                            <Col className="col-3">
+                                                <Button variant="contained" color="primary" onClick={() => checkErrors()}>
+                                                    Проверить
+                                                </Button>
+                                            </Col>
+                                        </Row>
+                                    </div>
 
-                                    </Typography>
-                                </CardContent>
-                                {props.id &&
-                                <div className="ml-4">
-                                    <Button
-                                        className=""
-                                        variant="outlined" color="primary" onClick={() => {
-                                        props.onChange("goBack")}}>
-                                        Назад
-                                    </Button>
-                                </div>
-                                }
-                                <Row className="ml-auto mr-2 pb-2 ">
-                                    <Col className="col-6">
-                                        <Form.Control
-                                            // size="lg"
-                                            value={helpLevel}
-                                            onChange={onChangeHelpLevel}
-                                            as="select">
-                                            <option value={"0"}>Легкий</option>
-                                            <option value={"1"}>Средний</option>
-                                            <option value={"2"}>Сложный</option>
-                                        </Form.Control>
-                                    </Col>
-                                    <Col className="col-3">
-                                        <Button variant="contained" color="primary" onClick={() => checkErrors()}>
-                                            Проверить
-                                        </Button>
-                                    </Col>
-                                </Row>
-                            </div>
-                        </Col>
-                    </Row>
-                </Card>
+                                </Col>
+                            </Row>
+                        </Card>}
             </Grid>
             </Row>
             <div style={{overflowY: "scroll"}}>
-                <div style={{width: answers.length * (width/3 - 80 )}}>
+                <div style={{width: height/width >= 1 ? answers.length * (width/3 + 280 ) : answers.length * (width/3 - 60 )}}>
                     <Row className="justify-content-around">
                         {answers.map((answer, answerIndex) =>{
                             return(

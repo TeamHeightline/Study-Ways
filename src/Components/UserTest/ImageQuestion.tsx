@@ -22,12 +22,13 @@ import axios from "axios";
 import {Alert} from "@material-ui/lab";
 import AlertTitle from "@material-ui/lab/AlertTitle";
 import ReactPlayer from "react-player";
+import useWindowDimensions from "../../CustomHooks/useWindowDimensions";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             // display: 'flex',
-            width: "800px",
+            width: "1500px",
             height: 400,
             // paddingBottom: '200px'
 
@@ -111,6 +112,9 @@ export default function ImageQuestion(props: any) {
     const [errorArray, changeErrorArray] = useState<any[]>([])
     const [tryingCalculation, changeTryingCalculation] = useState(0)
     const [oneTimePusshCheckErrorButton, changeOneTimePusshCheckErrorButton] = useState(false)
+    const [showCongratulation, setShowCongratulation] = useState(false)
+    const {width, height} = useWindowDimensions()
+
 
     const {
         data: get_question_data, loading: get_question_loading, error: get_question_error, refetch: refetch_get_question
@@ -155,7 +159,9 @@ export default function ImageQuestion(props: any) {
 
     async function checkErrors() {
         if (selected.length !== 0){
-            changeOneTimePusshCheckErrorButton(true)
+            if(!oneTimePusshCheckErrorButton){
+                changeOneTimePusshCheckErrorButton(true)
+            }
             changeTryingCalculation(tryingCalculation + 1)
             await changeErrorArray([])
             const oErrArr: any[] = []
@@ -174,6 +180,7 @@ export default function ImageQuestion(props: any) {
 
             })
             if (oErrArr.length === 0){
+                setShowCongratulation(true)
                 update_statistic()
             }
             changeActiveWrongAnswerIndex(ActiveWrongAnswerIndexLet)
@@ -203,126 +210,147 @@ export default function ImageQuestion(props: any) {
         )
     }
 
-    if (errorArray.length === 0 && oneTimePusshCheckErrorButton) {
-        return (
-            <Container className="mt-5">
-                <Alert severity="success">
-                    <AlertTitle>Поздравляем</AlertTitle>
-                    Вы успешно прошли тест, колличество попыток - <strong>{tryingCalculation}</strong>
-                </Alert>
-            </Container>
-        )
-    }
+    // if (errorArray.length === 0 && oneTimePusshCheckErrorButton) {
+    //     return (
+    //         <Container className="mt-5">
+    //             <Alert severity="success">
+    //                 <AlertTitle>Поздравляем</AlertTitle>
+    //                 Вы успешно прошли тест, колличество попыток - <strong>{tryingCalculation}</strong>
+    //             </Alert>
+    //         </Container>
+    //     )
+    // }
     const checkurl = (url: any) => url ? url.replace("http://", "").replace("https://", "").replace("www.", "")
         .replace("youtu.be/", "youtube.com?v=").replace("youtube.com/watch?v=", "youtube.com?v=").slice(0, 14) === "youtube.com?v=" : false;
 
     // console.log(get_question_data?.questionById?.questionstatistic?.numberOfPasses)
     // console.log(get_question_data?.questionById?.questionstatistic?.sumOfAllAttempts)
     return (
+        <div>
+        {!showCongratulation ?
         <div className="col-12">
-            <Grid className="col-10  mt-2 offset-1">
-            {errorArray.length !== 0 ? <div>
-                {helpLevel === "0" ? <Alert severity="error" variant="outlined">
-                    {answers[activeWrongAnswerIndex].helpTextv1}</Alert> : null}
-                {helpLevel === "1" ? <Alert severity="error" variant="outlined">
-                    {answers[activeWrongAnswerIndex].helpTextv2}</Alert> : null}
-                {helpLevel === "2" ? <Alert severity="error" variant="outlined">
-                    {answers[activeWrongAnswerIndex].helpTextv3}</Alert > : null}
-                {answers[activeWrongAnswerIndex].videoUrl ?
-                    <div>
-                        {checkurl(answers[activeWrongAnswerIndex].videoUrl) ?
-                            <Accordion>
-                                <BootstrapCard>
-                                    <BootstrapCard.Header>
-                                        <Accordion.Toggle as={Button} eventKey="1">
-                                            Отобразить видео подсказку
-                                        </Accordion.Toggle>
-                                    </BootstrapCard.Header>
-                                    <Accordion.Collapse eventKey="1">
-                                        <ReactPlayer url={answers[activeWrongAnswerIndex].videoUrl}
-                                                     controls autoPlay={true}/>
-                                    </Accordion.Collapse>
-                                </BootstrapCard>
-                            </Accordion> : null}
-                    </div> : null}
-            </div> : null}
-            </Grid>
-
-            <Row
-                // className={classes.root}
-            >
+            <Row>
+                {/*Раздел подсказок текстовых/видео*/}
                 <Grid
-                    container
                     direction="row"
                     justify="center"
                     alignItems="center"
+                    className="justify-content-center"
                 >
-                <div
-                    className=" ml-2 mt-3">
-                    <Card style={{height: 400, width: 780}}>
-                        <Row>
-                            {urlHasBeenPassed && questionImgUrl? <Col className="col-7">
-                                <CardMedia
-                                    className="col-11"
-                                    style={{height: 400, width: 400}}
-                                    image={questionImgUrl}
-                                    title="Из при веденных ниже высказываний выберите те, из которых"
-                                />
-                            </Col>: null}
-
-                            <Col >
+                    <div className="col-12  mt-2">
+                        {errorArray.length !== 0 ? <div className="col-10 offset-1">
+                            {helpLevel === "0" ? <Alert severity="error" variant="outlined">
+                                {answers[activeWrongAnswerIndex]?.helpTextv1}</Alert> : null}
+                            {helpLevel === "1" ? <Alert severity="error" variant="outlined">
+                                {answers[activeWrongAnswerIndex]?.helpTextv2}</Alert> : null}
+                            {helpLevel === "2" ? <Alert severity="error" variant="outlined">
+                                {answers[activeWrongAnswerIndex]?.helpTextv3}</Alert > : null}
+                            {answers[activeWrongAnswerIndex]?.videoUrl ?
                                 <div>
-                                    <CardContent >
-                                        <Typography component="h5" variant="h5">
-                                            Вопрос
-                                        </Typography>
-                                        <Typography variant="body2" color="textSecondary" component="p">
-                                            {get_question_data?.questionById?.text}
+                                    {checkurl(answers[activeWrongAnswerIndex]?.videoUrl) ?
+                                        <Accordion>
+                                            <BootstrapCard>
+                                                <BootstrapCard.Header>
+                                                    <Accordion.Toggle as={Button} eventKey="1">
+                                                        Отобразить видео подсказку
+                                                    </Accordion.Toggle>
+                                                </BootstrapCard.Header>
+                                                <Accordion.Collapse eventKey="1">
+                                                    <ReactPlayer url={answers[activeWrongAnswerIndex]?.videoUrl}
+                                                                 controls autoPlay={true}/>
+                                                </Accordion.Collapse>
+                                            </BootstrapCard>
+                                        </Accordion> : null}
+                                </div> : null}
+                        </div> : null}
+                    </div>
 
-                                        </Typography>
-                                    </CardContent>
-                                    {props.id? <div className="col-1">
-                                        <Button variant="outlined" color="primary" onClick={() => {
-                                            props.onChange("goBack")
-                                        }}>
-                                            Назад
-                                        </Button>
-                                    </div>: null}
-                                    <Row className="ml-auto mr-2 pb-2">
+                <Card style={{height: 400, padding: 0}} className="col-10 offset-1">
+                    <Row className="justify-content-center">
+                        {urlHasBeenPassed && questionImgUrl? <Col className="col-4">
+                            <CardMedia
+                                className="col-11"
+                                style={{height: 400, width: 400}}
+                                image={questionImgUrl}
+                            />
+                        </Col>: null}
+                        <Col >
+                            <div>
+                                <CardContent >
+                                    <Typography component="h5" variant="h5">
+                                        Вопрос
+                                    </Typography>
+                                    <Typography variant="body2" color="textSecondary" component="p">
+                                        {get_question_data?.questionById?.text}
 
-                                        <Col className="col-6">
-                                            <Form.Control
-                                                // size="lg"
-                                                value={helpLevel}
-                                                onChange={onChangeHelpLevel}
-                                                as="select">
-                                                <option value={"0"}>Легкий</option>
-                                                <option value={"1"}>Средний</option>
-                                                <option value={"2"}>Сложный</option>
-                                            </Form.Control>
-                                        </Col>
-                                        <Col>
-                                            <Button variant="contained" color="primary" onClick={() => checkErrors()}>
-                                                Проверить
-                                            </Button>
-                                        </Col>
-                                    </Row>
+                                    </Typography>
+                                </CardContent>
+                                {props.id &&
+                                <div className="ml-4">
+                                    <Button
+                                        className=""
+                                        variant="outlined" color="primary" onClick={() => {
+                                        props.onChange("goBack")}}>
+                                        Назад
+                                    </Button>
                                 </div>
-                            </Col>
-                        </Row>
-                    </Card>
-                </div>
-                    {answers.map((answer, answerIndex) =>{
-                        return(<ImageAnswerNode
-                            answerIndex={answerIndex}
-                            key={answer.id + "answer node"}
-                            answer={answer}
-                            selected={selected}
-                            onChange={(e) =>{
-                            selectDeselectAnswer(e)}}/>)
-                    })}
-                </Grid>
+                                }
+                                <Row className="ml-auto mr-2 pb-2 ">
+                                    <Col className="col-6">
+                                        <Form.Control
+                                            // size="lg"
+                                            value={helpLevel}
+                                            onChange={onChangeHelpLevel}
+                                            as="select">
+                                            <option value={"0"}>Легкий</option>
+                                            <option value={"1"}>Средний</option>
+                                            <option value={"2"}>Сложный</option>
+                                        </Form.Control>
+                                    </Col>
+                                    <Col className="col-3">
+                                        <Button variant="contained" color="primary" onClick={() => checkErrors()}>
+                                            Проверить
+                                        </Button>
+                                    </Col>
+                                </Row>
+                            </div>
+                        </Col>
+                    </Row>
+                </Card>
+            </Grid>
             </Row>
+            <div style={{overflowY: "scroll"}}>
+                <div style={{width: answers.length * (width/3 - 80 )}}>
+                    <Row className="justify-content-around">
+                        {answers.map((answer, answerIndex) =>{
+                            return(
+                                <div key={answerIndex+ "divKey"}>
+                                    <ImageAnswerNode
+                                    answerIndex={answerIndex}
+                                    answer={answer}
+                                    selected={selected}
+                                    onChange={(e) =>{
+                                    selectDeselectAnswer(e)}}/>
+                                    <br/>
+                                </div>
+                            )
+                        })}
+                    </Row>
+                </div>
+            </div>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+        </div> :
+            <Container className="mt-5">
+                <Alert severity="success">
+                    <AlertTitle>Поздравляем</AlertTitle>
+                    Вы успешно прошли тест, колличество попыток - <strong>{tryingCalculation}</strong>
+                </Alert>
+            </Container>}
         </div>
-)
+    )
 }

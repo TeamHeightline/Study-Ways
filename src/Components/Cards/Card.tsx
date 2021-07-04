@@ -17,6 +17,7 @@ import CourseMicroView from "../Course/Editor/CourseMicroView";
 
 
 import renderHTML from 'react-render-html';
+import useWindowDimensions from "../../CustomHooks/useWindowDimensions";
 
 const SHOW_CARD_BY_ID = gql`
     query SHOW_CARD_BY_ID($id: ID!){
@@ -66,6 +67,7 @@ const { Meta } = Card;
 export default function CARDS({id, course, ...props}: any){
     const [rating, setRating] = useState<number | null>(4);
     const [cardImage, setCardImage] = useState()
+    const {width, height} = useWindowDimensions()
     const {data: course_data} = useQuery(GET_COURSE_BY_ID, {
         variables:{
             id: course?.id
@@ -101,22 +103,22 @@ export default function CARDS({id, course, ...props}: any){
 
     // console.log("disabledNext " + props.disabledNext)
     return(
-        <div className="ml-5">
+        <div className="ml-lg-5 col-12 mr-2 ml-2">
             {course && course_data &&
-            <div className="ml-2">
+            <div className="ml-2" style={{overflowY: "scroll"}}>
                 <CourseMicroView course={course_data.cardCourseById} buttonClick={data=>props.buttonClick(data)}
                 inCardNavigationMode={true} cardPositionData={props.cardPositionData}/>
             </div>}
             <Row className="ml-2">
                 {id &&
                     <Button
-                        className="ml-2 mt-4 "
+                        className="ml-lg-2 mt-4  col-12 col-lg-2 mr-2"
                         variant="outlined" color="primary" onClick={() => {
                         props.onChange("goBack")}}>
                         Назад
                     </Button>
                 }
-                <Col className="mt-3 offset-8 col-3">
+                <Col className="mt-3 offset-lg-8 col-lg-3 col-12 justify-content-center">
                     {/*Если катрочка открывается из курса, то нам нужны кнопки вверх и вниз, если её открыли
                         просто как карточку из MainCardPublicView, то нам нужно только вперед и назад для перемещения
                         по id вперед и назад*/}
@@ -187,7 +189,7 @@ export default function CARDS({id, course, ...props}: any){
                 <Row className="mt-1">
                     <Col className="col-12 col-lg-5 ml-2 mt-4">
                         {card_data?.cardById?.cardContentType === "A_0" &&
-                            <ReactPlayer width="auto" height={400} controls
+                            <ReactPlayer width="auto" height={height/width >= 1 ? "200px":400} controls
                                          // url="https://www.youtube.com/watch?v=vpMJ_rNN9vY"
                                             url={card_data?.cardById?.videoUrl}
                             />

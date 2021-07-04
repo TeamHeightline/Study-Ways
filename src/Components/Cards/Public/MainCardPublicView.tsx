@@ -7,37 +7,8 @@ import ThemeSelector from "../Editor/MainCardEditor/#ThemeSelector";
 import ContentTypeSelector from "../Editor/MainCardEditor/#ContentTypeSelector";
 import AuthorSelector from "../Editor/MainCardEditor/#AuthorSelector";
 import Card from "../Card"
-const GET_ALL_CARDS = gql`
-    query GET_ALL_CARDS{
-        card{
-            id
-            author{
-                id
-                name
-            }
-            subTheme{
-                id
-                name
-            }
-            isCardUseAdditionalText
-            isCardUseMainContent
-            isCardUseMainText
-            isCardUseTestBeforeCard
-            isCardUseTestInCard
-            cardContentType
-            text
-            title
-            additionalText
-            siteUrl
-            videoUrl
-            testBeforeCard{
-                id
-            }
-            testInCard{
-                id
-            }
-        }
-    }`
+import useWindowDimensions from "../../../CustomHooks/useWindowDimensions";
+import {GET_ALL_CARDS} from"./Struct"
 
 export default function MainCardPublicView({...props}: any){
     const [isCardOpen, setIsCardOpen] = useState(false)
@@ -45,6 +16,7 @@ export default function MainCardPublicView({...props}: any){
     const [cardsDataAfterSelectTheme, setCardsDataAfterSelectTheme] = useState()
     const [cardsDataAfterSelectContentType, setCardsDataAfterSelectContentType] = useState()
     const [cardsDataAfterSelectAuthor, setCardsDataAfterSelectAuthor] = useState<any>()
+    const {width, height} = useWindowDimensions()
     const {data: cards_data} = useQuery(GET_ALL_CARDS)
 
     if(!cards_data){
@@ -73,14 +45,15 @@ export default function MainCardPublicView({...props}: any){
     }
     return(
         <div {...props}>
+
             <Row className="ml-1">
-                <Col className="ml-5 col-4">
+                <Col className="ml-lg-5 col-lg-4 col-12">
                     <ThemeSelector cards_data={cards_data.card}
                                    changeSelectedData={(data)=>{
                                        setCardsDataAfterSelectTheme(data)
                                    }}/>
                 </Col>
-                <Col className="col-3">
+                <Col className="col-lg-3 col-12">
                     {cardsDataAfterSelectTheme &&
                     <ContentTypeSelector cards_data={cardsDataAfterSelectTheme}
                                          ChangeSelectedData={(data) =>{
@@ -88,7 +61,7 @@ export default function MainCardPublicView({...props}: any){
                                              setCardsDataAfterSelectContentType(data)
                                          }}/>}
                 </Col>
-                <Col className="ml-2 col-3">
+                <Col className="ml-lg-2 col-lg-3 col-12">
                     {cardsDataAfterSelectContentType &&
                     <AuthorSelector cards_data={cardsDataAfterSelectContentType}
                                     ChangeSelectedData={(data) =>{

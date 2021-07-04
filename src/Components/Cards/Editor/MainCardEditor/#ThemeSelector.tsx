@@ -134,12 +134,12 @@ export default function ThemeSelector({cards_data, ...props}: any){
 
     return(
         <Row {...tProps}>
-            <Col className="col-3 mt-2 ml-2">
-                <Typography variant="h6" gutterBottom className="ml-4">
+            <Col className="col-3 mt-2 ml-lg-2">
+                <Typography variant="h6" gutterBottom className="ml-lg-4">
                     Тема:
                 </Typography>
             </Col>
-            <Col className="col-8 mt-2">
+            <Col className="col-8 mt-2 ml-2 ml-lg-0">
                 <TreeSelect className="col-11" {...tProps}/>
             </Col>
         </Row>

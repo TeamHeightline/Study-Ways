@@ -1,85 +1,26 @@
 import React, {useEffect, useState} from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { Popover } from 'antd';
 
-import {Breadcrumbs, CardActionArea, Chip, Grid, Paper, Tooltip} from "@material-ui/core";
-import {gql} from "@apollo/client/core";
+import {Breadcrumbs, CardActionArea, Chip} from "@material-ui/core";
 import 'fontsource-roboto';
 import {useQuery} from "@apollo/client";
 import {Spinner} from "react-bootstrap";
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import HttpIcon from '@material-ui/icons/Http';
 import ImageIcon from '@material-ui/icons/Image';
 import MathJax from 'react-mathjax-preview'
+import {GET_CARD_FOR_MICRO_VIEW_BY_ID, useStyles} from "./Struct"
+import useWindowDimensions from "../../../CustomHooks/useWindowDimensions";
+import {DCMCardMicroView} from'./###[DCM]CardMicroView'
 
-
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        width: "400px",
-        height: "170px"
-    },
-    details: {
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    content: {
-        flex: '1 0 auto',
-    },
-    cover: {
-        width: 200,
-    },
-    controls: {
-        display: 'flex',
-        alignItems: 'center',
-        paddingLeft: theme.spacing(1),
-        paddingBottom: theme.spacing(1),
-    },
-    playIcon: {
-        height: 38,
-        width: 38,
-    },
-}));
-
-const GET_CARD_FOR_MICRO_VIEW_BY_ID = gql`
-    query GET_CARD_FOR_MICRO_VIEW_BY_ID($id: ID!){
-        cardById(id: $id){
-            id
-            text
-            title
-            cardContentType
-            videoUrl
-            subTheme{
-                id
-                name
-                theme{
-                    id
-                    name
-                    globalTheme{
-                        id
-                        name
-                    }
-                }
-            }
-            author{
-                id
-                name
-            }
-
-        }
-    }`
 export default function CardMicroView({cardID = 1, ...props}: any,){
     const classes = useStyles();
-    const theme = useTheme();
-    const [contentType, setContentType] = useState(0)
     const [cardImage, setCardImage] = useState()
+    const {width, height} = useWindowDimensions()
     const get_card_image = () =>{
         // https://iot-experemental.herokuapp.com/cardfiles/card?
         fetch("https://iot-experemental.herokuapp.com/cardfiles/card?id=" + cardID)
@@ -100,9 +41,7 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
             id: cardID
         },
         pollInterval: 3000,
-        onCompleted: data => {
-            // console.log(data)
-            setContentType(Number(data.cardById.cardContentType[2]))
+        onCompleted: () => {
             get_card_image()
         },
 
@@ -118,6 +57,44 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
     }
     // console.log(card_data?.cardById.videoUrl.split('?v=')[1])
     // 380 * 110
+    if(height/width >= 1){
+        return(
+            <DCMCardMicroView props={props} height={height} width={width} classes={classes} onClick={() => {
+                // console.log(cardID)
+                props.onChange(cardID)
+            }} cardData={card_data} cardImage={cardImage} callbackfn={(e) => {
+                return (
+                    <Typography key={e + "TitleToolTip"}>
+                        {card_data?.cardById?.title}
+                    </Typography>
+                )
+            }} callbackfn1={(e) => {
+                return (
+                    <div key={e + "MainTextToolTip"}>
+                        <MathJax math={card_data?.cardById?.text}/>
+                    </div>
+                )
+            }} element={(e, eIndex) => {
+                return (
+                    <div key={eIndex + "Tooltip"}>
+                        {/*<Typography>*/}
+                        {e.theme?.globalTheme?.name.toString() + " / "
+                        + e?.theme?.name.toString() + " / "
+                        + e?.name.toString()}
+                        {/*<br/>*/}
+                        {/*</Typography>*/}
+                    </div>
+                )
+            }} element1={(e, eIndex) => {
+                return (
+                    <div key={eIndex + "AuthorTooltip"}>
+                        <Typography>
+                            {e.name}
+                        </Typography>
+                    </div>
+                )
+            }}/>
+        )}
     return(
         <div
             // className="col-4"
@@ -159,12 +136,12 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                         </Popover>
                         {card_data?.cardById?.text.length !== 0 ?
                             <Popover trigger="hover" title="Контент карточки" content={[0].map((e) => {
-                                    return(
-                                        <div key={e + "MainTextToolTip"}>
-                                            <MathJax math={card_data?.cardById?.text}/>
-                                        </div>
-                                    )
-                                })
+                                return(
+                                    <div key={e + "MainTextToolTip"}>
+                                        <MathJax math={card_data?.cardById?.text}/>
+                                    </div>
+                                )
+                            })
                             }>
                                 <Typography>
                                     Основной текст
@@ -176,26 +153,26 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                                 return(
                                     <div key={eIndex+ "Tooltip"}>
                                         {/*<Typography>*/}
-                                            {e.theme?.globalTheme?.name.toString() + " / "
-                                            + e?.theme?.name.toString() + " / "
-                                            + e?.name.toString() }
-                                            {/*<br/>*/}
+                                        {e.theme?.globalTheme?.name.toString() + " / "
+                                        + e?.theme?.name.toString() + " / "
+                                        + e?.name.toString() }
+                                        {/*<br/>*/}
                                         {/*</Typography>*/}
                                     </div>
                                 )
                             })} >
-                            <Breadcrumbs  aria-label="breadcrumb">
-                                <Typography color="inherit" >
-                                    {card_data?.cardById?.subTheme[0]?.theme?.globalTheme?.name.slice(0, 8)}
-                                </Typography>
-                                <Typography color="inherit">
-                                    {card_data?.cardById?.subTheme[0]?.theme?.name.slice(0, 8)}
-                                </Typography>
-                                <Typography color="textPrimary">
-                                    {card_data?.cardById?.subTheme[0]?.name.slice(0, 10)}
-                                </Typography>
-                            </Breadcrumbs>
-                        </Popover> : <br/>}
+                                <Breadcrumbs  aria-label="breadcrumb">
+                                    <Typography color="inherit" >
+                                        {card_data?.cardById?.subTheme[0]?.theme?.globalTheme?.name.slice(0, 8)}
+                                    </Typography>
+                                    <Typography color="inherit">
+                                        {card_data?.cardById?.subTheme[0]?.theme?.name.slice(0, 8)}
+                                    </Typography>
+                                    <Typography color="textPrimary">
+                                        {card_data?.cardById?.subTheme[0]?.name.slice(0, 10)}
+                                    </Typography>
+                                </Breadcrumbs>
+                            </Popover> : <br/>}
                         {card_data?.cardById?.author.length !== 0 ?
                             <Popover trigger="hover" title="Авторы карточки" content={card_data?.cardById?.author.map((e, eIndex) =>{
                                 return(
@@ -219,4 +196,5 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
             </Card>
         </div>
     )
+
 }

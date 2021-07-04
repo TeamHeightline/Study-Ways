@@ -84,11 +84,12 @@ export default function MainCoursePublicView({...props}){
         )
     }
     return(
-        <div{...props}>
+        <div{...props} className="col-12" style={{overflowY: "scroll"}}>
             {/*Потом убрать reverse*/}
             {course_data.cardCourse.map((sameCourse, cIndex) =>{
                 return(
-                    <CourseMicroView className="ml-5 mt-4" course={sameCourse} key={"Course" + cIndex}
+                    <div key={"Course" + cIndex} className="col-12" style={{overflowY: "scroll"}}>
+                    <CourseMicroView className="ml-lg-5 mt-4" course={sameCourse}
                                      buttonClick={async (data) =>{
                                          data.courseIndex=cIndex
                                          data.courseID=sameCourse.id
@@ -113,6 +114,7 @@ export default function MainCoursePublicView({...props}){
                         // setIsOpenCard(true)
                         // get_card_id_by_position(data)
                     }}/>
+                    </div>
                 )
             })}
         </div>

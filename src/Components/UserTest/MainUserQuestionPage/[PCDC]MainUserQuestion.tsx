@@ -7,7 +7,7 @@ import Collapse from "@material-ui/core/Collapse";
 import {Autocomplete} from "@material-ui/lab";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import ImageQuestion from "../ImageQuestion";
+import ImageQuestion from "../ImageQuestion/ImageQuestion";
 import QuestionById from "../QuestionByID";
 export default function PCDCMainUserQuestion({...props}: any){
     if (!props.data) {

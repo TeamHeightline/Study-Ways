@@ -13,7 +13,7 @@ import SkipNextIcon from '@material-ui/icons/SkipNext';
 import Col from "react-bootstrap/Col";
 import {Accordion, Container, Form, Spinner} from "react-bootstrap";
 import BootstrapCard from "react-bootstrap/Card"
-import {Button, CardActionArea, CardActions, Grid} from "@material-ui/core";
+import {Button, ButtonGroup, CardActionArea, CardActions, Grid} from "@material-ui/core";
 import Row from "react-bootstrap/Row";
 import {gql, useMutation, useQuery} from "@apollo/client";
 import * as _ from "lodash"
@@ -238,15 +238,17 @@ export default function ImageQuestion(props: any) {
                                 <Typography variant="body2" color="textSecondary" component="p">
                                     {get_question_data?.questionById?.text}
                                 </Typography>
-                                <Button
-                                    className="col-12 mt-4"
-                                    variant="outlined" color="primary" onClick={() => {
-                                    props.onChange("goBack")}}>
-                                    Назад
-                                </Button>
+                                {props.onChange &&
+                                    <Button
+                                        className="col-12 mt-4"
+                                        variant="outlined" color="primary" onClick={() => {
+                                        props.onChange("goBack")}}>
+                                        Назад
+                                    </Button>}
                                 <Form.Control
                                     className="col-12 mt-2"
                                     // size="lg"
+                                    disabled={props.open_from_sequence}
                                     value={helpLevel}
                                     onChange={onChangeHelpLevel}
                                     as="select">
@@ -311,10 +313,9 @@ export default function ImageQuestion(props: any) {
 
                                             </Typography>
                                         </CardContent>
-                                        {props.id &&
-                                        <div className="ml-4">
+                                        {props.id && props.onChange &&
+                                        <div className="col-12">
                                             <Button
-                                                className=""
                                                 variant="outlined" color="primary" onClick={() => {
                                                 props.onChange("goBack")}}>
                                                 Назад
@@ -324,6 +325,7 @@ export default function ImageQuestion(props: any) {
                                         <Row className="ml-auto mr-2 pb-2 ">
                                             <Col className="col-6">
                                                 <Form.Control
+                                                    disabled={props.open_from_sequence}
                                                     // size="lg"
                                                     value={helpLevel}
                                                     onChange={onChangeHelpLevel}
@@ -338,6 +340,17 @@ export default function ImageQuestion(props: any) {
                                                     Проверить
                                                 </Button>
                                             </Col>
+                                            {props.open_from_sequence &&
+                                            <ButtonGroup className="ml-3 mt-2" size="large" color="primary" aria-label="large outlined">
+                                                <Button disabled={!props.can_switch_to_previous_question}
+                                                        onClick={() => {
+                                                            props.ButtonClick("goToPreviousQuestion")
+                                                        }}>Назад</Button>
+                                                <Button disabled={!props.can_switch_to_next_question}
+                                                        onClick={() => {
+                                                            props.ButtonClick("goToNextQuestion")
+                                                        }}>Вперед</Button>
+                                            </ButtonGroup>}
                                         </Row>
                                     </div>
 
@@ -373,10 +386,14 @@ export default function ImageQuestion(props: any) {
             <br/>
         </div> :
             <Container className="mt-5">
+                {!props.open_from_sequence ?
                 <Alert severity="success">
                     <AlertTitle>Поздравляем</AlertTitle>
                     Вы успешно прошли тест, колличество попыток - <strong>{tryingCalculation}</strong>
-                </Alert>
+                </Alert> : <Alert severity="success">
+                        <AlertTitle>Вы успешно прошли вопрос</AlertTitle>
+                        Переходите к следующему
+                    </Alert>}
             </Container>}
         </div>
     )

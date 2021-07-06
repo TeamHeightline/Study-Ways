@@ -33,7 +33,7 @@ import LCUpdateQuestion from "./Components/UserTest/Editor/UpdateQuestion/[LC]Up
 import EditorsRouter from "./Components/EditorsRouter";
 import LCMainUserQuestion from "./Components/UserTest/MainUserQuestionPage/[LC]MainUserQuestion";
 import QuestionByID from "./Components/UserTest/QuestionByID";
-import ImageQuestion from "./Components/UserTest/ImageQuestion";
+import ImageQuestion from "./Components/UserTest/ImageQuestion/ImageQuestion";
 import CardView from "./Components/Cards/Card";
 import CARDS from "./Components/Cards/Card";
 import CardEditByID from "./Components/Cards/Editor/CardEditByID/CardEditByID";

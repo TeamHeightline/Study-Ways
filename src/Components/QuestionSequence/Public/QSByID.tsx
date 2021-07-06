@@ -4,7 +4,7 @@ import {useQuery} from "@apollo/client";
 import {Query} from "../../../../SchemaTypes";
 import {Spinner} from "react-bootstrap";
 import {Step, StepLabel, Stepper} from "@material-ui/core";
-import ImageQuestion from "../../UserTest/ImageQuestion";
+import ImageQuestion from "../../UserTest/ImageQuestion/ImageQuestion";
 export default function QSByID({props}: any) {
     const [activeQuestionIndex, setQuestionIndex] = useState(0)
     const {data: q_s_data} = useQuery<Query, any>(QSBYID, {

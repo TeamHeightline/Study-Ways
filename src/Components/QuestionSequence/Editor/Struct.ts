@@ -13,6 +13,7 @@ export const question_sequence_struct = {
         need_await_full_true_answers: false, //Нужно ли ждать пока пользователь ответит все правильно, или можно переключаться дальше
         use_random_position_for_answers: true, //Перемешивать ли ответы
         max_sum_of_attempts: 12, //Максимальное количество попыток
+        // can_change_hard_Level: false,
         hard_level: "MEDIUM",// "HARD", "MEDIUM", "EASY"
         card_themes: []//массив айдишников тех тем, на которые этот вопрос
     },

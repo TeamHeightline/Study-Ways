@@ -4,9 +4,11 @@ import BootstrapCard from "react-bootstrap/Card";
 import {Button} from "@material-ui/core";
 import ReactPlayer from "react-player";
 import React from "react";
+import useWindowDimensions from "../../../CustomHooks/useWindowDimensions";
 
 export default function HelpText(props: { errorArray: any[], helpLevel: unknown, answers: any, activeWrongAnswerIndex: number, b: boolean }) {
-    return <div className="col-12  mt-2">
+    const {width, height} = useWindowDimensions()
+    return <div className="col-12  mt-2" style={{padding: 0, overflowY: "scroll", minWidth: "1000px"}}>
         {props.errorArray.length !== 0 ? <div className="col-lg-10 col-12 offset-lg-1">
             {props.helpLevel === "0" ? <Alert severity="error" variant="outlined">
                 {props.answers[props.activeWrongAnswerIndex]?.helpTextv1}</Alert> : null}

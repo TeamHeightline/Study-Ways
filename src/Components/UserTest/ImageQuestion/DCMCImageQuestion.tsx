@@ -6,13 +6,14 @@ import {Form} from "react-bootstrap";
 import React from "react";
 
 export default function DCMCImageQuestion(props: { height: number, width: number, questionImgUrl: any, questionData: any, onChange: any, onClick: () => void, disabled: any, value: any, onChange1: (event: any) => void, onClick1: () => Promise<void> }) {
+    // console.log(props.width)
     return <>
         {props.height / props.width >= 1 &&
-        <div className="col-12">
+        <div>
             <Card elevation={3}>
                 {props.questionImgUrl && <CardMedia
-                    className="col-12"
-                    style={{height: 300, width: "100%"}}
+                    // className="col-12"
+                    style={{height: 300,}}
                     image={props.questionImgUrl}
                 />}
                 <div className="ml-3 mr-3 mt-2">

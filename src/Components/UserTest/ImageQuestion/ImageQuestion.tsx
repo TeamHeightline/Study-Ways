@@ -132,17 +132,19 @@ export default function ImageQuestion(props: any) {
     return (
         <div>
         {!showCongratulation ?
-        <div className="col-12">
-            <Row>
+        <div>
+            {/*<Row className="col-12">*/}
                 {/*Раздел подсказок текстовых/видео*/}
-                <Row className="justify-content-center">
+                <div className="col-12">
                     {/*Отдельный компонент только для телефонов, он располагается до раздела с подсказками*/}
                     <DCMCImageQuestion height={height} width={width} questionImgUrl={questionImgUrl}
                                        questionData={get_question_data} onChange={props.onChange} onClick={() => {
                         props.onChange("goBack")
                     }} disabled={props.open_from_sequence} value={helpLevel} onChange1={onChangeHelpLevel}
                                        onClick1={() => checkErrors()}/>
-                    <div className="col-9">
+                </div>
+                <Row className="justify-content-center">
+                    <div className="col-12">
                         <HelpText errorArray={errorArray} helpLevel={helpLevel} answers={answers}
                                   activeWrongAnswerIndex={activeWrongAnswerIndex}
                                   b={checkurl(answers[activeWrongAnswerIndex]?.videoUrl)}/>
@@ -162,7 +164,7 @@ export default function ImageQuestion(props: any) {
                         }}/>
                     </div>
                 </Row>
-            </Row>
+            {/*</Row>*/}
             {get_question_data && answers ?
                 <DCAnswers height={height} width={width} answers={answers} element={(answer, answerIndex) => {
                     return (

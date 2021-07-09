@@ -16,6 +16,7 @@ import RecentActorsIcon from '@material-ui/icons/RecentActors';
 import LinearScaleIcon from '@material-ui/icons/LinearScale'; // оставим для серии вопросов
 import SearchingElementsPage from "./SearchingElements/SearchingElementsPage";
 import QuestionSequenceMainEditor from "./QuestionSequence/Editor/QuestionSequenceMainEditor";
+import User from '../Store/UserStore/UserStore'
 const CHECK_USER_LEVEL = gql`
 query CHECK_USER_LEVEL{
       me{
@@ -36,7 +37,7 @@ export default function EditorsRouter(){
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
-    if (check_level_data.me.userAccessLevel !== "ADMIN" && check_level_data.me.userAccessLevel !== "TEACHER"){
+    if (User.userAccessLevel !== "ADMIN" && User.userAccessLevel !== "TEACHER"){
         return (
             <Alert severity="error">
                 <AlertTitle>Доступ ограничен</AlertTitle>
@@ -44,6 +45,7 @@ export default function EditorsRouter(){
             </Alert>
         )
     }
+    console.log(User.userAccessLevel)
     return (
         <div>
         <BottomNavigation

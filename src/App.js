@@ -16,6 +16,8 @@ import './App.css';
 import Navibar from './Components/Navbar/Navibar.tsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {useEffect} from "react";
+import User from './Store/UserStore/UserStore.tsx'
+
 
 
 import  { BrowserRouter as Router,
@@ -73,7 +75,6 @@ const GET_USER_DATA = gql`
 `
 
 function App() {
-    const{height, width} = useWindowDimensions();
     const checkTokenAndLoginVariablesInLocalStore = () => {
         if (localStorage.getItem('token') === null){
             localStorage.setItem('token', 'wrong key')}
@@ -105,6 +106,7 @@ function App() {
     })
     const [animationState, setAnimationState] = useState(false)
     useEffect(() =>{
+        User.checkLogin()
         verify_login().then().catch(() => {localStorage.setItem('is_login', 'false')})
         setTimeout(setAnimationState, 3000, true)
     }, [])  //для создания фоновой задачи, перед запятой пишем setInterval
@@ -114,6 +116,7 @@ function App() {
             Загрузка Study Ways
         </Typist>
     }
+
 
     if(data.verifyToken.success === true){
         localStorage.setItem('is_login', 'true')
@@ -142,7 +145,7 @@ function App() {
                 <Route exact path="/login" component={Login}/>
                 <Route exact path="/unlogin" component={UnLogin}/>
                 <Route exact path="/registration" component={Registration}/>
-                <Route exact path="/editor" component={user_data.me !== null? EditorsRouter: Login}/>
+                <Route exact path="/editor" component={User.isLogin !== null? EditorsRouter: Login}/>
 
                 <Route  path="/q/:id" component={QuestionByID}/>
                 <Route exact path="/iq/:id" component={ImageQuestion}/>

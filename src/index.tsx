@@ -9,31 +9,8 @@ import { ApolloClient, InMemoryCache, gql, ApolloProvider, HttpLink, ApolloLink 
 import {setContext} from "@apollo/client/link/context";
 import {unstable_createMuiStrictModeTheme} from "@material-ui/core";
 import { ThemeProvider } from '@material-ui/styles';
-
-const authLink = setContext((_, { headers }) => {
-    // get the authentication token from local storage if it exists
-    const token = localStorage.getItem('token');
-    // return the headers to the context so httpLink can read them
-    return {
-        headers: {
-            ...headers,
-            authorization: token ? `JWT ${token}` : "",
-        }
-    }
-});
-const httpLink = new HttpLink({
-    uri: 'https://iot-experemental.herokuapp.com/graphql/'
-    // Additional options
-});
-const errorLink = onError(({ graphQLErrors }) => {
-    if (graphQLErrors) graphQLErrors.map(({ message }) => console.log(message))
-})
-
-export const client = new ApolloClient({
-    link: ApolloLink.from([errorLink, authLink, httpLink]),
-    // uri: 'https://iot-experemental.herokuapp.com/graphql/',
-    cache: new InMemoryCache()
-});
+import User from "./Store/UserStore/UserStore"
+import {observer} from "mobx-react";
 
 const theme = unstable_createMuiStrictModeTheme({
     palette: {
@@ -52,19 +29,17 @@ const theme = unstable_createMuiStrictModeTheme({
             A200: "#448aff",
             A400: "#2979ff",
             A700: "#2962ff",
-            contrastDefaultColor: "light"
+            // contrastDefaultColor: "light"
         }
     },
 });
 
 ReactDOM.render(
-    <ApolloProvider client={client}>
         <React.StrictMode>
             <ThemeProvider theme={theme}>
                 <App />
             </ThemeProvider>
-        </React.StrictMode>
-    </ApolloProvider>,
+        </React.StrictMode>,
   document.getElementById('root')
 );
 

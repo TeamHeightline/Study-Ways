@@ -17,6 +17,7 @@ import LinearScaleIcon from '@material-ui/icons/LinearScale'; // оставим 
 import SearchingElementsPage from "./SearchingElements/SearchingElementsPage";
 import QuestionSequenceMainEditor from "./QuestionSequence/Editor/QuestionSequenceMainEditor";
 import User from '../Store/UserStore/UserStore'
+import {observer} from "mobx-react";
 const CHECK_USER_LEVEL = gql`
 query CHECK_USER_LEVEL{
       me{
@@ -27,7 +28,7 @@ query CHECK_USER_LEVEL{
     }`
 
 
-export default function EditorsRouter(){
+export const EditorsRouter = observer(() =>{
     const [value, setValue] = React.useState(0);
     const {data: check_level_data, error: check_error} = useQuery(CHECK_USER_LEVEL,{
         pollInterval: 10000
@@ -69,4 +70,4 @@ export default function EditorsRouter(){
             {value === 4 && <QuestionSequenceMainEditor/>}
         </div>
     );
-}
+})

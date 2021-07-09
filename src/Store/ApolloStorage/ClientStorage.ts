@@ -1,6 +1,5 @@
 import {makeAutoObservable} from "mobx";
 import {setContext} from "@apollo/client/link/context";
-import User from "../UserStore/UserStore";
 import {ApolloClient, ApolloLink, HttpLink, InMemoryCache} from "@apollo/client";
 import {onError} from "apollo-link-error";
 
@@ -37,7 +36,6 @@ class Client{
 
         const client = new ApolloClient({
             link: ApolloLink.from([errorLink, authLink, httpLink]),
-            // uri: 'https://iot-experemental.herokuapp.com/graphql/',
             cache: new InMemoryCache()
         });
         console.log(this.token)

@@ -8,9 +8,8 @@ import {observer} from "mobx-react";
 import User from "../../Store/UserStore/UserStore"
 import ClientStorage from "../../Store/ApolloStorage/ClientStorage";
 export const  UnLogin = observer(() =>{
-    User.changeIslogin(false)
-    User.changeUserAccessLevel("STUDENT")
     ClientStorage.changeToken('')
+    // User.checkLogin()
     const history = useHistory();
     setTimeout(history.push, 200, '/')
     return(

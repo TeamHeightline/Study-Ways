@@ -8,7 +8,6 @@ class User{
     mail = ''
     isLogin = false
     userAccessLevel = "STUDENT"
-    token = localStorage.getItem('token');
     doLoginSuccess = false //Результат того, смог ли пользователь залогинется в компоненте Login
     doLoginReturnError = false //Нужна, чтобы понимать, что бы понимать, что при логине была получена ошибка
     clientStorage = ClientStorage

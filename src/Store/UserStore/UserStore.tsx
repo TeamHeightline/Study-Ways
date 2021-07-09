@@ -2,7 +2,8 @@ import { makeAutoObservable } from "mobx"
 import {useLazyQuery, useMutation, useQuery} from "@apollo/client";
 import {GET_USER_DATA, LOGIN_MUTATION} from "./Struct";
 import React from 'react';
-import {client} from '../../index'
+import ClientStorage from "../ApolloStorage/ClientStorage";
+// import {client} from '../../index'
 
 
 class User{
@@ -11,40 +12,70 @@ class User{
     isLogin = false
     userAccessLevel = "STUDENT"
     token = localStorage.getItem('token');
+    doLoginSuccess = false //Результат того, смог ли пользователь залогинется в компоненте Login
+    doLoginReturnError = false //Нужна, чтобы понимать, что бы понимать, что при логине была получена ошибка
+    clientStorage = ClientStorage
 
     constructor() {
         makeAutoObservable(this)
     }
+
+    changeDoLoginVariables(Success, Errors){
+        this.doLoginSuccess = Success
+        this.doLoginReturnError = Errors
+    }
+    changeIslogin(isLogin){
+        this.isLogin = isLogin
+    }
+    changeUserAccessLevel(accessLevel){
+        this.userAccessLevel = accessLevel
+    }
+    changeUsername(userName){
+        this.username = userName
+    }
+
     doLogin(mail, password){
-        const [login] = useMutation(LOGIN_MUTATION, {
-            variables: {
+        this.clientStorage.AutoUpdatedApolloClient
+            .mutate({ mutation: LOGIN_MUTATION, variables:{
                 pass: password,
                 mail: mail
-            },
-            onCompleted: data =>{
-                console.log(" User Store data ------ " )
-                console.log(data)
+            }})
+            .then( result=>{
+                try{
+                    if(result.data.tokenAuth.success){
+                        console.log("User Store data ------")
+                        console.log(result)
+                        this.clientStorage.changeToken(result.data.tokenAuth.token)
+                        this.changeIslogin(true)
+                        this.changeDoLoginVariables(true, false)
+                        this.checkLogin()
+                    }else{
+                        this.changeDoLoginVariables(false, true)
+                    }
+                }
+                catch (e){
+                    console.log(e)
             }
         })
-        login()
+
     }
     checkLogin() {
-        client
-        .query({
-            query: GET_USER_DATA
-        })
-        .then(result => {
-            try{
-                console.log("OPEN FROM STORAGE")
-                console.log(result)
-                this.username = result.data.me.username
-                this.userAccessLevel = result.data.me.userAccessLevel
-                this.isLogin = true
-            }
-            catch (e) {
-                console.log(e)
-            }
-        });
+        this.clientStorage.AutoUpdatedApolloClient
+            .query({
+                query: GET_USER_DATA
+            })
+            .then(result => {
+                try{
+                    console.log("OPEN FROM STORAGE")
+                    console.log(result)
+                    this.changeUsername(result.data.me.username)
+                    this.changeUserAccessLevel(result.data.me.userAccessLevel)
+                    this.changeIslogin(true)
+                }
+                catch (e) {
+                    console.log(e)
+                }
+            });
     }
 }
 export default new User

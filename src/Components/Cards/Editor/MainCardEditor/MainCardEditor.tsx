@@ -97,14 +97,14 @@ export default function MainCardEditor({...props}: any){
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
-    if(user_data.me.userAccessLevel !== "TEACHER" && user_data.me.userAccessLevel !== "ADMIN"){
-        return (
-            <Alert severity="error">
-                <AlertTitle>Доступ ограничен</AlertTitle>
-                Вы не обладаете достаточными правами, чтобы просматривать этот раздел, для дополнитльной информации обратитесь к администрации
-            </Alert>
-        )
-    }
+    // if(user_data.me.userAccessLevel !== "TEACHER" && user_data.me.userAccessLevel !== "ADMIN"){
+    //     return (
+    //         <Alert severity="error">
+    //             <AlertTitle>Доступ ограничен</AlertTitle>
+    //             Вы не обладаете достаточными правами, чтобы просматривать этот раздел, для дополнитльной информации обратитесь к администрации
+    //         </Alert>
+    //     )
+    // }
     return(
         <div className="col-12">
             <Row className="ml-1">

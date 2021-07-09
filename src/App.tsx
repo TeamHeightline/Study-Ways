@@ -39,7 +39,7 @@ import {
     useQuery
 } from "@apollo/client";
 import {UnLogin} from "./Components/Login/UnLogin";
-import Registration from "./Components/Login/Registration";
+import {Registration} from "./Components/Login/Registration";
 import LCUpdateQuestion from "./Components/UserTest/Editor/UpdateQuestion/[LC]UpdateQuestion";
 import {EditorsRouter} from "./Components/EditorsRouter";
 import LCMainUserQuestion from "./Components/UserTest/MainUserQuestionPage/[LC]MainUserQuestion";

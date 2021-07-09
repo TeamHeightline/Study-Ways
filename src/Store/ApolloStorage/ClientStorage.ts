@@ -8,7 +8,7 @@ class Client{
     changeToken(token){
         this.token = token
         localStorage.setItem('token', token)
-        console.log("CHANGE TOKEN")
+        // console.log("CHANGE TOKEN")
     }
 
     constructor() {
@@ -38,8 +38,8 @@ class Client{
             link: ApolloLink.from([errorLink, authLink, httpLink]),
             cache: new InMemoryCache()
         });
-        console.log(this.token)
-        console.log("CHANGE CLIENT")
+        // console.log(this.token)
+        // console.log("CHANGE CLIENT")
         return(client)
     }
 

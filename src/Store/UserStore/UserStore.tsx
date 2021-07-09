@@ -39,8 +39,8 @@ class User{
             .then( result=>{
                 try{
                     if(result.data.tokenAuth.success){
-                        console.log("User Store data ------")
-                        console.log(result)
+                        // console.log("User Store data ------")
+                        // console.log(result)
                         this.clientStorage.changeToken(result.data.tokenAuth.token)
                         this.changeIslogin(true)
                         this.changeDoLoginVariables(true, false)
@@ -62,8 +62,8 @@ class User{
             })
             .then(result => {
                 try{
-                    console.log("OPEN FROM STORAGE")
-                    console.log(result)
+                    // console.log("OPEN FROM STORAGE")
+                    // console.log(result)
                     this.changeUsername(result.data.me.username)
                     this.changeUserAccessLevel(result.data.me.userAccessLevel)
                     this.changeIslogin(true)

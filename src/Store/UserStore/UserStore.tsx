@@ -1,10 +1,7 @@
 import { makeAutoObservable } from "mobx"
-import {useLazyQuery, useMutation, useQuery} from "@apollo/client";
 import {GET_USER_DATA, LOGIN_MUTATION} from "./Struct";
 import React from 'react';
 import ClientStorage from "../ApolloStorage/ClientStorage";
-// import {client} from '../../index'
-
 
 class User{
     username = ''

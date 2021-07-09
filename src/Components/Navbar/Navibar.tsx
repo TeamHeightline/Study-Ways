@@ -12,6 +12,7 @@ import {Typography} from "antd";
 import useWindowDimensions from "../../CustomHooks/useWindowDimensions";
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import User from '../../Store/UserStore/UserStore'
 import FolderIcon from '@material-ui/icons/Folder';
 import RestoreIcon from '@material-ui/icons/Restore';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -24,6 +25,7 @@ import RecentActorsIcon from "@material-ui/icons/RecentActors";
 import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import EditIcon from '@material-ui/icons/Edit';
+import {observer} from "mobx-react";
 
 const GET_USER_DATA = gql`
     query{
@@ -40,7 +42,7 @@ const GET_USER_DATA = gql`
 // при логине мы получаем этот токен, при анлогине - удаляем, навбар просто пулит каждые 4 секунды значение с этим
 // токеном, если в вернувшемся обьекте есть данные о пользователи - значит токен верен - значит мы вошли
 
-export default function Navibar(){
+export const Navibar = observer(() =>{
     const{height, width} = useWindowDimensions();
     const [value, setValue] = React.useState('0');//Здесь хронится значение на какой мы странице для
     // мобильных устройств
@@ -102,13 +104,13 @@ export default function Navibar(){
 
                     <Col className="col-2 offset-5">
                         <Row className="ml-3">
-                            {user_data.me ? <Navbar.Text>{user_data.me.username}</Navbar.Text> :
+                            {User.isLogin ? <Navbar.Text>{User.username}</Navbar.Text> :
                                 <Col>
                                     <Link className={s.link} to="/login">Войти</Link>
                                 </Col>
                             }
 
-                            {user_data.me? <div className="col-3">
+                            {User.isLogin? <div className="col-3">
                                 <DropdownButton id="dropdown-navibar-button"  title="" className="ml-4">
                                     <Dropdown.Item>
                                         <Link className={s.link} to="/stat">Статистика </Link>
@@ -120,10 +122,10 @@ export default function Navibar(){
                                         <Link className={s.link} to="/unlogin">Выйти</Link>
                                     </Dropdown.Item>
                                 </DropdownButton></div> : null}
-                            {user_data.me?
-                                null: <Col>
+                            {!User.isLogin &&
+                                 <Col>
                                     <Link className={s.link} to="/registration">Зарегистрироваться</Link>
-                            </Col>}
+                                </Col>}
                         </Row>
                     </Col>
                     {/*<Button variant="outline-success" className=" ml-3 ">Поиск</Button>*/}
@@ -131,4 +133,4 @@ export default function Navibar(){
             </Navbar>
         </div>
     )
-}
+})

@@ -33,6 +33,8 @@ export const EditorsRouter = observer(() =>{
     const {data: check_level_data, error: check_error} = useQuery(CHECK_USER_LEVEL,{
         pollInterval: 10000
     })
+    User.checkLogin()
+    console.log(User.userAccessLevel)
     if (!check_level_data){
         return(
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
@@ -46,7 +48,6 @@ export const EditorsRouter = observer(() =>{
             </Alert>
         )
     }
-    console.log(User.userAccessLevel)
     return (
         <div>
         <BottomNavigation

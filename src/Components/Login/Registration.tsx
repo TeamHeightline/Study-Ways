@@ -5,6 +5,9 @@ import {Alert, Button, Container, Form} from "react-bootstrap";
 import {useState} from "react";
 import {gql, useMutation} from "@apollo/client";
 import {useHistory} from "react-router-dom";
+import Client from '../../Store/ApolloStorage/ClientStorage'
+import User from '../../Store/UserStore/UserStore'
+import {observer} from "mobx-react";
 
 const REGISTRATION_MUTATION = gql`
 mutation REGISTER($email: String!, $password1: String!, $password2: String!, $username: String!){
@@ -15,7 +18,7 @@ mutation REGISTER($email: String!, $password1: String!, $password2: String!, $us
     token
   }
 }`
-export default function Registration(){
+export const  Registration = observer(() =>{
     const [mail, changeMail] = useState('')
     const [userName, changeUserName] = useState('')
     const [password1, changePassword1] = useState('')
@@ -31,17 +34,16 @@ export default function Registration(){
         },
         onError: error =>{
             console.log(error)
+        },
+        onCompleted: data => {
+            console.log(data)
+            Client.changeToken(data.register.token)
+            User.checkLogin()
         }
     })
-    const saveData = () =>{
-        localStorage.setItem('token', data.register.token)
-        localStorage.setItem('refreshToken', data.register.refreshToken)
-        localStorage.setItem('is_login', 'true')
-    }
-    //Если пользователь залогинелся, то сохраняем его данные
-    {data?.register.success ?  data?.register.success === true? saveData(): null: null}
-    //Если данные сохранены и доступны, то происходит редирект на главную страницу
-    {localStorage.getItem('is_login') === 'true' ? setTimeout(history.push, 1000, '/'): null}
+
+
+    {User.isLogin ? setTimeout(history.push, 1000, '/'): null}
 
     return(
         <div>
@@ -85,6 +87,7 @@ export default function Registration(){
                         (data?.register?.errors?.password2[0].message === "This password is too common.") ||
                         (data?.register?.errors?.password2[0].message === "This password is entirely numeric.")?
                             <Alert variant='danger' className="mt-2" >Пароль слишком простой</Alert>: null: null}
+                        {data && !data?.register?.success && <Alert variant='danger' className="mt-2" >Ошибка что-нибудь изменить</Alert>}
                         {/*Занятный факт, эту надпись невозможно прочесть, редирект произойдет раньше*/}
                         {data?.register?.success ?  data?.register.success === true? <Alert variant='primary' className="mt-2">Вы зарегистрировались, запрос на подтверждение аккаунта отправлен вам на почту</Alert>: null: null}
 
@@ -94,4 +97,4 @@ export default function Registration(){
             </Container>
         </div>
     )
-}
+})

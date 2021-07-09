@@ -29,7 +29,7 @@ const errorLink = onError(({ graphQLErrors }) => {
     if (graphQLErrors) graphQLErrors.map(({ message }) => console.log(message))
 })
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
     link: ApolloLink.from([errorLink, authLink, httpLink]),
     // uri: 'https://iot-experemental.herokuapp.com/graphql/',
     cache: new InMemoryCache()

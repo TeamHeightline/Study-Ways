@@ -6,70 +6,18 @@ import 'react-bootstrap';
 import {Card, Container, Form, Button, Alert} from "react-bootstrap";
 import {useState} from "react";
 import {gql, useQuery, useMutation} from "@apollo/client";
-
+import { observer } from "mobx-react"
 import { useHistory } from "react-router-dom";
+import User from '../../Store/UserStore/UserStore';
 
-const LOGIN_MUTATION = gql`
-    mutation AUTHORIZATION($pass: String!, $mail: String!){
-      tokenAuth(password: $pass, email: $mail){
-        token
-        refreshToken
-        success
-        errors
-        user{
-          id
-          username
-          isStaff
-          userAccessLevel
-        }
-      }
-    }`
-const GET_USER_DATA = gql`
-    query{
-        me{
-            id
-            firstName
-            username
-            userAccessLevel
-        }
-    }
-`
-
-export default function Login(){
+export  const Login = observer(() =>{
     const [mail, changeMail] = useState('')
     const [password, changePassword] = useState('')
     const history = useHistory();
-    const {data: user_data} = useQuery(GET_USER_DATA, {
-        pollInterval: 4000,
-        onCompleted: data => {
-            // console.log(data)
-        },
-        onError: error => {
-            // console.log(error)
-        }
-    })
-
-    const [login, { data, error }] = useMutation(LOGIN_MUTATION, {
-        variables: {
-            pass: password,
-            mail: mail
-        }
-    })
-
-    // if(data){
-    //     console.log(data)
-    // }
-    const saveLoginData = () => {
-
-        localStorage.setItem('token', data.tokenAuth.token)
-        localStorage.setItem('refreshToken', data.tokenAuth.refreshToken)
-        localStorage.setItem('is_login', 'true')
+    //Если при логине не было ошибок, пользователя отправляют на главную страницу
+    if(User.doLoginSuccess){
+        setTimeout(history.push, 400, "/")
     }
-    {data ?  data.tokenAuth.success ? saveLoginData() : null : null}
-    //Если в локальном хранилище считают, что пользователь залогинен и есть данные из "me" запроса, то
-    //происходит редирект на основную страницу
-    {localStorage.getItem('is_login') === 'true'  && user_data !== null? setTimeout(history.push, 1000, '/'): null}
-    localStorage.getItem('is_login') === 'true'  && user_data !== null? setTimeout(window.location.reload, 1200): null
     return(
         <div>
             <Container>
@@ -87,15 +35,18 @@ export default function Login(){
                                 <Form.Label>Введите пароль</Form.Label>
                                 <Form.Control type="password" placeholder="Пароль" value={password} onChange={(event) =>{changePassword(event.target.value)}}/>
                             </Form.Group>
-                            <Button variant="primary" type="submit" className="mr-auto" size="lg" block onClick={(event => {event.preventDefault(); login()})}>
+                            <Button variant="primary" type="submit" className="mr-auto" size="lg" block onClick={(event => {
+                                event.preventDefault();
+                                User.doLogin(mail, password) //Вызываем экшен в нашем сторе, оттуда вернется успешно ли прошел процесс логина и есть ли ошибки
+                            })}>
                                 Войти
                             </Button>
-                            {data ? data.tokenAuth.success ? <Alert variant="success" className="mt-2">Поздравляем, вы вошли</Alert> :
-                                <Alert variant='danger' className="mt-2">Ошибка в логине или пароле</Alert> : null}
+                            {User.doLoginSuccess && <Alert variant="success" className="mt-2">Поздравляем, вы вошли</Alert>}
+                            {!User.doLoginSuccess && User.doLoginReturnError  &&  <Alert variant='danger' className="mt-2">Ошибка в логине или пароле</Alert>}
                         {/*    проверка на вход проста и гениальна*/}
                         </Form>
                 </div>
             </Container>
         </div>
     )
-}
+})

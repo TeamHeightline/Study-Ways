@@ -18,9 +18,9 @@ import User from '../Store/UserStore/UserStore'
 import {observer} from "mobx-react";
 
 
+
 export const EditorsRouter = observer(() =>{
     const [value, setValue] = React.useState(0);
-    User.checkLogin()
     console.log(User.userAccessLevel)
     if (User.userAccessLevel !== "ADMIN" && User.userAccessLevel !== "TEACHER"){
         return (

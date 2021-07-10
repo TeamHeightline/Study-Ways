@@ -6,14 +6,16 @@ import {Spinner} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import {observer} from "mobx-react";
 import User from "../../Store/UserStore/UserStore"
-import ClientStorage from "../../Store/ApolloStorage/ClientStorage";
+import {useEffect} from "react";
 export const  UnLogin = observer(() =>{
-    ClientStorage.changeToken('');
-    User.changeIslogin(false);
-    User.changeUserAccessLevel("STUDENT");
-    // User.checkLogin()
     const history = useHistory();
-    setTimeout(history.push, 200, '/')
+    const _ = () =>{
+        User.doUnLogin()
+        setTimeout(history.push, 200, '/')
+    }
+    useEffect(() =>{
+        _()
+    }, [])
     return(
         <div className="col-1 offset-6 justify-content-center mt-4">
             <Spinner animation="border" variant="primary" />

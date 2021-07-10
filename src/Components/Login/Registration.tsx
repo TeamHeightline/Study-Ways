@@ -37,7 +37,9 @@ export const  Registration = observer(() =>{
         },
         onCompleted: data => {
             console.log(data)
-            Client.changeToken(data.register.token)
+            Client.changeToken(data.register.token) //При любом сценарии мы записываем новый токен,
+            //если зарегистрироваться получилось - отлично получим данные о пользователе, если нет -
+            //токен будет невалидным, данные о пользователе получить не удастся
         }
     })
 

@@ -16,8 +16,6 @@ export  const Login = observer(() =>{
     const history = useHistory();
     //Если при логине не было ошибок, пользователя отправляют на главную страницу
     if(User.isLogin){
-        User.checkLogin()
-        User.changeDoLoginVariables(false, false)
         setTimeout(history.push, 400, "/")
     }
     return(

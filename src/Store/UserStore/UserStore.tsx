@@ -16,8 +16,7 @@ class User{
     constructor() {
         makeAutoObservable(this)
         autorun(()=>this.UpdateUser())
-        reaction(()=>ClientStorage.AutoUpdatedApolloClient, ()=>this.UpdateUser())
-
+        reaction(()=>this.clientStorage.client, ()=>this.UpdateUser())
     }
 
 
@@ -27,7 +26,7 @@ class User{
         //чтобы получить новый токен, он отправляется в ClientStorage, где собирается новый
         //apollo client. Так же эта функция меняет isLogin, а это уже запускает авторан для
         //выкачивания всех данных о пользователе(выкаивание производится уже на новом @client)
-        ClientStorage.AutoUpdatedApolloClient
+        this.clientStorage.client
             .mutate({ mutation: LOGIN_MUTATION, variables:{
                 pass: password,
                 mail: mail
@@ -53,7 +52,7 @@ class User{
     }
     doUnLogin(){
         //Функция для выхода, при выходе сбрасывает вообще все переменные, связанные с пользователем
-        ClientStorage.changeToken('')//Уничтожаем старый токен
+        this.clientStorage.changeToken('')//Уничтожаем старый токен
         this.username = ''//Чтобы не осталось имя того, кто был залогинен до этого
         this.mail = ''//Обнуляем не всякий случай
         this.isLogin = false//Обновит навигацию и роуты
@@ -64,13 +63,13 @@ class User{
     }
 
     UpdateUser() {
-        if(ClientStorage.AutoUpdatedApolloClient){//Важное изменение, необходимо для тригера на изменения
+        if(this.clientStorage.client){ //Важное изменение, необходимо для тригера на изменения
             //в @client
             //Функция, которая получает всю информацию о пользователе
             // if(this.doLoginSuccess || this.isLogin || ClientStorage.token !==''){//Самая важная строчка
                 //благодаря ней мы тригиремся на любые изменения в токене, логине или ток, как проходит процесс
                 //логирования в систему
-                ClientStorage.AutoUpdatedApolloClient
+            this.clientStorage.client
                     .query({
                         query: GET_USER_DATA
                     })

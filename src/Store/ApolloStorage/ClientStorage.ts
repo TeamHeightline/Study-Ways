@@ -1,13 +1,16 @@
-import {action, computed, makeAutoObservable, makeObservable, observable} from "mobx";
+import {action, autorun, computed, makeObservable, observable} from "mobx";
 import {setContext} from "@apollo/client/link/context";
-import {ApolloClient, ApolloLink, HttpLink, InMemoryCache} from "@apollo/client";
+import {ApolloClient, ApolloLink, HttpLink, InMemoryCache, NormalizedCacheObject} from "@apollo/client";
 import {onError} from "apollo-link-error";
-import User from "../UserStore/UserStore"
 class Client{
-    token = localStorage.getItem('token'); //Токен авторизации, самая важная вешь в проекте!
-    // При запуски он достается из локального хранилища
+    //Токен авторизации, самая важная вешь в проекте! При запуски он достается из локального хранилища
+    token = localStorage.getItem('token');
 
-    changeToken(token){ //Функция для того, чтобы при логировании можно было записать новый токен
+    //Клиент аполло, обновляется автоматически
+    client:  ApolloClient<NormalizedCacheObject> = this.UpdatedApolloClient()
+
+    //Функция для того, чтобы при логировании можно было записать новый токен
+    changeToken(token){
         this.token = token
         localStorage.setItem('token', token)
         // console.log("CHANGE TOKEN")
@@ -16,15 +19,19 @@ class Client{
     constructor() {
         makeObservable(this, {
             token: observable,
+            client: observable,
             changeToken: action,
-            AutoUpdatedApolloClient: computed({name: "UPDATE CLIENT"})
+            UpdatedApolloClient: action,
         })
+        autorun(()=>this.UpdatedApolloClient())
     }
-    get AutoUpdatedApolloClient(){ //Если токен обновился, то эта вычисляемая функция обновляется и
-        //предоставляет всем элементам системы новый @client, например если пользователь залогинится,
-        //все последующие запросы и мутации будут происходить от его лица(в частности запрос на
-        // получение данных о пользователе), так же это позволит в будущем добавлять другие заголоки
-        //для запросов, если это понадобится
+
+    //Если токен обновился, то эта вычисляемая функция обновляется и
+    //предоставляет всем элементам системы новый @client, например если пользователь залогинится,
+    //все последующие запросы и мутации будут происходить от его лица(в частности запрос на
+    // получение данных о пользователе), так же это позволит в будущем добавлять другие заголоки
+    //для запросов, если это понадобится
+    UpdatedApolloClient(){
         const authLink: any = setContext((_, { headers }) => {
             // процесс создания авторизационного заголовка
             return {
@@ -49,6 +56,7 @@ class Client{
         });
         console.log("new client")
         //Новый клиент собран и расшеривается между всеми, кто его использует
+        this.client = client
         return(client)
     }
 

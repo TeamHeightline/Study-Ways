@@ -65,7 +65,7 @@ const  App = observer(() => {
 
     return (
     <>
-        <ApolloProvider client={ClientStorage.AutoUpdatedApolloClient}>
+        <ApolloProvider client={ClientStorage.client}>
             <Router>
                 <Navibar/>
                 <Switch>

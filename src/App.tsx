@@ -61,12 +61,12 @@ const  App = observer(() => {
         setTimeout(setAnimationState, 3000, true)
     }, [])
 
-    useEffect( () =>{
-        async function _(){
-            await User.checkLogin()
-        }
-        _()
-    }, [User.isLogin])  //для создания фоновой задачи, перед запятой пишем setInterval
+    // useEffect( () =>{
+    //     async function _(){
+    //         await User.AutoUpdateUser
+    //     }
+    //     _()
+    // }, [User.isLogin])  //для создания фоновой задачи, перед запятой пишем setInterval
 
     if (!animationState){
         return  <Typist className="display-4 text-center mt-4 rl" style={{fontSize: '33px', fontFamily: "Raleway"}}>

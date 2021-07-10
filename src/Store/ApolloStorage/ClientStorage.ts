@@ -13,6 +13,7 @@ class Client{
     changeToken(token){
         this.token = token
         localStorage.setItem('token', token)
+        this.UpdatedApolloClient()
         // console.log("CHANGE TOKEN")
     }
 

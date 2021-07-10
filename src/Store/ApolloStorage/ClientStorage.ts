@@ -4,8 +4,10 @@ import {ApolloClient, ApolloLink, HttpLink, InMemoryCache} from "@apollo/client"
 import {onError} from "apollo-link-error";
 
 class Client{
-    token = localStorage.getItem('token');
-    changeToken(token){
+    token = localStorage.getItem('token'); //Токен авторизации, самая важная вешь в проекте!
+    // При запуски он достается из локального хранилища
+
+    changeToken(token){ //Функция для того, чтобы при логировании можно было записать новый токен
         this.token = token
         localStorage.setItem('token', token)
         // console.log("CHANGE TOKEN")
@@ -14,10 +16,14 @@ class Client{
     constructor() {
         makeAutoObservable(this)
     }
-    get AutoUpdatedApolloClient(){
+    get AutoUpdatedApolloClient(){ //Если токен обновился, то эта вычисляемая функция обновляется и
+        //предоставляет всем элементам системы новый @client, например если пользователь залогинится,
+        //все последующие запросы и мутации будут происходить от его лица(в частности запрос на
+        // получение данных о пользователе), так же это позволит в будущем добавлять другие заголоки
+        //для запросов, если это понадобится
         const authLink: any = setContext((_, { headers }) => {
             const token = this.token
-            // return the headers to the context so httpLink can read them
+            // процесс создания авторизационного заголовка
             return {
                 headers: {
                     ...headers,
@@ -25,7 +31,7 @@ class Client{
                 }
             }
         });
-        // console.log(User.token ? User.token : localStorage.getItem('token'))
+        //Ссылка на бэкенд
         const httpLink = new HttpLink({
             uri: 'https://iot-experemental.herokuapp.com/graphql/'
             // Additional options
@@ -33,13 +39,12 @@ class Client{
         const errorLink: any = onError(({ graphQLErrors }) => {
             if (graphQLErrors) graphQLErrors.map(({ message }) => console.log(message))
         })
-
+        //Конечная сборка @client
         const client = new ApolloClient({
             link: ApolloLink.from([errorLink, authLink, httpLink]),
             cache: new InMemoryCache()
         });
-        // console.log(this.token)
-        // console.log("CHANGE CLIENT")
+        //Новый клиент собран и расшеривается между всеми, кто его использует
         return(client)
     }
 

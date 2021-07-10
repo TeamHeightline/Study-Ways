@@ -38,7 +38,6 @@ export const  Registration = observer(() =>{
         onCompleted: data => {
             console.log(data)
             Client.changeToken(data.register.token)
-            User.checkLogin()
         }
     })
 

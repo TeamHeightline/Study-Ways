@@ -28,16 +28,7 @@ import  { BrowserRouter as Router,
 
 
 import {Login} from "./Components/Login/Login"
-import {
-    ApolloClient,
-    ApolloLink,
-    ApolloProvider,
-    gql,
-    HttpLink,
-    InMemoryCache,
-    useMutation,
-    useQuery
-} from "@apollo/client";
+import {ApolloProvider} from "@apollo/client";
 import {UnLogin} from "./Components/Login/UnLogin";
 import {Registration} from "./Components/Login/Registration";
 import LCUpdateQuestion from "./Components/UserTest/Editor/UpdateQuestion/[LC]UpdateQuestion";
@@ -50,8 +41,6 @@ import MainCardPublicView from "./Components/Cards/Public/MainCardPublicView";
 import MainCoursePublicView from "./Components/Course/Public/MainCoursePublicView";
 import QSByID from "./Components/QuestionSequence/Public/QSByID";
 import { observer } from "mobx-react"
-import {setContext} from "@apollo/client/link/context";
-import {onError} from "apollo-link-error";
 import ClientStorage from "./Store/ApolloStorage/ClientStorage";
 
 const  App = observer(() => {
@@ -63,10 +52,10 @@ const  App = observer(() => {
 
     // useEffect( () =>{
     //     async function _(){
-    //         await User.AutoUpdateUser
+    //         await User.UpdateUser()
     //     }
     //     _()
-    // }, [User.isLogin])  //для создания фоновой задачи, перед запятой пишем setInterval
+    // }, [ClientStorage.AutoUpdatedApolloClient])  //для создания фоновой задачи, перед запятой пишем setInterval
 
     if (!animationState){
         return  <Typist className="display-4 text-center mt-4 rl" style={{fontSize: '33px', fontFamily: "Raleway"}}>

@@ -1,8 +1,8 @@
-import {makeAutoObservable} from "mobx";
+import {action, computed, makeAutoObservable, makeObservable, observable} from "mobx";
 import {setContext} from "@apollo/client/link/context";
 import {ApolloClient, ApolloLink, HttpLink, InMemoryCache} from "@apollo/client";
 import {onError} from "apollo-link-error";
-
+import User from "../UserStore/UserStore"
 class Client{
     token = localStorage.getItem('token'); //Токен авторизации, самая важная вешь в проекте!
     // При запуски он достается из локального хранилища
@@ -14,7 +14,11 @@ class Client{
     }
 
     constructor() {
-        makeAutoObservable(this)
+        makeObservable(this, {
+            token: observable,
+            changeToken: action,
+            AutoUpdatedApolloClient: computed({name: "UPDATE CLIENT"})
+        })
     }
     get AutoUpdatedApolloClient(){ //Если токен обновился, то эта вычисляемая функция обновляется и
         //предоставляет всем элементам системы новый @client, например если пользователь залогинится,
@@ -22,12 +26,11 @@ class Client{
         // получение данных о пользователе), так же это позволит в будущем добавлять другие заголоки
         //для запросов, если это понадобится
         const authLink: any = setContext((_, { headers }) => {
-            const token = this.token
             // процесс создания авторизационного заголовка
             return {
                 headers: {
                     ...headers,
-                    authorization: 'JWT '+ token,
+                    authorization: 'JWT '+ this.token,
                 }
             }
         });
@@ -44,6 +47,7 @@ class Client{
             link: ApolloLink.from([errorLink, authLink, httpLink]),
             cache: new InMemoryCache()
         });
+        console.log("new client")
         //Новый клиент собран и расшеривается между всеми, кто его использует
         return(client)
     }

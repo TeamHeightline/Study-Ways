@@ -22,6 +22,7 @@ import {observer} from "mobx-react";
 export const EditorsRouter = observer(() =>{
     const [value, setValue] = React.useState(0);
     console.log(User.userAccessLevel)
+    // User.UpdateUser()
     if (User.userAccessLevel !== "ADMIN" && User.userAccessLevel !== "TEACHER"){
         return (
             <Alert severity="error">

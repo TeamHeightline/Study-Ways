@@ -63,4 +63,4 @@ class Client{
 
 }
 
-export default new Client
+export const  ClientStorage =  new Client()

@@ -5,8 +5,8 @@ import {Alert, Button, Container, Form} from "react-bootstrap";
 import {useState} from "react";
 import {gql, useMutation} from "@apollo/client";
 import {useHistory} from "react-router-dom";
-import Client from '../../Store/ApolloStorage/ClientStorage'
-import User from '../../Store/UserStore/UserStore'
+import {ClientStorage} from '../../Store/ApolloStorage/ClientStorage'
+import {UserStorage} from '../../Store/UserStore/UserStore'
 import {observer} from "mobx-react";
 
 const REGISTRATION_MUTATION = gql`
@@ -37,14 +37,14 @@ export const  Registration = observer(() =>{
         },
         onCompleted: data => {
             console.log(data)
-            Client.changeToken(data.register.token) //При любом сценарии мы записываем новый токен,
+            ClientStorage.changeToken(data.register.token) //При любом сценарии мы записываем новый токен,
             //если зарегистрироваться получилось - отлично получим данные о пользователе, если нет -
             //токен будет невалидным, данные о пользователе получить не удастся
         }
     })
 
 
-    {User.isLogin ? setTimeout(history.push, 1000, '/'): null}
+    {UserStorage.isLogin ? setTimeout(history.push, 1000, '/'): null}
 
     return(
         <div>

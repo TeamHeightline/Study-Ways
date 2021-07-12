@@ -3,14 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { onError } from 'apollo-link-error'
-
-import { ApolloClient, InMemoryCache, gql, ApolloProvider, HttpLink, ApolloLink } from '@apollo/client';
-import {setContext} from "@apollo/client/link/context";
 import {unstable_createMuiStrictModeTheme} from "@material-ui/core";
 import { ThemeProvider } from '@material-ui/styles';
-import User from "./Store/UserStore/UserStore"
-import {observer} from "mobx-react";
 
 const theme = unstable_createMuiStrictModeTheme({
     palette: {

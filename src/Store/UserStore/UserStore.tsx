@@ -1,7 +1,7 @@
 import {autorun, makeAutoObservable, reaction} from "mobx"
 import {GET_USER_DATA, LOGIN_MUTATION} from "./Struct";
 import React from 'react';
-import ClientStorage from "../ApolloStorage/ClientStorage";
+import {ClientStorage} from "../ApolloStorage/ClientStorage";
 
 class User{
     username = ''//Имя пользователя, отображается в навигационной панели
@@ -96,4 +96,4 @@ class User{
         console.log("UPDATE USER DATA")
     }
 }
-export default new User
+export const UserStorage =  new User()

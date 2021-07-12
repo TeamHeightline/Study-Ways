@@ -14,16 +14,16 @@ import RecentActorsIcon from '@material-ui/icons/RecentActors';
 import LinearScaleIcon from '@material-ui/icons/LinearScale'; // оставим для серии вопросов
 import SearchingElementsPage from "./SearchingElements/SearchingElementsPage";
 import QuestionSequenceMainEditor from "./QuestionSequence/Editor/QuestionSequenceMainEditor";
-import User from '../Store/UserStore/UserStore'
+import {UserStorage} from '../Store/UserStore/UserStore'
 import {observer} from "mobx-react";
 
 
 
 export const EditorsRouter = observer(() =>{
     const [value, setValue] = React.useState(0);
-    console.log(User.userAccessLevel)
+    console.log(UserStorage.userAccessLevel)
     // User.UpdateUser()
-    if (User.userAccessLevel !== "ADMIN" && User.userAccessLevel !== "TEACHER"){
+    if (UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER"){
         return (
             <Alert severity="error">
                 <AlertTitle>Доступ ограничен</AlertTitle>

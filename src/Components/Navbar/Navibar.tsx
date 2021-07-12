@@ -3,26 +3,18 @@
 
 import React from 'react'
 import 'react-bootstrap';
-import {Navbar, Form, Nav, Dropdown, Button, DropdownButton, Row, Spinner, Col} from 'react-bootstrap';
+import {Navbar, Form, Nav, Dropdown, DropdownButton, Row, Spinner, Col} from 'react-bootstrap';
 import s from'./navibar.module.css';
-import NavSearch from "../OLD_NOT_USED/search"
 import {gql, useQuery} from "@apollo/client";
 import {Link, useHistory} from 'react-router-dom';
 import {Typography} from "antd";
 import useWindowDimensions from "../../CustomHooks/useWindowDimensions";
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import User from '../../Store/UserStore/UserStore'
-import FolderIcon from '@material-ui/icons/Folder';
-import RestoreIcon from '@material-ui/icons/Restore';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
+import {UserStorage} from '../../Store/UserStore/UserStore'
 
-import {makeStyles} from "@material-ui/styles";
 import BlurLinearIcon from "@material-ui/icons/BlurLinear";
 import ArtTrackIcon from "@material-ui/icons/ArtTrack";
-import RecentActorsIcon from "@material-ui/icons/RecentActors";
-import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import EditIcon from '@material-ui/icons/Edit';
 import {observer} from "mobx-react";
@@ -104,13 +96,13 @@ export const Navibar = observer(() =>{
 
                     <Col className="col-2 offset-5">
                         <Row className="ml-3">
-                            {User.isLogin ? <Navbar.Text>{User.username}</Navbar.Text> :
+                            {UserStorage.isLogin ? <Navbar.Text>{UserStorage.username}</Navbar.Text> :
                                 <Col>
                                     <Link className={s.link} to="/login">Войти</Link>
                                 </Col>
                             }
 
-                            {User.isLogin? <div className="col-3">
+                            {UserStorage.isLogin? <div className="col-3">
                                 <DropdownButton id="dropdown-navibar-button"  title="" className="ml-4">
                                     <Dropdown.Item>
                                         <Link className={s.link} to="/stat">Статистика </Link>
@@ -122,7 +114,7 @@ export const Navibar = observer(() =>{
                                         <Link className={s.link} to="/unlogin">Выйти</Link>
                                     </Dropdown.Item>
                                 </DropdownButton></div> : null}
-                            {!User.isLogin &&
+                            {!UserStorage.isLogin &&
                                  <Col>
                                     <Link className={s.link} to="/registration">Зарегистрироваться</Link>
                                 </Col>}

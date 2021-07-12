@@ -8,14 +8,14 @@ import {useState} from "react";
 import {gql, useQuery, useMutation} from "@apollo/client";
 import { observer } from "mobx-react"
 import { useHistory } from "react-router-dom";
-import User from '../../Store/UserStore/UserStore';
+import {UserStorage} from '../../Store/UserStore/UserStore';
 
 export  const Login = observer(() =>{
     const [mail, changeMail] = useState('')
     const [password, changePassword] = useState('')
     const history = useHistory();
     //Если при логине не было ошибок, пользователя отправляют на главную страницу
-    if(User.isLogin){
+    if(UserStorage.isLogin){
         setTimeout(history.push, 400, "/")
     }
     return(
@@ -37,12 +37,12 @@ export  const Login = observer(() =>{
                             </Form.Group>
                             <Button variant="primary" type="submit" className="mr-auto" size="lg" block onClick={(event => {
                                 event.preventDefault();
-                                User.doLogin(mail, password) //Вызываем экшен в нашем сторе, оттуда вернется успешно ли прошел процесс логина и есть ли ошибки
+                                UserStorage.doLogin(mail, password) //Вызываем экшен в нашем сторе, оттуда вернется успешно ли прошел процесс логина и есть ли ошибки
                             })}>
                                 Войти
                             </Button>
-                            {User.doLoginSuccess && <Alert variant="success" className="mt-2">Поздравляем, вы вошли</Alert>}
-                            {!User.doLoginSuccess && User.doLoginReturnError  &&  <Alert variant='danger' className="mt-2">Ошибка в логине или пароле</Alert>}
+                            {UserStorage.doLoginSuccess && <Alert variant="success" className="mt-2">Поздравляем, вы вошли</Alert>}
+                            {!UserStorage.doLoginSuccess && UserStorage.doLoginReturnError  &&  <Alert variant='danger' className="mt-2">Ошибка в логине или пароле</Alert>}
                         {/*    проверка на вход проста и гениальна*/}
                         </Form>
                 </div>

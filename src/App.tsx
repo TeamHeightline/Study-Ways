@@ -16,7 +16,7 @@ import './App.css';
 import {Navibar} from './Components/Navbar/Navibar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {useEffect} from "react";
-import User from './Store/UserStore/UserStore'
+import {UserStorage} from './Store/UserStore/UserStore'
 
 
 
@@ -41,7 +41,7 @@ import MainCardPublicView from "./Components/Cards/Public/MainCardPublicView";
 import MainCoursePublicView from "./Components/Course/Public/MainCoursePublicView";
 import QSByID from "./Components/QuestionSequence/Public/QSByID";
 import { observer } from "mobx-react"
-import ClientStorage from "./Store/ApolloStorage/ClientStorage";
+import {ClientStorage} from "./Store/ApolloStorage/ClientStorage";
 
 const  App = observer(() => {
     const [animationState, setAnimationState] = useState(false)
@@ -83,7 +83,7 @@ const  App = observer(() => {
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/unlogin" component={UnLogin}/>
                     <Route exact path="/registration" component={Registration}/>
-                    <Route exact path="/editor" component={User.isLogin !== null? EditorsRouter: Login}/>
+                    <Route exact path="/editor" component={UserStorage.isLogin !== null? EditorsRouter: Login}/>
 
                     <Route  path="/q/:id" component={QuestionByID}/>
                     <Route exact path="/iq/:id" component={ImageQuestion}/>

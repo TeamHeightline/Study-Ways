@@ -11,11 +11,9 @@ import {gql} from "graphql.macro";
 import {useQuery} from "@apollo/client";
 import MathJax from 'react-mathjax-preview'
 import "../../App.css"
-import CourseNavigation from "../Course/Vue/CourseNavigation";
 import CourseMicroView from "../Course/Editor/CourseMicroView";
 
 
-import renderHTML from 'react-render-html';
 import useWindowDimensions from "../../CustomHooks/useWindowDimensions";
 import {CoursePageStorage} from "../../Store/PublicStorage/CoursePage/CoursePageStorage";
 import {observer} from "mobx-react";
@@ -55,25 +53,12 @@ const SHOW_CARD_BY_ID = gql`
         }
     }`
 
-const GET_COURSE_BY_ID = gql`
-    query GET_COURSE_BY_ID($id: ID!){
-        cardCourseById(id: $id){
-            courseData
-            id
-            name
-        }
-    }`
 // const { Meta } = Card;
 
 export const CARD = observer(({id, course, ...props}: any) =>{
     const [rating, setRating] = useState<number | null>(4);
     const [cardImage, setCardImage] = useState()
     const {width, height} = useWindowDimensions()
-    const {data: course_data} = useQuery(GET_COURSE_BY_ID, {
-        variables:{
-            id: course?.id
-        }
-    })
     const {data: card_data, refetch} = useQuery(SHOW_CARD_BY_ID, {
         variables:{
             id: props?.match?.params?.id? props?.match?.params?.id : id,
@@ -105,10 +90,12 @@ export const CARD = observer(({id, course, ...props}: any) =>{
     // console.log("disabledNext " + props.disabledNext)
     return(
         <div className="ml-lg-5 col-12 mr-2 ml-2">
-            {course && course_data &&
+            {props.openFromCourse &&
             <div className="ml-2" style={{overflowY: "scroll"}}>
-                <CourseMicroView course={course_data.cardCourseById} buttonClick={data=>props.buttonClick(data)}
-                inCardNavigationMode={true} cardPositionData={props.cardPositionData}/>
+                <CourseMicroView course={CoursePageStorage.courseArr[CoursePageStorage.positionData.courseIndex]}
+                                 buttonClick={data=>props.buttonClick(data)}
+                                 inCardNavigationMode={true}
+                                 cardPositionData={CoursePageStorage.positionData}/>
             </div>}
             <Row className="ml-2">
                 {id &&
@@ -123,17 +110,17 @@ export const CARD = observer(({id, course, ...props}: any) =>{
                     {/*Если катрочка открывается из курса, то нам нужны кнопки вверх и вниз, если её открыли
                         просто как карточку из MainCardPublicView, то нам нужно только вперед и назад для перемещения
                         по id вперед и назад*/}
-                    {course ?  <ButtonGroup size="large" color="primary" aria-label="group">
-                            <Button onClick={ () => props.ButtonClick("Back")} disabled={CoursePageStorage.disabledBack}>
+                    {props.openFromCourse ?  <ButtonGroup size="large" color="primary" aria-label="group">
+                            <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Back")} disabled={CoursePageStorage.disabledBack}>
                                 <KeyboardArrowLeftOutlinedIcon/>
                             </Button>
-                            <Button onClick={ () => props.ButtonClick("Down")} disabled={CoursePageStorage.disabledDown}>
+                            <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Down")} disabled={CoursePageStorage.disabledDown}>
                                 <KeyboardArrowDownOutlinedIcon/>
                             </Button>
-                            <Button onClick={ () => props.ButtonClick("Up")} disabled={CoursePageStorage.disabledUp}>
+                            <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Up")} disabled={CoursePageStorage.disabledUp}>
                                 <KeyboardArrowUpOutlinedIcon/>
                             </Button>
-                            <Button onClick={ () => props.ButtonClick("Next")} disabled={CoursePageStorage.disabledNext}>
+                            <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Next")} disabled={CoursePageStorage.disabledNext}>
                                 <KeyboardArrowRightOutlinedIcon/>
                             </Button>
                         </ButtonGroup>:

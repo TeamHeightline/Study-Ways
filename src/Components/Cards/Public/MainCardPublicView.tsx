@@ -6,7 +6,7 @@ import CardMicroView from "../CardView/#CardMicroView";
 import ThemeSelector from "../Editor/MainCardEditor/#ThemeSelector";
 import ContentTypeSelector from "../Editor/MainCardEditor/#ContentTypeSelector";
 import AuthorSelector from "../Editor/MainCardEditor/#AuthorSelector";
-import Card from "../Card"
+import {CARD} from "../Card"
 import useWindowDimensions from "../../../CustomHooks/useWindowDimensions";
 import {GET_ALL_CARDS} from"./Struct"
 
@@ -27,7 +27,7 @@ export default function MainCardPublicView({...props}: any){
     // console.log(cards_data)
     if(isCardOpen && selectedCardID){
         return (
-            <Card id={selectedCardID}
+            <CARD id={selectedCardID}
                   ButtonClick={(data) =>{
                       if(data === "Back"){
                           setSelectedCardID(selectedCardID - 1)

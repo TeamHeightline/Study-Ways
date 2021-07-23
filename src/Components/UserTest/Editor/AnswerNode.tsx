@@ -1,17 +1,14 @@
-import React, {useEffect, useMemo, useState} from "react";
-import {Col, Form, Row} from "react-bootstrap";
-import {Collapse, Fade, InputLabel, Select, Snackbar, Switch, TextField} from "@material-ui/core";
-import {any, number} from "prop-types";
+import React, {useEffect, useState} from "react";
+import {Col, Row} from "react-bootstrap";
+import {Collapse, InputLabel, Select, Snackbar, Switch, TextField} from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import { MenuItem } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import Divider from "@material-ui/core/Divider";
 import Paper from "@material-ui/core/Paper";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Typography from "@material-ui/core/Typography";
 import {gql, useMutation} from "@apollo/client";
 import {Alert} from "@material-ui/lab";
-import {assertDirective} from "graphql";
 import Input from '@material-ui/core/Input';
 
 const UPDATE_ANSWER = gql`mutation UPDATE_ANSWER($question: ID!, $id: ID, $isTrue: Boolean, $text: String, $helpTextv1: String,
@@ -79,7 +76,7 @@ export default function AnswerNode(props: any) {
             return checkQueue
         }
     };
-    const [update_answer, {data: update_answer_data, loading: update_answer_loading}] = useMutation(UPDATE_ANSWER, {
+    const [update_answer, {data: update_answer_data}] = useMutation(UPDATE_ANSWER, {
         variables: {
             question: props.questionID,
             id: props.answer.id,

@@ -10,6 +10,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Switch from "@material-ui/core/Switch";
 import {Alert} from "@material-ui/lab";
 import AnswerNode from "../AnswerNode";
+import {sort} from "fast-sort";
 
 export default function DCUpdateQuestion({...props}: any){
     if (!props.data) {
@@ -154,17 +155,18 @@ export default function DCUpdateQuestion({...props}: any){
                     <Alert severity="error">Ошибка в одном или нескольких полях</Alert>: null : null}
                 {props.questionId? <Col className="text-center mt-2 col-6">
                     <Typography variant="body2" color="textSecondary" component="p">
-                        Ссылка на прохождение вопроса - {props.isImageQuestion?
-                        <strong>https://www.sw-university.com/iq/{props.questionId}</strong>:
-                        <strong>https://www.sw-university.com/q/{props.questionId}</strong>}
+                        Ссылка на прохождение вопроса  -
+                        <strong>https://www.sw-university.com/iq/{props.questionId}</strong>
                     </Typography>
                 </Col>: null}
             </Row>
             {props.questionId &&
             <div className="display-4 text-center mt-3 col-12" style={{fontSize: '33px'}}>Редактировать ответы</div>}
             {/* Нужно кэшировать!!!*/}
-            {props.questionIndex !== undefined? console.log(props.data.me.questionSet[props.questionIndex].answers): null}
-            {props.questionIndex !== undefined? props.data?.me?.questionSet[props.questionIndex]?.answers.map((answer: any, answerIndex: number) =>{
+            {/*Сортировка ответов по ID и проверка на то, что вопрос вообще выбран через проверку наличая ID у вопроса*/}
+            {props.questionIndex !== undefined? sort(props.data?.me?.questionSet[props.questionIndex]?.answers)
+                .asc((answer: any) => answer?.id)
+                .map((answer: any, answerIndex: number) =>{
                     console.log(props.questionIndex)
                     return(<AnswerNode className="mt-4" key={answer.id} answer={answer} answerIndex={answerIndex} questionID={props.questionId} isImageQuestion={props.isImageQuestion}/>)
                 }

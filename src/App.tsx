@@ -11,6 +11,8 @@
 // вызываемый компонент.
 // Следующая часть рассказа в Navbar.tsx
 
+//23 июля начат процесс полного переписывания проекта на mobX, документация может быть устаревшей
+
 import React, {useState} from 'react';
 import './App.css';
 import {Navibar} from './Components/Navbar/Navibar';
@@ -38,7 +40,7 @@ import QuestionByID from "./Components/UserTest/QuestionByID";
 import ImageQuestion from "./Components/UserTest/ImageQuestion/ImageQuestion";
 import Typist from 'react-typist';
 import MainCardPublicView from "./Components/Cards/Public/MainCardPublicView";
-import MainCoursePublicView from "./Components/Course/Public/MainCoursePublicView";
+import {MainCoursePublicView} from "./Components/Course/Public/MainCoursePublicView";
 import QSByID from "./Components/QuestionSequence/Public/QSByID";
 import { observer } from "mobx-react"
 import {ClientStorage} from "./Store/ApolloStorage/ClientStorage";
@@ -49,13 +51,6 @@ const  App = observer(() => {
     useEffect(() =>{
         setTimeout(setAnimationState, 3000, true)
     }, [])
-
-    // useEffect( () =>{
-    //     async function _(){
-    //         await User.UpdateUser()
-    //     }
-    //     _()
-    // }, [ClientStorage.AutoUpdatedApolloClient])  //для создания фоновой задачи, перед запятой пишем setInterval
 
     if (!animationState){
         return  <Typist className="display-4 text-center mt-4 rl" style={{fontSize: '33px', fontFamily: "Raleway"}}>

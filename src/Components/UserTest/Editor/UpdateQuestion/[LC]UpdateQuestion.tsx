@@ -3,6 +3,7 @@ import { useMutation, useQuery} from "@apollo/client";
 import {Spinner} from "react-bootstrap";
 import {Autocomplete} from "@material-ui/lab";
 import { TextField} from "@material-ui/core";
+import { sort } from 'fast-sort';
 
 
 import {CONTEXT_DATA, CREATE_NEW_ANSWER, CREATE_NEW_QUESTION, UPDATE_QUESTION} from "./Struct"
@@ -11,11 +12,12 @@ import {Mutation} from "../../../../../SchemaTypes";
 
 const AutocompliteForNotUpdate = (data: any, autocompliteSelectHandleChange: (e: any, values: any) => any) => {
     if (data){
+        console.log(data.me.questionSet)
         return(
             <Autocomplete
                 id="combo-box-demo"
                 fullWidth
-                options={data.me.questionSet}
+                options={sort(data.me.questionSet).desc((question: any) => question?.id)}
                 getOptionLabel={(option: any) => option.text}
                 renderInput={(params) => <TextField {...params} label="Вопрос" variant="outlined"/>}
                 onChange={(e: any, values: any) => {

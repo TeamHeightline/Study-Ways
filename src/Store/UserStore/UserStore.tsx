@@ -63,35 +63,24 @@ class User{
     }
 
     UpdateUser() {
-        if(this.clientStorage.client){ //Важное изменение, необходимо для тригера на изменения
-            //в @client
+        if(this.clientStorage.client){
             //Функция, которая получает всю информацию о пользователе
-            // if(this.doLoginSuccess || this.isLogin || ClientStorage.token !==''){//Самая важная строчка
-                //благодаря ней мы тригиремся на любые изменения в токене, логине или ток, как проходит процесс
-                //логирования в систему
             this.clientStorage.client
                     .query({
                         query: GET_USER_DATA
                     })
                     .then(result => {
-                        try{
-                            this.username = result.data.me.username
-                            this.userAccessLevel = result.data.me.userAccessLevel
-                            this.isLogin = true
-                            console.log("TRY TO UPDATE USER DATA")
-                            console.log(result)
-                        }
-                        catch (e) {
-                            console.log(e)
-                        }
+                        this.username = result.data.me.username
+                        this.userAccessLevel = result.data.me.userAccessLevel
+                        this.isLogin = true
+                        console.log("TRY TO UPDATE USER DATA")
                     })
-
-            // }else{
-            //     //На всякий случай при неудачном логирование обнуляем свойства пользователя
-            //     this.isLogin = false
-            //     this.username = ''
-            //     this.userAccessLevel = "STUDENT"
-            // }
+                    .catch(() =>{
+                        //На всякий случай при неудачном логирование обнуляем свойства пользователя
+                        this.isLogin = false
+                        this.username = ''
+                        this.userAccessLevel = "STUDENT"
+                    })
         }
         console.log("UPDATE USER DATA")
     }

@@ -1,4 +1,4 @@
-import {action, autorun, computed, makeObservable, observable} from "mobx";
+import {action, autorun, makeObservable, observable} from "mobx";
 import {setContext} from "@apollo/client/link/context";
 import {ApolloClient, ApolloLink, HttpLink, InMemoryCache, NormalizedCacheObject} from "@apollo/client";
 import {onError} from "apollo-link-error";

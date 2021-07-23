@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Alert, Col, Row, Spinner} from "react-bootstrap";
 import ReactPlayer from "react-player";
 import {Breadcrumbs, Button, ButtonGroup, Typography, Tooltip, Paper} from "@material-ui/core";
@@ -10,7 +10,6 @@ import {Rating} from "@material-ui/lab";
 import {gql} from "graphql.macro";
 import {useQuery} from "@apollo/client";
 import MathJax from 'react-mathjax-preview'
-import { Card } from 'antd';
 import "../../App.css"
 import CourseNavigation from "../Course/Vue/CourseNavigation";
 import CourseMicroView from "../Course/Editor/CourseMicroView";
@@ -18,6 +17,8 @@ import CourseMicroView from "../Course/Editor/CourseMicroView";
 
 import renderHTML from 'react-render-html';
 import useWindowDimensions from "../../CustomHooks/useWindowDimensions";
+import {CoursePageStorage} from "../../Store/PublicStorage/CoursePage/CoursePageStorage";
+import {observer} from "mobx-react";
 
 const SHOW_CARD_BY_ID = gql`
     query SHOW_CARD_BY_ID($id: ID!){
@@ -62,9 +63,9 @@ const GET_COURSE_BY_ID = gql`
             name
         }
     }`
-const { Meta } = Card;
+// const { Meta } = Card;
 
-export default function CARDS({id, course, ...props}: any){
+export const CARD = observer(({id, course, ...props}: any) =>{
     const [rating, setRating] = useState<number | null>(4);
     const [cardImage, setCardImage] = useState()
     const {width, height} = useWindowDimensions()
@@ -123,16 +124,16 @@ export default function CARDS({id, course, ...props}: any){
                         просто как карточку из MainCardPublicView, то нам нужно только вперед и назад для перемещения
                         по id вперед и назад*/}
                     {course ?  <ButtonGroup size="large" color="primary" aria-label="group">
-                            <Button onClick={ () => props.ButtonClick("Back")} disabled={props.disabledBack}>
+                            <Button onClick={ () => props.ButtonClick("Back")} disabled={CoursePageStorage.disabledBack}>
                                 <KeyboardArrowLeftOutlinedIcon/>
                             </Button>
-                            <Button onClick={ () => props.ButtonClick("Down")} disabled={props.disabledDown}>
+                            <Button onClick={ () => props.ButtonClick("Down")} disabled={CoursePageStorage.disabledDown}>
                                 <KeyboardArrowDownOutlinedIcon/>
                             </Button>
-                            <Button onClick={ () => props.ButtonClick("Up")} disabled={props.disabledUp}>
+                            <Button onClick={ () => props.ButtonClick("Up")} disabled={CoursePageStorage.disabledUp}>
                                 <KeyboardArrowUpOutlinedIcon/>
                             </Button>
-                            <Button onClick={ () => props.ButtonClick("Next")} disabled={props.disabledNext}>
+                            <Button onClick={ () => props.ButtonClick("Next")} disabled={CoursePageStorage.disabledNext}>
                                 <KeyboardArrowRightOutlinedIcon/>
                             </Button>
                         </ButtonGroup>:
@@ -239,4 +240,4 @@ export default function CARDS({id, course, ...props}: any){
             </div>}
         </div>
     )
-}
+})

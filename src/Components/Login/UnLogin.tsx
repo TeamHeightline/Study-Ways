@@ -8,9 +8,10 @@ import {UserStorage} from "../../Store/UserStore/UserStore"
 import {useEffect} from "react";
 export const  UnLogin = observer(() =>{
     const history = useHistory();
-    const _ = () =>{ //Необходимо, чтобы функция doUnLogin выполнилась один раз. Когда она выполнится
-        //произойдет одновления стейта UnLogin, и если User.doUnLogin() будет не в UseEffect, то
-        //обновление будет вечное, сайт просто зависнит
+    //Необходимо, чтобы функция doUnLogin выполнилась один раз. Когда она выполнится
+    //произойдет одновления стейта UnLogin, и если User.doUnLogin() будет не в UseEffect, то
+    //обновление будет вечное, сайт просто зависнит
+    const _ = () =>{
         UserStorage.doUnLogin()//Выполняем выход из аккаунта
         setTimeout(history.push, 200, '/')//Редирект на основную страницу
     }

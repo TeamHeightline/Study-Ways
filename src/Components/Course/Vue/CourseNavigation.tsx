@@ -16,7 +16,7 @@ export default function CourseNavigation({course, ...props}: any){
                         }}
                                        key={CRI + "NavigationRow"} CRI={CRI} courseRow={courseRow}
                                        cardPositionData={props.cardPositionData}
-                                       inCardNavigationMode={props.inCardNavigationMode}/>
+                        />
                     )
                 })}
                 <br/>

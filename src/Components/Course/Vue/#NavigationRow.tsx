@@ -19,8 +19,7 @@ export default function NavigationRow({courseRow, ...props}: any){
                                  CRI={props.CRI}
                                  rIndex={rIndex}
                                  rowFragment={rowFragment}
-                                 cardPositionData={props.cardPositionData}
-                                 inCardNavigationMode={props.inCardNavigationMode}/>
+                                 cardPositionData={props.cardPositionData}/>
                 )
             })}
             {/*<RowFragment/>*/}

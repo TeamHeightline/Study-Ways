@@ -27,8 +27,8 @@ export default function CourseMicroView({course, ...props}: any) {
                 // console.log('Success:', result);
                 setCardCourseImageURL(result[0].image)
             })
-            .catch((error) => {
-                console.error('Error:', error);
+            .catch(() => {
+                void(0)
             });
     }
     useEffect(() =>{
@@ -52,7 +52,7 @@ export default function CourseMicroView({course, ...props}: any) {
                 </CardActionArea>
                 <Divider orientation="vertical" flexItem className="ml-1" />
                 <CourseNavigation course={course} buttonClick={data => props.buttonClick(data)}
-                                  cardPositionData={props.cardPositionData} inCardNavigationMode={props.inCardNavigationMode}/>
+                                  cardPositionData={props.cardPositionData}/>
             </Card>
         </div>
     )

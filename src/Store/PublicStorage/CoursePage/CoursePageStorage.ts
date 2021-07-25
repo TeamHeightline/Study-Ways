@@ -11,9 +11,12 @@ class CoursePage{
             courseArr: observable,
             positionData: observable,
             selectedCardID: observable,
+            isOpenCard: observable,
             get_course_data: action,
             get_card_id_by_position: action,
             inCardButtonClickedHandler: action,
+            cardSelectInCourseByMouseClick: action,
+            goBackButtonHandler: action,
             disabledNext: computed,
             disabledBack: computed,
             disabledUp: computed,
@@ -39,6 +42,9 @@ class CoursePage{
     //ID выбранной карточки
     selectedCardID = 0
 
+    //Выбрал ли пользователь карточку, чтобы просмотреть или находится в главном меню курсов
+    isOpenCard = false
+
     //action для получения всех данных о !курсах! и записывание их в courseArr
     get_course_data(){
         this.clientStorage.client.query({query: GET_ALL_COURSE})
@@ -49,7 +55,6 @@ class CoursePage{
     }
     //парсит courseArr для получения id конкретной карточки в опрделенной позиции
     get_card_id_by_position(cardPositionData, stepRight = 0, stepUp = 0){
-        // console.log(cardPositionData.row + stepUp)
         if(cardPositionData.buttonIndex + stepRight >= 0 && cardPositionData.buttonIndex + stepRight <= 11 &&
             Number(cardPositionData.row) + stepUp >= 0 && Number(cardPositionData.row) + stepUp <= 3){
             return(CoursePageStorage.courseArr[cardPositionData.courseIndex].courseData[Number(cardPositionData.row) + stepUp]
@@ -88,6 +93,22 @@ class CoursePage{
         }
     }
 
+    //Обработчик выбора карточки в курсе по щелчку мыши (пользователь нажимает на кнопку с номером карточки и
+    // его перекидывает в нее)
+    cardSelectInCourseByMouseClick(data, courseIndex , courseID) {
+        data.courseIndex = Number(courseIndex)
+        data.courseID = Number(courseID)
+        if(this.get_card_id_by_position(data)){
+            this.selectedCardID = this.get_card_id_by_position(data)
+            this.positionData = data
+            this.isOpenCard = true
+        }
+    }
+
+    //Обработчик нажатия пользователем кнопки "Назад" в карточки
+    goBackButtonHandler() {
+        this.isOpenCard = false
+    }
     //computed для вычислений того, можно ли переклчиться в карточке вперед/назад/вверх/вних
     get disabledNext(){
         return(this.get_card_id_by_position(this.positionData, 1) === null)
@@ -101,7 +122,5 @@ class CoursePage{
     get disabledDown(){
         return(this.get_card_id_by_position(this.positionData, 0, +1) === null)
     }
-
-
 }
 export const  CoursePageStorage =  new CoursePage()

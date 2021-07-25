@@ -55,13 +55,13 @@ const SHOW_CARD_BY_ID = gql`
 
 // const { Meta } = Card;
 
-export const CARD = observer(({id, course, ...props}: any) =>{
+export const CARD = observer(({id, ...props}: any) =>{
     const [rating, setRating] = useState<number | null>(4);
     const [cardImage, setCardImage] = useState()
     const {width, height} = useWindowDimensions()
     const {data: card_data, refetch} = useQuery(SHOW_CARD_BY_ID, {
         variables:{
-            id: props?.match?.params?.id? props?.match?.params?.id : id,
+            id: props?.match?.params?.id? props?.match?.params?.id : CoursePageStorage.selectedCardID,
         },
         onCompleted: data => {
             if(data.cardById.cardContentType !== "A_0"){
@@ -71,7 +71,7 @@ export const CARD = observer(({id, course, ...props}: any) =>{
     })
     useEffect(() =>{
         refetch()
-    }, [id, course])
+    }, [id,])
     const get_card_image = () =>{
         // https://iot-experemental.herokuapp.com/cardfiles/card?
         fetch("https://iot-experemental.herokuapp.com/cardfiles/card?id=" +  card_data.cardById?.id )
@@ -82,7 +82,7 @@ export const CARD = observer(({id, course, ...props}: any) =>{
                     setCardImage(data[0].image)
                 }
                 catch(e){
-                    console.log("Error with image distribution - " + e)
+                    void(0)
                 }
             })
     }
@@ -93,16 +93,16 @@ export const CARD = observer(({id, course, ...props}: any) =>{
             {props.openFromCourse &&
             <div className="ml-2" style={{overflowY: "scroll"}}>
                 <CourseMicroView course={CoursePageStorage.courseArr[CoursePageStorage.positionData.courseIndex]}
-                                 buttonClick={data=>props.buttonClick(data)}
-                                 inCardNavigationMode={true}
+                                 buttonClick={data=>CoursePageStorage.cardSelectInCourseByMouseClick(data,
+                                     CoursePageStorage.positionData.courseIndex, CoursePageStorage.positionData.courseID)}
                                  cardPositionData={CoursePageStorage.positionData}/>
             </div>}
             <Row className="ml-2">
-                {id &&
+                {props.openFromCourse &&
                     <Button
                         className="ml-lg-2 mt-4  col-12 col-lg-2 mr-2"
-                        variant="outlined" color="primary" onClick={() => {
-                        props.onChange("goBack")}}>
+                        variant="outlined" color="primary"
+                        onClick={ () => CoursePageStorage.goBackButtonHandler()}>
                         Назад
                     </Button>
                 }

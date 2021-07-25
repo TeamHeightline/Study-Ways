@@ -1,25 +1,46 @@
 import React from 'react';
-import {Button} from "@material-ui/core";
+import {Button, IconButton} from "@material-ui/core";
 import './RowFragment.css'
+import StopSharpIcon from '@material-ui/icons/StopSharp';
+import CheckBoxOutlineBlankSharpIcon from '@material-ui/icons/CheckBoxOutlineBlankSharp';
 export default function RowFragment({rowFragment, ...props}: any){
 
     return(
         <>
             {rowFragment.CourseFragment.map((element, eIndex) =>{
                 return(
-                    <Button className="ml-1 mt-1" color={"primary"}
-                            variant={element?.CourseElement?.id ?
-                                props.cardPositionData && props.cardPositionData.row === props.CRI && props.cardPositionData.fragment === props.rIndex
-                                && eIndex ===props.cardPositionData.buttonIndex ?
-                                    "contained": "outlined": "text"}
-                            onClick={() =>{
-                                props.buttonClick(eIndex)
-                                // console.log(eIndex + "CourseFragment" + props.rIndex + "RowFragment" + props.CRI + "NavigationRow")
-                            }}
-
-                            key={eIndex + "CourseFragment" + props.rIndex + "RowFragment" + props.CRI + "NavigationRow"}>
-                        {element?.CourseElement?.id ? element?.CourseElement?.id : <br/>}
-                    </Button>
+                    // <Button className="ml-1 mt-1" color="primary"
+                    //         size="medium"
+                    //         variant={element?.CourseElement?.id ?
+                    //             props.cardPositionData && props.cardPositionData.row === props.CRI && props.cardPositionData.fragment === props.rIndex
+                    //             && eIndex ===props.cardPositionData.buttonIndex ?
+                    //                 "contained": "outlined": "text"}
+                    //         onClick={() =>{
+                    //             props.buttonClick(eIndex)
+                    //             // console.log(eIndex + "CourseFragment" + props.rIndex + "RowFragment" + props.CRI + "NavigationRow")
+                    //         }}
+                    //
+                    //         key={eIndex + "CourseFragment" + props.rIndex + "RowFragment" + props.CRI + "NavigationRow"}>
+                    //     {element?.CourseElement?.id ? element?.CourseElement?.id
+                    //         : <br/>}
+                    // </Button>
+                    <IconButton size="small"
+                                edge="start"
+                                key={eIndex + "CourseFragment" + props.rIndex + "RowFragment" + props.CRI + "NavigationRow"}
+                                onClick={() =>{
+                                    props.buttonClick(eIndex)
+                                }}
+                                style={{color: !element?.CourseElement?.id ? "white" : ''}}
+                                disabled={!element?.CourseElement?.id}
+                                color={
+                                    // !element?.CourseElement?.id? "inherit" :
+                                    props.cardPositionData && props.cardPositionData.row === props.CRI && props.cardPositionData.fragment === props.rIndex
+                                    && eIndex ===props.cardPositionData.buttonIndex ?
+                                        "secondary":
+                                        "primary"}
+                    >
+                        <StopSharpIcon/>
+                    </IconButton>
                 )
             })}
         </>

@@ -6,7 +6,7 @@ import RowFragment from "./##RowFragment";
 export default function NavigationRow({courseRow, ...props}: any){
     // console.log(courseRow)
     return(
-        <Row style={{width: 830 * courseRow.SameLine.length}}>
+        <Row style={{width: 400 * courseRow.SameLine.length}}>
             {courseRow.SameLine.map((rowFragment, rIndex) =>{
                 return(
                     <RowFragment buttonClick={(data) =>{

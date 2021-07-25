@@ -7,3 +7,11 @@
     color: #ffc00e;
     background-color: #ffc00e;
 }
+.Mui-disabled{
+    color: white;
+    background-color: #ffffff;
+}
+.MuiIconButton-root{
+    color: white;
+    background-color: #ffffff;
+}

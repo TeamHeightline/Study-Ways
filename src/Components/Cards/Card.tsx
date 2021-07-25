@@ -91,50 +91,49 @@ export const CARD = observer(({id, ...props}: any) =>{
     return(
         <div className="ml-lg-5 col-12 mr-2 ml-2">
             {props.openFromCourse &&
-            <div className="ml-2" style={{overflowY: "scroll"}}>
+                <Button
+                    className="ml-lg-2 mt-4  col-12 col-lg-2 mr-2"
+                    variant="outlined" color="primary"
+                    onClick={ () => CoursePageStorage.goBackButtonHandler()}>
+                    Назад
+                </Button>
+            }
+            {props.openFromCourse &&
+            <div className="ml-2 mt-4" style={{overflowY: "scroll"}}>
                 <CourseMicroView course={CoursePageStorage.courseArr[CoursePageStorage.positionData.courseIndex]}
                                  buttonClick={data=>CoursePageStorage.cardSelectInCourseByMouseClick(data,
                                      CoursePageStorage.positionData.courseIndex, CoursePageStorage.positionData.courseID)}
                                  cardPositionData={CoursePageStorage.positionData}/>
             </div>}
-            <Row className="ml-2">
-                {props.openFromCourse &&
-                    <Button
-                        className="ml-lg-2 mt-4  col-12 col-lg-2 mr-2"
-                        variant="outlined" color="primary"
-                        onClick={ () => CoursePageStorage.goBackButtonHandler()}>
-                        Назад
-                    </Button>
+            <div className="mt-3 col-lg-3 col-12">
+                {/*Если катрочка открывается из курса, то нам нужны кнопки вверх и вниз, если её открыли
+                    просто как карточку из MainCardPublicView, то нам нужно только вперед и назад для перемещения
+                    по id вперед и назад*/}
+                {props.openFromCourse ?  <ButtonGroup size="large" color="primary" aria-label="group">
+                        <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Back")} disabled={CoursePageStorage.disabledBack}>
+                            <KeyboardArrowLeftOutlinedIcon/>
+                        </Button>
+                        <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Down")} disabled={CoursePageStorage.disabledDown}>
+                            <KeyboardArrowDownOutlinedIcon/>
+                        </Button>
+                        <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Up")} disabled={CoursePageStorage.disabledUp}>
+                            <KeyboardArrowUpOutlinedIcon/>
+                        </Button>
+                        <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Next")} disabled={CoursePageStorage.disabledNext}>
+                            <KeyboardArrowRightOutlinedIcon/>
+                        </Button>
+                    </ButtonGroup>:
+                    <ButtonGroup size="large" color="primary" aria-label="group">
+                        <Button onClick={ () => props.ButtonClick("Back")}>
+                            <KeyboardArrowLeftOutlinedIcon/>
+                        </Button>
+                        <Button onClick={ () => props.ButtonClick("Next")}>
+                            <KeyboardArrowRightOutlinedIcon/>
+                        </Button>
+                    </ButtonGroup>
                 }
-                <Col className="mt-3 offset-lg-8 col-lg-3 col-12 justify-content-center">
-                    {/*Если катрочка открывается из курса, то нам нужны кнопки вверх и вниз, если её открыли
-                        просто как карточку из MainCardPublicView, то нам нужно только вперед и назад для перемещения
-                        по id вперед и назад*/}
-                    {props.openFromCourse ?  <ButtonGroup size="large" color="primary" aria-label="group">
-                            <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Back")} disabled={CoursePageStorage.disabledBack}>
-                                <KeyboardArrowLeftOutlinedIcon/>
-                            </Button>
-                            <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Down")} disabled={CoursePageStorage.disabledDown}>
-                                <KeyboardArrowDownOutlinedIcon/>
-                            </Button>
-                            <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Up")} disabled={CoursePageStorage.disabledUp}>
-                                <KeyboardArrowUpOutlinedIcon/>
-                            </Button>
-                            <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Next")} disabled={CoursePageStorage.disabledNext}>
-                                <KeyboardArrowRightOutlinedIcon/>
-                            </Button>
-                        </ButtonGroup>:
-                        <ButtonGroup size="large" color="primary" aria-label="group">
-                            <Button onClick={ () => props.ButtonClick("Back")}>
-                                <KeyboardArrowLeftOutlinedIcon/>
-                            </Button>
-                            <Button onClick={ () => props.ButtonClick("Next")}>
-                                <KeyboardArrowRightOutlinedIcon/>
-                            </Button>
-                        </ButtonGroup>
-                    }
-                </Col>
-            </Row>
+            </div>
+
 
             {!card_data ? <Spinner animation="border" variant="success" className=" offset-6 mt-5"/> :
             <div>
@@ -145,7 +144,8 @@ export const CARD = observer(({id, ...props}: any) =>{
                             <div className="display-4 text-left mr-sm-2"  style={{fontSize: '15px'}}>{card_data.cardById.id}</div>
                         </Row>
 
-                        {card_data?.cardById?.subTheme[0] && <Tooltip title={card_data?.cardById?.subTheme.map((e, eIndex) =>{
+                        {card_data?.cardById?.subTheme[0] &&
+                        <Tooltip title={card_data?.cardById?.subTheme.map((e, eIndex) =>{
                             return(
                                 <div key={eIndex+ "Tooltip"}>
                                     <Typography>

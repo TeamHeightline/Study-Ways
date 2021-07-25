@@ -6,7 +6,7 @@ export default function CourseNavigation({course, ...props}: any){
     // console.log(course)
     return(
         <div>
-            <div style={{width: 820, overflowY: "scroll", marginBottom:5}}>
+            <div style={{width: 350, overflowY: "scroll", marginBottom:5}}>
                 {course.courseData.length !== 0 && course.courseData.map((courseRow, CRI) =>{
                     return(
                         <NavigationRow buttonClick={(data) =>{
@@ -19,7 +19,6 @@ export default function CourseNavigation({course, ...props}: any){
                         />
                     )
                 })}
-                <br/>
             </div>
         </div>
     )

@@ -3,8 +3,6 @@ import {Col, Row} from "antd";
 import EditCourseItem from "./##EditCourseItem";
 
 export default function CourseFragment({fragment, ...props}: any){
-
-    // console.log(fragment)
     const [Fragment, setFragment] = useState(fragment.CourseFragment)
     return(
         <Col>

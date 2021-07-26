@@ -3,12 +3,13 @@
 // Неизвестно почему, но оно не работает, вернее, работает через раз
 import * as React from 'react'
 import 'react-bootstrap';
-import {Card, Container, Form, Button, Alert} from "react-bootstrap";
+import {Card, Container, Form, Button, Alert, Row} from "react-bootstrap";
 import {useState} from "react";
 import {gql, useQuery, useMutation} from "@apollo/client";
 import { observer } from "mobx-react"
 import { useHistory } from "react-router-dom";
 import {UserStorage} from '../../Store/UserStore/UserStore';
+import {Typography} from "@material-ui/core";
 
 export  const Login = observer(() =>{
     const [mail, changeMail] = useState('')
@@ -44,6 +45,15 @@ export  const Login = observer(() =>{
                             {UserStorage.doLoginSuccess && <Alert variant="success" className="mt-2">Поздравляем, вы вошли</Alert>}
                             {!UserStorage.doLoginSuccess && UserStorage.doLoginReturnError  &&  <Alert variant='danger' className="mt-2">Ошибка в логине или пароле</Alert>}
                         {/*    проверка на вход проста и гениальна*/}
+                            <Row className="mt-3 ml-4">
+                                <Typography className="mt-1">
+                                    Для регистрации  -
+                                </Typography>
+                                <Button className="ml-2 mr-1" variant="outline-danger"
+                                        onClick={()=>{history.push('/registration')}}>
+                                    Регистрация
+                                </Button>
+                            </Row>
                         </Form>
                 </div>
             </Container>

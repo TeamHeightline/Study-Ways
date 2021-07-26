@@ -44,7 +44,7 @@ export default function LCUserTestAuthorEditor(){
             name: activeEditUserTestAuthorName,
             id: selectedAuthorRow?.id
         },
-        onCompleted: data =>{
+        onCompleted: () =>{
             refetch_author_data()
         }
     })
@@ -52,7 +52,7 @@ export default function LCUserTestAuthorEditor(){
         variables:{
             name: newUserTestAuthorName
         },
-        onCompleted: data =>{
+        onCompleted: () =>{
             refetch_author_data()
         }
     })

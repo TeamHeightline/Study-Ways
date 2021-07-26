@@ -47,12 +47,12 @@ export default  function LCCardAuthorEditor(){
         update_row_by_data(card_author_data)
     }, [card_author_data])
 
-    const [update_author, {loading: update_author_loading}] = useMutation(UPDATE_CARD_AUTHOR, {
+    const [update_author] = useMutation(UPDATE_CARD_AUTHOR, {
         variables:{
             id: selectedAuthorRow?.id,
             name: activeEditCardAuthorName
         },
-        onCompleted: async  data => {
+        onCompleted: async  () => {
             await refetch_card_author()
             // setIsEditNowCardAuthor(false)
         },
@@ -61,7 +61,7 @@ export default  function LCCardAuthorEditor(){
         variables:{
             name: nameOfNewAuthor
         },
-        onCompleted: async  data => {
+        onCompleted: async  () => {
             await refetch_card_author()
             // setIsCreatingNowCardAuthor(false)
         },

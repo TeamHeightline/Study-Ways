@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react'
-import {Col, Row} from "antd";
-import EditCourseItem from "./##EditCourseItem";
+import {Row} from "antd";
 import MainCardEditor from "../../Cards/Editor/MainCardEditor/MainCardEditor";
-import CourseFragment from "./#CourseFragment";
 import CourseRow from "./#CourseRow";
 import {gql} from "graphql.macro";
 import {useMutation, useQuery} from "@apollo/client";
@@ -27,8 +25,6 @@ const UPDATE_COURSE_DATA = gql`
         }
     }`
 export default function EditCourseByID({course_id, ...props}: any){
-    const [selectedCardCourseImage, setSelectedCardCourseImage] = useState<any>();
-    const [isSelectedCardCourseImage, setIsSelectedCardCourseImage] = useState(false);
     const [cardCourseImageName, setCardCourseImageName] = useState('');
     const [CourseLinesData, setCourseLineData] = useState<any>([])
     const [courseName, setCourseName] = useState('')
@@ -44,12 +40,12 @@ export default function EditCourseByID({course_id, ...props}: any){
             name: courseName
         },
         onError: error => console.log("Save error - " + error),
-        onCompleted: data => {
+        onCompleted: () => {
             setStateOfSave(2)
         }
     })
 
-    const {data: course_data, refetch} = useQuery(GET_COURSE_BY_ID, {
+    const {data: course_data} = useQuery(GET_COURSE_BY_ID, {
         variables:{
             id: props?.match?.params?.id? props?.match?.params?.id : course_id
         },
@@ -107,8 +103,6 @@ export default function EditCourseByID({course_id, ...props}: any){
     }, [course_id])
     const changeHandlerForCardCourseImage = async (event) => {
         if (event.target.files[0]){
-            await setSelectedCardCourseImage(event.target.files[0]);
-            await setIsSelectedCardCourseImage(true);
             // console.log(event.target.files)
             handleSubmissionCardCourseImage(event.target.files[0])
         }

@@ -46,7 +46,7 @@ export default function LCUserTestThemeEditor(){
             id: selectedThemeRow?.id,
             name: activeEditUserTestThemeName
         },
-        onCompleted: data => {
+        onCompleted: () => {
             refetch_user_test_themes()
             // setIsEditNowCardAuthor(false)
         },
@@ -55,7 +55,7 @@ export default function LCUserTestThemeEditor(){
         variables:{
             name: nameOfNewUserTestTheme
         },
-        onCompleted: data => refetch_user_test_themes()
+        onCompleted: () => refetch_user_test_themes()
     })
     useEffect(() =>{
         update_row_by_data(user_test_themes_data)

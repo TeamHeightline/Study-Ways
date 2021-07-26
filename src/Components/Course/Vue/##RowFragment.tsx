@@ -1,8 +1,7 @@
 import React from 'react';
-import {Button, IconButton} from "@material-ui/core";
+import { IconButton} from "@material-ui/core";
 import './RowFragment.css'
 import StopSharpIcon from '@material-ui/icons/StopSharp';
-import CheckBoxOutlineBlankSharpIcon from '@material-ui/icons/CheckBoxOutlineBlankSharp';
 export default function RowFragment({rowFragment, ...props}: any){
 
     return(

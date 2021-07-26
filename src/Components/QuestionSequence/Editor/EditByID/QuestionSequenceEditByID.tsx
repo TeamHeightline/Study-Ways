@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import {GET_THEMES, UPDATE_QUESTION_SEQUENCE, useStyles} from "./Struct";
 import {useMutation, useQuery} from "@apollo/client";
 import { Row, Spinner} from "react-bootstrap";
@@ -37,7 +37,7 @@ export default function QuestionSequenceEditByID({...props}: any) {
     const [stateOfSave, setStateOfSave] = useState(2) // 0- не сохранено 1- сохранение 2- сохранено
     const [autoSaveTimer, changeAutoSaveTimer] = useState<any>()
 
-    const [updateQuestionSequence, {loading: update_sequence_loading}] = useMutation<Mutation, {sequenceData: any, sequenceId: number, name: string}>(UPDATE_QUESTION_SEQUENCE, {
+    const [updateQuestionSequence] = useMutation<Mutation, {sequenceData: any, sequenceId: number, name: string}>(UPDATE_QUESTION_SEQUENCE, {
             variables:{
                 sequenceId: props?.sequence?.id,
                 name: sequenceName,
@@ -56,7 +56,7 @@ export default function QuestionSequenceEditByID({...props}: any) {
                 }
 
             },
-        onCompleted: data =>{
+        onCompleted: () =>{
                 setStateOfSave(2)}
         })
 

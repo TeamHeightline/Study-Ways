@@ -1,17 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import React, { useState} from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 
 import Typography from '@material-ui/core/Typography';
 
-import {Breadcrumbs, CardActionArea, Chip, Grid, Paper, Tooltip} from "@material-ui/core";
+import { CardActionArea} from "@material-ui/core";
 import {gql} from "@apollo/client/core";
 import 'fontsource-roboto';
-import {useMutation, useQuery} from "@apollo/client";
+import {useMutation,} from "@apollo/client";
 import {Row, Spinner} from "react-bootstrap";
-const AddImg = require('../../../../img/add-to-any.jpg')
 import 'fontsource-roboto';
 
 
@@ -63,7 +62,7 @@ const CREATE_NEW_CARD = gql`
 export default function CreateNewCard({cardID = 1, ...props}: any,){
     const classes = useStyles();
     const [stateOfCreating, setStateOfCreating] = useState(0) // 0- ничего не происходит, 1- ожидается ответ от сервера, 10 - ошибка
-    const [create_mutation, {data: mutation_data}] = useMutation(CREATE_NEW_CARD,
+    const [create_mutation] = useMutation(CREATE_NEW_CARD,
         {
             onError: error => {
                 setStateOfCreating(10)

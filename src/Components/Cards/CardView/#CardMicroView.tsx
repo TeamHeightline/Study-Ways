@@ -99,10 +99,11 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
         <div
             // className="col-4"
             {...props}>
-            <Card className={classes.root} onClick={() =>{
+            <Card className={classes.root}
+                  onClick={() =>{
                 // console.log(cardID)
                 props.onChange(cardID)
-            }}>
+            }} >
                 {Number(card_data.cardById.cardContentType[2]) === 0 &&  card_data?.cardById?.videoUrl && <CardMedia
                     className={classes.cover}
                     image={"https://img.youtube.com/vi/"+ card_data?.cardById.videoUrl.split('?v=')[1] + "/hqdefault.jpg"}

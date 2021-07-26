@@ -2,20 +2,19 @@ import React, {useState} from 'react'
 import {useMutation, useQuery} from "@apollo/client";
 import {Mutation, Query} from "../../../../SchemaTypes";
 import {CREATE_QUESTION_SEQUENCE, GET_MY_QUESTION_SEQUENCE, question_sequence_struct} from "./Struct"
-import {Button, Paper, Typography, Card, CardActionArea} from "@material-ui/core";
+import {Button, Typography, Card, CardActionArea} from "@material-ui/core";
 import {Row, Spinner} from "react-bootstrap";
 import QuestionSequenceEditByID from "./EditByID/QuestionSequenceEditByID";
 
 export default function QuestionSequenceMainEditor(){
     const {data: question_sequence_data, refetch: refetch_question_sequence_data} = useQuery<Query, null>(GET_MY_QUESTION_SEQUENCE)
     const [isEditNow, setIsEditNow] = useState(false)
-    const [activeEditSeSequenceID, setActiveEditSequenceID] = useState<string | undefined>()
     const [activeEditSequenceIndex, setActiveEditSequenceIndex] = useState<number>(0)
-    const [createQuestionSequence, {loading: create_question_loading}] = useMutation<Mutation,{sequenceData : any}>(CREATE_QUESTION_SEQUENCE, {
+    const [createQuestionSequence] = useMutation<Mutation,{sequenceData : any}>(CREATE_QUESTION_SEQUENCE, {
         variables:{
             sequenceData: question_sequence_struct
         },
-        onCompleted: data => {refetch_question_sequence_data()}
+        onCompleted: () => {refetch_question_sequence_data()}
     })
 
     if(!question_sequence_data){
@@ -50,7 +49,6 @@ export default function QuestionSequenceMainEditor(){
                     return(
                         <Card key={sequence?.id + "SequenceKey"} className="mt-3 col-5" style={{padding: 0}}
                         onClick={ async() => {
-                            await setActiveEditSequenceID(sequence?.id)
                             await setActiveEditSequenceIndex(sIndex)
                             await setTimeout( setIsEditNow, 500, true)
                         }

@@ -25,7 +25,7 @@ export const  Registration = observer(() =>{
     const [password2, changePassword2] = useState('')
     const history = useHistory();
 
-    const [registration, { data, error }] = useMutation(REGISTRATION_MUTATION, {
+    const [registration, { data }] = useMutation(REGISTRATION_MUTATION, {
         variables: {
             email: mail,
             password1: password1,

@@ -3,9 +3,8 @@
 // Неизвестно почему, но оно не работает, вернее, работает через раз
 import * as React from 'react'
 import 'react-bootstrap';
-import {Card, Container, Form, Button, Alert, Row} from "react-bootstrap";
+import {Container, Form, Button, Alert, Row} from "react-bootstrap";
 import {useState} from "react";
-import {gql, useQuery, useMutation} from "@apollo/client";
 import { observer } from "mobx-react"
 import { useHistory } from "react-router-dom";
 import {UserStorage} from '../../Store/UserStore/UserStore';

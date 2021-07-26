@@ -1,13 +1,11 @@
 import React, {useState} from 'react'
 import {useQuery} from "@apollo/client";
 import {Col, Row, Spinner} from "react-bootstrap";
-import {gql} from "graphql.macro";
 import CardMicroView from "../CardView/#CardMicroView";
 import ThemeSelector from "../Editor/MainCardEditor/#ThemeSelector";
 import ContentTypeSelector from "../Editor/MainCardEditor/#ContentTypeSelector";
 import AuthorSelector from "../Editor/MainCardEditor/#AuthorSelector";
 import {CARD} from "../Card"
-import useWindowDimensions from "../../../CustomHooks/useWindowDimensions";
 import {GET_ALL_CARDS} from"./Struct"
 
 export default function MainCardPublicView({...props}: any){
@@ -16,7 +14,6 @@ export default function MainCardPublicView({...props}: any){
     const [cardsDataAfterSelectTheme, setCardsDataAfterSelectTheme] = useState()
     const [cardsDataAfterSelectContentType, setCardsDataAfterSelectContentType] = useState()
     const [cardsDataAfterSelectAuthor, setCardsDataAfterSelectAuthor] = useState<any>()
-    const {width, height} = useWindowDimensions()
     const {data: cards_data} = useQuery(GET_ALL_CARDS)
 
     if(!cards_data){

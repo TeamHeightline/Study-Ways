@@ -1,6 +1,5 @@
 import React from 'react'
 import {DataGrid} from "@material-ui/data-grid";
-import {columnsForAuthorsDataGrid} from "./Structs";
 import {Row, Spinner} from "react-bootstrap";
 import {Button, Fab} from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/Settings";

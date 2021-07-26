@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Card, Chip, Paper, TextField, Tooltip} from "@material-ui/core";
+import {Card, Chip, TextField, Tooltip} from "@material-ui/core";
 import {gql} from "graphql.macro";
 import {useQuery} from "@apollo/client";
 import YouTubeIcon from "@material-ui/icons/YouTube";

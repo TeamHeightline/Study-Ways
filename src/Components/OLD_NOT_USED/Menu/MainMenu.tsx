@@ -5,8 +5,8 @@
 import React from "react";
 import {Card, Container, Row, Button} from "react-bootstrap"
 import { useHistory } from "react-router-dom";
-import logo2 from "../../img/TestingImg.png"
-import logo3 from "../../img/ModernTestEditor.png"
+import logo2 from "../../../img/TestingImg.png"
+import logo3 from "../../../img/ModernTestEditor.png"
 
 export function MainExperimental (){
         const history = useHistory();

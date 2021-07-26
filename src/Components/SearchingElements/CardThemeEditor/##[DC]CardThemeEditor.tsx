@@ -5,7 +5,7 @@ import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
-import {Button, Divider, Fab, Paper} from "@material-ui/core";
+import {Button, Fab, Paper} from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/Settings";
 import AddIcon from "@material-ui/icons/Add";
 import TextField from "@material-ui/core/TextField";

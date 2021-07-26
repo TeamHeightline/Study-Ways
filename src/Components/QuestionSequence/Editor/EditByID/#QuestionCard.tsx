@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Card, TextField} from "@material-ui/core";
 import {Form} from "react-bootstrap";
 import {useQuery} from "@apollo/client";
-import {GET_ALL_QUESTIONS, GET_QUESTION_DATA} from "../../../UserTest/MainUserQuestionPage/Structs";
+import {GET_ALL_QUESTIONS} from "../../../UserTest/MainUserQuestionPage/Structs";
 import * as _ from "lodash"
 import {Autocomplete} from "@material-ui/lab";
 
@@ -76,7 +76,7 @@ export default function QuestionCard({...props}: any) {
         })
         setQuestionsForSelect(questionsAfterSelectedTheme)
     }
-    const {data, error, loading, refetch} = useQuery(GET_ALL_QUESTIONS, {
+    const {data} = useQuery(GET_ALL_QUESTIONS, {
         onCompleted: async (data) => {
             const authors: any = []
             data.question.map((sameQuestion) => {

@@ -6,11 +6,8 @@ import AuthorSelector from "./#AuthorSelector";
 import CreateNewCard from "./#CreateNewCard";
 import {useQuery} from "@apollo/client";
 import {gql} from "graphql.macro";
-import _ from 'lodash'
 import ContentTypeSelector from "./#ContentTypeSelector";
 import ThemeSelector from "./#ThemeSelector";
-import AlertTitle from "@material-ui/lab/AlertTitle";
-import {Alert} from "@material-ui/lab";
 
 const GET_ALL_CARD_DATA = gql`
     query GET_CARD_DATA{

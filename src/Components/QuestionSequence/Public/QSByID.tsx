@@ -5,7 +5,7 @@ import {Query} from "../../../../SchemaTypes";
 import {Spinner} from "react-bootstrap";
 import {Step, StepLabel, Stepper} from "@material-ui/core";
 import ImageQuestion from "../../UserTest/ImageQuestion/ImageQuestion";
-export default function QSByID({props}: any) {
+export default function QSByID() {
     const [activeQuestionIndex, setQuestionIndex] = useState(0)
     const [allSequenceError, setSequenceError] = useState<{questionArray: [{oneTrueCheck: false, userTyingArray: [{userErrorsAnswersArray: []}] }]}>({questionArray: [{oneTrueCheck: false, userTyingArray: [{userErrorsAnswersArray: []}] }]})
     //Массив ответов для всех вопросов, для каждого вопросоа есть переменная, которая отображает, была ли хоть раз вызвана проверка для этого вопроса или нет

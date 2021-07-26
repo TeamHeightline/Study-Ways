@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme: Theme) =>
         title: {
             flexGrow: 1,
             color: "white",
-            marginLeft: "50px"
         },
     }),
 );
@@ -89,7 +88,7 @@ export const Navibar = observer(() => {
                     {/*    <br/>*/}
                     {/*</IconButton>*/}
                     <Typography variant="h6" className={classes.title}>
-                        Study Ways
+                        { width >= 715 ? "Study Ways" : "SW"}
                     </Typography>
                      <Link className={s.link} to="/courses">Курсы </Link>
                      <Link className={s.link} to="/cards">Карточки</Link>

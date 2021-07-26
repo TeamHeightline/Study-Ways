@@ -43,7 +43,7 @@ export default function MainCardPublicView({...props}: any){
     return(
         <div {...props}>
 
-            <Row className="ml-1">
+            <Row className="ml-1 mt-3">
                 <Col className="ml-lg-5 col-lg-4 col-12">
                     <ThemeSelector cards_data={cards_data.card}
                                    changeSelectedData={(data)=>{
@@ -70,7 +70,7 @@ export default function MainCardPublicView({...props}: any){
             <Row className="justify-content-around mr-4 ml-4">
                 {cardsDataAfterSelectAuthor && cardsDataAfterSelectAuthor.map((sameCard, sIndex) =>{
                     return(
-                        <CardMicroView className="mt-4" cardID={sameCard.id} key={sIndex+ "CardMicroView"}
+                        <CardMicroView className="mt-2" cardID={sameCard.id} key={sIndex+ "CardMicroView"}
                         onChange={ async (data) =>{
                             await setSelectedCardID(data)
                             await setIsCardOpen(true)

@@ -8,6 +8,7 @@ import { ThemeProvider } from '@material-ui/styles';
 
 const theme = unstable_createMuiStrictModeTheme({
     palette: {
+        // type: "dark",
         primary: {
             50: "#e3f2fd",
             100: "#bbdefb",
@@ -23,7 +24,7 @@ const theme = unstable_createMuiStrictModeTheme({
             A200: "#448aff",
             A400: "#2979ff",
             A700: "#2962ff",
-            // contrastDefaultColor: "light"
+            contrastText: "#fff",
         }
     },
 });

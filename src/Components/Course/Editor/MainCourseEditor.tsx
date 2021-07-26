@@ -1,13 +1,13 @@
 import React, {useState} from 'react'
-import {Button, Card, Container, Paper, Typography} from "@material-ui/core";
+import {Button,  Container} from "@material-ui/core";
 import {gql} from "graphql.macro";
 import {useMutation, useQuery} from "@apollo/client";
 import EditCourseByID, {CourseLines} from "./EditCourseByID";
-import {Col, Tabs} from "antd";
+import {Col} from "antd";
 import {Row} from "antd";
 import CourseMicroView from "./CourseMicroView";
 
-const { TabPane } = Tabs;
+
 const CREATE_COURSE_WITH_DEFAULT_VALUE = gql`
     mutation CREATE_COURSE_WITH_DEFAULT_VALUE($default_data: GenericScalar){
         createCardCourse(input: {courseData: $default_data}){
@@ -29,10 +29,10 @@ const GET_OWN_COURSE = gql`
             }
         }
     }`
-export default function MainCourseEditor({...props}: any) {
+export default function MainCourseEditor() {
     const [isEditCourseNow, setIsEditCourseNow] = useState(false)
     const [selectedCourseID, setSelectedCourseID] = useState<any>()
-    const [create_course, {data: create_course_data, error: create_course_error}] = useMutation(CREATE_COURSE_WITH_DEFAULT_VALUE,
+    const [create_course] = useMutation(CREATE_COURSE_WITH_DEFAULT_VALUE,
         {
             variables:{
                 default_data: CourseLines
@@ -60,18 +60,21 @@ export default function MainCourseEditor({...props}: any) {
                 }}>
                     Создать новый курс
                 </Button>
+                <Row className="justify-content-around">
+                    {own_course_data?.me.cardcourseSet.map((course) =>{
+                        return(
+                            <Col key={"CourseID" + course.id}>
+                                <CourseMicroView key={course.id} course={course} className="ml-3 mt-4" cIndex={course.id}
+                                                 buttonClick={data =>console.log(data)}
+                                                 onEdit={(data) =>{
+                                                     setSelectedCourseID(data)
+                                                     setIsEditCourseNow(true)
+                                                 }}/>
+                            </Col>
+                        )
+                    }) }
 
-                {own_course_data?.me.cardcourseSet.map((course, cIndex) =>{
-                    return(
-                        <CourseMicroView key={course.id} course={course} className="ml-3 mt-4" cIndex={course.id}
-                                         buttonClick={data =>console.log(data)}
-                                         onEdit={(data) =>{
-                                             // console.log(data)
-                                             setSelectedCourseID(data)
-                                             setIsEditCourseNow(true)
-                                         }}/>
-                    )
-                }) }
+                </Row>
             </Container>
         </div>
     )

@@ -133,8 +133,6 @@ export const CARD = observer(({id, ...props}: any) =>{
                     </ButtonGroup>
                 }
             </div>
-
-
             {!card_data ? <Spinner animation="border" variant="success" className=" offset-6 mt-5"/> :
             <div>
                 <Row className="ml-2 mt-4 " >
@@ -200,12 +198,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                         </div>}
                     </Col>
                     <Col className="col-12 col-lg-6">
-                        {/*<Alert className="blockquote" variant="light" >*/}
-
                        <MathJax math={card_data?.cardById?.text}/>
-                        {/*{renderHTML(card_data?.cardById?.text)}*/}
-
-                        {/*</Alert>*/}
                         <Alert className="blockquote">На сколько эта карточка была полезна?</Alert>
                         <Rating
                             className="ml-3"
@@ -220,7 +213,6 @@ export const CARD = observer(({id, ...props}: any) =>{
                 <Alert>
                     {card_data?.cardById?.additionalText}
                 </Alert>
-
                 <br/>
                 <br/>
                 <br/>

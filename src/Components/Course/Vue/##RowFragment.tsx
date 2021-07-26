@@ -9,21 +9,6 @@ export default function RowFragment({rowFragment, ...props}: any){
         <>
             {rowFragment.CourseFragment.map((element, eIndex) =>{
                 return(
-                    // <Button className="ml-1 mt-1" color="primary"
-                    //         size="medium"
-                    //         variant={element?.CourseElement?.id ?
-                    //             props.cardPositionData && props.cardPositionData.row === props.CRI && props.cardPositionData.fragment === props.rIndex
-                    //             && eIndex ===props.cardPositionData.buttonIndex ?
-                    //                 "contained": "outlined": "text"}
-                    //         onClick={() =>{
-                    //             props.buttonClick(eIndex)
-                    //             // console.log(eIndex + "CourseFragment" + props.rIndex + "RowFragment" + props.CRI + "NavigationRow")
-                    //         }}
-                    //
-                    //         key={eIndex + "CourseFragment" + props.rIndex + "RowFragment" + props.CRI + "NavigationRow"}>
-                    //     {element?.CourseElement?.id ? element?.CourseElement?.id
-                    //         : <br/>}
-                    // </Button>
                     <IconButton size="small"
                                 edge="start"
                                 key={eIndex + "CourseFragment" + props.rIndex + "RowFragment" + props.CRI + "NavigationRow"}

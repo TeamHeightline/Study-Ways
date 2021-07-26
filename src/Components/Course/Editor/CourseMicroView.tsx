@@ -19,7 +19,9 @@ export default function CourseMicroView({course, ...props}: any) {
             });
     }
     useEffect(() =>{
-        getCourseImageData()
+        if(!cardCourseImageURL){
+            getCourseImageData()
+        }
     }, [course])
     return(
         <div {...props}>

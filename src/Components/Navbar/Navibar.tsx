@@ -94,7 +94,7 @@ export const Navibar = observer(() => {
                      <Link className={s.link} to="/courses">Курсы </Link>
                      <Link className={s.link} to="/cards">Карточки</Link>
                      <Link className={s.link} to="/test">Вопросы</Link>
-                     <Typography className={s.link}> | </Typography>
+                     <Typography className="ml-4"> | </Typography>
                      <Link className={s.link} to="/editor">Редакторы</Link>
                     {UserStorage.isLogin ?
                         <>

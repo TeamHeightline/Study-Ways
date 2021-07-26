@@ -49,13 +49,17 @@ const  App = observer(() => {
     const [animationState, setAnimationState] = useState(false)
 
     useEffect(() =>{
-        setTimeout(setAnimationState, 3000, true)
+        setTimeout(setAnimationState, 1500, true)
     }, [])
 
     if (!animationState){
-        return  <Typist className="display-4 text-center mt-4 rl" style={{fontSize: '33px', fontFamily: "Raleway"}}>
-            Загрузка Study Ways
-        </Typist>
+        return(
+            <Typist className="display-4 text-center mt-4 rl" style={{fontSize: '33px', fontFamily: "Raleway"}}>
+                Study Ways
+                {/*<div className="Loading-Text">*/}
+                {/*    Fire build*/}
+                {/*</div>*/}
+            </Typist>)
     }
 
     return (

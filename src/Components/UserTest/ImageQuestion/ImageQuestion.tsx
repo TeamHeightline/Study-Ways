@@ -144,11 +144,6 @@ export default function ImageQuestion(props: any) {
                                        onClick1={() => checkErrors()}/>
                 </div>
                 <Row className="justify-content-center">
-                    <div className="col-12">
-                        <HelpText errorArray={errorArray} helpLevel={helpLevel} answers={answers}
-                                  activeWrongAnswerIndex={activeWrongAnswerIndex}
-                                  b={checkurl(answers[activeWrongAnswerIndex]?.videoUrl)}/>
-                    </div>
                     <div className="col-9">
                         <DCPCImageQuestion height={height} width={width} urlHasBeenPassed={urlHasBeenPassed}
                                            questionImgUrl={questionImgUrl} questionData={get_question_data} id={props.id}
@@ -162,6 +157,11 @@ export default function ImageQuestion(props: any) {
                                            }} canSwitchToNextQuestion={props.can_switch_to_next_question} onClick3={() => {
                             props.ButtonClick("goToNextQuestion")
                         }}/>
+                    </div>
+                    <div className="col-12">
+                        <HelpText errorArray={errorArray} helpLevel={helpLevel} answers={answers}
+                                  activeWrongAnswerIndex={activeWrongAnswerIndex}
+                                  b={checkurl(answers[activeWrongAnswerIndex]?.videoUrl)}/>
                     </div>
                 </Row>
             {/*</Row>*/}

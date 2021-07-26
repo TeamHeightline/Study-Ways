@@ -25,7 +25,7 @@ export default function CourseMicroView({course, ...props}: any) {
     }, [course])
     return(
         <div {...props}>
-            <Card style={{padding: 0, width: 530}}>
+            <Card style={{padding: 0, width: 530, height: 125}}>
                 <Row>
                     <CardActionArea
                         style={{width:180,
@@ -37,6 +37,7 @@ export default function CourseMicroView({course, ...props}: any) {
                         }}>
                         <Typography
                             style={{
+                                height: 170,
                                 fontFamily: "system-ui",
                                 fontSize: 15,
                                 color: "white",
@@ -49,7 +50,7 @@ export default function CourseMicroView({course, ...props}: any) {
                         </Typography>
                     </CardActionArea>
                     {/*<Divider orientation="vertical" flexItem className="ml-1" />*/}
-                    <CourseNavigation style={{width: 350, paddingBottom: 15}} course={course} buttonClick={data => props.buttonClick(data)}
+                    <CourseNavigation style={{width: 350, paddingBottom: 15, height: 120}} course={course} buttonClick={data => props.buttonClick(data)}
                                       cardPositionData={props.cardPositionData}/>
 
                 </Row>

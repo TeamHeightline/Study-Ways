@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
         title: {
             flexGrow: 1,
             color: "white",
+            marginLeft: "50px"
         },
     }),
 );

@@ -17,7 +17,9 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         media: {
             height: 240,
-
+        },
+        fullHeightMedia: {
+            height: 400
         },
 
         details: {
@@ -76,15 +78,16 @@ export default function ImageAnswerNode(props: any){
                     {answerImgUrl?
                         <CardMedia
                             style={{opacity: props.selected.indexOf(props.answer.id) !== -1? 0.5 : 1}}
-                            className={classes.media}
+                            className={props?.answer?.text ? classes.media : classes.fullHeightMedia}
                             image={answerImgUrl}
                             title="Contemplative Reptile"
                         />: null}
+                    {props?.answer?.text &&
                         <CardContent className="mb-5">
                             <Typography variant="body2" color="textSecondary" component="p" className="mb-5 pb-5">
                                 {props?.answer?.text}
                             </Typography>
-                        </CardContent>
+                        </CardContent>}
                 </CardActionArea>
             </Card>
         </div>

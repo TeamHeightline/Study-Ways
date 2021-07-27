@@ -104,22 +104,22 @@ export default function DCUpdateQuestion({...props}: any){
                     </div>
                 </Col>
             </Row>}
-            {props.questionId? <Col className="col-md-6 col-11  ml-5 mt-2">
-                <div>
-                    {/*<Alert severity="warning">*/}
-                    Разрешить добавлять изображения к ответам
-                    <Switch
-                        checked={props.isImageQuestion}
-                        onChange={(e) => {
-                            console.log(e.target.checked)
-                            props.setIsImageQuestion(e.target.checked)
-                        }}
-                        name="checkedB"
-                        color="secondary"
-                    />
-                    {/*</Alert>*/}
-                </div>
-            </Col>: null}
+            {/*{props.questionId? <Col className="col-md-6 col-11  ml-5 mt-2">*/}
+            {/*    <div>*/}
+            {/*        /!*<Alert severity="warning">*!/*/}
+            {/*        Разрешить добавлять изображения к ответам*/}
+            {/*        <Switch*/}
+            {/*            checked={props.isImageQuestion}*/}
+            {/*            onChange={(e) => {*/}
+            {/*                console.log(e.target.checked)*/}
+            {/*                props.setIsImageQuestion(e.target.checked)*/}
+            {/*            }}*/}
+            {/*            name="checkedB"*/}
+            {/*            color="secondary"*/}
+            {/*        />*/}
+            {/*        /!*</Alert>*!/*/}
+            {/*    </div>*/}
+            {/*</Col>: null}*/}
 
             <Row className="mt-2">
                 {props.questionId &&

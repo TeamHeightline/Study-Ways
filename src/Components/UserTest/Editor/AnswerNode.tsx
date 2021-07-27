@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import {gql, useMutation} from "@apollo/client";
 import {Alert} from "@material-ui/lab";
 import Input from '@material-ui/core/Input';
+import ImageAnswerNode from "../ImageAnswerNode";
 
 const UPDATE_ANSWER = gql`mutation UPDATE_ANSWER($question: ID!, $id: ID, $isTrue: Boolean, $text: String, $helpTextv1: String,
 $helpTextv2: String, $helpTextv3: String, $videoUrl: String, $checkQueue: Int!, $hardLevelOfAnswer: String!){
@@ -36,10 +37,12 @@ export default function AnswerNode(props: any) {
     const [isTrue, changeIsTrue] = useState(props.answer.isTrue)
     const [checkQueue, changeCheckQueue] = useState(props.answer.checkQueue)
     const [showPaper, changeShowPaper] = useState(false)
-    const[ showUpdateNotification, changeShowUpdateNotification] = useState(false)
+    const [showUpdateNotification, changeShowUpdateNotification] = useState(false)
     const [answerImageName, setAnswerImageName] = useState('')
     const [selectedAnswerImage, setSelectedAnswerImage] = useState<any>();
     const [isSelectedAnswerImage, setIsSelectedAnswerImage] = useState(false);
+    const [showPreview, setShowPreview] = useState(false)
+    const [fakeAnswerIndexForUpdatePreview, setFakeAnswerIndexForUpdatePreview] = useState(0)
     const changeHandlerForAnswerImage = async (event) => {
         if (event.target.files[0]){
             await setSelectedAnswerImage(event.target.files[0]);
@@ -60,12 +63,18 @@ export default function AnswerNode(props: any) {
                 body: formData,
             }
         )
-            .then((response) => response.json())
+            .then((response) => {
+                response.json()
+                setFakeAnswerIndexForUpdatePreview(fakeAnswerIndexForUpdatePreview + 1)
+            })
             .then((result) => {
                 console.log('Success:', result);
+                // setTimeout(() => setFakeAnswerIndexForUpdatePreview, 2000, fakeAnswerIndexForUpdatePreview + 1)
+                // setFakeAnswerIndexForUpdatePreview(fakeAnswerIndexForUpdatePreview + 1)
             })
             .catch((error) => {
                 console.error('Error:', error);
+                setFakeAnswerIndexForUpdatePreview(fakeAnswerIndexForUpdatePreview + 2)
             });
     };
 
@@ -250,7 +259,6 @@ export default function AnswerNode(props: any) {
                                     />
                                 </FormControl>
                                 <Col className="col-7 mt-2 ">
-                                    {props.isImageQuestion &&
                                         <Button
                                             className="col-10 ml-2 mr-5"
                                             color="primary"
@@ -259,12 +267,12 @@ export default function AnswerNode(props: any) {
                                         >
                                             <input type="file"  hidden name="file" onChange={changeHandlerForAnswerImage} />
                                             Изображение для ответа
-                                        </Button>}
-                                        {props.isImageQuestion && isSelectedAnswerImage &&
-                                            <div className="col-7 ">
-                                                {selectedAnswerImage?.name}
-                                            </div>
-                                       }
+                                        </Button>
+                                        {isSelectedAnswerImage &&
+                                        <div className="col-7 ">
+                                            {selectedAnswerImage?.name}
+                                        </div>
+                                        }
                                         {answerImageName && !isSelectedAnswerImage && <div className="col-7 ">
                                             {answerImageName}
                                         </div>}
@@ -280,6 +288,25 @@ export default function AnswerNode(props: any) {
                             {update_answer_data? update_answer_data.updateAnswer.errors.length !== 0?
                                 <Alert severity='error'>Ошибка при сохранение ответа</Alert>: null :null}
                         </Row>
+                        <FormControlLabel
+                            control={<Switch color="primary"
+                                checked={showPreview} onChange={() => setShowPreview(!showPreview)} />}
+                            label="Включить предпросмотр"
+                            className="ml-5"
+                        />
+                        <Collapse in={showPreview}>
+                            <div>
+                                <ImageAnswerNode
+                                    answerIndex={fakeAnswerIndexForUpdatePreview}
+                                    // answerImageName={selectedAnswerImage?.name ? selectedAnswerImage?.name: answerImageName}
+                                    selected={[]}
+                                    onChange={() => {
+                                        void(0)
+                                    }}
+                                    answer={{id: props.answer.id, text: text}}
+                                />
+                            </div>
+                        </Collapse>
                     </div>
                 </Collapse>
                 <Snackbar open={showUpdateNotification} autoHideDuration={6000} onClose={updateAnswerNotificationHandleClose}>

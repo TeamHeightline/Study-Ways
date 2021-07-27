@@ -295,7 +295,7 @@ export default function AnswerNode(props: any) {
                             className="ml-5"
                         />
                         <Collapse in={showPreview}>
-                            <div>
+                            <div className="ml-5">
                                 <ImageAnswerNode
                                     answerIndex={fakeAnswerIndexForUpdatePreview}
                                     // answerImageName={selectedAnswerImage?.name ? selectedAnswerImage?.name: answerImageName}

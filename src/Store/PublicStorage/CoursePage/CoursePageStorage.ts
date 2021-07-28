@@ -11,6 +11,7 @@ class CoursePage{
             courseArr: observable,
             positionData: observable,
             selectedCardID: observable,
+            dataHasBeenGot: observable,
             isOpenCard: observable,
             get_course_data: action,
             get_card_id_by_position: action,
@@ -45,12 +46,16 @@ class CoursePage{
     //Выбрал ли пользователь карточку, чтобы просмотреть или находится в главном меню курсов
     isOpenCard = false
 
+    //Успел ли клиент получить все данные с сервера
+    dataHasBeenGot = false
     //action для получения всех данных о !курсах! и записывание их в courseArr
     get_course_data(){
         this.clientStorage.client.query({query: GET_ALL_COURSE})
             .then((data) => {
                     //используем сортировку для того, чтобы поставить все курсы в порядке ID
                     this.courseArr = sort(data?.data?.cardCourse).desc((c: any) => c?.id)
+                    //Устанавливаем флаг о том, что все данные получены
+                    this.dataHasBeenGot = true
             })
     }
     //парсит courseArr для получения id конкретной карточки в опрделенной позиции

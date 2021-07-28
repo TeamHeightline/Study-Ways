@@ -6,7 +6,7 @@ import {CoursePageStorage} from "../../../Store/PublicStorage/CoursePage/CourseP
 import {observer} from "mobx-react";
 
 export const MainCoursePublicView = observer(({...props}) => {
-    if (!CoursePageStorage.courseArr) {
+    if (!CoursePageStorage.dataHasBeenGot) {
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )

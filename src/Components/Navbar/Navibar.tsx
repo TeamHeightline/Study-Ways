@@ -89,7 +89,7 @@ export const Navibar = observer(() => {
                     {/*    <br/>*/}
                     {/*</IconButton>*/}
                     <Typography variant="h6" className={classes.title}>
-                        { width >= 715 ? "Study Ways" : "SW"}
+                        { width >= 765 ? "Study Ways" : "SW"}
                     </Typography>
                      <Link className={s.link} to="/courses">Курсы </Link>
                      <Link className={s.link} to="/cards">Карточки</Link>

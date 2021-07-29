@@ -1,7 +1,7 @@
 import {action, autorun, computed, makeObservable, observable, toJS} from "mobx";
 import {ClientStorage} from "../../ApolloStorage/ClientStorage";
 import {GET_ALL_CARDS, GET_THEMES} from "./Struct";
-import {GlobalCardThemeNode, Maybe, Query} from "../../../../SchemaTypes";
+import {GlobalCardThemeNode, Maybe} from "../../../../SchemaTypes";
 import {TreeSelect} from "antd";
 import _ from "lodash";
 const { SHOW_CHILD } = TreeSelect;

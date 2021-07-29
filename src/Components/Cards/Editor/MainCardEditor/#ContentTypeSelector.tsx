@@ -31,7 +31,7 @@ export const  ContentTypeSelector = observer(({cards_data, ...props}: any) =>{
                     className="mt-1"
                     // size="lg"
                     as="select"
-                    value={selectedContentType}
+                    value={!props?.openFromPublicView ? selectedContentType: CardPageStorage.selectedContentType}
                     onChange={ (event) => {
                         if(!props?.openFromPublicView){
                             setSelectedContentType(event.target.value)

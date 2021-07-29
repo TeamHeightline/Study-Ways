@@ -17,6 +17,7 @@ import CourseMicroView from "../Course/Editor/CourseMicroView";
 import useWindowDimensions from "../../CustomHooks/useWindowDimensions";
 import {CoursePageStorage} from "../../Store/PublicStorage/CoursePage/CoursePageStorage";
 import {observer} from "mobx-react";
+import {CardPageStorage} from "../../Store/PublicStorage/CardsPage/CardPageStorage";
 
 const SHOW_CARD_BY_ID = gql`
     query SHOW_CARD_BY_ID($id: ID!){
@@ -61,7 +62,7 @@ export const CARD = observer(({id, ...props}: any) =>{
     const {width, height} = useWindowDimensions()
     const {data: card_data, refetch} = useQuery(SHOW_CARD_BY_ID, {
         variables:{
-            id: props?.match?.params?.id? props?.match?.params?.id : CoursePageStorage.selectedCardID,
+            id: props?.openFromCourse? CoursePageStorage.selectedCardID : CardPageStorage.selectedCardID,
         },
         onCompleted: data => {
             if(data.cardById.cardContentType !== "A_0"){
@@ -74,7 +75,8 @@ export const CARD = observer(({id, ...props}: any) =>{
     }, [id,])
     const get_card_image = () =>{
         // https://iot-experemental.herokuapp.com/cardfiles/card?
-        fetch("https://iot-experemental.herokuapp.com/cardfiles/card?id=" +  card_data.cardById?.id )
+        fetch("https://iot-experemental.herokuapp.com/cardfiles/card?id=" +
+            Number(props?.openFromCourse? CoursePageStorage.selectedCardID : CardPageStorage.selectedCardID))
             .then((response) => response.json())
             .then((data) =>{
                 try{
@@ -90,14 +92,18 @@ export const CARD = observer(({id, ...props}: any) =>{
     // console.log("disabledNext " + props.disabledNext)
     return(
         <div className="ml-lg-5 col-12 mr-2 ml-2">
-            {props.openFromCourse &&
                 <Button
                     className="ml-lg-2 mt-4  col-12 col-lg-2 mr-2"
                     variant="outlined" color="primary"
-                    onClick={ () => CoursePageStorage.goBackButtonHandler()}>
+                    onClick={ () => {
+                        if(props?.openFromCourse){
+                            CoursePageStorage.goBackButtonHandler()
+                        }else{
+                            CardPageStorage.isOpenCard = false
+                        }
+                    }}>
                     Назад
                 </Button>
-            }
             {props.openFromCourse &&
             <div className="ml-2 mt-4" style={{overflowY: "scroll"}}>
                 <CourseMicroView course={CoursePageStorage.courseArr[CoursePageStorage.positionData.courseIndex]}
@@ -124,10 +130,10 @@ export const CARD = observer(({id, ...props}: any) =>{
                         </Button>
                     </ButtonGroup>:
                     <ButtonGroup size="large" color="primary" aria-label="group">
-                        <Button onClick={ () => props.ButtonClick("Back")}>
+                        <Button onClick={ () => CardPageStorage.selectedCardID = CardPageStorage.selectedCardID - 1}>
                             <KeyboardArrowLeftOutlinedIcon/>
                         </Button>
-                        <Button onClick={ () => props.ButtonClick("Next")}>
+                        <Button onClick={ () => CardPageStorage.selectedCardID = Number(CardPageStorage.selectedCardID) + 1}>
                             <KeyboardArrowRightOutlinedIcon/>
                         </Button>
                     </ButtonGroup>

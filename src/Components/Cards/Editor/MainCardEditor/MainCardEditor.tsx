@@ -2,12 +2,12 @@ import React, {useState} from "react";
 import CardMicroView from "../../CardView/#CardMicroView";
 import {Col, Row, Spinner} from "react-bootstrap";
 import CardEditByID from "../CardEditByID/CardEditByID";
-import AuthorSelector from "./#AuthorSelector";
+import {AuthorSelector} from "./#AuthorSelector";
 import CreateNewCard from "./#CreateNewCard";
 import {useQuery} from "@apollo/client";
 import {gql} from "graphql.macro";
-import ContentTypeSelector from "./#ContentTypeSelector";
-import ThemeSelector from "./#ThemeSelector";
+import {ContentTypeSelector} from "./#ContentTypeSelector";
+import {ThemeSelector} from "./#ThemeSelector";
 
 const GET_ALL_CARD_DATA = gql`
     query GET_CARD_DATA{

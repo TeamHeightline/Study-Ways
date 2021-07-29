@@ -39,7 +39,7 @@ import LCMainUserQuestion from "./Components/UserTest/MainUserQuestionPage/[LC]M
 import QuestionByID from "./Components/UserTest/QuestionByID";
 import ImageQuestion from "./Components/UserTest/ImageQuestion/ImageQuestion";
 import Typist from 'react-typist';
-import MainCardPublicView from "./Components/Cards/Public/MainCardPublicView";
+import {MainCardPublicView} from "./Components/Cards/Public/MainCardPublicView";
 import {MainCoursePublicView} from "./Components/Course/Public/MainCoursePublicView";
 import QSByID from "./Components/QuestionSequence/Public/QSByID";
 import { observer } from "mobx-react"

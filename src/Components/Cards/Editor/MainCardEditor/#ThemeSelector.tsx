@@ -3,6 +3,9 @@ import {gql, useQuery} from "@apollo/client";
 import { TreeSelect} from "antd";
 import {Spinner, Row, Col} from "react-bootstrap";
 import Typography from "@material-ui/core/Typography";
+import {CardPageStorage} from "../../../../Store/PublicStorage/CardsPage/CardPageStorage";
+import {observer} from "mobx-react";
+import {toJS} from "mobx";
 const { SHOW_CHILD } = TreeSelect;
 const GET_THEMES = gql`
     query GET_THEMES{
@@ -21,8 +24,7 @@ const GET_THEMES = gql`
     }`
 
 
-export default function ThemeSelector({cards_data, ...props}: any){
-    // console.log(cards_data)
+export const ThemeSelector = observer(({cards_data, ...props}: any) =>{
     const [dataForCardSubThemeSelect, setDataForCardThemeSelect] = useState<any>()
     const [cardSelectedThemeID, setCardSelectedThemeID] = useState<any>()
     useEffect(()=>{
@@ -32,11 +34,9 @@ export default function ThemeSelector({cards_data, ...props}: any){
         if(selected_themes.length === 0){
             return (cards_data)
         }
-        console.log(selected_themes)
         const selectedCardsArray: any = []
         cards_data.map((sameCard) =>{
             sameCard.subTheme.map((sameThemeInSameCard)=>{
-                console.log(sameThemeInSameCard)
                 if(selected_themes.indexOf(sameThemeInSameCard.id * 1000000) !== -1){
                     if(selectedCardsArray.indexOf(sameCard) === -1){
                         selectedCardsArray.push(sameCard)
@@ -48,7 +48,6 @@ export default function ThemeSelector({cards_data, ...props}: any){
     }
     const {data: themesData} = useQuery(GET_THEMES, {
         onCompleted: themesData => {
-            // console.log(themesData.cardGlobalTheme)
             //сбор массива ID подтем
             const cardsThemesIDArray: any = []
             cards_data.map((sameCard) =>{
@@ -103,28 +102,25 @@ export default function ThemeSelector({cards_data, ...props}: any){
                 }
 
             })
-            // console.log(data)
             setDataForCardThemeSelect(data)
 
         }
     })
 
-    if(!dataForCardSubThemeSelect){
+    if(props.openFromPublicView ? !dataForCardSubThemeSelect : !toJS(CardPageStorage.dataForCardSubThemeSelect)){
         return(
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
     const tProps = {
         treeDataSimpleMode: true,
-        treeData: dataForCardSubThemeSelect,
+        treeData: toJS(CardPageStorage.dataForCardSubThemeSelect),
         value: cardSelectedThemeID,
         onChange: (data) =>{
             props.changeSelectedData(selectByThemes(data))
             setCardSelectedThemeID(data)
-            console.log(data)
         },
         treeCheckable: true,
-
         showCheckedStrategy: SHOW_CHILD,
         placeholder: 'Выбирите тему карточки',
         style: {
@@ -140,8 +136,8 @@ export default function ThemeSelector({cards_data, ...props}: any){
                 </Typography>
             </Col>
             <Col className="col-8 mt-2 ml-2 ml-lg-0">
-                <TreeSelect className="col-11" {...tProps}/>
+                <TreeSelect className="col-11" {...props?.openFromPublicView ? CardPageStorage.tProps : tProps}/>
             </Col>
         </Row>
     )
-}
+})

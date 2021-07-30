@@ -81,7 +81,7 @@ export default function ImageAnswerNode(props: any){
                         />: null}
                     {props?.answer?.text &&
                         <CardContent className="mb-5">
-                            <Typography variant="body2" color="textSecondary" component="p" className="mb-5 pb-5">
+                            <Typography variant="body1" color="textSecondary" component="p" className="mb-5 pb-5">
                                 {props?.answer?.text}
                             </Typography>
                         </CardContent>}

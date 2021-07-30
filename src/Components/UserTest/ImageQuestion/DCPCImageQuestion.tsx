@@ -26,9 +26,8 @@ export default function DCPCImageQuestion(props: { height: number, width: number
                             <Typography component="h5" variant="h5">
                                 Вопрос
                             </Typography>
-                            <Typography variant="body2" color="textSecondary" component="p">
+                            <Typography variant="body1" color="textSecondary" component="p">
                                 {props.questionData?.questionById?.text}
-
                             </Typography>
                         </CardContent>
                         {props.id && props.onChange &&

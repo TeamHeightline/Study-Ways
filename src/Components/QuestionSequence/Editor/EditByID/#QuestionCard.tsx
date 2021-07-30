@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Card, TextField} from "@material-ui/core";
 import {Form} from "react-bootstrap";
 import {useQuery} from "@apollo/client";
-import {GET_ALL_QUESTIONS} from "../../../UserTest/MainUserQuestionPage/Structs";
+import {GET_ALL_QUESTIONS} from "../../../../Store/PublicStorage/QuestionPage/Struct";
 import * as _ from "lodash"
 import {Autocomplete} from "@material-ui/lab";
 

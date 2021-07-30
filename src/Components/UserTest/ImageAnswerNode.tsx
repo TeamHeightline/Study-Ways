@@ -53,12 +53,8 @@ export default function ImageAnswerNode(props: any){
     const fetchData = async () => {
         const data = await axios("https://iot-experemental.herokuapp.com/files/answer?id=" + props.answer.id)
         try {
-            // if (!urlHasBeenPassed){
                 setUrlHasBeenPassed(true)
                 setAnswerImgUrl(data.data[0].image)
-                console.log(data.data[0].image.slice(68).split('?')[0])
-                console.log(props.answerIndex)
-            // }
         }catch (e) {
             console.log(e)
         }

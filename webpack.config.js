@@ -1,14 +1,6 @@
 const CKEditorWebpackPlugin = require( '@ckeditor/ckeditor5-dev-webpack-plugin' );
 const { styles } = require( '@ckeditor/ckeditor5-dev-utils' );
 
-// const nodeModulesLoader = environment.loaders.get('nodeModules');
-//
-// if (!Array.isArray(nodeModulesLoader.exclude)) {
-//     nodeModulesLoader.exclude =
-//         nodeModulesLoader.exclude == null ? [] : [nodeModulesLoader.exclude];
-// }
-// nodeModulesLoader.exclude.push(/@ckeditor\/ckeditor5-custom-build/);
-
 module.exports = {
     plugins: [
         // ...

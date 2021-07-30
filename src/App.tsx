@@ -35,7 +35,7 @@ import {UnLogin} from "./Components/Login/UnLogin";
 import {Registration} from "./Components/Login/Registration";
 import LCUpdateQuestion from "./Components/UserTest/Editor/UpdateQuestion/[LC]UpdateQuestion";
 import {EditorsRouter} from "./Components/EditorsRouter";
-import LCMainUserQuestion from "./Components/UserTest/MainUserQuestionPage/[LC]MainUserQuestion";
+import {MainUserQuestionPage} from "./Components/UserTest/MainUserQuestionPage/MainUserQuestionPage";
 import QuestionByID from "./Components/UserTest/QuestionByID";
 import ImageQuestion from "./Components/UserTest/ImageQuestion/ImageQuestion";
 import Typist from 'react-typist';
@@ -87,7 +87,7 @@ const  App = observer(() => {
                     <Route  path="/q/:id" component={QuestionByID}/>
                     <Route exact path="/iq/:id" component={ImageQuestion}/>
 
-                    <Route exact path="/test" component={LCMainUserQuestion}/>
+                    <Route exact path="/test" component={MainUserQuestionPage}/>
                     <Route exact path="/cards" component={MainCardPublicView}/>
                     <Route exact path="/courses" component={MainCoursePublicView}/>
                     <Redirect to="/courses"/>

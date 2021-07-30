@@ -1,6 +1,6 @@
 import React from 'react'
 import {Col, Row, Spinner} from "react-bootstrap";
-import {Button, Container, Snackbar, TextField, Typography} from "@material-ui/core";
+import {Button, Collapse, Container, Snackbar, TextField, Typography} from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
@@ -11,6 +11,9 @@ import Switch from "@material-ui/core/Switch";
 import {Alert} from "@material-ui/lab";
 import AnswerNode from "../AnswerNode";
 import {sort} from "fast-sort";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import ImageAnswerNode from "../../ImageAnswerNode";
+import DCPCImageQuestion from "../../ImageQuestion/DCPCImageQuestion";
 
 export default function DCUpdateQuestion({...props}: any){
     if (!props.data) {
@@ -139,12 +142,12 @@ export default function DCUpdateQuestion({...props}: any){
                                 <input type="file"  hidden name="file" onChange={props.changeHandlerForQuestionImage} />
                                 Изображение для вопроса
                             </Button>
-                            {props.isSelectedQuestionImage ? (
-                                <div>
-                                    {props.selectedQuestionImage?.name}
-                                </div>
-                            ) :null}
-                            {props.questionImageName && !props.isSelectedQuestionImage? <div>{props.questionImageName}</div>: null}
+                            {/*{props.isSelectedQuestionImage ? (*/}
+                            {/*    <div>*/}
+                            {/*        {props.selectedQuestionImage?.name}*/}
+                            {/*    </div>*/}
+                            {/*) :null}*/}
+                            {props.questionImageName? <div>{props.questionImageName}</div>: null}
                         </div>
                         :null}
                 </Col>
@@ -155,14 +158,36 @@ export default function DCUpdateQuestion({...props}: any){
                     <Alert severity="error">Ошибка в одном или нескольких полях</Alert>: null : null}
                 {props.questionId? <Col className="text-center mt-2 col-6">
                     <Typography variant="body2" color="textSecondary" component="p">
-                        Ссылка на прохождение вопроса  -
+                        {"Ссылка на прохождение вопроса  - "}
                         <strong>https://www.sw-university.com/iq/{props.questionId}</strong>
                     </Typography>
                 </Col>: null}
             </Row>
+            {props.selectedQuestion &&
+            <FormControlLabel
+                control={<Switch color="primary"
+                                 checked={props.showPreview} onChange={() => props.setShowPreview(!props.showPreview)} />}
+                label="Включить предпросмотр"
+                className="ml-5"
+            />}
+            <Collapse in={props.showPreview}>
+                <div className="ml-5">
+                    <DCPCImageQuestion height={window.innerHeight} width={window.innerWidth} urlHasBeenPassed={true}
+                                       questionImgUrl={props.rawQuestionImageName ? props.rawQuestionImageName:
+                                           props.questionImageName}
+                                       questionData={{questionById: {text: props.questionText}}}
+                                       id={props.id}
+                                       onChange={props.onChange} onClick={() => {void(0)}}
+                                       disabled={true} value="0" onChange1={() => void(0)}
+                                       onClick1={() => void(0)}
+                                       canSwitchToPreviousQuestion={false}
+                                       onClick2={() => {void(0)}}
+                                       canSwitchToNextQuestion={false}
+                                       onClick3={() => {void(0)}}/>
+                </div>
+            </Collapse>
             {props.questionId &&
             <div className="display-4 text-center mt-3 col-12" style={{fontSize: '33px'}}>Редактировать ответы</div>}
-            {/* Нужно кэшировать!!!*/}
             {/*Сортировка ответов по ID и проверка на то, что вопрос вообще выбран через проверку наличая ID у вопроса*/}
             {props.questionIndex !== undefined? sort(props.data?.me?.questionSet[props.questionIndex]?.answers)
                 .asc((answer: any) => answer?.id)

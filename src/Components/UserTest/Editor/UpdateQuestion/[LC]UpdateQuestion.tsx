@@ -12,7 +12,6 @@ import {Mutation} from "../../../../../SchemaTypes";
 
 const AutocompliteForNotUpdate = (data: any, autocompliteSelectHandleChange: (e: any, values: any) => any) => {
     if (data){
-        console.log(data.me.questionSet)
         return(
             <Autocomplete
                 id="combo-box-demo"
@@ -39,6 +38,14 @@ export default function LCUpdateQuestion() {
             }
         },
     });
+    async function getImageData(questionID){
+        const img_data = await fetch("https://iot-experemental.herokuapp.com/files/question?id="+ questionID)
+        const img_data_json = await img_data.json()
+        if (img_data_json[0]){
+            setQuestionImageName(img_data_json[0].image.slice(70).split('?')[0])
+            setRawQuestionImageName(img_data_json[0].image)
+        }
+    }
 
     const autocompliteSelectHandleChange =  (e: any, values: any) => {
         refetch()
@@ -66,16 +73,9 @@ export default function LCUpdateQuestion() {
         changeQuestionUrl(values.videoUrl)
         changeAnswersArray(values.answers)
         setQuestionImageName('')
+        setRawQuestionImageName('')
         setIsImageQuestion(values.isImageQuestion)
-
-        async function getData(){
-            const img_data = await fetch("https://iot-experemental.herokuapp.com/files/question?id="+ values.id)
-            const img_data_json = await img_data.json()
-            if (img_data_json[0]){
-                setQuestionImageName(img_data_json[0].image.slice(70).split('?')[0])
-            }
-        }
-        getData();
+        getImageData(values.id);
     }
 
 
@@ -95,6 +95,8 @@ export default function LCUpdateQuestion() {
     const [selectedQuestionImage, setSelectedQuestionImage] = useState<any>();
     const [isSelectedQuestionImage, setIsSelectedQuestionImage] = useState(false);
     const [questionImageName, setQuestionImageName] = useState('');
+    const [rawQuestionImageName, setRawQuestionImageName] = useState('')
+    const [showPreview, setShowPreview] = useState(false)
 
 
     const changeHandlerForQuestionImage = async (event) => {
@@ -106,7 +108,7 @@ export default function LCUpdateQuestion() {
     };
 
     const handleSubmissionQuestionImage = (img: any) => {
-        console.log("---")
+
         const formData = new FormData();
 
         formData.append('image', img);
@@ -121,9 +123,11 @@ export default function LCUpdateQuestion() {
             .then((response) => response.json())
             .then((result) => {
                 console.log('Success:', result);
+                getImageData(questionId)
             })
             .catch((error) => {
                 console.error('Error:', error);
+                getImageData(questionId)
             });
     };
 
@@ -157,9 +161,8 @@ export default function LCUpdateQuestion() {
         }
     })
     const [create_new_question, {loading: create_question_loading}] = useMutation<Mutation, null>(CREATE_NEW_QUESTION,{
-        onCompleted: data1 =>{
+        onCompleted: () =>{
             refetch()
-            console.log(data)
         },
         onError: error1 => console.log(error1)
     })
@@ -202,5 +205,6 @@ export default function LCUpdateQuestion() {
         update_question, changeHandlerForQuestionImage, isSelectedQuestionImage,
         selectedQuestionImage, questionImageName, update_question_loading,update_question_data,
         questionIndex, create_answer, create_answer_loading, openQuestionUpdateNotification,
-        updateQuestionNotificationHandleClose, create_new_question, create_question_loading}}/>)
+        updateQuestionNotificationHandleClose, create_new_question, create_question_loading,
+        showPreview, setShowPreview, rawQuestionImageName}}/>)
 }

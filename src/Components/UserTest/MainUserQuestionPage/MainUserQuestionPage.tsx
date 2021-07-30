@@ -12,7 +12,7 @@ import {observer} from "mobx-react";
 import {QuestionPageStorage} from "../../../Store/PublicStorage/QuestionPage/QuestionPageStore";
 import {toJS} from "mobx";
 
-export const MainUserQuestionPage = observer(({...props}: any) =>{
+export const MainUserQuestionPage = observer(() =>{
     if (!QuestionPageStorage.questionsData) {
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>

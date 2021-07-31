@@ -52,9 +52,9 @@
   color: #e30a61
 }
 
-*{
-  -ms-overflow-style: none;
-}
-::-webkit-scrollbar {
-  display: none;
-}
+/**{*/
+/*  -ms-overflow-style: none;*/
+/*}*/
+/*::-webkit-scrollbar {*/
+/*  display: none;*/
+/*}*/

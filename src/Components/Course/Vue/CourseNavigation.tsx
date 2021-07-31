@@ -6,7 +6,7 @@ export default function CourseNavigation({course, ...props}: any){
     // console.log(course)
     return(
         <div>
-            <div style={{width: 350, overflowY: "scroll"}}>
+            <div style={{width: 350, overflowX: "scroll"}}>
                 {course.courseData.length !== 0 && course.courseData.map((courseRow, CRI) =>{
                     return(
                         <>

@@ -17,12 +17,12 @@ export const MainCoursePublicView = observer(({...props}) => {
         )
     }
     return(
-        <div{...props} className="col-12" style={{overflowY: "scroll"}}>
+        <div{...props} className="col-12" >
             <Row className="justify-content-around">
                 {CoursePageStorage.courseArr.map((sameCourse, courseIndex) =>{
                     return(
                         <Col key={"Course" + courseIndex}>
-                            <div className="col-12" style={{overflowY: "scroll", height: 170}}>
+                            <div className="col-12" style={{overflowX: "scroll", height: 170}}>
                             <CourseMicroView className="ml-lg-5 mt-4" course={sameCourse}
                                              buttonClick={(data) =>
                                                  CoursePageStorage.cardSelectInCourseByMouseClick(data, courseIndex, sameCourse?.id)}

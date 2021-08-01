@@ -11,7 +11,7 @@ import React from "react";
 export default function DCPCImageQuestion(props: { height: number, width: number, urlHasBeenPassed: boolean, questionImgUrl: any, questionData: any, id: any, onChange: any, onClick: () => void, disabled: any, value: any, onChange1: (event: any) => void, onClick1: any, canSwitchToPreviousQuestion: any, onClick2: () => void, canSwitchToNextQuestion: any, onClick3: () => void }) {
     return <>
         {props.height / props.width < 1 &&
-        <Card style={{height: props.width >1400 ? 500: 400, padding: 0, overflowY: "scroll", minWidth: "1000px"}} className="col-12 ">
+        <Card style={{height: props.width >1400 ? 500: 400, padding: 0, minWidth: "1000px"}} className="col-12 ">
             <Row className="justify-content-center">
                 {props.urlHasBeenPassed && props.questionImgUrl ? <Col className="col-6">
                     <CardMedia

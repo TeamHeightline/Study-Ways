@@ -130,7 +130,7 @@ export default function ImageQuestion(props: any) {
     // console.log(get_question_data?.questionById?.questionstatistic?.numberOfPasses)
     // console.log(get_question_data?.questionById?.questionstatistic?.sumOfAllAttempts)
     return (
-        <div>
+        <div className="col-12">
         {!showCongratulation ?
         <div>
             {/*<Row className="col-12">*/}
@@ -168,7 +168,7 @@ export default function ImageQuestion(props: any) {
             {get_question_data && answers ?
                 <DCAnswers height={height} width={width} answers={answers} element={(answer, answerIndex) => {
                     return (
-                        <div key={answerIndex + "divKey"}>
+                        <div key={answerIndex + "divKey"} >
                             <ImageAnswerNode
                                 answerIndex={answerIndex}
                                 answer={answer}

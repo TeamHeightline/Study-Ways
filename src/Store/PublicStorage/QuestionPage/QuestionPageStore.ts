@@ -75,9 +75,21 @@ class QuestionPage{
     }
 
     getQuestionData(){
+        //Функция для удаления вопросов, которые называются "Новый вопрос"
+        function removeQuestionsTatNotFilled(questions: Maybe<QuestionNode>[]){
+            const questionsCopyWitchoutUnfilledQuestions: Maybe<QuestionNode>[] = []
+            console.log(questions)
+            questions?.map((question) =>{
+                if(question?.text !== "Новый вопрос"){
+                    questionsCopyWitchoutUnfilledQuestions.push(question)
+                }
+            })
+            return(questionsCopyWitchoutUnfilledQuestions)
+        }
+
         this.clientStorage.client.query({query: GET_ALL_QUESTIONS})
             .then((response) =>{
-                this.questionsData = response.data.question
+                this.questionsData = removeQuestionsTatNotFilled(response.data.question)
                 this.dataHasBeenDelivered = true
             })
     }
@@ -159,6 +171,7 @@ class QuestionPage{
         this.selectedThemeID = newThemeID
     }
 
+    //Вопросы после выборе темы (вопросы оставшиеся после всех фильтраций)
     get QuestionsAfterSelectTheme(){
         if(!this.dataHasBeenDelivered){
             return []

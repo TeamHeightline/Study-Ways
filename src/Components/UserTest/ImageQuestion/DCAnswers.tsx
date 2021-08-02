@@ -2,10 +2,16 @@ import Row from "react-bootstrap/Row";
 import React from "react";
 import './Style.css'
 
-export default function DCAnswers(props: { height: number, width: number, answers: any, element: (answer, answerIndex) => JSX.Element }) {
-    return <div style={{overflowX: "scroll", msOverflowStyle: "scrollbar",}} className="enableScrollbar">
+export default function DCAnswers(props: {isUseScrollbar: boolean, height: number, width: number, answers: any, element: (answer, answerIndex) => JSX.Element }) {
+    //Если выста/ширину > 1, значит это открыто со смартфора, тогда включаем скролл props.answers.length * (props.width + 60), если
+    //это открыто с пк и сколлбар включен, тогда ширина  = props.width, если мы открыли с пк
+    //и не включили скроллбар, то ширина = props.answers.length * 400
+    return <div style={{overflowX: (props?.isUseScrollbar || (props.height / props.width >= 1)) ? "scroll" : undefined, msOverflowStyle: "scrollbar",}} className="enableScrollbar">
         <div
-            style={{width: props.height / props.width >= 1 ? props.answers.length * (props.width + 60) : props.answers.length * 400}}>
+            style={{width: props.height / props.width >= 1 ?
+                    props.answers.length * (props.width + 60):
+                    props?.isUseScrollbar ? props.answers.length * 400:
+                        props.width}}>
             <Row className="justify-content-around">
                 {props.answers.map(props.element)}
             </Row>

@@ -172,7 +172,8 @@ export default function DCUpdateQuestion({...props}: any){
             />}
             <Collapse in={props.showPreview}>
                 <div className="ml-5">
-                    <DCPCImageQuestion height={window.innerHeight} width={window.innerWidth} urlHasBeenPassed={true}
+                    <DCPCImageQuestion isNotUseScrollbar={true} setIsNotUseScrollbar={() =>void(0)} showNotUseScrollbarCheckbox={false}
+                                       height={window.innerHeight} width={window.innerWidth} urlHasBeenPassed={true}
                                        questionImgUrl={props.rawQuestionImageName ? props.rawQuestionImageName:
                                            props.questionImageName}
                                        questionData={{questionById: {text: props.questionText}}}

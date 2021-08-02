@@ -30,6 +30,7 @@ export default function ImageQuestion(props: any) {
     const [oneTimePusshCheckErrorButton, changeOneTimePusshCheckErrorButton] = useState(false)
     const [showCongratulation, setShowCongratulation] = useState(false)
     const {width, height} = useWindowDimensions()
+    const [isUseScrollbar, setIsUseScrollbar] = useState(false)
 
     const calculateAfterFetch = async (get_question_data) =>{
         await setAnswers([])
@@ -145,7 +146,10 @@ export default function ImageQuestion(props: any) {
                 </div>
                 <Row className="justify-content-center">
                     <div className="col-9">
-                        <DCPCImageQuestion height={height} width={width} urlHasBeenPassed={urlHasBeenPassed}
+                        <DCPCImageQuestion
+                            showNotUseScrollbarCheckbox={true}
+                            isNotUseScrollbar={isUseScrollbar } setIsNotUseScrollbar={setIsUseScrollbar}
+                            height={height} width={width} urlHasBeenPassed={urlHasBeenPassed}
                                            questionImgUrl={questionImgUrl} questionData={get_question_data} id={props.id}
                                            onChange={props.onChange} onClick={() => {
                             props.onChange("goBack")
@@ -166,7 +170,7 @@ export default function ImageQuestion(props: any) {
                 </Row>
             {/*</Row>*/}
             {get_question_data && answers ?
-                <DCAnswers height={height} width={width} answers={answers} element={(answer, answerIndex) => {
+                <DCAnswers isUseScrollbar={isUseScrollbar} height={height} width={width} answers={answers} element={(answer, answerIndex) => {
                     return (
                         <div key={answerIndex + "divKey"} >
                             <ImageAnswerNode

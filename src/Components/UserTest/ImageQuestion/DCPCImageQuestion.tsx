@@ -4,11 +4,12 @@ import Col from "react-bootstrap/Col";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import {Button, ButtonGroup} from "@material-ui/core";
+import {Button, ButtonGroup, Checkbox, FormControlLabel} from "@material-ui/core";
 import {Form} from "react-bootstrap";
 import React from "react";
 
-export default function DCPCImageQuestion(props: { height: number, width: number, urlHasBeenPassed: boolean, questionImgUrl: any, questionData: any, id: any, onChange: any, onClick: () => void, disabled: any, value: any, onChange1: (event: any) => void, onClick1: any, canSwitchToPreviousQuestion: any, onClick2: () => void, canSwitchToNextQuestion: any, onClick3: () => void }) {
+export default function DCPCImageQuestion(props: { height: number, width: number, urlHasBeenPassed: boolean, questionImgUrl: any, questionData: any, id: any, onChange: any, onClick: () => void, disabled: any, value: any, onChange1: (event: any) => void, onClick1: any, canSwitchToPreviousQuestion: any, onClick2: () => void, canSwitchToNextQuestion: any, onClick3: () => void,
+    isNotUseScrollbar: any, setIsNotUseScrollbar: any, showNotUseScrollbarCheckbox: any}) {
     return <>
         {props.height / props.width < 1 &&
         <Card style={{height: props.width >1400 ? 500: 400, padding: 0, minWidth: "1000px"}} className="col-12 ">
@@ -76,5 +77,16 @@ export default function DCPCImageQuestion(props: { height: number, width: number
                 </Col>
             </Row>
         </Card>}
+        {props.showNotUseScrollbarCheckbox &&
+        <FormControlLabel
+            control={
+                <Checkbox
+                    checked={props.isNotUseScrollbar}
+                    onChange={(e) => props.setIsNotUseScrollbar(e.target.checked)}
+                    color="primary"
+                />
+            }
+            label="Использовать ScrollBar"
+        />}
     </>;
 }

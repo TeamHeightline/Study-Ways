@@ -828,13 +828,13 @@ input QuestionAuthorMutationInput {
 }
 
 input QuestionMutationInput {
-    author: [ID]!
+    author: [ID]
     clientMutationId: String
     createdBy: ID!
     id: ID
     isImageQuestion: Boolean
     text: String!
-    theme: [ID]!
+    theme: [ID]
     videoUrl: String
 }
 
@@ -892,19 +892,19 @@ field_name: [
 {
 "message": "error message",
 "code": "error_code"
-            }
+}
 ],
 other_field: [
 {
 "message": "error message",
 "code": "error_code"
-            }
+}
 ],
 nonFieldErrors: [
 {
 "message": "error message",
 "code": "error_code"
-            }
+}
 ]
 }
 """

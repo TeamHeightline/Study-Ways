@@ -78,7 +78,6 @@ class QuestionPage{
         //Функция для удаления вопросов, которые называются "Новый вопрос"
         function removeQuestionsTatNotFilled(questions: Maybe<QuestionNode>[]){
             const questionsCopyWitchoutUnfilledQuestions: Maybe<QuestionNode>[] = []
-            console.log(questions)
             questions?.map((question) =>{
                 if(question?.text !== "Новый вопрос"){
                     questionsCopyWitchoutUnfilledQuestions.push(question)

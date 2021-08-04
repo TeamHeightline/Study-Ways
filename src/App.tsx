@@ -33,7 +33,6 @@ import {Login} from "./Components/Login/Login"
 import {ApolloProvider} from "@apollo/client";
 import {UnLogin} from "./Components/Login/UnLogin";
 import {Registration} from "./Components/Login/Registration";
-import LCUpdateQuestion from "./Components/UserTest/Editor/UpdateQuestion/[LC]UpdateQuestion";
 import {EditorsRouter} from "./Components/EditorsRouter";
 import {MainUserQuestionPage} from "./Components/UserTest/MainUserQuestionPage/MainUserQuestionPage";
 import QuestionByID from "./Components/UserTest/QuestionByID";
@@ -82,7 +81,7 @@ const  App = observer(() => {
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/unlogin" component={UnLogin}/>
                     <Route exact path="/registration" component={Registration}/>
-                    <Route exact path="/editor" component={UserStorage.isLogin !== null? EditorsRouter: Login}/>
+                    <Route path="/editor" component={UserStorage.isLogin !== null? EditorsRouter: Login}/>
 
                     <Route  path="/q/:id" component={QuestionByID}/>
                     <Route exact path="/iq/:id" component={ImageQuestion}/>

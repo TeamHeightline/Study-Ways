@@ -76,3 +76,15 @@ export const CREATE_NEW_QUESTION = gql`
             clientMutationId
         }
     }`
+
+export const UPDATE_ANSWER = gql`mutation UPDATE_ANSWER($question: ID!, $id: ID, $isTrue: Boolean, $text: String, $helpTextv1: String,
+    $helpTextv2: String, $helpTextv3: String, $videoUrl: String, $checkQueue: Int!, $hardLevelOfAnswer: String!){
+    updateAnswer(input: {createdBy: 0, question: $question, isTrue: $isTrue, text: $text, helpTextv1: $helpTextv1,
+        helpTextv2: $helpTextv2, helpTextv3: $helpTextv3, videoUrl: $videoUrl, checkQueue: $checkQueue,
+        hardLevelOfAnswer: $hardLevelOfAnswer, id: $id}){
+        errors{
+            field
+            messages
+        }
+    }
+}`

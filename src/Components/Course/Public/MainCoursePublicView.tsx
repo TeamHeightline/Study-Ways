@@ -22,7 +22,7 @@ export const MainCoursePublicView = observer(({...props}) => {
                 {CoursePageStorage.courseArr.map((sameCourse, courseIndex) =>{
                     return(
                         <Col key={"Course" + courseIndex}>
-                            <div className="col-12" style={{height: 170}}>
+                            <div className="col-12" style={{height: 125}}>
                             <CourseMicroView className="ml-lg-5 mt-4" course={sameCourse}
                                              buttonClick={(data) =>
                                                  CoursePageStorage.cardSelectInCourseByMouseClick(data, courseIndex, sameCourse?.id)}

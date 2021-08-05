@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {Card, CardActionArea, CardMedia, Typography} from "@material-ui/core";
+import {Card, CardActionArea, Typography} from "@material-ui/core";
 import CourseNavigation from "../Vue/CourseNavigation";
-import Divider from '@material-ui/core/Divider';
 import {Row} from "react-bootstrap";
 
 
@@ -37,7 +36,7 @@ export default function CourseMicroView({course, ...props}: any) {
                         }}>
                         <Typography
                             style={{
-                                height: 170,
+                                height: 125,
                                 fontFamily: "system-ui",
                                 fontSize: 15,
                                 color: "white",

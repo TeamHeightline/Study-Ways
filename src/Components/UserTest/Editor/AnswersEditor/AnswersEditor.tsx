@@ -15,7 +15,6 @@ import {AnswerHardLevel} from "./#AnswerHardLevel";
 import {AnswerIsTrue} from "./#AnswerIsTrue";
 import {AnswerCheckQueue} from "./#AnswerCheckQueue";
 import {AnswerImage} from "./#AnswerImage";
-import ImageAnswerNode from "../../ImageAnswerNode";
 import {AnswerPreview} from "./#AnswerPreview";
 import {AnswerSavingNotification} from "./#AnswerSavingNotification";
 
@@ -27,7 +26,7 @@ export const AnswersEditor = observer(() => {
     }
     return(
         <>
-            <div className="display-4 text-center mt-3 col-12" style={{fontSize: '33px'}}>Редактировать ответы</div>
+            <Typography className="display-4 text-center mt-3 col-12" style={{fontSize: '33px'}}>Редактировать ответы</Typography>
             {QuestionEditorStorage.answers.map((answer) =>{
                 return(
                     <div className="mr-2 ml-2 mt-3 " key={answer.id + "AnswerKey"}>

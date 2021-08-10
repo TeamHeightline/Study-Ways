@@ -12,6 +12,7 @@
 // Следующая часть рассказа в Navbar.tsx
 
 //23 июля начат процесс полного переписывания проекта на mobX, документация может быть устаревшей
+//10 августа, документация ОЧЕНЬ сильно устарела, вернее сказать, она в принципе ни как не связана с реальностью
 
 import React, {useState} from 'react';
 import './App.css';
@@ -53,11 +54,9 @@ const  App = observer(() => {
 
     if (!animationState){
         return(
-            <Typist className="display-4 text-center mt-4 rl" style={{fontSize: '33px', fontFamily: "Raleway"}}>
+            <Typist className="display-4 text-center mt-4 rl App-header"
+                    style={{fontSize: '33px', fontFamily: "Raleway", color: "#ffffff"}}>
                 Study Ways
-                {/*<div className="Loading-Text">*/}
-                {/*    Fire build*/}
-                {/*</div>*/}
             </Typist>)
     }
 

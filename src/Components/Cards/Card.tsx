@@ -144,8 +144,8 @@ export const CARD = observer(({id, ...props}: any) =>{
                 <Row className="ml-2 mt-4 " >
                     <Col className="col-12">
                         <Row>
-                            <div className="display-4 text-left mr-sm-2" style={{fontSize: '35px'}}>{card_data.cardById.title}</div>
-                            <div className="display-4 text-left mr-sm-2"  style={{fontSize: '15px'}}>{card_data.cardById.id}</div>
+                            <Typography className="display-4 text-left mr-sm-2" style={{fontSize: '35px'}}>{card_data.cardById.title}</Typography>
+                            <Typography className="display-4 text-left mr-sm-2"  style={{fontSize: '15px'}}>{card_data.cardById.id}</Typography>
                         </Row>
 
                         {card_data?.cardById?.subTheme[0] &&
@@ -204,8 +204,10 @@ export const CARD = observer(({id, ...props}: any) =>{
                         </div>}
                     </Col>
                     <Col className="col-12 col-lg-6">
-                       <MathJax math={card_data?.cardById?.text}/>
-                        <Alert className="blockquote">На сколько эта карточка была полезна?</Alert>
+                        <Typography>
+                           <MathJax math={card_data?.cardById?.text}/>
+                        </Typography>
+                        <Typography className="blockquote">На сколько эта карточка была полезна?</Typography>
                         <Rating
                             className="ml-3"
                             name="simple-controlled"
@@ -216,9 +218,9 @@ export const CARD = observer(({id, ...props}: any) =>{
                         />
                     </Col>
                 </Row>
-                <Alert>
+                <Typography>
                     {card_data?.cardById?.additionalText}
-                </Alert>
+                </Typography>
                 <br/>
                 <br/>
                 <br/>

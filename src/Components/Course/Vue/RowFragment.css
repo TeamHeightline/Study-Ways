@@ -1,6 +1,8 @@
 .MuiButton-textPrimary{
-    color: white;
-    background-color: #ffffff;
+    /*color: white;*/
+    /*background-color: #ffffff;*/
+    color: #1A202C;
+    background-color: #1A202C;
 
 }
 .MuiButton-containedSecondary{
@@ -8,10 +10,14 @@
     background-color: #ffc00e;
 }
 .Mui-disabled{
-    color: white;
-    background-color: #ffffff;
+    /*color: white;*/
+    /*background-color: #ffffff;*/
+    color: #1A202C;
+    background-color: #1A202C;
 }
 .MuiIconButton-root{
-    color: white;
-    background-color: #ffffff;
+    /*color: white;*/
+    /*background-color: #ffffff;*/
+    color: #1A202C;
+    background-color: #1A202C;
 }

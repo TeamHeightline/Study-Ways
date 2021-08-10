@@ -14,7 +14,7 @@ export function DCMCardMicroView(props: { props: Pick<any, string | number | sym
     return <div
         // className="col-4"
         {...props.props}>
-        <Card className={props.height / props.width < 1 ? props.classes.root : "col-12"}
+        <Card variant="outlined" className={props.height / props.width < 1 ? props.classes.root : "col-12"}
               style={{padding: 0, height: "200px", minWidth: "300px"}} onClick={props.onClick}>
             {/*Код для отображения фото из ютуб*/}
             {Number(props.cardData.cardById.cardContentType[2]) === 0 && props.cardData?.cardById?.videoUrl &&

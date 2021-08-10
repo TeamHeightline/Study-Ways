@@ -1,6 +1,6 @@
 import React from 'react'
 import {Col, Row, Spinner} from "react-bootstrap";
-import {Button, Container} from "@material-ui/core";
+import {Button, Container, Typography} from "@material-ui/core";
 import {QuestionSelector} from "./#QuestionSelector"
 import {QuestionEditorStorage} from "../../../../Store/PrivateStorage/EditorsPage/QuestionEditorPage/QuestionEditorStorage";
 import {observer} from "mobx-react";
@@ -24,7 +24,7 @@ export const QuestionEditor = observer(({...props}: any) =>{
     return (
         <div className="col-12">
             <CreateNewQuestion/>
-            <div className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Редактировать вопрос</div>
+            <Typography className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Редактировать вопрос</Typography>
             <div className="col-8 offset-2 mt-3 ">
                 <QuestionSelector/>
             </div>

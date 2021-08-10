@@ -10,7 +10,7 @@ export default function DCMCImageQuestion(props: { height: number, width: number
     return <>
         {props.height / props.width >= 1 &&
         <div>
-            <Card elevation={3}>
+            <Card variant="outlined" elevation={3}>
                 {props.questionImgUrl && <CardMedia
                     // className="col-12"
                     style={{height: 300,}}

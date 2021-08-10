@@ -99,7 +99,7 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
         <div
             // className="col-4"
             {...props}>
-            <Card className={classes.root}
+            <Card variant="outlined" className={classes.root}
                   onClick={() =>{
                 // console.log(cardID)
                 props.onChange(cardID)

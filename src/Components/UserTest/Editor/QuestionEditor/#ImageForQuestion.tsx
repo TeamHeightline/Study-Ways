@@ -1,6 +1,6 @@
 import {observer} from "mobx-react";
 import {QuestionEditorStorage} from "../../../../Store/PrivateStorage/EditorsPage/QuestionEditorPage/QuestionEditorStorage";
-import {Button} from "@material-ui/core";
+import {Button, Typography} from "@material-ui/core";
 import {Col} from "react-bootstrap";
 import React from "react";
 
@@ -12,7 +12,7 @@ export const ImageForQuestion = observer(() =>{
                     <input type="file"  hidden name="file" onChange={(fileData) => QuestionEditorStorage.uploadNewQuestionImage(fileData)} />
                     Изображение для вопроса
                 </Button>
-                {QuestionEditorStorage.QuestionImageName}
+                <Typography>{QuestionEditorStorage.QuestionImageName}</Typography>
             </div>}
         </Col>
     )

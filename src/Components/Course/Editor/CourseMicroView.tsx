@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Card, CardActionArea, Typography} from "@material-ui/core";
 import CourseNavigation from "../Vue/CourseNavigation";
 import {Row} from "react-bootstrap";
-
+import styles from './Style.module.css'
 
 export default function CourseMicroView({course, ...props}: any) {
     const [cardCourseImageURL, setCardCourseImageURL] = useState('');
@@ -24,7 +24,7 @@ export default function CourseMicroView({course, ...props}: any) {
     }, [course])
     return(
         <div {...props}>
-            <Card style={{padding: 0, width: 530, height: 125}}>
+            <Card style={{padding: 0, width: 530, height: 125}} variant="outlined">
                 <Row>
                     <CardActionArea
                         style={{width:180,
@@ -49,7 +49,9 @@ export default function CourseMicroView({course, ...props}: any) {
                         </Typography>
                     </CardActionArea>
                     {/*<Divider orientation="vertical" flexItem className="ml-1" />*/}
-                    <CourseNavigation style={{width: 350, paddingBottom: 15, height: 120}} course={course} buttonClick={data => props.buttonClick(data)}
+                    <CourseNavigation className={styles.NavigationBackground}
+                        style={{width: 350, paddingBottom: 15, height: 120,}}
+                                      course={course} buttonClick={data => props.buttonClick(data)}
                                       cardPositionData={props.cardPositionData}/>
 
                 </Row>

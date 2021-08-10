@@ -14,7 +14,7 @@ export default function RowFragment({rowFragment, ...props}: any){
                                 onClick={() =>{
                                     props.buttonClick(eIndex)
                                 }}
-                                style={{color: !element?.CourseElement?.id ? "white" : ''}}
+                                style={{color: !element?.CourseElement?.id ? "#1A202C" : ''}}
                                 disabled={!element?.CourseElement?.id}
                                 color={
                                     // !element?.CourseElement?.id? "inherit" :

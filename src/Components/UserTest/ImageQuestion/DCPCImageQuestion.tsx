@@ -12,7 +12,7 @@ export default function DCPCImageQuestion(props: { height: number, width: number
     isNotUseScrollbar: any, setIsNotUseScrollbar: any, showNotUseScrollbarCheckbox: any}) {
     return <>
         {props.height / props.width < 1 &&
-        <Card style={{height: props.width >1400 ? 500: 400, padding: 0, minWidth: "1000px"}} className="col-12 ">
+        <Card variant="outlined" style={{height: props.width >1400 ? 500: 400, padding: 0, minWidth: "1000px"}} className="col-12 ">
             <Row className="justify-content-center">
                 {props.urlHasBeenPassed && props.questionImgUrl ? <Col className="col-6">
                     <CardMedia

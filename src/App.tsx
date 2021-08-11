@@ -16,7 +16,7 @@
 
 import React, {useState} from 'react';
 import './App.css';
-import {Navibar} from './Components/Navbar/Navibar';
+import {Navibar} from './Components/PublicPages/Navbar/Navibar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {useEffect} from "react";
 import {UserStorage} from './Store/UserStore/UserStore'
@@ -30,18 +30,18 @@ import  { BrowserRouter as Router,
 } from "react-router-dom";
 
 
-import {Login} from "./Components/Login/Login"
+import {Login} from "./Components/PublicPages/Login/Login"
 import {ApolloProvider} from "@apollo/client";
-import {UnLogin} from "./Components/Login/UnLogin";
-import {Registration} from "./Components/Login/Registration";
-import {EditorsRouter} from "./Components/EditorsRouter";
-import {MainUserQuestionPage} from "./Components/UserTest/MainUserQuestionPage/MainUserQuestionPage";
-import QuestionByID from "./Components/UserTest/QuestionByID";
-import ImageQuestion from "./Components/UserTest/ImageQuestion/ImageQuestion";
+import {UnLogin} from "./Components/PublicPages/Login/UnLogin";
+import {Registration} from "./Components/PublicPages/Login/Registration";
+import {EditorsRouter} from "./Components/PrivatePages/EditorsRouter";
+import {MainUserQuestionPage} from "./Components/PublicPages/MainUserQuestionPage";
+
+import ImageQuestion from "./Components/Elements/UserTest/ImageQuestion/ImageQuestion";
 import Typist from 'react-typist';
-import {MainCardPublicView} from "./Components/Cards/Public/MainCardPublicView";
-import {MainCoursePublicView} from "./Components/Course/Public/MainCoursePublicView";
-import QSByID from "./Components/QuestionSequence/Public/QSByID";
+import {MainCardPublicView} from "./Components/PublicPages/MainCardPublicView";
+import {MainCoursePublicView} from "./Components/PublicPages/MainCoursePublicView";
+import QSByID from "./Components/Elements/QuestionSequence/Public/QSByID";
 import { observer } from "mobx-react"
 import {ClientStorage} from "./Store/ApolloStorage/ClientStorage";
 
@@ -69,7 +69,7 @@ const  App = observer(() => {
                     {/*<Route exact path="/" ><Redirect to="/courses"/></Route>*/}
                     {/*------------TEMP------------------*/}
                     <Route exact path="/sequences" component={QSByID}/>
-                    {/*<Route exact path="/se" component={SearchingElementsPage}/>*/}
+                    {/*<Route exact path="/se" component={SearchingElementsEditor}/>*/}
                     {/*<Route exact path="/qe" component={QuestionSequenceMainEditor}/>*/}
                     {/*<Route exact path="/cad" component={LCCardAuthorEditor}/>*/}
                     {/*<Route exact path="/utae" component={LCUserTestAuthorEditor}/>*/}
@@ -82,7 +82,6 @@ const  App = observer(() => {
                     <Route exact path="/registration" component={Registration}/>
                     <Route path="/editor" component={UserStorage.isLogin !== null? EditorsRouter: Login}/>
 
-                    <Route  path="/q/:id" component={QuestionByID}/>
                     <Route exact path="/iq/:id" component={ImageQuestion}/>
 
                     <Route exact path="/test" component={MainUserQuestionPage}/>

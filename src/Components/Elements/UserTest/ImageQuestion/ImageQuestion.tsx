@@ -195,7 +195,7 @@ export default function ImageQuestion(props: any) {
                 {!props.open_from_sequence ?
                 <Alert severity="success">
                     <AlertTitle>Поздравляем</AlertTitle>
-                    Вы успешно прошли тест, колличество попыток - <strong>{tryingCalculation}</strong>
+                    Вы успешно прошли тест, количество попыток - <strong>{tryingCalculation}</strong>
                 </Alert> : <Alert severity="success">
                         <AlertTitle>Вы успешно прошли вопрос</AlertTitle>
                         Переходите к следующему

@@ -13,6 +13,8 @@ import {QuestionPageStorage} from "../../Store/PublicStorage/QuestionPage/Questi
 import {toJS} from "mobx";
 
 export const MainUserQuestionPage = observer(() =>{
+    // console.log(toJS(QuestionPageStorage.selectedQuestionObject)?.questionText)
+
     if (!QuestionPageStorage.questionsData) {
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
@@ -22,7 +24,7 @@ export const MainUserQuestionPage = observer(() =>{
         return (
             <div>
                 <Container className="justify-content-center col-12 col-lg-4 mt-5">
-                    <Paper className="justify-content-center" style={{maxWidth: "500px"}}>
+                    <Paper variant="outlined" className="justify-content-center pr-2 pl-2" style={{maxWidth: "500px"}}>
                         <div className="mr-2 ml-2">
                             <br/>
                             <div className="display-4 text-center " style={{fontSize: '33px'}}>

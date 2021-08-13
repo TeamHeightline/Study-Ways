@@ -158,6 +158,9 @@ class QuestionEditor{
     //Ссылка на изображение для вопроса
     selectedQuestionImageURL = ''
 
+    //Количество отображаемых ответов
+    selectedQuestionNumberOfShowingAnswers = "8"
+
     //Геттеры для полей вопроса ------------------------
 
     //Геттер для тем вопроса которые выбрал автор

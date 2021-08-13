@@ -1,6 +1,6 @@
 import React from 'react'
 import {Col, Row, Spinner} from "react-bootstrap";
-import {Button, Container, Typography} from "@material-ui/core";
+import {Typography} from "@material-ui/core";
 import {QuestionSelector} from "../Elements/UserTest/Editor/QuestionEditor/#QuestionSelector"
 import {QuestionEditorStorage} from "../../Store/PrivateStorage/EditorsPage/QuestionEditorPage/QuestionEditorStorage";
 import {observer} from "mobx-react";
@@ -15,6 +15,7 @@ import {SavingNotification} from "../Elements/UserTest/Editor/QuestionEditor/#Sa
 import {AnswersEditor} from "../Elements/UserTest/Editor/AnswersEditor/AnswersEditor";
 import {CreateNewAnswer} from "../Elements/UserTest/Editor/QuestionEditor/#CreateNewAnswer";
 import {CreateNewQuestion} from "../Elements/UserTest/Editor/QuestionEditor/#CreateNewQuestion";
+import {QuestionNumberOfShowingAnswers} from "../Elements/UserTest/Editor/QuestionEditor/#QuestionNumberOfShowingAnswers";
 
 export const QuestionEditor = observer(({...props}: any) =>{
     if (!QuestionEditorStorage.allQuestionsDataHasBeenDeliver) {
@@ -41,6 +42,12 @@ export const QuestionEditor = observer(({...props}: any) =>{
                         <ThemeSelector/>
                         <AuthorSelector/>
                     </div>
+                </Col>
+            </Row>}
+            {QuestionEditorStorage.questionHasBeenSelected &&
+            <Row className="mt-2">
+                <Col className="col-6 ml-5">
+                    <QuestionNumberOfShowingAnswers/>
                 </Col>
             </Row>}
             <Row className="mt-2">

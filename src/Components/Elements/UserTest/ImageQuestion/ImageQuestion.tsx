@@ -20,7 +20,6 @@ export default function ImageQuestion(props: any) {
     const questionId = props?.match?.params?.id? props.match.params.id: props.id
     const [helpLevel, changeHelpLevel] = useState(props?.helpLevel? props.helpLevel: "0");
     const [answers, setAnswers] = useState<any>([{}])
-    const [kolShowAnswers, setKolShowAnswers] = useState(8)
     const [questionImgUrl, setQuestionImgUrl] = useState<any>('')
     const [urlHasBeenPassed, setUrlHasBeenPassed] = useState(false)
     const [selected, changeSelected] = useState<number[]>([])
@@ -34,12 +33,17 @@ export default function ImageQuestion(props: any) {
 
     const calculateAfterFetch = async (get_question_data) =>{
         await setAnswers([])
+        //алгоритм выборки ответов, его задача отобразить все правильные ответы, а на оставшиеся места
+        //показать неправильные
         let ans = get_question_data?.questionById?.answers;
         ans = _.shuffle(ans);
-        const trueAns = _.shuffle(_.filter(ans, {isTrue: true}));
-        const wrongAns = _.filter(ans, {isTrue: false}).slice(0, kolShowAnswers - trueAns.length);
+        //slice нужен, чтобы ограничить массив правильных ответов количеством разрешенных к отображению ответов,
+        //а массив неверных количеством разрешенных минус количество правильных
+        const trueAns = _.shuffle(_.filter(ans, {isTrue: true})).slice(0, get_question_data?.questionById?.numberOfShowingAnswers);
+        const wrongAns = _.filter(ans, {isTrue: false}).slice(0, get_question_data?.questionById?.numberOfShowingAnswers - trueAns.length);
         const trueAndWrongAnswer = [...trueAns, ...wrongAns]
         await setAnswers(_.shuffle(trueAndWrongAnswer))
+
     }
     const {data: get_question_data} = useQuery(GET_QUESTION_DATA, {
             variables: {

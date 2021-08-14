@@ -11,6 +11,7 @@ export const GET_QUESTION_DATA = gql`
             text
             videoUrl
             id
+            numberOfShowingAnswers
             answers{
                 id
                 isTrue

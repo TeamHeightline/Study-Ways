@@ -5,6 +5,7 @@ import {Row} from "react-bootstrap";
 import {QuestionEditorStorage} from "../../../../../Store/PrivateStorage/EditorsPage/QuestionEditorPage/QuestionEditorStorage";
 
 export const QuestionNumberOfShowingAnswers = observer(() =>{
+    console.log(QuestionEditorStorage.selectedQuestionNumberOfShowingAnswers)
     return(
         <div>
             <Row className="ml-2">

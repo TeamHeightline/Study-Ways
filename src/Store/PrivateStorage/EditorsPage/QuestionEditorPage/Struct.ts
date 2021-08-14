@@ -1,4 +1,5 @@
 import {gql} from "@apollo/client";
+import {Maybe, Query} from "../../../../../SchemaTypes";
 
 export const ALL_QUESTIONS_DATA = gql`
     query{
@@ -17,6 +18,7 @@ export const ALL_QUESTIONS_DATA = gql`
                 }
                 text
                 videoUrl
+                numberOfShowingAnswers
                 answers{
                     id
                     isTrue
@@ -50,8 +52,8 @@ export const CREATE_NEW_ANSWER = gql`mutation CREATE_ANSWER($question: ID!){
     }
 }`
 
-export const UPDATE_QUESTION = gql`mutation UPDATE_QUESTION($createdBy: ID!, $theme: [ID]!, $author: [ID]!, $text: String!, $videoUrl: String, $id: ID!, $isImageQuestion: Boolean){
-    updateQuestion(input: {createdBy:$createdBy, theme: $theme, author: $author, text: $text, videoUrl: $videoUrl, id: $id, isImageQuestion: $isImageQuestion}){
+export const UPDATE_QUESTION = gql`mutation UPDATE_QUESTION($createdBy: ID!, $theme: [ID]!, $author: [ID]!, $text: String!, $videoUrl: String, $id: ID!, $isImageQuestion: Boolean, $numberOfShowingAnswers: Int){
+    updateQuestion(input: {createdBy:$createdBy, theme: $theme, author: $author, text: $text, videoUrl: $videoUrl, id: $id, isImageQuestion: $isImageQuestion, numberOfShowingAnswers: $numberOfShowingAnswers}){
         errors{
             field
             messages

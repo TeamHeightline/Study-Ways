@@ -8,12 +8,13 @@ import {Answer} from "./AnswersStorage";
 class QuestionEditor{
     constructor() {
         makeAutoObservable(this)
-        autorun(() => this.deliverFromServerAppQuestionsData())
+        autorun(() => this.loadFromServerAppQuestionsData())
         reaction(() => this.selectedQuestionID, () => this.deliverFromServerImageURL())
         reaction(() => this.selectedQuestionText, () => this.autoSave())
         reaction(() => this.selectedQuestionVideoUrl, () => this.autoSave())
         reaction(() => this.selectedQuestionThemesArray, () => this.autoSave())
         reaction(() => this.selectedQuestionAuthorsArray, () => this.autoSave())
+        reaction(() => this.selectedQuestionNumberOfShowingAnswers, () => this.autoSave())
         reaction(() => this.allQuestionsData, () => this.loadAnswers())
     }
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
@@ -38,7 +39,7 @@ class QuestionEditor{
     showPreview = false
 
     //Функция для получения данных о всех вопросов с сервера
-    deliverFromServerAppQuestionsData(){
+    loadFromServerAppQuestionsData(){
         this.clientStorage.client.query({query:ALL_QUESTIONS_DATA, fetchPolicy: "network-only"})
             .then((response) =>{
                 this.allQuestionsData = sort(response.data.me.questionSet).desc((question: any) => question?.id)
@@ -59,6 +60,7 @@ class QuestionEditor{
         this.selectedQuestionID = Number(questionData?.id)
         this.selectedQuestionText = questionData?.text
         this.selectedQuestionVideoUrl = questionData?.videoUrl ? questionData?.videoUrl: ''
+        this.selectedQuestionNumberOfShowingAnswers = String(questionData?.numberOfShowingAnswers)
 
         //Т.к. с сервера темы и автора приходят как обьекты, а нам нужны только их ID, то
         //здесь мы собираем массивы ID и устанавливает их в наблюдаемые переменные
@@ -121,9 +123,10 @@ class QuestionEditor{
                 author: this.selectedQuestionAuthorsArray,
                 text: this.selectedQuestionText,
                 videoUrl: this.selectedQuestionVideoUrl,
+                numberOfShowingAnswers: Number(this.selectedQuestionNumberOfShowingAnswers),
             }})
             .then(() =>{
-                this.deliverFromServerAppQuestionsData()
+                this.loadFromServerAppQuestionsData()
                 this.stateOfSave = true
             })
     }
@@ -193,7 +196,7 @@ class QuestionEditor{
     //Создаем новый вопрос
     createNewQuestion(){
         this.clientStorage.client.mutate({mutation: CREATE_NEW_QUESTION})
-            .then(() => this.deliverFromServerAppQuestionsData())
+            .then(() => this.loadFromServerAppQuestionsData())
     }
 
     //Создаем новый ответ
@@ -201,7 +204,7 @@ class QuestionEditor{
         this.clientStorage.client.mutate({mutation: CREATE_NEW_ANSWER, variables:{
                 question: this.selectedQuestionID
             }})
-            .then(() => this.deliverFromServerAppQuestionsData())
+            .then(() => this.loadFromServerAppQuestionsData())
             .catch(() => void(0))
     }
 

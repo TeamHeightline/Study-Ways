@@ -62,7 +62,7 @@ export const AnswersEditor = observer(() => {
                                             </Row>
                                         </Col>
                                     </Row>
-                                    <Row className="">
+                                    <Row className="mt-2">
                                         <Col className="col-2">
                                             <AnswerCheckQueue answer={answer}/>
                                         </Col>

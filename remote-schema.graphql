@@ -466,6 +466,7 @@ type QuestionNode {
     cardTestInCardSet: [CardNode!]!
     id: ID!
     isImageQuestion: Boolean!
+    numberOfShowingAnswers: Int!
     questionstatistic: QuestionStatisticNode
     text: String!
     theme: [QuestionThemesNode!]!
@@ -833,6 +834,7 @@ input QuestionMutationInput {
     createdBy: ID!
     id: ID
     isImageQuestion: Boolean
+    numberOfShowingAnswers: Int
     text: String!
     theme: [ID]
     videoUrl: String

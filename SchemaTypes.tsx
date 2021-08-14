@@ -30,19 +30,19 @@ export type Scalars = {
      * {
      * "message": "error message",
      * "code": "error_code"
-     *             }
+     * }
      * ],
      * other_field: [
      * {
      * "message": "error message",
      * "code": "error_code"
-     *             }
+     * }
      * ],
      * nonFieldErrors: [
      * {
      * "message": "error message",
      * "code": "error_code"
-     *             }
+     * }
      * ]
      * }
      */
@@ -749,6 +749,7 @@ export type QuestionNode = {
     cardTestInCardSet: Array<CardNode>;
     id: Scalars['ID'];
     isImageQuestion: Scalars['Boolean'];
+    numberOfShowingAnswers: Scalars['Int'];
     questionstatistic?: Maybe<QuestionStatisticNode>;
     text: Scalars['String'];
     theme: Array<QuestionThemesNode>;
@@ -1124,13 +1125,14 @@ export type QuestionAuthorMutationInput = {
 };
 
 export type QuestionMutationInput = {
-    author: Array<Maybe<Scalars['ID']>>;
+    author?: Maybe<Array<Maybe<Scalars['ID']>>>;
     clientMutationId?: Maybe<Scalars['String']>;
     createdBy: Scalars['ID'];
     id?: Maybe<Scalars['ID']>;
     isImageQuestion?: Maybe<Scalars['Boolean']>;
+    numberOfShowingAnswers?: Maybe<Scalars['Int']>;
     text: Scalars['String'];
-    theme: Array<Maybe<Scalars['ID']>>;
+    theme?: Maybe<Array<Maybe<Scalars['ID']>>>;
     videoUrl?: Maybe<Scalars['String']>;
 };
 
@@ -1163,3 +1165,6 @@ export type UpdateQuestionSequenceInput = {
     sequenceData?: Maybe<Scalars['GenericScalar']>;
     sequenceId: Scalars['ID'];
 };
+
+
+

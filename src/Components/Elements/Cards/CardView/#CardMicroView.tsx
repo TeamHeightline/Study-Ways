@@ -117,17 +117,17 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                             {Number(card_data.cardById.cardContentType[2]) === 1 && <Chip size="small" variant="outlined" color="primary" icon={<HttpIcon />} label="Ресурс"/>}
                             {Number(card_data.cardById.cardContentType[2]) === 2 && <Chip size="small" variant="outlined" color="default" icon={<ImageIcon />} label="Изображение"/>}
                         </Typography>
-                        <Popover trigger="hover" title="Название карточки" content={[0].map((e) =>{
-                            return(
-                                <Typography key={e + "TitleToolTip"}>
-                                    {card_data?.cardById?.title}
-                                </Typography>
-                            )
-                        })}>
+                        {/*<Popover trigger="hover" title="Название карточки" content={[0].map((e) =>{*/}
+                        {/*    return(*/}
+                        {/*        // <Typography key={e + "TitleToolTip"}>*/}
+                        {/*            card_data?.cardById?.title*/}
+                        {/*        // </Typography*/}
+                        {/*    )*/}
+                        {/*})}>*/}
                             <Typography variant="button" display="block" gutterBottom style={{maxHeight: 20}}>
-                                {card_data?.cardById?.title.slice(0, 25)}
+                                {card_data?.cardById?.title.slice(0, 45)}
                             </Typography>
-                        </Popover>
+                        {/*</Popover>*/}
                         {card_data?.cardById?.subTheme.length !== 0 ?
                             <Popover trigger="hover" title="Темы карточки" content={card_data?.cardById?.subTheme.map((e, eIndex) =>{
                                 return(
@@ -154,20 +154,9 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                                 </Breadcrumbs>
                             </Popover> : <br/>}
                         {card_data?.cardById?.author.length !== 0 ?
-                            <Popover trigger="hover" title="Авторы карточки" content={card_data?.cardById?.author.map((e, eIndex) =>{
-                                return(
-                                    <div key={eIndex + "AuthorTooltip"}>
-                                        <Typography>
-                                            {e.name}
-                                        </Typography>
-                                    </div>
-                                )
-                            })}>
                                 <Typography>
-                                    {card_data?.cardById?.author[0]?.name.slice(0, 25)}
+                                    <Chip label={card_data?.cardById?.author[0]?.name.slice(0, 25)} variant="outlined" />
                                 </Typography>
-
-                            </Popover>
                             : <br/>}
                         {/*<br/>*/}
                         {/*<br/>*/}

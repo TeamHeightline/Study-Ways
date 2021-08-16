@@ -9,7 +9,6 @@ import KeyboardArrowUpOutlinedIcon from '@material-ui/icons/KeyboardArrowUpOutli
 import {Rating} from "@material-ui/lab";
 import {gql} from "graphql.macro";
 import {useQuery} from "@apollo/client";
-import MathJax from 'react-mathjax-preview'
 import "../../../App.css"
 import CourseMicroView from "../Course/Editor/CourseMicroView";
 

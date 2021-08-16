@@ -45,11 +45,11 @@ export function DCMCardMicroView(props: { props: Pick<any, string | number | sym
                         {Number(props.cardData.cardById.cardContentType[2]) === 2 &&
                         <Chip size="small" variant="outlined" color="default" icon={<ImageIcon/>} label="Изображение"/>}
                     </Typography>
-                    <Popover trigger="hover" title="Название карточки" content={[0].map(props.callbackfn)}>
+                    {/*<Popover trigger="hover" title="Название карточки" content={[0].map(props.callbackfn)}>*/}
                         <Typography variant="button" display="block" gutterBottom style={{maxHeight: 20}}>
-                            {props.cardData?.cardById?.title.slice(0, 25)}
+                            {props.cardData?.cardById?.title.slice(0, 45)}
                         </Typography>
-                    </Popover>
+                    {/*</Popover>*/}
                     {props.cardData?.cardById?.subTheme.length !== 0 ?
                         <Popover trigger="hover" title="Темы карточки"
                                  content={props.cardData?.cardById?.subTheme.map(props.element)}>
@@ -69,7 +69,7 @@ export function DCMCardMicroView(props: { props: Pick<any, string | number | sym
                         <Popover trigger="hover" title="Авторы карточки"
                                  content={props.cardData?.cardById?.author.map(props.element1)}>
                             <Typography>
-                                {props.cardData?.cardById?.author[0]?.name.slice(0, 25)}
+                                <Chip label={props.cardData?.cardById?.author[0]?.name.slice(0, 25)} variant="outlined" />
                             </Typography>
 
                         </Popover>

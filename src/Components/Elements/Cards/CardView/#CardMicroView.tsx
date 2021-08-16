@@ -12,7 +12,6 @@ import {Spinner} from "react-bootstrap";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import HttpIcon from '@material-ui/icons/Http';
 import ImageIcon from '@material-ui/icons/Image';
-import MathJax from 'react-mathjax-preview'
 import {GET_CARD_FOR_MICRO_VIEW_BY_ID, useStyles} from "./Struct"
 import useWindowDimensions from "../../../../CustomHooks/useWindowDimensions";
 import {DCMCardMicroView} from './###[DCM]CardMicroView'
@@ -68,13 +67,7 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                         {card_data?.cardById?.title}
                     </Typography>
                 )
-            }} callbackfn1={(e) => {
-                return (
-                    <div key={e + "MainTextToolTip"}>
-                        <MathJax math={card_data?.cardById?.text}/>
-                    </div>
-                )
-            }} element={(e, eIndex) => {
+            }}  element={(e, eIndex) => {
                 return (
                     <div key={eIndex + "Tooltip"}>
                         {/*<Typography>*/}
@@ -135,20 +128,6 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                                 {card_data?.cardById?.title.slice(0, 25)}
                             </Typography>
                         </Popover>
-                        {card_data?.cardById?.text.length !== 0 ?
-                            <Popover trigger="hover" title="Контент карточки" content={[0].map((e) => {
-                                return(
-                                    <div key={e + "MainTextToolTip"}>
-                                        <MathJax math={card_data?.cardById?.text}/>
-                                    </div>
-                                )
-                            })
-                            }>
-                                <Typography>
-                                    Основной текст
-                                </Typography>
-                            </Popover>
-                            : <br/>}
                         {card_data?.cardById?.subTheme.length !== 0 ?
                             <Popover trigger="hover" title="Темы карточки" content={card_data?.cardById?.subTheme.map((e, eIndex) =>{
                                 return(

@@ -10,7 +10,7 @@ import {Popover} from "antd";
 import React from "react";
 import {ClassNameMap} from "@material-ui/styles";
 
-export function DCMCardMicroView(props: { props: Pick<any, string | number | symbol>, height: number, width: number, classes: ClassNameMap<"cover" | "controls" | "root" | "details" | "playIcon" | "content">, onClick: () => void, cardData: any, cardImage: any, callbackfn: (e) => JSX.Element, callbackfn1: (e) => JSX.Element, element: (e, eIndex) => JSX.Element, element1: (e, eIndex) => JSX.Element }) {
+export function DCMCardMicroView(props: { props: Pick<any, string | number | symbol>, height: number, width: number, classes: ClassNameMap<"cover" | "controls" | "root" | "details" | "playIcon" | "content">, onClick: () => void, cardData: any, cardImage: any, callbackfn: (e) => JSX.Element, element: (e, eIndex) => JSX.Element, element1: (e, eIndex) => JSX.Element }) {
     return <div
         // className="col-4"
         {...props.props}>
@@ -50,14 +50,6 @@ export function DCMCardMicroView(props: { props: Pick<any, string | number | sym
                             {props.cardData?.cardById?.title.slice(0, 25)}
                         </Typography>
                     </Popover>
-                    {props.cardData?.cardById?.text.length !== 0 ?
-                        <Popover trigger="hover" title="Контент карточки" content={[0].map(props.callbackfn1)
-                        }>
-                            <Typography>
-                                Основной текст
-                            </Typography>
-                        </Popover>
-                        : <br/>}
                     {props.cardData?.cardById?.subTheme.length !== 0 ?
                         <Popover trigger="hover" title="Темы карточки"
                                  content={props.cardData?.cardById?.subTheme.map(props.element)}>

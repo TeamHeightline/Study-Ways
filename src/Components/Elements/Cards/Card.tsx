@@ -18,6 +18,7 @@ import useWindowDimensions from "../../../CustomHooks/useWindowDimensions";
 import {CoursePageStorage} from "../../../Store/PublicStorage/CoursePage/CoursePageStorage";
 import {observer} from "mobx-react";
 import {CardPageStorage} from "../../../Store/PublicStorage/CardsPage/CardPageStorage";
+import RichTextPreview from "./CardView/#RichTextPreview";
 
 const SHOW_CARD_BY_ID = gql`
     query SHOW_CARD_BY_ID($id: ID!){
@@ -208,10 +209,8 @@ export const CARD = observer(({id, ...props}: any) =>{
                             }}>
                             </div>}
                         </Col>
-                        <Col className="col-12 col-lg-6">
-                            <Typography>
-                               <MathJax math={card_data?.cardById?.text}/>
-                            </Typography>
+                        <Col className="col-12 col-lg-6 mt-4">
+                            <RichTextPreview initialText={card_data?.cardById?.text} onChange={()  => void(0)}/>
                             <Typography className="blockquote">На сколько эта карточка была полезна?</Typography>
                             <Rating
                                 className="ml-3"

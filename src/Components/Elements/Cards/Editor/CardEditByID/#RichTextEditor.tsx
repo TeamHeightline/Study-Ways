@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import '../styleForCKEditor.css'
+import {Typography} from "@material-ui/core";
 
 export default function RichTextEditor({initialText, onChange}: any,){
     // console.log("update in text editor")
@@ -17,24 +18,24 @@ export default function RichTextEditor({initialText, onChange}: any,){
     }
     // console.log(initialText)
     return(
-        <CKEditor
-            editor={ Editor }
-            data={localText}
-            style={{maxHeight: "440px"}}
-            config={ {
-                // plugins: [ Paragraph, Bold, Italic, Essentials ],
-                toolbar: [ 'bold', 'italic', 'fontSize', 'link','|', 'undo', 'redo', '|',
-                    'MathType', ],
-                //Можно добавить химические формулы 'ChemType'
-                //и специальные символы 'specialCharacters',
+            <CKEditor
+                editor={ Editor }
+                data={localText}
+                style={{maxHeight: "440px"}}
+                config={ {
+                    // plugins: [ Paragraph, Bold, Italic, Essentials ],
+                    toolbar: [ 'bold', 'italic', 'fontSize', 'link','|', 'undo', 'redo', '|',
+                        'MathType', ],
+                    //Можно добавить химические формулы 'ChemType'
+                    //и специальные символы 'specialCharacters',
 
-            } }
+                } }
 
-            onChange={ ( event, editor ) => {
-                textHandler(editor.getData());
-            } }
+                onChange={ ( event, editor ) => {
+                    textHandler(editor.getData());
+                } }
 
-        />
+            />
     )
 }
 

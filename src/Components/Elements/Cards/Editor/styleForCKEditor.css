@@ -1,6 +1,29 @@
 .ck-editor__editable_inline {
     height: 400px;
+    /*background-color: #e5dfd3;*/
+    /*--ck-custom-background: #1A202C;*/
+    --ck-color-base-background: #e5dfd3;
+    --ck-color-base-border: #000000;
+    --ck-color-focus-border: #ffffff;
+    --ck-color-link-default: #BA5400;
+    /*--ck-color-base-text: #ffffff;*/
+    /*--ck-color-block-toolbar-button: #1A202C;*/
+    /*--ck-color-base-foreground: #1A202C;*/
+    /*--ck-color-panel-background: #1A202C;*/
+    /*--ck-color-toolbar-background: #1A202C;*/
+    /*--ck-color-text: #ffffff;*/
+    /*--ck-color-input-text: #ffffff;*/
+    /*--ck-color-mention-text: #ffffff;*/
+    /*--ck-color-input-background:  #1A202C;*/
+    /*--ck-color-input-border: hsl(257, 3%, 43%);*/
+    --ck-color-toolbar-background: #1A202C;
+    /*--ck-sample-color-white: #1A202C;*/
+    filter: invert(1);
 }
+math {
+    color: #ffffff
+}
+
 .uploader-content{
     backdrop-filter: blur(10px);
 }

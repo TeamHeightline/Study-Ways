@@ -29,7 +29,7 @@ export const ThemeSelector = observer(({cards_data, ...props}: any) =>{
     const [cardSelectedThemeID, setCardSelectedThemeID] = useState<any>()
     useEffect(()=>{
         props.changeSelectedData(cards_data)
-    }, [])
+    }, [cards_data])
     const selectByThemes = (selected_themes) =>{
         if(selected_themes.length === 0){
             return (cards_data)

@@ -24,7 +24,7 @@ export default function RichTextEditor({initialText, onChange}: any,){
                 style={{maxHeight: "440px"}}
                 config={ {
                     // plugins: [ Paragraph, Bold, Italic, Essentials ],
-                    toolbar: [ 'bold', 'italic', 'fontSize', 'link','|', 'undo', 'redo', '|',
+                    toolbar: [ 'bold', 'italic', 'fontSize', 'FontColor', 'link','|', 'undo', 'redo', '|',
                         'MathType', ],
                     //Можно добавить химические формулы 'ChemType'
                     //и специальные символы 'specialCharacters',

@@ -67,15 +67,18 @@ export default function CreateNewCard({cardID = 1, ...props}: any,){
             onError: error => {
                 setStateOfCreating(10)
                 console.log(error)
+                props.onCreate()
             },
             onCompleted: data => {
                 setStateOfCreating(0)
                 console.log(data)
+                props.onCreate()
             }
         })
     const createNewCardHandle = () =>{
         setStateOfCreating(1)
         create_mutation()
+            .then(() => props.onCreate())
     }
     // console.log(card_data?.cardById.videoUrl.split('?v=')[1])
     // 380 * 110

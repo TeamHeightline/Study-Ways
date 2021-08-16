@@ -7,6 +7,7 @@
     --ck-color-focus-border: #ffffff;
     --ck-color-link-default: #BA5400;
     --ck-color-toolbar-background: #1A202C;
+    --font-color: #000000;
     filter: invert(1);
 }
 math {

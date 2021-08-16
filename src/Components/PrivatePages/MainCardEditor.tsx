@@ -8,6 +8,7 @@ import {useQuery} from "@apollo/client";
 import {gql} from "graphql.macro";
 import {ContentTypeSelector} from "../Elements/Cards/Editor/MainCardEditor/#ContentTypeSelector";
 import {ThemeSelector} from "../Elements/Cards/Editor/MainCardEditor/#ThemeSelector";
+import {sort} from "fast-sort";
 
 const GET_ALL_CARD_DATA = gql`
     query GET_CARD_DATA{
@@ -43,14 +44,6 @@ const GET_ALL_CARD_DATA = gql`
         }
     }`
 
-const CHECK_USER_STATUS = gql`
-    query CHECK_USER_STATUS{
-        me{
-            id
-            username
-            userAccessLevel
-        }
-    }`
 export default function MainCardEditor({...props}: any){
     const [isEditNow, setIsEditNow] = useState(false)
     const [selectedCardID, setSelectedCardID] = useState(0)
@@ -60,7 +53,6 @@ export default function MainCardEditor({...props}: any){
     const {data: card_data, refetch} = useQuery(GET_ALL_CARD_DATA, {
         // pollInterval: 3000,
     })
-    const {data: user_data} = useQuery(CHECK_USER_STATUS)
 
     const selectCardForEditHandle = async(e) =>{
         await setSelectedCardID(e)
@@ -89,19 +81,11 @@ export default function MainCardEditor({...props}: any){
             }}/>
         )
     }
-    if(!card_data || !user_data){
+    if(!card_data){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
-    // if(user_data.me.userAccessLevel !== "TEACHER" && user_data.me.userAccessLevel !== "ADMIN"){
-    //     return (
-    //         <Alert severity="error">
-    //             <AlertTitle>Доступ ограничен</AlertTitle>
-    //             Вы не обладаете достаточными правами, чтобы просматривать этот раздел, для дополнитльной информации обратитесь к администрации
-    //         </Alert>
-    //     )
-    // }
     return(
         <div className="col-12">
             <Row className="ml-1">
@@ -131,9 +115,10 @@ export default function MainCardEditor({...props}: any){
 
             </Row>
             <Row className="mr-2 justify-content-around">
-                <CreateNewCard className="mt-5 ml-3"/>
-                {cardsDataAfterSelectAuthor && cardsDataAfterSelectAuthor.map((e) =>{
-                    return(<CardMicroView key={e.id + "CardKey"} cardID={e.id}  className="mt-5 ml-3"
+                <CreateNewCard className="mt-5 ml-3" onCreate={() =>refetch()}/>
+                {cardsDataAfterSelectAuthor && sort(cardsDataAfterSelectAuthor).desc((card: any) => Number(card?.id))
+                    .map((e: any) =>{
+                    return(<CardMicroView key={e?.id + "CardKey"} cardID={e?.id}  className="mt-5 ml-3"
                                    onChange={selectCardForEditHandle}/>)
                 })}
             </Row>

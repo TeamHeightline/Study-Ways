@@ -18,6 +18,7 @@ export default function RichTextEditor({initialText, onChange}: any,){
     }
     // console.log(initialText)
     return(
+        <div>
             <CKEditor
                 editor={ Editor }
                 data={localText}
@@ -36,6 +37,10 @@ export default function RichTextEditor({initialText, onChange}: any,){
                 } }
 
             />
+            <Typography variant="caption">
+                Если вы вставляете текст и он имеет странный цвет, используйте не Ctrl+V, а Ctrl+Shift+V
+            </Typography>
+        </div>
     )
 }
 

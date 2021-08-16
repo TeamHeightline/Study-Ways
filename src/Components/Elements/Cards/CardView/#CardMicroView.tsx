@@ -15,6 +15,7 @@ import ImageIcon from '@material-ui/icons/Image';
 import {GET_CARD_FOR_MICRO_VIEW_BY_ID, useStyles} from "./Struct"
 import useWindowDimensions from "../../../../CustomHooks/useWindowDimensions";
 import {DCMCardMicroView} from './###[DCM]CardMicroView'
+import RecentActorsIcon from '@material-ui/icons/RecentActors';
 
 export default function CardMicroView({cardID = 1, ...props}: any,){
     const classes = useStyles();
@@ -125,7 +126,7 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                         {/*    )*/}
                         {/*})}>*/}
                             <Typography variant="button" display="block" gutterBottom style={{maxHeight: 20}}>
-                                {card_data?.cardById?.title.slice(0, 45)}
+                                {card_data?.cardById?.title.slice(0, 25)}
                             </Typography>
                         {/*</Popover>*/}
                         {card_data?.cardById?.subTheme.length !== 0 ?
@@ -142,19 +143,20 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                                 )
                             })} >
                                 <Breadcrumbs  aria-label="breadcrumb">
-                                    <Typography color="inherit" >
-                                        {card_data?.cardById?.subTheme[0]?.theme?.globalTheme?.name.slice(0, 8)}
-                                    </Typography>
-                                    <Typography color="inherit">
-                                        {card_data?.cardById?.subTheme[0]?.theme?.name.slice(0, 8)}
-                                    </Typography>
+                                    {/*<Typography color="inherit" >*/}
+                                    {/*    {card_data?.cardById?.subTheme[0]?.theme?.globalTheme?.name.slice(0, 8)}*/}
+                                    {/*</Typography>*/}
+                                    {/*<Typography color="inherit">*/}
+                                    {/*    {card_data?.cardById?.subTheme[0]?.theme?.name.slice(0, 8)}*/}
+                                    {/*</Typography>*/}
                                     <Typography color="textPrimary">
-                                        {card_data?.cardById?.subTheme[0]?.name.slice(0, 10)}
+                                        <Chip size="small" variant="outlined"
+                                              label={card_data?.cardById?.subTheme[0]?.name.slice(0, 25)}/>
                                     </Typography>
                                 </Breadcrumbs>
                             </Popover> : <br/>}
                         {card_data?.cardById?.author.length !== 0 ?
-                                <Typography>
+                                <Typography className="mt-2">
                                     <Chip label={card_data?.cardById?.author[0]?.name.slice(0, 25)} variant="outlined" />
                                 </Typography>
                             : <br/>}

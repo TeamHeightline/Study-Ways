@@ -17,9 +17,10 @@ export default function ThemeTree({dataForThemeTreeView, cardSelectedThemeID, ca
         },
     };
     console.log("update id theme tree")
+    // filter: 'invert(1)'
     return(
         <div>
-            {dataForThemeTreeView? <TreeSelect {...tProps} />: <Spinner animation="border" variant="success"/>}
+            {dataForThemeTreeView? <TreeSelect {...tProps}/>: <Spinner animation="border" variant="success"/>}
         </div>
     )
 }

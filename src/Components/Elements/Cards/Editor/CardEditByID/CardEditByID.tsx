@@ -360,7 +360,7 @@ export default function CardEditByID({cardId, ...props}: any){
     }
     const cardYoutubeVideoUrlHandle = (e) =>{
         autoSave()
-        setCardYoutubeVideoUrl(e.target.value)
+        setCardYoutubeVideoUrl(e.target.value.split("&list=")[0])
     }
     const cardAdditionalTextHandle = (e) =>{
         autoSave()

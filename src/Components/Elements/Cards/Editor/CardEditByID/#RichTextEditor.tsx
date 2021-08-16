@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import { CKEditor } from '@ckeditor/ckeditor5-react'
-import '../styleForCKEditor.css'
+import './styleForCKEditor.css'
 import {Typography} from "@material-ui/core";
 
 export default function RichTextEditor({initialText, onChange}: any,){
@@ -18,7 +18,7 @@ export default function RichTextEditor({initialText, onChange}: any,){
     }
     // console.log(initialText)
     return(
-        <div>
+        <div className="editor">
             <CKEditor
                 editor={ Editor }
                 data={localText}

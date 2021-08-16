@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import { CKEditor } from '@ckeditor/ckeditor5-react'
-import '../Editor/styleForCKEditor.css'
+import './RichTextPreviewStyle.css'
 
 export default function RichTextPreview({initialText, onChange}: any,){
     // console.log("update in text editor")
@@ -22,15 +22,7 @@ export default function RichTextPreview({initialText, onChange}: any,){
             data={localText}
             style={{maxHeight: "440px"}}
             disabled={true}
-            config={ {
-                // removePlugins({"toolbar"}),
-                // plugins: [ Paragraph, Bold, Italic, Essentials ],
-                // toolbar: [ 'bold', 'italic', 'fontSize', 'link','|', 'undo', 'redo', '|',
-                //     'MathType', ],
-                //Можно добавить химические формулы 'ChemType'
-                //и специальные символы 'specialCharacters',
-
-            } }
+            config={ {} }
 
             onChange={ ( event, editor ) => {
                 textHandler(editor.getData());

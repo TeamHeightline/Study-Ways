@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 import {Col, Row, Spinner} from "react-bootstrap";
 import ReactPlayer from "react-player";
-import '../styleForCKEditor.css'
+import './styleForCKEditor.css'
 
 
 import {gql, useMutation, useQuery} from "@apollo/client";
@@ -148,7 +148,7 @@ export default function CardEditByID({cardId, ...props}: any){
 
 
     const {data: authorData} = useQuery(GET_OWN_AUTHOR)
-    const {data: themesData} = useQuery(GET_THEMES, {
+    const {data} = useQuery(GET_THEMES, {
         onCompleted: themesData => {
             // console.log(themesData.cardGlobalTheme)
             const data: any = []
@@ -233,7 +233,7 @@ export default function CardEditByID({cardId, ...props}: any){
             },
 
         })
-    const [updateCard, {data: update_card_data}] = useMutation(UPDATE_CARD, {
+    const [updateCard] = useMutation(UPDATE_CARD, {
         variables: {
             id: cardID,
             subTheme: cardSelectedThemeID.map((e) =>{
@@ -352,11 +352,6 @@ export default function CardEditByID({cardId, ...props}: any){
     const cardHeaderHandle = (e) =>{
         autoSave()
         setCardHeader(e.target.value)
-    }
-    const cardMainTextHandle = async (e) =>{
-        // console.log(e)
-        e ? setCardMainTextInitial(e): null
-        autoSave()
     }
     const cardYoutubeVideoUrlHandle = (e) =>{
         autoSave()

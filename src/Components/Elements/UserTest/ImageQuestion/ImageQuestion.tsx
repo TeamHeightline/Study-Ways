@@ -31,30 +31,24 @@ export default function ImageQuestion(props: any) {
     const {width, height} = useWindowDimensions()
     const [isUseScrollbar, setIsUseScrollbar] = useState(false)
 
-    const calculateAfterFetch = async (get_question_data) =>{
-        await setAnswers([])
-        //алгоритм выборки ответов, его задача отобразить все правильные ответы, а на оставшиеся места
-        //показать неправильные
-        let ans = get_question_data?.questionById?.answers;
-        ans = _.shuffle(ans);
-        //slice нужен, чтобы ограничить массив правильных ответов количеством разрешенных к отображению ответов,
-        //а массив неверных количеством разрешенных минус количество правильных
-        const trueAns = _.shuffle(_.filter(ans, {isTrue: true})).slice(0, get_question_data?.questionById?.numberOfShowingAnswers);
-        const wrongAns = _.filter(ans, {isTrue: false}).slice(0, get_question_data?.questionById?.numberOfShowingAnswers - trueAns.length);
-        const trueAndWrongAnswer = [...trueAns, ...wrongAns]
-        await setAnswers(_.shuffle(trueAndWrongAnswer))
-
-    }
     const {data: get_question_data} = useQuery(GET_QUESTION_DATA, {
-            variables: {
-                id: questionId
-            },
-
-        }
+        variables: {
+            id: questionId
+        },
+        onCompleted: async(data) =>{
+            await setAnswers([])
+            //алгоритм выборки ответов, его задача отобразить все правильные ответы, а на оставшиеся места
+            //показать неправильные
+            let ans = data?.questionById?.answers;
+            ans = _.shuffle(ans);
+            //slice нужен, чтобы ограничить массив правильных ответов количеством разрешенных к отображению ответов,
+            //а массив неверных количеством разрешенных минус количество правильных
+            const trueAns = _.shuffle(_.filter(ans, {isTrue: true})).slice(0, data?.questionById?.numberOfShowingAnswers);
+            const wrongAns = _.filter(ans, {isTrue: false}).slice(0, data?.questionById?.numberOfShowingAnswers - trueAns.length);
+            const trueAndWrongAnswer = [...trueAns, ...wrongAns]
+            await setAnswers(_.shuffle(trueAndWrongAnswer))
+        }}
     );
-    useEffect( () => {
-        calculateAfterFetch(get_question_data)
-    }, [get_question_data])
 
     useEffect( () => {
         const fetchData = async () => {
@@ -93,15 +87,15 @@ export default function ImageQuestion(props: any) {
             const oErrArr: any[] = []
             let minCheckQueue = 10000000000000000000000
             let ActiveWrongAnswerIndexLet = activeWrongAnswerIndex
-            answers.map((question: any, Index: number) => {
-                if ((question.isTrue && (selected.indexOf(question.id) === -1)) || (!question.isTrue && (selected.indexOf(question.id) !== -1))) {
+            answers.map((answer: any, Index: number) => {
+                if ((answer.isTrue && (selected.indexOf(answer.id) === -1)) || (!answer.isTrue && (selected.indexOf(answer.id) !== -1))) {
                     // console.log(question)
-                    if (question.checkQueue < minCheckQueue) {
+                    if (answer.checkQueue < minCheckQueue) {
                         // changeActiveWrongQuestionId(question.id)
-                        minCheckQueue = question.checkQueue
+                        minCheckQueue = answer.checkQueue
                         ActiveWrongAnswerIndexLet = Index
                     }
-                    oErrArr.push(question.id)
+                    oErrArr.push(answer.id)
                 }
 
             })

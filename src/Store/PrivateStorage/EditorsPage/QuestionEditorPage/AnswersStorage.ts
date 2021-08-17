@@ -56,7 +56,7 @@ export class Answer{
         this.clientStorage.client.mutate({mutation: UPDATE_ANSWER, variables:{
                 question: this.questionID,
                 id: this.id,
-                is_true: Boolean(this.isTrue),
+                isTrue: this.isTrue == "true",
                 text: this.text,
                 helpTextv1: this.helpTextv1,
                 helpTextv2: this.helpTextv2,
@@ -93,7 +93,7 @@ export class Answer{
         })
         this.store = store
         this.id = answer.id
-        this.isTrue = String(answer.isTrue)
+        this.isTrue = answer.isTrue ? "true" : 'false'
         this.text = answer.text
         this.helpTextv1 = answer.helpTextv1
         this.helpTextv2 = answer.helpTextv2

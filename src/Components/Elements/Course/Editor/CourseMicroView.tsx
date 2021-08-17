@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Card, CardActionArea, Typography} from "@material-ui/core";
+import {Card, CardActionArea, Tooltip, Typography} from "@material-ui/core";
 import CourseNavigation from "../Vue/CourseNavigation";
 import {Row} from "react-bootstrap";
 import styles from './Style.module.css'
@@ -26,6 +26,7 @@ export default function CourseMicroView({course, ...props}: any) {
         <div {...props}>
             <Card style={{padding: 0, width: 530, height: 125}} variant="outlined">
                 <Row>
+                    <Tooltip title={(course.name && course.name.length !== 0) ? course.name.toUpperCase() : "Название курса по умолчанию"}>
                     <CardActionArea
                         style={{width:180,
                             backgroundSize: "cover",
@@ -36,23 +37,24 @@ export default function CourseMicroView({course, ...props}: any) {
                         }}>
                         <Typography
                             style={{
-                                height: 125,
+                                background: "rgba(10,33,49,0.73)",
+                                backdropFilter: "blur(5px)",
                                 fontFamily: "system-ui",
                                 fontSize: 15,
                                 color: "white",
-                                width: 180,
                                 textAlign: "center",
                                 marginLeft: "5px",
-                                // textShadow: "1px 1px 2px black, 0 0 1em black"
                             }}>
                             {(course.name && course.name.length !== 0) ? course.name.toUpperCase() : "Название курса по умолчанию"}
                         </Typography>
                     </CardActionArea>
+                    </Tooltip>
                     {/*<Divider orientation="vertical" flexItem className="ml-1" />*/}
                     <CourseNavigation className={styles.NavigationBackground}
                         style={{width: 350, paddingBottom: 15, height: 120,}}
                                       course={course} buttonClick={data => props.buttonClick(data)}
                                       cardPositionData={props.cardPositionData}/>
+
 
                 </Row>
             </Card>

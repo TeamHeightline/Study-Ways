@@ -1,13 +1,15 @@
 // Лицо проекта, первое, с чем сталкнется пользователь, работает на 3+
 
 import * as React from 'react'
-import {Alert, Button, Container, Form} from "react-bootstrap";
+import {Button, Container, Form} from "react-bootstrap";
 import {useState} from "react";
 import {gql, useMutation} from "@apollo/client";
 import {useHistory} from "react-router-dom";
 import {ClientStorage} from '../../../Store/ApolloStorage/ClientStorage'
 import {UserStorage} from '../../../Store/UserStore/UserStore'
 import {observer} from "mobx-react";
+import {Typography} from "@material-ui/core";
+import {Alert} from "@material-ui/lab";
 
 const REGISTRATION_MUTATION = gql`
 mutation REGISTER($email: String!, $password1: String!, $password2: String!, $username: String!){
@@ -49,26 +51,27 @@ export const  Registration = observer(() =>{
     return(
         <div>
             <Container>
-                <div className="display-4 text-center mt-5" style={{fontSize: '33px'}}>Регистрация</div>
+                <Typography className="text-center mt-5" variant="h4">Регистрация</Typography>
+                {/*<div className="display-4 text-center mt-5" style={{fontSize: '33px'}}>Регистрация</div>*/}
                 <div className="col-4 offset-4 mt-3">
                     {/*<Card>*/}
                     <Form>
                         {/*Стандартный набор, юзерныйм, мэил и два пароля, заметьте, для второго пароля честно
                         используется именно отдельная ячейка, хоть это и жутко бесит*/}
                         <Form.Group>
-                            <Form.Label>Введите имя пользователя</Form.Label>
+                            <Form.Label><Typography> Введите имя пользователя</Typography></Form.Label>
                             <Form.Control type="text" placeholder="Имя пользователя" value={userName} onChange={(event) =>{changeUserName(event.target.value)}}/>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>Введите ваш email</Form.Label>
+                            <Form.Label><Typography>Введите ваш email</Typography></Form.Label>
                             <Form.Control type="email" placeholder="email" value={mail} onChange={(event) =>{changeMail(event.target.value)}}/>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>Введите пароль</Form.Label>
+                            <Form.Label><Typography>Введите пароль</Typography></Form.Label>
                             <Form.Control type="password" placeholder="Пароль" value={password1} onChange={(event) =>{changePassword1(event.target.value)}}/>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>Повторно введите пароль</Form.Label>
+                            <Form.Label><Typography>Повторно введите пароль</Typography></Form.Label>
                             <Form.Control type="password" placeholder="Пароль" value={password2} onChange={(event) =>{changePassword2(event.target.value)}}/>
                         </Form.Group>
                         {/*При нажатие тригерит регистрационную мутацию*/}
@@ -77,20 +80,20 @@ export const  Registration = observer(() =>{
                         </Button>
                         {/*Проверка вообще всех возможных ошибок, по сути, приходится играть в google translate*/}
                         { data?.register?.errors?.email ? data?.register.errors.email[0].message === "A user with that email already exists." ?
-                            <Alert variant='danger' className="mt-2" >Этот email уже был использован</Alert>: null: null}
+                            <Alert severity="error" variant="outlined" className="mt-2" >Этот email уже был использован</Alert>: null: null}
                         { data?.register?.errors?.username ? data?.register.errors.username[0].message === "Enter a valid username. This value may contain only letters, numbers, and @/./+/-/_ characters." ?
-                            <Alert variant='danger' className="mt-2" >Имя пользователя может содержать только буквы, цифры и символы @/./+/-/_</Alert>: null: null}
+                            <Alert severity="error" variant="outlined" className="mt-2" >Имя пользователя может содержать только буквы, цифры и символы @/./+/-/_</Alert>: null: null}
                         { data?.register?.errors?.username ? data?.register.errors.username[0].message === "A user with that username already exists." ?
-                            <Alert variant='danger' className="mt-2" >Пользователь с таким именем уже создан</Alert>: null: null}
+                            <Alert severity="error" variant="outlined" className="mt-2" >Пользователь с таким именем уже создан</Alert>: null: null}
                         { data?.register?.errors?.password2 ? data?.register.errors.password2[0].message === "The two password fields didn’t match." ?
-                            <Alert variant='danger' className="mt-2" >Пароли не совпадают</Alert>: null: null}
+                            <Alert severity="error" variant="outlined" className="mt-2" >Пароли не совпадают</Alert>: null: null}
                         { data?.register?.errors?.password2 ? (data?.register.errors.password2[0].message === "This password is too short. It must contain at least 8 characters.") ||
                         (data?.register?.errors?.password2[0].message === "This password is too common.") ||
                         (data?.register?.errors?.password2[0].message === "This password is entirely numeric.")?
-                            <Alert variant='danger' className="mt-2" >Пароль слишком простой</Alert>: null: null}
-                        {data && !data?.register?.success && <Alert variant='danger' className="mt-2" >Ошибка что-нибудь изменить</Alert>}
+                            <Alert severity="error" variant="outlined" className="mt-2" >Пароль слишком простой</Alert>: null: null}
+                        {data && !data?.register?.success && <Alert severity="error" variant="outlined" className="mt-2" >Ошибка проверьте, что вы заполнели все поля</Alert>}
                         {/*Занятный факт, эту надпись невозможно прочесть, редирект произойдет раньше*/}
-                        {data?.register?.success ?  data?.register.success === true? <Alert variant='primary' className="mt-2">Вы зарегистрировались, запрос на подтверждение аккаунта отправлен вам на почту</Alert>: null: null}
+                        {data?.register?.success ?  data?.register.success === true? <Alert severity="info" variant='outlined' className="mt-2">Вы зарегистрировались, запрос на подтверждение аккаунта отправлен вам на почту</Alert>: null: null}
 
                     </Form>
                     {/*</Card>*/}

@@ -4,21 +4,25 @@ import {ALL_QUESTIONS_DATA, CREATE_NEW_ANSWER, CREATE_NEW_QUESTION, UPDATE_QUEST
 import {Maybe, QuestionAuthorNode, QuestionNode, QuestionThemesNode} from "../../../../../SchemaTypes";
 import {sort} from "fast-sort";
 import {Answer} from "./AnswersStorage";
+import {UserStorage} from "../../../UserStore/UserStore";
 
 class QuestionEditor{
     constructor() {
-        makeAutoObservable(this)
-        autorun(() => this.loadFromServerAppQuestionsData())
-        reaction(() => this.selectedQuestionID, () => this.deliverFromServerImageURL())
-        reaction(() => this.selectedQuestionText, () => this.autoSave())
-        reaction(() => this.selectedQuestionVideoUrl, () => this.autoSave())
-        reaction(() => this.selectedQuestionThemesArray, () => this.autoSave())
-        reaction(() => this.selectedQuestionAuthorsArray, () => this.autoSave())
-        reaction(() => this.selectedQuestionNumberOfShowingAnswers, () => this.autoSave())
-        reaction(() => this.allQuestionsData, () => this.loadAnswers())
+            makeAutoObservable(this)
+            reaction(() => this.userStorage.userAccessLevel, () => this.loadFromServerAppQuestionsData())
+            reaction(() => this.selectedQuestionID, () => this.deliverFromServerImageURL())
+            reaction(() => this.selectedQuestionText, () => this.autoSave())
+            reaction(() => this.selectedQuestionVideoUrl, () => this.autoSave())
+            reaction(() => this.selectedQuestionThemesArray, () => this.autoSave())
+            reaction(() => this.selectedQuestionAuthorsArray, () => this.autoSave())
+            reaction(() => this.selectedQuestionNumberOfShowingAnswers, () => this.autoSave())
+            reaction(() => this.allQuestionsData, () => this.loadAnswers())
     }
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
     clientStorage = ClientStorage
+
+    //доступ к данным о пользователе, чтобы можно было проверять уровень доступа
+    userStorage = UserStorage
 
     //Данные с сервера о всех вопросах
     allQuestionsData: Maybe<QuestionNode[]> | any = []
@@ -40,13 +44,16 @@ class QuestionEditor{
 
     //Функция для получения данных о всех вопросов с сервера
     loadFromServerAppQuestionsData(){
-        this.clientStorage.client.query({query:ALL_QUESTIONS_DATA, fetchPolicy: "network-only"})
-            .then((response) =>{
-                this.allQuestionsData = sort(response.data.me.questionSet).desc((question: any) => question?.id)
-                this.allThemesForQuestion = sort(response.data.questionThemes).desc((theme: any) => theme?.id)
-                this.allAuthorsForQuestion = sort(response.data.me.questionauthorSet).desc((author: any) => author?.id)
-                this.allQuestionsDataHasBeenDeliver = true
-            })
+        if(this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN"){
+            this.clientStorage.client.query({query:ALL_QUESTIONS_DATA, fetchPolicy: "network-only"})
+                .then((response) =>{
+                    this.allQuestionsData = sort(response?.data?.me?.questionSet).desc((question: any) => question?.id)
+                    this.allThemesForQuestion = sort(response?.data?.questionThemes).desc((theme: any) => theme?.id)
+                    this.allAuthorsForQuestion = sort(response?.data?.me?.questionauthorSet).desc((author: any) => author?.id)
+                    this.allQuestionsDataHasBeenDeliver = true
+                })
+                .catch(() => void(0))
+        }
     }
 
     //Геттер, нужен чтобы можно было без преобразований использовать allQuestionsData

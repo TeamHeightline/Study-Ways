@@ -9,8 +9,8 @@ export const QuestionSelector = observer(() =>{
         <Autocomplete
             id="combo-box-demo"
             fullWidth
-            options={QuestionEditorStorage.allQuestionsDataForSelector}
-            getOptionLabel={(option: any) => option.text}
+            options={QuestionEditorStorage?.allQuestionsDataForSelector}
+            getOptionLabel={(option: any) => option?.text}
             renderInput={(params) => <TextField {...params} label="Вопрос" variant="outlined"/>}
             onChange={(e, questionData) => {
                 QuestionEditorStorage.selectorHandleChange(e, questionData)

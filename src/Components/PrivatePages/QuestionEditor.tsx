@@ -29,7 +29,7 @@ export const QuestionEditor = observer(({...props}: any) =>{
             <div className="col-8 offset-2 mt-3 ">
                 <QuestionSelector/>
             </div>
-            {QuestionEditorStorage.questionHasBeenSelected &&
+            {QuestionEditorStorage?.questionHasBeenSelected &&
             <Row className="mt-3">
                 <Col className="col-md-6 col-11  ml-5">
                     <div>
@@ -44,7 +44,7 @@ export const QuestionEditor = observer(({...props}: any) =>{
                     </div>
                 </Col>
             </Row>}
-            {QuestionEditorStorage.questionHasBeenSelected &&
+            {QuestionEditorStorage?.questionHasBeenSelected &&
             <Row className="mt-2">
                 <Col className="col-6 ml-5">
                     <QuestionNumberOfShowingAnswers/>

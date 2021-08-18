@@ -19,7 +19,7 @@ export const MainDirectionWay = observer(() =>{
     return(
         <div className="col-12" >
             <div style={{overflowY: "scroll"}}>
-                <Stepper nonLinear activeStep={-10} alternativeLabel>
+                <Stepper nonLinear activeStep={-10} alternativeLabel style={{width: 4000}}>
                 {directionStoreObject.directionProcessedObject.map((processed_object, index) => (
                     <Step key={index}>
                         { processed_object.type === "CardElement" &&
@@ -31,8 +31,9 @@ export const MainDirectionWay = observer(() =>{
                                     directionStoreObject.openCardID = Number(processed_object?.cardID)
                                     directionStoreObject.openCard()
                                 }}>
-                                    <div style={{width: "400px", height: "170px", textAlign: "left"}}>
+                                    <div style={{width: 530, height: "170px", textAlign: "left"}} >
                                         <CardMicroView cardID={processed_object.cardID}
+                                                       style={{marginLeft: 65}}
                                                        onChange={() => {
                                                            directionStoreObject.openCardID = Number(processed_object?.cardID)
                                                            directionStoreObject.openCard()
@@ -43,7 +44,7 @@ export const MainDirectionWay = observer(() =>{
                         }
 
                         {processed_object.type === "CourseElement" &&
-                                <StepLabel StepIconComponent={BlurLinearIcon} className="pl-5">
+                                <StepLabel StepIconComponent={BlurLinearIcon} style={{width: 530, textAlign: "center"}}>
                                     {directionStoreObject?.cardCourse &&
                                         <CourseMicroView
                                             onEdit={() => {
@@ -56,8 +57,8 @@ export const MainDirectionWay = observer(() =>{
                                 </StepLabel>
                             }
                         {processed_object.type === "QuestionElement" &&
-                        <StepLabel StepIconComponent={DoneAllIcon}>
-                            <Card style={{width: 400, height: 160}} variant="outlined">
+                        <StepLabel StepIconComponent={DoneAllIcon} style={{width: 530}}>
+                            <Card style={{width: 400, height: 160, marginLeft: 65}} variant="outlined">
                                 <CardActionArea style={{height: "100%"}} onClick={() => processed_object.handleClickOnQuestionCard()}>
                                     <Typography>
                                         {processed_object?.questionText}

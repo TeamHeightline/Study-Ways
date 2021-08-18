@@ -28,7 +28,7 @@ export default function CourseMicroView({course, ...props}: any) {
         )
     }
     return(
-        <div {...props}>
+        <div {...props} style={{padding: 0}}>
             <Card style={{padding: 0, width: 530, height: 125}} variant="outlined">
                 <Row>
                     <Tooltip title={(course?.name && course?.name?.length !== 0) ? course?.name?.toUpperCase() : "Название курса по умолчанию"}>

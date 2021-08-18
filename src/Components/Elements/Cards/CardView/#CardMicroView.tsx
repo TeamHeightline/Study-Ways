@@ -110,7 +110,7 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                     />: null
                 }
                 <CardActionArea >
-                    <CardContent  style={{padding: 4, flex: '1 0 auto'}} className="justify-content-start">
+                    <CardContent  style={{padding: 4, flex: '1 0 auto', paddingLeft: 10, paddingRight: 10}} className="justify-content-start" >
                         <Typography  variant="h6" gutterBottom >
                             ID: {card_data?.cardById.id}
                             {Number(card_data.cardById.cardContentType[2]) === 0 && <Chip size="small" variant="outlined" color="secondary" icon={<YouTubeIcon />} label="YouTube"/>}

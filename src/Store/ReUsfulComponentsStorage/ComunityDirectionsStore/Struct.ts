@@ -1,17 +1,17 @@
 export const directionData = [
     {
+        type: "CardElement",
+        id: 17
+    },
+    {
         type: "CourseElement",
         cardPositionData: {
             courseIndex: 0,
             row: 1,
             fragment: 0,
             buttonIndex: 3,
-            courseID: 5
+            courseID: 20
         }
-    },
-    {
-        type: "CardElement",
-        id: 1
     },
     {
         type: "QuestionElement",

@@ -56,7 +56,6 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
         )
     }
     // console.log(card_data?.cardById.videoUrl.split('?v=')[1])
-    // 380 * 110
     if(height/width >= 1){
         return(
             <DCMCardMicroView props={props} height={height} width={width} classes={classes} onClick={() => {
@@ -111,57 +110,41 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                     />: null
                 }
                 <CardActionArea >
-                    <CardContent className={classes.content}>
-                        <Typography  variant="h6" gutterBottom className="pr-5">
+                    <CardContent  style={{padding: 4, flex: '1 0 auto'}} className="justify-content-start">
+                        <Typography  variant="h6" gutterBottom >
                             ID: {card_data?.cardById.id}
                             {Number(card_data.cardById.cardContentType[2]) === 0 && <Chip size="small" variant="outlined" color="secondary" icon={<YouTubeIcon />} label="YouTube"/>}
                             {Number(card_data.cardById.cardContentType[2]) === 1 && <Chip size="small" variant="outlined" color="primary" icon={<HttpIcon />} label="Ресурс"/>}
                             {Number(card_data.cardById.cardContentType[2]) === 2 && <Chip size="small" variant="outlined" color="default" icon={<ImageIcon />} label="Изображение"/>}
                         </Typography>
-                        {/*<Popover trigger="hover" title="Название карточки" content={[0].map((e) =>{*/}
-                        {/*    return(*/}
-                        {/*        // <Typography key={e + "TitleToolTip"}>*/}
-                        {/*            card_data?.cardById?.title*/}
-                        {/*        // </Typography*/}
-                        {/*    )*/}
-                        {/*})}>*/}
-                            <Typography variant="button" display="block" gutterBottom style={{maxHeight: 20}}>
-                                {card_data?.cardById?.title.slice(0, 25)}
-                            </Typography>
-                        {/*</Popover>*/}
-                        {card_data?.cardById?.subTheme.length !== 0 ?
-                            <Popover trigger="hover" title="Темы карточки" content={card_data?.cardById?.subTheme.map((e, eIndex) =>{
-                                return(
-                                    <div key={eIndex+ "Tooltip"}>
-                                        {/*<Typography>*/}
-                                        {e.theme?.globalTheme?.name.toString() + " / "
-                                        + e?.theme?.name.toString() + " / "
-                                        + e?.name.toString() }
-                                        {/*<br/>*/}
-                                        {/*</Typography>*/}
-                                    </div>
-                                )
-                            })} >
-                                <Breadcrumbs  aria-label="breadcrumb">
-                                    {/*<Typography color="inherit" >*/}
-                                    {/*    {card_data?.cardById?.subTheme[0]?.theme?.globalTheme?.name.slice(0, 8)}*/}
-                                    {/*</Typography>*/}
-                                    {/*<Typography color="inherit">*/}
-                                    {/*    {card_data?.cardById?.subTheme[0]?.theme?.name.slice(0, 8)}*/}
-                                    {/*</Typography>*/}
-                                    <Typography color="textPrimary">
-                                        <Chip size="small" variant="outlined"
-                                              label={card_data?.cardById?.subTheme[0]?.name.slice(0, 25)}/>
-                                    </Typography>
-                                </Breadcrumbs>
-                            </Popover> : <br/>}
-                        {card_data?.cardById?.author.length !== 0 ?
-                                <Typography className="mt-2">
-                                    <Chip label={card_data?.cardById?.author[0]?.name.slice(0, 25)} variant="outlined" />
-                                </Typography>
-                            : <br/>}
-                        {/*<br/>*/}
-                        {/*<br/>*/}
+                        <Typography variant="button" display="block" gutterBottom>
+                            {card_data?.cardById?.title.slice(0, 50)}
+                        </Typography>
+
+                        <Typography>
+                            {card_data?.cardById?.subTheme.length !== 0 ?
+                                <Popover trigger="hover" title="Темы карточки" content={card_data?.cardById?.subTheme.map((e, eIndex) =>{
+                                    return(
+                                        <div key={eIndex+ "Tooltip"}>
+                                            {e.theme?.globalTheme?.name.toString() + " / "
+                                            + e?.theme?.name.toString() + " / "
+                                            + e?.name.toString() }
+                                        </div>
+                                    )
+                                })} >
+                                    <Chip size="small" variant="outlined"
+                                          label={card_data?.cardById?.subTheme[0]?.name.slice(0, 25)}/>
+
+                                </Popover> : <br/>}
+                            <br/>
+                            {card_data?.cardById?.author.length !== 0 ?
+                                        <Chip className="mt-1" label={card_data?.cardById?.author[0]?.name.slice(0, 25)}
+                                               variant="outlined" />
+                                : <br/>}
+                        </Typography>
+                        <br/>
+                        <br/>
+
                     </CardContent>
                 </CardActionArea>
             </Card>

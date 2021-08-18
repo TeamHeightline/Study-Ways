@@ -31,11 +31,13 @@ export const MainDirectionWay = observer(() =>{
                                     directionStoreObject.openCardID = Number(processed_object?.cardID)
                                     directionStoreObject.openCard()
                                 }}>
-                                    <CardMicroView cardID={processed_object.cardID}
-                                                   onChange={() => {
-                                                       directionStoreObject.openCardID = Number(processed_object?.cardID)
-                                                       directionStoreObject.openCard()
-                                                    }}/>
+                                    <div style={{width: "400px", height: "170px", textAlign: "left"}}>
+                                        <CardMicroView cardID={processed_object.cardID}
+                                                       onChange={() => {
+                                                           directionStoreObject.openCardID = Number(processed_object?.cardID)
+                                                           directionStoreObject.openCard()
+                                                        }}/>
+                                    </div>
                                 </StepLabel>
 
                         }

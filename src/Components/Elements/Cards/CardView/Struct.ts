@@ -13,13 +13,14 @@ export const useStyles = makeStyles((theme) => ({
     },
     content: {
         flex: '1 0 auto',
+        alignItems: 'left',
     },
     cover: {
         width: 200,
     },
     controls: {
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'left',
         paddingLeft: theme.spacing(1),
         paddingBottom: theme.spacing(1),
     },

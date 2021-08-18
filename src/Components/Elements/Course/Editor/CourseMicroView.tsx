@@ -34,6 +34,7 @@ export default function CourseMicroView({course, ...props}: any) {
                     <Tooltip title={(course?.name && course?.name?.length !== 0) ? course?.name?.toUpperCase() : "Название курса по умолчанию"}>
                     <CardActionArea
                         style={{width:180,
+                            height: 125,
                             backgroundSize: "cover",
                             // boxShadow: "inset 0 0 5em 1em #000",
                             backgroundImage: cardCourseImageURL ? "url(" + cardCourseImageURL + ")": "url('https://content.skyscnr.com/m/5462d448281ea355/original/GettyImages-468945589.jpg?resize=1800px:1800px&quality=100')"}}

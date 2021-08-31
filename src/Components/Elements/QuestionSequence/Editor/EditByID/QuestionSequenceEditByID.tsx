@@ -37,10 +37,11 @@ export default function QuestionSequenceEditByID({...props}: any) {
     const [stateOfSave, setStateOfSave] = useState(2) // 0- не сохранено 1- сохранение 2- сохранено
     const [autoSaveTimer, changeAutoSaveTimer] = useState<any>()
 
-    const [updateQuestionSequence] = useMutation<Mutation, {sequenceData: any, sequenceId: number, name: string}>(UPDATE_QUESTION_SEQUENCE, {
+    const [updateQuestionSequence] = useMutation<Mutation, {sequenceData: any, sequenceId: number, name: string, description: string}>(UPDATE_QUESTION_SEQUENCE, {
             variables:{
                 sequenceId: props?.sequence?.id,
                 name: sequenceName,
+                description: "Описание по умолчанию",
                 sequenceData: {
                     settings: {
                         can_switch_pages: can_switch_pages,//может ли пользователь сам переключаться между вопросами

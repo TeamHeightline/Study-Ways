@@ -73,3 +73,13 @@ export const GET_QUESTION_TEXT_BY_ID = gql`
             
     }}
     `
+
+export const GET_ALL_CARD_SUB_THEMES = gql`
+    query GET_ALL_CARD_THEMES{
+        cardSubTheme{
+            id
+            name
+        }
+    }
+`
+

@@ -27,8 +27,8 @@ export const GET_THEMES = gql`
     }`
 
 export const UPDATE_QUESTION_SEQUENCE = gql`
-    mutation UPDATE_QUESTION_SEQUENCE($sequenceData: GenericScalar!, $sequenceId: ID!, $name: String!){
-        updateQuestionSequence(input: {name: $name, sequenceId: $sequenceId, sequenceData: $sequenceData}){
+    mutation UPDATE_QUESTION_SEQUENCE($sequenceData: GenericScalar!, $sequenceId: ID!, $name: String!, $description: String){
+        updateQuestionSequence(input: {name: $name, sequenceId: $sequenceId, sequenceData: $sequenceData, description: $description}){
             clientMutationId
         }
     }`

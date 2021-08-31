@@ -1,13 +1,15 @@
 import React, {useState} from 'react'
 import {useMutation, useQuery} from "@apollo/client";
-import {Mutation, Query} from "../../../SchemaTypes";
+import {CardSubThemeNode, Mutation, Query} from "../../../SchemaTypes";
 import {CREATE_QUESTION_SEQUENCE, GET_MY_QUESTION_SEQUENCE, question_sequence_struct} from "../Elements/QuestionSequence/Editor/Struct"
 import {Button, Typography, Card, CardActionArea, Chip} from "@material-ui/core";
 import {Row, Spinner} from "react-bootstrap";
 import QuestionSequenceEditByID from "../Elements/QuestionSequence/Editor/EditByID/QuestionSequenceEditByID";
+import {GET_ALL_CARD_SUB_THEMES} from "../../Store/ReUsfulComponentsStorage/ComunityDirectionsStore/Struct";
 
 export default function QuestionSequenceMainEditor(){
     const {data: question_sequence_data, refetch: refetch_question_sequence_data} = useQuery<Query, null>(GET_MY_QUESTION_SEQUENCE)
+    const {data: card_themes_data} = useQuery<Query, null>(GET_ALL_CARD_SUB_THEMES)
     const [isEditNow, setIsEditNow] = useState(false)
     const [activeEditSequenceIndex, setActiveEditSequenceIndex] = useState<number>(0)
     const [createQuestionSequence] = useMutation<Mutation,{sequenceData : any}>(CREATE_QUESTION_SEQUENCE, {
@@ -16,7 +18,6 @@ export default function QuestionSequenceMainEditor(){
         },
         onCompleted: () => {refetch_question_sequence_data()}
     })
-
     if(!question_sequence_data){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
@@ -67,14 +68,7 @@ export default function QuestionSequenceMainEditor(){
                                     <Typography className="ml-2">
                                         {"Описание: " + sequence?.description}
                                     </Typography>
-                                    <Typography className="ml-2">
-                                        Темы: {sequence?.sequenceData?.card_themes?.map((theme, tIndex) =>{
-                                            return(
-                                                <Chip key={tIndex} size="small" variant="outlined"
-                                                      label={theme?.name.slice(0, 25)}/>
-                                            )
-                                    })}
-                                    </Typography>
+
                                     <Row className="mr-3 ml-3" style={{overflowY: "auto"}}>
                                         {sequence?.sequenceData?.sequence?.map( (question, qIndex) =>{
                                             return(

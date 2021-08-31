@@ -474,6 +474,7 @@ type QuestionNode {
 }
 
 type QuestionSequenceNode {
+    description: String
     id: ID!
     name: String
     sequenceData: GenericScalar
@@ -865,6 +866,7 @@ input UpdateCardCourseInput {
 
 input UpdateQuestionSequenceInput {
     clientMutationId: String
+    description: String
     name: String
     sequenceData: GenericScalar
     sequenceId: ID!

@@ -758,6 +758,7 @@ export type QuestionNode = {
 
 export type QuestionSequenceNode = {
     __typename?: 'QuestionSequenceNode';
+    description?: Maybe<Scalars['String']>;
     id: Scalars['ID'];
     name?: Maybe<Scalars['String']>;
     sequenceData?: Maybe<Scalars['GenericScalar']>;
@@ -1161,6 +1162,7 @@ export type UpdateCardCourseInput = {
 
 export type UpdateQuestionSequenceInput = {
     clientMutationId?: Maybe<Scalars['String']>;
+    description?: Maybe<Scalars['String']>;
     name?: Maybe<Scalars['String']>;
     sequenceData?: Maybe<Scalars['GenericScalar']>;
     sequenceId: Scalars['ID'];

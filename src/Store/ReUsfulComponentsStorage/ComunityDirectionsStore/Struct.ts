@@ -19,7 +19,7 @@ export const directionData = [
     },
     {
         type: "CardElement",
-        id: 13
+        id: 36
     },
     {
         type: "CardElement",

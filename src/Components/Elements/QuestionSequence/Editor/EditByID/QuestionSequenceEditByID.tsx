@@ -129,7 +129,7 @@ export default function QuestionSequenceEditByID({...props}: any) {
     }
     return(
         <div>
-            <div className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Редактировать серию вопросов</div>
+            <Typography variant="h4" className="text-center">Редактировать серию вопросов</Typography>
             <div className="ml-4">
                 <Button
                     className="ml-5"

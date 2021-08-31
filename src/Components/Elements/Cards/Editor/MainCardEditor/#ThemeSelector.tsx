@@ -136,7 +136,9 @@ export const ThemeSelector = observer(({cards_data, ...props}: any) =>{
                 </Typography>
             </Col>
             <Col className="col-8 mt-2 ml-2 ml-lg-0">
-                <TreeSelect className="col-11" {...props?.openFromPublicView ? CardPageStorage.tProps : tProps}/>
+                {!(props.openFromPublicView ? !dataForCardSubThemeSelect : !toJS(CardPageStorage.dataForCardSubThemeSelect))
+                && <TreeSelect className="col-11" {...props?.openFromPublicView ? CardPageStorage.tProps : tProps}/>}
+
             </Col>
         </Row>
     )

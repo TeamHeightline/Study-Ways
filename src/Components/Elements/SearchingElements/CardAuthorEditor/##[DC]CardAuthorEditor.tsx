@@ -8,20 +8,21 @@ import TextField from "@material-ui/core/TextField";
 export default function DCCardAuthorEditor({...props}: any){
     //Нужно, чтобы при открытие текстового
     //поля компонент становился больше, чтобы опустить не перекрыть те элементы, которые находятся ниже
-    if(!props.rowsHasBeenCalculated){
-        return(
-            <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
-        )
-    }
+    // if(!props.rowsHasBeenCalculated){
+    //     return(
+    //         <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
+    //     )
+    // }
     return(
         <div style={{width: 600, height: props.isCreatingNowCardAuthor || props.isEditNowCardAuthor? 600: 400}}>
             <div style={{width: 600, height: 400}}>
+                {!props.rowsHasBeenCalculated ? <Spinner animation="border" variant="success" className=" offset-6 mt-5"/> :
                 <DataGrid rows={props.rows} columns={props.columnsForAuthorsDataGrid}
                           onRowClick={(e) => {
                               props.setSelectedAuthorRow(e.row)
                               props.setActiveEditCardAuthorName(e.row.name)
                           }}
-                />
+                />}
                 <Row className="col-3 offset-9 mt-2">
                     <Fab color="primary"
 

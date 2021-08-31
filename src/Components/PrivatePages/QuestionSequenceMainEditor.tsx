@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {useMutation, useQuery} from "@apollo/client";
 import {Mutation, Query} from "../../../SchemaTypes";
 import {CREATE_QUESTION_SEQUENCE, GET_MY_QUESTION_SEQUENCE, question_sequence_struct} from "../Elements/QuestionSequence/Editor/Struct"
-import {Button, Typography, Card, CardActionArea} from "@material-ui/core";
+import {Button, Typography, Card, CardActionArea, Chip} from "@material-ui/core";
 import {Row, Spinner} from "react-bootstrap";
 import QuestionSequenceEditByID from "../Elements/QuestionSequence/Editor/EditByID/QuestionSequenceEditByID";
 
@@ -47,7 +47,7 @@ export default function QuestionSequenceMainEditor(){
             <Row className="justify-content-around">
                 {question_sequence_data?.me?.questionsequenceSet?.map((sequence, sIndex) => {
                     return(
-                        <Card key={sequence?.id + "SequenceKey"} className="mt-3 col-5" style={{padding: 0}}
+                        <Card variant="outlined" key={sequence?.id + "SequenceKey"} className="mt-3 col-5" style={{padding: 0}}
                         onClick={ async() => {
                             await setActiveEditSequenceIndex(sIndex)
                             await setTimeout( setIsEditNow, 500, true)
@@ -63,25 +63,25 @@ export default function QuestionSequenceMainEditor(){
                                     <Typography className="ml-2">
                                         {"Название: " + sequence?.name}
                                     </Typography>
+
                                     <Typography className="ml-2">
-                                        Вопросы пермешиваются: {sequence?.sequenceData?.settings?.use_random_position_for_questions ? "Да": "Нет"}
+                                        {"Описание: " + sequence?.description}
                                     </Typography>
                                     <Typography className="ml-2">
-                                        Резрешено переключение между вопросами:  {sequence?.sequenceData?.settings?.can_switch_pages ?  "Да": "Нет"}
-                                    </Typography>
-                                    <Typography className="ml-2">
-                                        Показывать подсказки или нет:  {sequence?.sequenceData?.settings?.show_help_text ?  "Да": "Нет"}
-                                    </Typography>
-                                    <Typography className="ml-2">
-                                        Макс. количество попыток для каждого вопроса:   {sequence?.sequenceData?.settings?.max_sum_of_attempts}
-                                    </Typography>
-                                    <Typography>
+                                        Темы: {sequence?.sequenceData?.card_themes?.map((theme, tIndex) =>{
+                                            return(
+                                                <Chip key={tIndex} size="small" variant="outlined"
+                                                      label={theme?.name.slice(0, 25)}/>
+                                            )
+                                    })}
                                     </Typography>
                                     <Row className="mr-3 ml-3" style={{overflowY: "auto"}}>
                                         {sequence?.sequenceData?.sequence?.map( (question, qIndex) =>{
                                             return(
-                                                <Card className="col-2 mr-2 ml-2 mt-2" key={sequence?.id + "SequenceKey"+ qIndex + "QuestionKey"}>
-                                                    {question ? question : "Null"}
+                                                <Card
+                                                    style={{borderColor: "#2296F3"}}
+                                                    variant="outlined" className="col-2 mr-2 ml-2 mt-2" key={sequence?.id + "SequenceKey"+ qIndex + "QuestionKey"}>
+                                                    {question}
                                                     <br/>
                                                 </Card>
                                             )

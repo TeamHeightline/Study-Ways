@@ -54,7 +54,6 @@ const SHOW_CARD_BY_ID = gql`
         }
     }`
 
-// const { Meta } = Card;
 
 export const CARD = observer(({id, ...props}: any) =>{
     const [rating, setRating] = useState<number | null>(4);
@@ -75,7 +74,6 @@ export const CARD = observer(({id, ...props}: any) =>{
         refetch()
     }, [id,])
     const get_card_image = () =>{
-        // https://iot-experemental.herokuapp.com/cardfiles/card?
         fetch("https://iot-experemental.herokuapp.com/cardfiles/card?id=" +
             Number(props?.openFromCourse? CoursePageStorage.selectedCardID : CardPageStorage.selectedCardID))
             .then((response) => response.json())
@@ -93,7 +91,7 @@ export const CARD = observer(({id, ...props}: any) =>{
     // console.log("disabledNext " + props.disabledNext)
     return(
         <div className="col-12">
-            <div className="ml-lg-5 col-12 mr-2 ml-2">
+            <div className=" col-12 mr-2 ml-2">
                 {!props.disableAllButtons &&
                     <Button
                         className="ml-lg-2 mt-4  col-12 col-lg-2 mr-2"
@@ -146,22 +144,25 @@ export const CARD = observer(({id, ...props}: any) =>{
                 </div>}
                 {!card_data ? <Spinner animation="border" variant="success" className=" offset-6 mt-5"/> :
                 <div>
-                    <Row className="ml-2 mt-4 " >
+                    <Row className="mt-4" >
                         <Col className="col-12">
-                            <Row>
-                                <Typography className="display-4 text-left mr-sm-2" style={{fontSize: '35px'}}>{card_data.cardById.title}</Typography>
-                                <Typography className="display-4 text-left mr-sm-2"  style={{fontSize: '15px'}}>{card_data.cardById.id}</Typography>
+                            <Row className="ml-2">
+                                {height / width >= 1 ?
+                                    <Typography variant="h6">{card_data.cardById.title}</Typography>:
+                                    <Typography variant="h4">{card_data.cardById.title}</Typography>
+                                }
+                                <Typography variant="subtitle2">{card_data.cardById.id}</Typography>
                             </Row>
 
                             {card_data?.cardById?.subTheme[0] &&
                             <Tooltip title={card_data?.cardById?.subTheme.map((e, eIndex) =>{
                                 return(
                                     <div key={eIndex+ "Tooltip"}>
-                                        <Typography>
+                                        <Typography variant="subtitle1">
                                             {e.theme?.globalTheme?.name.toString() + " / "
                                             + e?.theme?.name.toString() + " / "
                                             + e?.name.toString() }
-                                            <br/>
+                                        {/*    <br/>*/}
                                         </Typography>
                                     </div>
                                 )
@@ -184,7 +185,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                         </Col>
                     </Row>
                     <Row className="mt-1">
-                        <Col className="col-12 col-lg-5 ml-2 mt-4">
+                        <Col className="col-12 col-lg-5 mt-4">
                             {card_data?.cardById?.cardContentType === "A_0" &&
                                 <ReactPlayer width="auto" height={height/width >= 1 ? "200px":400} controls
                                              // url="https://www.youtube.com/watch?v=vpMJ_rNN9vY"
@@ -229,7 +230,6 @@ export const CARD = observer(({id, ...props}: any) =>{
                     <br/>
                 </div>}
             </div>
-
         </div>
     )
 })

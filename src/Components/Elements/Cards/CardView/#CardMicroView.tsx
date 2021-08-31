@@ -49,6 +49,7 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
     if (!card_data){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
+
         )
     }
     return(
@@ -57,7 +58,6 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
             {...props}>
             <Card variant="outlined" className={classes.root}
                   onClick={() =>{
-                // console.log(cardID)
                 props.onChange(cardID)
             }} >
                 {Number(card_data.cardById.cardContentType[2]) === 0 &&  card_data?.cardById?.videoUrl && <CardMedia

@@ -133,7 +133,7 @@ class QuestionEditor{
                 numberOfShowingAnswers: Number(this.selectedQuestionNumberOfShowingAnswers),
             }})
             .then(() =>{
-                this.loadFromServerAppQuestionsData()
+                // this.loadFromServerAppQuestionsData()
                 this.stateOfSave = true
             })
     }

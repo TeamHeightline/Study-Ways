@@ -1,4 +1,4 @@
-import {makeAutoObservable, reaction} from "mobx";
+import {makeAutoObservable, reaction, toJS} from "mobx";
 import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
 import {GET_QUESTION_DATA_BY_ID} from "./Struct";
 import {SameAnswerNode} from "./SameAnswerNode";
@@ -38,12 +38,79 @@ export class SameQuestionPlayer{
 
     }
 
+    //Уровень сложности подсказок
+    hardLevelOfHelpText = '0'
+
+    //обработчик изменений сложности подсказки
+    changeHardLevelOfHelpText(newHardLevelOfHelpText){
+        this.hardLevelOfHelpText = newHardLevelOfHelpText
+    }
+
+    //Прошли мы вопрос или нет
+    questionHasBeenCompleted = false
+
     //Количество попыток
     numberOfPasses = 0
 
     //Ссылка на фото для вопроса
     questionImageUrl = ''
 
+    //Была ли хоть раз вызвана проверка на ошибку
+    oneTimeCheckError = false
+
+    //Порядковый номер ответа в котором допущена самая грубая ошибка
+    IndexOfMostWantedError = -1
+
+    //История всех выбранных ошибочных ответов
+    historyOfWrongSelectedAnswers = new Map()
+
+    //История того, сколько пользователь получал баллов на каждой попытке
+    historyOfAnswerPoints = new Map()
+
+    //Проверка ошибок
+    checkErrors(){
+        //Говорим что теперь мы точно совершили первую проверку на ошибку и теперь можно или показывать
+        //подсказку или сообщать, что все верно
+        this.oneTimeCheckError = true
+        this.numberOfPasses = this.numberOfPasses + 1
+
+        let indexOfMostWantedError = -1
+        let minCheckQueue = 100000000000
+        const __errorArray: any = []
+        this.answersArray.map((answer, aIndex) => {
+            if((answer.isTrue && !this.selectedAnswers.has(answer.id)) || (!answer.isTrue && this.selectedAnswers.has(answer.id))){
+                console.log("error")
+                __errorArray.push(answer.id)
+                if(Number(answer.checkQueue) < Number(minCheckQueue)){
+                    minCheckQueue = answer.minCheckQueue
+                    indexOfMostWantedError = aIndex
+                }
+            }
+        })
+        //Добавляем в историю выбора эти неправильные ответы
+        this.historyOfWrongSelectedAnswers.set(this.numberOfPasses, __errorArray)
+        this.IndexOfMostWantedError = indexOfMostWantedError
+        if(__errorArray.length == 0){
+            this.questionHasBeenCompleted = true
+        }
+        console.log(toJS(this.historyOfWrongSelectedAnswers))
+    }
+
+    //Выводит подсказку
+    get HelpTextForShow(){
+        if(this.hardLevelOfHelpText == "0"){
+            return (this.answersArray[this.IndexOfMostWantedError].helpTextv1)
+        }
+        if(this.hardLevelOfHelpText == "1"){
+            return (this.answersArray[this.IndexOfMostWantedError].helpTextv2)
+        }
+        if(this.hardLevelOfHelpText == "2"){
+            return (this.answersArray[this.IndexOfMostWantedError].helpTextv3)
+        }
+
+    }
+
+    //Доставка изображения для вопроса с сервера
     deliverFromServerImageURL(){
         fetch("https://iot-experemental.herokuapp.com/files/question?id="+ this.questionID)
             .then(response => response.json())
@@ -63,7 +130,8 @@ export class SameQuestionPlayer{
                 this.questionText = data.data.questionById.text
                 const __AnswersArray: any[] = []
                 data.data.questionById.answers.map((answer) =>{
-                    __AnswersArray.push(new SameAnswerNode( answer.id,  answer.text))
+                    __AnswersArray.push(new SameAnswerNode( answer.id,  answer.text, answer.isTrue, answer.checkQueue,
+                        answer.helpTextv1, answer.helpTextv2, answer.helpTextv3))
                 })
                 this.answersArray = __AnswersArray
             })

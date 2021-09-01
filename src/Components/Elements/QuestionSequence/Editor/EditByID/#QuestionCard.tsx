@@ -106,7 +106,7 @@ export default function QuestionCard({...props}: any) {
 
     return(
         <div {...props}>
-            <Card>
+            <Card variant="outlined">
                 <div className="ml-3 mr-3 mt-3">
                     <Form.Control
                         className="mt-1"

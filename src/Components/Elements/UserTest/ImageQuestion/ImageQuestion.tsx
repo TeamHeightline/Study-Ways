@@ -153,12 +153,7 @@ export default function ImageQuestion(props: any) {
                             props.onChange("goBack")
                         }} disabled={props.open_from_sequence} value={helpLevel} onChange1={onChangeHelpLevel}
                                            onClick1={() => checkErrors()}
-                                           canSwitchToPreviousQuestion={props.can_switch_to_previous_question}
-                                           onClick2={() => {
-                                               props.ButtonClick("goToPreviousQuestion")
-                                           }} canSwitchToNextQuestion={props.can_switch_to_next_question} onClick3={() => {
-                            props.ButtonClick("goToNextQuestion")
-                        }}/>
+                        />
                     </div>
                     <div className="col-12">
                         <HelpText errorArray={errorArray} helpLevel={helpLevel} answers={answers}
@@ -167,21 +162,23 @@ export default function ImageQuestion(props: any) {
                     </div>
                 </Row>
             {/*</Row>*/}
-            {get_question_data && answers ?
-                <DCAnswers isUseScrollbar={isUseScrollbar} height={height} width={width} answers={answers} element={(answer, answerIndex) => {
-                    return (
-                        <div key={answerIndex + "divKey"} >
-                            <ImageAnswerNode
-                                answerIndex={answerIndex}
-                                answer={answer}
-                                selected={selected}
-                                onChange={(e) => {
-                                    selectDeselectAnswer(e)
-                                }}/>
-                            <br/>
-                        </div>
-                    )
-                }}/> : <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>}
+            <div className="col-11 mr-5" >
+                {get_question_data && answers ?
+                    <DCAnswers isUseScrollbar={isUseScrollbar} height={height} width={width} answers={answers} element={(answer, answerIndex) => {
+                        return (
+                            <div key={answerIndex + "divKey"}>
+                                <ImageAnswerNode
+                                    answerIndex={answerIndex}
+                                    answer={answer}
+                                    selected={selected}
+                                    onChange={(e) => {
+                                        selectDeselectAnswer(e)
+                                    }}/>
+                                <br/>
+                            </div>
+                        )
+                    }}/> : <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>}
+            </div>
             <br/>
             <br/>
             <br/>

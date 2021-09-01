@@ -5,7 +5,7 @@ import {Button} from "@material-ui/core";
 import {Form} from "react-bootstrap";
 import React from "react";
 
-export default function DCMCImageQuestion(props: { height: number, width: number, questionImgUrl: any, questionData: any, onChange: any, onClick: () => void, disabled: any, value: any, onChange1: (event: any) => void, onClick1: () => Promise<void> }) {
+export default function DCMCImageQuestion(props: any) {
     // console.log(props.width)
     return <>
         {props.height / props.width >= 1 &&
@@ -17,13 +17,13 @@ export default function DCMCImageQuestion(props: { height: number, width: number
                     image={props.questionImgUrl}
                 />}
                 <div className="ml-3 mr-3 mt-2">
-                    {props.questionData?.questionById?.text ?
+                    {(props.questionData?.questionById?.text || props.questionText) ?
                         <div>
                             <Typography component="h5" variant="h5">
                                 Вопрос:
                             </Typography>
                             <Typography variant="body2" color="textSecondary" component="p">
-                                {props.questionData?.questionById?.text}
+                                {props.questionData?.questionById?.text ? props.questionData?.questionById?.text : props.questionText}
                             </Typography>
                         </div> : <br/>}
                     {props.onChange &&

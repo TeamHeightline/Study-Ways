@@ -64,9 +64,9 @@ export default function ImageAnswerNode(props: any){
     }, [props.answerIndex]);
     const classes = useStyles();
     return(
-        <div className=" mt-3 ml-3"  >
+        <div className=" mt-3"  >
             {/*"#93cdf3"*/}
-            <Card variant="outlined" elevation={2} className={classes.root}  style={{backgroundColor:  props.selected.indexOf(props.answer.id) !== -1? "#71c3ef" : ""}}
+            <Card variant="outlined" elevation={2} className={classes.root}  style={{backgroundColor:  props.selected.indexOf(props?.answer?.id) !== -1? "#71c3ef" : ""}}
                   onClick={() =>{
                         props.onChange(props.answer.id)
                         setTimeout(changeIsSelected, 150,  !isSelected)
@@ -75,14 +75,14 @@ export default function ImageAnswerNode(props: any){
                     {answerImgUrl?
                         <CardMedia
                             style={{opacity: props.selected.indexOf(props.answer.id) !== -1? 0.5 : 1}}
-                            className={props?.answer?.text ? classes.media : classes.fullHeightMedia}
+                            className={(props?.answer?.text || props?.answerText)? classes.media : classes.fullHeightMedia}
                             image={answerImgUrl}
                             title="Contemplative Reptile"
                         />: null}
                     {props?.answer?.text &&
                         <CardContent className="mb-5">
                             <Typography variant="body1" color="textSecondary" component="p" className="mb-5 pb-5">
-                                {props?.answer?.text}
+                                {props?.answer?.text ? props?.answer?.text: props?.answerText}
                             </Typography>
                         </CardContent>}
                 </CardActionArea>

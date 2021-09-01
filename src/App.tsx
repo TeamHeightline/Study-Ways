@@ -41,7 +41,7 @@ import ImageQuestion from "./Components/Elements/UserTest/ImageQuestion/ImageQue
 import Typist from 'react-typist';
 import {MainCardPublicView} from "./Components/PublicPages/MainCardPublicView";
 import {MainCoursePublicView} from "./Components/PublicPages/MainCoursePublicView";
-import QSByID from "./Components/Elements/QuestionSequence/Public/QSByID";
+import {QSPlayerByID} from "./Components/Elements/QuestionSequence/Public/QSPlayerByID";
 import { observer } from "mobx-react"
 import {ClientStorage} from "./Store/ApolloStorage/ClientStorage";
 import {MainDirectionWay} from "./Components/PublicPages/MainDirectionWay";
@@ -66,10 +66,10 @@ const  App = observer(() => {
         <ApolloProvider client={ClientStorage.client}>
             <Router>
                 <Navibar/>
-                <Switch>
+                <Switch >
                     {/*<Route exact path="/" ><Redirect to="/courses"/></Route>*/}
                     {/*------------TEMP------------------*/}
-                    <Route exact path="/sequences" component={QSByID}/>
+                    <Route exact path="/sequences" component={QSPlayerByID}/>
                     {/*<Route exact path="/se" component={SearchingElementsEditor}/>*/}
                     {/*<Route exact path="/qe" component={QuestionSequenceMainEditor}/>*/}
                     {/*<Route exact path="/cad" component={LCCardAuthorEditor}/>*/}

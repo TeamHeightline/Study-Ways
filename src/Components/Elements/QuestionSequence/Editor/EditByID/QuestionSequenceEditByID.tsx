@@ -254,7 +254,7 @@ export default function QuestionSequenceEditByID({...props}: any) {
             </Row>
             <Row className="justify-content-around" >
                 <div className="col-3 ml-5 mt-3">
-                    <Card className={classes.root} style={{padding: 0}} >
+                    <Card variant="outlined" className={classes.root} style={{padding: 0}} >
                         <CardMedia
                             className={classes.cover}
                             image="https://www.shareicon.net/data/256x256/2017/03/06/880378_blue_512x512.png"

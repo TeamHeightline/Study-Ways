@@ -4,17 +4,16 @@ import Col from "react-bootstrap/Col";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import {Button, ButtonGroup, Checkbox, FormControlLabel} from "@material-ui/core";
+import {Button, Checkbox, FormControlLabel} from "@material-ui/core";
 import {Form} from "react-bootstrap";
 import React from "react";
 
-export default function DCPCImageQuestion(props: { height: number, width: number, urlHasBeenPassed: boolean, questionImgUrl: any, questionData: any, id: any, onChange: any, onClick: () => void, disabled: any, value: any, onChange1: (event: any) => void, onClick1: any, canSwitchToPreviousQuestion: any, onClick2: () => void, canSwitchToNextQuestion: any, onClick3: () => void,
-    isNotUseScrollbar: any, setIsNotUseScrollbar: any, showNotUseScrollbarCheckbox: any}) {
+export default function DCPCImageQuestion(props: any) {
     return <>
         {props.height / props.width < 1 &&
         <Card variant="outlined" style={{height: props.width >1400 ? 500: 400, padding: 0,}} className="col-12 ">
             <Row className="justify-content-center">
-                {props.urlHasBeenPassed && props.questionImgUrl ? <Col className="col-6">
+                {props.questionImgUrl ? <Col className="col-6">
                     <CardMedia
                         className="col-12"
                         style={{height: props.width >1400 ? 500: 400, width: "100%"}}
@@ -28,7 +27,7 @@ export default function DCPCImageQuestion(props: { height: number, width: number
                                 Вопрос
                             </Typography>
                             <Typography variant="body1" color="textSecondary" component="p">
-                                {props.questionData?.questionById?.text}
+                                {props.questionData?.questionById?.text ? props.questionData?.questionById?.text : props.questionText}
                             </Typography>
                         </CardContent>
                         {props.id && props.onChange &&
@@ -58,18 +57,6 @@ export default function DCPCImageQuestion(props: { height: number, width: number
                                         Проверить
                                     </Button>
                                 </Col>
-                                {props.disabled &&
-                                <ButtonGroup className="ml-3 mt-2" size="large" color="primary"
-                                             aria-label="large outlined">
-                                    <Button disabled={!props.canSwitchToPreviousQuestion}
-                                            onClick={props.onClick2}>
-                                        Назад
-                                    </Button>
-                                    <Button disabled={!props.canSwitchToNextQuestion}
-                                            onClick={props.onClick3}>
-                                        Вперед
-                                    </Button>
-                                </ButtonGroup>}
                             </Row>
                         </div>
                     </div>

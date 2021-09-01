@@ -27,10 +27,7 @@ export const QuestionPreview = observer(() => {
                                        onChange={() => void(0)} onClick={() => {void(0)}}
                                        disabled={true} value="0" onChange1={() => void(0)}
                                        onClick1={() => void(0)}
-                                       canSwitchToPreviousQuestion={false}
-                                       onClick2={() => {void(0)}}
-                                       canSwitchToNextQuestion={false}
-                                       onClick3={() => {void(0)}}/>
+                    />
                 </div>
             </Collapse>
         </>

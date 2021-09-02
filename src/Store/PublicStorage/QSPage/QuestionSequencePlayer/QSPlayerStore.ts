@@ -1,10 +1,10 @@
-import {makeAutoObservable, reaction, toJS} from "mobx";
+import {makeAutoObservable, reaction} from "mobx";
 import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
 import {UserStorage} from "../../../UserStore/UserStore";
 import {GET_QS_DATA_BY_ID} from "./Struct";
-import {Query, QuestionNode} from "../../../../../SchemaTypes";
+import {Query} from "../../../../../SchemaTypes";
 import {SameQuestionPlayer} from "./SameQuestionPlayer";
-
+import * as _ from "lodash"
 
 export class QSPlayerStore {
     constructor(){
@@ -63,7 +63,8 @@ export class QSPlayerStore {
                 .then((data) => {
                     console.log(data)
                     this.name = String(data?.data?.questionSequenceById?.name)
-                    data?.data?.questionSequenceById?.sequenceData?.sequence.map((sameQuestion, sqIndex) =>{
+                    //Перемешиваем вопросы
+                    _.shuffle(data?.data?.questionSequenceById?.sequenceData?.sequence).map((sameQuestion) =>{
                         __questionsStoreArray.push(new SameQuestionPlayer(Number(sameQuestion)))
                     })
                     this.questionsStoreArray = __questionsStoreArray

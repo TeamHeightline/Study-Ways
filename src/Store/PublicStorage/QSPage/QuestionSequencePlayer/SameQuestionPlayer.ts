@@ -2,6 +2,7 @@ import {makeAutoObservable, reaction, toJS} from "mobx";
 import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
 import {GET_QUESTION_DATA_BY_ID} from "./Struct";
 import {SameAnswerNode} from "./SameAnswerNode";
+import * as _ from "lodash"
 
 export class SameQuestionPlayer{
     constructor(questionID){
@@ -153,7 +154,10 @@ export class SameQuestionPlayer{
                 const __AnswersArray: any[] = []
                 //максимальное число баллов, которые можно получить выбрав все правильные ответы
                 let __maxSumOfAnswerPoints = 0
-                data.data.questionById.answers.map((answer) =>{
+
+                //Перемешиваем ответы и обрезаем из количество на значение из настроек
+                _.shuffle(data.data.questionById.answers)?.slice(0, data?.data?.questionById?.numberOfShowingAnswers)
+                    .map((answer) =>{
                     if(answer.hardLevelOfAnswer === "EASY"){
                         __maxSumOfAnswerPoints += 5
                     }else if(answer.hardLevelOfAnswer === "MEDIUM"){

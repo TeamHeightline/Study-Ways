@@ -61,7 +61,6 @@ export class QSPlayerStore {
                     id: Number(this.questionSequenceID)
                 }})
                 .then((data) => {
-                    console.log(data)
                     this.name = String(data?.data?.questionSequenceById?.name)
                     //Перемешиваем вопросы
                     _.shuffle(data?.data?.questionSequenceById?.sequenceData?.sequence).map((sameQuestion) =>{

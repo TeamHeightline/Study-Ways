@@ -9,6 +9,17 @@ import CardContent from "@material-ui/core/CardContent";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {Alert} from "@material-ui/lab";
 
+import {EventTracker} from '@devexpress/dx-react-chart';
+import { Animation } from '@devexpress/dx-react-chart';
+import {
+    Chart,
+    BarSeries,
+    Title,
+    ArgumentAxis,
+    ValueAxis,
+} from '@devexpress/dx-react-chart-material-ui';
+
+
 const processedStore = new QSPlayerStore()
 
 const useStyles = makeStyles(() =>
@@ -50,6 +61,8 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
+    // console.log("--------")
+    // console.log(processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.ArrayForShowAnswerPoints)
     return(
         <div>
             <Typography className="display-4 text-center mt-4" style={{fontSize: '33px'}}>{processedStore.name}</Typography>
@@ -104,7 +117,7 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                                 {processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.answersArray.map((answer, aIndex) =>{
                                     return(
                                         <Card  key={aIndex} variant="outlined" elevation={2} className={classes.root}
-                                              style={{backgroundColor: processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.selectedAnswers?.has(answer?.id)? "#71c3ef" : ""}}
+                                              style={{backgroundColor: processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.selectedAnswers?.has(answer?.id)? "#2296F3" : "",}}
                                                  onClick={() =>{
                                                      processedStore.questionsStoreArray[processedStore.selectedQuestionIndex].selectAnswerHandleChange(answer.id)
                                                  }}>
@@ -133,8 +146,34 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                   <Alert severity="info" variant="filled" className="mt-2">
                       {"Вы прошли этот вопрос.     " + "Количество попыток - " + processedStore.questionsStoreArray[processedStore.selectedQuestionIndex].numberOfPasses}
                   </Alert>
+                    <Row className="justify-content-around mt-2">
+                            <Chart data={processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.ArrayForShowNumberOfWrongAnswers}>
+                                <Title text="Количество ошибок на каждой из попыток" />
+                                <ArgumentAxis />
+                                <ValueAxis showGrid={false} />
+                                <BarSeries
+                                    barWidth={300}
+                                    valueField="numberOfWrongAnswers"
+                                    argumentField="numberOfPasses"
+                                />
+                                <EventTracker />
+                                <Animation />
+                            </Chart>
+                            <Chart data={processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.ArrayForShowAnswerPoints}>
+                                <BarSeries
+                                    valueField="answerPoints"
+                                    argumentField="numberOfPasses"
+                                />
+                                <ArgumentAxis/>
+                                <ValueAxis/>
+                                <Title text="Количество баллов на каждой из попыток" />
+                                <Animation />
+                            </Chart>
+                    </Row>
 
                 </div> }
+
             </div>
+
     )
 })

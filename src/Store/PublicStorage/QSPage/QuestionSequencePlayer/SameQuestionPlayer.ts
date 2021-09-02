@@ -115,8 +115,28 @@ export class SameQuestionPlayer{
         if(__errorArray.length == 0){
             this.questionHasBeenCompleted = true
         }
-        console.log(toJS(this.historyOfAnswerPoints))
-        console.log(toJS(this.historyOfWrongSelectedAnswers))
+        // console.log(Array.from(toJS(this.historyOfAnswerPoints)))
+        // console.log(Array.from(toJS(this.historyOfWrongSelectedAnswers)))
+    }
+
+    //Массив данные из которого будут использованы чтобы отобразить график количества неправильных ответов на каждой из поыпыток
+    get ArrayForShowNumberOfWrongAnswers(){
+        const showArray: any = []
+       toJS(this.historyOfWrongSelectedAnswers)?.forEach((attempt, aIndex: any) =>{
+            showArray.push({numberOfPasses: aIndex, numberOfWrongAnswers: attempt.length})
+        })
+        return(
+            showArray
+        )
+    }
+
+    //Массив для отображения графика баллов на каждой из попыток
+    get ArrayForShowAnswerPoints(){
+        const showArray: any = []
+        toJS(this.historyOfAnswerPoints)?.forEach((attempt, aIndex: any) =>{
+            showArray.push({numberOfPasses: aIndex, answerPoints: attempt})
+        })
+        return(showArray)
     }
 
     //Выводит подсказку
@@ -149,7 +169,6 @@ export class SameQuestionPlayer{
             id: this.questionID
             }})
             .then((data) => {
-                console.log(data)
                 this.questionText = data.data.questionById.text
                 const __AnswersArray: any[] = []
                 //максимальное число баллов, которые можно получить выбрав все правильные ответы

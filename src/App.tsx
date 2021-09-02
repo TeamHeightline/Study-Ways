@@ -67,17 +67,6 @@ const  App = observer(() => {
             <Router>
                 <Navibar/>
                 <Switch >
-                    {/*<Route exact path="/" ><Redirect to="/courses"/></Route>*/}
-                    {/*------------TEMP------------------*/}
-                    <Route exact path="/sequences" component={QSPlayerByID}/>
-
-                    {/*<Route exact path="/se" component={SearchingElementsEditor}/>*/}
-                    {/*<Route exact path="/qe" component={QuestionSequenceMainEditor}/>*/}
-                    {/*<Route exact path="/cad" component={LCCardAuthorEditor}/>*/}
-                    {/*<Route exact path="/utae" component={LCUserTestAuthorEditor}/>*/}
-                    {/*<Route exact path="/utte" component={LCUserTestThemeEditor}/>*/}
-                    {/*<Route exact path="/cte" component={LCCardThemeEditor}/>*/}
-                    {/*----------TEMP--------------------*/}
 
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/unlogin" component={UnLogin}/>
@@ -93,7 +82,6 @@ const  App = observer(() => {
                     <Route exact path="/direction" component={MainDirectionWay}/>
                     <Redirect to="/courses"/>
                 </Switch>
-                {/*{height/width >= 1 && <Navibar/>}*/}
             </Router>
         </ApolloProvider>
     </>

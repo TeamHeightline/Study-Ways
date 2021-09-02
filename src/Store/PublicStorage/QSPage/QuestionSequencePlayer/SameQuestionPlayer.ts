@@ -87,7 +87,6 @@ export class SameQuestionPlayer{
 
         this.answersArray.map((answer, aIndex) => {
             if((answer.isTrue && !this.selectedAnswers.has(answer.id)) || (!answer.isTrue && this.selectedAnswers.has(answer.id))){
-                console.log("error")
                 __errorArray.push(answer.id)
 
                 if(answer.hardLevelOfAnswer === "EASY"){

@@ -38,6 +38,7 @@ export const GET_MY_QUESTION_SEQUENCE = gql`
                 sequenceData
                 id
                 name
+                description
             }
         }
     }`

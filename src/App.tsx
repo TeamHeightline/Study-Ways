@@ -70,6 +70,7 @@ const  App = observer(() => {
                     {/*<Route exact path="/" ><Redirect to="/courses"/></Route>*/}
                     {/*------------TEMP------------------*/}
                     <Route exact path="/sequences" component={QSPlayerByID}/>
+
                     {/*<Route exact path="/se" component={SearchingElementsEditor}/>*/}
                     {/*<Route exact path="/qe" component={QuestionSequenceMainEditor}/>*/}
                     {/*<Route exact path="/cad" component={LCCardAuthorEditor}/>*/}
@@ -84,6 +85,7 @@ const  App = observer(() => {
                     <Route path="/editor" component={UserStorage.isLogin !== null? EditorsRouter: Login}/>
 
                     <Route exact path="/iq/:id" component={ImageQuestion}/>
+                    <Route exact path="/qs/:id" component={QSPlayerByID}/>
 
                     <Route exact path="/test" component={MainUserQuestionPage}/>
                     <Route exact path="/cards" component={MainCardPublicView}/>

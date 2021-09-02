@@ -91,9 +91,8 @@ export default function QuestionSequenceEditByID({...props}: any) {
                            label="Описание серии вопросов"
                            variant="outlined" className="ml-5 col-5"
                 />
-                {/*Этот див нужен только для того, чтобы правильно поставить текстовое поле кодом выше*/}
-                <div className="col-5">
-                </div>
+                <Typography className="mt-2">{"Ссылка, чтобы пройти эту серию вопросов - https://www.sw-university.com/qs/"+ props?.sequence?.id}</Typography>
+
             </Row>
 
             <Row className="justify-content-around" >

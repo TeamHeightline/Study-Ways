@@ -54,7 +54,7 @@ const useStyles = makeStyles(() =>
 );
 
 export  const  QSPlayerByID = observer(({...props}: any) =>{
-    useEffect(() =>{processedStore.setQSID(20)}, [props?.questionSequenceID])
+    useEffect(() =>{processedStore.setQSID(props.match.params.id)}, [props])
     const classes = useStyles();
     if(!processedStore.allDataNasBeenLoaded){
         return (
@@ -91,13 +91,13 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                     {processedStore.selectedQuestionIndex !== null &&
                     <DCPCImageQuestion
                         onChange1={(e) => {processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.changeHardLevelOfHelpText(e.target.value)}}
-                        onClick1={() => processedStore.questionsStoreArray[processedStore.selectedQuestionIndex].checkErrors()}
+                        onClick1={() => processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.checkErrors()}
                         className="col-11 justify-content-center"
                         height={window.innerHeight}
                         width={window.innerWidth -100}
                         urlHasBeenPassed={true}
-                        questionText={processedStore.questionsStoreArray[processedStore.selectedQuestionIndex].questionText}
-                        questionImgUrl={processedStore.questionsStoreArray[processedStore.selectedQuestionIndex].questionImageUrl}
+                        questionText={processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.questionText}
+                        questionImgUrl={processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.questionImageUrl}
                         />}
                 </div>
                 {processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.oneTimeCheckError &&
@@ -125,13 +125,13 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                                             {answer.answerImageUrl?
                                                 <CardMedia
                                                     style={{opacity: processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.selectedAnswers?.has(answer?.id)? 0.5 : 1}}
-                                                    className={answer.answerText? classes.media : classes.fullHeightMedia}
-                                                    image={answer.answerImageUrl}
+                                                    className={answer?.answerText? classes.media : classes.fullHeightMedia}
+                                                    image={answer?.answerImageUrl}
                                                 />: null}
-                                            {answer.answerText &&
+                                            {answer?.answerText &&
                                             <CardContent className="mb-5">
                                                 <Typography variant="body1" color="textSecondary" component="p" className="mb-5 pb-5">
-                                                    {answer.answerText}
+                                                    {answer?.answerText}
                                                 </Typography>
                                             </CardContent>}
                                         </CardActionArea>

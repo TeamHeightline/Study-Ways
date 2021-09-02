@@ -9,14 +9,14 @@ import CardContent from "@material-ui/core/CardContent";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {Alert} from "@material-ui/lab";
 
-import {EventTracker} from '@devexpress/dx-react-chart';
-import { Animation } from '@devexpress/dx-react-chart';
+
 import {
     Chart,
-    BarSeries,
     Title,
     ArgumentAxis,
     ValueAxis,
+    BarSeries,
+    SplineSeries
 } from '@devexpress/dx-react-chart-material-ui';
 import {useLocation} from "react-router-dom";
 
@@ -157,25 +157,29 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                     <Row className="justify-content-around mt-2">
                             <Chart data={processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.ArrayForShowNumberOfWrongAnswers}>
                                 <Title text="Количество ошибок на каждой из попыток" />
-                                <ArgumentAxis />
-                                <ValueAxis showGrid={false} />
-                                <BarSeries
-                                    barWidth={300}
+                                <ArgumentAxis showGrid={true}/>
+                                <ValueAxis/>
+                                <SplineSeries
                                     valueField="numberOfWrongAnswers"
                                     argumentField="numberOfPasses"
                                 />
-                                <EventTracker />
-                                <Animation />
+                                <BarSeries
+                                    valueField="numberOfWrongAnswers"
+                                    argumentField="numberOfPasses"
+                                />
                             </Chart>
-                            <Chart data={processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.ArrayForShowAnswerPoints}>
+                            <Chart  data={processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.ArrayForShowAnswerPoints}>
                                 <BarSeries
                                     valueField="answerPoints"
                                     argumentField="numberOfPasses"
                                 />
-                                <ArgumentAxis/>
-                                <ValueAxis/>
+                                <SplineSeries
+                                    valueField="answerPoints"
+                                    argumentField="numberOfPasses"
+                                />
+                                <ArgumentAxis showGrid={true} />
+                                <ValueAxis />
                                 <Title text="Количество баллов на каждой из попыток" />
-                                <Animation />
                             </Chart>
                     </Row>
 

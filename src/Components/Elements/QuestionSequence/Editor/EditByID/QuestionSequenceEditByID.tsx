@@ -91,8 +91,9 @@ export default function QuestionSequenceEditByID({...props}: any) {
                            label="Описание серии вопросов"
                            variant="outlined" className="ml-5 col-5"
                 />
-                <Typography className="mt-2">{"Ссылка, чтобы пройти эту серию вопросов - https://www.sw-university.com/qs/"+ props?.sequence?.id}</Typography>
+                <Typography className="mt-2">{"Режим обучения - https://www.sw-university.com/qs/"+ props?.sequence?.id}</Typography>
 
+                <Typography className="mt-2">{"Режим экзамена - https://www.sw-university.com/qs/"+ props?.sequence?.id + "?exam=true"}</Typography>
             </Row>
 
             <Row className="justify-content-around" >

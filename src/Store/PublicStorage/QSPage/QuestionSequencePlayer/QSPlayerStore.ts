@@ -64,7 +64,7 @@ export class QSPlayerStore {
                     this.name = String(data?.data?.questionSequenceById?.name)
                     //Перемешиваем вопросы
                     _.shuffle(data?.data?.questionSequenceById?.sequenceData?.sequence).map((sameQuestion) =>{
-                        __questionsStoreArray.push(new SameQuestionPlayer(Number(sameQuestion)))
+                        __questionsStoreArray.push(new SameQuestionPlayer(this, Number(sameQuestion)))
                     })
                     this.questionsStoreArray = __questionsStoreArray
 

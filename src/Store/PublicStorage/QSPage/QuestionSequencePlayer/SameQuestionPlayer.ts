@@ -5,13 +5,16 @@ import {SameAnswerNode} from "./SameAnswerNode";
 import * as _ from "lodash"
 
 export class SameQuestionPlayer{
-    constructor(questionID){
+    constructor(ownStore, questionID){
         makeAutoObservable(this)
         reaction(() => this.questionID, () => this.loadQuestionDataFromServer())
         reaction(() => this.questionID, () => this.deliverFromServerImageURL())
+        this.ownStore = ownStore
         this.questionID = questionID
 
     }
+
+    ownStore: any = null
     questionID: any
 
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
@@ -140,6 +143,9 @@ export class SameQuestionPlayer{
 
     //Выводит подсказку
     get HelpTextForShow(){
+        if(this.ownStore.isUseExamMode){
+            return ("Вы допустили одну или более ошибок")
+        }
         if(this.hardLevelOfHelpText == "0"){
             return (this.answersArray[this.IndexOfMostWantedError].helpTextv1)
         }

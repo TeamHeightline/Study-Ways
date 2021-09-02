@@ -18,6 +18,7 @@ import {
     ArgumentAxis,
     ValueAxis,
 } from '@devexpress/dx-react-chart-material-ui';
+import {useLocation} from "react-router-dom";
 
 
 const processedStore = new QSPlayerStore()
@@ -54,14 +55,21 @@ const useStyles = makeStyles(() =>
 );
 
 export  const  QSPlayerByID = observer(({...props}: any) =>{
-    useEffect(() =>{processedStore.setQSID(props.match.params.id)}, [props])
+
+    const slug = useLocation();
+    useEffect(() =>{
+        if(slug.search === "?exam=true"){
+            processedStore.isUseExamMode = true
+        }
+        processedStore.setQSID(props.match.params.id)
+    }, [props])
+
     const classes = useStyles();
     if(!processedStore.allDataNasBeenLoaded){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
-    // console.log("--------")
     // console.log(processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.ArrayForShowAnswerPoints)
     return(
         <div>

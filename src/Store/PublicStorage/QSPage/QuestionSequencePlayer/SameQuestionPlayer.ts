@@ -67,6 +67,9 @@ export class SameQuestionPlayer{
     //История того, сколько пользователь получал баллов на каждой попытке
     historyOfAnswerPoints = new Map()
 
+    //Максимальный балл, который можно получить за то, что выберешь все правильные ответы
+    maxSumOfPoints = 0
+
     //Проверка ошибок
     checkErrors(){
         //Говорим что теперь мы точно совершили первую проверку на ошибку и теперь можно или показывать
@@ -77,22 +80,41 @@ export class SameQuestionPlayer{
         let indexOfMostWantedError = -1
         let minCheckQueue = 100000000000
         const __errorArray: any = []
+
+        //Сумма потерянных баллов за неправильно выбранные ответы
+        let __sumOfLoosedAnswerPoints = 0
+
         this.answersArray.map((answer, aIndex) => {
             if((answer.isTrue && !this.selectedAnswers.has(answer.id)) || (!answer.isTrue && this.selectedAnswers.has(answer.id))){
                 console.log("error")
                 __errorArray.push(answer.id)
+
+                if(answer.hardLevelOfAnswer === "EASY"){
+                    __sumOfLoosedAnswerPoints += 15
+                }else if(answer.hardLevelOfAnswer === "MEDIUM"){
+                    __sumOfLoosedAnswerPoints += 10
+                }else{
+                    __sumOfLoosedAnswerPoints += 5
+                }
+
                 if(Number(answer.checkQueue) < Number(minCheckQueue)){
                     minCheckQueue = answer.minCheckQueue
                     indexOfMostWantedError = aIndex
                 }
             }
         })
+
+        //Добавляем в историю сколько баллов было получено за эту попытку
+        this.historyOfAnswerPoints.set(this.numberOfPasses, this.maxSumOfPoints - __sumOfLoosedAnswerPoints)
+
         //Добавляем в историю выбора эти неправильные ответы
         this.historyOfWrongSelectedAnswers.set(this.numberOfPasses, __errorArray)
+
         this.IndexOfMostWantedError = indexOfMostWantedError
         if(__errorArray.length == 0){
             this.questionHasBeenCompleted = true
         }
+        console.log(toJS(this.historyOfAnswerPoints))
         console.log(toJS(this.historyOfWrongSelectedAnswers))
     }
 
@@ -129,10 +151,23 @@ export class SameQuestionPlayer{
                 console.log(data)
                 this.questionText = data.data.questionById.text
                 const __AnswersArray: any[] = []
+                //максимальное число баллов, которые можно получить выбрав все правильные ответы
+                let __maxSumOfAnswerPoints = 0
                 data.data.questionById.answers.map((answer) =>{
+                    if(answer.hardLevelOfAnswer === "EASY"){
+                        __maxSumOfAnswerPoints += 5
+                    }else if(answer.hardLevelOfAnswer === "MEDIUM"){
+                        __maxSumOfAnswerPoints += 10
+                    }else{
+                        __maxSumOfAnswerPoints += 15
+                    }
+                    this.maxSumOfPoints = __maxSumOfAnswerPoints
+
                     __AnswersArray.push(new SameAnswerNode( answer.id,  answer.text, answer.isTrue, answer.checkQueue,
-                        answer.helpTextv1, answer.helpTextv2, answer.helpTextv3))
+                        answer.helpTextv1, answer.helpTextv2, answer.helpTextv3, answer.hardLevelOfAnswer))
                 })
+
+
                 this.answersArray = __AnswersArray
             })
     }

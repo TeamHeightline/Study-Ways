@@ -133,6 +133,7 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                   <Alert severity="info" variant="filled" className="mt-2">
                       {"Вы прошли этот вопрос.     " + "Количество попыток - " + processedStore.questionsStoreArray[processedStore.selectedQuestionIndex].numberOfPasses}
                   </Alert>
+
                 </div> }
             </div>
     )

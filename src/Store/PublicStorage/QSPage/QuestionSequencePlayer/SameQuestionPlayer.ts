@@ -180,7 +180,7 @@ export class SameQuestionPlayer{
                 let __maxSumOfAnswerPoints = 0
 
                 //Перемешиваем ответы и обрезаем из количество на значение из настроек
-                _.shuffle(data.data.questionById.answers)?.slice(0, data?.data?.questionById?.numberOfShowingAnswers)
+                _.shuffle(data.data.questionById.answers.filter((answer) => answer.isDeleted !== true))?.slice(0, data?.data?.questionById?.numberOfShowingAnswers)
                     .map((answer) =>{
                     if(answer.hardLevelOfAnswer === "EASY"){
                         __maxSumOfAnswerPoints += 5

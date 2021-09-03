@@ -1,4 +1,4 @@
-import {autorun, makeAutoObservable, reaction, toJS} from "mobx";
+import { makeAutoObservable, reaction, toJS} from "mobx";
 import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
 import {ALL_QUESTIONS_DATA, CREATE_NEW_ANSWER, CREATE_NEW_QUESTION, UPDATE_QUESTION} from "./Struct";
 import {Maybe, QuestionAuthorNode, QuestionNode, QuestionThemesNode} from "../../../../../SchemaTypes";
@@ -190,13 +190,26 @@ class QuestionEditor{
     //Раздел ответов ----------------------------------------------------------
     answers: any = []
 
+
+    //Флаг который позволяет игнорировать пересоздание сторов для ответов в случае если это просто обновление
+    //ответа
+    simpleUpdateFlag = false
+
+    changeSimpleUpdateFlag(newFlag){
+        this.simpleUpdateFlag = newFlag
+    }
+
     //Подгрузка данных о вопросах в массив
     loadAnswers(){
-        if(this.questionHasBeenSelected){
+        if(this.questionHasBeenSelected && !this.simpleUpdateFlag){
         this.answers = sort(this.allQuestionsData?.find((question) => Number(question.id) === Number(this.selectedQuestionID))
             .answers)
             .asc((answer: any) => answer?.id)
+            .filter((answer: any) => answer.isDeleted !== true)
             .map((answer) => new Answer(this, answer, this.selectedQuestionID))
+        }
+        if(this.simpleUpdateFlag){
+            this.changeSimpleUpdateFlag(false)
         }
     }
 

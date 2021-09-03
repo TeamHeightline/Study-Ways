@@ -3,7 +3,7 @@ import {UPDATE_ANSWER} from "./Struct";
 import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
 
 export class Answer{
-    store = null
+    ownStore: any = null
     id = null
     isTrue = "false"
     text = ''
@@ -20,6 +20,19 @@ export class Answer{
     questionID = 0
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
     clientStorage = ClientStorage
+
+    //Открыто ли окно в котором спрашивается, Уверены ли вы, что хотите удалить этот вопрос
+    openDeleteDialog = false
+    //Открыто ли окно в котором спрашивается, Уверены ли вы, что хотите сделать невидимым этот вопрос
+    openMakeInvisibleDialog = false
+
+    isDeleted = false
+    isInvisible = false
+
+    deleteAnswer(){
+        this.isDeleted = true
+        // console.log("Delete answer with id" + this.id)
+    }
 
     getImageUrlFromServer(){
         fetch("https://iot-experemental.herokuapp.com/files/answer?id="+ this.id)
@@ -63,10 +76,14 @@ export class Answer{
                 helpTextv3: this.helpTextv3,
                 videoUrl: this.videoUrl,
                 checkQueue: this.checkQueue,
-                hardLevelOfAnswer: this.hardLevelOfAnswer
+                hardLevelOfAnswer: this.hardLevelOfAnswer,
+                isDeleted: this.isDeleted,
+                isInvisible: this.isInvisible,
             }})
             .then(() =>{
                 this.stateOfSave = true
+                this?.ownStore?.changeSimpleUpdateFlag(true)
+                this?.ownStore?.loadFromServerAppQuestionsData()
             })
     }
     //сохранен/не сохранен
@@ -89,9 +106,9 @@ export class Answer{
 
     constructor(store, answer, questionID){
         makeAutoObservable(this, {
-            store: false,
+            ownStore: false,
         })
-        this.store = store
+        this.ownStore = store
         this.id = answer.id
         this.isTrue = answer.isTrue ? "true" : 'false'
         this.text = answer.text
@@ -113,5 +130,7 @@ export class Answer{
         reaction(() => this.videoUrl, () => this.autoSave())
         reaction(() => this.hardLevelOfAnswer, () => this.autoSave())
         reaction(() => this.questionID, () => this.autoSave())
+        reaction(() => this.isDeleted, () => this.autoSave())
+        reaction(() => this.isInvisible, ()=> this.autoSave())
     }
 }

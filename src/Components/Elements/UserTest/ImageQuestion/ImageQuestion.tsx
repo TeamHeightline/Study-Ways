@@ -39,7 +39,7 @@ export default function ImageQuestion(props: any) {
             await setAnswers([])
             //алгоритм выборки ответов, его задача отобразить все правильные ответы, а на оставшиеся места
             //показать неправильные
-            let ans = data?.questionById?.answers;
+            let ans = data?.questionById?.answers.filter((answer) => answer?.isDeleted !== true);
             ans = _.shuffle(ans);
             //slice нужен, чтобы ограничить массив правильных ответов количеством разрешенных к отображению ответов,
             //а массив неверных количеством разрешенных минус количество правильных

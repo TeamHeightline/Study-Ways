@@ -22,6 +22,8 @@ export const GET_QUESTION_DATA = gql`
                 videoUrl
                 checkQueue
                 hardLevelOfAnswer
+                isDeleted
+                isInvisible
             }
         }
     }

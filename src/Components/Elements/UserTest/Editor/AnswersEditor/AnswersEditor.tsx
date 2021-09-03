@@ -17,6 +17,8 @@ import {AnswerCheckQueue} from "./#AnswerCheckQueue";
 import {AnswerImage} from "./#AnswerImage";
 import {AnswerPreview} from "./#AnswerPreview";
 import {AnswerSavingNotification} from "./#AnswerSavingNotification";
+import {AnswerDeleteOrDisableAnswerMenu} from "./#AnswerDeleteOrDisableAnswerMenu";
+import {AnswerDeleteDialog} from "./#AnswerDeleteDialog";
 
 export const AnswersEditor = observer(() => {
     if(!QuestionEditorStorage.questionHasBeenSelected){
@@ -27,12 +29,23 @@ export const AnswersEditor = observer(() => {
     return(
         <>
             <Typography className="display-4 text-center mt-3 col-12" style={{fontSize: '33px'}}>Редактировать ответы</Typography>
-            {QuestionEditorStorage.answers.map((answer) =>{
+            {QuestionEditorStorage.answers.filter(answer => answer.isDeleted === false)?.map((answer) =>{
                 return(
                     <div className="mr-2 ml-2 mt-3 " key={answer.id + "AnswerKey"}>
-                        <Paper elevation={3} className="ml-5 mr-5">
+                        <Paper elevation={3} variant="outlined" className="ml-5 mr-5">
                             <br/>
-                            <Typography variant="h6" className="ml-5" color="inherit">{"ID: " + answer.id + " " + answer.text}</Typography>
+                            <Row className="ml-5">
+                                <Col>
+                                    <Typography variant="h6"  color="inherit">{"ID: " + answer.id + " " + answer.text}</Typography>
+
+                                </Col>
+                                <Col className="ml-auto col-1">
+                                    <AnswerDeleteOrDisableAnswerMenu answer={answer}/>
+                                </Col>
+                            </Row>
+
+                            <AnswerDeleteDialog answer={answer}/>
+
                             <FormControlLabel
                                 control={<Switch checked={answer.isEditNow}
                                                  onChange={() => answer.isEditNow = !answer.isEditNow} />}

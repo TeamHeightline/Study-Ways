@@ -130,7 +130,7 @@ export class Answer{
         reaction(() => this.videoUrl, () => this.autoSave())
         reaction(() => this.hardLevelOfAnswer, () => this.autoSave())
         reaction(() => this.questionID, () => this.autoSave())
-        reaction(() => this.isDeleted, () => this.autoSave())
-        reaction(() => this.isInvisible, ()=> this.autoSave())
+        reaction(() => this.isDeleted, () => this.saveDataOnServer())
+        reaction(() => this.isInvisible, ()=> this.saveDataOnServer())
     }
 }

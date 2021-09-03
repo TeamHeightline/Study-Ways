@@ -70,6 +70,8 @@ export type AnswerNode = {
     helpTextv2?: Maybe<Scalars['String']>;
     helpTextv3?: Maybe<Scalars['String']>;
     id: Scalars['ID'];
+    isDeleted: Scalars['Boolean'];
+    isInvisible: Scalars['Boolean'];
     isTrue: Scalars['Boolean'];
     question: QuestionNode;
     text: Scalars['String'];
@@ -1049,6 +1051,8 @@ export type AnswerMutationInput = {
     helpTextv2?: Maybe<Scalars['String']>;
     helpTextv3?: Maybe<Scalars['String']>;
     id?: Maybe<Scalars['ID']>;
+    isDeleted?: Maybe<Scalars['Boolean']>;
+    isInvisible?: Maybe<Scalars['Boolean']>;
     isTrue?: Maybe<Scalars['Boolean']>;
     question: Scalars['ID'];
     text?: Maybe<Scalars['String']>;

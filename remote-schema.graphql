@@ -24,6 +24,8 @@ type AnswerNode {
     helpTextv2: String
     helpTextv3: String
     id: ID!
+    isDeleted: Boolean!
+    isInvisible: Boolean!
     isTrue: Boolean!
     question: QuestionNode!
     text: String!
@@ -753,6 +755,8 @@ input AnswerMutationInput {
     helpTextv2: String
     helpTextv3: String
     id: ID
+    isDeleted: Boolean
+    isInvisible: Boolean
     isTrue: Boolean
     question: ID!
     text: String

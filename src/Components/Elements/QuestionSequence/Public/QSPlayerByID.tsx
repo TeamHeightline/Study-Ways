@@ -159,11 +159,11 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                                 <Title text="Количество ошибок на каждой из попыток" />
                                 <ArgumentAxis showGrid={true}/>
                                 <ValueAxis/>
-                                <SplineSeries
+                                <BarSeries
                                     valueField="numberOfWrongAnswers"
                                     argumentField="numberOfPasses"
                                 />
-                                <BarSeries
+                                <SplineSeries
                                     valueField="numberOfWrongAnswers"
                                     argumentField="numberOfPasses"
                                 />

@@ -39,6 +39,10 @@ class QuestionEditor{
     //Флаг, указывающий на то, был ли выбран вопрос в селекторе
     questionHasBeenSelected = false
 
+    changeQuestionHasBeenSelected(newState){
+        this.questionHasBeenSelected = newState
+    }
+
     //Флаг, указывающий на то, использовать превью или нет
     showPreview = false
 

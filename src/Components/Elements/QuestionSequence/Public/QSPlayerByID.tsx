@@ -98,6 +98,7 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                 <div >
                     {processedStore.selectedQuestionIndex !== null &&
                     <DCPCImageQuestion
+                        ignoreAspectRatio={true}
                         onChange1={(e) => {processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.changeHardLevelOfHelpText(e.target.value)}}
                         onClick1={() => processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.checkErrors()}
                         className="col-11 justify-content-center"

@@ -6,7 +6,7 @@ import React from "react";
 export const AnswerIsTrue = observer(({answer}) =>{
     return(
         <>
-            <FormControl style={{width: 220}} className="ml-2" >
+            <FormControl className="col-12" >
                 <InputLabel id="demo-simple-select-label">Ответ верный/неверный</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"

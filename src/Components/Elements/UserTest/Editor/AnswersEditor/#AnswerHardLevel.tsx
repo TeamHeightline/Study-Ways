@@ -6,7 +6,7 @@ import React from "react";
 export const AnswerHardLevel = observer(({answer}) =>{
     return(
         <>
-            <FormControl style={{width: 220}} >
+            <FormControl className="col-12">
                 <InputLabel id="demo-simple-select-label">Сложность ответа</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"

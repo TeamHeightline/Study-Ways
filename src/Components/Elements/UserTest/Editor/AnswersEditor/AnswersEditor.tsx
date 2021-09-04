@@ -54,35 +54,41 @@ export const AnswersEditor = observer(() => {
                             />
                             <Collapse in={answer.isEditNow}>
                                 <div>
-                                    <Row >
-                                        <Col className="mr-5 ml-5 col-5 " >
+                                    <Row className="justify-content-around">
+                                        <Col className="col-5 " >
                                             <AnswerText answer={answer}/>
                                             <AnswerHelpTextV1 answer={answer}/>
                                         </Col>
-                                        <Col className="col-5 offset-1 mr-5 ml-5">
+                                        <Col className="col-5 ">
                                             <AnswerHelpTextV2 answer={answer}/>
                                             <AnswerHelpTextV3 answer={answer}/>
                                         </Col>
                                     </Row>
-                                    <Row className="">
-                                        <Col className="mr-5 ml-5 col-5 " >
+                                    <Row className="justify-content-around">
+                                        <Col className="col-5" >
                                             <AnswerVideoUrl answer={answer}/>
                                         </Col>
-                                        <Col className="col-5 offset-1 mr-5 ml-5">
-                                            <Row className="ml-1">
-                                                <AnswerHardLevel answer={answer}/>
-                                                <AnswerIsTrue answer={answer}/>
+
+                                        <Col className="col-5">
+                                            <Row className="justify-content-around">
+                                                <Col className=" col-6">
+                                                    <AnswerHardLevel answer={answer}/>
+                                                </Col>
+                                                <Col className=" col-6">
+                                                    <AnswerIsTrue answer={answer}/>
+                                                </Col>
                                             </Row>
                                         </Col>
                                     </Row>
-                                    <Row className="mt-2">
-                                        <Col className="col-2">
+
+                                    <Row className="justify-content-around mt-2">
+                                        <Col className="col-2 ml-2">
                                             <AnswerCheckQueue answer={answer}/>
                                         </Col>
-                                        <Col className="col-4 mt-2 ">
+                                        <Col className="col-3 mt-2 ">
                                             <AnswerImage answer={answer}/>
                                         </Col>
-                                        <Col className=" offset-4 col-2 mr-5 ml-auto mt-2">
+                                        <Col className=" col-2 mr-5 ml-auto mt-2">
                                             <AnswerSavingNotification answer={answer}/>
                                         </Col>
                                     </Row>

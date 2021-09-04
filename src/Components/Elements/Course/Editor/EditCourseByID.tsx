@@ -6,7 +6,7 @@ import {gql} from "graphql.macro";
 import {useMutation, useQuery} from "@apollo/client";
 import {Spinner} from "react-bootstrap";
 import {Alert} from "@material-ui/lab";
-import {Button, Snackbar, TextField} from "@material-ui/core";
+import {Button, Snackbar, TextField, Typography} from "@material-ui/core";
 
 const GET_COURSE_BY_ID = gql`
     query GET_COURSE_BY_ID($id: ID!){
@@ -131,22 +131,24 @@ export default function EditCourseByID({course_id, ...props}: any){
                                 autoSave()
                            }}
                     id="filled-basic" label="Назавние курса" variant="outlined" size="small"/>
-                <div>
-                    {course_id &&
-                    <Button
-                        color="primary"
-                        variant="outlined"
-                        component="label"
-                        size="small"
-                        className="ml-3"
-                    >
-                        <input type="file"  hidden name="file" onChange={changeHandlerForCardCourseImage} />
-                        Изображение для курса
-                    </Button>}
-                    <br/>
-                    {course_id && cardCourseImageName && <div className="ml-3">{cardCourseImageName}</div>}
-                </div>
             </Row>
+            <div>
+                {course_id &&
+                <Button
+                    color="primary"
+                    variant="outlined"
+                    component="label"
+                    size="small"
+                    className="ml-5 mt-2"
+                >
+                    <input type="file"  hidden name="file" onChange={changeHandlerForCardCourseImage} />
+                    Изображение для курса
+                </Button>}
+                <br/>
+                <Typography className="ml-5">
+                    {course_id && cardCourseImageName && <div>{cardCourseImageName}</div>}
+                </Typography>
+            </div>
             <div style={{overflowY: "scroll"}} className="ml-5 mr-5">
                 {CourseLinesData.length !== 0 && CourseLinesData.map((line, lIndex) =>{
                     return(

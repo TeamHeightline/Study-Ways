@@ -5,7 +5,7 @@ import {QuestionEditorStorage} from "../../Store/PrivateStorage/EditorsPage/Ques
 import {observer} from "mobx-react";
 import {CreateNewQuestion} from "../Elements/UserTest/Editor/QuestionEditor/#CreateNewQuestion";
 import {EditQuestionByID} from "../Elements/UserTest/Editor/QuestionEditor/EditQuestionByID";
-import {sort} from "fast-sort/dist/sort";
+import {QuestionFolders} from "../Elements/UserTest/Editor/QuestionEditor/#QuestionFolders";
 
 export const QuestionEditor = observer(({...props}: any) =>{
     if (!QuestionEditorStorage.allQuestionsDataHasBeenDeliver) {
@@ -19,8 +19,9 @@ export const QuestionEditor = observer(({...props}: any) =>{
     return (
         <div className="col-12">
             <CreateNewQuestion/>
+            <QuestionFolders/>
             <Row className="justify-content-around">
-                {sort(QuestionEditorStorage?.allQuestionsData).desc((question: any) => Number(question.id))
+                {QuestionEditorStorage?.QuestionArrayForDisplay
                     ?.map((question: any) =>{
                     return(
                         <Card className="mt-2" key={question.id} style={{width: 400, height: 160, textAlign: "center"}}

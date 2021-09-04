@@ -233,6 +233,30 @@ class QuestionEditor{
             .catch(() => void(0))
     }
 
+    activeFolder = 0
+
+    changeActiveFolder(newFolder){
+        this.activeFolder = newFolder
+    }
+
+    get QuestionArrayForDisplay(){
+        if(this.activeFolder === 0 ){
+            return(
+                sort(QuestionEditorStorage?.allQuestionsData).desc((question: any) => Number(question.id))
+            )
+        }
+        if(this.activeFolder === 1){
+            return (
+                sort(QuestionEditorStorage?.allQuestionsData.filter((question) => question.text !== "Новый вопрос")).desc((question: any) => Number(question.id))
+            )
+        }
+        if(this.activeFolder === 2){
+            return (
+                sort(QuestionEditorStorage?.allQuestionsData.filter((question) => question.text === "Новый вопрос")).desc((question: any) => Number(question.id))
+            )
+        }
+    }
+
 
 }
 export const  QuestionEditorStorage =  new QuestionEditor()

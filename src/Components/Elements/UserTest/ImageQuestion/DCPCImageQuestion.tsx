@@ -9,6 +9,12 @@ import {Form} from "react-bootstrap";
 import React from "react";
 
 export default function DCPCImageQuestion(props: any) {
+    window.addEventListener("keydown",function (e) {
+        if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) {
+            e.preventDefault();
+        }
+    })
+
     return <>
         {props.height / props.width < 1 &&
         <Card variant="outlined" style={{height: props.width >1400 ? 500: 400, padding: 0,}} className="col-12 ">
@@ -26,7 +32,7 @@ export default function DCPCImageQuestion(props: any) {
                             <Typography component="h5" variant="h5">
                                 Вопрос
                             </Typography>
-                            <Typography variant="body1" color="textSecondary" component="p">
+                            <Typography variant="body1" color="textSecondary" component="p" style={{userSelect: "none"}}>
                                 {props.questionData?.questionById?.text ? props.questionData?.questionById?.text : props.questionText}
                             </Typography>
                         </CardContent>

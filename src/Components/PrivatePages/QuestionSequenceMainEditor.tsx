@@ -59,7 +59,7 @@ export default function QuestionSequenceMainEditor(){
                         }>
                             <CardActionArea className="col-12" style={{flex: "auto"}}>
                                 <div className="ml-4">
-                                    <Typography variant="h6" color="textSecondary" className="ml-2">
+                                    <Typography variant="h6" color="textSecondary" className="ml-2 mt-2">
                                         <strong>
                                             {"ID: " + sequence?.id}
                                         </strong>
@@ -72,7 +72,7 @@ export default function QuestionSequenceMainEditor(){
                                         {"Описание: " + sequence?.description}
                                     </Typography>
 
-                                    <Row className="mr-3 ml-3" style={{overflowY: "auto"}}>
+                                    <Row className="mr-3 ml-2" style={{overflowY: "auto"}}>
                                         {sequence?.sequenceData?.sequence?.map( (question, qIndex) =>{
                                             return(
                                                 <Card

@@ -1,7 +1,7 @@
 import React from 'react';
-import {Row} from "antd";
-import {Button} from "@material-ui/core";
 import NavigationRow from "./#NavigationRow";
+import "../../../../index.css"
+
 export default function CourseNavigation({course, ...props}: any){
     // console.log(course)
     return(

@@ -16,3 +16,49 @@ code {
 .link{
   color: slategray;
 }
+
+/* Customize website's scrollbar like Mac OS
+Not supports in Firefox and IE */
+
+/* total width */
+body::-webkit-scrollbar {
+  background-color: #1A202C;
+  width: 16px;
+}
+
+/* background of the scrollbar except button or resizer */
+body::-webkit-scrollbar-track {
+  background-color: #1A202C;
+}
+
+/* scrollbar itself */
+body::-webkit-scrollbar-thumb {
+  width: 1px;
+  background-color: #1A202C;
+  border-radius: 10px;
+  border: 1px solid #2296F3;
+}
+
+/* set button(top and bottom of the scrollbar) */
+body::-webkit-scrollbar-button {
+  width: 1px;
+  display:none;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  width: 1px;
+  background-color: rgba(0,0,0,0);
+  border-radius:16px;
+  border: 1px solid #2296F3;
+}
+
+.scrollbar:hover::-webkit-scrollbar-thumb {
+  width: 1px;
+  background-color: #1A202C;
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  width: 1px;
+  background-color:#1A202C;
+  border: 1px solid #2296F3;
+}

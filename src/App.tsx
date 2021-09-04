@@ -48,7 +48,6 @@ import {MainDirectionWay} from "./Components/PublicPages/MainDirectionWay";
 
 const  App = observer(() => {
     const [animationState, setAnimationState] = useState(false)
-
     useEffect(() =>{
         setTimeout(setAnimationState, 1500, true)
     }, [])

@@ -9,7 +9,6 @@ import CardContent from "@material-ui/core/CardContent";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {Alert} from "@material-ui/lab";
 
-
 import {
     Chart,
     Title,
@@ -53,6 +52,7 @@ const useStyles = makeStyles(() =>
 
     }),
 );
+import '../../../../index.css'
 
 export  const  QSPlayerByID = observer(({...props}: any) =>{
 

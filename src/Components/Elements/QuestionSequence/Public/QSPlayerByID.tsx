@@ -74,7 +74,7 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
     return(
         <div>
             <Typography className="display-4 text-center mt-4" style={{fontSize: '33px'}}>{processedStore.name}</Typography>
-            <div style={{overflowY: "scroll"}}>
+            <div style={{overflowX: "scroll"}}>
                 <Stepper nonLinear alternativeLabel activeStep={processedStore.selectedQuestionIndex}>
                     {processedStore?.questionsStoreArray?.map((question, qIndex) => (
                         <Step key={qIndex}>
@@ -119,7 +119,7 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                 }
 
 
-                <div style={{overflowY: "scroll"}}>
+                <div style={{overflowX: "scroll"}}>
                     <Row style={{width:  processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.answersArray.length * 410}}>
                         {processedStore.selectedQuestionIndex !== null && processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.answersArray &&
                             <Row>

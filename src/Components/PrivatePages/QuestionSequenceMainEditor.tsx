@@ -1,17 +1,18 @@
 import React, {useState} from 'react'
 import {useMutation, useQuery} from "@apollo/client";
-import {CardSubThemeNode, Mutation, Query} from "../../../SchemaTypes";
+import { Mutation, Query} from "../../../SchemaTypes";
 import {CREATE_QUESTION_SEQUENCE, GET_MY_QUESTION_SEQUENCE, question_sequence_struct} from "../Elements/QuestionSequence/Editor/Struct"
-import {Button, Typography, Card, CardActionArea, Chip} from "@material-ui/core";
+import {Button, Typography, Card, CardActionArea} from "@material-ui/core";
 import {Row, Spinner} from "react-bootstrap";
 import QuestionSequenceEditByID from "../Elements/QuestionSequence/Editor/EditByID/QuestionSequenceEditByID";
 import {GET_ALL_CARD_SUB_THEMES} from "../../Store/ReUsfulComponentsStorage/ComunityDirectionsStore/Struct";
+import {sort} from "fast-sort";
 
 export default function QuestionSequenceMainEditor(){
-    const {data: question_sequence_data, refetch: refetch_question_sequence_data} = useQuery<Query, null>(GET_MY_QUESTION_SEQUENCE)
+    const {data: question_sequence_data, refetch: refetch_question_sequence_data} = useQuery<any, null>(GET_MY_QUESTION_SEQUENCE)
     const {data: card_themes_data} = useQuery<Query, null>(GET_ALL_CARD_SUB_THEMES)
     const [isEditNow, setIsEditNow] = useState(false)
-    const [activeEditSequenceIndex, setActiveEditSequenceIndex] = useState<number>(0)
+    const [activeEditSequenceID, setActiveEditSequenceID] = useState<number>(0)
     const [createQuestionSequence] = useMutation<Mutation,{sequenceData : any}>(CREATE_QUESTION_SEQUENCE, {
         variables:{
             sequenceData: question_sequence_struct
@@ -26,7 +27,8 @@ export default function QuestionSequenceMainEditor(){
     if(isEditNow){
         return (
             <QuestionSequenceEditByID
-                sequence = {question_sequence_data?.me?.questionsequenceSet[activeEditSequenceIndex]}
+                sequence = {question_sequence_data?.me?.questionsequenceSet
+                    ?.find((sequence) => sequence.id === activeEditSequenceID)}
                 onChange={(data) =>{
                 if(data === "goBack"){
                     refetch_question_sequence_data()
@@ -46,11 +48,12 @@ export default function QuestionSequenceMainEditor(){
                 Создать новую серию вопросов
             </Button>
             <Row className="justify-content-around">
-                {question_sequence_data?.me?.questionsequenceSet?.map((sequence, sIndex) => {
+                {sort(question_sequence_data?.me?.questionsequenceSet).desc((sequence: any) => sequence.id)
+                    ?.map((sequence: any, ) => {
                     return(
                         <Card variant="outlined" key={sequence?.id + "SequenceKey"} className="mt-3 col-5" style={{padding: 0}}
                         onClick={ async() => {
-                            await setActiveEditSequenceIndex(sIndex)
+                            await setActiveEditSequenceID(sequence.id)
                             await setTimeout( setIsEditNow, 500, true)
                         }
                         }>

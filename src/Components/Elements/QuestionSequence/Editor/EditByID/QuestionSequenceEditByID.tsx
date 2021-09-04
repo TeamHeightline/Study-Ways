@@ -14,7 +14,7 @@ import {Alert} from "@material-ui/lab";
 import CardMedia from "@material-ui/core/CardMedia";
 
 export default function QuestionSequenceEditByID({...props}: any) {
-    const [questionsIDArray, setQuestionsIDArray] = useState<(number| null)[] >(props?.sequence?.sequenceData?.sequence)//Нужно для хранения массива айдишников вопросов
+    const [questionsIDArray, setQuestionsIDArray] = useState<(number| null)[] >(props?.sequence?.sequenceData?.sequence ? props?.sequence?.sequenceData?.sequence : [])//Нужно для хранения массива айдишников вопросов
     const [sequenceName, setSequenceName] = useState<string>(props?.sequence?.name)//Название последовательности вопросов
     const [sequenceDescription, setSequenceDescription] = useState<string>(props?.sequence?.description)
 
@@ -22,19 +22,29 @@ export default function QuestionSequenceEditByID({...props}: any) {
     const [stateOfSave, setStateOfSave] = useState(2) // 0- не сохранено 1- сохранение 2- сохранено
     const [autoSaveTimer, changeAutoSaveTimer] = useState<any>()
 
-    const [updateQuestionSequence] = useMutation<Mutation, {sequenceData: any, sequenceId: number, name: string, description: string}>(UPDATE_QUESTION_SEQUENCE, {
+    const getSequenceQuestionArrayWithoutNull = () => {
+        return(questionsIDArray.filter((question) => question !== null))
+    }
+
+    const [updateQuestionSequence] = useMutation<Mutation, {sequenceData: any, sequenceId: number, name: string, description: string}>
+    (UPDATE_QUESTION_SEQUENCE, {
             variables:{
                 sequenceId: props?.sequence?.id,
-                name: sequenceName,
-                description: sequenceDescription,
+                name: sequenceName ? sequenceName : "Название по умолчанию",
+                description: sequenceDescription ? sequenceDescription : "Описание по умолчанию",
                 sequenceData: {
-                    sequence: questionsIDArray //массив ID вопросов
+                    sequence: getSequenceQuestionArrayWithoutNull() //массив ID вопросов
                 }
 
             },
+        onError: () =>{
+                void(0)
+        },
         onCompleted: () =>{
                 setStateOfSave(2)}
         })
+
+
 
     const autoSave = () =>{
         clearTimeout(autoSaveTimer)
@@ -49,9 +59,7 @@ export default function QuestionSequenceEditByID({...props}: any) {
     const classes = useStyles();
     const addQuestion = () =>{
         autoSave()
-        const __questionsIDArray =[...questionsIDArray]
-        __questionsIDArray.push(null)
-        setQuestionsIDArray(__questionsIDArray)
+        setQuestionsIDArray(questionsIDArray.concat(null))
     }
 
     if(!props.sequence){

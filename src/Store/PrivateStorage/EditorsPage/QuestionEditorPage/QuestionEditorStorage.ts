@@ -286,6 +286,16 @@ class QuestionEditor{
         }
     }
 
+    //Массив редактируемых сейчас вопросов, нужен чтобы хранить свернутые и развернутые ответы
+    activeEditAnswerIDSet = new Set()
+
+    changeActiveEditAnswerIDSet(id){
+        if(QuestionEditorStorage.activeEditAnswerIDSet.has(id)){
+            QuestionEditorStorage.activeEditAnswerIDSet.delete(id)
+        }else{
+            QuestionEditorStorage.activeEditAnswerIDSet.add(id)
+        }
+    }
 
 }
 export const  QuestionEditorStorage =  new QuestionEditor()

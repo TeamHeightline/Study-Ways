@@ -13,7 +13,6 @@ export class Answer{
     checkQueue = 10000
     videoUrl = ''
     hardLevelOfAnswer = ''
-    isEditNow = false
     imageUrl = ''
     usePreview = false
     fakeAnswerIndexForUpdatePreview = 0

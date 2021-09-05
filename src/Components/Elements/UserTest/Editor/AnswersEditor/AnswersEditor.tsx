@@ -47,12 +47,12 @@ export const AnswersEditor = observer(() => {
                             <AnswerDeleteDialog answer={answer}/>
 
                             <FormControlLabel
-                                control={<Switch checked={answer.isEditNow}
-                                                 onChange={() => answer.isEditNow = !answer.isEditNow} />}
+                                control={<Switch checked={QuestionEditorStorage.activeEditAnswerIDSet.has(answer.id)}
+                                                 onChange={() => {QuestionEditorStorage.changeActiveEditAnswerIDSet(answer.id)}} />}
                                 label="Редактировать"
                                 className="ml-5"
                             />
-                            <Collapse in={answer.isEditNow}>
+                            <Collapse in={QuestionEditorStorage.activeEditAnswerIDSet.has(answer.id)}>
                                 <div>
                                     <Row className="justify-content-around">
                                         <Col className="col-5 " >

@@ -103,6 +103,11 @@ export class Answer{
         return(this.imageUrl.slice(68).split('?')[0])
     }
 
+    //Создает новый ответ на основе этого ответа
+    createNewAnswerBasedOnThisAnswer(){
+        this.ownStore.createNewAnswerBasedOnExist(this.id)
+    }
+
 
     constructor(store, answer, questionID){
         makeAutoObservable(this, {

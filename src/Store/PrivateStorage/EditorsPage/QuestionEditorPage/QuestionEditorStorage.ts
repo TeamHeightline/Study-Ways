@@ -1,6 +1,12 @@
 import { makeAutoObservable, reaction, toJS} from "mobx";
 import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
-import {ALL_QUESTIONS_DATA, CREATE_NEW_ANSWER, CREATE_NEW_QUESTION, UPDATE_QUESTION} from "./Struct";
+import {
+    ALL_QUESTIONS_DATA,
+    CREATE_NEW_ANSWER,
+    CREATE_NEW_ANSWER_BASED_ON_DATA,
+    CREATE_NEW_QUESTION,
+    UPDATE_QUESTION
+} from "./Struct";
 import {Maybe, QuestionAuthorNode, QuestionNode, QuestionThemesNode} from "../../../../../SchemaTypes";
 import {sort} from "fast-sort";
 import {Answer} from "./AnswersStorage";
@@ -232,6 +238,29 @@ class QuestionEditor{
             .then(() => this.loadFromServerAppQuestionsData())
             .catch(() => void(0))
     }
+
+    //Создать новый ответ на основе существующего
+    createNewAnswerBasedOnExist(basedAnswerID){
+        const basedAnswer = this.answers.find((answer) => answer.id === basedAnswerID)
+        this.clientStorage.client.mutate({mutation: CREATE_NEW_ANSWER_BASED_ON_DATA,
+            variables:{
+                question: this.selectedQuestionID,
+                isTrue: basedAnswer.isTrue  == "true",
+                text: basedAnswer.text,
+                helpTextv1: basedAnswer.helpTextv1,
+                helpTextv2: basedAnswer.helpTextv2,
+                helpTextv3: basedAnswer.helpTextv3,
+                videoUrl: basedAnswer.videoUrl,
+                checkQueue: basedAnswer.checkQueue,
+                hardLevelOfAnswer: basedAnswer.hardLevelOfAnswer,
+                isDeleted: basedAnswer.isDeleted,
+        }})
+            .then(() => {
+                this.loadFromServerAppQuestionsData()})
+            .catch(() => void(0))
+    }
+
+
 
     activeFolder = 0
 

@@ -45,7 +45,7 @@ export const AnswerDeleteOrDisableAnswerMenu = observer(({answer}) =>{
                     <MenuItem key={1} value="Make Invisible" onClick={() => answer.openMakeInvisibleDialog = !answer.openMakeInvisibleDialog}>
                         Скрыть
                     </MenuItem>
-                    <MenuItem key={1} value="Make Invisible" onClick={() => answer.createNewAnswerBasedOnThisAnswer()}>
+                    <MenuItem key={2} value="Create new answer based on this answer" onClick={() => answer.createNewAnswerBasedOnThisAnswer()}>
                         Создать новый ответ на основе этого
                     </MenuItem>
                 </Menu>

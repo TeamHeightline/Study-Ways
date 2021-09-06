@@ -61,7 +61,7 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
         if(slug.search === "?exam=true"){
             processedStore.isUseExamMode = true
         }
-        processedStore.setQSID(props.match.params.id)
+        processedStore.setQSID(props?.match?.params?.id? props?.match?.params?.id : props?.id)
     }, [props])
 
     const classes = useStyles();
@@ -77,18 +77,22 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
             <div style={{overflowX: "scroll"}}>
                 <Stepper nonLinear alternativeLabel activeStep={processedStore.selectedQuestionIndex}>
                     {processedStore?.questionsStoreArray?.map((question, qIndex) => (
-                        <Step key={qIndex}>
+                        <Step key={qIndex} onClick={() => processedStore.changeSelectedQuestionIndex(qIndex)}>
+                            {!props?.notShowStepLabet ?
                             <StepLabel>
                                 <Card style={{width: 400, height: 160, marginLeft: 65,
                                 borderColor: processedStore.questionsStoreArray[qIndex]?.questionHasBeenCompleted ? "#2296F3": ""}} variant="outlined">
-                                    <CardActionArea style={{height: "100%"}}
-                                                    onClick={() => processedStore.changeSelectedQuestionIndex(qIndex)}>
+                                    <CardActionArea style={{height: "100%"}}>
                                         <Typography>
                                             {question?.questionText}
                                         </Typography>
                                     </CardActionArea>
                                 </Card>
-                            </StepLabel>
+                            </StepLabel> :
+                                <StepLabel>
+                                    <br/>
+                                </StepLabel>
+                            }
                         </Step>
                     ))}
                 </Stepper>

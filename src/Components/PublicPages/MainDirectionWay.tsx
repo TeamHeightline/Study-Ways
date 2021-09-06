@@ -6,13 +6,15 @@ import StepLabel from '@material-ui/core/StepLabel';
 import {CARD} from "../Elements/Cards/Card";
 import CardMicroView from "../Elements/Cards/CardView/#CardMicroView";
 import CourseMicroView from "../Elements/Course/Editor/CourseMicroView";
-import {ReUsefulQuestionStore} from "../../Store/ReUsfulComponentsStorage/ComunityDirectionsStore/ReUsfulDirectionStore";
+import {ReUsefulQuestionStore} from "../../Store/ReUsfulComponentsStorage/ComunityDirectionsStore/DirectionStore";
 import {toJS} from "mobx";
 import ArtTrackIcon from "@material-ui/icons/ArtTrack";
 import BlurLinearIcon from "@material-ui/icons/BlurLinear";
 import ImageQuestion from "../Elements/UserTest/ImageQuestion/ImageQuestion";
 import {Card, CardActionArea, Typography} from "@material-ui/core";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
+import {QSPlayerByID} from "../Elements/QuestionSequence/Public/QSPlayerByID";
+import LinearScaleIcon from '@material-ui/icons/LinearScale';
 
 const directionStoreObject = new ReUsefulQuestionStore()
 export const MainDirectionWay = observer(() =>{
@@ -67,6 +69,17 @@ export const MainDirectionWay = observer(() =>{
                             </Card>
                         </StepLabel>
                         }
+                        {processed_object.type === "QuestionSequenceElement" &&
+                        <StepLabel StepIconComponent={LinearScaleIcon} style={{width: 530}}>
+                            <Card style={{width: 400, height: 160, marginLeft: 65}} variant="outlined">
+                                <CardActionArea style={{height: "100%"}} onClick={() => processed_object.handleClickOnQuestionSequnceCard()}>
+                                    <Typography>
+                                        {processed_object?.qsName}
+                                    </Typography>
+                                </CardActionArea>
+                            </Card>
+                        </StepLabel>
+                        }
                     </Step>
                 ))}
                 </Stepper>
@@ -74,6 +87,8 @@ export const MainDirectionWay = observer(() =>{
             <div>
                 {directionStoreObject.isOpenCard  && <CARD disableAllButtons={true} id={directionStoreObject.openCardID}/>}
                 {directionStoreObject.isOpenQuestion && <ImageQuestion id={directionStoreObject.openQuestionID}/>}
+                {directionStoreObject.isOpenQuestionSequence && <QSPlayerByID notShowStepLabet={true} id={directionStoreObject.openQuestionSequenceID}/>}
+
             </div>
         </div>
     )

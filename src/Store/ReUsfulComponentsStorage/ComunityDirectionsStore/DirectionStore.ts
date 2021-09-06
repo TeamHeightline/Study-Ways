@@ -2,6 +2,7 @@ import {makeAutoObservable, toJS} from "mobx";
 import {directionData, GET_ALL_COURSE, GET_QUESTION_TEXT_BY_ID} from "./Struct";
 import {ClientStorage} from "../../ApolloStorage/ClientStorage";
 import {CardCourseNode} from "../../../../SchemaTypes";
+import {GET_QS_DATA_BY_ID} from "../../PublicStorage/QSPage/QuestionSequencePlayer/Struct";
 
 class CardProcessedClass{
     cardID = 1
@@ -60,6 +61,35 @@ class CourseProcessedClass{
     }
 }
 
+class QuestionSequenceProcessedClass{
+    constructor(id, ownStore) {
+        this.id = id
+        this.ownStore = ownStore
+        this.loadQSDataFromServer()
+    }
+    ownStore: any = null
+    type = "QuestionSequenceElement"
+    id = 0
+    //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
+    clientStorage = ClientStorage
+
+    qsName = ''
+
+    loadQSDataFromServer(){
+        this.clientStorage.client.query({query: GET_QS_DATA_BY_ID, variables: {id: this.id}})
+            .then(response => {
+                this.qsName = response.data.questionSequenceById.name
+            })
+            .catch(() => void(0))
+    }
+
+    handleClickOnQuestionSequnceCard(){
+        this.ownStore.openQuestionSequenceID = this.id
+        this.ownStore.openQuestionSequence()
+    }
+
+}
+
 export class ReUsefulQuestionStore{
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
     clientStorage = ClientStorage
@@ -76,15 +106,27 @@ export class ReUsefulQuestionStore{
     openQuestionID = 68
     //Выбран ли вопрос, по факту означает, нажал ли пользователь на карточку с вопросом или нет
     isOpenQuestion = false
+    //Выбрана ли сейчас серия вопросов
+    isOpenQuestionSequence = false
+
+    openQuestionSequenceID = 0
 
     openCard(){
         this.isOpenCard = true
         this.isOpenQuestion = false
+        this.isOpenQuestionSequence = false
     }
 
     openQuestion(){
         this.isOpenCard = false
         this.isOpenQuestion = true
+        this.isOpenQuestionSequence = false
+    }
+
+    openQuestionSequence(){
+        this.isOpenCard = false
+        this.isOpenQuestion = false
+        this.isOpenQuestionSequence = true
     }
 
     //Массив наблюдаемых объектов, каждый из которых управляет поведением своего обьъекта в Step,
@@ -117,6 +159,9 @@ export class ReUsefulQuestionStore{
             }
             if(element.type === "QuestionElement"){
                 directionProcessedObject.push(new QuestionProcessedClass(element.id, this))
+            }
+            if(element.type === "QuestionSequenceElement"){
+                directionProcessedObject.push(new QuestionSequenceProcessedClass(element.id, this))
             }
 
         })

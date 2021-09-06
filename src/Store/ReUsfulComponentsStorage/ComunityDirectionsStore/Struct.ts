@@ -18,6 +18,10 @@ export const directionData = [
         id: 82
     },
     {
+        type: "QuestionSequenceElement",
+        id: 20
+    },
+    {
         type: "CardElement",
         id: 36
     },

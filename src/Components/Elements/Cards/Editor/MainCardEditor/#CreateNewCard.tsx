@@ -87,7 +87,7 @@ export default function CreateNewCard({cardID = 1, ...props}: any,){
         <div
             // className="col-4"
             {...props}>
-            <Card className={classes.root} onClick={() =>{
+            <Card variant="outlined" className={classes.root} onClick={() =>{
                 createNewCardHandle()
             }}>
                 {stateOfCreating === 0 &&

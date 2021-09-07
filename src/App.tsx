@@ -66,7 +66,6 @@ const  App = observer(() => {
             <Router>
                 <Navibar/>
                 <Switch >
-
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/unlogin" component={UnLogin}/>
                     <Route exact path="/registration" component={Registration}/>

@@ -7,7 +7,7 @@ import React from "react";
 export const AnswerCheckQueue = observer(({answer}) =>{
     return(
         <>
-            <FormControl className="ml-5 col-11">
+            <FormControl className="col-12">
                 <InputLabel htmlFor="formatted-text-mask-input">Очередь проверки</InputLabel>
                 <Input
                     value={answer.checkQueue}

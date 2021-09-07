@@ -6,7 +6,7 @@ export const AnswerImage = observer(({answer}) =>{
     return(
         <>
             <Button
-                className="col-10 ml-2 mr-5"
+                className="col-12 mt-2"
                 color="primary"
                 variant="outlined"
                 component="label"

@@ -13,10 +13,9 @@ export const AnswerPreview = observer(({answer}) =>{
                                  onChange={() =>
                                      answer.usePreview = !answer.usePreview} />}
                 label="Включить предпросмотр"
-                className="ml-5"
             />
             <Collapse in={answer.usePreview}>
-                <div className="ml-5">
+                <div>
                     <ImageAnswerNode
                         answerIndex={answer.fakeAnswerIndexForUpdatePreview}
                         // answerImageName={selectedAnswerImage?.name ? selectedAnswerImage?.name: answerImageName}

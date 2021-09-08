@@ -28,7 +28,7 @@ export const MainUserQuestionPage = observer(() =>{
                         <div className="mr-2 ml-2">
                             <br/>
                             <div className="display-4 text-center " style={{fontSize: '33px'}}>
-                                Выбирите вопрос и уровень сложности
+                                Выберите вопрос и уровень сложности
                             </div>
                             <FormControlLabel
                             className="mt-3"

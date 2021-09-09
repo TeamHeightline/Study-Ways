@@ -1,19 +1,22 @@
 import {makeAutoObservable, reaction, toJS} from "mobx";
 import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
-import {GET_QUESTION_DATA_BY_ID} from "./Struct";
+import {GET_QUESTION_DATA_BY_ID, SAVE_DETAIL_STATISTIC} from "./Struct";
 import {SameAnswerNode} from "./SameAnswerNode";
 import * as _ from "lodash"
+import {UserStorage} from "../../../UserStore/UserStore";
 
 export class SameQuestionPlayer{
     constructor(ownStore, questionID){
         makeAutoObservable(this)
         reaction(() => this.questionID, () => this.loadQuestionDataFromServer())
         reaction(() => this.questionID, () => this.deliverFromServerImageURL())
+        reaction(() => this.questionHasBeenCompleted, () => this.saveDetailStatistic())
         this.ownStore = ownStore
         this.questionID = questionID
 
     }
 
+    userStore = UserStorage
     ownStore: any = null
     questionID: any
 
@@ -132,6 +135,16 @@ export class SameQuestionPlayer{
         )
     }
 
+    get ArrayForShowWrongAnswers(){
+        const showArray: any = []
+        toJS(this.historyOfWrongSelectedAnswers)?.forEach((attempt, aIndex: any) =>{
+            showArray.push({numberOfPasses: aIndex, numberOfWrongAnswers: attempt})
+        })
+        return(
+            showArray
+        )
+    }
+
     //Массив для отображения графика баллов на каждой из попыток
     get ArrayForShowAnswerPoints(){
         const showArray: any = []
@@ -198,6 +211,21 @@ export class SameQuestionPlayer{
 
                 this.answersArray = __AnswersArray
             })
+    }
+
+    //Сохраняет детальную статистику по прохождению вопроса
+    saveDetailStatistic(){
+        this.clientStorage.client.mutate({mutation: SAVE_DETAIL_STATISTIC, variables:{
+                question: this.questionID,
+                isLogin: this.userStore.isLogin,
+                userName: this.userStore.isLogin? this.userStore.username : localStorage?.getItem('user_name')?.length !== 0 ? localStorage?.getItem('user_name') : "Анонимный пользователь",
+                statistic:{
+                    numberOfPasses: this.numberOfPasses,
+                    ArrayForShowAnswerPoints : this.ArrayForShowAnswerPoints,
+                    ArrayForShowWrongAnswers: this.ArrayForShowWrongAnswers
+                }
+            }})
+            .catch(() => void(0))
     }
 
 

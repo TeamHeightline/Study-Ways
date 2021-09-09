@@ -173,6 +173,12 @@ export type CreateCardCoursePayload = {
     course?: Maybe<CardCourseNode>;
 };
 
+export type CreateDetailQuestionStatisticPayload = {
+    __typename?: 'CreateDetailQuestionStatisticPayload';
+    clientMutationId?: Maybe<Scalars['String']>;
+    detailStatistic?: Maybe<DetailQuestionStatisticNode>;
+};
+
 export type CreateQuestionSequencePayload = {
     __typename?: 'CreateQuestionSequencePayload';
     clientMutationId?: Maybe<Scalars['String']>;
@@ -191,6 +197,15 @@ export type DeleteAccount = {
     __typename?: 'DeleteAccount';
     errors?: Maybe<Scalars['ExpectedErrorType']>;
     success?: Maybe<Scalars['Boolean']>;
+};
+
+export type DetailQuestionStatisticNode = {
+    __typename?: 'DetailQuestionStatisticNode';
+    id: Scalars['ID'];
+    isLogin: Scalars['Boolean'];
+    question?: Maybe<QuestionNode>;
+    statistic?: Maybe<Scalars['GenericScalar']>;
+    userName?: Maybe<Scalars['String']>;
 };
 
 export type ErrorType = {
@@ -227,6 +242,7 @@ export type Mutation = {
     cardTheme?: Maybe<CardThemeMutationPayload>;
     createAnswer?: Maybe<AnswerMutationPayload>;
     createCardCourse?: Maybe<CreateCardCoursePayload>;
+    createDetailQuestionStatistic?: Maybe<CreateDetailQuestionStatisticPayload>;
     createQuestion?: Maybe<QuestionMutationPayload>;
     createQuestionAuthor?: Maybe<QuestionAuthorMutationPayload>;
     createQuestionSequence?: Maybe<CreateQuestionSequencePayload>;
@@ -418,6 +434,11 @@ export type MutationCreateAnswerArgs = {
 
 export type MutationCreateCardCourseArgs = {
     input: CreateCardCourseInput;
+};
+
+
+export type MutationCreateDetailQuestionStatisticArgs = {
+    input: CreateDetailQuestionStatisticInput;
 };
 
 
@@ -668,6 +689,8 @@ export type Query = {
     cardGlobalTheme?: Maybe<Array<Maybe<GlobalCardThemeNode>>>;
     cardSubTheme?: Maybe<Array<Maybe<CardSubThemeNode>>>;
     cardTheme?: Maybe<Array<Maybe<CardThemeNode>>>;
+    detailQuestionStatistic?: Maybe<Array<Maybe<DetailQuestionStatisticNode>>>;
+    detailQuestionStatisticByQuestionId?: Maybe<Array<Maybe<DetailQuestionStatisticNode>>>;
     me?: Maybe<UserNode>;
     question?: Maybe<Array<Maybe<QuestionNode>>>;
     questionAuthor?: Maybe<Array<Maybe<QuestionAuthorNode>>>;
@@ -687,6 +710,11 @@ export type QueryCardByIdArgs = {
 
 
 export type QueryCardCourseByIdArgs = {
+    id?: Maybe<Scalars['ID']>;
+};
+
+
+export type QueryDetailQuestionStatisticByQuestionIdArgs = {
     id?: Maybe<Scalars['ID']>;
 };
 
@@ -749,6 +777,7 @@ export type QuestionNode = {
     author: Array<QuestionAuthorNode>;
     cardTestBeforeCardSet: Array<CardNode>;
     cardTestInCardSet: Array<CardNode>;
+    detailquestionstatisticSet: Array<DetailQuestionStatisticNode>;
     id: Scalars['ID'];
     isImageQuestion: Scalars['Boolean'];
     numberOfShowingAnswers: Scalars['Int'];
@@ -1109,6 +1138,14 @@ export type CreateCardCourseInput = {
     createdBy?: Maybe<Scalars['ID']>;
 };
 
+export type CreateDetailQuestionStatisticInput = {
+    clientMutationId?: Maybe<Scalars['String']>;
+    isLogin?: Maybe<Scalars['Boolean']>;
+    question: Scalars['ID'];
+    statistic?: Maybe<Scalars['GenericScalar']>;
+    userName?: Maybe<Scalars['String']>;
+};
+
 export type CreateQuestionSequenceInput = {
     clientMutationId?: Maybe<Scalars['String']>;
     createdBy?: Maybe<Scalars['ID']>;
@@ -1171,6 +1208,3 @@ export type UpdateQuestionSequenceInput = {
     sequenceData?: Maybe<Scalars['GenericScalar']>;
     sequenceId: Scalars['ID'];
 };
-
-
-

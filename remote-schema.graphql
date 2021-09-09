@@ -117,6 +117,11 @@ type CreateCardCoursePayload {
     course: CardCourseNode
 }
 
+type CreateDetailQuestionStatisticPayload {
+    clientMutationId: String
+    detailStatistic: DetailQuestionStatisticNode
+}
+
 type CreateQuestionSequencePayload {
     clientMutationId: String
     sequence: QuestionSequenceNode
@@ -134,6 +139,14 @@ User must be verified and confirm password.
 type DeleteAccount {
     errors: ExpectedErrorType
     success: Boolean
+}
+
+type DetailQuestionStatisticNode {
+    id: ID!
+    isLogin: Boolean!
+    question: QuestionNode
+    statistic: GenericScalar
+    userName: String
 }
 
 type ErrorType {
@@ -167,6 +180,7 @@ type Mutation {
     cardTheme(input: CardThemeMutationInput!): CardThemeMutationPayload
     createAnswer(input: AnswerMutationInput!): AnswerMutationPayload
     createCardCourse(input: CreateCardCourseInput!): CreateCardCoursePayload
+    createDetailQuestionStatistic(input: CreateDetailQuestionStatisticInput!): CreateDetailQuestionStatisticPayload
     createQuestion(input: QuestionMutationInput!): QuestionMutationPayload
     createQuestionAuthor(input: QuestionAuthorMutationInput!): QuestionAuthorMutationPayload
     createQuestionSequence(input: CreateQuestionSequenceInput!): CreateQuestionSequencePayload
@@ -431,6 +445,8 @@ type Query {
     cardGlobalTheme: [GlobalCardThemeNode]
     cardSubTheme: [CardSubThemeNode]
     cardTheme: [CardThemeNode]
+    detailQuestionStatistic: [DetailQuestionStatisticNode]
+    detailQuestionStatisticByQuestionId(id: ID): [DetailQuestionStatisticNode]
     me: UserNode
     question: [QuestionNode]
     questionAuthor: [QuestionAuthorNode]
@@ -466,6 +482,7 @@ type QuestionNode {
     author: [QuestionAuthorNode!]!
     cardTestBeforeCardSet: [CardNode!]!
     cardTestInCardSet: [CardNode!]!
+    detailquestionstatisticSet: [DetailQuestionStatisticNode!]!
     id: ID!
     isImageQuestion: Boolean!
     numberOfShowingAnswers: Int!
@@ -811,6 +828,14 @@ input CreateCardCourseInput {
     clientMutationId: String
     courseData: GenericScalar
     createdBy: ID
+}
+
+input CreateDetailQuestionStatisticInput {
+    clientMutationId: String
+    isLogin: Boolean
+    question: ID!
+    statistic: GenericScalar
+    userName: String
 }
 
 input CreateQuestionSequenceInput {

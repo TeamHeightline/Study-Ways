@@ -7,13 +7,12 @@ import Collapse from "@material-ui/core/Collapse";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import ImageQuestion from "../Elements/UserTest/ImageQuestion/ImageQuestion";
+import {ImageQuestion} from "../Elements/UserTest/ImageQuestion/ImageQuestion";
 import {observer} from "mobx-react";
 import {QuestionPageStorage} from "../../Store/PublicStorage/QuestionPage/QuestionPageStore";
 import {toJS} from "mobx";
 
 export const MainUserQuestionPage = observer(() =>{
-    // console.log(toJS(QuestionPageStorage.selectedQuestionObject)?.questionText)
 
     if (!QuestionPageStorage.questionsData) {
         return (

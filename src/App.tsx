@@ -37,7 +37,7 @@ import {Registration} from "./Components/PublicPages/Login/Registration";
 import {EditorsRouter} from "./Components/PrivatePages/EditorsRouter";
 import {MainUserQuestionPage} from "./Components/PublicPages/MainUserQuestionPage";
 
-import ImageQuestion from "./Components/Elements/UserTest/ImageQuestion/ImageQuestion";
+import {ImageQuestion} from "./Components/Elements/UserTest/ImageQuestion/ImageQuestion";
 import Typist from 'react-typist';
 import {MainCardPublicView} from "./Components/PublicPages/MainCardPublicView";
 import {MainCoursePublicView} from "./Components/PublicPages/MainCoursePublicView";

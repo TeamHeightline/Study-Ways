@@ -20,6 +20,11 @@ export class SameQuestionPlayer{
     ownStore: any = null
     questionID: any
 
+    //Функция для обновления ID вопроса
+    changeQuestionId(newId){
+        this.questionID = newId
+    }
+
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
     clientStorage = ClientStorage
 
@@ -156,7 +161,7 @@ export class SameQuestionPlayer{
 
     //Выводит подсказку
     get HelpTextForShow(){
-        if(this.ownStore.isUseExamMode){
+        if(this.ownStore?.isUseExamMode){
             return ("Вы допустили одну или более ошибок")
         }
         if(this.hardLevelOfHelpText == "0"){

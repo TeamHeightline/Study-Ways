@@ -10,7 +10,7 @@ import {ReUsefulQuestionStore} from "../../Store/ReUsfulComponentsStorage/Comuni
 import {toJS} from "mobx";
 import ArtTrackIcon from "@material-ui/icons/ArtTrack";
 import BlurLinearIcon from "@material-ui/icons/BlurLinear";
-import ImageQuestion from "../Elements/UserTest/ImageQuestion/ImageQuestion";
+import {ImageQuestion} from "../Elements/UserTest/ImageQuestion/ImageQuestion";
 import {Card, CardActionArea, Typography} from "@material-ui/core";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
 import {QSPlayerByID} from "../Elements/QuestionSequence/Public/QSPlayerByID";

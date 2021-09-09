@@ -67,10 +67,8 @@ class QuestionPage{
     }
 
     //Функция, чтобы вернуться в меню выбора вопроса
-    closeQuestion(data){
-        if(data === "goBack"){
-            this.isOpenQuestionPlayer = false
-        }
+    closeQuestion(){
+        this.isOpenQuestionPlayer = false
     }
 
     //Функция, чтобы начать выполнять вопрос

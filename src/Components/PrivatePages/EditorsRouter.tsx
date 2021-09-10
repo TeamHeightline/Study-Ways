@@ -31,6 +31,8 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import BarChartIcon from '@material-ui/icons/BarChart';
+import {MainStatistic} from "./MainStatistic";
 
 const drawerWidth = 240;
 
@@ -185,6 +187,12 @@ export const EditorsRouter = observer(() =>{
                         </ListItemIcon>
                         <ListItemText primary="Редактор серии вопросов"/>
                     </ListItem>
+                    <ListItem button onClick={() => history.push(`${path}/statistic`)}>
+                        <ListItemIcon>
+                            <BarChartIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Статистика"/>
+                    </ListItem>
                 </List>
             </Drawer>
         <Switch>
@@ -193,6 +201,7 @@ export const EditorsRouter = observer(() =>{
             <Route  path={`${path}/se`} component={SearchingElementsEditor}/>
             <Route  path={`${path}/question`} component={QuestionEditor}/>
             <Route  path={`${path}/qse`} component={QuestionSequenceMainEditor}/>
+            <Route  path={`${path}/statistic`} component={MainStatistic}/>
             {/*Чтобы на основной странице отображался редактор курсов, в самом низу
             потому что иначе будет открываться только он, потому что это будет первым
             результатом switch*/}

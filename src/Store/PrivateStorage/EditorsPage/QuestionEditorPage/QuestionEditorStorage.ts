@@ -271,17 +271,17 @@ class QuestionEditor{
     get QuestionArrayForDisplay(){
         if(this.activeFolder === 0 ){
             return(
-                sort(QuestionEditorStorage?.allQuestionsData).desc((question: any) => Number(question.id))
+                sort(this?.allQuestionsData).desc((question: any) => Number(question.id))
             )
         }
         if(this.activeFolder === 1){
             return (
-                sort(QuestionEditorStorage?.allQuestionsData.filter((question) => question.text !== "Новый вопрос")).desc((question: any) => Number(question.id))
+                sort(this?.allQuestionsData.filter((question) => question.text !== "Новый вопрос")).desc((question: any) => Number(question.id))
             )
         }
         if(this.activeFolder === 2){
             return (
-                sort(QuestionEditorStorage?.allQuestionsData.filter((question) => question.text === "Новый вопрос")).desc((question: any) => Number(question.id))
+                sort(this?.allQuestionsData.filter((question) => question.text === "Новый вопрос")).desc((question: any) => Number(question.id))
             )
         }
     }

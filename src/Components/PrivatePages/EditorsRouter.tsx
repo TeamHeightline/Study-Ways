@@ -1,6 +1,4 @@
 import React, {useEffect} from "react";
-import {BottomNavigation} from "@material-ui/core";
-import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import {QuestionEditor} from "./QuestionEditor";
 import {Alert} from "@material-ui/lab";
 import AlertTitle from "@material-ui/lab/AlertTitle";
@@ -22,12 +20,99 @@ import {
     useRouteMatch, useHistory, useLocation, Redirect
 } from "react-router-dom";
 
+import clsx from 'clsx';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+
+const drawerWidth = 240;
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            display: 'flex',
+        },
+        appBar: {
+            zIndex: theme.zIndex.drawer + 1,
+            transition: theme.transitions.create(['width', 'margin'], {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen,
+            }),
+        },
+        appBarShift: {
+            marginLeft: drawerWidth,
+            width: `calc(100% - ${drawerWidth}px)`,
+            transition: theme.transitions.create(['width', 'margin'], {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+        },
+        menuButton: {
+            marginRight: 36,
+        },
+        hide: {
+            display: 'none',
+        },
+        drawer: {
+            width: drawerWidth,
+            flexShrink: 0,
+            whiteSpace: 'nowrap',
+        },
+        drawerOpen: {
+            marginTop: "50px",
+            width: drawerWidth,
+            transition: theme.transitions.create('width', {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+        },
+        drawerClose: {
+            marginTop: "50px",
+            transition: theme.transitions.create('width', {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen,
+            }),
+            overflowX: 'hidden',
+            width: theme.spacing(7) + 1,
+            [theme.breakpoints.up('sm')]: {
+                width: theme.spacing(9) + 1,
+            },
+        },
+        toolbar: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            padding: theme.spacing(0, 1),
+            // necessary for content to be below app bar
+            ...theme.mixins.toolbar,
+        },
+        content: {
+            flexGrow: 1,
+            padding: theme.spacing(3),
+        },
+    }),
+);
 
 export const EditorsRouter = observer(() =>{
     const [value, setValue] = React.useState(0);
     const history = useHistory();
     const { path } = useRouteMatch();
     const location = useLocation();
+    const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+
+
+    const handleDrawer = () => {
+        setOpen(!open);
+    };
+
 
     useEffect(() =>{
         //Необходимо для того, чтобы правильно подсвечивать активную вкладку
@@ -54,35 +139,54 @@ export const EditorsRouter = observer(() =>{
     }
     return (
         <div>
-        <BottomNavigation
-            value={value}
-            onChange={(event, newValue) => {
-                if(newValue === 0){
-                    history.push(`${path}/course`)
-                }
-                if(newValue === 1){
-                    history.push(`${path}/card`)
-                }
-                if(newValue === 2){
-                    history.push(`${path}/se`)
-                }
-                if(newValue === 3){
-                    history.push(`${path}/question`)
-                }
-                if(newValue === 4){
-                    history.push(`${path}/qse`)
-                }
-                setValue(newValue);
-            }}
-            showLabels
-            className="col-12"
-        >
-            <BottomNavigationAction label="Редактор курсов" icon={<BlurLinearIcon/>}/>
-            <BottomNavigationAction label="Редактор карточек" icon={<ArtTrackIcon/>}/>
-            <BottomNavigationAction label="Темы и авторы" icon={<RecentActorsIcon/>}/>
-            <BottomNavigationAction label="Редактор вопроса" icon={<FormatListBulletedIcon />} />
-            <BottomNavigationAction label="Редактор серии вопросов" icon={<LinearScaleIcon />} />
-        </BottomNavigation>
+            <Drawer
+                variant="permanent"
+                classes={{
+                    paper: clsx({
+                        [classes.drawerOpen]: open,
+                        [classes.drawerClose]: !open,
+                    }),
+                }}
+            >
+                <div>
+                    <IconButton onClick={handleDrawer}>
+                        {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                    </IconButton>
+                </div>
+                <Divider />
+                <List>
+                    <ListItem button onClick={() => history.push(`${path}/course`)}>
+                        <ListItemIcon>
+                            <BlurLinearIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Редактор курсов"/>
+                    </ListItem>
+                    <ListItem button onClick={() => history.push(`${path}/card`)}>
+                        <ListItemIcon>
+                            <ArtTrackIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Редактор карточек"/>
+                    </ListItem>
+                    <ListItem button onClick={() => history.push(`${path}/se`)}>
+                        <ListItemIcon>
+                            <RecentActorsIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Темы и авторы"/>
+                    </ListItem>
+                    <ListItem button onClick={() => history.push(`${path}/question`)}>
+                        <ListItemIcon>
+                            <FormatListBulletedIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Редактор вопроса"/>
+                    </ListItem>
+                    <ListItem button onClick={() => history.push(`${path}/qse`)}>
+                        <ListItemIcon>
+                            <LinearScaleIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Редактор серии вопросов"/>
+                    </ListItem>
+                </List>
+            </Drawer>
         <Switch>
             <Route  path={`${path}/course`} component={MainCourseEditor}/>
             <Route  path={`${path}/card`} component={MainCardEditor}/>
@@ -95,12 +199,6 @@ export const EditorsRouter = observer(() =>{
             <Redirect to={`${path}/course`}/>
         </Switch>
 
-
-            {/*{value === 0 && <MainCourseEditor/>}*/}
-            {/*{value === 1 && <MainCardEditor/>}*/}
-            {/*{value === 2 && <SearchingElementsEditor/>}*/}
-            {/*{value === 3 && <QuestionEditor/>}*/}
-            {/*{value === 4 && <QuestionSequenceMainEditor/>}*/}
         </div>
     );
 })

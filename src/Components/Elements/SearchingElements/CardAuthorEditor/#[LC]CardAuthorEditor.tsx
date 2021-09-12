@@ -6,7 +6,7 @@ import DCCardAuthorEditor from "./##[DC]CardAuthorEditor";
 
 const columnsForAuthorsDataGrid = [
     {field: 'id', headerName: 'ID', width: 70},
-    {field: 'name', headerName: 'Автор карточки', width: 500},
+    {field: 'name', headerName: 'Автор карточки', width: 300},
 ]
 //Вся документация в LCUserTestThemeEditor, он идентичен этому компоненту
 export default  function LCCardAuthorEditor(){

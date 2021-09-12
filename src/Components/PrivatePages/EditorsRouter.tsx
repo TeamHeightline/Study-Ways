@@ -33,6 +33,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import {MainStatistic} from "./MainStatistic";
+import {Tooltip, Typography} from "@material-ui/core";
 
 const drawerWidth = 240;
 
@@ -157,56 +158,70 @@ export const EditorsRouter = observer(() =>{
                 </div>
                 <Divider />
                 <List>
-                    <ListItem button onClick={() => history.push(`${path}/course`)}>
-                        <ListItemIcon>
-                            <BlurLinearIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary="Редактор курсов"/>
-                    </ListItem>
-                    <ListItem button onClick={() => history.push(`${path}/card`)}>
-                        <ListItemIcon>
-                            <ArtTrackIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary="Редактор карточек"/>
-                    </ListItem>
-                    <ListItem button onClick={() => history.push(`${path}/se`)}>
-                        <ListItemIcon>
-                            <RecentActorsIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary="Темы и авторы"/>
-                    </ListItem>
-                    <ListItem button onClick={() => history.push(`${path}/question`)}>
-                        <ListItemIcon>
-                            <FormatListBulletedIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary="Редактор вопроса"/>
-                    </ListItem>
-                    <ListItem button onClick={() => history.push(`${path}/qse`)}>
-                        <ListItemIcon>
-                            <LinearScaleIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary="Редактор серии вопросов"/>
-                    </ListItem>
-                    <ListItem button onClick={() => history.push(`${path}/statistic`)}>
-                        <ListItemIcon>
-                            <BarChartIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary="Статистика"/>
-                    </ListItem>
+                    <Tooltip title={<Typography variant="body1">Редактор курсов</Typography>}>
+                        <ListItem button onClick={() => history.push(`${path}/course`)}>
+                            <ListItemIcon>
+                                <BlurLinearIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="Редактор курсов"/>
+                        </ListItem>
+                    </Tooltip>
+                    <Tooltip title={<Typography variant="body1">Редактор карточек</Typography>}>
+                        <ListItem button onClick={() => history.push(`${path}/card`)}>
+                            <ListItemIcon>
+                                <ArtTrackIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="Редактор карточек"/>
+                        </ListItem>
+                    </Tooltip>
+                    <Tooltip title={<Typography variant="body1">Темы и авторы</Typography>}>
+                        <ListItem button onClick={() => history.push(`${path}/se`)}>
+                            <ListItemIcon>
+                                <RecentActorsIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="Темы и авторы"/>
+                        </ListItem>
+                    </Tooltip>
+                    <Tooltip title={<Typography variant="body1">Редактор вопросов</Typography>}>
+                        <ListItem button onClick={() => history.push(`${path}/question`)}>
+                            <ListItemIcon>
+                                <FormatListBulletedIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="Редактор вопросов"/>
+                        </ListItem>
+                    </Tooltip>
+                    <Tooltip title={<Typography variant="body1">Редактор серии вопросов</Typography>}>
+                        <ListItem button onClick={() => history.push(`${path}/qse`)}>
+                            <ListItemIcon>
+                                <LinearScaleIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="Редактор серии вопросов"/>
+                        </ListItem>
+                    </Tooltip>
+                    <Tooltip title={<Typography variant="body1">Статистика</Typography>}>
+                        <ListItem button onClick={() => history.push(`${path}/statistic`)}>
+                            <ListItemIcon>
+                                <BarChartIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="Статистика"/>
+                        </ListItem>
+                    </Tooltip>
                 </List>
             </Drawer>
-        <Switch>
-            <Route  path={`${path}/course`} component={MainCourseEditor}/>
-            <Route  path={`${path}/card`} component={MainCardEditor}/>
-            <Route  path={`${path}/se`} component={SearchingElementsEditor}/>
-            <Route  path={`${path}/question`} component={QuestionEditor}/>
-            <Route  path={`${path}/qse`} component={QuestionSequenceMainEditor}/>
-            <Route  path={`${path}/statistic`} component={MainStatistic}/>
-            {/*Чтобы на основной странице отображался редактор курсов, в самом низу
-            потому что иначе будет открываться только он, потому что это будет первым
-            результатом switch*/}
-            <Redirect to={`${path}/course`}/>
-        </Switch>
+            <div className="pl-5">
+                <Switch>
+                    <Route  path={`${path}/course`} component={MainCourseEditor}/>
+                    <Route  path={`${path}/card`} component={MainCardEditor}/>
+                    <Route  path={`${path}/se`} component={SearchingElementsEditor}/>
+                    <Route  path={`${path}/question`} component={QuestionEditor}/>
+                    <Route  path={`${path}/qse`} component={QuestionSequenceMainEditor}/>
+                    <Route  path={`${path}/statistic`} component={MainStatistic}/>
+                    {/*Чтобы на основной странице отображался редактор курсов, в самом низу
+                    потому что иначе будет открываться только он, потому что это будет первым
+                    результатом switch*/}
+                    <Redirect to={`${path}/course`}/>
+                </Switch>
+            </div>
 
         </div>
     );

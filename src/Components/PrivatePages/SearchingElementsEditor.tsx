@@ -8,7 +8,7 @@ import {Typography} from "@material-ui/core";
 
 export default function SearchingElementsEditor({...props}: any){
     return(
-        <div {...props}>
+        <div {...props} className="pl-5">
             <Typography className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Темы и виртуальные авторы для карточек</Typography>
             <Row className="justify-content-around mt-3">
                 <LCCardThemeEditor/>

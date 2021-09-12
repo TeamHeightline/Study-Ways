@@ -122,7 +122,7 @@ export const MainUserQuestionPage = observer(() =>{
     return (
         <div>
             <Button
-                className="ml-lg-2 mt-4  col-12 col-lg-2 mr-2"
+                className="ml-lg-2 mt-4  col-12 col-lg-2 mr-2 mb-2"
                 variant="outlined" color="primary"
                 onClick={ () => {
                     QuestionPageStorage.closeQuestion()

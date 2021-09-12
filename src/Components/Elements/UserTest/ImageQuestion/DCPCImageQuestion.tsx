@@ -19,11 +19,12 @@ export default function DCPCImageQuestion(props: any) {
         {(props.height / props.width < 1 || props.ignoreAspectRatio) &&
         <Card variant="outlined" style={{ padding: 0,}} className="col-12 ">
             <Row className="justify-content-center">
-                {props.questionImgUrl ? <Col className={!props?.ignoreAspectRatio ? "col-6":
-                    window.innerHeight / window.innerWidth > 1 ? "col-12" : "col-6"}>
+                {props.questionImgUrl ?
+                    <Col className={!props?.ignoreAspectRatio ? "col-6 justify-content-start":
+                    window.innerHeight / window.innerWidth > 1 ? "col-12 justify-content-start" : "col-6 justify-content-start"}>
                     <CardMedia
-                        className="col-12"
-                        style={{height: props.width >1400 ? 500: 400, width: "100%"}}
+                        className="col-12 mr-auto"
+                        style={{height: props.width >1400 ? 500: 400, backgroundSize: "contain"}}
                         image={props.questionImgUrl}
                     />
                 </Col> : null}

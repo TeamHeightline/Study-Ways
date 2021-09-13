@@ -1,7 +1,7 @@
 // Лицо проекта, первое, с чем сталкнется пользователь, работает на 3+
 
 import * as React from 'react'
-import {Button, Container, Form} from "react-bootstrap";
+import {Button, Form, Row} from "react-bootstrap";
 import {useState} from "react";
 import {gql, useMutation} from "@apollo/client";
 import {useHistory} from "react-router-dom";
@@ -50,10 +50,10 @@ export const  Registration = observer(() =>{
 
     return(
         <div>
-            <Container>
-                <Typography className="text-center mt-5" variant="h4">Регистрация</Typography>
+            <Typography className="text-center mt-5" variant="h4">Регистрация</Typography>
+            <Row className="justify-content-center">
                 {/*<div className="display-4 text-center mt-5" style={{fontSize: '33px'}}>Регистрация</div>*/}
-                <div className="col-4 offset-4 mt-3">
+                <div className="col-md-4 mt-3">
                     {/*<Card>*/}
                     <Form>
                         {/*Стандартный набор, юзерныйм, мэил и два пароля, заметьте, для второго пароля честно
@@ -91,14 +91,14 @@ export const  Registration = observer(() =>{
                         (data?.register?.errors?.password2[0].message === "This password is too common.") ||
                         (data?.register?.errors?.password2[0].message === "This password is entirely numeric.")?
                             <Alert severity="error" variant="outlined" className="mt-2" >Пароль слишком простой</Alert>: null: null}
-                        {data && !data?.register?.success && <Alert severity="error" variant="outlined" className="mt-2" >Ошибка проверьте, что вы заполнели все поля</Alert>}
+                        {data && !data?.register?.success && <Alert severity="error" variant="outlined" className="mt-2" >Ошибка проверьте, что вы заполнили все поля</Alert>}
                         {/*Занятный факт, эту надпись невозможно прочесть, редирект произойдет раньше*/}
                         {data?.register?.success ?  data?.register.success === true? <Alert severity="info" variant='outlined' className="mt-2">Вы зарегистрировались, запрос на подтверждение аккаунта отправлен вам на почту</Alert>: null: null}
 
                     </Form>
                     {/*</Card>*/}
                 </div>
-            </Container>
+            </Row>
         </div>
     )
 })

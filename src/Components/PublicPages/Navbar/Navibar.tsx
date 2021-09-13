@@ -10,7 +10,6 @@ import {UserStorage} from '../../../Store/UserStore/UserStore'
 
 import BlurLinearIcon from "@material-ui/icons/BlurLinear";
 import ArtTrackIcon from "@material-ui/icons/ArtTrack";
-import DoneAllIcon from '@material-ui/icons/DoneAll';
 import EditIcon from '@material-ui/icons/Edit';
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -22,6 +21,7 @@ import IconButton from '@material-ui/core/IconButton';
 import {observer} from "mobx-react";
 import {AccountCircle} from "@material-ui/icons";
 import {Menu, MenuItem} from "@material-ui/core";
+import CategoryIcon from '@material-ui/icons/Category';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -57,7 +57,7 @@ export const Navibar = observer(() => {
             history.push('/cards')
         }
         if(newValue == 2){
-            history.push('/test')
+            history.push('/direction')
         }
         if(newValue == 3){
             history.push('/editor')
@@ -77,7 +77,7 @@ export const Navibar = observer(() => {
         <BottomNavigation value={value} onChange={mobileMunuClickHandleChange} className="col-12">
             <BottomNavigationAction label="Курсы" value="0" icon={<BlurLinearIcon />} />
             <BottomNavigationAction label="Карточки" value="1" icon={<ArtTrackIcon />} />
-            <BottomNavigationAction label="Вопросы" value="2" icon={<DoneAllIcon />} />
+            <BottomNavigationAction label="Direction (beta)" value="2" icon={<CategoryIcon />} />
             <BottomNavigationAction label="Редакторы" value="3" icon={<EditIcon />} />
         </BottomNavigation>
     )}
@@ -93,9 +93,9 @@ export const Navibar = observer(() => {
                     </Typography>
                      <Link className={s.link} to="/courses">Курсы </Link>
                      <Link className={s.link} to="/cards">Карточки</Link>
-                     <Link className={s.link} to="/test">Вопросы</Link>
+                     {/*<Link className={s.link} to="/test">Вопросы</Link>*/}
                      <Typography className="ml-4"> | </Typography>
-                     <Link className={s.link} to="/editor">Редакторы</Link>
+                     <Link className={s.link} to="/direction">Direction (beta)</Link>
                     {UserStorage.isLogin ?
                         <>
                         <Typography className="ml-5 mr-4">{UserStorage.username}</Typography>
@@ -125,8 +125,23 @@ export const Navibar = observer(() => {
                         >
                                     <MenuItem onClick={() => {
                                         handleClose()
+                                        history.push('/editor')
+                                    }}>
+                                        Редакторы
+                                    </MenuItem>
+                                    <MenuItem onClick={() => {
+                                        handleClose()
+                                        history.push('/test')
+                                    }}>
+                                        Вопросы
+                                    </MenuItem>
+                                    <MenuItem onClick={() => {
+                                        handleClose()
                                         history.push('/unlogin')
-                                    }}>Logout</MenuItem>
+                                    }}>
+                                        Logout
+                                    </MenuItem>
+
                                 </Menu>
 
                         </> :

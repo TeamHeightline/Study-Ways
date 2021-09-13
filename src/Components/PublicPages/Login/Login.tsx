@@ -3,7 +3,7 @@
 // Неизвестно почему, но оно не работает, вернее, работает через раз
 import * as React from 'react'
 import 'react-bootstrap';
-import {Container, Form, Button, Row} from "react-bootstrap";
+import { Form, Button, Row, Col} from "react-bootstrap";
 import {useState} from "react";
 import { observer } from "mobx-react"
 import { useHistory } from "react-router-dom";
@@ -21,13 +21,13 @@ export  const Login = observer(() =>{
     }
     return(
         <div>
-            <Container>
+            <Typography className="text-center mt-5" variant="h4">
+                Введите email и пароль
+            </Typography>
+            <Row className="justify-content-center">
                 {/*Теоретически, здесь должен быть вариант с социальными сетями, но увы и ах*/}
-                <Typography className="text-center mt-5" variant="h4">
-                    Введите email и пароль
-                </Typography>
                 {/*<div className="display-4 text-center mt-5" style={{fontSize: '33px'}}>Введите email и пароль</div>*/}
-                <div className="col-4 offset-4 mt-3">
+                <Col className="col-md-4 col-12 mt-3">
                     {/*Стандартная форма мэйла и пароля*/}
                         <Form>
                             <Form.Group>
@@ -58,8 +58,8 @@ export  const Login = observer(() =>{
                                 </Button>
                             </Row>
                         </Form>
-                </div>
-            </Container>
+                </Col>
+            </Row>
         </div>
     )
 })

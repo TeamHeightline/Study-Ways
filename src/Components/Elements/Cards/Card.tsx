@@ -59,7 +59,8 @@ export const CARD = observer(({id, ...props}: any) =>{
     const [rating, setRating] = useState<number | null>(4);
     const [cardImage, setCardImage] = useState()
     const {width, height} = useWindowDimensions()
-    const {data: card_data, refetch} = useQuery(SHOW_CARD_BY_ID, {
+    const {data: card_data, refetch, loading} = useQuery(SHOW_CARD_BY_ID, {
+        fetchPolicy: "no-cache",
         variables:{
             id: id? id :
                 props?.openFromCourse? CoursePageStorage.selectedCardID : CardPageStorage.selectedCardID,
@@ -87,7 +88,11 @@ export const CARD = observer(({id, ...props}: any) =>{
                 }
             })
     }
-
+    if(loading){
+        return (
+            <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
+        )
+    }
     // console.log("disabledNext " + props.disabledNext)
     return(
         <div className="col-12">

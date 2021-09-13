@@ -12,7 +12,7 @@ export const ImageForQuestion = observer(() =>{
                     <input type="file"  hidden name="file" onChange={(fileData) => QuestionEditorStorage.uploadNewQuestionImage(fileData)} />
                     Изображение для вопроса
                 </Button>
-                <Typography>{QuestionEditorStorage.QuestionImageName}</Typography>
+                <Typography>{ QuestionEditorStorage.QuestionImageName.length > 31 ? QuestionEditorStorage.QuestionImageName.slice(0,30) + "..." : QuestionEditorStorage.QuestionImageName}</Typography>
             </div>}
         </Col>
     )

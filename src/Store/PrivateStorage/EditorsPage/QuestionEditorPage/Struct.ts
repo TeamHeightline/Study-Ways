@@ -30,6 +30,7 @@ export const ALL_QUESTIONS_DATA = gql`
                     hardLevelOfAnswer
                     isDeleted
                     isInvisible
+                    isRequired
                 }
             }
             questionauthorSet{
@@ -95,10 +96,11 @@ export const CREATE_NEW_QUESTION = gql`
 
 export const UPDATE_ANSWER = gql`mutation UPDATE_ANSWER($question: ID!, $id: ID, $isTrue: Boolean, $text: String, $helpTextv1: String,
     $helpTextv2: String, $helpTextv3: String, $videoUrl: String, $checkQueue: Int!, $hardLevelOfAnswer: String!, $isDeleted: Boolean,
-    $isInvisible: Boolean){
+    $isInvisible: Boolean, $isRequired: Boolean){
     updateAnswer(input: {createdBy: 0, question: $question, isTrue: $isTrue, text: $text, helpTextv1: $helpTextv1,
         helpTextv2: $helpTextv2, helpTextv3: $helpTextv3, videoUrl: $videoUrl, checkQueue: $checkQueue,
-        hardLevelOfAnswer: $hardLevelOfAnswer, id: $id, isDeleted: $isDeleted, isInvisible: $isInvisible}){
+        hardLevelOfAnswer: $hardLevelOfAnswer, id: $id, isDeleted: $isDeleted, isInvisible: $isInvisible,
+    isRequired: $isRequired}){
         errors{
             field
             messages

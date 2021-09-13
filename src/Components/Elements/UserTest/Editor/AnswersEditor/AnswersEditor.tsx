@@ -19,6 +19,7 @@ import {AnswerSavingNotification} from "./#AnswerSavingNotification";
 import {AnswerDeleteOrDisableAnswerMenu} from "./#AnswerDeleteOrDisableAnswerMenu";
 import {AnswerDeleteDialog} from "./#AnswerDeleteDialog";
 import { makeStyles, createStyles } from '@material-ui/core/styles';
+import {AnswerIsRequired} from "./#AnswerIsRequired";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -43,6 +44,7 @@ export const AnswersEditor = observer(() => {
         <>
             <Typography className="display-4 text-center mt-3 col-12" style={{fontSize: '33px'}}>Редактировать ответы</Typography>
             {QuestionEditorStorage.answers.filter(answer => answer.isDeleted === false)?.map((answer) =>{
+                console.log(answer.isRequired)
                 return(
                     <div className="mr-2 ml-2 mt-3 " key={answer.id + "AnswerKey"}>
                         <Paper elevation={3} variant="outlined" className="ml-5 mr-5">
@@ -93,6 +95,7 @@ export const AnswersEditor = observer(() => {
                                             </Grid>
                                             <Grid item container spacing={0} xs={12}>
                                                 <Grid item md={6} xs={12}>
+                                                    <AnswerIsRequired answer={answer}/>
                                                 </Grid>
                                                 <Grid item md={6} xs={12} className={classes.savingNotification}>
                                                     <AnswerSavingNotification answer={answer}/>

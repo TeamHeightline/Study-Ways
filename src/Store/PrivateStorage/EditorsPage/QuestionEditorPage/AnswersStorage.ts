@@ -28,6 +28,14 @@ export class Answer{
     isDeleted = false
     isInvisible = false
 
+    //Обязательно ли отображать ответ или нет
+    isRequired = false
+
+    //Функция обработки изменений в isRequired
+    changeIsRequired(newRequiredState: boolean){
+        this.isRequired = newRequiredState
+    }
+
     deleteAnswer(){
         this.isDeleted = true
         // console.log("Delete answer with id" + this.id)
@@ -78,6 +86,7 @@ export class Answer{
                 hardLevelOfAnswer: this.hardLevelOfAnswer,
                 isDeleted: this.isDeleted,
                 isInvisible: this.isInvisible,
+                isRequired: this.isRequired,
             }})
             .then(() =>{
                 this.stateOfSave = true
@@ -122,6 +131,7 @@ export class Answer{
         this.checkQueue = answer.checkQueue
         this.videoUrl = answer.videoUrl
         this.hardLevelOfAnswer = answer.hardLevelOfAnswer
+        this.isRequired = answer.isRequired
         this.questionID = questionID
         this.getImageUrlFromServer()
         reaction(() => this.id, () => this.autoSave())
@@ -134,6 +144,7 @@ export class Answer{
         reaction(() => this.videoUrl, () => this.autoSave())
         reaction(() => this.hardLevelOfAnswer, () => this.autoSave())
         reaction(() => this.questionID, () => this.autoSave())
+        reaction(() => this.isRequired, () => this.autoSave())
         reaction(() => this.isDeleted, () => this.saveDataOnServer())
         reaction(() => this.isInvisible, ()=> this.saveDataOnServer())
     }

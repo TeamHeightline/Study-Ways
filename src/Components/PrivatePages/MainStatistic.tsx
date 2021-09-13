@@ -15,7 +15,7 @@ export const MainStatistic = observer(() =>{
     }
     if(processedStore.isOpenQuestion){
         return (
-            <div className="pl-5">
+            <div className="pl-3">
                 <Button
                     className="ml-md-5 mt-4  col-12 col-lg-2 mr-2"
                     variant="outlined" color="primary"

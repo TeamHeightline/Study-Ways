@@ -24,7 +24,7 @@ export const StatisticByQuestionData = observer(() =>{
                     </Typography>
                 </Grid>
             </Grid>
-            <TableContainer component={Paper} className="pl-4">
+            <TableContainer component={Paper}>
                 <Table aria-label="collapsible table">
                     <TableHead>
                         <TableRow>

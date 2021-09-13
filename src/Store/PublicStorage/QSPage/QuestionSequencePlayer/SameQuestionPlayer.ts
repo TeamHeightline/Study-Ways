@@ -205,10 +205,11 @@ export class SameQuestionPlayer{
                 const __AnswersArray: any[] = []
                 //максимальное число баллов, которые можно получить выбрав все правильные ответы
                 let __maxSumOfAnswerPoints = 0
-
                 //Перемешиваем ответы и обрезаем из количество на значение из настроек
-                _.shuffle(data.data.questionById.answers.filter((answer) => answer.isDeleted !== true))?.slice(0, data?.data?.questionById?.numberOfShowingAnswers)
-                    .map((answer) =>{
+                let __answersForDisplay = _.shuffle(data.data.questionById.answers.filter((answer) => answer.isRequired === true))?.slice(0, data?.data?.questionById?.numberOfShowingAnswers)
+                __answersForDisplay = __answersForDisplay.concat(_.shuffle(data.data.questionById.answers.filter((answer) => answer.isRequired === false))?.slice(0, data?.data?.questionById?.numberOfShowingAnswers - __answersForDisplay.length))
+                __answersForDisplay = _.shuffle(__answersForDisplay)
+                __answersForDisplay.map((answer) =>{
                     if(answer.hardLevelOfAnswer === "EASY"){
                         __maxSumOfAnswerPoints += 5
                     }else if(answer.hardLevelOfAnswer === "MEDIUM"){

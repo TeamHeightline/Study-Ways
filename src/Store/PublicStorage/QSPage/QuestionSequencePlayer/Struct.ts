@@ -29,6 +29,7 @@ export const GET_QUESTION_DATA_BY_ID = gql`
                 videoUrl
                 isDeleted
                 isInvisible
+                isRequired
             }
         }
     }

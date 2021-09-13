@@ -26,6 +26,7 @@ type AnswerNode {
     id: ID!
     isDeleted: Boolean!
     isInvisible: Boolean!
+    isRequired: Boolean!
     isTrue: Boolean!
     question: QuestionNode!
     text: String!
@@ -774,6 +775,7 @@ input AnswerMutationInput {
     id: ID
     isDeleted: Boolean
     isInvisible: Boolean
+    isRequired: Boolean
     isTrue: Boolean
     question: ID!
     text: String

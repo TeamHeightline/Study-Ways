@@ -23,6 +23,15 @@ export class SameQuestionPlayer{
     //Функция для обновления ID вопроса
     changeQuestionId(newId){
         this.questionID = newId
+        this.oneTimeCheckError = false
+        this.numberOfPasses = 0
+        this.IndexOfMostWantedError = -1
+        this.questionHasBeenCompleted = false
+        this.selectedAnswers = new Set()
+        this.historyOfWrongSelectedAnswers = new Map()
+        this.historyOfAnswerPoints = new Map()
+        this.maxSumOfPoints = 0
+
     }
 
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)

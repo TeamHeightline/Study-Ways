@@ -10,8 +10,12 @@ export const QuestionSrc = observer(() =>{
             {QuestionEditorStorage.questionHasBeenSelected &&
             <Col className="text-center mt-2 col-6">
                 <Typography variant="body2" color="textSecondary" component="p">
-                    {"Ссылка на прохождение вопроса  - "}
+                    {"Режим обучения  - "}
                     <strong>https://www.sw-university.com/iq/{QuestionEditorStorage.selectedQuestionID}</strong>
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                    {"Режим экзамена  - "}
+                    <strong>https://www.sw-university.com/iq/{QuestionEditorStorage.selectedQuestionID}?exam=true</strong>
                 </Typography>
             </Col>}
         </>

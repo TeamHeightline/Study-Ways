@@ -2,7 +2,7 @@
 // будет перегружаться
 
 import s from './navibar.module.css';
-import {Link, useHistory} from 'react-router-dom';
+import {Link, useHistory, useLocation} from 'react-router-dom';
 import useWindowDimensions from "../../../CustomHooks/useWindowDimensions";
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
@@ -39,6 +39,9 @@ const useStyles = makeStyles((theme: Theme) =>
         },
     }),
 );
+function useQuery() {
+    return new URLSearchParams(useLocation().search);
+}
 
 export const Navibar = observer(() => {
     const classes = useStyles();
@@ -48,6 +51,7 @@ export const Navibar = observer(() => {
     const history = useHistory();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+    const query = useQuery();
 
     const mobileMunuClickHandleChange = (event, newValue) => {
         if(newValue == 0){
@@ -72,6 +76,14 @@ export const Navibar = observer(() => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    //Режим экзамена
+    if(query.get("exam") === "true"){
+        return (
+            <div>
+            </div>
+        )
+    }
+
     if(height/width >= 1){
     return (
         <BottomNavigation value={value} onChange={mobileMunuClickHandleChange} className="col-12">

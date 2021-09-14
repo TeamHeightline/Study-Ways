@@ -118,7 +118,7 @@ export class SameQuestionPlayer{
                 }
 
                 if(Number(answer.checkQueue) < Number(minCheckQueue)){
-                    minCheckQueue = answer.minCheckQueue
+                    minCheckQueue = answer.checkQueue
                     indexOfMostWantedError = aIndex
                 }
             }

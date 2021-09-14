@@ -12,7 +12,7 @@ export const QuestionNumberOfShowingAnswers = observer(() =>{
                 <Typography className="mt-3">
                     Количество отображаемых ответов
                 </Typography>
-                <FormControl  variant="outlined" className="col-2 ml-3">
+                <FormControl  variant="outlined" className="col-md-2 col-12 ml-md-3">
                     <Select
                         className="col-12"
                         value={QuestionEditorStorage.selectedQuestionNumberOfShowingAnswers}

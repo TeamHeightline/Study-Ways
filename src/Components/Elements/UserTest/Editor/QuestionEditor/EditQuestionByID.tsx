@@ -28,7 +28,7 @@ export const EditQuestionByID = observer(() =>{
             <Typography className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Редактировать вопрос</Typography>
             {QuestionEditorStorage?.questionHasBeenSelected &&
             <Row className="mt-3">
-                <Col className="col-md-6 col-11  ml-5">
+                <Col className="col-md-6 col-11 ml-5">
                     <div>
                         <QuestionText/>
                         <QuestionVideoURL/>
@@ -43,7 +43,7 @@ export const EditQuestionByID = observer(() =>{
             </Row>}
             {QuestionEditorStorage?.questionHasBeenSelected &&
             <Row className="mt-2">
-                <Col className="col-6 ml-5">
+                <Col className="col-md-6 col-12 ml-md-5 ml-4 pr-5 pr-md-0">
                     <QuestionNumberOfShowingAnswers/>
                 </Col>
             </Row>}

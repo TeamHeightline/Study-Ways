@@ -16,7 +16,7 @@ export const AnswerImage = observer(({answer}) =>{
             </Button>
 
             <div className="col-7 ">
-                {answer.imageName}
+                {answer.imageName.length > 30 ? answer.imageName.slice(0, 27) + "..." : answer.imageName}
             </div>
         </>
     )

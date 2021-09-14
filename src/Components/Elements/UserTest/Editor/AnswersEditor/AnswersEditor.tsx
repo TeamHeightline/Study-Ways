@@ -46,8 +46,8 @@ export const AnswersEditor = observer(() => {
             {QuestionEditorStorage.answers.filter(answer => answer.isDeleted === false)?.map((answer) =>{
                 console.log(answer.isRequired)
                 return(
-                    <div className="mr-2 ml-2 mt-3 " key={answer.id + "AnswerKey"}>
-                        <Paper elevation={3} variant="outlined" className="ml-5 mr-5">
+                    <div className="mr-md-2 ml-md-2 mt-3 " key={answer.id + "AnswerKey"}>
+                        <Paper elevation={3} variant="outlined" className="ml-md-5 mr-md-5">
                             <br/>
                             <Grid container spacing={1} xs={12} >
                                 <Grid item xs={11}>

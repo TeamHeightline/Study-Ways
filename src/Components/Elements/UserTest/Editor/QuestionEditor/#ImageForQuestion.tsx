@@ -6,7 +6,7 @@ import React from "react";
 
 export const ImageForQuestion = observer(() =>{
     return(
-        <Col className="col-3 ml-5">
+        <Col className="col-md-3 ml-5 col-12">
             {QuestionEditorStorage.questionHasBeenSelected && <div>
                 <Button color="primary" variant="outlined" component="label">
                     <input type="file"  hidden name="file" onChange={(fileData) => QuestionEditorStorage.uploadNewQuestionImage(fileData)} />

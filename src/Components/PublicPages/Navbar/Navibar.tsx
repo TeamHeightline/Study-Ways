@@ -22,6 +22,7 @@ import {observer} from "mobx-react";
 import {AccountCircle} from "@material-ui/icons";
 import {Menu, MenuItem} from "@material-ui/core";
 import CategoryIcon from '@material-ui/icons/Category';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -66,6 +67,9 @@ export const Navibar = observer(() => {
         if(newValue == 3){
             history.push('/editor')
         }
+        if(newValue == 4){
+            history.push('/login')
+        }
         setValue(newValue);
     };
 
@@ -90,7 +94,9 @@ export const Navibar = observer(() => {
             <BottomNavigationAction label="Курсы" value="0" icon={<BlurLinearIcon />} />
             <BottomNavigationAction label="Карточки" value="1" icon={<ArtTrackIcon />} />
             <BottomNavigationAction label="Direction (beta)" value="2" icon={<CategoryIcon />} />
-            <BottomNavigationAction label="Редакторы" value="3" icon={<EditIcon />} />
+            {UserStorage.isLogin ?
+            <BottomNavigationAction label="Редакторы" value="3" icon={<EditIcon />} />:
+            <BottomNavigationAction label="Войти" value="4" icon={<AccountCircleIcon/>} />}
         </BottomNavigation>
     )}
     return (

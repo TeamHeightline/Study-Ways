@@ -51,6 +51,7 @@ class CourseProcessedClass{
     cardPositionData: any = {}
     type = "CourseElement"
     updateCardPositionData(e){
+        this.ownStore.openCard()
         const cardPositionData = this.cardPositionData
         cardPositionData.buttonIndex = e.buttonIndex
         cardPositionData.fragment = e.fragment

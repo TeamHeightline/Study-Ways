@@ -65,7 +65,7 @@ export const StatisticByQuestionData = observer(() =>{
                                 </TableRow>
                                 <TableRow>
                                     <TableCell colSpan={8} style={{ paddingBottom: 0, paddingTop: 0 }}>
-                                        <Collapse in={StatisticByQuestionDataStoreObject?.rowsOpenForDetailStatistic?.has(row[7])}>
+                                        <Collapse in={StatisticByQuestionDataStoreObject?.rowsOpenForDetailStatistic?.has(row[7])} unmountOnExit>
                                             <Row className="justify-content-around mt-2">
                                                 <Chart data={row[9]}>
                                                     <Title text="Количество ошибок на каждой из попыток" />

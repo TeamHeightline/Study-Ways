@@ -88,11 +88,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                 }
             })
     }
-    if(loading){
-        return (
-            <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
-        )
-    }
+
     // console.log("disabledNext " + props.disabledNext)
     return(
         <div className="col-12">
@@ -147,16 +143,16 @@ export const CARD = observer(({id, ...props}: any) =>{
                         </ButtonGroup>
                     }
                 </div>}
-                {!card_data ? <Spinner animation="border" variant="success" className=" offset-6 mt-5"/> :
+                {loading ? <Spinner animation="border" variant="success" className=" offset-6 mt-5"/> :
                 <div>
                     <Row className="mt-4" >
                         <Col className="col-12">
                             <Row className="ml-2">
                                 {height / width >= 1 ?
-                                    <Typography variant="h6">{card_data.cardById.title}</Typography>:
-                                    <Typography variant="h4">{card_data.cardById.title}</Typography>
+                                    <Typography variant="h6">{card_data?.cardById?.title}</Typography>:
+                                    <Typography variant="h4">{card_data?.cardById?.title}</Typography>
                                 }
-                                <Typography variant="subtitle2">{card_data.cardById.id}</Typography>
+                                <Typography variant="subtitle2">{card_data?.cardById?.id}</Typography>
                             </Row>
 
                             {card_data?.cardById?.subTheme[0] &&

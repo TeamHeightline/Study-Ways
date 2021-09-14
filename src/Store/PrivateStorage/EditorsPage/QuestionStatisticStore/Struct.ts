@@ -12,6 +12,7 @@ export const ALL_QUESTIONS_STATISTIC = gql`
                     text
                 }
                 detailquestionstatisticSet{
+                    id
                     userName
                     isLogin
                     statistic

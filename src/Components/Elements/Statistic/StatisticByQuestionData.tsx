@@ -1,6 +1,6 @@
 import {observer} from "mobx-react";
 import React from "react";
-import {Grid, Typography} from "@material-ui/core";
+import {Collapse, Grid, Typography} from "@material-ui/core";
 import {StatisticByQuestionDataStoreObject} from "../../../Store/PrivateStorage/EditorsPage/QuestionStatisticStore/StatisticByQuestionDataStore";
 import IconButton from '@material-ui/core/IconButton';
 import Table from '@material-ui/core/Table';
@@ -10,10 +10,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
+import {ArgumentAxis, BarSeries, Chart, SplineSeries, Title, ValueAxis} from "@devexpress/dx-react-chart-material-ui";
+import {Row} from "react-bootstrap";
+
 export const StatisticByQuestionData = observer(() =>{
-    console.log(StatisticByQuestionDataStoreObject?.rows)
     return(
         <div>
             <Grid container  justify="center">
@@ -41,23 +44,60 @@ export const StatisticByQuestionData = observer(() =>{
                     <TableBody>
                         {StatisticByQuestionDataStoreObject?.rows.map((row, rIndex) => {
                             return(
-                                <TableRow key={rIndex + "Key"}>
-                                <TableCell>
-                                <IconButton aria-label="expand row" size="small" onClick={() => void(0)}>
-                                {/*{true ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}*/}
-                                    <KeyboardArrowUpIcon />
-                                </IconButton>
-                                </TableCell>
-                                <TableCell component="th" scope="row">
-                                {row[0]}
-                                </TableCell>
-                                <TableCell align="right">{row[1]}</TableCell>
-                                <TableCell align="right">{row[2]}</TableCell>
-                                <TableCell align="right">{row[3]}</TableCell>
-                                <TableCell align="right">{row[4]}</TableCell>
-                                <TableCell align="right">{row[5]}</TableCell>
-                                <TableCell align="right">{row[6]}</TableCell>
+                                <React.Fragment key={rIndex + "Key"}>
+                                <TableRow>
+                                    <TableCell>
+                                    <IconButton aria-label="expand row" size="small"
+                                                onClick={() => StatisticByQuestionDataStoreObject.changeRowsForDetailStatistic(row[7])}>
+                                    {StatisticByQuestionDataStoreObject?.rowsOpenForDetailStatistic?.has(row[7]) ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                                        {/*<KeyboardArrowUpIcon />*/}
+                                    </IconButton>
+                                    </TableCell>
+                                    <TableCell component="th" scope="row">
+                                    {row[0]}
+                                    </TableCell>
+                                    <TableCell align="right">{row[1]}</TableCell>
+                                    <TableCell align="right">{row[2]}</TableCell>
+                                    <TableCell align="right">{row[3]}</TableCell>
+                                    <TableCell align="right">{row[4]}</TableCell>
+                                    <TableCell align="right">{row[5]}</TableCell>
+                                    <TableCell align="right">{row[6]}</TableCell>
                                 </TableRow>
+                                <TableRow>
+                                    <TableCell colSpan={8} style={{ paddingBottom: 0, paddingTop: 0 }}>
+                                        <Collapse in={StatisticByQuestionDataStoreObject?.rowsOpenForDetailStatistic?.has(row[7])}>
+                                            <Row className="justify-content-around mt-2">
+                                                <Chart data={row[9]}>
+                                                    <Title text="Количество ошибок на каждой из попыток" />
+                                                    <ArgumentAxis showGrid={true}/>
+                                                    <ValueAxis/>
+                                                    <BarSeries
+                                                        valueField="numberOfWrongAnswers"
+                                                        argumentField="numberOfPasses"
+                                                    />
+                                                    <SplineSeries
+                                                        valueField="numberOfWrongAnswers"
+                                                        argumentField="numberOfPasses"
+                                                    />
+                                                </Chart>
+                                                <Chart  data={row[8]}>
+                                                    <BarSeries
+                                                        valueField="answerPoints"
+                                                        argumentField="numberOfPasses"
+                                                    />
+                                                    <SplineSeries
+                                                        valueField="answerPoints"
+                                                        argumentField="numberOfPasses"
+                                                    />
+                                                    <ArgumentAxis showGrid={true} />
+                                                    <ValueAxis />
+                                                    <Title text="Количество баллов на каждой из попыток" />
+                                                </Chart>
+                                            </Row>
+                                        </Collapse>
+                                    </TableCell>
+                                </TableRow>
+                                </React.Fragment>
                             )}
                         )}
                     </TableBody>

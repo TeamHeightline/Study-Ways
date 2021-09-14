@@ -80,14 +80,31 @@ class StatisticByQuestionDataStore{
     get rows(){
         return(
             this.passedQuestionsObjectsArray?.map((passedQuestion) =>{
-                console.log(toJS(passedQuestion?.attemptData?.userName))
+                console.log(passedQuestion)
+                const ArrayOfNumberOfWrongAnswers: any[] = []
+                passedQuestion?.attemptData?.statistic?.ArrayForShowWrongAnswers.map((attempt) =>{
+                    ArrayOfNumberOfWrongAnswers.push({numberOfPasses: attempt?.numberOfPasses,
+                        numberOfWrongAnswers: attempt?.numberOfWrongAnswers?.length})
+                })
                 return([passedQuestion?.attemptData?.userName ? passedQuestion?.attemptData?.userName : "Анонимный пользователь", passedQuestion?.attemptData?.isLogin ? "да" : "нет",
                 passedQuestion?.attemptData?.statistic?.numberOfPasses, passedQuestion?.arithmeticMeanNumberOfWrongAnswer,
                 passedQuestion?.maxNumberOfWrongAnswers, passedQuestion?.arithmeticMeanNumberOfAnswersPoints,
-                passedQuestion?.minAnswerPoint])
+                passedQuestion?.minAnswerPoint, passedQuestion?.attemptData?.id,
+                    passedQuestion?.attemptData?.statistic?.ArrayForShowAnswerPoints, ArrayOfNumberOfWrongAnswers])
             })
         )
     }
+
+    rowsOpenForDetailStatistic = new Set()
+
+    changeRowsForDetailStatistic(rowID){
+        if(this.rowsOpenForDetailStatistic.has(rowID)){
+            this.rowsOpenForDetailStatistic.delete(rowID)
+        }else{
+            this.rowsOpenForDetailStatistic.add(rowID)
+        }
+    }
+
 
 }
 

@@ -1,6 +1,6 @@
 import {observer} from "mobx-react";
 import React from "react";
-import {Collapse, Grid, Typography} from "@material-ui/core";
+import {Grid, Typography} from "@material-ui/core";
 import {StatisticByQuestionDataStoreObject} from "../../../Store/PrivateStorage/EditorsPage/QuestionStatisticStore/StatisticByQuestionDataStore";
 import IconButton from '@material-ui/core/IconButton';
 import Table from '@material-ui/core/Table';
@@ -13,8 +13,8 @@ import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
-import {ArgumentAxis, BarSeries, Chart, SplineSeries, Title, ValueAxis} from "@devexpress/dx-react-chart-material-ui";
-import {Row} from "react-bootstrap";
+import {StatisticChart} from "./#StatisticChart";
+import {StatisticSearchByUserName} from "./#StatisticSearchByUserName";
 
 export const StatisticByQuestionData = observer(() =>{
     return(
@@ -27,6 +27,7 @@ export const StatisticByQuestionData = observer(() =>{
                     </Typography>
                 </Grid>
             </Grid>
+            <StatisticSearchByUserName/>
             <TableContainer component={Paper}>
                 <Table aria-label="collapsible table">
                     <TableHead>
@@ -65,36 +66,7 @@ export const StatisticByQuestionData = observer(() =>{
                                 </TableRow>
                                 <TableRow>
                                     <TableCell colSpan={8} style={{ paddingBottom: 0, paddingTop: 0 }}>
-                                        <Collapse in={StatisticByQuestionDataStoreObject?.rowsOpenForDetailStatistic?.has(row[7])} unmountOnExit>
-                                            <Row className="justify-content-around mt-2">
-                                                <Chart data={row[9]}>
-                                                    <Title text="Количество ошибок на каждой из попыток" />
-                                                    <ArgumentAxis showGrid={true}/>
-                                                    <ValueAxis/>
-                                                    <BarSeries
-                                                        valueField="numberOfWrongAnswers"
-                                                        argumentField="numberOfPasses"
-                                                    />
-                                                    <SplineSeries
-                                                        valueField="numberOfWrongAnswers"
-                                                        argumentField="numberOfPasses"
-                                                    />
-                                                </Chart>
-                                                <Chart  data={row[8]}>
-                                                    <BarSeries
-                                                        valueField="answerPoints"
-                                                        argumentField="numberOfPasses"
-                                                    />
-                                                    <SplineSeries
-                                                        valueField="answerPoints"
-                                                        argumentField="numberOfPasses"
-                                                    />
-                                                    <ArgumentAxis showGrid={true} />
-                                                    <ValueAxis />
-                                                    <Title text="Количество баллов на каждой из попыток" />
-                                                </Chart>
-                                            </Row>
-                                        </Collapse>
+                                        <StatisticChart row={row}/>
                                     </TableCell>
                                 </TableRow>
                                 </React.Fragment>

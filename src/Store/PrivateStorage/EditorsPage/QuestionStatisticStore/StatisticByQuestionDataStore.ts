@@ -4,6 +4,9 @@ class PassedQuestion{
     constructor(attemptData){
         makeAutoObservable(this)
         this.attemptData = attemptData;
+        if(attemptData.userName === null){
+            this.attemptData.userName = "Анонимный пользователь"
+        }
     }
     attemptData: any = undefined;
 
@@ -76,21 +79,35 @@ class StatisticByQuestionDataStore{
         this.passedQuestionsObjectsArray = __passedQuestionsObjectsArray
     }
 
+    //Имя пользователя, статистику по которому мы хотим увидеть
+    searchingUserName = ''
+
+    //Обработчик изменений в имени пользователя, статистику по которому мы хотим увидеть
+    changeSearchingUserName(newName: string){
+        this.searchingUserName = newName
+    }
+
     //Данные для таблицы по каждому прохождению теста
     get rows(){
+        let __passedQuestionsObjectsArray = this.passedQuestionsObjectsArray
+        if(this.searchingUserName.length > 0){
+            __passedQuestionsObjectsArray = __passedQuestionsObjectsArray.filter((passedQuestion) =>
+                passedQuestion?.attemptData?.userName?.toLowerCase()?.includes(this.searchingUserName.toLowerCase()))
+        }
         return(
-            this.passedQuestionsObjectsArray?.map((passedQuestion) =>{
+            __passedQuestionsObjectsArray?.map((passedQuestion) =>{
                 console.log(passedQuestion)
                 const ArrayOfNumberOfWrongAnswers: any[] = []
                 passedQuestion?.attemptData?.statistic?.ArrayForShowWrongAnswers.map((attempt) =>{
                     ArrayOfNumberOfWrongAnswers.push({numberOfPasses: attempt?.numberOfPasses,
                         numberOfWrongAnswers: attempt?.numberOfWrongAnswers?.length})
                 })
-                return([passedQuestion?.attemptData?.userName ? passedQuestion?.attemptData?.userName : "Анонимный пользователь", passedQuestion?.attemptData?.isLogin ? "да" : "нет",
+                return([passedQuestion?.attemptData?.userName, passedQuestion?.attemptData?.isLogin ? "да" : "нет",
                 passedQuestion?.attemptData?.statistic?.numberOfPasses, passedQuestion?.arithmeticMeanNumberOfWrongAnswer,
                 passedQuestion?.maxNumberOfWrongAnswers, passedQuestion?.arithmeticMeanNumberOfAnswersPoints,
                 passedQuestion?.minAnswerPoint, passedQuestion?.attemptData?.id,
                     passedQuestion?.attemptData?.statistic?.ArrayForShowAnswerPoints, ArrayOfNumberOfWrongAnswers])
+
             })
         )
     }

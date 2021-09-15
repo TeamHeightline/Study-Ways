@@ -1,7 +1,7 @@
 import {makeAutoObservable, reaction} from "mobx";
 
 export class SameAnswerNode{
-    constructor(id, text, isTrue, checkQueue, helpTextv1, helpTextv2, helpTextv3, hardLevelOfAnswer) {
+    constructor(id, text, isTrue, checkQueue?, helpTextv1?, helpTextv2?, helpTextv3?, hardLevelOfAnswer?) {
         makeAutoObservable(this)
         reaction(()=> this.id, () => this.getImageUrlFromServer())
         this.id = id
@@ -29,6 +29,6 @@ export class SameAnswerNode{
         fetch("https://iot-experemental.herokuapp.com/files/answer?id="+ this.id)
             .then(response => response.json())
             .then(data => this.answerImageUrl = data[0].image)
-            .catch(() => void(0))
+            .catch((e) => console.error(e))
     }
 }

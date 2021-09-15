@@ -13,7 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
-import {StatisticChart} from "./#StatisticChart";
+import {StatisticChartAndDetailStatistic} from "./#StatisticChartAndDetailStatistic";
 import {StatisticSearchByUserName} from "./#StatisticSearchByUserName";
 
 export const StatisticByQuestionData = observer(() =>{
@@ -66,7 +66,7 @@ export const StatisticByQuestionData = observer(() =>{
                                 </TableRow>
                                 <TableRow>
                                     <TableCell colSpan={8} style={{ paddingBottom: 0, paddingTop: 0 }}>
-                                        <StatisticChart row={row}/>
+                                        <StatisticChartAndDetailStatistic row={row}/>
                                     </TableCell>
                                 </TableRow>
                                 </React.Fragment>

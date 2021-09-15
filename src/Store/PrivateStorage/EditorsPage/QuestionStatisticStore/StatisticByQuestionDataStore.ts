@@ -1,4 +1,5 @@
 import {autorun, makeAutoObservable,  toJS} from "mobx";
+import {SameAnswerNode} from "../../../PublicStorage/QSPage/QuestionSequencePlayer/SameAnswerNode";
 
 class PassedQuestion{
     constructor(attemptData){
@@ -6,6 +7,17 @@ class PassedQuestion{
         this.attemptData = attemptData;
         if(attemptData.userName === null){
             this.attemptData.userName = "Анонимный пользователь"
+        }
+    }
+    //Массив индексов попыток, которые открыты для детальной статистики
+    openAttemptForDetailStatistic = new Set()
+
+    //Функция обработчик для того, чтобы открывать на редактирование конкретную попытку
+    changeOpenAttemptForDetailStatistic(attemptIndex){
+        if(this.openAttemptForDetailStatistic.has(attemptIndex)){
+            this.openAttemptForDetailStatistic.delete(attemptIndex)
+        }else{
+            this.openAttemptForDetailStatistic.add(attemptIndex)
         }
     }
     attemptData: any = undefined;
@@ -21,7 +33,7 @@ class PassedQuestion{
             }
         })
         this.minAnswerPoint = __minAnswerPoint
-        return __sumOfAnswerPoints / Number(this.attemptData?.statistic?.numberOfPasses)
+        return (__sumOfAnswerPoints / Number(this.attemptData?.statistic?.numberOfPasses)).toFixed(2)
     }
 
     //Минимальны балл за попытку
@@ -30,7 +42,6 @@ class PassedQuestion{
     get arithmeticMeanNumberOfWrongAnswer(){
         let __sumOfWrongAnswers = 0
         let __maxNumberOfWrongAnswers = 0
-        console.log(toJS(this.attemptData))
         this.attemptData?.statistic?.ArrayForShowWrongAnswers?.map((attempt) => {
             __sumOfWrongAnswers += Number(attempt?.numberOfWrongAnswers?.length)
             if(attempt?.numberOfWrongAnswers?.length > __maxNumberOfWrongAnswers){
@@ -38,7 +49,7 @@ class PassedQuestion{
             }
         })
         this.maxNumberOfWrongAnswers = __maxNumberOfWrongAnswers
-        return __sumOfWrongAnswers / (Number(this.attemptData?.statistic?.numberOfPasses) - 1)
+        return (__sumOfWrongAnswers / (Number(this.attemptData?.statistic?.numberOfPasses) - 1)).toFixed(1)
     }
 
     maxNumberOfWrongAnswers = 0
@@ -62,11 +73,28 @@ class StatisticByQuestionDataStore{
     //Статистика всех прохождений вопроса
     questionStatistic: any = undefined
 
+    //функция заполнения стора данными из стора, отвечающего за страницу, в том сторе используется реакция
+    //на изменение тех данных, которые нужно сюда доставить, далее реакция вызывает эту функцию и пробрасывает
+    //данные
     changeQuestionData(questionData){
         this.questionText = questionData.text;
         this.questionID = questionData.id;
         this.questionStatistic = questionData.detailquestionstatisticSet;
+        const __passedQuestionsObjectsArray: any = []
+        toJS(questionData?.answers)?.map((answer) =>{
+            __passedQuestionsObjectsArray.push(new SameAnswerNode(Number(answer?.id), answer?.text, answer?.isTrue))
+        })
+        __passedQuestionsObjectsArray.map((QuestionsObject) =>{
+            QuestionsObject?.getImageUrlFromServer()
+        })
+        this.answersArrayDataStore = __passedQuestionsObjectsArray
     }
+
+    //Массив наблюдаемых хранилищ ответов, для каждой попытки мы будем брать массив неверных ответов,
+    // для него делать поиск в этом массиве, получать стор для конкретного ответа и отображать текст и картинку для
+    //этого ответа
+
+    answersArrayDataStore: any[] = []
 
 
     passedQuestionsObjectsArray: any = []
@@ -96,7 +124,6 @@ class StatisticByQuestionDataStore{
         }
         return(
             __passedQuestionsObjectsArray?.map((passedQuestion) =>{
-                console.log(passedQuestion)
                 const ArrayOfNumberOfWrongAnswers: any[] = []
                 passedQuestion?.attemptData?.statistic?.ArrayForShowWrongAnswers.map((attempt) =>{
                     ArrayOfNumberOfWrongAnswers.push({numberOfPasses: attempt?.numberOfPasses,
@@ -106,7 +133,8 @@ class StatisticByQuestionDataStore{
                 passedQuestion?.attemptData?.statistic?.numberOfPasses, passedQuestion?.arithmeticMeanNumberOfWrongAnswer,
                 passedQuestion?.maxNumberOfWrongAnswers, passedQuestion?.arithmeticMeanNumberOfAnswersPoints,
                 passedQuestion?.minAnswerPoint, passedQuestion?.attemptData?.id,
-                    passedQuestion?.attemptData?.statistic?.ArrayForShowAnswerPoints, ArrayOfNumberOfWrongAnswers])
+                    passedQuestion?.attemptData?.statistic?.ArrayForShowAnswerPoints, ArrayOfNumberOfWrongAnswers,
+                    passedQuestion?.attemptData?.statistic?.ArrayForShowWrongAnswers, passedQuestion])
             })
         )
     }

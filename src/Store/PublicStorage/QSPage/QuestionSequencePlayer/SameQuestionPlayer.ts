@@ -167,10 +167,16 @@ export class SameQuestionPlayer{
         })
         return(showArray)
     }
+    //Флаг экзаменационного режима
+    isUseExamMode = false
 
+    //Функция для изменения (включения) экзаменационного режима
+    changeIsUseExamMode(newExamState){
+        this.isUseExamMode = newExamState
+    }
     //Выводит подсказку
     get HelpTextForShow(){
-        if(this.ownStore?.isUseExamMode){
+        if(this.ownStore?.isUseExamMode || this.isUseExamMode){
             return ("Вы допустили одну или более ошибок")
         }
         if(this.hardLevelOfHelpText == "0"){

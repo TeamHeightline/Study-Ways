@@ -11,6 +11,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import {ArgumentAxis, BarSeries, Chart, SplineSeries, Title, ValueAxis} from "@devexpress/dx-react-chart-material-ui";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
+import {useLocation} from "react-router-dom";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -46,8 +47,14 @@ const useStyles = makeStyles(() =>
 const processedStore = new SameQuestionPlayer(null, 85)
 
 export const ImageQuestion = observer((props: any) => {
+        const slug = useLocation();
         const classes = useStyles();
-        useEffect(() => processedStore.changeQuestionId(props?.match?.params?.id? props?.match?.params?.id : props?.id), [props])
+        useEffect(() => {
+            if(slug?.search === "?exam=true"){
+                processedStore?.changeIsUseExamMode(true)
+            }
+            processedStore?.changeQuestionId(props?.match?.params?.id? props?.match?.params?.id : props?.id)
+        }, [props])
 
         if(!processedStore?.answersArray?.length) {
             return (

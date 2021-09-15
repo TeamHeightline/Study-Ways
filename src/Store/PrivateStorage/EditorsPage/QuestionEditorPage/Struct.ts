@@ -46,7 +46,7 @@ export const ALL_QUESTIONS_DATA = gql`
     }`
 
 export const CREATE_NEW_ANSWER = gql`mutation CREATE_ANSWER($question: ID!){
-    createAnswer(input: {createdBy:0, question: $question, isTrue:true, checkQueue: 1, hardLevelOfAnswer:"MEDIUM", helpTextv3: "Вы выбрали один или более неверный ответ"}){
+    createAnswer(input: {createdBy:0, question: $question, isTrue:true, checkQueue: 1, hardLevelOfAnswer:"MEDIUM", helpTextv3: "Вы допустили одну или более ошибок"}){
         errors{
             field
             messages

@@ -36,12 +36,15 @@ export const GET_QUESTION_DATA_BY_ID = gql`
     `
 
 export const SAVE_DETAIL_STATISTIC = gql`
-    mutation SAVE_DETAIL_STATISTIC($question: ID!, $userName: String, $isLogin: Boolean, $statistic: GenericScalar){
+    mutation SAVE_DETAIL_STATISTIC($question: ID!, $userName: String, $isLogin: Boolean, $statistic: GenericScalar, 
+        $isUseexammode: Boolean, ){
         createDetailQuestionStatistic(input: {
             question: $question,
             userName: $userName,
             isLogin: $isLogin,
             statistic: $statistic,
+            isUseexammode: $isUseexammode,
+#            questionSequence: $questionSequence
         }){
             clientMutationId
         }

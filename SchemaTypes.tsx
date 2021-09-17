@@ -204,7 +204,9 @@ export type DetailQuestionStatisticNode = {
     __typename?: 'DetailQuestionStatisticNode';
     id: Scalars['ID'];
     isLogin: Scalars['Boolean'];
+    isUseexammode: Scalars['Boolean'];
     question?: Maybe<QuestionNode>;
+    questionSequence?: Maybe<QuestionSequenceNode>;
     statistic?: Maybe<Scalars['GenericScalar']>;
     userName?: Maybe<Scalars['String']>;
 };
@@ -791,6 +793,7 @@ export type QuestionNode = {
 export type QuestionSequenceNode = {
     __typename?: 'QuestionSequenceNode';
     description?: Maybe<Scalars['String']>;
+    detailquestionstatisticSet: Array<DetailQuestionStatisticNode>;
     id: Scalars['ID'];
     name?: Maybe<Scalars['String']>;
     sequenceData?: Maybe<Scalars['GenericScalar']>;
@@ -961,6 +964,7 @@ export type UserNode = Node & {
     cardsubthemeSet: Array<CardSubThemeNode>;
     cardthemeSet: Array<CardThemeNode>;
     dateJoined: Scalars['DateTime'];
+    detailquestionstatisticSet: Array<DetailQuestionStatisticNode>;
     email: Scalars['String'];
     firstName: Scalars['String'];
     globalcardthemeSet: Array<GlobalCardThemeNode>;
@@ -1143,7 +1147,9 @@ export type CreateCardCourseInput = {
 export type CreateDetailQuestionStatisticInput = {
     clientMutationId?: Maybe<Scalars['String']>;
     isLogin?: Maybe<Scalars['Boolean']>;
+    isUseexammode?: Maybe<Scalars['Boolean']>;
     question: Scalars['ID'];
+    questionSequence?: Maybe<Scalars['ID']>;
     statistic?: Maybe<Scalars['GenericScalar']>;
     userName?: Maybe<Scalars['String']>;
 };

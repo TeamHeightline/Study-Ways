@@ -1,5 +1,6 @@
 import {autorun, makeAutoObservable,  toJS} from "mobx";
 import {SameAnswerNode} from "../../../PublicStorage/QSPage/QuestionSequencePlayer/SameAnswerNode";
+import {sort} from "fast-sort";
 
 class PassedQuestion{
     constructor(attemptData){
@@ -79,7 +80,7 @@ class StatisticByQuestionDataStore{
     changeQuestionData(questionData){
         this.questionText = questionData.text;
         this.questionID = questionData.id;
-        this.questionStatistic = questionData.detailquestionstatisticSet;
+        this.questionStatistic = sort(questionData.detailquestionstatisticSet).desc((detailQuestionStatistic: any) => Number(detailQuestionStatistic?.id));
         const __passedQuestionsObjectsArray: any = []
         toJS(questionData?.answers)?.map((answer) =>{
             __passedQuestionsObjectsArray.push(new SameAnswerNode(Number(answer?.id), answer?.text, answer?.isTrue))

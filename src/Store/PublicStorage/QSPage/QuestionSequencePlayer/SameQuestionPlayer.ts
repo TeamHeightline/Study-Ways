@@ -243,13 +243,14 @@ export class SameQuestionPlayer{
                 question: this.questionID,
                 isLogin: this.userStore.isLogin,
                 userName: this.userStore.isLogin? this.userStore.username : localStorage?.getItem('user_name')?.length !== 0 ? localStorage?.getItem('user_name') : "Анонимный пользователь",
+                isUseexammode: this.isUseExamMode || this?.ownStore?.isUseExamMode,
                 statistic:{
                     numberOfPasses: this.numberOfPasses,
                     ArrayForShowAnswerPoints : this.ArrayForShowAnswerPoints,
-                    ArrayForShowWrongAnswers: this.ArrayForShowWrongAnswers
+                    ArrayForShowWrongAnswers: this.ArrayForShowWrongAnswers,
                 }
             }})
-            .catch(() => void(0))
+            .catch((e) => console.log(e))
     }
 
 

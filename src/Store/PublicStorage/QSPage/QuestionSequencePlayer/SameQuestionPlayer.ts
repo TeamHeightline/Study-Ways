@@ -176,6 +176,9 @@ export class SameQuestionPlayer{
     }
     //Выводит подсказку
     get HelpTextForShow(){
+        if(this.selectedAnswers.size === 0){
+            return ("Среди предложенных вариантов ответа есть хотя бы один правильный, проверьте еще раз")
+        }
         if(this.ownStore?.isUseExamMode || this.isUseExamMode){
             return ("Вы допустили одну или более ошибок")
         }

@@ -5,7 +5,7 @@ import {CREATE_QUESTION_SEQUENCE, GET_MY_QUESTION_SEQUENCE, question_sequence_st
 import {Button, Typography, Card, CardActionArea} from "@material-ui/core";
 import {Row, Spinner} from "react-bootstrap";
 import QuestionSequenceEditByID from "../Elements/QuestionSequence/Editor/EditByID/QuestionSequenceEditByID";
-import {GET_ALL_CARD_SUB_THEMES} from "../../Store/ReUsfulComponentsStorage/ComunityDirectionsStore/Struct";
+import {GET_ALL_CARD_SUB_THEMES} from "../../Store/InDevComponentsStorage/ComunityDirectionsStore/Struct";
 import {sort} from "fast-sort";
 
 export default function QuestionSequenceMainEditor(){

@@ -6,7 +6,7 @@ import StepLabel from '@material-ui/core/StepLabel';
 import {CARD} from "../Elements/Cards/Card";
 import CardMicroView from "../Elements/Cards/CardView/#CardMicroView";
 import CourseMicroView from "../Elements/Course/Editor/CourseMicroView";
-import {ReUsefulQuestionStore} from "../../Store/ReUsfulComponentsStorage/ComunityDirectionsStore/DirectionStore";
+import {DirectionStore} from "../../Store/InDevComponentsStorage/ComunityDirectionsStore/DirectionStore";
 import {toJS} from "mobx";
 import ArtTrackIcon from "@material-ui/icons/ArtTrack";
 import BlurLinearIcon from "@material-ui/icons/BlurLinear";
@@ -16,8 +16,8 @@ import DoneAllIcon from "@material-ui/icons/DoneAll";
 import {QSPlayerByID} from "../Elements/QuestionSequence/Public/QSPlayerByID";
 import LinearScaleIcon from '@material-ui/icons/LinearScale';
 
-const directionStoreObject = new ReUsefulQuestionStore()
-export const MainDirectionWay = observer(() =>{
+const directionStoreObject = new DirectionStore()
+export const MainDirection = observer(() =>{
     return(
         <div className="col-12" >
             <div style={{overflowY: "scroll"}}>

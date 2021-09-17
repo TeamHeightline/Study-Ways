@@ -9,7 +9,7 @@ export const MainPageQuestionsForSelect = observer(() =>{
             {StatisticPageStoreObject?.QuestionArrayForDisplay
                 ?.map((question: any) =>{
                     return(
-                        <Card className="mt-2" key={question.id} style={{width: 400, height: 160, textAlign: "center"}}
+                        <Card className="mt-2" key={question.id} style={{width: 380, height: 160, textAlign: "center"}}
                               variant="outlined">
                             <CardActionArea style={{height: "100%"}}
                                             onClick={() => {

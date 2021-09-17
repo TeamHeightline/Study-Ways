@@ -21,3 +21,16 @@ export const ALL_QUESTIONS_STATISTIC = gql`
            
         }
     }`
+
+export const MY_QUESTION_SEQUENCES = gql`
+    query{
+        me{
+            questionsequenceSet{
+                id
+                name
+                sequenceData
+                description
+            }
+        }
+    }
+`

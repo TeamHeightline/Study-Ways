@@ -1,9 +1,8 @@
-import {action, autorun, computed, makeObservable, observable, reaction, toJS} from "mobx";
+import {action, autorun, computed, makeObservable, observable,  toJS} from "mobx";
 import {ClientStorage} from "../../ApolloStorage/ClientStorage";
 import {GET_ALL_QUESTIONS} from "./Struct";
 import _ from "lodash";
 import {Maybe, QuestionNode, QuestionThemesNode} from "../../../../SchemaTypes";
-import {ReUsefulQuestionStore} from "../../ReUsfulComponentsStorage/QuestionStore/ReUsefulQuestionStore";
 
 class QuestionPage{
     constructor() {
@@ -17,7 +16,6 @@ class QuestionPage{
             selectedQuestionID: observable,
             helpLevel: observable,
             isOpenQuestionPlayer: observable,
-            selectedQuestionObject: observable,
 
             changeSelectedTheme: action,
             closeQuestion: action,
@@ -26,7 +24,6 @@ class QuestionPage{
             getQuestionData: action,
             changeSelectedAuthorID: action,
             changeUseSearchByThemeOrAuthor: action,
-            updateSelectedQuestionObject: action,
 
             //включаем keepAlive, чтобы при переключение на другие страницы или запуске вопроса,
             //настройки не слетали
@@ -36,7 +33,6 @@ class QuestionPage{
             QuestionsAfterSelectTheme: computed({keepAlive: true}),
         })
         autorun(() => this.getQuestionData())
-        reaction(() => this.selectedQuestionID, () => this.updateSelectedQuestionObject())
     }
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
     clientStorage = ClientStorage
@@ -195,12 +191,6 @@ class QuestionPage{
         return QuestionAfterThemeSelect
     }
 
-    //Объект данных о вопросе и плеере для глупого компонента ImageQuestion
-    selectedQuestionObject: any =  null
-    //Функция для обновления "Объект данных о вопросе..."
-    updateSelectedQuestionObject(){
-        this.selectedQuestionObject = new ReUsefulQuestionStore(this, this.selectedQuestionID)
-    }
 
 
 }

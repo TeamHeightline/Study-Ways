@@ -44,7 +44,8 @@ import {MainCoursePublicView} from "./Components/PublicPages/MainCoursePublicVie
 import {QSPlayerByID} from "./Components/Elements/QuestionSequence/Public/QSPlayerByID";
 import { observer } from "mobx-react"
 import {ClientStorage} from "./Store/ApolloStorage/ClientStorage";
-import {MainDirectionWay} from "./Components/PublicPages/MainDirectionWay";
+import {MainDirection} from "./Components/PublicPages/MainDirection";
+
 
 const  App = observer(() => {
     const [animationState, setAnimationState] = useState(false)
@@ -77,7 +78,7 @@ const  App = observer(() => {
                     <Route exact path="/test" component={MainUserQuestionPage}/>
                     <Route exact path="/cards" component={MainCardPublicView}/>
                     <Route exact path="/courses" component={MainCoursePublicView}/>
-                    <Route exact path="/direction" component={MainDirectionWay}/>
+                    <Route exact path="/direction" component={MainDirection}/>
                     <Redirect to="/courses"/>
                 </Switch>
             </Router>

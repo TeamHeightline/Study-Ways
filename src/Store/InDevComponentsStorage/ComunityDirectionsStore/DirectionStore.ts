@@ -91,7 +91,7 @@ class QuestionSequenceProcessedClass{
 
 }
 
-export class ReUsefulQuestionStore{
+export class DirectionStore {
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
     clientStorage = ClientStorage
 

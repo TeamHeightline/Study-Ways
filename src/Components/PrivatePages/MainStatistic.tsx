@@ -6,6 +6,7 @@ import {StatisticByQuestionData} from "../Elements/Statistic/StatisticByQuestion
 import {MainPageQuestionsForSelect} from "../Elements/Statistic/#MainPageQuestionsForSelect";
 import {MainPageTopMenu} from "../Elements/Statistic/#MainPageTopMenu";
 import {StatisticPageStoreObject} from "../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticPageStore";
+import {MainPageQSForSelect} from "../Elements/Statistic/#MainPageQSForSelect";
 
 
 export const MainStatistic = observer(() =>{
@@ -31,9 +32,11 @@ export const MainStatistic = observer(() =>{
     return(
         <div>
             <MainPageTopMenu/>
-            <Row className="justify-content-around">
+            <Row className="justify-content-around ml-4">
                 {StatisticPageStoreObject.activePageOnTopMenu === 0 &&
                 <MainPageQuestionsForSelect/>}
+                {StatisticPageStoreObject.activePageOnTopMenu === 1 &&
+                <MainPageQSForSelect/>}
             </Row>
         </div>
     )

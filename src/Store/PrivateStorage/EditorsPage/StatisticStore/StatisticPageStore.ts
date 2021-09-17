@@ -2,8 +2,8 @@ import {autorun, makeAutoObservable, reaction} from "mobx";
 import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
 import {UserStorage} from "../../../UserStore/UserStore";
 import {sort} from "fast-sort";
-import {Maybe, QuestionNode} from "../../../../../SchemaTypes";
-import {ALL_QUESTIONS_STATISTIC} from "./Struct";
+import {Maybe, QuestionNode, QuestionSequenceNode} from "../../../../../SchemaTypes";
+import {ALL_QUESTIONS_STATISTIC, MY_QUESTION_SEQUENCES} from "./Struct";
 import {StatisticByQuestionDataStoreObject} from "./StatisticByQuestionDataStore";
 
 class StatisticPageStore {
@@ -29,14 +29,27 @@ class StatisticPageStore {
     //Функция для загрузки нужных данных о вопросах с сервера
     loadQuestionsDataFromServer(){
         if(this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN"){
-            this.clientStorage.client.query({query:ALL_QUESTIONS_STATISTIC, fetchPolicy: "network-only"})
+            this.clientStorage.client.query({query:ALL_QUESTIONS_STATISTIC})
                 .then((response) =>{
                     this.allQuestionsData = sort(response?.data?.me?.questionSet).desc((question: any) => question?.id)
                     this.questionDataHasBeenLoaded = true
                 })
                 .catch(() => void(0))
+            this.clientStorage.client.query({query: MY_QUESTION_SEQUENCES})
+                .then((response) => {
+                    this.allQuestionSequenceData = sort(response?.data?.me?.questionsequenceSet).desc((qs: any) => qs?.id)
+                    this.questionSequenceDataHasBeenLoaded = true
+                })
+                .catch(() => void(0))
+
         }
     }
+
+    //Данные по всем сериям вопросов
+    allQuestionSequenceData: Maybe<QuestionSequenceNode[]> | any = []
+
+    //Флаг загрузки всех данных
+    questionSequenceDataHasBeenLoaded = false
 
     //Вычисляемое значение для отрисовки вопросов на главной странице статистики
     get QuestionArrayForDisplay(){

@@ -11,7 +11,7 @@ import CardContent from "@material-ui/core/CardContent";
 export const StatisticWrongAnswersForAttempt = observer(({row, attempt, classes, aIndex}) =>{
     return(
         <div>
-            <div style={{overflowX: "scroll"}}>
+            <div style={{overflowX: "auto"}}>
                 <Row style={{width:  toJS(row[10][Number(attempt.numberOfPasses) -1])?.numberOfWrongAnswers.length * 410}}>
                     {toJS(row[10][Number(attempt.numberOfPasses) -1])?.numberOfWrongAnswers?.map((errorAnswer) =>{
                         const answerObjectStorage = StatisticByQuestionDataStoreObject?.answersArrayDataStore.find((answer) => Number(answer.id) == Number(errorAnswer))

@@ -107,7 +107,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                         Назад
                     </Button>}
                 {props.openFromCourse &&
-                <div className="ml-2 mt-4" style={{overflowY: "scroll"}}>
+                <div className="ml-2 mt-4" style={{overflowX: "auto"}}>
                     <CourseMicroView course={CoursePageStorage.courseArr[CoursePageStorage.positionData.courseIndex]}
                                      buttonClick={data=>CoursePageStorage.cardSelectInCourseByMouseClick(data,
                                          CoursePageStorage.positionData.courseIndex, CoursePageStorage.positionData.courseID)}

@@ -20,7 +20,7 @@ const directionStoreObject = new DirectionStore()
 export const MainDirection = observer(() =>{
     return(
         <div className="col-12" >
-            <div style={{overflowY: "scroll"}}>
+            <div style={{overflowX: "auto"}}>
                 <Stepper nonLinear activeStep={-10} alternativeLabel style={{width: 4000}}>
                 {directionStoreObject.directionProcessedObject.map((processed_object, index) => (
                     <Step key={index}>

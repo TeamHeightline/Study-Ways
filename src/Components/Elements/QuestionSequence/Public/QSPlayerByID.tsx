@@ -74,7 +74,7 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
     return(
         <div>
             <Typography className="display-4 text-center mt-4" style={{fontSize: '33px'}}>{processedStore.name}</Typography>
-            <div style={{overflowX: "scroll"}}>
+            <div style={{overflowX: "auto"}}>
                 <Stepper nonLinear alternativeLabel activeStep={processedStore.selectedQuestionIndex}>
                     {processedStore?.questionsStoreArray?.map((question, qIndex) => (
                         <Step key={qIndex} onClick={() => processedStore.changeSelectedQuestionIndex(qIndex)}>

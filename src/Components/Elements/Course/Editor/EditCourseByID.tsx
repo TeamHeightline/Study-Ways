@@ -149,7 +149,7 @@ export default function EditCourseByID({course_id, ...props}: any){
                     {course_id && cardCourseImageName && <div>{cardCourseImageName}</div>}
                 </Typography>
             </div>
-            <div style={{overflowY: "scroll"}} className="ml-5 mr-5">
+            <div style={{overflowY: "auto"}} className="ml-5 mr-5">
                 {CourseLinesData.length !== 0 && CourseLinesData.map((line, lIndex) =>{
                     return(
                         <CourseRow key={lIndex + "course" + props.cIndex} row={line} lIndex={lIndex}

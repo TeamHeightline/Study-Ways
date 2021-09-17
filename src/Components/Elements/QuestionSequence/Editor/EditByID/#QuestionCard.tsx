@@ -1,10 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {Card, TextField} from "@material-ui/core";
+import {Card, Grid, TextField} from "@material-ui/core";
 import {Form} from "react-bootstrap";
 import {useQuery} from "@apollo/client";
 import {GET_ALL_QUESTIONS} from "../../../../../Store/PublicStorage/QuestionPage/Struct";
 import * as _ from "lodash"
 import {Autocomplete} from "@material-ui/lab";
+import IconButton from "@material-ui/core/IconButton";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 
 export default function QuestionCard({...props}: any) {
     //Логика для выбора тем, скопирована с [LC]MainUserQuestion
@@ -19,6 +23,16 @@ export default function QuestionCard({...props}: any) {
     //Переменная, обязательная для того, чтобы понимать, что мы совершили все расчеты, необходимые перед отисовкой
     // автокомплита
 
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
 
 
@@ -108,40 +122,66 @@ export default function QuestionCard({...props}: any) {
         <div {...props}>
             <Card variant="outlined">
                 <div className="ml-3 mr-3 mt-3">
-                    <Form.Control
-                        className="mt-1"
-                        // size="lg"
-                        as="select"
-                        value={selectedAuthor}
-                        onChange={async (event) => {
-                            await setSelectedAuthor(event.target.value)
-                            await setThemesForSearching(returnThemesOfQuestionsWhereAuthorSameThatSelected(data, event.target.value))
-                            setQuestionForSelectAfterSelectedTheme(returnThemesOfQuestionsWhereAuthorSameThatSelected(data, event.target.value)[0].id,
-                                event.target.value)
-                        }}>
-                        {authorsForSearching.map((author: any) => {
-                            return (<option key={author.id + "authorForSelect"}
-                                            value={author.id}>Автор: {author.name}</option>)
-                        })}
-                    </Form.Control>
+                    <Grid container>
+                        <Grid item xs={10}>
+                            <Form.Control
+                                className="mt-1"
+                                // size="lg"
+                                as="select"
+                                value={selectedAuthor}
+                                onChange={async (event) => {
+                                    await setSelectedAuthor(event.target.value)
+                                    await setThemesForSearching(returnThemesOfQuestionsWhereAuthorSameThatSelected(data, event.target.value))
+                                    setQuestionForSelectAfterSelectedTheme(returnThemesOfQuestionsWhereAuthorSameThatSelected(data, event.target.value)[0].id,
+                                        event.target.value)
+                                }}>
+                                {authorsForSearching.map((author: any) => {
+                                    return (<option key={author.id + "authorForSelect"}
+                                                    value={author.id}>Автор: {author.name}</option>)
+                                })}
+                            </Form.Control>
+                            {selectedAuthor && selectedAuthor?.id !== -10 &&
+                            <div >
+                                <Form.Control
+                                    className="mt-1"
+                                    // size="lg"
+                                    as="select"
+                                    value={selectedTheme}
+                                    onChange={async (event) => {
+                                        setSelectedTheme(event.target.value)
+                                        setQuestionForSelectAfterSelectedTheme(event.target.value)
+                                    }}>
+                                    {themesForSearching.map((theme: any) => {
+                                        return (<option key={theme.id + "themeForSelect"}
+                                                        value={theme.id}>Тема: {theme.name}</option>)
+                                    })}
+                                </Form.Control>
+                            </div>}
+                        </Grid>
+                        <Grid item xs={1}>
+                            <IconButton
+                                aria-label="more"
+                                aria-controls="long-menu"
+                                aria-haspopup="true"
+                                onClick={handleClick}
+                            >
+                                <MoreVertIcon />
+                            </IconButton>
+                            <Menu
+                                id="long-menu"
+                                anchorEl={anchorEl}
+                                keepMounted
+                                open={open}
+                                onClose={handleClose}
+                            >
+                                <MenuItem key={0} value="Delete" onClick={() => void(0)}>
+                                    Удалить
+                                </MenuItem>
+                            </Menu>
+                        </Grid>
+                    </Grid>
                 </div>
-                {selectedAuthor && selectedAuthor?.id !== -10 &&
-                    <div className="ml-3 mr-3">
-                        <Form.Control
-                            className="mt-1"
-                            // size="lg"
-                            as="select"
-                            value={selectedTheme}
-                            onChange={async (event) => {
-                                setSelectedTheme(event.target.value)
-                                setQuestionForSelectAfterSelectedTheme(event.target.value)
-                            }}>
-                            {themesForSearching.map((theme: any) => {
-                                return (<option key={theme.id + "themeForSelect"}
-                                                value={theme.id}>Тема: {theme.name}</option>)
-                            })}
-                        </Form.Control>
-                    </div>}
+
                 <div className="mr-3 ml-3 pb-3">
                     { selectedQuestionHasBeenCalculated && //Обязательно только так, потому что пользователь может еще
                     // только создать эту серию и selectedQuestion будет пустым, а если не проверять на него,

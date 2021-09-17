@@ -1,19 +1,20 @@
 import {observer} from "mobx-react";
 import React from "react";
 import {Card, CardActionArea, Typography} from "@material-ui/core";
+import {StatisticPageStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticPageStore";
 
-export const MainPageQuestionsForSelect = observer(({processedStore}) =>{
+export const MainPageQuestionsForSelect = observer(() =>{
     return(
         <React.Fragment>
-            {processedStore?.QuestionArrayForDisplay
+            {StatisticPageStoreObject?.QuestionArrayForDisplay
                 ?.map((question: any) =>{
                     return(
                         <Card className="mt-2" key={question.id} style={{width: 400, height: 160, textAlign: "center"}}
                               variant="outlined">
                             <CardActionArea style={{height: "100%"}}
                                             onClick={() => {
-                                                processedStore.changeSelectedQuestionID(question?.id)
-                                                processedStore.changeIsOpenQuestion(true)
+                                                StatisticPageStoreObject.changeSelectedQuestionID(question?.id)
+                                                StatisticPageStoreObject.changeIsOpenQuestion(true)
                                             }}>
                                 <Typography>
                                     {"ID: " + question.id}

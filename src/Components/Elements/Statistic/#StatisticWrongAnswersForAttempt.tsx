@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React from "react";
 import {Row} from "react-bootstrap";
 import {toJS} from "mobx";
-import {StatisticByQuestionDataStoreObject} from "../../../Store/PrivateStorage/EditorsPage/QuestionStatisticStore/StatisticByQuestionDataStore";
+import {StatisticByQuestionDataStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticByQuestionDataStore";
 import {Card, CardActionArea, Typography} from "@material-ui/core";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";

@@ -6,7 +6,7 @@ import {Maybe, QuestionNode} from "../../../../../SchemaTypes";
 import {ALL_QUESTIONS_STATISTIC} from "./Struct";
 import {StatisticByQuestionDataStoreObject} from "./StatisticByQuestionDataStore";
 
-class QuestionStatisticPageStore{
+class StatisticPageStore {
     constructor(){
         makeAutoObservable(this)
         this.loadQuestionsDataFromServer()
@@ -70,9 +70,16 @@ class QuestionStatisticPageStore{
         this.isOpenQuestion = newOpenState
     }
 
+    //Активная вкладка на меню сверху (вопросы/серия вопросов)
+    activePageOnTopMenu = 0
+
+    changeActivePageOnTopMenu(newPage: number){
+        this.activePageOnTopMenu = newPage
+    }
+
 
 
 
 }
 
-export const QuestionStatisticPageStoreObject = new QuestionStatisticPageStore()
+export const StatisticPageStoreObject = new StatisticPageStore()

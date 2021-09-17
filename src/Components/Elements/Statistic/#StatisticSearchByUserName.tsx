@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React from "react";
 import {Grid, InputAdornment, TextField} from "@material-ui/core";
 import {AccountCircle} from "@material-ui/icons";
-import {StatisticByQuestionDataStoreObject} from "../../../Store/PrivateStorage/EditorsPage/QuestionStatisticStore/StatisticByQuestionDataStore";
+import {StatisticByQuestionDataStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticByQuestionDataStore";
 
 export const StatisticSearchByUserName= observer(() =>{
     return(

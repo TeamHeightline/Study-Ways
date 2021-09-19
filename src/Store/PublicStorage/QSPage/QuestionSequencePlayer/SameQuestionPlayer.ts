@@ -105,27 +105,41 @@ export class SameQuestionPlayer{
         //Сумма потерянных баллов за неправильно выбранные ответы
         let __sumOfLoosedAnswerPoints = 0
 
+        //Полученные баллы за правильные выбранные ответы
+        let __sumOfGotAnswerPoints = 0
+
         this.answersArray.map((answer, aIndex) => {
             if((answer.isTrue && !this.selectedAnswers.has(answer.id)) || (!answer.isTrue && this.selectedAnswers.has(answer.id))){
                 __errorArray.push(answer.id)
 
-                if(answer.hardLevelOfAnswer === "EASY"){
+                console.log(answer.hardLevelOfAnswer)
+                if(answer.hardLevelOfAnswer == "EASY"){
                     __sumOfLoosedAnswerPoints += 15
-                }else if(answer.hardLevelOfAnswer === "MEDIUM"){
+                }else if(answer.hardLevelOfAnswer == "MEDIUM"){
                     __sumOfLoosedAnswerPoints += 10
                 }else{
                     __sumOfLoosedAnswerPoints += 5
                 }
+                console.log(__sumOfLoosedAnswerPoints)
 
                 if(Number(answer.checkQueue) < Number(minCheckQueue)){
                     minCheckQueue = answer.checkQueue
                     indexOfMostWantedError = aIndex
                 }
             }
+            else{
+                if(answer.hardLevelOfAnswer == "EASY"){
+                    __sumOfGotAnswerPoints += 5
+                }else if(answer.hardLevelOfAnswer == "MEDIUM"){
+                    __sumOfGotAnswerPoints += 10
+                }else{
+                    __sumOfGotAnswerPoints += 15
+                }
+            }
         })
-
+        console.log(this.maxSumOfPoints - __sumOfLoosedAnswerPoints)
         //Добавляем в историю сколько баллов было получено за эту попытку
-        this.historyOfAnswerPoints.set(this.numberOfPasses, this.maxSumOfPoints - __sumOfLoosedAnswerPoints)
+        this.historyOfAnswerPoints.set(this.numberOfPasses, __sumOfGotAnswerPoints - __sumOfLoosedAnswerPoints)
 
         //Добавляем в историю выбора эти неправильные ответы
         this.historyOfWrongSelectedAnswers.set(this.numberOfPasses, __errorArray)
@@ -219,9 +233,9 @@ export class SameQuestionPlayer{
                 __answersForDisplay = __answersForDisplay.concat(_.shuffle(data.data.questionById.answers.filter((answer) => answer.isRequired === false))?.slice(0, data?.data?.questionById?.numberOfShowingAnswers - __answersForDisplay.length))
                 __answersForDisplay = _.shuffle(__answersForDisplay)
                 __answersForDisplay.map((answer) =>{
-                    if(answer.hardLevelOfAnswer === "EASY"){
+                    if(answer.hardLevelOfAnswer == "EASY"){
                         __maxSumOfAnswerPoints += 5
-                    }else if(answer.hardLevelOfAnswer === "MEDIUM"){
+                    }else if(answer.hardLevelOfAnswer == "MEDIUM"){
                         __maxSumOfAnswerPoints += 10
                     }else{
                         __maxSumOfAnswerPoints += 15

@@ -229,8 +229,9 @@ export class SameQuestionPlayer{
                 //максимальное число баллов, которые можно получить выбрав все правильные ответы
                 let __maxSumOfAnswerPoints = 0
                 //Перемешиваем ответы и обрезаем из количество на значение из настроек
-                let __answersForDisplay = _.shuffle(data.data.questionById.answers.filter((answer) => answer.isRequired === true))?.slice(0, data?.data?.questionById?.numberOfShowingAnswers)
-                __answersForDisplay = __answersForDisplay.concat(_.shuffle(data.data.questionById.answers.filter((answer) => answer.isRequired === false))?.slice(0, data?.data?.questionById?.numberOfShowingAnswers - __answersForDisplay.length))
+                const __requiredAnswersForDisplay = _.shuffle(data.data.questionById.answers?.filter((answer) => answer.isDeleted === false)?.filter((answer) => answer.isRequired === true))?.slice(0, data?.data?.questionById?.numberOfShowingAnswers)
+                const __notRequiredAnswersForDisplay = _.shuffle(data.data.questionById.answers?.filter((answer) => answer.isDeleted === false)?.filter((answer) => answer.isRequired === false))?.slice(0, data?.data?.questionById?.numberOfShowingAnswers - __requiredAnswersForDisplay.length)
+                let __answersForDisplay = __requiredAnswersForDisplay.length > 0 ? __requiredAnswersForDisplay.concat(__notRequiredAnswersForDisplay) : __notRequiredAnswersForDisplay;
                 __answersForDisplay = _.shuffle(__answersForDisplay)
                 __answersForDisplay.map((answer) =>{
                     if(answer.hardLevelOfAnswer == "EASY"){

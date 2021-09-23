@@ -53,7 +53,7 @@ export const  Registration = observer(() =>{
             <Typography className="text-center mt-5" variant="h4">Регистрация</Typography>
             <Row className="justify-content-center">
                 {/*<div className="display-4 text-center mt-5" style={{fontSize: '33px'}}>Регистрация</div>*/}
-                <div className="col-md-4 mt-3">
+                <div className="col-md-4 mt-3" style={{maxWidth: 350, }}>
                     {/*<Card>*/}
                     <Form>
                         {/*Стандартный набор, юзерныйм, мэил и два пароля, заметьте, для второго пароля честно

@@ -22,12 +22,12 @@ export  const Login = observer(() =>{
     return(
         <div>
             <Typography className="text-center mt-5" variant="h4">
-                Введите email и пароль
+                Вход в аккаунт
             </Typography>
             <Row className="justify-content-center">
                 {/*Теоретически, здесь должен быть вариант с социальными сетями, но увы и ах*/}
                 {/*<div className="display-4 text-center mt-5" style={{fontSize: '33px'}}>Введите email и пароль</div>*/}
-                <Col className="col-md-4 col-12 mt-3">
+                <Col className="col-md-6 col-12 mt-3" style={{maxWidth: 350, }}>
                     {/*Стандартная форма мэйла и пароля*/}
                         <Form>
                             <Form.Group>

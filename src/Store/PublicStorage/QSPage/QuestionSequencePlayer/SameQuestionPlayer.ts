@@ -1,6 +1,6 @@
 import {makeAutoObservable, reaction, toJS} from "mobx";
 import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
-import {GET_QUESTION_DATA_BY_ID, SAVE_DETAIL_STATISTIC} from "./Struct";
+import {GET_QUESTION_DATA_BY_ID, SAVE_DETAIL_STATISTIC, SAVE_DETAIL_STATISTIC_WITH_QS} from "./Struct";
 import {SameAnswerNode} from "./SameAnswerNode";
 import * as _ from "lodash"
 import {UserStorage} from "../../../UserStore/UserStore";
@@ -254,18 +254,34 @@ export class SameQuestionPlayer{
 
     //Сохраняет детальную статистику по прохождению вопроса
     saveDetailStatistic(){
-        this.clientStorage.client.mutate({mutation: SAVE_DETAIL_STATISTIC, variables:{
-                question: this.questionID,
-                isLogin: this.userStore.isLogin,
-                userName: this.userStore.isLogin? this.userStore.username : localStorage?.getItem('username')?.length !== 0 ? localStorage?.getItem('username') : "Анонимный пользователь",
-                isUseexammode: this.isUseExamMode || this?.ownStore?.isUseExamMode,
-                statistic:{
-                    numberOfPasses: this.numberOfPasses,
-                    ArrayForShowAnswerPoints : this.ArrayForShowAnswerPoints,
-                    ArrayForShowWrongAnswers: this.ArrayForShowWrongAnswers,
-                }
-            }})
-            .catch((e) => console.log(e))
+        if(this?.ownStore && this?.ownStore?.questionSequenceID){
+            this.clientStorage.client.mutate({mutation: SAVE_DETAIL_STATISTIC_WITH_QS, variables:{
+                    question: this.questionID,
+                    isLogin: this.userStore.isLogin,
+                    userName: this.userStore.isLogin? this.userStore.username : localStorage?.getItem('username')?.length !== 0 ? localStorage?.getItem('username') : "Анонимный пользователь",
+                    isUseexammode: this.isUseExamMode || this?.ownStore?.isUseExamMode,
+                    questionSequence: this?.ownStore?.questionSequenceID,
+                    statistic:{
+                        numberOfPasses: this.numberOfPasses,
+                        ArrayForShowAnswerPoints : this.ArrayForShowAnswerPoints,
+                        ArrayForShowWrongAnswers: this.ArrayForShowWrongAnswers,
+                    }
+                }})
+                .catch((e) => console.log(e))
+        }else{
+            this.clientStorage.client.mutate({mutation: SAVE_DETAIL_STATISTIC, variables:{
+                    question: this.questionID,
+                    isLogin: this.userStore.isLogin,
+                    userName: this.userStore.isLogin? this.userStore.username : localStorage?.getItem('username')?.length !== 0 ? localStorage?.getItem('username') : "Анонимный пользователь",
+                    isUseexammode: this.isUseExamMode || this?.ownStore?.isUseExamMode,
+                    statistic:{
+                        numberOfPasses: this.numberOfPasses,
+                        ArrayForShowAnswerPoints : this.ArrayForShowAnswerPoints,
+                        ArrayForShowWrongAnswers: this.ArrayForShowWrongAnswers,
+                    }
+                }})
+                .catch((e) => console.log(e))
+        }
     }
 
 

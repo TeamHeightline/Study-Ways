@@ -50,3 +50,19 @@ export const SAVE_DETAIL_STATISTIC = gql`
         }
     }
     `
+
+export const SAVE_DETAIL_STATISTIC_WITH_QS = gql`
+    mutation SAVE_DETAIL_STATISTIC($question: ID!, $userName: String, $isLogin: Boolean, $statistic: GenericScalar,
+        $isUseexammode: Boolean, $questionSequence: ID){
+        createDetailQuestionStatistic(input: {
+            question: $question,
+            userName: $userName,
+            isLogin: $isLogin,
+            statistic: $statistic,
+            isUseexammode: $isUseexammode,
+            questionSequence: $questionSequence
+        }){
+            clientMutationId
+        }
+    }
+`

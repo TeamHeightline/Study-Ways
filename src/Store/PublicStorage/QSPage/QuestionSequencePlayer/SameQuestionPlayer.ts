@@ -257,7 +257,7 @@ export class SameQuestionPlayer{
         this.clientStorage.client.mutate({mutation: SAVE_DETAIL_STATISTIC, variables:{
                 question: this.questionID,
                 isLogin: this.userStore.isLogin,
-                userName: this.userStore.isLogin? this.userStore.username : localStorage?.getItem('user_name')?.length !== 0 ? localStorage?.getItem('user_name') : "Анонимный пользователь",
+                userName: this.userStore.isLogin? this.userStore.username : localStorage?.getItem('username')?.length !== 0 ? localStorage?.getItem('username') : "Анонимный пользователь",
                 isUseexammode: this.isUseExamMode || this?.ownStore?.isUseExamMode,
                 statistic:{
                     numberOfPasses: this.numberOfPasses,

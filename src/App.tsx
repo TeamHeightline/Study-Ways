@@ -45,6 +45,7 @@ import {QSPlayerByID} from "./Components/Elements/QuestionSequence/Public/QSPlay
 import { observer } from "mobx-react"
 import {ClientStorage} from "./Store/ApolloStorage/ClientStorage";
 import {MainDirection} from "./Components/PublicPages/MainDirection";
+import {LogInNotification} from "./Components/PublicPages/Login/#LogInNotification";
 
 
 const  App = observer(() => {
@@ -66,6 +67,7 @@ const  App = observer(() => {
         <ApolloProvider client={ClientStorage.client}>
             <Router>
                 <Navibar/>
+                <LogInNotification/>
                 <Switch >
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/unlogin" component={UnLogin}/>

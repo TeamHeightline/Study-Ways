@@ -81,14 +81,14 @@ class StatisticByQuestionDataStore{
         this.questionText = questionData.text;
         this.questionID = questionData.id;
         this.questionStatistic = sort(questionData.detailquestionstatisticSet).desc((detailQuestionStatistic: any) => Number(detailQuestionStatistic?.id));
-        const __passedQuestionsObjectsArray: any = []
+        const __answersObjectsArray: any = []
         toJS(questionData?.answers)?.map((answer) =>{
-            __passedQuestionsObjectsArray.push(new SameAnswerNode(Number(answer?.id), answer?.text, answer?.isTrue))
+            __answersObjectsArray.push(new SameAnswerNode(Number(answer?.id), answer?.text, answer?.isTrue))
         })
-        __passedQuestionsObjectsArray.map((QuestionsObject) =>{
+        __answersObjectsArray.map((QuestionsObject) =>{
             QuestionsObject?.getImageUrlFromServer()
         })
-        this.answersArrayDataStore = __passedQuestionsObjectsArray
+        this.answersArrayDataStore = __answersObjectsArray
     }
 
     //Массив наблюдаемых хранилищ ответов, для каждой попытки мы будем брать массив неверных ответов,

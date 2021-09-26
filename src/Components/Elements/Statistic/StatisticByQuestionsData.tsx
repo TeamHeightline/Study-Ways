@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import React from "react";
-import {Grid, Typography} from "@material-ui/core";
-import {StatisticByQuestionDataStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticByQuestionDataStore";
+import {Grid} from "@material-ui/core";
+import {StatisticByQuestionDataStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticByQuestionsDataStore";
 import IconButton from '@material-ui/core/IconButton';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -15,19 +15,19 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 import {StatisticChartAndDetailStatistic} from "./#StatisticChartAndDetailStatistic";
 import {StatisticSearchByUserName} from "./#StatisticSearchByUserName";
+import {StatisticSelectQuestionInQS} from "./#StatisticSelectQuestionInQS";
 
-export const StatisticByQuestionData = observer(() =>{
+export const StatisticByQuestionsData = observer(() =>{
     return(
         <div>
-            <Grid container  justify="center">
-                <Grid item xs={12} md={8}>
-                    <Typography variant="h4" className="text-center">
-                        {"ID: " + StatisticByQuestionDataStoreObject?.questionID}
-                        {" Текст:  " + StatisticByQuestionDataStoreObject?.questionText}
-                    </Typography>
+            <Grid container style={{marginLeft: 48, marginTop: 20}}>
+                <Grid item xs={12} md={2}>
+                    <StatisticSearchByUserName/>
+                </Grid>
+                <Grid item xs={12} md={2} style={{marginLeft:20}}>
+                    <StatisticSelectQuestionInQS/>
                 </Grid>
             </Grid>
-            <StatisticSearchByUserName/>
             <TableContainer component={Paper}>
                 <Table aria-label="collapsible table">
                     <TableHead>
@@ -35,6 +35,8 @@ export const StatisticByQuestionData = observer(() =>{
                             <TableCell />
                             <TableCell>Имя пользователя</TableCell>
                             <TableCell align="right">Вошел/не вошел в систему</TableCell>
+                            {StatisticByQuestionDataStoreObject?.multiQuestionMode &&
+                            <TableCell align="right">ID вопроса </TableCell>}
                             <TableCell align="right">Количество попыток</TableCell>
                             <TableCell align="right">Среднее количество ошибок</TableCell>
                             <TableCell align="right">Максимальное количество ошибок</TableCell>
@@ -58,6 +60,9 @@ export const StatisticByQuestionData = observer(() =>{
                                     {row[0]}
                                     </TableCell>
                                     <TableCell align="right">{row[1]}</TableCell>
+                                    {StatisticByQuestionDataStoreObject?.multiQuestionMode &&
+                                    <TableCell align="right">{row[11]?.attemptData?.question?.id}</TableCell>
+                                    }
                                     <TableCell align="right">{row[2]}</TableCell>
                                     <TableCell align="right">{row[3]}</TableCell>
                                     <TableCell align="right">{row[4]}</TableCell>
@@ -65,7 +70,8 @@ export const StatisticByQuestionData = observer(() =>{
                                     <TableCell align="right">{row[6]}</TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell colSpan={8} style={{ paddingBottom: 0, paddingTop: 0 }}>
+                                    <TableCell colSpan={StatisticByQuestionDataStoreObject?.multiQuestionMode ? 9 :8}
+                                               style={{ paddingBottom: 0, paddingTop: 0 }}>
                                         <StatisticChartAndDetailStatistic row={row}/>
                                     </TableCell>
                                 </TableRow>

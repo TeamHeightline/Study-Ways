@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React from "react";
 import {Button} from "@material-ui/core";
 import {Row, Spinner} from "react-bootstrap";
-import {StatisticByQuestionData} from "../Elements/Statistic/StatisticByQuestionData";
+import {StatisticByQuestionsData} from "../Elements/Statistic/StatisticByQuestionsData";
 import {MainPageQuestionsForSelect} from "../Elements/Statistic/#MainPageQuestionsForSelect";
 import {MainPageTopMenu} from "../Elements/Statistic/#MainPageTopMenu";
 import {StatisticPageStoreObject} from "../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticPageStore";
@@ -24,7 +24,7 @@ export const MainStatistic = observer(() =>{
                     onClick={() => {StatisticPageStoreObject.changeIsOpenQuestion(false)}}>
                     Назад
                 </Button>
-                <StatisticByQuestionData/>
+                <StatisticByQuestionsData/>
             </div>
         )
     }

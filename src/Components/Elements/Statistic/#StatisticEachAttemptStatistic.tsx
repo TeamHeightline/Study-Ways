@@ -35,7 +35,7 @@ export const StatisticEachAttemptStatistic = observer(({row, classes}) =>{
                         </TableRow>
                         <TableRow>
                             <TableCell colSpan={4} style={{ paddingBottom: 0, paddingTop: 0, maxWidth: window.innerWidth - 100 }}>
-                                <Collapse in={row[11]?.openAttemptForDetailStatistic?.has(aIndex)}>
+                                <Collapse in={row[11]?.openAttemptForDetailStatistic?.has(aIndex)} unmountOnExit>
                                     <StatisticWrongAnswersForAttempt {...{row, attempt, classes, aIndex}}/>
                                 </Collapse>
                             </TableCell>

@@ -13,7 +13,10 @@ export const MainPageQSForSelect = observer(() =>{
                     <div key={sequence?.id} className="mt-3 col-5">
                         <Card variant="outlined" key={sequence?.id + "SequenceKey"} style={{padding: 0}}
                               onClick={ () => {void(0)}}>
-                            <CardActionArea className="col-12" style={{flex: "auto"}}>
+                            <CardActionArea className="col-12" style={{flex: "auto"}}
+                            onClick={() => {
+                                StatisticPageStoreObject.selectedQuestionSequenceID = sequence?.id
+                            }}>
                                 <div className="ml-4">
                                     <Typography variant="h6" color="textSecondary" className="ml-2 mt-2">
                                         <strong>

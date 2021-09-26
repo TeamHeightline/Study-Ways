@@ -16,16 +16,33 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import {StatisticChartAndDetailStatistic} from "./#StatisticChartAndDetailStatistic";
 import {StatisticSearchByUserName} from "./#StatisticSearchByUserName";
 import {StatisticSelectQuestionInQS} from "./#StatisticSelectQuestionInQS";
+import {StatisticOnlyInQSFlag} from "./#StatisticOnlyInQSFlag";
+import {StatisticOnlyExamMode} from "./#StatisticOnlyExamMode";
+import {StatisticGoToMainPage} from "./#StatisticGoToMainPage";
 
 export const StatisticByQuestionsData = observer(() =>{
     return(
         <div>
-            <Grid container style={{marginLeft: 48, marginTop: 20}}>
-                <Grid item xs={12} md={2}>
+            <Grid container style={{paddingLeft: innerHeight/innerWidth > 1 ? 0 : 48}}>
+                <Grid item xs={12} md={2} style={{marginTop: 20}}>
+                    <StatisticGoToMainPage/>
+                </Grid>
+            </Grid>
+            <Grid container style={{paddingLeft: innerHeight/innerWidth > 1 ? 0 : 48}}>
+                <Grid item xs={12} md={2} style={{marginTop: 20}}>
                     <StatisticSearchByUserName/>
                 </Grid>
-                <Grid item xs={12} md={2} style={{marginLeft:20}}>
-                    <StatisticSelectQuestionInQS/>
+                {StatisticByQuestionDataStoreObject?.multiQuestionMode &&
+                <React.Fragment>
+                    <Grid item xs={12} md={2} style={{marginLeft: innerHeight/innerWidth > 1 ? 0 : 20, marginTop: 20}}>
+                        <StatisticSelectQuestionInQS/>
+                    </Grid>
+                    <Grid item xs={12} md={2} style={{marginLeft: innerHeight/innerWidth > 1 ? 0 : 20, marginTop: 20}}>
+                        <StatisticOnlyInQSFlag/>
+                    </Grid>
+                </React.Fragment>}
+                <Grid item xs={12} md={2} style={{marginLeft: innerHeight/innerWidth > 1 ? 0 : 20, marginTop: 20}}>
+                    <StatisticOnlyExamMode/>
                 </Grid>
             </Grid>
             <TableContainer component={Paper}>

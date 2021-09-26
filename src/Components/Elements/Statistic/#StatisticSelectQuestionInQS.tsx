@@ -4,11 +4,6 @@ import {StatisticByQuestionDataStoreObject} from "../../../Store/PrivateStorage/
 import {StatisticPageStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticPageStore";
 import React from 'react';
 export const StatisticSelectQuestionInQS = observer(() =>{
-    if(!StatisticByQuestionDataStoreObject?.multiQuestionMode){
-        return (
-            <div/>
-        )
-    }
     return(
         <div>
             <FormControl fullWidth style={{marginTop: 0, marginRight: 0}}>

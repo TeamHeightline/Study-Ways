@@ -1,4 +1,4 @@
-import {autorun, makeAutoObservable,  toJS} from "mobx";
+import {autorun, makeAutoObservable, reaction, toJS} from "mobx";
 import {SameAnswerNode} from "../../../PublicStorage/QSPage/QuestionSequencePlayer/SameAnswerNode";
 import {sort} from "fast-sort";
 import {StatisticPageStoreObject} from "./StatisticPageStore";
@@ -64,24 +64,26 @@ class StatisticByQuestionsDataStore {
     constructor(){
         makeAutoObservable(this)
         autorun(() => this.fillPassedQuestionsObjectsArray())
+
+        //При открытие вопроса/серии, фильтры сбрасываются
+        reaction(()=> StatisticPageStoreObject.isOpenQuestion, ()=> {
+            this.searchingUserName = ''
+            this.selectedQuestionOnPage = '-1'
+            this.showPassesOnlyIfTheyDoneInQS = false
+            this.showPassesOnlyInActiveExamMode = false
+        })
+
     }
 
-    //Текст вопроса
-    // questionText = ''
-    //
-    // //ID вопроса
-    // questionID: number | undefined = undefined
 
     //Статистика всех прохождений вопроса
     questionStatistic: any = undefined
 
-    //функция заполнения стора данными из стора, отвечающего за страницу, в том сторе используется реакция
-    //на изменение тех данных, которые нужно сюда доставить, далее реакция вызывает эту функцию и пробрасывает
-    //данные
+    //В StatisticPageStore происходит полная загрузка данных, затем через реакцию на то, что все данные загружены,
+    //данные попадают в эту функцию, здесь они заворачиваются в мини сторы и проходят по всей логики до визуализации
     changeQuestionsData(questionData){
         // this.questionText = questionData.text;
         // this.questionID = questionData.id;
-        console.log(questionData)
         this.questionStatistic = sort(questionData.detailquestionstatisticSet).desc((detailQuestionStatistic: any) => Number(detailQuestionStatistic?.id));
         const __answersObjectsArray: any = []
         toJS(questionData?.answers)?.map((answer) =>{
@@ -126,6 +128,23 @@ class StatisticByQuestionsDataStore {
         this.selectedQuestionOnPage = newQuestion
     }
 
+    //Отображать только те прохождения, которые сделаны в режиме серии вопросов
+    showPassesOnlyIfTheyDoneInQS = false
+
+    //Функция обработчик изменений в showPassesOnlyIfTheyDoneInQS
+    changeShowPassesOnlyIfTheyDoneInQS(newState: boolean):void {
+        this.showPassesOnlyIfTheyDoneInQS = newState
+    }
+
+    //Отображать только прохождения в которых был включен режим экзамена
+    showPassesOnlyInActiveExamMode = false
+
+    //Функция обработчик изменений в showPassesOnlyInActiveExamMode
+    changeShowPassesOnlyInActiveExamMode(newState: boolean):void {
+        this.showPassesOnlyInActiveExamMode = newState
+    }
+
+
     //Данные для таблицы по каждому прохождению теста
     get rows(){
         let __passedQuestionsObjectsArray = this.passedQuestionsObjectsArray
@@ -137,6 +156,14 @@ class StatisticByQuestionsDataStore {
             __passedQuestionsObjectsArray = __passedQuestionsObjectsArray.filter((passedQuestion) =>
                 Number(passedQuestion?.attemptData?.question?.id) === Number(this.selectedQuestionOnPage)
             )
+        }
+        if(this.showPassesOnlyIfTheyDoneInQS){
+            __passedQuestionsObjectsArray = __passedQuestionsObjectsArray.filter((passedQuestion) =>
+            Number(passedQuestion?.attemptData?.questionSequence?.id) == Number(StatisticPageStoreObject?.selectedQuestionSequenceID))
+        }
+        if(this.showPassesOnlyInActiveExamMode){
+            __passedQuestionsObjectsArray = __passedQuestionsObjectsArray.filter((passedQuestion) =>
+                passedQuestion?.attemptData?.isUseexammode)
         }
         return(
             __passedQuestionsObjectsArray?.map((passedQuestion) =>{

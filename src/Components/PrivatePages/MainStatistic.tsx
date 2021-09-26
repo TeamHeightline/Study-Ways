@@ -1,6 +1,5 @@
 import {observer} from "mobx-react";
 import React from "react";
-import {Button} from "@material-ui/core";
 import {Row, Spinner} from "react-bootstrap";
 import {StatisticByQuestionsData} from "../Elements/Statistic/StatisticByQuestionsData";
 import {MainPageQuestionsForSelect} from "../Elements/Statistic/#MainPageQuestionsForSelect";
@@ -18,12 +17,6 @@ export const MainStatistic = observer(() =>{
     if(StatisticPageStoreObject.isOpenQuestion){
         return (
             <div className="pl-3">
-                <Button
-                    className="ml-md-5 mt-4  col-12 col-lg-2 mr-2"
-                    variant="outlined" color="primary"
-                    onClick={() => {StatisticPageStoreObject.changeIsOpenQuestion(false)}}>
-                    Назад
-                </Button>
                 <StatisticByQuestionsData/>
             </div>
         )

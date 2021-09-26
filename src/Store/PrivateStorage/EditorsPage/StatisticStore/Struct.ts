@@ -12,10 +12,14 @@ export const ALL_QUESTIONS_STATISTIC = gql`
                     text
                 }
                 detailquestionstatisticSet{
+                    isUseexammode
                     id
                     userName
                     isLogin
                     statistic
+                    questionSequence{
+                        id
+                    }
                     question{
                         id
                     }
@@ -50,9 +54,13 @@ export const GET_QUESTION_DATA_BY_ID = gql`
                 userName
                 isLogin
                 statistic
+                isUseexammode
                 question{
                     id
                     text
+                }
+                questionSequence{
+                    id
                 }
             }
             answers{

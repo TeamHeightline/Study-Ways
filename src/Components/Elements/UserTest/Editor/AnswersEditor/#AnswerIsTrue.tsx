@@ -12,7 +12,7 @@ export const AnswerIsTrue = observer(({answer}) =>{
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={answer.isTrue}
-                    onChange={(e:any) =>{answer.isTrue = e.target.value}}
+                    onChange={(e:any) =>{answer.changeAnswerIsTrue(e.target.value)}}
                 >
                     <MenuItem value="true">Верный</MenuItem>
                     <MenuItem value="false">Неверный</MenuItem>

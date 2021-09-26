@@ -71,6 +71,16 @@ export class Answer{
     //Таймер для сохранения
     savingTimer: any
 
+    //Обработчик изменений в поле верный/неверный ответ
+    changeAnswerIsTrue(newState: string): void{
+        this.isTrue = newState
+        if( newState ==="false" && (this.helpTextv3 === "Ваш ответ следует дополнить" || this.helpTextv3 === "")){
+            this.helpTextv3 = "Вы допустили одну или более ошибок"
+        }else if(newState ==="true" && (this.helpTextv3 === "Вы допустили одну или более ошибок" || this.helpTextv3 === "")){
+            this.helpTextv3 = "Ваш ответ следует дополнить"
+        }
+    }
+
     //Функция для сохранения даных на сервере
     saveDataOnServer(){
         this.clientStorage.client.mutate({mutation: UPDATE_ANSWER, variables:{

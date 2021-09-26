@@ -141,13 +141,17 @@ export const Navibar = observer(() => {
                             open={open}
                             onClose={handleClose}
                         >
-                                    <MenuItem onClick={() => {
+                                    <MenuItem
+                                        disabled={UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER"}
+                                        onClick={() => {
                                         handleClose()
                                         history.push('/editor')
                                     }}>
                                         Редакторы
                                     </MenuItem>
-                                    <MenuItem onClick={() => {
+                                    <MenuItem
+                                        disabled={UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER"}
+                                        onClick={() => {
                                         handleClose()
                                         history.push('/test')
                                     }}>

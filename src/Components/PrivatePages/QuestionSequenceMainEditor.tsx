@@ -51,7 +51,7 @@ export default function QuestionSequenceMainEditor(){
                 {sort(question_sequence_data?.me?.questionsequenceSet).desc((sequence: any) => sequence.id)
                     ?.map((sequence: any, ) => {
                     return(
-                        <Card variant="outlined" key={sequence?.id + "SequenceKey"} className="mt-3 col-5" style={{padding: 0}}
+                        <Card variant="outlined" key={sequence?.id + "SequenceKey"} className="mt-3 col-md-5 col-12" style={{padding: 0}}
                         onClick={ async() => {
                             await setActiveEditSequenceID(sequence.id)
                             await setTimeout( setIsEditNow, 500, true)

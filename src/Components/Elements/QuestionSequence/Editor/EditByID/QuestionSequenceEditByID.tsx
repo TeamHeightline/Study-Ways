@@ -68,11 +68,11 @@ export default function QuestionSequenceEditByID({...props}: any) {
         )
     }
     return(
-        <div>
+        <div className="col-12" style={{paddingLeft: 48}}>
             <Typography variant="h4" className="text-center">Редактировать серию вопросов</Typography>
             <div className="ml-4">
                 <Button
-                    className="ml-5"
+                    className="ml-md-5 col-12 col-md-2"
                     variant="outlined" color="primary" onClick={() => {
                     props.onChange("goBack")}}>
                     Назад
@@ -80,7 +80,6 @@ export default function QuestionSequenceEditByID({...props}: any) {
             </div>
             <br/>
             <Row className="justify-content-around">
-                {/*Обманный ход, чтобы текстовое поле было на такой же позиции, что и меню, которое под ним*/}
                 <TextField value={sequenceName}
                            onChange={(e) =>{
                                 autoSave()
@@ -88,7 +87,7 @@ export default function QuestionSequenceEditByID({...props}: any) {
                            }}
                            size="small"
                            label="Название серии вопросов"
-                           variant="outlined" className="ml-5 col-5"
+                           variant="outlined" className="ml-md-5 col-md-5 col-12"
                 />
                 <TextField value={sequenceDescription}
                            onChange={(e) =>{
@@ -97,15 +96,22 @@ export default function QuestionSequenceEditByID({...props}: any) {
                            }}
                            size="small"
                            label="Описание серии вопросов"
-                           variant="outlined" className="ml-5 col-5"
+                           variant="outlined" className="ml-md-5 col-md-5 col-12"
                 />
-                <Typography className="mt-2">{"Режим обучения - https://www.sw-university.com/qs/"+ props?.sequence?.id}</Typography>
-
-                <Typography className="mt-2">{"Режим экзамена - https://www.sw-university.com/qs/"+ props?.sequence?.id + "?exam=true"}</Typography>
+            </Row>
+            <Row className="justify-content-around">
+                <Row className="justify-content-center">
+                    <Typography className="mt-2"><pre style={{color: "white"}}>{"Режим обучения - "}</pre></Typography>
+                    <Typography className="mt-2">{" "} https://www.sw-university.com/qs/ {props?.sequence?.id}</Typography>
+                </Row>
+                <Row className="justify-content-center">
+                    <Typography className="mt-2"><pre style={{color: "white"}}>{"Режим экзамена - "}</pre></Typography>
+                    <Typography className="mt-2">{"https://www.sw-university.com/qs/"+ props?.sequence?.id + "?exam=true"}</Typography>
+                </Row>
             </Row>
 
             <Row className="justify-content-around" >
-                <div className="col-3 ml-5 mt-3">
+                <div className="col-md-3 col-12 ml-md-5 mt-3">
                     <Card variant="outlined" className={classes.root} style={{padding: 0}} >
                         <CardMedia
                             className={classes.cover}
@@ -119,7 +125,7 @@ export default function QuestionSequenceEditByID({...props}: any) {
                 </div>
             {questionsIDArray && questionsIDArray?.map((question, qIndex) =>{
                 return(
-                    <QuestionCard className="col-3 ml-5 mt-3" key={qIndex}
+                    <QuestionCard className="col-md-3 col-12 ml-md-5 mt-3" key={qIndex}
                                   questionID={question}
                                   onChange={(data) =>{
                         autoSave()

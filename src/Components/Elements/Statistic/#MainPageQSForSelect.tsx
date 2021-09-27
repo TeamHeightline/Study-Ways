@@ -10,7 +10,7 @@ export const MainPageQSForSelect = observer(() =>{
         <React.Fragment>
             {StatisticPageStoreObject.allQuestionSequenceData?.map((sequence) =>{
                 return(
-                    <div key={sequence?.id} className="mt-3 col-5">
+                    <div key={sequence?.id} className="mt-3 col-md-5 col-12">
                         <Card variant="outlined" key={sequence?.id + "SequenceKey"} style={{padding: 0}}
                               onClick={ () => {void(0)}}>
                             <CardActionArea className="col-12" style={{flex: "auto"}}

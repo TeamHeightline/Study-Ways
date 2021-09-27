@@ -116,8 +116,6 @@ export default function QuestionCard({...props}: any) {
             props.onChange(selectedQuestion.id)
         }
     }, [selectedQuestion])
-
-
     return(
         <div {...props}>
             <Card variant="outlined">
@@ -174,7 +172,7 @@ export default function QuestionCard({...props}: any) {
                                 open={open}
                                 onClose={handleClose}
                             >
-                                <MenuItem key={0} value="Delete" onClick={() => void(0)}>
+                                <MenuItem key={0} value="Delete" onClick={() => props.onDeleteClick(true)}>
                                     Удалить
                                 </MenuItem>
                             </Menu>
@@ -183,7 +181,7 @@ export default function QuestionCard({...props}: any) {
                 </div>
 
                 <div className="mr-3 ml-3 pb-3">
-                    { selectedQuestionHasBeenCalculated && //Обязательно только так, потому что пользователь может еще
+                    { selectedQuestionHasBeenCalculated &&  //Обязательно только так, потому что пользователь может еще
                     // только создать эту серию и selectedQuestion будет пустым, а если не проверять на него,
                     // то автокомплит будет всегда пустой, даже, если уже выбраны какие-то вопросы
                     <Autocomplete
@@ -193,7 +191,7 @@ export default function QuestionCard({...props}: any) {
                         fullWidth
                         autoHighlight
                         options={questionsForSelect}
-                        getOptionLabel={(option: any) => option.text}
+                        getOptionLabel={(option: any) => "ID: " + option.id + " " + option.text}
                         renderInput={(params) => <TextField {...params} label="Вопрос" variant="outlined"/>}
                         onChange={(e: any, values: any) => {
                             autocompliteSelectHandleChange(e, values)

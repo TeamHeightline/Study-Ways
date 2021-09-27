@@ -14,9 +14,10 @@ import {Alert} from "@material-ui/lab";
 import CardMedia from "@material-ui/core/CardMedia";
 
 export default function QuestionSequenceEditByID({...props}: any) {
-    const [questionsIDArray, setQuestionsIDArray] = useState<(number| null)[] >(props?.sequence?.sequenceData?.sequence ? props?.sequence?.sequenceData?.sequence : [])//Нужно для хранения массива айдишников вопросов
+    const [questionsIDArray, setQuestionsIDArray] = useState<any[] >(props?.sequence?.sequenceData?.sequence ? props?.sequence?.sequenceData?.sequence : [])//Нужно для хранения массива айдишников вопросов
     const [sequenceName, setSequenceName] = useState<string>(props?.sequence?.name)//Название последовательности вопросов
     const [sequenceDescription, setSequenceDescription] = useState<string>(props?.sequence?.description)
+    const [manualReload, setManualReload] = useState(true)
 
 
     const [stateOfSave, setStateOfSave] = useState(2) // 0- не сохранено 1- сохранение 2- сохранено
@@ -59,7 +60,7 @@ export default function QuestionSequenceEditByID({...props}: any) {
     const classes = useStyles();
     const addQuestion = () =>{
         autoSave()
-        setQuestionsIDArray(questionsIDArray.concat(null))
+        setQuestionsIDArray(questionsIDArray.concat({SyntheticBaseEvent: true}))
     }
 
     if(!props.sequence){
@@ -102,7 +103,7 @@ export default function QuestionSequenceEditByID({...props}: any) {
             <Row className="justify-content-around">
                 <Row className="justify-content-center">
                     <Typography className="mt-2"><pre style={{color: "white"}}>{"Режим обучения - "}</pre></Typography>
-                    <Typography className="mt-2">{" "} https://www.sw-university.com/qs/ {props?.sequence?.id}</Typography>
+                    <Typography className="mt-2">{" "} https://www.sw-university.com/qs/{props?.sequence?.id}</Typography>
                 </Row>
                 <Row className="justify-content-center">
                     <Typography className="mt-2"><pre style={{color: "white"}}>{"Режим экзамена - "}</pre></Typography>
@@ -125,14 +126,20 @@ export default function QuestionSequenceEditByID({...props}: any) {
                 </div>
             {questionsIDArray && questionsIDArray?.map((question, qIndex) =>{
                 return(
-                    <QuestionCard className="col-md-3 col-12 ml-md-5 mt-3" key={qIndex}
+                    <QuestionCard className="col-md-3 col-12 ml-md-5 mt-3" key={question + "Key" + qIndex}
                                   questionID={question}
+                                  onDeleteClick={() =>{
+                                      const __questionIDArray = questionsIDArray
+                                      __questionIDArray.splice(qIndex, 1)
+                                      setQuestionsIDArray(__questionIDArray)
+                                      setManualReload(!manualReload)
+                                  }}
                                   onChange={(data) =>{
-                        autoSave()
-                        const newQuestionsIDArray =[...questionsIDArray]
-                        newQuestionsIDArray[qIndex] = data
-                        setQuestionsIDArray(newQuestionsIDArray)
-                    }}/>
+                                        autoSave()
+                                        const newQuestionsIDArray =[...questionsIDArray]
+                                        newQuestionsIDArray[qIndex] = data
+                                        setQuestionsIDArray(newQuestionsIDArray)
+                                    }}/>
                 )
             })}
             </Row>

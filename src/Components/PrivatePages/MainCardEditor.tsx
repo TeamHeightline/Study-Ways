@@ -89,13 +89,13 @@ export default function MainCardEditor({...props}: any){
     return(
         <div className="col-12">
             <Row className="ml-1">
-                <Col className="ml-5 col-4">
+                <Col className="ml-md-5 col-md-4 col-12">
                     <ThemeSelector cards_data={card_data.me.cardSet}
                     changeSelectedData={(data)=>{
                         setCardsDataAfterSelectTheme(data)
                     }}/>
                 </Col>
-                <Col className="col-3">
+                <Col className="col-md-3 col-12">
                     {cardsDataAfterSelectTheme &&
                     <ContentTypeSelector cards_data={cardsDataAfterSelectTheme}
                                          ChangeSelectedData={(data) =>{
@@ -103,7 +103,7 @@ export default function MainCardEditor({...props}: any){
                                              setCardsDataAfterSelectContentType(data)
                                          }}/>}
                 </Col>
-                <Col className="ml-2 col-3">
+                <Col className="ml-md-2 col-md-3 col-12">
                     {cardsDataAfterSelectContentType &&
                     <AuthorSelector cards_data={cardsDataAfterSelectContentType}
                                     ChangeSelectedData={(data) =>{
@@ -114,7 +114,7 @@ export default function MainCardEditor({...props}: any){
 
 
             </Row>
-            <Row className="mr-2 justify-content-around">
+            <Row className="mr-2 justify-content-around" style={{overflowX: "auto"}}>
                 <CreateNewCard className="mt-5 ml-3" onCreate={() =>refetch()}/>
                 {cardsDataAfterSelectAuthor && sort(cardsDataAfterSelectAuthor).desc((card: any) => Number(card?.id))
                     .map((e: any) =>{

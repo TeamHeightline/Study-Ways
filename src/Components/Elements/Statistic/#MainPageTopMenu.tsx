@@ -16,6 +16,7 @@ export const MainPageTopMenu = observer(() =>{
         >
             <Tab label="Вопросы" />
             <Tab label="Серии вопросов"/>
+            <Tab label="Пользователи"/>
         </Tabs>
     )
 })

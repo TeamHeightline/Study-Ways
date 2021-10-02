@@ -8,7 +8,7 @@ import { Popover } from 'antd';
 import {CardActionArea, Chip} from "@material-ui/core";
 import 'fontsource-roboto';
 import {useQuery} from "@apollo/client";
-import {Col, Row, Spinner} from "react-bootstrap";
+import { Row} from "react-bootstrap";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import HttpIcon from '@material-ui/icons/Http';
 import ImageIcon from '@material-ui/icons/Image';
@@ -50,12 +50,13 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
     if (!card_data){
         return (
             // <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
-
-            <Card variant="outlined" className={classes.root}>
-                <Row>
-                    <Skeleton variant="rect" width={130} height={170} />
-                </Row>
-            </Card>
+            <div {...props}>
+                <Card variant="outlined" className={classes.root}>
+                    <Row>
+                        <Skeleton variant="rect" width={130} height={170} />
+                    </Row>
+                </Card>
+            </div>
         )
     }
     return(

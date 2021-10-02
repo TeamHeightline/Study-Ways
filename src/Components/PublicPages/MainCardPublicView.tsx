@@ -1,5 +1,5 @@
 import React from 'react'
-import {Col, Row, Spinner} from "react-bootstrap";
+import {Col, Row} from "react-bootstrap";
 import CardMicroView from "../Elements/Cards/CardView/#CardMicroView";
 import {ThemeSelector} from "../Elements/Cards/Editor/MainCardEditor/#ThemeSelector";
 import {ContentTypeSelector} from "../Elements/Cards/Editor/MainCardEditor/#ContentTypeSelector";
@@ -8,14 +8,17 @@ import {CARD} from "../Elements/Cards/Card"
 import {CardPageStorage} from "../../Store/PublicStorage/CardsPage/CardPageStorage";
 import {observer} from "mobx-react";
 import {toJS} from "mobx";
+import {Grow} from "@material-ui/core";
 
 export const MainCardPublicView = observer(({...props}: any) =>{
 
-    if(!CardPageStorage.dataHasBeenGot){
-        return (
-            <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
-        )
-    }
+    // if(!CardPageStorage.dataHasBeenGot){
+    //     return (
+    //         <div className="justify-content-center">
+    //             <Spinner animation="border" variant="success" className="mt-5"/>
+    //         </div>
+    //     )
+    // }
     if(CardPageStorage.isOpenCard && CardPageStorage.selectedCardID){
         return (
             <CARD id={CardPageStorage.selectedCardID}/>
@@ -54,11 +57,15 @@ export const MainCardPublicView = observer(({...props}: any) =>{
             <Row className="justify-content-around mr-4 ml-4">
                 {toJS(CardPageStorage.cardsDataAfterSelectAuthor) && toJS(CardPageStorage.cardsDataAfterSelectAuthor).map((sameCard: any, sIndex) =>{
                     return(
-                        <CardMicroView className="mt-2" cardID={sameCard.id} key={sIndex+ "CardMicroView"}
-                        onChange={(data) =>{
-                            CardPageStorage.selectedCardID = data
-                            CardPageStorage.isOpenCard = true
-                        }}/>
+                        <Grow in={true}  key={sIndex+ "CardMicroView"}>
+                            <div>
+                                <CardMicroView className="mt-2" cardID={sameCard.id}
+                                onChange={(data) =>{
+                                    CardPageStorage.selectedCardID = data
+                                    CardPageStorage.isOpenCard = true
+                                }}/>
+                            </div>
+                        </Grow>
                     )
                 })}
             </Row>

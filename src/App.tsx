@@ -46,6 +46,7 @@ import { observer } from "mobx-react"
 import {ClientStorage} from "./Store/ApolloStorage/ClientStorage";
 import {MainDirection} from "./Components/PublicPages/MainDirection";
 import {LogInNotification} from "./Components/PublicPages/Login/#LogInNotification";
+import { CodeEditor } from './Components/PublicPages/CodeEditor';
 
 
 const  App = observer(() => {
@@ -81,6 +82,7 @@ const  App = observer(() => {
                     <Route exact path="/cards" component={MainCardPublicView}/>
                     <Route exact path="/courses" component={MainCoursePublicView}/>
                     <Route exact path="/direction" component={MainDirection}/>
+                    <Route exact path="/cedit" component={CodeEditor}/>
                     <Redirect to="/courses"/>
                 </Switch>
             </Router>

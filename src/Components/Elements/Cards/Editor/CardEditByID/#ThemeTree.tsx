@@ -1,6 +1,7 @@
 import React from "react";
 import {TreeSelect} from "antd";
 import {Spinner} from "react-bootstrap";
+import {sort} from "fast-sort";
 const { SHOW_CHILD } = TreeSelect;
 export default function ThemeTree({dataForThemeTreeView, cardSelectedThemeID, cardSelectedThemeIDHandle }: any){
     const tProps = {
@@ -8,8 +9,9 @@ export default function ThemeTree({dataForThemeTreeView, cardSelectedThemeID, ca
         treeData: dataForThemeTreeView,
         value: cardSelectedThemeID,
         onChange: cardSelectedThemeIDHandle,
-        treeCheckable: true,
-
+        // treeCheckable: true,
+        multiple: true,
+        showSearch: false,
         showCheckedStrategy: SHOW_CHILD,
         placeholder: 'Выбирите тему карточки',
         style: {

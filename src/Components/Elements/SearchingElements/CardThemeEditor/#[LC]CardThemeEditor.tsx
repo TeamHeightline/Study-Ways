@@ -14,9 +14,12 @@ import {
 import {useMutation, useQuery} from "@apollo/client";
 import {Mutation, Query} from "../../../../../SchemaTypes";
 import DCCardThemeEditor from "./##[DC]CardThemeEditor";
+import {sort} from "fast-sort";
 export default function LCCardThemeEditor(){
     const [expanded, setExpanded] = useState<string[]>([])//Это массив в котором все IDs тем подтем
     // и глобальных тем, которые нужно отобразить
+    const [oneTimeThemesLoad, setOneTimeThemesLoad] = useState(false)
+
     const [selected_id, set_selected_id] = useState<string>('') //Это значение будет "испорчено"
     //корректором ID для дерева, по этому нужно завести отдельно "чистые" выбранные ID
     const [selected_sub_theme_ID, set_selected_sub_theme_ID] = useState('')
@@ -116,25 +119,36 @@ export default function LCCardThemeEditor(){
         // темы/подтемы/глобальные темы имеют свои независимые айдишники, по этому они могут повторяться, чтобы этого
         //избежать мы умножаем ID глобальной темы на 10^6, а тем на 10^3, ID подтем не трогаем, таким образом, если
         // тем или подтем меньше 1000, что все работает шикарно
-        if(all_card_themes_data){
+        if(all_card_themes_data && !oneTimeThemesLoad){
             all_card_themes_data?.cardGlobalTheme?.map((sameGlobalTheme) =>{
                 __all_global_themes.push({id: sameGlobalTheme?.id, name: sameGlobalTheme?.name})
-                __expanded.push(String(Number(sameGlobalTheme?.id) * 1000000))
+                // __expanded.push(String(Number(sameGlobalTheme?.id) * 1000000))
                 sameGlobalTheme?.cardthemeSet.map((sameTheme) =>{
                     __all_themes.push({id: sameTheme.id, name: sameTheme.name})
-                    __expanded.push(String(Number(sameTheme?.id) * 1000))
+                    // __expanded.push(String(Number(sameTheme?.id) * 1000))
                     sameTheme?.cardsubthemeSet.map((sameSubTheme) =>{
                         __all_sub_themes.push({id: sameSubTheme.id, name: sameSubTheme.name})
-                        __expanded.push(sameSubTheme.id)
+                        // __expanded.push(sameSubTheme.id)
                     })
                 })
             })
             //После всех расчетов все данные сохраняются в стейт, вся логика работает именно с локальными переменными,
-            //чтобы не было миллионов ререндеров, локальные переменные начинаются с "__"
+            //чтобы не было миллионов рендеров, локальные переменные начинаются с "__"
+            setOneTimeThemesLoad(true) //После первой загрузки всех тем мы больше не раскрывает все темы, потому что
+            //при редактирование после сохранения происходит раскрытие всех тем, это плохо
             setExpanded(__expanded)
-            set_all_global_themes(__all_global_themes)
-            set_all_themes(__all_themes)
-            set_all_sub_themes(__all_sub_themes)
+            set_all_global_themes( sort(__all_global_themes).asc([
+                (anyTheme: any) => anyTheme.name.replace(/\D/g,'').length != 0? Number(anyTheme.name.replace(/[^\d]/g, '')) : 10000000,
+                (anyTheme: any) => anyTheme.name
+            ]))
+            set_all_themes( sort(__all_themes).asc([
+                (anyTheme: any) => anyTheme.name.replace(/\D/g,'').length != 0? Number(anyTheme.name.replace(/[^\d]/g, '')) : 10000000,
+                (anyTheme: any) => anyTheme.name
+            ]))
+            set_all_sub_themes( sort(__all_sub_themes).asc([
+                (anyTheme: any) => anyTheme.name.replace(/\D/g,'').length != 0? Number(anyTheme.name.replace(/[^\d]/g, '')) : 10000000,
+                (anyTheme: any) => anyTheme.name
+            ]))
         }
     }, [all_card_themes_data]) //подписка на любые изменения в данных о темах
     const handleSelect = (event, nodeIds) => {

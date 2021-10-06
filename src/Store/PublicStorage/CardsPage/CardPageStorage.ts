@@ -4,6 +4,7 @@ import {GET_ALL_CARDS, GET_THEMES} from "./Struct";
 import {GlobalCardThemeNode, Maybe} from "../../../../SchemaTypes";
 import {TreeSelect} from "antd";
 import _ from "lodash";
+import {sort} from "fast-sort";
 const { SHOW_CHILD } = TreeSelect;
 
 class CardPage{
@@ -107,7 +108,10 @@ class CardPage{
                         data.push(ThisGlobalTheme)
                     }
                 })
-                this.dataForCardSubThemeSelect = data
+                this.dataForCardSubThemeSelect = sort(data).asc([
+                    (anyTheme: any) => anyTheme.title.replace(/\D/g,'').length != 0? Number(anyTheme.title.replace(/[^\d]/g, '')) : 10000000,
+                    (anyTheme: any) => anyTheme.title
+                ])
             })
     }
 

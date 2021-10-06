@@ -10,6 +10,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import AddIcon from "@material-ui/icons/Add";
 import TextField from "@material-ui/core/TextField";
 import SubdirectoryArrowRightIcon from '@material-ui/icons/SubdirectoryArrowRight';
+import {sort} from "fast-sort";
 
 const useStyles = makeStyles({
     root: {
@@ -52,18 +53,29 @@ export default function DCCardThemeEditor({...props}: any){
                                 onNodeSelect={props.handleSelect}
                                 defaultExpanded={props.expanded}
                             >
-                                {props.all_card_themes_data?.cardGlobalTheme?.map((sameGlobalTheme) =>{
+                                {sort(props.all_card_themes_data?.cardGlobalTheme).asc([
+                                    (anyTheme: any) => anyTheme.name.replace(/\D/g,'').length != 0? Number(anyTheme.name.replace(/[^\d]/g, '')) : 10000000,
+                                    (anyTheme: any) => anyTheme.name])
+                                    ?.map((sameGlobalTheme: any) =>{
                                     return(
                                         <TreeItem nodeId={String(sameGlobalTheme.id * 1000000)}
                                                   label={sameGlobalTheme.name}
                                                   key={sameGlobalTheme.id *1000000} >
                                             {
-                                                sameGlobalTheme?.cardthemeSet.map((sameTheme) =>{
+                                                sort(sameGlobalTheme?.cardthemeSet)
+                                                    .asc([
+                                                        (anyTheme: any) => anyTheme.name.replace(/\D/g,'').length != 0? Number(anyTheme.name.replace(/[^\d]/g, '')) : 10000000,
+                                                        (anyTheme: any) => anyTheme.name])
+                                                    ?.map((sameTheme: any) =>{
                                                     return(
                                                         <TreeItem nodeId={String(sameTheme.id * 1000)}
                                                                   label={sameTheme.name}
                                                                   key={sameTheme.id * 1000}>
-                                                            {sameTheme?.cardsubthemeSet.map((sameSubTheme) =>{
+                                                            {sort(sameTheme?.cardsubthemeSet)
+                                                                .asc([
+                                                                (anyTheme: any) => anyTheme.name.replace(/\D/g,'').length != 0? Number(anyTheme.name.replace(/[^\d]/g, '')) : 10000000,
+                                                                (anyTheme: any) => anyTheme.name])
+                                                                ?.map((sameSubTheme: any) =>{
                                                                 // setExpanded(__expanded)
                                                                 return(<TreeItem nodeId={String(sameSubTheme.id)}
                                                                                  label={sameSubTheme.name}

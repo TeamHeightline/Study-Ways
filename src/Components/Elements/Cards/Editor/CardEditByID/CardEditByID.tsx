@@ -19,6 +19,7 @@ import RichTextEditor from "./#RichTextEditor";
 import ThemeTree from "./#ThemeTree";
 import CardAuthorsSelect from "./#CardAuthorsSelect";
 import CardEditMenu from "./#CardEditMenu";
+import {sort} from "fast-sort";
 
 
 const GET_CARD_DATA_BY_ID = gql`query GET_CARD_DATA_BY_ID($id: ID!){
@@ -143,7 +144,7 @@ export default function CardEditByID({cardId, ...props}: any){
     const [isUseBodyQuestion, setIsUseBodyQuestion] = useState(false)
     const [isUseBeforeCardQuestion, setIsUseBeforeCardQuestion] = useState(false)
 
-    const [dataForThemeTreeView, setDataForThemeTreeView] = useState([])
+    const [dataForThemeTreeView, setDataForThemeTreeView] = useState<any[]>([])
 
 
 
@@ -182,7 +183,10 @@ export default function CardEditByID({cardId, ...props}: any){
 
             })
             // console.log(data)
-            setDataForThemeTreeView(data)
+            setDataForThemeTreeView(sort(data).asc([
+                (anyTheme: any) => anyTheme.title.replace(/\D/g,'').length != 0? Number(anyTheme.title.replace(/[^\d]/g, '')) : 10000000,
+                (anyTheme: any) => anyTheme.title
+        ]))
         }
     })
     const get_card_image = () =>{
@@ -388,6 +392,9 @@ export default function CardEditByID({cardId, ...props}: any){
                 cleanSubThemes.push(id)
             }
         })
+        // if(e >1000000){
+        //     cleanSubThemes.push(e)
+        // }
         setCardSelectedThemeID(cleanSubThemes)
     }
     const memedThemeTree = useMemo(() => <ThemeTree dataForThemeTreeView={dataForThemeTreeView}

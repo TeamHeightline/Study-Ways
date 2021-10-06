@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import {CardPageStorage} from "../../../../../Store/PublicStorage/CardsPage/CardPageStorage";
 import {observer} from "mobx-react";
 import {toJS} from "mobx";
+import {sort} from "fast-sort";
 const { SHOW_CHILD } = TreeSelect;
 const GET_THEMES = gql`
     query GET_THEMES{
@@ -102,7 +103,11 @@ export const ThemeSelector = observer(({cards_data, ...props}: any) =>{
                 }
 
             })
-            setDataForCardThemeSelect(data)
+            console.log(data)
+            setDataForCardThemeSelect(sort(data).asc([
+                (anyTheme: any) => anyTheme.title.replace(/\D/g,'').length != 0? Number(anyTheme.title.replace(/[^\d]/g, '')) : 10000000,
+                (anyTheme: any) => anyTheme.title
+            ]))
 
         }
     })

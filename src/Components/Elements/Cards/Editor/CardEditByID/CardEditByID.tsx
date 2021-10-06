@@ -430,7 +430,7 @@ export default function CardEditByID({cardId, ...props}: any){
             <Typography className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Редактировать карточку</Typography>
             {cardId ?
                 <Button
-                    className="ml-5"
+                    className="ml-5 col-md-2 col-12"
                     variant="outlined" color="primary" onClick={() => {
                     props.onChange("goBack")}}>
                     Назад

@@ -6,6 +6,8 @@ import Editor from 'react-simple-code-editor';
 import Highlight, { defaultProps } from 'prism-react-renderer'
 import theme from 'prism-react-renderer/themes/nightOwl'
 import {Grid} from "@material-ui/core";
+import parse from 'html-react-parser';
+import HTMLReactParser from "html-react-parser";
 
 const oldCode = `<!DOCTYPE html>
 <html lang="en">
@@ -44,6 +46,36 @@ body {font-family: "Lato", sans-serif}
 </div>
 </body>
 </html>`
+const oldCode2=`
+<html>
+ <head><title>ReactLearn</title>
+   <script src="https://unpkg.com/@babel/standalone/babel.js"></script> 
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
+ </head>
+ <body>
+    <div class="cont"></div>
+    <script>
+      var [{ render: r }, { Component: C, useState }] = [ReactDOM, React]; 
+      var a = ['z', 'b', 'a'];
+    </script>
+    <script type="text/babel">
+     
+     const List = props => {
+       const [arr, setArr] = useState(a);
+       return <>
+         <button onClick={() => setArr([...a].sort())}>sort</button>
+         { arr.map(x => <p>{x}</p>) }
+       </>;  
+     };  
+     
+     r(<List/>, document.querySelector('.cont'));
+    </script>
+    <div>;d;asmdkmasd</div>
+
+    
+ </body>
+</html>`
 
 export const CodeEditor = observer(() =>{
     const [code, setCode] = useState(oldCode)
@@ -79,9 +111,14 @@ export const CodeEditor = observer(() =>{
                     />
                 </Grid>
                 <Grid item xs={6}>
-                    <div style={{backgroundColor: "white"}} dangerouslySetInnerHTML={{ __html: code }}/>
+                    <div style={{backgroundColor: "white"}}  dangerouslySetInnerHTML={{ __html: code }}/>
+                    {/*<script*/}
+                    {/*    type="text/javascript"*/}
+                    {/*    dangerouslySetInnerHTML={{ __html: oldCode2 }}*/}
+                    {/*/>*/}
                 </Grid>
             </Grid>
+
         </div>
     )
 })

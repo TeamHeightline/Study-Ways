@@ -6,8 +6,7 @@ import Editor from 'react-simple-code-editor';
 import Highlight, { defaultProps } from 'prism-react-renderer'
 import theme from 'prism-react-renderer/themes/nightOwl'
 import {Grid} from "@material-ui/core";
-import parse from 'html-react-parser';
-import HTMLReactParser from "html-react-parser";
+
 
 const oldCode = `<!DOCTYPE html>
 <html lang="en">

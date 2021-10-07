@@ -55,7 +55,9 @@ export const MainCardPublicView = observer(({...props}: any) =>{
                 </Col>
             </Row>
             <Row className="justify-content-around mr-4 ml-4">
-                {toJS(CardPageStorage.cardsDataAfterSelectAuthor) && toJS(CardPageStorage.cardsDataAfterSelectAuthor).map((sameCard: any, sIndex) =>{
+                {toJS(CardPageStorage.cardsDataAfterSelectAuthor) && toJS(CardPageStorage.cardsDataAfterSelectAuthor)
+                    ?.filter(card => card.title != "Название карточки по умолчанию")
+                    ?.map((sameCard: any, sIndex) =>{
                     return(
                         <Grow in={true}  key={sIndex+ "CardMicroView"}>
                             <div>

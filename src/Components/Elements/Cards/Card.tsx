@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { Col, Row, Spinner} from "react-bootstrap";
 import ReactPlayer from "react-player";
-import {Breadcrumbs, Button, ButtonGroup, Typography, Tooltip} from "@material-ui/core";
+import {Button, ButtonGroup, Typography, Tooltip} from "@material-ui/core";
 import KeyboardArrowLeftOutlinedIcon from '@material-ui/icons/KeyboardArrowLeftOutlined';
 import KeyboardArrowRightOutlinedIcon from '@material-ui/icons/KeyboardArrowRightOutlined';
 import KeyboardArrowDownOutlinedIcon from '@material-ui/icons/KeyboardArrowDownOutlined';
@@ -18,6 +18,7 @@ import {CoursePageStorage} from "../../../Store/PublicStorage/CoursePage/CourseP
 import {observer} from "mobx-react";
 import {CardPageStorage} from "../../../Store/PublicStorage/CardsPage/CardPageStorage";
 import RichTextPreview from "./CardView/#RichTextPreview";
+import CopyrightIcon from "@material-ui/icons/Copyright";
 
 const SHOW_CARD_BY_ID = gql`
     query SHOW_CARD_BY_ID($id: ID!){
@@ -44,6 +45,8 @@ const SHOW_CARD_BY_ID = gql`
             isCardUseMainText
             isCardUseMainContent
             isCardUseAdditionalText
+            isCardUseCopyright
+            copyright
             cardContentType
             additionalText
             author{
@@ -158,26 +161,22 @@ export const CARD = observer(({id, ...props}: any) =>{
                             {card_data?.cardById?.subTheme[0] &&
                             <Tooltip title={card_data?.cardById?.subTheme.map((e, eIndex) =>{
                                 return(
-                                    <div key={eIndex+ "Tooltip"}>
-                                        <Typography variant="subtitle1">
-                                            {e.theme?.globalTheme?.name.toString() + " / "
-                                            + e?.theme?.name.toString() + " / "
-                                            + e?.name.toString() }
-                                        {/*    <br/>*/}
-                                        </Typography>
-                                    </div>
+                                    <Typography key={eIndex+ "Tooltip"}>
+                                        {e.theme?.globalTheme?.name.toString() + " / "
+                                        + e?.theme?.name.toString() + " / "
+                                        + e?.name.toString() }
+                                    </Typography>
                                 )
                             })} >
-                                <Breadcrumbs aria-label="breadcrumb">
-                                    <Typography color="textPrimary">{card_data?.cardById?.subTheme[0]?.theme?.globalTheme?.name}</Typography>
-                                    <Typography color="textPrimary">{card_data?.cardById?.subTheme[0]?.theme?.name}</Typography>
-                                    <Typography color="textPrimary">{card_data?.cardById?.subTheme[0]?.name}</Typography>
-                                    {/*<Typography color="textPrimary">Уровень 4</Typography>*/}
-                                </Breadcrumbs>
+                                <Typography  color="textPrimary" className="ml-2 mt-2" style={{maxWidth: 600}}>
+                                    {card_data?.cardById?.subTheme[0]?.theme?.globalTheme?.name + " / " +
+                                    card_data?.cardById?.subTheme[0]?.theme?.name + " / " +
+                                    card_data?.cardById?.subTheme[0]?.name}
+                                </Typography>
                             </Tooltip> }
 
                             {card_data?.cardById?.author && card_data?.cardById?.author.length !==0 &&
-                            <Typography color="textPrimary">{card_data?.cardById?.author.map((sameAuthor, aIndex) =>{
+                            <Typography className="ml-2" color="textPrimary">{card_data?.cardById?.author.map((sameAuthor, aIndex) =>{
                                 if(aIndex !== 0 ){
                                     return (" | " + sameAuthor.name)
                                 }
@@ -185,8 +184,19 @@ export const CARD = observer(({id, ...props}: any) =>{
                             })}</Typography>}
                         </Col>
                     </Row>
-                    <Row className="mt-1">
-                        <Col className="col-12 col-lg-5 mt-4">
+                    <Row>
+                        <Col>
+                            {card_data?.cardById?.isCardUseCopyright &&
+                            <Typography variant="h6" className="ml-2 mt-2">
+                                <Tooltip title={<Typography>{"Правообладателем изложенного материала является: " + card_data?.cardById?.copyright}</Typography>}>
+                                    <CopyrightIcon />
+                                </Tooltip>
+                                {card_data?.cardById?.copyright}
+                            </Typography> }
+                        </Col>
+                    </Row>
+                    <Row >
+                        <Col className="col-12 col-lg-5 mt-2">
                             {card_data?.cardById?.cardContentType === "A_0" &&
                                 <ReactPlayer width="auto" height={height/width >= 1 ? "200px":400} controls
                                              // url="https://www.youtube.com/watch?v=vpMJ_rNN9vY"

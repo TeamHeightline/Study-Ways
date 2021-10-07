@@ -64,7 +64,7 @@ export default function CardEditByID({cardId, ...props}: any){
 
 
     const {data: authorData} = useQuery(GET_OWN_AUTHOR)
-    const {data} = useQuery(GET_THEMES, {
+    useQuery(GET_THEMES, {
         onCompleted: themesData => {
             // console.log(themesData.cardGlobalTheme)
             const data: any = []
@@ -354,6 +354,7 @@ export default function CardEditByID({cardId, ...props}: any){
                         id="standard-multiline-flexible"
                         label="Название карточки / Заголовок карточки"
                         fullWidth
+                        multiline
                         variant="filled"
                         rowsMax={7}
                         // style={{width: "50vw"}}

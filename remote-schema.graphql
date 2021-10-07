@@ -70,10 +70,16 @@ type CardMutationPayload {
 
 type CardNode {
     additionalText: String
+    arrowBefore: String
+    arrowDown: String
+    arrowNext: String
+    arrowUp: String
     author: [CardAuthorNode!]!
     cardContentType: CardCardContentType!
+    copyright: String
     id: ID!
     isCardUseAdditionalText: Boolean!
+    isCardUseCopyright: Boolean!
     isCardUseMainContent: Boolean!
     isCardUseMainText: Boolean!
     isCardUseTestBeforeCard: Boolean!
@@ -795,12 +801,18 @@ input CardAuthorMutationInput {
 
 input CardMutationInput {
     additionalText: String
+    arrowBefore: String
+    arrowDown: String
+    arrowNext: String
+    arrowUp: String
     author: [ID]
     cardContentType: String!
     clientMutationId: String
+    copyright: String
     createdBy: ID!
     id: ID
     isCardUseAdditionalText: Boolean
+    isCardUseCopyright: Boolean
     isCardUseMainContent: Boolean
     isCardUseMainText: Boolean
     isCardUseTestBeforeCard: Boolean

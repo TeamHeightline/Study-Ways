@@ -1,16 +1,18 @@
 import React from 'react'
-import {Button, Divider, ListItemIcon, Menu, MenuItem, Select} from "@material-ui/core";
+import {Button, Divider, FormControl, InputLabel, ListItemIcon, Menu, MenuItem, Select} from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/Settings";
 import Switch from "@material-ui/core/Switch";
 import YouTubeIcon from "@material-ui/icons/YouTube";
-import TextFieldsIcon from "@material-ui/icons/TextFields";
 import CreateIcon from "@material-ui/icons/Create";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
+import CopyrightIcon from '@material-ui/icons/Copyright';
+import HttpIcon from '@material-ui/icons/Http';
+import ImageIcon from '@material-ui/icons/Image';
 
-export default function CardEditMenu({isUseMainContentHandler, isUseMainContent, mainContentType, mainContentTypeHandle,
-                                         isUseMainTextHandle, isUseMainText, isUseAdditionalTextHandle,
+export default function CardEditMenu({ mainContentType, mainContentTypeHandle, isUseAdditionalTextHandle,
                                          isUseAdditionalText, isUseBodyQuestionHandle, isUseBodyQuestion,
-                                         isUseBeforeCardQuestionHandle, isUseBeforeCardQuestion}: any){
+                                         isUseBeforeCardQuestionHandle, isUseBeforeCardQuestion, isUseCopyright,
+                                         setIsUseCopyright, autoSave}: any){
     const [anchorEl, setAnchorEl] = React.useState(null);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -19,6 +21,10 @@ export default function CardEditMenu({isUseMainContentHandler, isUseMainContent,
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const isUseCopyrightHandle = () =>{
+        autoSave()
+        setIsUseCopyright(!isUseCopyright)
+    }
 
     return(
         <div>
@@ -42,47 +48,37 @@ export default function CardEditMenu({isUseMainContentHandler, isUseMainContent,
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={isUseMainContentHandler}>
+                <MenuItem onClick={isUseCopyrightHandle}>
                     <Switch
-                        checked={isUseMainContent}
-                        onChange={isUseMainContentHandler}
-                        name="checkedB"
+                        checked={isUseCopyright}
+                        onChange={isUseCopyrightHandle}
                         color="secondary"
                     />
                     <ListItemIcon>
-                        <YouTubeIcon/>
+                        <CopyrightIcon/>
                     </ListItemIcon>
-                    Основной контент
+                    Авторское право
                 </MenuItem>
-                {isUseMainContent?
-                    <div>
-                        <MenuItem>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={mainContentType}
-                                onChange={mainContentTypeHandle}
-                                className="col-11 ml-3"
-                            >
-                                <MenuItem value={0}>Видео Youtube</MenuItem>
-                                <MenuItem value={1}>Внешний ресурс</MenuItem>
-                                <MenuItem value={2}>Изображение</MenuItem>
-                            </Select>
-                        </MenuItem>
-                        <MenuItem onClick={isUseMainTextHandle}>
-                            <Switch
-                                checked={isUseMainText}
-                                onChange={isUseMainTextHandle}
-                                name="checkedB"
-                                color="secondary"
-                            />
-                            <ListItemIcon>
-                                <TextFieldsIcon/>
-                            </ListItemIcon>
-                            Основной текст
-                        </MenuItem>
-                    </div>
-                    : null}
+                <Divider/>
+                <MenuItem>
+                    <FormControl fullWidth variant="filled">
+                        <InputLabel>
+                            Основной контент
+                        </InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={mainContentType}
+                            onChange={mainContentTypeHandle}
+                        >
+                            <MenuItem value={0}><YouTubeIcon/> {" Видео Youtube"}</MenuItem>
+                            <MenuItem value={1}><HttpIcon/>{" Внешний ресурс"}</MenuItem>
+                            <MenuItem value={2}><ImageIcon/>{" Изображение"}</MenuItem>
+                        </Select>
+                    </FormControl>
+                </MenuItem>
+
+
                 <Divider/>
                 <MenuItem onClick={isUseAdditionalTextHandle}>
                     <Switch

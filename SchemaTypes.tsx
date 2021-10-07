@@ -121,10 +121,16 @@ export type CardMutationPayload = {
 export type CardNode = {
     __typename?: 'CardNode';
     additionalText?: Maybe<Scalars['String']>;
+    arrowBefore?: Maybe<Scalars['String']>;
+    arrowDown?: Maybe<Scalars['String']>;
+    arrowNext?: Maybe<Scalars['String']>;
+    arrowUp?: Maybe<Scalars['String']>;
     author: Array<CardAuthorNode>;
     cardContentType: CardCardContentType;
+    copyright?: Maybe<Scalars['String']>;
     id: Scalars['ID'];
     isCardUseAdditionalText: Scalars['Boolean'];
+    isCardUseCopyright: Scalars['Boolean'];
     isCardUseMainContent: Scalars['Boolean'];
     isCardUseMainText: Scalars['Boolean'];
     isCardUseTestBeforeCard: Scalars['Boolean'];
@@ -1103,12 +1109,18 @@ export type CardAuthorMutationInput = {
 
 export type CardMutationInput = {
     additionalText?: Maybe<Scalars['String']>;
+    arrowBefore?: Maybe<Scalars['String']>;
+    arrowDown?: Maybe<Scalars['String']>;
+    arrowNext?: Maybe<Scalars['String']>;
+    arrowUp?: Maybe<Scalars['String']>;
     author?: Maybe<Array<Maybe<Scalars['ID']>>>;
     cardContentType: Scalars['String'];
     clientMutationId?: Maybe<Scalars['String']>;
+    copyright?: Maybe<Scalars['String']>;
     createdBy: Scalars['ID'];
     id?: Maybe<Scalars['ID']>;
     isCardUseAdditionalText?: Maybe<Scalars['Boolean']>;
+    isCardUseCopyright?: Maybe<Scalars['Boolean']>;
     isCardUseMainContent?: Maybe<Scalars['Boolean']>;
     isCardUseMainText?: Maybe<Scalars['Boolean']>;
     isCardUseTestBeforeCard?: Maybe<Scalars['Boolean']>;

@@ -1,7 +1,7 @@
 import React, { useMemo, useState} from 'react'
 import Typography from "@material-ui/core/Typography";
 import {
-    Button,
+    Button, Collapse, InputAdornment,
     Snackbar,
     TextField,
 } from "@material-ui/core";
@@ -10,7 +10,7 @@ import ReactPlayer from "react-player";
 import './styleForCKEditor.css'
 
 
-import {gql, useMutation, useQuery} from "@apollo/client";
+import { useMutation, useQuery} from "@apollo/client";
 import { Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
@@ -21,97 +21,10 @@ import CardAuthorsSelect from "./#CardAuthorsSelect";
 import CardEditMenu from "./#CardEditMenu";
 import {sort} from "fast-sort";
 
+import {GET_CARD_DATA_BY_ID, GET_OWN_AUTHOR, QUESTION_BY_ID, UPDATE_CARD, GET_THEMES, MenuProps} from "./Struct"
 
-const GET_CARD_DATA_BY_ID = gql`query GET_CARD_DATA_BY_ID($id: ID!){
-    cardById(id: $id){
-        id
-        author{
-            id
-        }
-        subTheme{
-            id
-        }
-        isCardUseAdditionalText
-        isCardUseMainContent
-        isCardUseMainText
-        isCardUseTestBeforeCard
-        isCardUseTestInCard
-        cardContentType
-        text
-        title
-        additionalText
-        siteUrl
-        videoUrl
-        testBeforeCard{
-            id
-        }
-        testInCard{
-            id
-        }
+import CopyrightIcon from "@material-ui/icons/Copyright";
 
-    }
-}`
-
-const GET_OWN_AUTHOR = gql`
-    query GET_OWN_AUTHOR{
-        me{
-            cardauthorSet{
-                id
-                name
-            }
-        }
-    }
-`
-const QUESTION_BY_ID = gql`
-    query QUESTION_BY_ID($id: ID!){
-        questionById(id: $id){
-            text
-        }
-    }`
-
-const UPDATE_CARD = gql`
-    mutation UPDATE_CARD($id: ID, $author: [ID], $additionalText:  String, $cardContentType: String!, $subTheme: [ID]!,
-        $title: String!, $text: String, $videoUrl: String, $testInCard: ID, $testBeforeCard: ID, $siteUrl: String,
-        $isCardUseAdditionalText: Boolean, $isCardUseMainContent: Boolean, $isCardUseMainText: Boolean,
-        $isCardUseTestBeforeCard: Boolean, $isCardUseTestInCard: Boolean){
-        card(input: {id: $id, author: $author, subTheme: $subTheme,  additionalText: $additionalText, cardContentType: $cardContentType,
-            createdBy: 0, title: $title, text: $text, videoUrl: $videoUrl, testInCard: $testInCard, testBeforeCard: $testBeforeCard,
-            siteUrl: $siteUrl, isCardUseAdditionalText: $isCardUseAdditionalText, isCardUseMainContent: $isCardUseMainContent,
-            isCardUseMainText: $isCardUseMainText, isCardUseTestBeforeCard: $isCardUseTestBeforeCard, isCardUseTestInCard: $isCardUseTestInCard}){
-            errors{
-                field
-                messages
-            }
-        }
-    }`
-
-const GET_THEMES = gql`
-    query GET_THEMES{
-        cardGlobalTheme{
-            id
-            name
-            cardthemeSet{
-                id
-                name
-                cardsubthemeSet{
-                    id
-                    name
-                }
-            }
-        }
-    }`
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-
-const MenuProps = {
-    PaperProps: {
-        style: {
-            maxHeight: ITEM_HEIGHT * 7.5 + ITEM_PADDING_TOP,
-            // width: "250vw",
-        },
-    },
-};
 
 
 
@@ -135,6 +48,7 @@ export default function CardEditByID({cardId, ...props}: any){
     const [cardBeforeCardQuestionId, setCardBeforeCardQuestionId] = useState(70)
     const [cardImage, setCardImage] = useState()
     const [cardSrcToOtherSite, setCardSrcToOtherSite] = useState('')
+    const [cardCopyrightText, setCardCopyrightText] = useState('')
 
 
 
@@ -143,6 +57,7 @@ export default function CardEditByID({cardId, ...props}: any){
     const [isUseAdditionalText, setIsUseAdditionalText] = useState(false)
     const [isUseBodyQuestion, setIsUseBodyQuestion] = useState(false)
     const [isUseBeforeCardQuestion, setIsUseBeforeCardQuestion] = useState(false)
+    const [isUseCopyright, setIsUseCopyright] = useState(false)
 
     const [dataForThemeTreeView, setDataForThemeTreeView] = useState<any[]>([])
 
@@ -208,6 +123,7 @@ export default function CardEditByID({cardId, ...props}: any){
             variables: {
               id: cardID
             },
+            fetchPolicy: "network-only",
             onCompleted: async data => {
                 console.log(data)
                 await setIsUseMainContent(data.cardById.isCardUseMainContent)
@@ -215,9 +131,11 @@ export default function CardEditByID({cardId, ...props}: any){
                 await setIsUseAdditionalText(data.cardById.isCardUseAdditionalText)
                 await setIsUseBodyQuestion(data.cardById.isCardUseTestInCard)
                 await setIsUseBeforeCardQuestion(data.cardById.isCardUseTestBeforeCard)
+                await setIsUseCopyright(data.cardById.isCardUseCopyright)
 
                 await setMainContentType(Number(data.cardById.cardContentType[2]))
                 await setCardHeader(data.cardById.title)
+                await setCardCopyrightText(data.cardById.copyright)
                 await setCardMainTextInitial(data.cardById.text)
                 await setCardMainTextForSave(data.cardById.text)
                 await setCardSelectedThemeID(data.cardById.subTheme.map((e) =>{
@@ -241,7 +159,7 @@ export default function CardEditByID({cardId, ...props}: any){
         variables: {
             id: cardID,
             subTheme: cardSelectedThemeID.map((e) =>{
-                return e / 1000000
+                return Number(e / 1000000)
             }),
             author: cardAuthorId,
             title: cardHeader,
@@ -251,8 +169,10 @@ export default function CardEditByID({cardId, ...props}: any){
             isCardUseAdditionalText: isUseAdditionalText,
             isCardUseTestInCard: isUseBodyQuestion,
             isCardUseTestBeforeCard: isUseBeforeCardQuestion,
+            isCardUseCopyright: isUseCopyright,
             additionalText: cardAdditionalText,
             text: cardMainTextForSave,
+            copyright: cardCopyrightText,
             videoUrl: cardYoutubeVideoUrl,
             siteUrl: cardSrcToOtherSite,
             testInCard: cardBodyQuestionId,
@@ -305,14 +225,6 @@ export default function CardEditByID({cardId, ...props}: any){
 
 
 
-    const isUseMainTextHandle = () =>{
-        autoSave()
-        setIsUseMainText(!isUseMainText)
-    }
-    const isUseMainContentHandler = () =>{
-        autoSave()
-        setIsUseMainContent(!isUseMainContent)
-    }
     const isUseAdditionalTextHandle = () =>{
         autoSave()
         setIsUseAdditionalText(!isUseAdditionalText)
@@ -413,20 +325,11 @@ export default function CardEditByID({cardId, ...props}: any){
                                                                   cardID={cardID}/>,
         [authorData, cardAuthorId])
     const memedCardEditMenu = useMemo(() =><CardEditMenu
-                                                         isUseMainContent={isUseMainContent}
-                                                         mainContentType={mainContentType}
-                                                         isUseMainText={isUseMainText}
-                                                         isUseAdditionalText={isUseAdditionalText}
-                                                         isUseBodyQuestion={isUseBodyQuestion}
-                                                         isUseBeforeCardQuestion={isUseBeforeCardQuestion}
-                                                         isUseMainContentHandler={isUseMainContentHandler}
-                                                         mainContentTypeHandle={mainContentTypeHandle}
-                                                         isUseMainTextHandle={isUseMainTextHandle}
-                                                         isUseAdditionalTextHandle={isUseAdditionalTextHandle}
-                                                         isUseBodyQuestionHandle={isUseBodyQuestionHandle}
-                                                         isUseBeforeCardQuestionHandle={isUseBeforeCardQuestionHandle}
+        {...{isUseCopyright, setIsUseCopyright,  mainContentType, isUseAdditionalText,
+            isUseBodyQuestion, isUseBeforeCardQuestion,  mainContentTypeHandle,
+             isUseAdditionalTextHandle, isUseBodyQuestionHandle, isUseBeforeCardQuestionHandle, autoSave}}
     />, [isUseMainContent, mainContentType, isUseMainText, isUseAdditionalText, isUseBodyQuestion,
-        isUseBeforeCardQuestion])
+        isUseBeforeCardQuestion, isUseCopyright])
     if (!card_data){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
@@ -451,6 +354,7 @@ export default function CardEditByID({cardId, ...props}: any){
                         id="standard-multiline-flexible"
                         label="Название карточки / Заголовок карточки"
                         fullWidth
+                        variant="filled"
                         rowsMax={7}
                         // style={{width: "50vw"}}
                         value={cardHeader}
@@ -469,10 +373,32 @@ export default function CardEditByID({cardId, ...props}: any){
                     {memedCardAuthorSelect}
                 </Col>
             </Row>
+            <Collapse in={isUseCopyright} >
+                <Row>
+                    <Col className="mt-4 ml-5 col-3">
+                        <TextField
+                            variant="outlined"
+                            label="Авторские права принадлежат: "
+                            fullWidth
+                            rowsMax={7}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <CopyrightIcon />
+                                    </InputAdornment>
+                                ),
+                            }}
+                            value={cardCopyrightText}
+                            onChange={e => {
+                                setCardCopyrightText(e.target.value)
+                                autoSave()}}
+                        />
+                    </Col>
+                </Row>
+            </Collapse>
             <Row className="mt-2">
-
                     {isUseMainContent && mainContentType === 0?
-                        <Col className="col-12 col-lg-5  mt-4 ml-5">
+                        <Col className="col-12 col-lg-5  mt-4 ml-5" style={{height: "440px"}}>
                         <ReactPlayer controls
                                      url={cardYoutubeVideoUrl}
                                      height={440}
@@ -481,8 +407,6 @@ export default function CardEditByID({cardId, ...props}: any){
                         />
                         <TextField
                             className="mt-2 col-12"
-                            key={cardID + "youtubeVideo"}
-                            id="standard-multiline-flexible"
                             label="Ссылка на видео на Youtube"
                             fullWidth
                             value={cardYoutubeVideoUrl}
@@ -515,17 +439,15 @@ export default function CardEditByID({cardId, ...props}: any){
 
                             </div>
                         </Dragger>
-                        {mainContentType === 1? <div>
+                        {mainContentType === 1 &&
                             <TextField
                                 className="mt-2 col-12"
-                                key={cardID + "srcToOtherSite"}
-                                id="standard-flexible"
+
                                 label="Ссылка на внешний сайт"
                                 fullWidth
                                 value={cardSrcToOtherSite}
                                 onChange={cardSrcToOtherSiteHandle}
-                            />
-                        </div>: null}
+                            />}
 
                     </Col>
                     : null}
@@ -551,36 +473,35 @@ export default function CardEditByID({cardId, ...props}: any){
             </Row>
 
             <Row className="mt-4">
+                <Col className="col-12 col-lg-5 ml-5 mt-4">
+                    <Collapse in={isUseBodyQuestion} >
+                        <TextField
+                            className="mt-2 col-12"
+                            label="ID вопроса для тела карточки"
+                            fullWidth
+                            value={cardBodyQuestionId}
+                            onChange={cardBodyQuestionIdHandle}
+                        />
+                        <Typography>
+                            <blockquote/> ТЕКСТ ВОПРОСА: {cardBodyQuestionData?.questionById?.text}<blockquote/>
+                        </Typography>
+                    </Collapse>
+            </Col>
+            <Col className="col-12 col-lg-5 mt-4 ml-5">
+                <Collapse in={isUseBeforeCardQuestion} >
+                        <TextField
+                            className="mt-2 col-12"
+                            label="ID вопроса перед входом в карточку"
+                            fullWidth
+                            value={cardBeforeCardQuestionId}
+                            onChange={cardBeforeCardQuestionIdHandle}
+                        />
+                        <Typography className="ml-3">
+                            <blockquote/> ТЕКСТ ВОПРОСА: {cardBeforeCardQuestionData?.questionById?.text}<blockquote/>
+                        </Typography>
+                </Collapse>
+            </Col>
 
-                {isUseBodyQuestion? <Col className="col-12 col-lg-5 ml-5 mt-4">
-                    <TextField
-                        className="mt-2 col-12"
-                        key={cardID + "BodyQuestionId"}
-                        id="standard-multiline-flexible"
-                        label="ID вопроса для тела карточки"
-                        fullWidth
-                        value={cardBodyQuestionId}
-                        onChange={cardBodyQuestionIdHandle}
-                    />
-                    <Typography>
-                        <blockquote/> ТЕКСТ ВОПРОСА: {cardBodyQuestionData?.questionById?.text}<blockquote/>
-                    </Typography>
-
-                </Col>: null}
-                {isUseBeforeCardQuestion? <Col className="col-12 col-lg-5 mt-4 ml-4">
-                    <TextField
-                        className="mt-2 col-12 ml-3"
-                        key={cardID + "BeforeCardQuestionId"}
-                        id="standard-multiline-flexible"
-                        label="ID вопроса перед входом в карточку"
-                        fullWidth
-                        value={cardBeforeCardQuestionId}
-                        onChange={cardBeforeCardQuestionIdHandle}
-                    />
-                    <Typography className="ml-3">
-                        <blockquote/> ТЕКСТ ВОПРОСА: {cardBeforeCardQuestionData?.questionById?.text}<blockquote/>
-                    </Typography>
-                </Col>: null}
             </Row>
             <Snackbar open={true}>
                 <Alert severity="info">

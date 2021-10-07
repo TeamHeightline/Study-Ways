@@ -68,7 +68,8 @@ export default function DCCardThemeEditor({...props}: any){
                                                         (anyTheme: any) => anyTheme.name])
                                                     ?.map((sameTheme: any) =>{
                                                     return(
-                                                        <TreeItem nodeId={String(sameTheme.id * 1000)}
+                                                        <TreeItem
+                                                            nodeId={String(sameTheme.id * 1000)}
                                                                   label={sameTheme.name}
                                                                   key={sameTheme.id * 1000}>
                                                             {sort(sameTheme?.cardsubthemeSet)

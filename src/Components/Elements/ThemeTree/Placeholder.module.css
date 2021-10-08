@@ -1,0 +1,7 @@
+.root {
+  height: 2px;
+  position: absolute;
+  background-color: #1967d2;
+  right: 0;
+  transform: translateY(-50%);
+}

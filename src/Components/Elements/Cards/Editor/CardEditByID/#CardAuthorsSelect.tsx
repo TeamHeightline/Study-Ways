@@ -9,7 +9,7 @@ export default function CardAuthorsSelect({cardAuthorId, changeCardAuthorId, aut
     console.log("update id card authors")
     return(
         <div>
-            <FormControl className='col-9 ml-2'>
+            <FormControl fullWidth>
                 <InputLabel id="question-author-multiple">Авторы карточки</InputLabel>
                 <Select
                     labelId="demo-mutiple-name-label"

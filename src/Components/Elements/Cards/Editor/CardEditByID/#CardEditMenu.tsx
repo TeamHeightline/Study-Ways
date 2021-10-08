@@ -29,7 +29,7 @@ export default function CardEditMenu({ mainContentType, mainContentTypeHandle, i
     return(
         <div>
             <Button
-                className="ml-5 mt-2"
+                className="mt-2"
                 aria-controls="customized-menu"
                 aria-haspopup="true"
                 variant="outlined"

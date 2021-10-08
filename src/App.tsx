@@ -47,6 +47,7 @@ import {ClientStorage} from "./Store/ApolloStorage/ClientStorage";
 import {MainDirection} from "./Components/PublicPages/MainDirection";
 import {LogInNotification} from "./Components/PublicPages/Login/#LogInNotification";
 import { CodeEditor } from './Components/PublicPages/CodeEditor';
+import ThemeTree from "./Components/Elements/ThemeTree/ThemeTree";
 
 
 const  App = observer(() => {
@@ -83,6 +84,7 @@ const  App = observer(() => {
                     <Route exact path="/courses" component={MainCoursePublicView}/>
                     <Route exact path="/direction" component={MainDirection}/>
                     <Route exact path="/cedit" component={CodeEditor}/>
+                    <Route exact path="/tt" component={ThemeTree}/>
                     <Redirect to="/courses"/>
                 </Switch>
             </Router>

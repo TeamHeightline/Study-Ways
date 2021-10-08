@@ -1,7 +1,7 @@
 import React, { useMemo, useState} from 'react'
 import Typography from "@material-ui/core/Typography";
 import {
-    Button, Collapse, InputAdornment,
+    Button, Collapse, FormControl, Grid, InputAdornment,
     Snackbar,
     TextField,
 } from "@material-ui/core";
@@ -340,66 +340,68 @@ export default function CardEditByID({cardId, ...props}: any){
             <Typography className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Редактировать карточку</Typography>
             {cardId ?
                 <Button
-                    className="ml-5 col-md-2 col-12"
+                    className="ml-md-5 col-md-2 col-12"
                     variant="outlined" color="primary" onClick={() => {
                     props.onChange("goBack")}}>
                     Назад
                 </Button>: null}
-            <Row>
-                <Col className="col-6">
-                    <Typography variant="h6" className="ml-5" color="textPrimary">{"ID: " + cardID + " " + cardHeader}</Typography>
-                    <TextField
-                        className="mt-2 ml-5"
-                        key={cardID + "header"}
-                        id="standard-multiline-flexible"
-                        label="Название карточки / Заголовок карточки"
-                        fullWidth
-                        multiline
-                        variant="filled"
-                        rowsMax={7}
-                        // style={{width: "50vw"}}
-                        value={cardHeader}
-                        onChange={cardHeaderHandle}
-                    />
-                </Col>
-                <Col>
+            <Grid container style={{paddingLeft: window.innerHeight/window.innerWidth > 1 ? 0:  48}}  >
+                <Grid item xs={12} md={6}  style={{paddingRight: window.innerHeight/window.innerWidth > 1 ? 0: 24}}>
+                    <Typography variant="h6" color="textPrimary">{"ID: " + cardID + " " + cardHeader}</Typography>
+                </Grid>
+                <Grid item xs={12} md={6} >
                     {memedCardEditMenu}
-                </Col>
-            </Row>
-            <Row className="">
-                <Col className="ml-5 col-6 mt-3">
+                </Grid>
+                <Grid item xs={12} md={6}  style={{paddingRight: window.innerHeight/window.innerWidth > 1 ? 0: 24, marginTop: 12}}>
+                    <FormControl fullWidth>
+                        {/*<InputLabel id="question-author-multiple">Название карточки / Заголовок карточки</InputLabel>*/}
+                            <TextField
+                                label="Название карточки / Заголовок карточки"
+                                fullWidth
+                                multiline
+                                variant="filled"
+                                rowsMax={3}
+                                // style={{width: "50vw"}}
+                                value={cardHeader}
+                                onChange={cardHeaderHandle}
+                            />
+                    </FormControl>
+                </Grid>
+                <Grid xs={12} md={6} item container  style={{marginTop: 12}}>
+                    <Grid item xs={12} md={6}>
+                        {memedCardAuthorSelect}
+                    </Grid>
+                </Grid>
+                <Grid item xs={12} md={6} style={{marginTop:24, paddingRight: window.innerHeight/window.innerWidth > 1 ? 0: 24}}  >
                     {memedThemeTree}
-                </Col>
-                <Col>
-                    {memedCardAuthorSelect}
-                </Col>
-            </Row>
-            <Collapse in={isUseCopyright} >
-                <Row>
-                    <Col className="mt-4 ml-5 col-3">
-                        <TextField
-                            variant="outlined"
-                            label="Авторские права принадлежат: "
-                            fullWidth
-                            rowsMax={7}
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <CopyrightIcon />
-                                    </InputAdornment>
-                                ),
-                            }}
-                            value={cardCopyrightText}
-                            onChange={e => {
-                                setCardCopyrightText(e.target.value)
-                                autoSave()}}
-                        />
-                    </Col>
-                </Row>
-            </Collapse>
-            <Row className="mt-2">
+                </Grid>
+                <Grid item xs={12} md={6} container style={{marginTop:12}}>
+                    <Grid item xs={12} md={6}>
+                        <Collapse in={isUseCopyright} >
+                            <TextField
+                                variant="outlined"
+                                label="Авторские права принадлежат: "
+                                fullWidth
+                                rowsMax={7}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <CopyrightIcon />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                                value={cardCopyrightText}
+                                onChange={e => {
+                                    setCardCopyrightText(e.target.value)
+                                    autoSave()}}
+                            />
+                        </Collapse>
+                    </Grid>
+                </Grid>
+            </Grid>
+            <Row >
                     {isUseMainContent && mainContentType === 0?
-                        <Col className="col-12 col-lg-5  mt-4 ml-5" style={{height: "440px"}}>
+                        <Col className="col-12 col-lg-5  mt-4 ml-md-5" style={{height: "480px"}}>
                         <ReactPlayer controls
                                      url={cardYoutubeVideoUrl}
                                      height={440}
@@ -415,7 +417,7 @@ export default function CardEditByID({cardId, ...props}: any){
                         />
                     </Col>: null}
                 {isUseMainContent && (mainContentType === 1 || mainContentType === 2)?
-                    <Col className="col-12 col-lg-5  mt-4 ml-5 mr-1" style={{height: "440px"}}
+                    <Col className="col-12 col-lg-5  mt-4 ml-md-5 mr-1" style={{height: "440px"}}
                          >
                         <Dragger {...upload_props}
                                  beforeUpload={() => false}
@@ -453,13 +455,13 @@ export default function CardEditByID({cardId, ...props}: any){
                     </Col>
                     : null}
                     {isUseMainContent && isUseMainText?
-                        <Col className="col-12 col-lg-6 ml-4 mr-1 mt-4" style={{height: "440px"}}>
+                        <Col className="col-12 col-lg-6 ml-md-4 mr-1 mt-4" style={{height: "440px"}}>
                             {isAllDataHadBeenGotFromServer ? memedRichTextEditor: null}
                     </Col>: null}
             </Row>
 
             <Row className="mt-4">
-                {isUseAdditionalText? <Col className="col-11 ml-5 mt-4">
+                {isUseAdditionalText? <Col className="col-11 ml-md-5 mt-4">
                     <TextField
                         className="mt-2 col-12"
                         key={cardID + "AdditionalText"}
@@ -474,7 +476,7 @@ export default function CardEditByID({cardId, ...props}: any){
             </Row>
 
             <Row className="mt-4">
-                <Col className="col-12 col-lg-5 ml-5 mt-4">
+                <Col className="col-12 col-lg-5 ml-md-5 mt-4">
                     <Collapse in={isUseBodyQuestion} >
                         <TextField
                             className="mt-2 col-12"
@@ -488,7 +490,7 @@ export default function CardEditByID({cardId, ...props}: any){
                         </Typography>
                     </Collapse>
             </Col>
-            <Col className="col-12 col-lg-5 mt-4 ml-5">
+            <Col className="col-12 col-lg-5 mt-4 ml-md-5">
                 <Collapse in={isUseBeforeCardQuestion} >
                         <TextField
                             className="mt-2 col-12"

@@ -5,13 +5,16 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {unstable_createMuiStrictModeTheme} from "@material-ui/core";
 import { ThemeProvider } from '@material-ui/styles';
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { DndProvider } from 'react-dnd'
+
 const theme = unstable_createMuiStrictModeTheme({
     palette: {
         type: "dark",
 
         background:{
-            default: "#1A202C",
-            paper: "#1A202C"
+            default: "#0A1929",
+            paper: "#0A1929"
         },
         text: {
             primary: "#ffffff",
@@ -46,10 +49,14 @@ const theme = unstable_createMuiStrictModeTheme({
 //Этот файл полностью посвящен тму, чтобы создать темную тему во все проекте
 //Для Material UI мы создаем ThemeProvider, для AntDesign - импортируем темную тему
 ReactDOM.render(
-            <ThemeProvider theme={theme}>
-                <style>{'body {background-color: #1A202C}'}</style>
-                    <App />
-            </ThemeProvider>,
+    <ThemeProvider theme={theme}>
+        <style>{'body {background-color: #0A1929}'}</style>
+        <div>
+            <DndProvider backend={HTML5Backend}>
+                <App />
+            </DndProvider>
+        </div>
+    </ThemeProvider>,
   document.getElementById('root')
 );
 

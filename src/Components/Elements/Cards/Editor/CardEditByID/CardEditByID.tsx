@@ -401,10 +401,10 @@ export default function CardEditByID({cardId, ...props}: any){
             </Grid>
             <Row >
                     {isUseMainContent && mainContentType === 0?
-                        <Col className="col-12 col-lg-5  mt-4 ml-md-5" style={{height: "480px"}}>
+                        <Col className="col-12 col-lg-5  mt-4 ml-md-5" style={{height: window.innerHeight/window.innerWidth > 1? window.innerWidth/16*9 + 40 :"480px"}}>
                         <ReactPlayer controls
                                      url={cardYoutubeVideoUrl}
-                                     height={440}
+                                     height={window.innerHeight/window.innerWidth > 1? window.innerWidth/16*9 :440}
                                      width="100%"
                             // className="col-12 col-lg-5" !!!770 px!!!
                         />

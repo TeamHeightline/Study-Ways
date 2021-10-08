@@ -129,7 +129,7 @@ export const ThemeSelector = observer(({cards_data, ...props}: any) =>{
         showCheckedStrategy: SHOW_CHILD,
         placeholder: 'Выбирите тему карточки',
         style: {
-            width: '100%', backgroundColor: "#1A202C"
+            width: '100%', backgroundColor: "#0A1929"
         },
     };
 

@@ -2,18 +2,18 @@
     height: 386px;
     /*Единственный способ сделать формулы правильного цвета - инвертировать их по цвету,
     по этому для заднего фона мы ставим цвет #BA5400 - это полная противоположность #1A202C*/
-    --ck-color-base-background: #e5dfd3;
-    --ck-color-base-border: #e5dfd3;
-    --ck-color-link-default: #e5dfd3;
-    --ck-color-toolbar-background: #e5dfd3;
-    --ck-color-base-focus: #e5dfd3;
+    --ck-color-base-background: #f5e6d6;
+    --ck-color-base-border: #f5e6d6;
+    --ck-color-link-default: #f5e6d6;
+    --ck-color-toolbar-background: #f5e6d6;
+    --ck-color-base-focus: #f5e6d6;
     /*--font-color: #000000;*/
     /*--ck-color-focus-border:  #e5dfd3;*/
     filter: invert(1);
 }
 .ck-editor {
-    --ck-color-toolbar-background: #1A202C;
-    --ck-color-toolbar-border: #1A202C;
+    --ck-color-toolbar-background: #0A1929;
+    --ck-color-toolbar-border: #0A1929;
 
 }
 

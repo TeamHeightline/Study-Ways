@@ -19,6 +19,12 @@ import {observer} from "mobx-react";
 import {CardPageStorage} from "../../../Store/PublicStorage/CardsPage/CardPageStorage";
 import RichTextPreview from "./CardView/#RichTextPreview";
 import CopyrightIcon from "@material-ui/icons/Copyright";
+import {ImageQuestion} from "../UserTest/ImageQuestion/ImageQuestion";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogActions from "@material-ui/core/DialogActions";
+import Dialog from "@material-ui/core/Dialog";
 
 const SHOW_CARD_BY_ID = gql`
     query SHOW_CARD_BY_ID($id: ID!){
@@ -40,6 +46,12 @@ const SHOW_CARD_BY_ID = gql`
                 }
             }
             siteUrl
+            testInCard{
+                id
+            }
+            testBeforeCard{
+                id
+            }
             isCardUseTestInCard
             isCardUseTestBeforeCard
             isCardUseMainText
@@ -61,6 +73,8 @@ const SHOW_CARD_BY_ID = gql`
 export const CARD = observer(({id, ...props}: any) =>{
     const [rating, setRating] = useState<number | null>(4);
     const [cardImage, setCardImage] = useState()
+    const [openTestBeforeCardDialog, setOpenTestBeforeCardDialog] = useState(true)
+    const [openTestBeforeCard, setOpenTestBeforeCard] = useState(false)
     const {width, height} = useWindowDimensions()
     const {data: card_data, refetch, loading} = useQuery(SHOW_CARD_BY_ID, {
         fetchPolicy: "no-cache",
@@ -69,6 +83,8 @@ export const CARD = observer(({id, ...props}: any) =>{
                 props?.openFromCourse? CoursePageStorage.selectedCardID : CardPageStorage.selectedCardID,
         },
         onCompleted: data => {
+            setOpenTestBeforeCardDialog(true)
+            setOpenTestBeforeCard(false)
             if(data.cardById.cardContentType !== "A_0"){
                 get_card_image()
             }
@@ -147,6 +163,8 @@ export const CARD = observer(({id, ...props}: any) =>{
                     }
                 </div>}
                 {loading ? <Spinner animation="border" variant="success" className=" offset-6 mt-5"/> :
+                    openTestBeforeCard ? <ImageQuestion id={card_data?.cardById?.testBeforeCard?.id}
+                                                        questionHasBeenCompleted={() => setOpenTestBeforeCard(false)}/> :
                 <div>
                     <Row className="mt-4" >
                         <Col className="col-12">
@@ -236,9 +254,37 @@ export const CARD = observer(({id, ...props}: any) =>{
                     <Typography>
                         {card_data?.cardById?.additionalText}
                     </Typography>
-                    <br/>
-                    <br/>
-                    <br/>
+
+                    <div>
+                        {card_data?.cardById?.isCardUseTestBeforeCard && card_data?.cardById?.testBeforeCard?.id &&
+                        <Dialog
+                            open={openTestBeforeCardDialog}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                        >
+                            <DialogTitle id="alert-dialog-title">{"Вопрос перед карточкой"}</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText id="alert-dialog-description">
+                                    Перед изучением данного ресурса, мы советуем Вам проверить свой уровень подготовки,
+                                    путем прохождения следующего вопроса
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={() => {
+                                    setOpenTestBeforeCard(true)
+                                    setOpenTestBeforeCardDialog(false)
+                                }} color="primary">
+                                    Начать
+                                </Button>
+                                <Button onClick={() => setOpenTestBeforeCardDialog(false)} color="primary">
+                                    Закрыть
+                                </Button>
+                            </DialogActions>
+                        </Dialog>}
+                        {card_data?.cardById?.isCardUseTestInCard && card_data?.cardById?.testInCard?.id &&
+                        <ImageQuestion id={card_data?.cardById?.testInCard?.id}/>}
+                    </div>
+
                 </div>}
             </div>
         </div>

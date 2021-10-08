@@ -53,8 +53,15 @@ export const ImageQuestion = observer((props: any) => {
             if(slug?.search === "?exam=true"){
                 processedStore?.changeIsUseExamMode(true)
             }
+
             processedStore?.changeQuestionId(props?.match?.params?.id? props?.match?.params?.id : props?.id)
         }, [props])
+
+        useEffect(()=> {
+            if(processedStore?.questionHasBeenCompleted){
+                props?.questionHasBeenCompleted(true)
+            }
+        }, [processedStore?.questionHasBeenCompleted, props?.id])
 
         if(!processedStore?.answersArray?.length) {
             return (

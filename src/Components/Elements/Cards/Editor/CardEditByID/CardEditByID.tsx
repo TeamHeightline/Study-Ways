@@ -504,8 +504,10 @@ export default function CardEditByID({cardId, ...props}: any){
                         </Typography>
                 </Collapse>
             </Col>
-
             </Row>
+            <br/>
+            <br/>
+            <br/>
             <Snackbar open={true}>
                 <Alert severity="info">
                     {stateOfSave === 0 &&

@@ -19,7 +19,7 @@ export default function DCPCImageQuestion(props: any) {
         {(props.height / props.width < 1 || props.ignoreAspectRatio) &&
         <Card variant="outlined"
               style={{ padding: 0,
-                  maxHeight: window.innerHeight / window.innerWidth > 1 ? window.innerWidth : 500,
+                  maxHeight: window.innerHeight / window.innerWidth > 1 ? window.innerWidth * 2: 500,
                   overflowY: "auto",}}
               className="col-12 ">
             <Row className="justify-content-center">

@@ -17,21 +17,32 @@ export default function DCPCImageQuestion(props: any) {
 
     return <>
         {(props.height / props.width < 1 || props.ignoreAspectRatio) &&
-        <Card variant="outlined" style={{ padding: 0,}} className="col-12 ">
+        <Card variant="outlined"
+              style={{ padding: 0,
+                  maxHeight: window.innerHeight / window.innerWidth > 1 ? window.innerWidth : 500,
+                  overflowY: "auto",}}
+              className="col-12 ">
             <Row className="justify-content-center">
                 {props.questionImgUrl ?
                     <Col className={!props?.ignoreAspectRatio ? "col-6 justify-content-start":
                     window.innerHeight / window.innerWidth > 1 ? "col-12 justify-content-start" : "col-6 justify-content-start"}>
                     <CardMedia
                         className="col-12 mr-auto"
-                        style={{height: props.width >1400 ? 500: 400, backgroundSize: "contain"}}
+                        style={{
+                            height: window.innerHeight / window.innerWidth > 1 ?  window.innerWidth -100 : 500,
+                            backgroundSize: "contain",
+                            maxHeight: window.innerHeight / window.innerWidth > 1 ? window.innerWidth : 500,
+                            overflowY: "auto",
+                            width: "100%"
+                        }}
                         image={props.questionImgUrl}
                     />
                 </Col> : null}
                 <Col
                     className={!props?.ignoreAspectRatio ? "col-6":
                         window.innerHeight / window.innerWidth > 1 ? "col-12" : "col-6"}
-                    style={{height: props.width >1400 ? 500: 400, width: "100%"}} >
+                    style={{height: props.width >1400 ? 500: "",
+                        width: "100%"}} >
                     <div>
                         <CardContent>
                             <Typography component="h5" variant="h5">

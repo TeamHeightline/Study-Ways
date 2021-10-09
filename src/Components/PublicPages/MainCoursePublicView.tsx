@@ -21,7 +21,7 @@ export const MainCoursePublicView = observer(({...props}) => {
             <Row className="justify-content-around">
                 {CoursePageStorage.courseArr.map((sameCourse, courseIndex) =>{
                     return(
-                        <div key={"Course" + courseIndex}>
+                        <div key={"Course" + courseIndex} style={{overflowX: "auto"}}>
                             <CourseMicroView className="ml-lg-5 mt-4 " course={sameCourse}
                                              buttonClick={(data) =>
                                                  CoursePageStorage.cardSelectInCourseByMouseClick(data, courseIndex, sameCourse?.id)}

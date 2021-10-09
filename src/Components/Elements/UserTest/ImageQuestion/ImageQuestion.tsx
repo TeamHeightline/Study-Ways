@@ -76,7 +76,6 @@ export const ImageQuestion = observer((props: any) => {
                         ignoreAspectRatio={true}
                         onChange1={(e) => {processedStore?.changeHardLevelOfHelpText(e.target.value)}}
                         onClick1={() => processedStore?.checkErrors()}
-                        className="col-11 justify-content-center"
                         height={window.innerHeight}
                         width={window.innerWidth -100}
                         urlHasBeenPassed={true}

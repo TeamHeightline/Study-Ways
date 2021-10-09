@@ -110,11 +110,11 @@ export const CARD = observer(({id, ...props}: any) =>{
 
     // console.log("disabledNext " + props.disabledNext)
     return(
-        <div className="col-12">
-            <div className=" col-12 mr-2 ml-2">
+        <div className="col-12" style={{padding: 0}}>
+            <div className=" col-12 mr-md-2 ml-md-2">
                 {!props.disableAllButtons &&
                     <Button
-                        className="ml-lg-2 mt-4  col-12 col-lg-2 mr-2"
+                        className="ml-md-2 mt-4  col-12 col-lg-2 mr-2"
                         variant="outlined" color="primary"
                         onClick={ () => {
                             if(props?.openFromCourse){
@@ -126,7 +126,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                         Назад
                     </Button>}
                 {props.openFromCourse &&
-                <div className="ml-2 mt-4" style={{overflowX: "auto"}}>
+                <div className="ml-md-2 mt-4" style={{overflowX: "auto"}}>
                     <CourseMicroView course={CoursePageStorage.courseArr[CoursePageStorage.positionData.courseIndex]}
                                      buttonClick={data=>CoursePageStorage.cardSelectInCourseByMouseClick(data,
                                          CoursePageStorage.positionData.courseIndex, CoursePageStorage.positionData.courseID)}
@@ -134,7 +134,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                 </div>}
                 { !props.disableAllButtons &&
                 <div className="mt-3 col-lg-3 col-12">
-                    {/*Если катрочка открывается из курса, то нам нужны кнопки вверх и вниз, если её открыли
+                    {/*Если карточка открывается из курса, то нам нужны кнопки вверх и вниз, если её открыли
                         просто как карточку из MainCardPublicView, то нам нужно только вперед и назад для перемещения
                         по id вперед и назад*/}
                     {props.openFromCourse  ?
@@ -194,7 +194,8 @@ export const CARD = observer(({id, ...props}: any) =>{
                             </Tooltip> }
 
                             {card_data?.cardById?.author && card_data?.cardById?.author.length !==0 &&
-                            <Typography className="ml-2" color="textPrimary">{card_data?.cardById?.author.map((sameAuthor, aIndex) =>{
+                            <Typography className="ml-2" color="textPrimary">
+                                {card_data?.cardById?.author.map((sameAuthor, aIndex) =>{
                                 if(aIndex !== 0 ){
                                     return (" | " + sameAuthor.name)
                                 }
@@ -205,7 +206,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                     <Row>
                         <Col>
                             {card_data?.cardById?.isCardUseCopyright &&
-                            <Typography variant="h6" className="ml-2 mt-2">
+                            <Typography variant="h6" className="ml-md-2 mt-2">
                                 <Tooltip title={<Typography>{"Правообладателем изложенного материала является: " + card_data?.cardById?.copyright}</Typography>}>
                                     <CopyrightIcon />
                                 </Tooltip>
@@ -242,7 +243,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                             <RichTextPreview initialText={card_data?.cardById?.text} onChange={()  => void(0)}/>
                             <Typography className="blockquote">На сколько эта карточка была полезна?</Typography>
                             <Rating
-                                className="ml-3"
+                                className="ml-md-3"
                                 name="simple-controlled"
                                 value={rating}
                                 onChange={(event, newValue) => {

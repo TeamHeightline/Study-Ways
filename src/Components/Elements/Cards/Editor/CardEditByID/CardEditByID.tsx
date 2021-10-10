@@ -1,4 +1,4 @@
-import React, { useMemo, useState} from 'react'
+import React, { useMemo, useState, Fragment} from 'react'
 import Typography from "@material-ui/core/Typography";
 import {
     Button, Collapse, FormControl, Grid, InputAdornment,
@@ -20,14 +20,9 @@ import ThemeTree from "./#ThemeTree";
 import CardAuthorsSelect from "./#CardAuthorsSelect";
 import CardEditMenu from "./#CardEditMenu";
 import {sort} from "fast-sort";
-
 import {GET_CARD_DATA_BY_ID, GET_OWN_AUTHOR, QUESTION_BY_ID, UPDATE_CARD, GET_THEMES, MenuProps} from "./Struct"
-
 import CopyrightIcon from "@material-ui/icons/Copyright";
-
-
-
-
+import {CardArrowNavigation} from './#CardEditArrowNavigation'
 
 export default function CardEditByID({cardId, ...props}: any){
     const [autoSaveTimer, changeAutoSaveTimer] = useState<any>()
@@ -337,47 +332,52 @@ export default function CardEditByID({cardId, ...props}: any){
     }
     return(
         <div className="col-12">
-            <Typography className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Редактировать карточку</Typography>
+            <Typography className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Редактировать
+                карточку</Typography>
             {cardId ?
                 <Button
                     className="ml-md-5 col-md-2 col-12"
                     variant="outlined" color="primary" onClick={() => {
-                    props.onChange("goBack")}}>
+                    props.onChange("goBack")
+                }}>
                     Назад
-                </Button>: null}
-            <Grid container style={{paddingLeft: window.innerHeight/window.innerWidth > 1 ? 0:  48}}  >
-                <Grid item xs={12} md={6}  style={{paddingRight: window.innerHeight/window.innerWidth > 1 ? 0: 24}}>
+                </Button> : null}
+            <Grid container style={{paddingLeft: window.innerHeight / window.innerWidth > 1 ? 0 : 48}}>
+                <Grid item xs={12} md={6} style={{paddingRight: window.innerHeight / window.innerWidth > 1 ? 0 : 24}}>
                     <Typography variant="h6" color="textPrimary">{"ID: " + cardID + " " + cardHeader}</Typography>
                 </Grid>
-                <Grid item xs={12} md={6} >
+                <Grid item xs={12} md={6}>
                     {memedCardEditMenu}
                 </Grid>
-                <Grid item xs={12} md={6}  style={{paddingRight: window.innerHeight/window.innerWidth > 1 ? 0: 24, marginTop: 12}}>
+                <Grid item xs={12} md={6}
+                      style={{paddingRight: window.innerHeight / window.innerWidth > 1 ? 0 : 24, marginTop: 12}}>
                     <FormControl fullWidth>
                         {/*<InputLabel id="question-author-multiple">Название карточки / Заголовок карточки</InputLabel>*/}
-                            <TextField
-                                label="Название карточки / Заголовок карточки"
-                                fullWidth
-                                multiline
-                                variant="filled"
-                                rowsMax={3}
-                                // style={{width: "50vw"}}
-                                value={cardHeader}
-                                onChange={cardHeaderHandle}
-                            />
+                        <TextField
+                            label="Название карточки / Заголовок карточки"
+                            fullWidth
+                            multiline
+                            variant="filled"
+                            rowsMax={3}
+                            // style={{width: "50vw"}}
+                            value={cardHeader}
+                            onChange={cardHeaderHandle}
+                        />
                     </FormControl>
                 </Grid>
-                <Grid xs={12} md={6} item container  style={{marginTop: 12}}>
+                <Grid xs={12} md={6} item container style={{marginTop: 12}}>
                     <Grid item xs={12} md={6}>
                         {memedCardAuthorSelect}
                     </Grid>
                 </Grid>
-                <Grid item xs={12} md={6} style={{marginTop:24, paddingRight: window.innerHeight/window.innerWidth > 1 ? 0: 24}}  >
+                <Grid item xs={12} md={6}
+                      style={{marginTop: 24, paddingRight: window.innerHeight / window.innerWidth > 1 ? 0 : 24}}>
                     {memedThemeTree}
                 </Grid>
-                <Grid item xs={12} md={6} container style={{marginTop:12}}>
+
+                <Grid item xs={12} md={6} container style={{marginTop: 12}}>
                     <Grid item xs={12} md={6}>
-                        <Collapse in={isUseCopyright} >
+                        <Collapse in={isUseCopyright}>
                             <TextField
                                 variant="outlined"
                                 label="Авторские права принадлежат: "
@@ -386,82 +386,85 @@ export default function CardEditByID({cardId, ...props}: any){
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
-                                            <CopyrightIcon />
+                                            <CopyrightIcon/>
                                         </InputAdornment>
                                     ),
                                 }}
                                 value={cardCopyrightText}
                                 onChange={e => {
                                     setCardCopyrightText(e.target.value)
-                                    autoSave()}}
+                                    autoSave()
+                                }}
                             />
                         </Collapse>
                     </Grid>
                 </Grid>
             </Grid>
-            <Row >
-                    {isUseMainContent && mainContentType === 0?
-                        <Col className="col-12 col-lg-5  mt-4 ml-md-5" style={{height: window.innerHeight/window.innerWidth > 1? window.innerWidth/16*9 + 40 :"480px"}}>
-                        <ReactPlayer controls
-                                     url={cardYoutubeVideoUrl}
-                                     height={window.innerHeight/window.innerWidth > 1? window.innerWidth/16*9 :440}
-                                     width="100%"
-                            // className="col-12 col-lg-5" !!!770 px!!!
-                        />
-                        <TextField
-                            className="mt-2 col-12"
-                            label="Ссылка на видео на Youtube"
-                            fullWidth
-                            value={cardYoutubeVideoUrl}
-                            onChange={cardYoutubeVideoUrlHandle}
-                        />
-                    </Col>: null}
-                {isUseMainContent && (mainContentType === 1 || mainContentType === 2)?
-                    <Col className="col-12 col-lg-5  mt-4 ml-md-5 mr-1" style={{height: "440px"}}
-                         >
-                        <Dragger {...upload_props}
-                                 beforeUpload={() => false}
-                                 onChange={handleUploadImage}
-                                 style={{backgroundImage: "url(" + cardImage + ")",
-                                     backgroundSize: "cover",
-                                     backgroundRepeat: "no-repeat",
-                                 }}
-                        >
-                            {/*<iframe src={cardImage}/>*/}
-                            <div className="uploader-content">
 
-                                <br/>
-                                <p className="ant-upload-drag-icon">
-                                    <InboxOutlined />
-                                </p>
-                                <p className="ant-upload-text">Нажмите или перетащите изображение для загрузки</p>
-                                <p className="ant-upload-hint">
-                                    Поддерживает загрузку одного изображения
-                                </p>
-                                <br/>
 
-                            </div>
-                        </Dragger>
-                        {mainContentType === 1 &&
+            <Grid container style={{
+                paddingLeft: window.innerHeight / window.innerWidth > 1 ? 0 : 48,
+                marginTop: window.innerHeight / window.innerWidth > 1 ? 0 : 6,
+            }}>
+                <Grid item xs={12} md={6}
+                      style={{paddingRight: window.innerHeight / window.innerWidth > 1 ? 0 : 24}}>
+                    {isUseMainContent && mainContentType === 0 &&
+                        <Fragment>
+                            <ReactPlayer controls
+                                         url={cardYoutubeVideoUrl}
+                                         height={window.innerHeight / window.innerWidth > 1 ? window.innerWidth / 16 * 9 : 384}
+                                         width="100%"
+                            />
                             <TextField
                                 className="mt-2 col-12"
-
+                                label="Ссылка на видео на Youtube"
+                                fullWidth
+                                variant="filled"
+                                value={cardYoutubeVideoUrl}
+                                onChange={cardYoutubeVideoUrlHandle}
+                            />
+                        </Fragment>}
+                    {isUseMainContent && (mainContentType === 1 || mainContentType === 2) &&
+                        <Fragment>
+                            <Dragger {...upload_props}
+                                     beforeUpload={() => false}
+                                     onChange={handleUploadImage}
+                                     style={{
+                                         backgroundImage: "url(" + cardImage + ")",
+                                         backgroundSize: "cover",
+                                         backgroundRepeat: "no-repeat",
+                                     }}
+                            >
+                                <div className="uploader-content">
+                                    <br/>
+                                    <p className="ant-upload-drag-icon">
+                                        <InboxOutlined/>
+                                    </p>
+                                    <p className="ant-upload-text">Нажмите или перетащите изображение для загрузки</p>
+                                    <p className="ant-upload-hint">
+                                        Поддерживает загрузку одного изображения
+                                    </p>
+                                    <br/>
+                                </div>
+                            </Dragger>
+                            {mainContentType === 1 &&
+                            <TextField
+                                className="mt-2 col-12"
                                 label="Ссылка на внешний сайт"
                                 fullWidth
                                 value={cardSrcToOtherSite}
                                 onChange={cardSrcToOtherSiteHandle}
                             />}
-
-                    </Col>
-                    : null}
-                    {isUseMainContent && isUseMainText?
-                        <Col className="col-12 col-lg-6 ml-md-4 mr-1 mt-4" style={{height: "440px"}}>
-                            {isAllDataHadBeenGotFromServer ? memedRichTextEditor: null}
-                    </Col>: null}
-            </Row>
-
+                        </Fragment>}
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <Fragment>
+                        {isUseMainContent && isUseMainText && memedRichTextEditor}
+                    </Fragment>
+                </Grid>
+            </Grid>
             <Row className="mt-4">
-                {isUseAdditionalText? <Col className="col-11 ml-md-5 mt-4">
+                {isUseAdditionalText ? <Col className="col-11 ml-md-5 mt-4">
                     <TextField
                         className="mt-2 col-12"
                         key={cardID + "AdditionalText"}
@@ -472,39 +475,13 @@ export default function CardEditByID({cardId, ...props}: any){
                         value={cardAdditionalText}
                         onChange={cardAdditionalTextHandle}
                     />
-                </Col>: null}
+                </Col> : null}
             </Row>
+            <CardArrowNavigation in={isUseBodyQuestion} value={cardBodyQuestionId} onChange={cardBodyQuestionIdHandle}
+                                 cardBodyQuestionData={cardBodyQuestionData} in1={isUseBeforeCardQuestion}
+                                 value1={cardBeforeCardQuestionId} onChange1={cardBeforeCardQuestionIdHandle}
+                                 cardBeforeCardQuestionData={cardBeforeCardQuestionData}/>
 
-            <Row className="mt-4">
-                <Col className="col-12 col-lg-5 ml-md-5 mt-4">
-                    <Collapse in={isUseBodyQuestion} >
-                        <TextField
-                            className="mt-2 col-12"
-                            label="ID вопроса для тела карточки"
-                            fullWidth
-                            value={cardBodyQuestionId}
-                            onChange={cardBodyQuestionIdHandle}
-                        />
-                        <Typography>
-                            <blockquote/> ТЕКСТ ВОПРОСА: {cardBodyQuestionData?.questionById?.text}<blockquote/>
-                        </Typography>
-                    </Collapse>
-            </Col>
-            <Col className="col-12 col-lg-5 mt-4 ml-md-5">
-                <Collapse in={isUseBeforeCardQuestion} >
-                        <TextField
-                            className="mt-2 col-12"
-                            label="ID вопроса перед входом в карточку"
-                            fullWidth
-                            value={cardBeforeCardQuestionId}
-                            onChange={cardBeforeCardQuestionIdHandle}
-                        />
-                        <Typography className="ml-3">
-                            <blockquote/> ТЕКСТ ВОПРОСА: {cardBeforeCardQuestionData?.questionById?.text}<blockquote/>
-                        </Typography>
-                </Collapse>
-            </Col>
-            </Row>
             <br/>
             <br/>
             <br/>

@@ -13,6 +13,9 @@ export function CardArrowNavigation(props: any) {
     const [arrowNextValid, setArrowNextValid] = useState(true)
 
     function urlValidation(arrow_url){
+        if(arrow_url.length === 0){
+            return true
+        }
         try {
             const url = new URL(arrow_url);
             return url.protocol === "http:" || url.protocol === "https:";

@@ -130,6 +130,7 @@ export type CardNode = {
     copyright?: Maybe<Scalars['String']>;
     id: Scalars['ID'];
     isCardUseAdditionalText: Scalars['Boolean'];
+    isCardUseArrowNavigation: Scalars['Boolean'];
     isCardUseCopyright: Scalars['Boolean'];
     isCardUseMainContent: Scalars['Boolean'];
     isCardUseMainText: Scalars['Boolean'];
@@ -1120,6 +1121,7 @@ export type CardMutationInput = {
     createdBy: Scalars['ID'];
     id?: Maybe<Scalars['ID']>;
     isCardUseAdditionalText?: Maybe<Scalars['Boolean']>;
+    isCardUseArrowNavigation?: Maybe<Scalars['Boolean']>;
     isCardUseCopyright?: Maybe<Scalars['Boolean']>;
     isCardUseMainContent?: Maybe<Scalars['Boolean']>;
     isCardUseMainText?: Maybe<Scalars['Boolean']>;

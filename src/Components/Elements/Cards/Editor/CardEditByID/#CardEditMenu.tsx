@@ -8,11 +8,12 @@ import DoneAllIcon from "@material-ui/icons/DoneAll";
 import CopyrightIcon from '@material-ui/icons/Copyright';
 import HttpIcon from '@material-ui/icons/Http';
 import ImageIcon from '@material-ui/icons/Image';
+import CodeIcon from '@material-ui/icons/Code';
 
 export default function CardEditMenu({ mainContentType, mainContentTypeHandle, isUseAdditionalTextHandle,
                                          isUseAdditionalText, isUseBodyQuestionHandle, isUseBodyQuestion,
                                          isUseBeforeCardQuestionHandle, isUseBeforeCardQuestion, isUseCopyright,
-                                         setIsUseCopyright, autoSave}: any){
+                                         setIsUseCopyright, autoSave, isUseArrowNavigation, setIsUseArrowNavigation}: any){
     const [anchorEl, setAnchorEl] = React.useState(null);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -24,6 +25,10 @@ export default function CardEditMenu({ mainContentType, mainContentTypeHandle, i
     const isUseCopyrightHandle = () =>{
         autoSave()
         setIsUseCopyright(!isUseCopyright)
+    }
+    const isUseArrowNavigationHandler = () =>{
+        autoSave()
+        setIsUseArrowNavigation(!isUseArrowNavigation)
     }
 
     return(
@@ -78,6 +83,17 @@ export default function CardEditMenu({ mainContentType, mainContentTypeHandle, i
                     </FormControl>
                 </MenuItem>
 
+                <MenuItem onClick={isUseArrowNavigationHandler}>
+                    <Switch
+                        checked={isUseArrowNavigation}
+                        onChange={isUseArrowNavigationHandler}
+                        color="secondary"
+                    />
+                    <ListItemIcon>
+                        <CodeIcon/>
+                    </ListItemIcon>
+                    Авторская навигация
+                </MenuItem>
 
                 <Divider/>
                 <MenuItem onClick={isUseAdditionalTextHandle}>

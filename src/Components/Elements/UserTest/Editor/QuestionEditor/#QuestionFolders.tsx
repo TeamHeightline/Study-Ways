@@ -15,9 +15,9 @@ export const QuestionFolders = observer(() =>{
                 textColor="primary"
                 centered
             >
-                <Tab label="Все вопросы" />
-                <Tab label="Заполненные вопросы"/>
-                <Tab label="Незаполненные вопросы" />
+                <Tab label="Все" />
+                <Tab label="Заполненные"/>
+                <Tab label="Незаполненные" />
             </Tabs>
         </div>
     )

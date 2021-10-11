@@ -27,7 +27,6 @@ import {CardArrowNavigation} from './#CardEditArrowNavigation'
 export default function CardEditByID({cardId, ...props}: any){
     const [autoSaveTimer, changeAutoSaveTimer] = useState<any>()
     const [stateOfSave, setStateOfSave] = useState(2) // 0- не сохранено 1- сохранение 2- сохранено
-    const [isAllDataHadBeenGotFromServer, setIsAllDataHadBeenGotFromServer] = useState(false)
 
     const [cardID] = useState(cardId? cardId: props?.match?.params?.id)
     const [cardHeader, setCardHeader] = useState("Заголовок по умолчанию")
@@ -44,7 +43,10 @@ export default function CardEditByID({cardId, ...props}: any){
     const [cardImage, setCardImage] = useState()
     const [cardSrcToOtherSite, setCardSrcToOtherSite] = useState('')
     const [cardCopyrightText, setCardCopyrightText] = useState('')
-
+    const [arrowBefore, setArrowBefore] = useState('')
+    const [arrowUp, setArrowUp] = useState('')
+    const [arrowDown, setArrowDown] = useState('')
+    const [arrowNext, setArrowNext] = useState('')
 
 
     const [isUseMainContent, setIsUseMainContent] = useState(true)
@@ -53,6 +55,7 @@ export default function CardEditByID({cardId, ...props}: any){
     const [isUseBodyQuestion, setIsUseBodyQuestion] = useState(false)
     const [isUseBeforeCardQuestion, setIsUseBeforeCardQuestion] = useState(false)
     const [isUseCopyright, setIsUseCopyright] = useState(false)
+    const [isUseArrowNavigation, setIsUseArrowNavigation] = useState(false)
 
     const [dataForThemeTreeView, setDataForThemeTreeView] = useState<any[]>([])
 
@@ -127,6 +130,7 @@ export default function CardEditByID({cardId, ...props}: any){
                 await setIsUseBodyQuestion(data.cardById.isCardUseTestInCard)
                 await setIsUseBeforeCardQuestion(data.cardById.isCardUseTestBeforeCard)
                 await setIsUseCopyright(data.cardById.isCardUseCopyright)
+                await setIsUseArrowNavigation(data.cardById.isCardUseArrowNavigation)
 
                 await setMainContentType(Number(data.cardById.cardContentType[2]))
                 await setCardHeader(data.cardById.title)
@@ -145,7 +149,11 @@ export default function CardEditByID({cardId, ...props}: any){
                 await setCardAdditionalText(data.cardById.additionalText)
                 await setCardBodyQuestionId(data.cardById.testInCard?.id)
                 await setCardBeforeCardQuestionId(data.cardById.testBeforeCard?.id)
-                await setIsAllDataHadBeenGotFromServer(true)
+                await setArrowBefore(data.cardById.arrowBefore)
+                await setArrowUp(data.cardById.arrowUp)
+                await setArrowDown(data.cardById.arrowDown)
+                await setArrowNext(data.cardById.arrowNext)
+                // await setIsAllDataHadBeenGotFromServer(true)
                 get_card_image()
             },
 
@@ -165,20 +173,29 @@ export default function CardEditByID({cardId, ...props}: any){
             isCardUseTestInCard: isUseBodyQuestion,
             isCardUseTestBeforeCard: isUseBeforeCardQuestion,
             isCardUseCopyright: isUseCopyright,
+            isCardUseArrowNavigation: isUseArrowNavigation,
             additionalText: cardAdditionalText,
             text: cardMainTextForSave,
             copyright: cardCopyrightText,
             videoUrl: cardYoutubeVideoUrl,
             siteUrl: cardSrcToOtherSite,
             testInCard: cardBodyQuestionId,
-            testBeforeCard: cardBeforeCardQuestionId
+            testBeforeCard: cardBeforeCardQuestionId,
+            arrowBefore: arrowBefore,
+            arrowUp: arrowUp,
+            arrowDown: arrowDown,
+            arrowNext: arrowNext
         },
-        onError: error => console.log(error),
+        onError: () => setStateOfSave(3),
         onCompleted: data => {
-            setStateOfSave(2)
-            if(props.returnStateOfSave){
-                props.returnStateOfSave(2)
+            if(data.card.errors.length === 0){
+                setStateOfSave(2)
+                props?.returnStateOfSave(2)
+            }else{
+                setStateOfSave(3)
             }
+
+            console.log(arrowBefore)
             console.log(data)
         }
 
@@ -322,9 +339,10 @@ export default function CardEditByID({cardId, ...props}: any){
     const memedCardEditMenu = useMemo(() =><CardEditMenu
         {...{isUseCopyright, setIsUseCopyright,  mainContentType, isUseAdditionalText,
             isUseBodyQuestion, isUseBeforeCardQuestion,  mainContentTypeHandle,
-             isUseAdditionalTextHandle, isUseBodyQuestionHandle, isUseBeforeCardQuestionHandle, autoSave}}
+             isUseAdditionalTextHandle, isUseBodyQuestionHandle, isUseBeforeCardQuestionHandle, autoSave,
+            isUseArrowNavigation, setIsUseArrowNavigation}}
     />, [isUseMainContent, mainContentType, isUseMainText, isUseAdditionalText, isUseBodyQuestion,
-        isUseBeforeCardQuestion, isUseCopyright])
+        isUseBeforeCardQuestion, isUseCopyright, isUseArrowNavigation])
     if (!card_data){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
@@ -477,22 +495,30 @@ export default function CardEditByID({cardId, ...props}: any){
                     />
                 </Col> : null}
             </Row>
-            <CardArrowNavigation in={isUseBodyQuestion} value={cardBodyQuestionId} onChange={cardBodyQuestionIdHandle}
-                                 cardBodyQuestionData={cardBodyQuestionData} in1={isUseBeforeCardQuestion}
-                                 value1={cardBeforeCardQuestionId} onChange1={cardBeforeCardQuestionIdHandle}
-                                 cardBeforeCardQuestionData={cardBeforeCardQuestionData}/>
+            <Collapse in={isUseArrowNavigation}>
+                <CardArrowNavigation in={isUseBodyQuestion} value={cardBodyQuestionId} onChange={cardBodyQuestionIdHandle}
+                                     cardBodyQuestionData={cardBodyQuestionData} in1={isUseBeforeCardQuestion}
+                                     value1={cardBeforeCardQuestionId} onChange1={cardBeforeCardQuestionIdHandle}
+                                     cardBeforeCardQuestionData={cardBeforeCardQuestionData}
+                                     {...{arrowBefore, setArrowBefore, arrowUp, setArrowUp, arrowDown, setArrowDown,
+                                         arrowNext, setArrowNext, autoSave
+                                     }}
+                />
+            </Collapse>
 
             <br/>
             <br/>
             <br/>
             <Snackbar open={true}>
-                <Alert severity="info">
+                <Alert severity={stateOfSave !== 3? "info": "error"}>
                     {stateOfSave === 0 &&
                     "Изменения не сохранены"}
                     {stateOfSave === 1 &&
                     "Автосохранение"}
                     {stateOfSave === 2 &&
                     "Сохранено"}
+                    {stateOfSave === 3 &&
+                    "Ошибка"}
                 </Alert>
             </Snackbar>
             {/*</Row>*/}

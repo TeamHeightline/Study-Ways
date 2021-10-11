@@ -4,15 +4,51 @@ import KeyboardArrowDownOutlinedIcon from "@material-ui/icons/KeyboardArrowDownO
 import KeyboardArrowUpOutlinedIcon from "@material-ui/icons/KeyboardArrowUpOutlined";
 import KeyboardArrowRightOutlinedIcon from "@material-ui/icons/KeyboardArrowRightOutlined";
 import Typography from "@material-ui/core/Typography";
-import React from "react";
+import React, {useState} from "react";
 
 export function CardArrowNavigation(props: any) {
+    const [arrowBeforeValid, setArrowBeforeValid] = useState(true)
+    const [arrowUpValid, setArrowUpValid] = useState(true)
+    const [arrowDownValid, setArrowDownValid] = useState(true)
+    const [arrowNextValid, setArrowNextValid] = useState(true)
+
+    function urlValidation(arrow_url){
+        try {
+            const url = new URL(arrow_url);
+            return url.protocol === "http:" || url.protocol === "https:";
+        } catch (_) {
+            return false;
+        }
+
+    }
+    function arrowBeforeHandler(e){
+        setArrowBeforeValid(urlValidation(e.target.value))
+        props.autoSave()
+        props.setArrowBefore(e.target.value)
+    }
+
+    function arrowUpHandler(e){
+        setArrowUpValid(urlValidation(e.target.value))
+        props.autoSave()
+        props.setArrowUp(e.target.value)
+    }
+    function arrowDownHandler(e){
+        setArrowDownValid(urlValidation(e.target.value))
+        urlValidation(e.target.value)
+        props.autoSave()
+        props.setArrowDown(e.target.value)
+    }
+    function arrowNextHandler(e){
+        setArrowNextValid(urlValidation(e.target.value))
+        props.autoSave()
+        props.setArrowNext(e.target.value)
+    }
     return <Grid container
                  style={{paddingLeft: window.innerHeight / window.innerWidth > 1 ? 0 : 48,
                      marginTop: window.innerHeight / window.innerWidth > 1 ? 36 : 0
     }}>
         <Grid item xs={12} md={6}>
-            <Grid item xs={12} container>
+            <Grid item xs={12} container style={{marginTop: 6}}>
                 <Grid item xs={3} md={1}>
                     <ButtonGroup size="medium" color="primary">
                         <Button>
@@ -22,6 +58,9 @@ export function CardArrowNavigation(props: any) {
                 </Grid>
                 <Grid xs={9} md={6}>
                     <TextField
+                        error={!arrowBeforeValid}
+                        value={props.arrowBefore}
+                        onChange={arrowBeforeHandler}
                         style={{zoom: "65%"}}
                         label="Ссылка на предыдущий ресурс"
                         variant="outlined"
@@ -39,6 +78,9 @@ export function CardArrowNavigation(props: any) {
                 </Grid>
                 <Grid xs={9} md={6}>
                     <TextField
+                        error={!arrowDownValid}
+                        value={props.arrowDown}
+                        onChange={arrowDownHandler}
                         style={{zoom: "65%"}}
                         label="Ссылка на более простой ресурс"
                         variant="outlined"
@@ -56,6 +98,9 @@ export function CardArrowNavigation(props: any) {
                 </Grid>
                 <Grid xs={9} md={6}>
                     <TextField
+                        error={!arrowUpValid}
+                        value={props.arrowUp}
+                        onChange={arrowUpHandler}
                         style={{zoom: "65%"}}
                         label="Ссылка на более сложный ресурс"
                         variant="outlined"
@@ -73,6 +118,9 @@ export function CardArrowNavigation(props: any) {
                 </Grid>
                 <Grid xs={9} md={6}>
                     <TextField
+                        error={!arrowNextValid}
+                        value={props.arrowNext}
+                        onChange={arrowNextHandler}
                         style={{zoom: "65%"}}
                         label="Ссылка на следующий ресурс"
                         variant="outlined"

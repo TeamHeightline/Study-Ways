@@ -16,6 +16,7 @@ export const GET_CARD_DATA_BY_ID = gql`query GET_CARD_DATA_BY_ID($id: ID!){
         isCardUseTestBeforeCard
         isCardUseTestInCard
         isCardUseCopyright
+        isCardUseArrowNavigation
         cardContentType
         text
         title
@@ -57,13 +58,16 @@ export const UPDATE_CARD = gql`
         $title: String!, $text: String, $videoUrl: String, $testInCard: ID, $testBeforeCard: ID, $siteUrl: String,
         $isCardUseAdditionalText: Boolean, $isCardUseMainContent: Boolean, $isCardUseMainText: Boolean,
         $isCardUseTestBeforeCard: Boolean, $isCardUseTestInCard: Boolean, $isCardUseCopyright: Boolean,
-        $copyright: String
+        $copyright: String, $isCardUseArrowNavigation: Boolean, $arrowBefore: String, $arrowUp: String,
+        $arrowDown: String, $arrowNext: String,
     ){
         card(input: {id: $id, author: $author, subTheme: $subTheme,  additionalText: $additionalText, cardContentType: $cardContentType,
             createdBy: 0, title: $title, text: $text, videoUrl: $videoUrl, testInCard: $testInCard, testBeforeCard: $testBeforeCard,
             siteUrl: $siteUrl, isCardUseAdditionalText: $isCardUseAdditionalText, isCardUseMainContent: $isCardUseMainContent,
             isCardUseMainText: $isCardUseMainText, isCardUseTestBeforeCard: $isCardUseTestBeforeCard, isCardUseTestInCard: $isCardUseTestInCard,
-            isCardUseCopyright: $isCardUseCopyright, copyright: $copyright}){
+            isCardUseCopyright: $isCardUseCopyright, copyright: $copyright, isCardUseArrowNavigation: $isCardUseArrowNavigation,
+            arrowBefore: $arrowBefore, arrowUp: $arrowUp, arrowDown: $arrowDown, arrowNext: $arrowNext
+        }){
             errors{
                 field
                 messages

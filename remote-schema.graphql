@@ -79,6 +79,7 @@ type CardNode {
     copyright: String
     id: ID!
     isCardUseAdditionalText: Boolean!
+    isCardUseArrowNavigation: Boolean!
     isCardUseCopyright: Boolean!
     isCardUseMainContent: Boolean!
     isCardUseMainText: Boolean!
@@ -812,6 +813,7 @@ input CardMutationInput {
     createdBy: ID!
     id: ID
     isCardUseAdditionalText: Boolean
+    isCardUseArrowNavigation: Boolean
     isCardUseCopyright: Boolean
     isCardUseMainContent: Boolean
     isCardUseMainText: Boolean

@@ -22,7 +22,7 @@ import CardEditMenu from "./#CardEditMenu";
 import {sort} from "fast-sort";
 import {GET_CARD_DATA_BY_ID, GET_OWN_AUTHOR, QUESTION_BY_ID, UPDATE_CARD, GET_THEMES, MenuProps} from "./Struct"
 import CopyrightIcon from "@material-ui/icons/Copyright";
-import {CardArrowNavigation} from './#CardEditArrowNavigation'
+import {CardEditArrowNavigationAndBandAQuestions} from './#CardEditArrowNavigationAndBandAQuestions'
 
 export default function CardEditByID({cardId, ...props}: any){
     const [autoSaveTimer, changeAutoSaveTimer] = useState<any>()
@@ -495,14 +495,16 @@ export default function CardEditByID({cardId, ...props}: any){
                     />
                 </Col> : null}
             </Row>
-            <Collapse in={isUseArrowNavigation}>
-                <CardArrowNavigation in={isUseBodyQuestion} value={cardBodyQuestionId} onChange={cardBodyQuestionIdHandle}
-                                     cardBodyQuestionData={cardBodyQuestionData} in1={isUseBeforeCardQuestion}
-                                     value1={cardBeforeCardQuestionId} onChange1={cardBeforeCardQuestionIdHandle}
-                                     cardBeforeCardQuestionData={cardBeforeCardQuestionData}
-                                     {...{arrowBefore, setArrowBefore, arrowUp, setArrowUp, arrowDown, setArrowDown,
-                                         arrowNext, setArrowNext, autoSave
-                                     }}
+            <Collapse in={isUseArrowNavigation || isUseBodyQuestion || isUseBeforeCardQuestion}>
+                <CardEditArrowNavigationAndBandAQuestions
+                    in={isUseBodyQuestion} value={cardBodyQuestionId}
+                    onChange={cardBodyQuestionIdHandle}
+                    cardBodyQuestionData={cardBodyQuestionData} in1={isUseBeforeCardQuestion}
+                    value1={cardBeforeCardQuestionId} onChange1={cardBeforeCardQuestionIdHandle}
+                    cardBeforeCardQuestionData={cardBeforeCardQuestionData}
+                    {...{arrowBefore, setArrowBefore, arrowUp, setArrowUp, arrowDown, setArrowDown,
+                        arrowNext, setArrowNext, autoSave, isUseArrowNavigation
+                    }}
                 />
             </Collapse>
 

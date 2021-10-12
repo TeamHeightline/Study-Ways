@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, Fragment} from "react";
 import { Col, Row, Spinner} from "react-bootstrap";
 import ReactPlayer from "react-player";
 import {Button, ButtonGroup, Typography, Tooltip} from "@material-ui/core";
@@ -58,6 +58,11 @@ const SHOW_CARD_BY_ID = gql`
             isCardUseMainContent
             isCardUseAdditionalText
             isCardUseCopyright
+            isCardUseArrowNavigation
+            arrowBefore
+            arrowDown
+            arrowUp
+            arrowNext
             copyright
             cardContentType
             additionalText
@@ -255,6 +260,32 @@ export const CARD = observer(({id, ...props}: any) =>{
                     <Typography>
                         {card_data?.cardById?.additionalText}
                     </Typography>
+                    {card_data?.cardById?.isCardUseArrowNavigation && (card_data?.cardById?.arrowBefore ||
+                        card_data?.cardById?.arrowDown || card_data?.cardById?.arrowUp || card_data?.cardById?.arrowNext) &&
+                        <Fragment>
+                            <Typography variant="h6">
+                                Авторская навигация:
+                            </Typography>
+                            <ButtonGroup size="large" color="secondary" variant="outlined" style={{marginBottom: 12}}>
+                                <Button disabled={!card_data?.cardById?.arrowBefore}
+                                        onClick={ () => window.open(card_data?.cardById?.arrowBefore, "_blank")}>
+                                    <KeyboardArrowLeftOutlinedIcon/>
+                                </Button>
+                                <Button disabled={!card_data?.cardById?.arrowDown}
+                                        onClick={ () => window.open(card_data?.cardById?.arrowDown, "_blank")}>
+                                    <KeyboardArrowDownOutlinedIcon/>
+                                </Button>
+                                <Button disabled={!card_data?.cardById?.arrowUp}
+                                        onClick={ () => window.open(card_data?.cardById?.arrowUp, "_blank")}>
+                                    <KeyboardArrowUpOutlinedIcon/>
+                                </Button>
+                                <Button disabled={!card_data?.cardById?.arrowNext}
+                                        onClick={ () => window.open(card_data?.cardById?.arrowNext, "_blank")}>
+                                    <KeyboardArrowRightOutlinedIcon/>
+                                </Button>
+                            </ButtonGroup>
+                        </Fragment>
+                    }
 
                     <div>
                         {card_data?.cardById?.isCardUseTestBeforeCard && card_data?.cardById?.testBeforeCard?.id &&

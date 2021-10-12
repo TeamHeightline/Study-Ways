@@ -20,6 +20,7 @@ import {Navibar} from './Components/PublicPages/Navbar/Navibar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {useEffect} from "react";
 import {UserStorage} from './Store/UserStore/UserStore'
+import '@fontsource/roboto/300.css';
 
 
 

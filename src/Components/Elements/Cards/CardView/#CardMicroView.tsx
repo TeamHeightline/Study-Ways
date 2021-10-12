@@ -71,12 +71,12 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                     className={classes.cover}
                     image={"https://img.youtube.com/vi/"+ card_data?.cardById.videoUrl.split('?v=')[1] + "/hqdefault.jpg"}
                 />}
-                {(Number(card_data.cardById.cardContentType[2]) === 1 || Number(card_data.cardById.cardContentType[2]) === 2) && cardImage ?
+                {(Number(card_data.cardById.cardContentType[2]) === 1 || Number(card_data.cardById.cardContentType[2]) === 2) && cardImage &&
                     <CardMedia
                         className={classes.cover}
                         image={cardImage}
                         title="Live from space album cover"
-                    />: null
+                    />
                 }
                 <CardActionArea >
                     <CardContent  style={{padding: 4, flex: '1 0 auto', paddingLeft: 10, paddingRight: 10}} className="justify-content-start" >
@@ -104,7 +104,7 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                                     <Chip size="small" variant="outlined"
                                           label={card_data?.cardById?.subTheme[0]?.name.slice(0, 25)}/>
 
-                                </Popover> : <br/>}
+                                </Popover> : <div></div>}
                             <br/>
                             {card_data?.cardById?.author.length !== 0 ?
                                         <Chip className="mt-1" label={card_data?.cardById?.author[0]?.name.slice(0, 25)}

@@ -14,16 +14,17 @@ export default function DCUserTestThemeEditor({...props}: any){
     }
     return(
         <div>
-            <div style={{width: 600, height: 400}}>
-                <DataGrid rows={props.rows} columns={props.columnsForAuthorsDataGrid}
-                          onRowClick={(e) => {
-                              props.setSelectedThemeRow(e.row)
-                              props.setActiveEditUserTestThemeName(e.row.name)
-                          }}
-                />
-                <Row className="col-3 offset-9 mt-2">
+            <div style={{maxWidth: 600, height: 470}}>
+                <div style={{height: 400}}>
+                    <DataGrid rows={props.rows} columns={props.columnsForAuthorsDataGrid}
+                              onRowClick={(e) => {
+                                  props.setSelectedThemeRow(e.row)
+                                  props.setActiveEditUserTestThemeName(e.row.name)
+                              }}
+                    />
+                </div>
+                <Row className="col-md-3 offset-md-9 col-12 mt-2">
                     <Fab color="primary"
-
                          onClick={() =>{
                              if(props.isCreatingNowUserTestTheme){
                                  props.setIsCreatingNowUserTestTheme(false)

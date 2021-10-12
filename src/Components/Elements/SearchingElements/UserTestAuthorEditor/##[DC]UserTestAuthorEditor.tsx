@@ -14,14 +14,14 @@ export default function DCUserTestAuthorEditor({...props}: any){
     }
     return(
         <div>
-            <div style={{width: 600, height: 400}}>
+            <div style={{maxWidth: 600, height: 400}}>
                 <DataGrid rows={props.rows} columns={props.columnsForAuthorsDataGrid}
                           onRowClick={(e) => {
                               props.setSelectedAuthorRow(e.row)
                               props.setActiveEditUserTestAuthorName(e.row.name)
                           }}
                 />
-                <Row className="col-3 offset-9 mt-2">
+                <Row className="col-md-3 offset-md-9  col-12 mt-2">
                     <Fab color="primary"
 
                          onClick={() =>{

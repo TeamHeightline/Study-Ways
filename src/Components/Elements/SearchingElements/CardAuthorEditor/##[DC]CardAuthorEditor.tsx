@@ -14,16 +14,19 @@ export default function DCCardAuthorEditor({...props}: any){
     //     )
     // }
     return(
-        <div style={{width: 600, height: props.isCreatingNowCardAuthor || props.isEditNowCardAuthor? 600: 400}}>
-            <div style={{width: 600, height: 400}}>
-                {!props.rowsHasBeenCalculated ? <Spinner animation="border" variant="success" className=" offset-6 mt-5"/> :
-                <DataGrid rows={props.rows} columns={props.columnsForAuthorsDataGrid}
-                          onRowClick={(e) => {
-                              props.setSelectedAuthorRow(e.row)
-                              props.setActiveEditCardAuthorName(e.row.name)
-                          }}
-                />}
-                <Row className="col-3 offset-9 mt-2">
+        <div style={{maxWidth: 600, height: props.isCreatingNowCardAuthor || props.isEditNowCardAuthor? 600: 470}}>
+            <div style={{maxWidth: 600, height: 470}}>
+                {!props.rowsHasBeenCalculated ?
+                    <Spinner animation="border" variant="success" className=" offset-6 mt-5"/> :
+                    <div style={{height: 400}}>
+                        <DataGrid rows={props.rows} columns={props.columnsForAuthorsDataGrid}
+                                  onRowClick={(e) => {
+                                      props.setSelectedAuthorRow(e.row)
+                                      props.setActiveEditCardAuthorName(e.row.name)
+                                  }}
+                        />
+                    </div>}
+                <Row className="col-md-3 offset-md-9 col-12 mt-2">
                     <Fab color="primary"
 
                          onClick={() =>{

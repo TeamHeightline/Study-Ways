@@ -36,9 +36,9 @@ export default function DCCardThemeEditor({...props}: any){
         )
     }
     return(
-        <div style={{width: 600, height: props.isEditNowCardTheme || props.isCreatingNowCardTheme ||
-                props.isAddingNowSubInstance ? 600 :450}}>
-            <div style={{width: 600, height: 450}}>
+        <div style={{maxWidth: 600, height: props.isEditNowCardTheme || props.isCreatingNowCardTheme ||
+                props.isAddingNowSubInstance ? 600 :470}}>
+            <div style={{height: 470}}>
                 <Paper elevation={2} variant="outlined">
                     {
                         !props.all_card_themes_data ? <Spinner animation="border" variant="success" className=" offset-6 mt-5"/> :
@@ -92,7 +92,7 @@ export default function DCCardThemeEditor({...props}: any){
                             </TreeView>}
                 </Paper>
                 {/*<Divider />*/}
-                <Row className="col-6 offset-7 mt-2">
+                <Row className="col-md-6 offset-md-7 col-12 mt-2">
                          <Fab color="primary"
                               className=""
                               disabled={!props.canBeEdited}

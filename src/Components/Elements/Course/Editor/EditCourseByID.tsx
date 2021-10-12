@@ -5,7 +5,7 @@ import CourseRow from "./#CourseRow";
 import {gql} from "graphql.macro";
 import {useMutation, useQuery} from "@apollo/client";
 import {Spinner} from "react-bootstrap";
-import {Alert} from "@material-ui/lab";
+import {Alert, Pagination} from "@material-ui/lab";
 import {Button, Snackbar, TextField, Typography} from "@material-ui/core";
 
 const GET_COURSE_BY_ID = gql`
@@ -148,6 +148,10 @@ export default function EditCourseByID({course_id, ...props}: any){
                 <Typography className="ml-5">
                     {course_id && cardCourseImageName && <div>{cardCourseImageName}</div>}
                 </Typography>
+            </div>
+            <div>
+                <Pagination  className="ml-5 mr-5 mt-2" style={{marginLeft: 6}} count={8} shape="rounded"
+                             size="large" variant="outlined" color="secondary"/>
             </div>
             <div className="ml-5 mr-5">
                 {CourseLinesData.length !== 0 && CourseLinesData.map((line, lIndex) =>{

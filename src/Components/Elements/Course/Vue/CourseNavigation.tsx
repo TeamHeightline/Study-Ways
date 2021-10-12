@@ -23,8 +23,7 @@ export default function CourseNavigation({course, ...props}: any){
                         </>
                     )
                 })}
-                <Pagination style={{marginLeft: 6}} count={8} shape="rounded"
-                            size="small" />
+                <Pagination style={{marginLeft: 6}} count={8} shape="rounded" size="small" />
             </div>
         </div>
     )

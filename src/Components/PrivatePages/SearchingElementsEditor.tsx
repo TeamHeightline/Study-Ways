@@ -19,6 +19,7 @@ export default function SearchingElementsEditor({...props}: any){
                 <Grid item xs={12} md={6}>
                     <LCCardAuthorEditor/>
                 </Grid>
+
             </Grid>
             <Typography className="display-4 text-center mt-4"
                         style={{fontSize: window.innerHeight/window.innerWidth > 1? "25px": '33px'}}>

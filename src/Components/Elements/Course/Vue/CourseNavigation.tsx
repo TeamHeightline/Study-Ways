@@ -1,12 +1,13 @@
 import React from 'react';
 import NavigationRow from "./#NavigationRow";
 import "../../../../index.css"
+import {Pagination} from "@material-ui/lab";
 
 export default function CourseNavigation({course, ...props}: any){
     // console.log(course)
     return(
         <div>
-            <div style={{width: 350, overflowX: "auto"}}>
+            <div style={{width: 290, overflowX: "auto"}}>
                 {course.courseData.length !== 0 && course.courseData.map((courseRow, CRI) =>{
                     return(
                         <>
@@ -22,6 +23,8 @@ export default function CourseNavigation({course, ...props}: any){
                         </>
                     )
                 })}
+                <Pagination style={{marginLeft: 6}} count={8} shape="rounded"
+                            size="small" />
             </div>
         </div>
     )

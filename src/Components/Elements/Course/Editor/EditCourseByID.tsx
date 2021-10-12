@@ -149,7 +149,7 @@ export default function EditCourseByID({course_id, ...props}: any){
                     {course_id && cardCourseImageName && <div>{cardCourseImageName}</div>}
                 </Typography>
             </div>
-            <div style={{overflowY: "auto"}} className="ml-5 mr-5">
+            <div className="ml-5 mr-5">
                 {CourseLinesData.length !== 0 && CourseLinesData.map((line, lIndex) =>{
                     return(
                         <CourseRow key={lIndex + "course" + props.cIndex} row={line} lIndex={lIndex}
@@ -222,13 +222,10 @@ export default function EditCourseByID({course_id, ...props}: any){
 const element = {
     CourseElement: {
         id: null,
-        haveInputTest: false
     }
 }
 const fragment = {
     CourseFragment: [
-        element,
-        element,
         element,
         element,
         element,
@@ -244,7 +241,8 @@ const fragment = {
 export const CourseLines =
      [
         {
-            SameLine: [
+            SameLine:
+                [
                 fragment
                 ]
 

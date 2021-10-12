@@ -5,7 +5,7 @@ export default function CourseRow({row, ...props}: any){
     const [RowState, setRow] = useState(row.SameLine)
     // console.log(data)
     return(
-        <div style={{width: row.SameLine.length * 2000}}>
+        <div>
             <Row className="mt-3">
                 {RowState.map((fragment, fIndex)=>{
                     return(<CourseFragment key={fIndex + "row" + props.lIndex + "course" + props.cIndex} fragment={fragment} fIndex={fIndex}

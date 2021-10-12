@@ -29,12 +29,13 @@ export default function CourseMicroView({course, ...props}: any) {
     }
     return(
         <div {...props} style={{padding: 0}}>
-            <Card style={{padding: 0, width: 530, height: 125}} variant="outlined">
+            <Card style={{padding: 0, width: 470, height: 150}} variant="outlined">
                 <Row>
                     <Tooltip title={(course?.name && course?.name?.length !== 0) ? course?.name?.toUpperCase() : "Название курса по умолчанию"}>
                     <CardActionArea
-                        style={{width:180,
-                            height: 125,
+                        style={{
+                            width:180,
+                            height: 150,
                             backgroundSize: "cover",
                             // boxShadow: "inset 0 0 5em 1em #000",
                             backgroundImage: cardCourseImageURL ? "url(" + cardCourseImageURL + ")": "url('https://content.skyscnr.com/m/5462d448281ea355/original/GettyImages-468945589.jpg?resize=1800px:1800px&quality=100')"}}
@@ -57,7 +58,7 @@ export default function CourseMicroView({course, ...props}: any) {
                     </Tooltip>
                     {/*<Divider orientation="vertical" flexItem className="ml-1" />*/}
                     <CourseNavigation className={styles.NavigationBackground}
-                        style={{width: 350, paddingBottom: 15, height: 120,}}
+                        style={{width: 290, paddingBottom: 15, height: 150,}}
                                       course={course} buttonClick={data => props?.buttonClick(data)}
                                       cardPositionData={props?.cardPositionData}/>
 

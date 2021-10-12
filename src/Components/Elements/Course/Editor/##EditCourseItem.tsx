@@ -99,7 +99,7 @@ export default function EditCourseItem({item_id, item_position, ...props}: any){
     })
     // console.log(itemID)
     return(
-        <Card style={{height:80}} variant="outlined">
+        <Card style={{height:80, width: 135, marginLeft:12}} variant="outlined">
             <Tooltip title={itemID && card_data &&
                 <div>
                     <Typography  variant="h6" gutterBottom className="pr-5">

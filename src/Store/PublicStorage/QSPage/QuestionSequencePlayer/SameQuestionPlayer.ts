@@ -112,7 +112,7 @@ export class SameQuestionPlayer{
             if((answer.isTrue && !this.selectedAnswers.has(answer.id)) || (!answer.isTrue && this.selectedAnswers.has(answer.id))){
                 __errorArray.push(answer.id)
 
-                console.log(answer.hardLevelOfAnswer)
+
                 if(answer.hardLevelOfAnswer == "EASY"){
                     __sumOfLoosedAnswerPoints += 15
                 }else if(answer.hardLevelOfAnswer == "MEDIUM"){
@@ -120,7 +120,7 @@ export class SameQuestionPlayer{
                 }else{
                     __sumOfLoosedAnswerPoints += 5
                 }
-                console.log(__sumOfLoosedAnswerPoints)
+
 
                 if(Number(answer.checkQueue) < Number(minCheckQueue)){
                     minCheckQueue = answer.checkQueue
@@ -137,7 +137,7 @@ export class SameQuestionPlayer{
                 }
             }
         })
-        console.log(this.maxSumOfPoints - __sumOfLoosedAnswerPoints)
+
         //Добавляем в историю сколько баллов было получено за эту попытку
         this.historyOfAnswerPoints.set(this.numberOfPasses, __sumOfGotAnswerPoints - __sumOfLoosedAnswerPoints)
 
@@ -280,7 +280,7 @@ export class SameQuestionPlayer{
                         ArrayForShowWrongAnswers: this.ArrayForShowWrongAnswers,
                     }
                 }})
-                .catch((e) => console.log(e))
+                .catch(() => void(0))
         }
     }
 

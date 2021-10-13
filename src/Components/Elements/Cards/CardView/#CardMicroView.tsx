@@ -28,7 +28,7 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                     setCardImage(data[0].image)
                 }
                 catch(e){
-                    console.log(e)
+                    void(0)
                 }
             })
     }

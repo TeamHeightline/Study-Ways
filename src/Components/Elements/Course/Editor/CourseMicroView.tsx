@@ -58,7 +58,7 @@ export default function CourseMicroView({course, ...props}: any) {
                     </Tooltip>
                     {/*<Divider orientation="vertical" flexItem className="ml-1" />*/}
                     <CourseNavigation className={styles.NavigationBackground}
-                        style={{width: 290, paddingBottom: 15, height: 150,}}
+                                      style={{width: 290, paddingBottom: 15, height: 150,}}
                                       course={course} buttonClick={data => props?.buttonClick(data)}
                                       cardPositionData={props?.cardPositionData}/>
 

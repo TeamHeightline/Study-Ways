@@ -82,7 +82,7 @@ export default function EditCourseItem({item_id, item_position, ...props}: any){
                     setCardImage(data[0].image)
                 }
                 catch(e){
-                    console.log(e)
+                    void(0)
                 }
             })
     }

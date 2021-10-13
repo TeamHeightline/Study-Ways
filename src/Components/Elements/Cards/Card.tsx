@@ -132,10 +132,11 @@ export const CARD = observer(({id, ...props}: any) =>{
                     </Button>}
                 {props.openFromCourse &&
                 <div className="ml-md-2 mt-4" style={{overflowX: "auto"}}>
-                    <CourseMicroView course={CoursePageStorage.courseArr[CoursePageStorage.positionData.courseIndex]}
-                                     buttonClick={data=>CoursePageStorage.cardSelectInCourseByMouseClick(data,
+                    <CourseMicroView
+                        course={CoursePageStorage.courseArr[CoursePageStorage.positionData.courseIndex]}
+                        buttonClick={data=>CoursePageStorage.cardSelectInCourseByMouseClick(data,
                                          CoursePageStorage.positionData.courseIndex, CoursePageStorage.positionData.courseID)}
-                                     cardPositionData={CoursePageStorage.positionData}/>
+                        cardPositionData={CoursePageStorage.positionData}/>
                 </div>}
                 { !props.disableAllButtons &&
                 <div className="mt-3 col-lg-3 col-12">
@@ -210,7 +211,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                     </Row>
                     <Row>
                         <Col>
-                            {card_data?.cardById?.isCardUseCopyright &&
+                            {card_data?.cardById?.isCardUseCopyright && card_data?.cardById?.copyright &&
                             <Typography variant="h6" className="ml-md-2 mt-2">
                                 <Tooltip title={<Typography>{"Правообладателем изложенного материала является: " + card_data?.cardById?.copyright}</Typography>}>
                                     <CopyrightIcon />

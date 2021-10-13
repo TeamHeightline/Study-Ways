@@ -63,7 +63,7 @@ class CoursePage{
         if(cardPositionData.buttonIndex + stepRight >= 0 && cardPositionData.buttonIndex + stepRight <= 11 &&
             Number(cardPositionData.row) + stepUp >= 0 && Number(cardPositionData.row) + stepUp <= 3){
             return(CoursePageStorage.courseArr[cardPositionData.courseIndex].courseData[Number(cardPositionData.row) + stepUp]
-                .SameLine[cardPositionData.fragment].CourseFragment[Number(cardPositionData.buttonIndex) + stepRight].CourseElement.id)
+                .SameLine[cardPositionData.fragment].CourseFragment[Number(cardPositionData.buttonIndex) + stepRight]?.CourseElement?.id)
         }else{
             return null
         }

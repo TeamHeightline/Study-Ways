@@ -9,7 +9,6 @@ export default function CourseFragment({fragment, ...props}: any){
             <div style={{width: 1500}}>
                 <Row gutter={[16, 16]}>
                     {Fragment.map((item, iIndex) =>{
-                        console.log(iIndex)
                         return(
                             // <Col span={2} key={iIndex+ "Fragment" + props.fIndex + "row" + props.lIndex + "course" + props.cIndex} >
                             <EditCourseItem item_id={item.CourseElement.id}

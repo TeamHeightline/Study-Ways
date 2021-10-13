@@ -14,6 +14,7 @@ export const QuestionFolders = observer(() =>{
                 indicatorColor="primary"
                 textColor="primary"
                 centered
+                variant="scrollable"
             >
                 <Tab label="Все" />
                 <Tab label="Заполненные"/>

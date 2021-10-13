@@ -60,7 +60,7 @@ export default function MainCourseEditor() {
                 }}>
                     Создать новый курс
                 </Button>
-                <Row className="justify-content-around">
+                <Row className="justify-content-around" style={{overflow: "auto"}}>
                     {own_course_data?.me.cardcourseSet.map((course) =>{
                         return(
                             <Col key={"CourseID" + course.id}>

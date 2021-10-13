@@ -7,6 +7,7 @@ import {useMutation, useQuery} from "@apollo/client";
 import {Spinner} from "react-bootstrap";
 import {Alert, Pagination} from "@material-ui/lab";
 import {Button, Snackbar, TextField, Typography} from "@material-ui/core";
+import isMobile from "../../../../CustomHooks/isMobile";
 
 const GET_COURSE_BY_ID = gql`
     query GET_COURSE_BY_ID($id: ID!){
@@ -66,7 +67,6 @@ export default function EditCourseByID({course_id, ...props}: any){
         }, 4000))
     }
     const handleSubmissionCardCourseImage = (img: any) => {
-        console.log("---")
         const formData = new FormData();
 
         formData.append('image', img);
@@ -103,34 +103,33 @@ export default function EditCourseByID({course_id, ...props}: any){
     }, [course_id])
     const changeHandlerForCardCourseImage = async (event) => {
         if (event.target.files[0]){
-            // console.log(event.target.files)
+
             handleSubmissionCardCourseImage(event.target.files[0])
         }
     };
 
-    // console.log(course_data)
+
     if(!course_data){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
     return(
-        <div className="mt-4 ">
+        <div className="mt-4 pl-2">
             {course_id ?
                 <Button
-                    className="ml-5"
+                    className="ml-md-5 col-md-2 col-12"
                     variant="outlined" color="primary" onClick={() => {
                     props.onChange("goBack")}}>
                     Назад
                 </Button>: null}
             <br/>
             <Row>
-                <TextField className="ml-5 mt-2 col-4" value={courseName}
+                <TextField className="ml-md-5 mt-2 col-md-4 col-12" value={courseName}
                            onChange={(e) =>{
                                 setCourseName(e.target.value)
                                 autoSave()
-                           }}
-                    id="filled-basic" label="Назавние курса" variant="outlined" size="small"/>
+                           }} label="Название курса" variant="filled" size="small" multiline/>
             </Row>
             <div>
                 {course_id &&
@@ -139,21 +138,22 @@ export default function EditCourseByID({course_id, ...props}: any){
                     variant="outlined"
                     component="label"
                     size="small"
-                    className="ml-5 mt-2"
+                    className="ml-md-5 col-12 col-md-2 mt-2"
                 >
                     <input type="file"  hidden name="file" onChange={changeHandlerForCardCourseImage} />
                     Изображение для курса
                 </Button>}
                 <br/>
-                <Typography className="ml-5">
-                    {course_id && cardCourseImageName && <div>{cardCourseImageName}</div>}
+                <Typography className="ml-md-5">
+                    {course_id && cardCourseImageName && <div>{isMobile() ? cardCourseImageName.slice(0, 25) + "..."
+                        : cardCourseImageName}</div>}
                 </Typography>
             </div>
             <div>
-                <Pagination  className="ml-5 mr-5 mt-2" style={{marginLeft: 6}} count={8} shape="rounded"
-                             size="large" variant="outlined" color="secondary"/>
+                <Pagination  className="ml-md-5 mr-md-5 mt-2" style={{marginLeft: 6}} count={8} shape="rounded"
+                             size={isMobile() ? "small" : "large"} variant="outlined" color="secondary"/>
             </div>
-            <div className="ml-5 mr-5">
+            <div className="ml-md-5 mr-md-5" style={{overflow: "auto"}}>
                 {CourseLinesData.length !== 0 && CourseLinesData.map((line, lIndex) =>{
                     return(
                         <CourseRow key={lIndex + "course" + props.cIndex} row={line} lIndex={lIndex}
@@ -165,8 +165,6 @@ export default function EditCourseByID({course_id, ...props}: any){
                                        const newCourseLinesData = CourseLinesData.slice()
                                        newCourseLinesData[lIndex] = newSameLine
                                        setCourseLineData(newCourseLinesData)
-                                       // console.log("update course ----------------------")
-                                       // console.log(newCourseLinesData)
                                        autoSave()
                         }}/>
                     )

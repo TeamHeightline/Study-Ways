@@ -59,7 +59,9 @@ export const ImageQuestion = observer((props: any) => {
 
         useEffect(()=> {
             if(processedStore?.questionHasBeenCompleted){
-                props?.questionHasBeenCompleted(true)
+                if(props?.questionHasBeenCompleted){
+                    props?.questionHasBeenCompleted(true)
+                }
             }
         }, [processedStore?.questionHasBeenCompleted, props?.id])
 

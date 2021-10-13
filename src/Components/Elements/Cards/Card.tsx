@@ -25,6 +25,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
+import isMobile from "../../../CustomHooks/isMobile";
 
 const SHOW_CARD_BY_ID = gql`
     query SHOW_CARD_BY_ID($id: ID!){
@@ -175,11 +176,15 @@ export const CARD = observer(({id, ...props}: any) =>{
                     <Row className="mt-4" >
                         <Col className="col-12">
                             <Row className="ml-2">
-                                {height / width >= 1 ?
-                                    <Typography variant="h6">{card_data?.cardById?.title}</Typography>:
-                                    <Typography variant="h4">{card_data?.cardById?.title}</Typography>
-                                }
-                                <Typography variant="subtitle2">{card_data?.cardById?.id}</Typography>
+                                <Typography variant={isMobile()? "h4" : "h6"}>{card_data?.cardById?.title}</Typography>:
+                                {/*<Typography variant="subtitle2">{card_data?.cardById?.id}</Typography>*/}
+                                {card_data?.cardById?.isCardUseCopyright && card_data?.cardById?.copyright &&
+                                <Typography variant="h6" className="ml-md-2">
+                                    <Tooltip title={<Typography>{"Правообладателем изложенного материала является: " + card_data?.cardById?.copyright}</Typography>}>
+                                        <CopyrightIcon />
+                                    </Tooltip>
+                                    {card_data?.cardById?.copyright}
+                                </Typography> }
                             </Row>
 
                             {card_data?.cardById?.subTheme[0] &&
@@ -211,13 +216,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                     </Row>
                     <Row>
                         <Col>
-                            {card_data?.cardById?.isCardUseCopyright && card_data?.cardById?.copyright &&
-                            <Typography variant="h6" className="ml-md-2 mt-2">
-                                <Tooltip title={<Typography>{"Правообладателем изложенного материала является: " + card_data?.cardById?.copyright}</Typography>}>
-                                    <CopyrightIcon />
-                                </Tooltip>
-                                {card_data?.cardById?.copyright}
-                            </Typography> }
+
                         </Col>
                     </Row>
                     <Row >
@@ -245,6 +244,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                             }}>
                             </div>}
                         </Col>
+                        {!isMobile() &&
                         <Col className="col-12 col-lg-6 mt-4">
                             <RichTextPreview initialText={card_data?.cardById?.text} onChange={()  => void(0)}/>
                             <Typography className="blockquote">На сколько эта карточка была полезна?</Typography>
@@ -256,18 +256,15 @@ export const CARD = observer(({id, ...props}: any) =>{
                                     setRating(newValue);
                                 }}
                             />
-                        </Col>
-                    </Row>
-                    <Typography>
-                        {card_data?.cardById?.additionalText}
-                    </Typography>
-                    {card_data?.cardById?.isCardUseArrowNavigation && (card_data?.cardById?.arrowBefore ||
-                        card_data?.cardById?.arrowDown || card_data?.cardById?.arrowUp || card_data?.cardById?.arrowNext) &&
-                        <Fragment>
+                        </Col>}
+
+                        {card_data?.cardById?.isCardUseArrowNavigation && (card_data?.cardById?.arrowBefore ||
+                            card_data?.cardById?.arrowDown || card_data?.cardById?.arrowUp || card_data?.cardById?.arrowNext) &&
+                        <Col className="col-12">
                             <Typography variant="h6">
                                 Авторская навигация:
                             </Typography>
-                            <ButtonGroup size="large" color="secondary" variant="outlined" style={{marginBottom: 12}}>
+                            <ButtonGroup size="large" color="secondary" variant="outlined">
                                 <Button disabled={!card_data?.cardById?.arrowBefore}
                                         onClick={ () => window.open(card_data?.cardById?.arrowBefore, "_blank")}>
                                     <KeyboardArrowLeftOutlinedIcon/>
@@ -285,8 +282,25 @@ export const CARD = observer(({id, ...props}: any) =>{
                                     <KeyboardArrowRightOutlinedIcon/>
                                 </Button>
                             </ButtonGroup>
-                        </Fragment>
-                    }
+                        </Col>
+                        }
+                        {isMobile() &&
+                        <Col className="col-12 col-lg-6 mt-4">
+                            <RichTextPreview initialText={card_data?.cardById?.text} onChange={()  => void(0)}/>
+                            <Typography className="blockquote">На сколько эта карточка была полезна?</Typography>
+                            <Rating
+                                className="ml-md-3"
+                                name="simple-controlled"
+                                value={rating}
+                                onChange={(event, newValue) => {
+                                    setRating(newValue);
+                                }}
+                            />
+                        </Col>}
+                    </Row>
+                    <Typography>
+                        {card_data?.cardById?.additionalText}
+                    </Typography>
 
                     <div>
                         {card_data?.cardById?.isCardUseTestBeforeCard && card_data?.cardById?.testBeforeCard?.id &&
@@ -315,7 +329,9 @@ export const CARD = observer(({id, ...props}: any) =>{
                             </DialogActions>
                         </Dialog>}
                         {card_data?.cardById?.isCardUseTestInCard && card_data?.cardById?.testInCard?.id &&
-                        <ImageQuestion id={card_data?.cardById?.testInCard?.id}/>}
+                            <div style={{marginTop: 12}}>
+                                <ImageQuestion id={card_data?.cardById?.testInCard?.id}/>
+                            </div>}
                     </div>
 
                 </div>}

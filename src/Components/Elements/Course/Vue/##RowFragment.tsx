@@ -6,7 +6,7 @@ export default function RowFragment({rowFragment, ...props}: any){
 
     return(
         <>
-            {rowFragment.CourseFragment.map((element, eIndex) =>{
+            {rowFragment?.CourseFragment?.map((element, eIndex) =>{
                 return(
                     <IconButton size="small"
                                 edge="start"

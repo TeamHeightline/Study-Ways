@@ -88,8 +88,8 @@ export default function MainCardEditor({...props}: any){
     }
     return(
         <div style={{paddingLeft: 15}}>
-            <Row className="ml-1 col-12">
-                <Col className="ml-md-5 col-md-4 col-12">
+            <Row className="col-12 justify-content-around">
+                <Col className="col-md-4 col-12">
                     <ThemeSelector cards_data={card_data.me.cardSet}
                     changeSelectedData={(data)=>{
                         setCardsDataAfterSelectTheme(data)
@@ -103,7 +103,7 @@ export default function MainCardEditor({...props}: any){
                                              setCardsDataAfterSelectContentType(data)
                                          }}/>}
                 </Col>
-                <Col className="ml-md-2 col-md-3 col-12">
+                <Col className="col-md-3 col-12">
                     {cardsDataAfterSelectContentType &&
                     <AuthorSelector cards_data={cardsDataAfterSelectContentType}
                                     ChangeSelectedData={(data) =>{
@@ -114,12 +114,14 @@ export default function MainCardEditor({...props}: any){
 
 
             </Row>
-            <Row className="justify-content-around" style={{overflowX: "auto"}}>
-                <CreateNewCard className="mt-3 ml-1 col-12 col-md-3" onCreate={() =>refetch()}/>
+            <Row className="justify-content-around col-12 pl-3 pr-3 ">
+                <CreateNewCard className="mt-3 col-12 col-md-3 ml-1" onCreate={() =>refetch()}/>
                 {cardsDataAfterSelectAuthor && sort(cardsDataAfterSelectAuthor).desc((card: any) => Number(card?.id))
                     .map((e: any) =>{
-                    return(<CardMicroView key={e?.id + "CardKey"} cardID={e?.id}  className="mt-3 ml-1 col-12 col-md-3"
-                                   onChange={selectCardForEditHandle}/>)
+                    return(
+                            <CardMicroView  cardID={e?.id} key={e?.id + "CardKey"}  className="mt-3 ml-1 col-12 col-md-3"
+                                            onChange={selectCardForEditHandle}/>
+                        )
                 })}
             </Row>
         </div>

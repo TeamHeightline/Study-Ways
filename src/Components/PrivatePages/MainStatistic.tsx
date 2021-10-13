@@ -25,7 +25,7 @@ export const MainStatistic = observer(() =>{
     return(
         <div>
             <MainPageTopMenu/>
-            <Row className="justify-content-around ml-4">
+            <Row className="justify-content-around pl-5 col-12">
                 {StatisticPageStoreObject.activePageOnTopMenu === 0 &&
                 <MainPageQuestionsForSelect/>}
                 {StatisticPageStoreObject.activePageOnTopMenu === 1 &&

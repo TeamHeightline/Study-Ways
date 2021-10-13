@@ -3,18 +3,23 @@ import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import React from "react";
 import {QuestionEditorStorage} from "../../../../../Store/PrivateStorage/EditorsPage/QuestionEditorPage/QuestionEditorStorage";
+import isMobile from "../../../../../CustomHooks/isMobile";
 
 export const QuestionFolders = observer(() =>{
     return(
         <div>
             <Tabs
-                scrollButtons="auto"
+
+                // scrollButtons="auto"
                 value={QuestionEditorStorage.activeFolder}
                 onChange={(e, newValue) => QuestionEditorStorage.changeActiveFolder(newValue)}
                 indicatorColor="primary"
                 textColor="primary"
+                // centered
+                variant={!isMobile() ? "standard" : "scrollable"}
+                // scrollButtons="auto"
                 centered
-                variant="scrollable"
+                scrollButtons={!isMobile() ? "off": 'on'}
             >
                 <Tab label="Все" />
                 <Tab label="Заполненные"/>

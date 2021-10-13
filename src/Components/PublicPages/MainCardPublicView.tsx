@@ -26,8 +26,8 @@ export const MainCardPublicView = observer(({...props}: any) =>{
     }
     return(
         <div {...props}>
-            <Row className="ml-1 mt-3">
-                <Col className="ml-lg-5 col-lg-4 col-12">
+            <Row className="mt-3 justify-content-around col-12">
+                <Col className="col-lg-4 col-12">
                     <ThemeSelector openFromPublicView={true}
                                    cards_data={[]}
                                    changeSelectedData={()=>{
@@ -45,7 +45,7 @@ export const MainCardPublicView = observer(({...props}: any) =>{
                             void(0)
                         }}/>}
                 </Col>
-                <Col className="ml-lg-2 col-lg-3 col-12">
+                <Col className=" col-lg-3 col-12">
                     {CardPageStorage.cardsDataAfterSelectContentType &&
                     <AuthorSelector cards_data={[]}
                                     openFromPublicView={true}
@@ -54,7 +54,7 @@ export const MainCardPublicView = observer(({...props}: any) =>{
                                     }}/>}
                 </Col>
             </Row>
-            <Row className="justify-content-around mr-4 ml-4">
+            <Row className="justify-content-around col-12">
                 {toJS(CardPageStorage.cardsDataAfterSelectAuthor) && toJS(CardPageStorage.cardsDataAfterSelectAuthor)
                     ?.filter(card => card.title != "Название карточки по умолчанию")
                     ?.map((sameCard: any, sIndex) =>{

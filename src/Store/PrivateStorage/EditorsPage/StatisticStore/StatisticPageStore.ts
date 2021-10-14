@@ -38,7 +38,8 @@ class StatisticPageStore {
                 .catch(() => void(0))
             this.clientStorage.client.query({query: MY_QUESTION_SEQUENCES})
                 .then((response) => {
-                    this.allQuestionSequenceData = sort(response?.data?.me?.questionsequenceSet).desc((qs: any) => qs?.id)
+                    // this.allQuestionSequenceData = sort(response?.data?.me?.questionsequenceSet).desc((qs: any) => qs?.id)
+                    this.allQuestionSequenceData = sort(response?.data?.questionSequence).desc((qs: any) => qs?.id)
                     this.questionSequenceDataHasBeenLoaded = true
                 })
                 .catch(() => void(0))

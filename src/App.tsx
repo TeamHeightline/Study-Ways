@@ -77,10 +77,10 @@ const  App = observer(() => {
                     <Route exact path="/registration" component={Registration}/>
                     <Route path="/editor" component={UserStorage.isLogin !== null? EditorsRouter: Login}/>
 
-                    <Route exact path="/iq/:id" component={ImageQuestion}/>
+                    {/*<Route exact path="/iq/:id" component={ImageQuestion}/>*/}
                     <Route exact path="/qs/:id" component={QSPlayerByID}/>
 
-                    <Route exact path="/test" component={MainUserQuestionPage}/>
+                    {/*<Route exact path="/test" component={MainUserQuestionPage}/>*/}
                     <Route exact path="/cards" component={MainCardPublicView}/>
                     <Route exact path="/courses" component={MainCoursePublicView}/>
                     <Route exact path="/direction" component={MainDirection}/>

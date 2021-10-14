@@ -38,6 +38,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "ckeditor5-custom-build": "file:ckeditor5",
+    "crypto-js": "^4.1.1",
     "css-loader": "^4.3.0",
     "fast-sort": "^3.0.2",
     "file": "^0.2.2",

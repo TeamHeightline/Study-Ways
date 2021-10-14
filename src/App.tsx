@@ -36,7 +36,7 @@ import {ApolloProvider} from "@apollo/client";
 import {UnLogin} from "./Components/PublicPages/Login/UnLogin";
 import {Registration} from "./Components/PublicPages/Login/Registration";
 import {EditorsRouter} from "./Components/PrivatePages/EditorsRouter";
-import {MainUserQuestionPage} from "./Components/PublicPages/MainUserQuestionPage";
+
 
 import {ImageQuestion} from "./Components/Elements/UserTest/ImageQuestion/ImageQuestion";
 import Typist from 'react-typist';
@@ -77,10 +77,9 @@ const  App = observer(() => {
                     <Route exact path="/registration" component={Registration}/>
                     <Route path="/editor" component={UserStorage.isLogin !== null? EditorsRouter: Login}/>
 
-                    {/*<Route exact path="/iq/:id" component={ImageQuestion}/>*/}
+                    <Route exact path="/iq/:id" component={ImageQuestion}/>
                     <Route exact path="/qs/:id" component={QSPlayerByID}/>
 
-                    {/*<Route exact path="/test" component={MainUserQuestionPage}/>*/}
                     <Route exact path="/cards" component={MainCardPublicView}/>
                     <Route exact path="/courses" component={MainCoursePublicView}/>
                     <Route exact path="/direction" component={MainDirection}/>

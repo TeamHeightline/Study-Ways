@@ -4,6 +4,7 @@ import {GET_QUESTION_DATA_BY_ID, SAVE_DETAIL_STATISTIC, SAVE_DETAIL_STATISTIC_WI
 import {SameAnswerNode} from "./SameAnswerNode";
 import * as _ from "lodash"
 import {UserStorage} from "../../../UserStore/UserStore";
+import CryptoJS from 'crypto-js'
 
 export class SameQuestionPlayer{
     constructor(ownStore, questionID){
@@ -224,7 +225,7 @@ export class SameQuestionPlayer{
             id: this.questionID
             }})
             .then((data) => {
-                this.questionText = data.data.questionById.text
+                this.questionText = CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(data.data.questionById.text))
                 const __AnswersArray: any[] = []
                 //максимальное число баллов, которые можно получить выбрав все правильные ответы
                 let __maxSumOfAnswerPoints = 0

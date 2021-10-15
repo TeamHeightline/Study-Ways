@@ -233,15 +233,6 @@ export class SameQuestionPlayer{
                 let __decrypt_answers: any = [{}]
                 if(data?.data?.eqbi) {
                     const _question_string =  CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(data?.data?.eqbi?.qbs.slice(2)))
-                    // if(_question_string.slice(-1) == "}"){
-                    //     _question_string = _question_string + "]"
-                    // }
-                    if(_question_string.slice(-4) != "]}}]"){
-                        console.log("---------")
-                        console.log(_question_string)
-                        console.log("---------")
-                    }
-                    console.log(_question_string)
                     __decrypt_question =  JSON.parse(_question_string)[0]?.fields
                     const _answer_string =  CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(data?.data?.eqbi?.abs.slice(2)))
                     __decrypt_answers =   JSON.parse(_answer_string)
@@ -250,8 +241,6 @@ export class SameQuestionPlayer{
                         ___fields_to_pass.id = answer.pk
                         __decrypt_answers[aIndex] = ___fields_to_pass
                     })
-                    console.log(__decrypt_answers)
-                    console.log(__decrypt_question)
                 }
                 // this.questionText = CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(data.data.questionById.text))
                 this.questionText = __decrypt_question?.text

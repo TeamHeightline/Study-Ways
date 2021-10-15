@@ -261,9 +261,9 @@ export class SameQuestionPlayer{
                         __maxSumOfAnswerPoints += 15
                     }
                     this.maxSumOfPoints = __maxSumOfAnswerPoints
-
+                    console.log(answer)
                     __AnswersArray.push(new SameAnswerNode(answer.id,  answer.text, answer.is_true, answer.check_queue,
-                        answer.help_textv1, answer.help_textv2, answer.help_textv3, answer.hard_level_of_answer))
+                        answer.help_textV1, answer.help_textV2, answer.help_textV3, answer.hard_level_of_answer))
                 })
 
 

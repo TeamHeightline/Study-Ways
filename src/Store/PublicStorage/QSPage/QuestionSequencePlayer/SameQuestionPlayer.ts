@@ -1,6 +1,10 @@
 import {makeAutoObservable, reaction, toJS} from "mobx";
 import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
-import {GET_QUESTION_DATA_BY_ID, SAVE_DETAIL_STATISTIC, SAVE_DETAIL_STATISTIC_WITH_QS} from "./Struct";
+import {
+    GET_ENCRYPT_QUESTION_DATA_BY_ID,
+    SAVE_DETAIL_STATISTIC,
+    SAVE_DETAIL_STATISTIC_WITH_QS
+} from "./Struct";
 import {SameAnswerNode} from "./SameAnswerNode";
 import * as _ from "lodash"
 import {UserStorage} from "../../../UserStore/UserStore";
@@ -221,31 +225,56 @@ export class SameQuestionPlayer{
 
     //Функция для загрузки данных о вопросе с сервера
     loadQuestionDataFromServer(){
-        this.clientStorage.client.query({query: GET_QUESTION_DATA_BY_ID, variables:{
+        this.clientStorage.client.query({query: GET_ENCRYPT_QUESTION_DATA_BY_ID, variables:{
             id: this.questionID
             }})
             .then((data) => {
-                this.questionText = CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(data.data.questionById.text))
+                let __decrypt_question: any = {}
+                let __decrypt_answers: any = [{}]
+                if(data?.data?.eqbi) {
+                    const _question_string =  CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(data?.data?.eqbi?.qbs.slice(2)))
+                    // if(_question_string.slice(-1) == "}"){
+                    //     _question_string = _question_string + "]"
+                    // }
+                    if(_question_string.slice(-4) != "]}}]"){
+                        console.log("---------")
+                        console.log(_question_string)
+                        console.log("---------")
+                    }
+                    console.log(_question_string)
+                    __decrypt_question =  JSON.parse(_question_string)[0]?.fields
+                    const _answer_string =  CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(data?.data?.eqbi?.abs.slice(2)))
+                    __decrypt_answers =   JSON.parse(_answer_string)
+                    __decrypt_answers.map((answer, aIndex) =>{
+                        const ___fields_to_pass = answer?.fields
+                        ___fields_to_pass.id = answer.pk
+                        __decrypt_answers[aIndex] = ___fields_to_pass
+                    })
+                    console.log(__decrypt_answers)
+                    console.log(__decrypt_question)
+                }
+                // this.questionText = CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(data.data.questionById.text))
+                this.questionText = __decrypt_question?.text
                 const __AnswersArray: any[] = []
                 //максимальное число баллов, которые можно получить выбрав все правильные ответы
                 let __maxSumOfAnswerPoints = 0
                 //Перемешиваем ответы и обрезаем из количество на значение из настроек
-                const __requiredAnswersForDisplay = _.shuffle(data.data.questionById.answers?.filter((answer) => answer.isDeleted === false)?.filter((answer) => answer.isRequired === true))?.slice(0, data?.data?.questionById?.numberOfShowingAnswers)
-                const __notRequiredAnswersForDisplay = _.shuffle(data.data.questionById.answers?.filter((answer) => answer.isDeleted === false)?.filter((answer) => answer.isRequired === false))?.slice(0, data?.data?.questionById?.numberOfShowingAnswers - __requiredAnswersForDisplay.length)
+                const __requiredAnswersForDisplay = _.shuffle(__decrypt_answers?.filter((answer) => answer.is_deleted === false)?.filter((answer) => answer.is_required === true))?.slice(0, __decrypt_question?.number_of_showing_answers)
+                const __notRequiredAnswersForDisplay = _.shuffle(__decrypt_answers?.filter((answer) => answer.is_deleted === false)?.filter((answer) => answer.is_required === false))?.slice(0, __decrypt_question?.number_of_showing_answers - __requiredAnswersForDisplay.length)
                 let __answersForDisplay = __requiredAnswersForDisplay.length > 0 ? __requiredAnswersForDisplay.concat(__notRequiredAnswersForDisplay) : __notRequiredAnswersForDisplay;
                 __answersForDisplay = _.shuffle(__answersForDisplay)
                 __answersForDisplay.map((answer) =>{
-                    if(answer.hardLevelOfAnswer == "EASY"){
+                    if(answer.hard_level_of_answer == "EASY"){
                         __maxSumOfAnswerPoints += 5
-                    }else if(answer.hardLevelOfAnswer == "MEDIUM"){
+                    }else if(answer.hard_level_of_answer == "MEDIUM"){
                         __maxSumOfAnswerPoints += 10
                     }else{
                         __maxSumOfAnswerPoints += 15
                     }
                     this.maxSumOfPoints = __maxSumOfAnswerPoints
 
-                    __AnswersArray.push(new SameAnswerNode( answer.id,  answer.text, answer.isTrue, answer.checkQueue,
-                        answer.helpTextv1, answer.helpTextv2, answer.helpTextv3, answer.hardLevelOfAnswer))
+                    __AnswersArray.push(new SameAnswerNode(answer.id,  answer.text, answer.is_true, answer.check_queue,
+                        answer.help_textv1, answer.help_textv2, answer.help_textv3, answer.hard_level_of_answer))
                 })
 
 

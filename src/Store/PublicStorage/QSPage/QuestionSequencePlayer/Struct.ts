@@ -34,6 +34,14 @@ export const GET_QUESTION_DATA_BY_ID = gql`
         }
     }
     `
+export const GET_ENCRYPT_QUESTION_DATA_BY_ID = gql`
+    query GET_ENCRYPT_QUESTION_DATA_BY_ID($id: ID!){
+        eqbi(id: $id){
+            qbs
+            abs
+        }
+    }
+`
 
 export const SAVE_DETAIL_STATISTIC = gql`
     mutation SAVE_DETAIL_STATISTIC($question: ID!, $userName: String, $isLogin: Boolean, $statistic: GenericScalar, 

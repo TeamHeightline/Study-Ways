@@ -159,6 +159,11 @@ type DetailQuestionStatisticNode {
     userName: String
 }
 
+type EncodedQuestionByIDNode {
+    abs: String
+    qbs: String
+}
+
 type ErrorType {
     field: String!
     messages: [String!]!
@@ -457,6 +462,7 @@ type Query {
     cardTheme: [CardThemeNode]
     detailQuestionStatistic: [DetailQuestionStatisticNode]
     detailQuestionStatisticByQuestionId(id: ID): [DetailQuestionStatisticNode]
+    eqbi(id: ID): EncodedQuestionByIDNode
     me: UserNode
     question: [QuestionNode]
     questionAuthor: [QuestionAuthorNode]

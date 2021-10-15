@@ -218,6 +218,12 @@ export type DetailQuestionStatisticNode = {
     userName?: Maybe<Scalars['String']>;
 };
 
+export type EncodedQuestionByIdNode = {
+    __typename?: 'EncodedQuestionByIDNode';
+    abs?: Maybe<Scalars['String']>;
+    qbs?: Maybe<Scalars['String']>;
+};
+
 export type ErrorType = {
     __typename?: 'ErrorType';
     field: Scalars['String'];
@@ -701,6 +707,7 @@ export type Query = {
     cardTheme?: Maybe<Array<Maybe<CardThemeNode>>>;
     detailQuestionStatistic?: Maybe<Array<Maybe<DetailQuestionStatisticNode>>>;
     detailQuestionStatisticByQuestionId?: Maybe<Array<Maybe<DetailQuestionStatisticNode>>>;
+    eqbi?: Maybe<EncodedQuestionByIdNode>;
     me?: Maybe<UserNode>;
     question?: Maybe<Array<Maybe<QuestionNode>>>;
     questionAuthor?: Maybe<Array<Maybe<QuestionAuthorNode>>>;
@@ -725,6 +732,11 @@ export type QueryCardCourseByIdArgs = {
 
 
 export type QueryDetailQuestionStatisticByQuestionIdArgs = {
+    id?: Maybe<Scalars['ID']>;
+};
+
+
+export type QueryEqbiArgs = {
     id?: Maybe<Scalars['ID']>;
 };
 

@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import {Button, Checkbox, FormControlLabel} from "@material-ui/core";
 import {Form} from "react-bootstrap";
 import React from "react";
+import isMobile from "../../../../CustomHooks/isMobile";
 
 export default function DCPCImageQuestion(props: any) {
     window.addEventListener("keydown",function (e) {
@@ -19,7 +20,7 @@ export default function DCPCImageQuestion(props: any) {
         {(props.height / props.width < 1 || props.ignoreAspectRatio) &&
         <Card variant="outlined"
               style={{ padding: 0,
-                  maxHeight: window.innerHeight / window.innerWidth > 1 ? window.innerWidth * 2: 500,
+                  maxHeight: window.innerHeight / window.innerWidth > 1 ? window.innerWidth * 2: 510,
                   overflowY: "auto",}}
               className="col-12 ">
             <Row className="justify-content-center">
@@ -29,9 +30,9 @@ export default function DCPCImageQuestion(props: any) {
                     <CardMedia
                         className="col-12 mr-auto"
                         style={{
-                            height: window.innerHeight / window.innerWidth > 1 ?  window.innerWidth -100 : 500,
+                            height: isMobile() ?  window.innerWidth -100 : 500,
                             backgroundSize: "contain",
-                            maxHeight: window.innerHeight / window.innerWidth > 1 ? window.innerWidth : 500,
+                            maxHeight: isMobile() ? window.innerWidth : 500,
                             overflowY: "auto",
                             width: "100%"
                         }}
@@ -41,7 +42,7 @@ export default function DCPCImageQuestion(props: any) {
                 <Col
                     className={!props?.ignoreAspectRatio ? "col-6":
                         window.innerHeight / window.innerWidth > 1 ? "col-12" : "col-6"}
-                    style={{height: props.width >1400 ? 500: "",
+                    style={{height: isMobile() ? window.innerWidth -100 : 500,
                         width: "100%"}} >
                     <div>
                         <CardContent>

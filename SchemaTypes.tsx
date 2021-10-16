@@ -213,13 +213,14 @@ export type DetailQuestionStatisticNode = {
     isLogin: Scalars['Boolean'];
     isUseexammode: Scalars['Boolean'];
     question?: Maybe<QuestionNode>;
+    questionHasBeenCompleted: Scalars['Boolean'];
     questionSequence?: Maybe<QuestionSequenceNode>;
     statistic?: Maybe<Scalars['GenericScalar']>;
     userName?: Maybe<Scalars['String']>;
 };
 
-export type EncodedQuestionByIdNode = {
-    __typename?: 'EncodedQuestionByIDNode';
+export type EqbidNode = {
+    __typename?: 'EQBIDNode';
     abs?: Maybe<Scalars['String']>;
     qbs?: Maybe<Scalars['String']>;
 };
@@ -707,7 +708,7 @@ export type Query = {
     cardTheme?: Maybe<Array<Maybe<CardThemeNode>>>;
     detailQuestionStatistic?: Maybe<Array<Maybe<DetailQuestionStatisticNode>>>;
     detailQuestionStatisticByQuestionId?: Maybe<Array<Maybe<DetailQuestionStatisticNode>>>;
-    eqbi?: Maybe<EncodedQuestionByIdNode>;
+    eqbi?: Maybe<EqbidNode>;
     me?: Maybe<UserNode>;
     question?: Maybe<Array<Maybe<QuestionNode>>>;
     questionAuthor?: Maybe<Array<Maybe<QuestionAuthorNode>>>;
@@ -1175,6 +1176,7 @@ export type CreateDetailQuestionStatisticInput = {
     isLogin?: Maybe<Scalars['Boolean']>;
     isUseexammode?: Maybe<Scalars['Boolean']>;
     question: Scalars['ID'];
+    questionHasBeenCompleted?: Maybe<Scalars['Boolean']>;
     questionSequence?: Maybe<Scalars['ID']>;
     statistic?: Maybe<Scalars['GenericScalar']>;
     userName?: Maybe<Scalars['String']>;

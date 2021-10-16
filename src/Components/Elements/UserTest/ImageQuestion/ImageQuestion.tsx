@@ -99,7 +99,7 @@ export const ImageQuestion = observer((props: any) => {
                         </Grid>
                     </Grid>
                 }
-                {!processedStore?.questionHasBeenCompleted ?
+                {(!processedStore?.questionHasBeenCompleted && !processedStore?.isAcceptDefeat)?
                     processedStore?.questionHasBeenStarted &&
                 <div>
                     <DCPCImageQuestion
@@ -111,6 +111,7 @@ export const ImageQuestion = observer((props: any) => {
                         urlHasBeenPassed={true}
                         questionText={processedStore?.questionText}
                         questionImgUrl={processedStore?.questionImageUrl}
+                        onAcceptDefeat={() => processedStore.onAcceptDefeat()}
                     />
 
                     {processedStore?.oneTimeCheckError &&
@@ -156,8 +157,11 @@ export const ImageQuestion = observer((props: any) => {
                 </div>
                 : processedStore?.questionHasBeenStarted &&
                     <div>
-                        <Alert severity="info" variant="filled" className="mt-2">
-                    {"Вы прошли этот вопрос.     " + "Количество попыток - " + processedStore?.numberOfPasses}
+                        <Alert severity={processedStore?.isAcceptDefeat? "error": "info"} variant="filled" className="mt-2">
+                    {processedStore?.isAcceptDefeat? "Вы сдались.     " +
+                        "Количество попыток - " + processedStore?.numberOfPasses:
+                            "Вы прошли этот вопрос.     " +
+                        "Количество попыток - " + processedStore?.numberOfPasses}
                         </Alert>
                         <Row className="justify-content-around mt-2">
                             <Chart data={processedStore?.ArrayForShowNumberOfWrongAnswers}>

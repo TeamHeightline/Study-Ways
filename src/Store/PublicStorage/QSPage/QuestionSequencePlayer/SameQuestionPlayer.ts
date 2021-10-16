@@ -281,6 +281,14 @@ export class SameQuestionPlayer{
             })
     }
 
+    //Сдался ли пользователь при попытке пройти вопрос
+    isAcceptDefeat = false
+
+    onAcceptDefeat(){
+        this.isAcceptDefeat = true
+        this.saveDetailStatistic()
+    }
+
     //Сохраняет детальную статистику по прохождению вопроса
     saveDetailStatistic(){
         if(this?.ownStore && this?.ownStore?.questionSequenceID){
@@ -290,6 +298,7 @@ export class SameQuestionPlayer{
                     userName: this.userStore.isLogin? this.userStore.username : localStorage?.getItem('username')?.length !== 0 ? localStorage?.getItem('username') : "Анонимный пользователь",
                     isUseexammode: this.isUseExamMode || this?.ownStore?.isUseExamMode,
                     questionSequence: this?.ownStore?.questionSequenceID,
+                    questionHasBeenCompleted: this?.questionHasBeenCompleted,
                     statistic:{
                         numberOfPasses: this.numberOfPasses,
                         ArrayForShowAnswerPoints : this.ArrayForShowAnswerPoints,
@@ -303,6 +312,7 @@ export class SameQuestionPlayer{
                     isLogin: this.userStore.isLogin,
                     userName: this.userStore.isLogin? this.userStore.username : localStorage?.getItem('username')?.length !== 0 ? localStorage?.getItem('username') : "Анонимный пользователь",
                     isUseexammode: this.isUseExamMode || this?.ownStore?.isUseExamMode,
+                    questionHasBeenCompleted: this?.questionHasBeenCompleted,
                     statistic:{
                         numberOfPasses: this.numberOfPasses,
                         ArrayForShowAnswerPoints : this.ArrayForShowAnswerPoints,

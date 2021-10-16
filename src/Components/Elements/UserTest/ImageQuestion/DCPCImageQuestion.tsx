@@ -4,18 +4,27 @@ import Col from "react-bootstrap/Col";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import {Button, Checkbox, FormControlLabel} from "@material-ui/core";
-import React from "react";
+import {
+    Button,
+    Checkbox,
+    Dialog, DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    FormControlLabel
+} from "@material-ui/core";
+import React, {useState} from "react";
 import isMobile from "../../../../CustomHooks/isMobile";
 
 export default function DCPCImageQuestion(props: any) {
+    const [openAcceptDefeatDialog, setOpenAcceptDefeatDialog] = useState(false)
     window.addEventListener("keydown",function (e) {
         if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) {
             e.preventDefault();
         }
     })
 
-    return <>
+    return <div className="col-12">
         {(props.height / props.width < 1 || props.ignoreAspectRatio) &&
         <Card variant="outlined"
               style={{ padding: 0,
@@ -39,38 +48,28 @@ export default function DCPCImageQuestion(props: any) {
                     />
                 </Col> : null}
                 <Col
-                    className={!props?.ignoreAspectRatio ? "col-6":
-                        window.innerHeight / window.innerWidth > 1 ? "col-12" : "col-6"}
-                    style={{height: isMobile() ? window.innerWidth -100 : 500,
-                        width: "100%"}} >
-                    <div>
-                        <CardContent>
-                            <Typography component="h5" variant="h5">
-                                Вопрос
-                            </Typography>
-                            <Typography variant="body1" color="textSecondary" component="p" style={{userSelect: "none", content: "Foobar"}}>
-                                {props.questionData?.questionById?.text ? props.questionData?.questionById?.text : props.questionText}
-                            </Typography>
-                        </CardContent>
+                    className={!props?.ignoreAspectRatio ? "col-6": isMobile() ? "col-12" : "col-6"}
+                    style={{height: isMobile() ? window.innerWidth -100 : 500, width: "100%"}} >
+                    <CardContent>
+                        <Typography component="h5" variant="h5">
+                            Вопрос
+                        </Typography>
+                        <Typography variant="body1" color="textSecondary" component="p" style={{userSelect: "none", content: "Foobar"}}>
+                            {props.questionData?.questionById?.text ? props.questionData?.questionById?.text : props.questionText}
+                        </Typography>
                         {props.id && props.onChange &&
-                        <div className="col-12">
                             <Button
-                                variant="outlined" color="primary" onClick={props.onClick}>
+                                className="col-12 mt-2" variant="outlined" color="primary" onClick={props.onClick}>
                                 Назад
-                            </Button>
-                        </div>
-                        }
-                        <div  style={{maxWidth:"600px"}}>
-                            <Row className="ml-auto pb-2">
-                                <Col className="col-6">
-                                    <Button variant="contained" color="primary" onClick={props.onClick1}>
-                                        Проверить
-                                    </Button>
-                                </Col>
-                            </Row>
-                        </div>
-                    </div>
+                            </Button>}
 
+                        <Button className="col-md-6 col-12 mt-2 " variant="contained" color="primary" onClick={props.onClick1} fullWidth>
+                            Проверить
+                        </Button>
+                        <Button className="col-md-6 col-12 mt-2 " variant="outlined" color="secondary" onClick={() => setOpenAcceptDefeatDialog(true)} fullWidth>
+                            Сдаться
+                        </Button>
+                    </CardContent>
                 </Col>
             </Row>
         </Card>}
@@ -85,5 +84,26 @@ export default function DCPCImageQuestion(props: any) {
             }
             label="Использовать ScrollBar"
         />}
-    </>;
+        <Dialog
+            onClose={() => setOpenAcceptDefeatDialog(false)}
+            open={openAcceptDefeatDialog}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+        >
+            <DialogTitle id="alert-dialog-title">
+                {"Вы уверены, что хотите сдаться?"}
+            </DialogTitle>
+            <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                    Если этот вопрос является частью серии вопросов, мы советуем Вам заняться другими вопросами и
+                    вернуться к этому позже
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button color="secondary" onClick={() => props?.onAcceptDefeat()}>Сдаться</Button>
+                <Button onClick={() => setOpenAcceptDefeatDialog(false)}>Отмена
+                </Button>
+            </DialogActions>
+        </Dialog>
+    </div>;
 }

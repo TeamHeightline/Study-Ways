@@ -138,7 +138,8 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                 </Grid>
             </Grid>
             }
-            {!processedStore.activeQuestionStoreInstance?.questionHasBeenCompleted ?
+            {(!processedStore.activeQuestionStoreInstance?.questionHasBeenCompleted &&
+                !processedStore?.activeQuestionStoreInstance?.isAcceptDefeat)?
                 processedStore?.activeQuestionStoreInstance?.questionHasBeenStarted &&
             <div>
                 <div >
@@ -153,6 +154,7 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                         urlHasBeenPassed={true}
                         questionText={processedStore.activeQuestionStoreInstance?.questionText}
                         questionImgUrl={processedStore.activeQuestionStoreInstance?.questionImageUrl}
+                        onAcceptDefeat={() => processedStore.activeQuestionStoreInstance.onAcceptDefeat()}
                         />}
                 </div>
                 {processedStore.activeQuestionStoreInstance?.oneTimeCheckError &&
@@ -199,11 +201,14 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
             </div>:
                 processedStore?.activeQuestionStoreInstance?.questionHasBeenStarted &&
                 <div>
-                  <Alert severity="info" variant="filled" className="mt-2">
-                      {"Вы прошли этот вопрос.     " + "Количество попыток - " + processedStore.questionsStoreArray[processedStore.selectedQuestionIndex].numberOfPasses}
+                  <Alert severity={processedStore?.activeQuestionStoreInstance?.isAcceptDefeat ? "error": "info"}
+                         variant="filled" className="mt-2">
+                      {processedStore?.activeQuestionStoreInstance?.isAcceptDefeat?
+                          "Вы сдались. " + "Количество попыток - " + processedStore?.activeQuestionStoreInstance?.numberOfPasses:
+                          "Вы прошли этот вопрос. " + "Количество попыток - " + processedStore?.activeQuestionStoreInstance?.numberOfPasses}
                   </Alert>
                     <Row className="justify-content-around mt-2">
-                            <Chart data={processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.ArrayForShowNumberOfWrongAnswers}>
+                            <Chart data={processedStore.activeQuestionStoreInstance?.ArrayForShowNumberOfWrongAnswers}>
                                 <Title text="Количество ошибок на каждой из попыток" />
                                 <ArgumentAxis showGrid={true}/>
                                 <ValueAxis/>
@@ -216,7 +221,7 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                                     argumentField="numberOfPasses"
                                 />
                             </Chart>
-                            <Chart  data={processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.ArrayForShowAnswerPoints}>
+                            <Chart  data={processedStore.activeQuestionStoreInstance?.ArrayForShowAnswerPoints}>
                                 <BarSeries
                                     valueField="answerPoints"
                                     argumentField="numberOfPasses"

@@ -1,6 +1,6 @@
 {
-  "name": "iot",
-  "version": "0.1.0",
+  "name": "study_ways",
+  "version": "1.1.0",
   "babel": {
     "plugins": [
       "@babel/plugin-transform-modules-commonjs"

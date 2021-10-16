@@ -45,13 +45,14 @@ export const GET_ENCRYPT_QUESTION_DATA_BY_ID = gql`
 
 export const SAVE_DETAIL_STATISTIC = gql`
     mutation SAVE_DETAIL_STATISTIC($question: ID!, $userName: String, $isLogin: Boolean, $statistic: GenericScalar, 
-        $isUseexammode: Boolean, ){
+        $isUseexammode: Boolean, $questionHasBeenCompleted: Boolean){
         createDetailQuestionStatistic(input: {
             question: $question,
             userName: $userName,
             isLogin: $isLogin,
             statistic: $statistic,
             isUseexammode: $isUseexammode,
+            questionHasBeenCompleted: $questionHasBeenCompleted,
 #            questionSequence: $questionSequence
         }){
             clientMutationId
@@ -61,14 +62,15 @@ export const SAVE_DETAIL_STATISTIC = gql`
 
 export const SAVE_DETAIL_STATISTIC_WITH_QS = gql`
     mutation SAVE_DETAIL_STATISTIC($question: ID!, $userName: String, $isLogin: Boolean, $statistic: GenericScalar,
-        $isUseexammode: Boolean, $questionSequence: ID){
+        $isUseexammode: Boolean, $questionSequence: ID, $questionHasBeenCompleted: Boolean){
         createDetailQuestionStatistic(input: {
             question: $question,
             userName: $userName,
             isLogin: $isLogin,
             statistic: $statistic,
             isUseexammode: $isUseexammode,
-            questionSequence: $questionSequence
+            questionSequence: $questionSequence,
+            questionHasBeenCompleted: $questionHasBeenCompleted,
         }){
             clientMutationId
         }

@@ -34,6 +34,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import {MainStatistic} from "./MainStatistic";
 import {Tooltip, Typography} from "@material-ui/core";
+import {MainUserQuestionPage} from "./MainUserQuestionPage";
 
 const drawerWidth = 240;
 
@@ -216,6 +217,7 @@ export const EditorsRouter = observer(() =>{
                     <Route  path={`${path}/question`} component={QuestionEditor}/>
                     <Route  path={`${path}/qse`} component={QuestionSequenceMainEditor}/>
                     <Route  path={`${path}/statistic`} component={MainStatistic}/>
+                    <Route path={`${path}/allquestions`} component={MainUserQuestionPage}/>
                     {/*Чтобы на основной странице отображался редактор курсов, в самом низу
                     потому что иначе будет открываться только он, потому что это будет первым
                     результатом switch*/}

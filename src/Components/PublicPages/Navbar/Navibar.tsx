@@ -153,7 +153,7 @@ export const Navibar = observer(() => {
                                         disabled={UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER"}
                                         onClick={() => {
                                         handleClose()
-                                        history.push('/test')
+                                        history.push('/editor/allquestions')
                                     }}>
                                         Вопросы
                                     </MenuItem>

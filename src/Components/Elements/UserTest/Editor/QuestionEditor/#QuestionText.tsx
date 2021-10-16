@@ -10,6 +10,7 @@ export const QuestionText = observer(() =>{
             label="Текст вопроса"
             multiline
             fullWidth
+            variant="filled"
             rowsMax={4}
             // style={{width: "50vw"}}
             value={QuestionEditorStorage.selectedQuestionText}

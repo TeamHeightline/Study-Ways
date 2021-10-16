@@ -8,7 +8,7 @@ export const SavingNotification = observer(() =>{
     return(
         <>
             {QuestionEditorStorage.questionHasBeenSelected &&
-            <Col className="mr-1">
+            <Col className="pr-5">
                 <Alert variant="outlined" severity={QuestionEditorStorage.stateOfSave ? "success": "info"}>
                     {QuestionEditorStorage.stateOfSave? "Вопрос сохранен" : "Вопрос не сохранен"}
                 </Alert>

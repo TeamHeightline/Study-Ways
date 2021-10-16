@@ -19,7 +19,7 @@ export const EditQuestionByID = observer(() =>{
     return(
         <div>
             <Button
-                className="ml-5"
+                className="ml-5 col-12 col-md-2 mt-2"
                 variant="outlined" color="primary" onClick={() => {
                 QuestionEditorStorage?.changeQuestionHasBeenSelected(false)
             }}>

@@ -3,7 +3,7 @@ import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
 import {UserStorage} from "../../../UserStore/UserStore";
 import {sort} from "fast-sort";
 import {Maybe, QuestionNode, QuestionSequenceNode} from "../../../../../SchemaTypes";
-import {ALL_QUESTIONS_STATISTIC, GET_QUESTION_DATA_BY_ID, MY_QUESTION_SEQUENCES} from "./Struct";
+import {ALL_QUESTION_SEQUENCE, ALL_QUESTIONS_STATISTIC, GET_QUESTION_DATA_BY_ID, MY_QUESTION_SEQUENCES} from "./Struct";
 import {StatisticByQuestionDataStoreObject} from "./StatisticByQuestionsDataStore";
 
 class StatisticPageStore {
@@ -36,19 +36,41 @@ class StatisticPageStore {
                     this.questionDataHasBeenLoaded = true
                 })
                 .catch(() => void(0))
-            this.clientStorage.client.query({query: MY_QUESTION_SEQUENCES})
+            this.clientStorage.client.query({query: ALL_QUESTION_SEQUENCE})
                 .then((response) => {
                     // this.allQuestionSequenceData = sort(response?.data?.me?.questionsequenceSet).desc((qs: any) => qs?.id)
                     this.allQuestionSequenceData = sort(response?.data?.questionSequence).desc((qs: any) => qs?.id)
                     this.questionSequenceDataHasBeenLoaded = true
                 })
                 .catch(() => void(0))
+            this.clientStorage.client.query({query: MY_QUESTION_SEQUENCES})
+                .then((response) => {
+                    this.myQuestionSequenceData = sort(response?.data?.me?.questionsequenceSet).desc((qs: any) => qs?.id)
+                    // this.allQuestionSequenceData = sort(response?.data?.questionSequence).desc((qs: any) => qs?.id)
+                    this.questionSequenceDataHasBeenLoaded = true
+                })
+                .catch(() => void(0))
 
         }
     }
+    //Данные по собственным всем сериям вопросов
+    myQuestionSequenceData: Maybe<QuestionSequenceNode[]> | any = []
 
     //Данные по всем сериям вопросов
     allQuestionSequenceData: Maybe<QuestionSequenceNode[]> | any = []
+
+    showOnlyMyQSStatistic = false
+
+    changeShowOnlyMyQSStatistic(){
+        this.showOnlyMyQSStatistic = !this.showOnlyMyQSStatistic
+    }
+    get qsDataForRenderOnPage(){
+        if(this.showOnlyMyQSStatistic){
+            return(this?.myQuestionSequenceData)
+        }else{
+            return(this?.allQuestionSequenceData)
+        }
+    }
 
     //Флаг загрузки всех данных
     questionSequenceDataHasBeenLoaded = false

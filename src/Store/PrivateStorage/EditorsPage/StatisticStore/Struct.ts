@@ -31,22 +31,26 @@ export const ALL_QUESTIONS_STATISTIC = gql`
 
 export const MY_QUESTION_SEQUENCES = gql`
     query{
-        #        me{
-        #            questionsequenceSet{
-        #                id
-        #                name
-        #                sequenceData
-        #                description
-        #            }
-        #        }
+            me{
+                questionsequenceSet{
+                    id
+                    name
+                    sequenceData
+                    description
+                }
+            }
+    }
+`
+
+export const ALL_QUESTION_SEQUENCE = gql`
+    query{
         questionSequence{
             id
             name
             sequenceData
             description
-        }
-    }
-`
+        }       
+    }`
 
 
 export const GET_QUESTION_DATA_BY_ID = gql`

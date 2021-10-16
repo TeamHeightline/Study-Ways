@@ -1,14 +1,20 @@
 import {observer} from "mobx-react";
 import React from "react";
 import {StatisticPageStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticPageStore";
-import {Card, CardActionArea, Typography} from "@material-ui/core";
+import {Card, CardActionArea, Grid, Typography} from "@material-ui/core";
 import {Row} from "react-bootstrap";
+import {QSShowAllOrMyQSFlag} from "./#QSShowAllOrMyQSFlag";
 
 export const MainPageQSForSelect = observer(() =>{
 
     return(
         <React.Fragment>
-            {StatisticPageStoreObject.allQuestionSequenceData?.map((sequence) =>{
+            <Grid container justify="center">
+                <Grid item xs="auto">
+                    <QSShowAllOrMyQSFlag/>
+                </Grid>
+            </Grid>
+            {StatisticPageStoreObject.qsDataForRenderOnPage?.map((sequence) =>{
                 return(
                     <div key={sequence?.id} className="mt-3 col-md-5 col-12">
                         <Card variant="outlined" key={sequence?.id + "SequenceKey"} style={{padding: 0}}

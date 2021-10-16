@@ -42,7 +42,7 @@ export class SameQuestionPlayer{
         this.historyOfWrongSelectedAnswers = new Map()
         this.historyOfAnswerPoints = new Map()
         this.maxSumOfPoints = 0
-
+        this.isAcceptDefeat = false
     }
 
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)

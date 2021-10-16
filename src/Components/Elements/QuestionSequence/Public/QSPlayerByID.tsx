@@ -93,7 +93,8 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                             {!props?.notShowStepLabet ?
                             <StepLabel>
                                 <Card style={{width: 400, height: 160, marginLeft: 65,
-                                borderColor: processedStore.questionsStoreArray[qIndex]?.questionHasBeenCompleted ? "#2296F3": ""}} variant="outlined">
+                                borderColor: processedStore.questionsStoreArray[qIndex]?.questionHasBeenCompleted ? "#2296F3":
+                                    processedStore.questionsStoreArray[qIndex]?.isAcceptDefeat? "#F50057":""}} variant="outlined">
                                     <CardActionArea style={{height: "100%", padding: 10,}}>
                                         <Typography>
                                             {question?.questionText}

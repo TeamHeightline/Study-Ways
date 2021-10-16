@@ -67,24 +67,27 @@ export const StatisticByQuestionsData = observer(() =>{
                                 <React.Fragment key={rIndex + "Key"}>
                                 <TableRow>
                                     <TableCell>
-                                    <IconButton aria-label="expand row" size="small"
-                                                onClick={() => StatisticByQuestionDataStoreObject.changeRowsForDetailStatistic(row[7])}>
-                                    {StatisticByQuestionDataStoreObject?.rowsOpenForDetailStatistic?.has(row[7]) ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                                        {/*<KeyboardArrowUpIcon />*/}
-                                    </IconButton>
+                                        <IconButton aria-label="expand row" size="small"
+                                                    onClick={() => StatisticByQuestionDataStoreObject.changeRowsForDetailStatistic(row[7])}>
+                                        {StatisticByQuestionDataStoreObject?.rowsOpenForDetailStatistic?.has(row[7]) ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                                            {/*<KeyboardArrowUpIcon />*/}
+                                        </IconButton>
                                     </TableCell>
-                                    <TableCell component="th" scope="row">
-                                    {row[0]}
+                                    <TableCell component="th" scope="row"
+                                               style={{color: row[12]? "" :"rgb(245,0,87)"}}>
+                                        {row[0]}
                                     </TableCell>
-                                    <TableCell align="right">{row[1]}</TableCell>
+                                    <TableCell align="right" style={{color: row[12]? "" :"rgb(245,0,87)"}}>{row[1]}</TableCell>
                                     {StatisticByQuestionDataStoreObject?.multiQuestionMode &&
-                                    <TableCell align="right">{row[11]?.attemptData?.question?.id}</TableCell>
+                                        <TableCell align="right" style={{color: row[12]? "" :"rgb(245,0,87)"}}>
+                                            {row[11]?.attemptData?.question?.id}
+                                        </TableCell>
                                     }
-                                    <TableCell align="right">{row[2]}</TableCell>
-                                    <TableCell align="right">{row[3]}</TableCell>
-                                    <TableCell align="right">{row[4]}</TableCell>
-                                    <TableCell align="right">{row[5]}</TableCell>
-                                    <TableCell align="right">{row[6]}</TableCell>
+                                    <TableCell align="right" style={{color: row[12]? "" :"rgb(245,0,87)"}}>{row[2]}</TableCell>
+                                    <TableCell align="right" style={{color: row[12]? "" :"rgb(245,0,87)"}}>{row[3]}</TableCell>
+                                    <TableCell align="right" style={{color: row[12]? "" :"rgb(245,0,87)"}}>{row[4]}</TableCell>
+                                    <TableCell align="right" style={{color: row[12]? "" :"rgb(245,0,87)"}}>{row[5]}</TableCell>
+                                    <TableCell align="right" style={{color: row[12]? "" :"rgb(245,0,87)"}}>{row[6]}</TableCell>
                                 </TableRow>
                                 <TableRow>
                                     <TableCell colSpan={StatisticByQuestionDataStoreObject?.multiQuestionMode ? 9 :8}

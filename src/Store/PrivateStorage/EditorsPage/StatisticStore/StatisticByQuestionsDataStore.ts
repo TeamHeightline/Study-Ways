@@ -177,7 +177,9 @@ class StatisticByQuestionsDataStore {
                 passedQuestion?.maxNumberOfWrongAnswers, passedQuestion?.arithmeticMeanNumberOfAnswersPoints,
                 passedQuestion?.minAnswerPoint, passedQuestion?.attemptData?.id,
                     passedQuestion?.attemptData?.statistic?.ArrayForShowAnswerPoints, ArrayOfNumberOfWrongAnswers,
-                    passedQuestion?.attemptData?.statistic?.ArrayForShowWrongAnswers, passedQuestion])
+                    passedQuestion?.attemptData?.statistic?.ArrayForShowWrongAnswers, passedQuestion,
+                    passedQuestion?.attemptData?.questionHasBeenCompleted
+                ])
             })
         )
     }

@@ -12,6 +12,7 @@ export const ALL_QUESTIONS_STATISTIC = gql`
                     text
                 }
                 detailquestionstatisticSet{
+                    questionHasBeenCompleted
                     isUseexammode
                     id
                     userName
@@ -65,6 +66,7 @@ export const GET_QUESTION_DATA_BY_ID = gql`
                 isLogin
                 statistic
                 isUseexammode
+                questionHasBeenCompleted
                 question{
                     id
                     text

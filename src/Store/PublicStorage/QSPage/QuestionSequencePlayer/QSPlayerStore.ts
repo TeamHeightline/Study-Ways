@@ -44,9 +44,28 @@ export class QSPlayerStore {
     //Номер вопроса, который проходят прямо сейчас
     selectedQuestionIndex = 0
 
+    //Уровень сложности подсказок
+    hardLevelOfHelpText = '0'
+
+    //обработчик изменений сложности подсказки
+    changeHardLevelOfHelpText(newHardLevelOfHelpText){
+        this.hardLevelOfHelpText = newHardLevelOfHelpText
+    }
+
+    //Был ли выбран уровень сложности для всей серии вопросов
+    HardLevelHasBeenSelected = false
+
+    setHardLevelHasBeenSelected(){
+        this.HardLevelHasBeenSelected = true
+    }
+
     //Обработчик переключения между вопросами
     changeSelectedQuestionIndex(newIndex){
         this.selectedQuestionIndex = newIndex
+    }
+
+    get activeQuestionStoreInstance(){
+        return(this.questionsStoreArray[this.selectedQuestionIndex])
     }
     //------------------------------------------------------
 

@@ -5,7 +5,6 @@ import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import {Button, Checkbox, FormControlLabel} from "@material-ui/core";
-import {Form} from "react-bootstrap";
 import React from "react";
 import isMobile from "../../../../CustomHooks/isMobile";
 
@@ -62,20 +61,8 @@ export default function DCPCImageQuestion(props: any) {
                         </div>
                         }
                         <div  style={{maxWidth:"600px"}}>
-                            <Row className="ml-auto  pb-2 ">
+                            <Row className="ml-auto pb-2">
                                 <Col className="col-6">
-                                    <Form.Control
-                                        disabled={props.disabled}
-                                        // size="lg"
-                                        value={props.value}
-                                        onChange={props.onChange1}
-                                        as="select">
-                                        <option value={"0"}>Легкий</option>
-                                        <option value={"1"}>Средний</option>
-                                        <option value={"2"}>Сложный</option>
-                                    </Form.Control>
-                                </Col>
-                                <Col className="col-3">
                                     <Button variant="contained" color="primary" onClick={props.onClick1}>
                                         Проверить
                                     </Button>

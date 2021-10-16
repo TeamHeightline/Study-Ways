@@ -1,5 +1,16 @@
 import React, {useEffect} from 'react';
-import {Card, CardActionArea, Step, StepLabel, Stepper, Typography} from "@material-ui/core";
+import {
+    Button,
+    Card,
+    CardActionArea,
+    Grid,
+    MenuItem,
+    Select,
+    Step,
+    StepLabel,
+    Stepper,
+    Typography
+} from "@material-ui/core";
 import {observer} from "mobx-react";
 import {QSPlayerStore} from "../../../../Store/PublicStorage/QSPage/QuestionSequencePlayer/QSPlayerStore";
 import { Row, Spinner} from "react-bootstrap";
@@ -53,6 +64,7 @@ const useStyles = makeStyles(() =>
     }),
 );
 import '../../../../index.css'
+import isMobile from "../../../../CustomHooks/isMobile";
 
 export  const  QSPlayerByID = observer(({...props}: any) =>{
 
@@ -73,7 +85,7 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
     // console.log(processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.ArrayForShowAnswerPoints)
     return(
         <div>
-            <Typography className="display-4 text-center mt-4" style={{fontSize: '33px'}}>{processedStore.name}</Typography>
+            <Typography align={"center"} variant={isMobile() ?"h6": "h4"}>{processedStore.name}</Typography>
             <div style={{overflowX: "auto"}}>
                 <Stepper nonLinear alternativeLabel activeStep={processedStore.selectedQuestionIndex}>
                     {processedStore?.questionsStoreArray?.map((question, qIndex) => (
@@ -82,7 +94,7 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                             <StepLabel>
                                 <Card style={{width: 400, height: 160, marginLeft: 65,
                                 borderColor: processedStore.questionsStoreArray[qIndex]?.questionHasBeenCompleted ? "#2296F3": ""}} variant="outlined">
-                                    <CardActionArea style={{height: "100%"}}>
+                                    <CardActionArea style={{height: "100%", padding: 10,}}>
                                         <Typography>
                                             {question?.questionText}
                                         </Typography>
@@ -97,47 +109,77 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                     ))}
                 </Stepper>
             </div>
-            {!processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.questionHasBeenCompleted ?
+            {!processedStore?.activeQuestionStoreInstance?.questionHasBeenStarted &&
+            <Grid container justify="center" alignItems="center"
+                  style={{height: isMobile() ?  window.innerHeight - 430: window.innerHeight - 600}}>
+                <Grid item xs={12} md={3}>
+                    <Card variant="outlined" style={{padding: 12}}>
+                        <Typography variant={"h6"}>
+                            Перед началом вопроса выберете уровень сложности:
+                        </Typography>
+                        <Select
+                            style={{marginTop: 12}}
+                            defaultValue={"0"}
+                            fullWidth
+                            //Очень важно, меняем сложность в QS Store, оттуда уже передается в вопросы
+                            onChange={(e) =>
+                                processedStore?.changeHardLevelOfHelpText(e.target.value)}
+                            variant="outlined">
+                            <MenuItem value={"0"}>Легкий</MenuItem>
+                            <MenuItem value={"1"}>Средний</MenuItem>
+                            <MenuItem value={"2"}>Сложный</MenuItem>
+                        </Select>
+                        <Button
+                            onClick={() => processedStore?.setHardLevelHasBeenSelected()}
+                            style={{marginTop: 12}} fullWidth variant="contained" color="primary">
+                            Начать серию вопросов
+                        </Button>
+                    </Card>
+                </Grid>
+            </Grid>
+            }
+            {!processedStore.activeQuestionStoreInstance?.questionHasBeenCompleted ?
+                processedStore?.activeQuestionStoreInstance?.questionHasBeenStarted &&
             <div>
                 <div >
                     {processedStore.selectedQuestionIndex !== null &&
                     <DCPCImageQuestion
                         ignoreAspectRatio={true}
-                        onChange1={(e) => {processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.changeHardLevelOfHelpText(e.target.value)}}
-                        onClick1={() => processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.checkErrors()}
+                        onChange1={(e) => {processedStore.activeQuestionStoreInstance?.changeHardLevelOfHelpText(e.target.value)}}
+                        onClick1={() => processedStore.activeQuestionStoreInstance?.checkErrors()}
                         className="col-11 justify-content-center"
                         height={window.innerHeight}
                         width={window.innerWidth -100}
                         urlHasBeenPassed={true}
-                        questionText={processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.questionText}
-                        questionImgUrl={processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.questionImageUrl}
+                        questionText={processedStore.activeQuestionStoreInstance?.questionText}
+                        questionImgUrl={processedStore.activeQuestionStoreInstance?.questionImageUrl}
                         />}
                 </div>
-                {processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.oneTimeCheckError &&
-                processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.IndexOfMostWantedError !== -1 &&
+                {processedStore.activeQuestionStoreInstance?.oneTimeCheckError &&
+                processedStore.activeQuestionStoreInstance?.IndexOfMostWantedError !== -1 &&
                     <div>
                         <Alert severity="warning" variant="outlined" className="mt-2">
-                            {processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.HelpTextForShow}
+                            {processedStore.activeQuestionStoreInstance?.HelpTextForShow}
                         </Alert>
                     </div>
                 }
 
 
                 <div style={{overflowX: "scroll"}}>
-                    <Row style={{width:  processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.answersArray.length * 410}}>
-                        {processedStore.selectedQuestionIndex !== null && processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.answersArray &&
+                    <Row style={{width:  processedStore.activeQuestionStoreInstance?.answersArray.length * 410}}>
+                        {processedStore.selectedQuestionIndex !== null && processedStore.activeQuestionStoreInstance?.answersArray &&
                             <Row>
-                                {processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.answersArray.map((answer, aIndex) =>{
+                                {processedStore.activeQuestionStoreInstance?.answersArray.map((answer, aIndex) =>{
                                     return(
                                         <Card  key={aIndex} variant="outlined" elevation={2} className={classes.root}
-                                              style={{backgroundColor: processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.selectedAnswers?.has(answer?.id)? "#2296F3" : "",}}
+                                              style={{backgroundColor: processedStore.activeQuestionStoreInstance?.selectedAnswers?.has(answer?.id)? "#2296F3" : "",}}
                                                  onClick={() =>{
-                                                     processedStore.questionsStoreArray[processedStore.selectedQuestionIndex].selectAnswerHandleChange(answer.id)
+                                                     processedStore.activeQuestionStoreInstance.selectAnswerHandleChange(answer.id)
                                                  }}>
                                         <CardActionArea>
                                             {answer.answerImageUrl?
                                                 <CardMedia
-                                                    style={{opacity: processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.selectedAnswers?.has(answer?.id)? 0.5 : 1}}
+                                                    style={{opacity: processedStore.activeQuestionStoreInstance?.selectedAnswers?.has(answer?.id)? 0.5 : 1}}
                                                     className={answer?.answerText? classes.media : classes.fullHeightMedia}
                                                     image={answer?.answerImageUrl}
                                                 />: null}
@@ -155,6 +197,7 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                     </Row>
                 </div>
             </div>:
+                processedStore?.activeQuestionStoreInstance?.questionHasBeenStarted &&
                 <div>
                   <Alert severity="info" variant="filled" className="mt-2">
                       {"Вы прошли этот вопрос.     " + "Количество попыток - " + processedStore.questionsStoreArray[processedStore.selectedQuestionIndex].numberOfPasses}

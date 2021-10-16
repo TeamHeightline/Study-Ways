@@ -7,6 +7,7 @@ import {unstable_createMuiStrictModeTheme} from "@material-ui/core";
 import { ThemeProvider } from '@material-ui/styles';
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
+import { configure } from "mobx"
 
 const theme = unstable_createMuiStrictModeTheme({
         palette: {
@@ -47,6 +48,12 @@ const theme = unstable_createMuiStrictModeTheme({
             },
         },
 });
+
+
+configure({
+    enforceActions: "never",
+})
+
 //Этот файл полностью посвящен тму, чтобы создать темную тему во все проекте
 //Для Material UI мы создаем ThemeProvider, для AntDesign - импортируем темную тему
 ReactDOM.render(

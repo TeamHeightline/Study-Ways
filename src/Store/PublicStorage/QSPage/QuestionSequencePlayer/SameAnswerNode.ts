@@ -28,7 +28,11 @@ export class SameAnswerNode{
     getImageUrlFromServer(){
         fetch("https://iot-experemental.herokuapp.com/files/answer?id="+ this.id)
             .then(response => response.json())
-            .then(data => this.answerImageUrl = data[0].image)
-            .catch((e) => console.error(e))
+            .then(data => {
+                if(data && data[0]?.image){
+                    this.answerImageUrl = data[0].image
+                }
+            })
+            .catch(() => void(0))
     }
 }

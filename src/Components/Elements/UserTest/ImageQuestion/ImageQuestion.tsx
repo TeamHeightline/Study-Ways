@@ -6,12 +6,13 @@ import {SameQuestionPlayer} from "../../../../Store/PublicStorage/QSPage/Questio
 import {Row, Spinner} from "react-bootstrap";
 import DCPCImageQuestion from "./DCPCImageQuestion";
 import {Alert} from "@material-ui/lab";
-import {Card, CardActionArea, Typography} from "@material-ui/core";
+import {Button, Card, CardActionArea, Grid, MenuItem, Select, Typography} from "@material-ui/core";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import {ArgumentAxis, BarSeries, Chart, SplineSeries, Title, ValueAxis} from "@devexpress/dx-react-chart-material-ui";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {useLocation} from "react-router-dom";
+import isMobile from "../../../../CustomHooks/isMobile";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -71,8 +72,35 @@ export const ImageQuestion = observer((props: any) => {
             )
         }
         return(
-            <div>
+            <div className="col-12">
+                {!processedStore?.questionHasBeenStarted &&
+                    <Grid container justify="center" alignItems="center" style={{height: isMobile() ?  window.innerHeight - 100: window.innerHeight - 300}}>
+                        <Grid item xs={12} md={3}>
+                            <Card variant="outlined" style={{padding: 12}}>
+                                <Typography align={"center"} variant="h5">
+                                    Перед началом вопроса выберете уровень сложности:
+                                </Typography>
+                                <Select
+                                    style={{marginTop: 12}}
+                                    defaultValue={"0"}
+                                    fullWidth
+                                    onChange={(e) => processedStore?.changeHardLevelOfHelpText(e.target.value)}
+                                    variant="outlined">
+                                    <MenuItem value={"0"}>Легкий</MenuItem>
+                                    <MenuItem value={"1"}>Средний</MenuItem>
+                                    <MenuItem value={"2"}>Сложный</MenuItem>
+                                </Select>
+                                <Button
+                                    onClick={() => processedStore.startQuestion()}
+                                    style={{marginTop: 12}} fullWidth variant="contained" color="primary">
+                                    Начать вопрос
+                                </Button>
+                            </Card>
+                        </Grid>
+                    </Grid>
+                }
                 {!processedStore?.questionHasBeenCompleted ?
+                    processedStore?.questionHasBeenStarted &&
                 <div>
                     <DCPCImageQuestion
                         ignoreAspectRatio={true}
@@ -126,7 +154,7 @@ export const ImageQuestion = observer((props: any) => {
                         </Row>
                     </div>
                 </div>
-                :
+                : processedStore?.questionHasBeenStarted &&
                     <div>
                         <Alert severity="info" variant="filled" className="mt-2">
                     {"Вы прошли этот вопрос.     " + "Количество попыток - " + processedStore?.numberOfPasses}

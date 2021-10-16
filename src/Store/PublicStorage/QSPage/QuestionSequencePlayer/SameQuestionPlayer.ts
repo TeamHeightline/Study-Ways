@@ -18,6 +18,12 @@ export class SameQuestionPlayer{
         reaction(() => this.questionHasBeenCompleted, () => this.saveDetailStatistic())
         this.ownStore = ownStore
         this.questionID = questionID
+        if(ownStore){
+            reaction(() => this.ownStore.hardLevelOfHelpText,
+                () => this.changeHardLevelOfHelpText(this.ownStore.hardLevelOfHelpText))
+            reaction(() => this.ownStore.HardLevelHasBeenSelected,
+                () => this.startQuestion())
+        }
 
     }
 
@@ -71,6 +77,13 @@ export class SameQuestionPlayer{
     changeHardLevelOfHelpText(newHardLevelOfHelpText){
         this.hardLevelOfHelpText = newHardLevelOfHelpText
     }
+
+    startQuestion(){
+        this.questionHasBeenStarted = true
+    }
+
+    //Начался ли вопрос или нет
+    questionHasBeenStarted = false
 
     //Прошли мы вопрос или нет
     questionHasBeenCompleted = false
@@ -153,8 +166,6 @@ export class SameQuestionPlayer{
         if(__errorArray.length == 0){
             this.questionHasBeenCompleted = true
         }
-        // console.log(Array.from(toJS(this.historyOfAnswerPoints)))
-        // console.log(Array.from(toJS(this.historyOfWrongSelectedAnswers)))
     }
 
     //Массив данные из которого будут использованы чтобы отобразить график количества неправильных ответов на каждой из поыпыток
@@ -261,7 +272,6 @@ export class SameQuestionPlayer{
                         __maxSumOfAnswerPoints += 15
                     }
                     this.maxSumOfPoints = __maxSumOfAnswerPoints
-                    console.log(answer)
                     __AnswersArray.push(new SameAnswerNode(answer.id,  answer.text, answer.is_true, answer.check_queue,
                         answer.help_textV1, answer.help_textV2, answer.help_textV3, answer.hard_level_of_answer))
                 })
@@ -286,7 +296,7 @@ export class SameQuestionPlayer{
                         ArrayForShowWrongAnswers: this.ArrayForShowWrongAnswers,
                     }
                 }})
-                .catch((e) => console.log(e))
+                .catch(() => void(0))
         }else{
             this.clientStorage.client.mutate({mutation: SAVE_DETAIL_STATISTIC, variables:{
                     question: this.questionID,

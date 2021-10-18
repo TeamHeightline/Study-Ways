@@ -115,33 +115,35 @@ class StatisticPageStore {
     //При выборе серии вопросов мы загружаем данные о ней, потому что иначе придется загружать данные по всем вопросам,
     // это слишком много
     loadQSDataFromServer(){
-        if(this?.selectedQuestionSequenceID){
-            const activeQS = this.allQuestionSequenceData?.find((qs) => Number(qs.id) === Number(this.selectedQuestionSequenceID))
-            if(activeQS){
-                this.questionsDataForSelectedQS = []
-                const awaitAllQuestionsPromisesArray: any = []
-                activeQS?.sequenceData?.sequence.map((questionID) =>{
-                    awaitAllQuestionsPromisesArray.push(new Promise((resolve, reject) =>{
-                        this.clientStorage.client.query({query: GET_QUESTION_DATA_BY_ID, variables:{
-                            id: questionID
-                            }})
-                            .then((response) =>{
-                                try{
-                                    this.questionsDataForSelectedQS.push(response?.data?.questionById)
-                                    resolve(true)
-                                }
-                                catch(e){
-                                    reject(e)
-                                }
-                            })
-                    }))
-                })
-                Promise.all(awaitAllQuestionsPromisesArray).then(() => {
-                    this.changeSelectedQuestionData()
-                    //После того, как все данные загружены можно переключаться на страницу с
-                    //таблицами и графиками
-                    this.isOpenQuestion = true
-                })
+        if(this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN"){
+            if(this?.selectedQuestionSequenceID){
+                const activeQS = this.allQuestionSequenceData?.find((qs) => Number(qs.id) === Number(this.selectedQuestionSequenceID))
+                if(activeQS){
+                    this.questionsDataForSelectedQS = []
+                    const awaitAllQuestionsPromisesArray: any = []
+                    activeQS?.sequenceData?.sequence.map((questionID) =>{
+                        awaitAllQuestionsPromisesArray.push(new Promise((resolve, reject) =>{
+                            this.clientStorage.client.query({query: GET_QUESTION_DATA_BY_ID, variables:{
+                                id: questionID
+                                }})
+                                .then((response) =>{
+                                    try{
+                                        this.questionsDataForSelectedQS.push(response?.data?.questionById)
+                                        resolve(true)
+                                    }
+                                    catch(e){
+                                        reject(e)
+                                    }
+                                })
+                        }))
+                    })
+                    Promise.all(awaitAllQuestionsPromisesArray).then(() => {
+                        this.changeSelectedQuestionData()
+                        //После того, как все данные загружены можно переключаться на страницу с
+                        //таблицами и графиками
+                        this.isOpenQuestion = true
+                    })
+                }
             }
         }
     }

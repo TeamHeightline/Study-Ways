@@ -55,7 +55,6 @@ class Client{
             link: ApolloLink.from([errorLink, authLink, httpLink]),
             cache: new InMemoryCache()
         });
-        console.log("new client")
         //Новый клиент собран и расшеривается между всеми, кто его использует
         this.client = client
         return(client)

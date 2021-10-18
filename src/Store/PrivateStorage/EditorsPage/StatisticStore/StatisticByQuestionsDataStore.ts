@@ -203,7 +203,7 @@ class StatisticByQuestionsDataStore {
         return StatisticPageStoreObject.activePageOnTopMenu === 1 || StatisticPageStoreObject.activePageOnTopMenu === 2;
     }
 
-    rowLimit: number | number[]  = 100
+    rowLimit: number | number[]  = 50
 
     changeRowLimit(newLimit: number | number[]){
         this.rowLimit = Number(newLimit)

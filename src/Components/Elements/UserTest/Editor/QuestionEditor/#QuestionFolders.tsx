@@ -3,9 +3,10 @@ import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import React from "react";
 import {QuestionEditorStorage} from "../../../../../Store/PrivateStorage/EditorsPage/QuestionEditorPage/QuestionEditorStorage";
-import isMobile from "../../../../../CustomHooks/isMobile";
+import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 
 export const QuestionFolders = observer(() =>{
+    const isMobile = isMobileHook()
     return(
         <div>
             <Tabs
@@ -16,10 +17,10 @@ export const QuestionFolders = observer(() =>{
                 indicatorColor="primary"
                 textColor="primary"
                 // centered
-                variant={!isMobile() ? "standard" : "scrollable"}
+                variant={!isMobile ? "standard" : "scrollable"}
                 // scrollButtons="auto"
                 centered
-                scrollButtons={!isMobile() ? "off": 'on'}
+                scrollButtons={!isMobile? "off": 'on'}
             >
                 <Tab label="Все" />
                 <Tab label="Заполненные"/>

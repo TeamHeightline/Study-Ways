@@ -25,7 +25,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
-import isMobile from "../../../CustomHooks/isMobile";
+import {isMobileHook} from "../../../CustomHooks/isMobileHook";
 
 const SHOW_CARD_BY_ID = gql`
     query SHOW_CARD_BY_ID($id: ID!){
@@ -81,6 +81,7 @@ export const CARD = observer(({id, ...props}: any) =>{
     const [cardImage, setCardImage] = useState()
     const [openTestBeforeCardDialog, setOpenTestBeforeCardDialog] = useState(true)
     const [openTestBeforeCard, setOpenTestBeforeCard] = useState(false)
+    const isMobile = isMobileHook()
     const {width, height} = useWindowDimensions()
     const {data: card_data, refetch, loading} = useQuery(SHOW_CARD_BY_ID, {
         fetchPolicy: "no-cache",
@@ -176,7 +177,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                     <Row className="mt-4" >
                         <Col className="col-12">
                             <Row className="ml-2">
-                                <Typography variant={isMobile()? "h4" : "h6"}>{card_data?.cardById?.title}</Typography>:
+                                <Typography variant={isMobile? "h6": "h4" }>{card_data?.cardById?.title}</Typography>:
                                 {/*<Typography variant="subtitle2">{card_data?.cardById?.id}</Typography>*/}
                                 {card_data?.cardById?.isCardUseCopyright && card_data?.cardById?.copyright &&
                                 <Typography variant="h6" className="ml-md-2">
@@ -244,7 +245,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                             }}>
                             </div>}
                         </Col>
-                        {!isMobile() &&
+                        {!isMobile &&
                         <Col className="col-12 col-lg-6 mt-4">
                             <RichTextPreview initialText={card_data?.cardById?.text} onChange={()  => void(0)}/>
                             <Typography className="blockquote">На сколько эта карточка была полезна?</Typography>
@@ -284,7 +285,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                             </ButtonGroup>
                         </Col>
                         }
-                        {isMobile() &&
+                        {isMobile &&
                         <Col className="col-12 col-lg-6 mt-4">
                             <RichTextPreview initialText={card_data?.cardById?.text} onChange={()  => void(0)}/>
                             <Typography className="blockquote">На сколько эта карточка была полезна?</Typography>

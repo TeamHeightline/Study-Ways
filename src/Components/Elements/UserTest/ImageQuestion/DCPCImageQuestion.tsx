@@ -14,10 +14,11 @@ import {
     FormControlLabel
 } from "@material-ui/core";
 import React, {useState} from "react";
-import isMobile from "../../../../CustomHooks/isMobile";
+import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 
 export default function DCPCImageQuestion(props: any) {
     const [openAcceptDefeatDialog, setOpenAcceptDefeatDialog] = useState(false)
+    const isMobile = isMobileHook()
     window.addEventListener("keydown",function (e) {
         if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) {
             e.preventDefault();
@@ -28,7 +29,7 @@ export default function DCPCImageQuestion(props: any) {
         {(props.height / props.width < 1 || props.ignoreAspectRatio) &&
         <Card variant="outlined"
               style={{ padding: 0,
-                  maxHeight: window.innerHeight / window.innerWidth > 1 ? window.innerWidth * 2: 510,
+                  maxHeight: isMobile ? window.innerWidth * 2: 510,
                   overflowY: "auto",}}
               className="col-12 ">
             <Row className="justify-content-center">
@@ -38,9 +39,9 @@ export default function DCPCImageQuestion(props: any) {
                     <CardMedia
                         className="col-12 mr-auto"
                         style={{
-                            height: isMobile() ?  window.innerWidth -100 : 500,
+                            height: isMobile ?  window.innerWidth -100 : 500,
                             backgroundSize: "contain",
-                            maxHeight: isMobile() ? window.innerWidth : 500,
+                            maxHeight: isMobile ? window.innerWidth : 500,
                             overflowY: "auto",
                             width: "100%"
                         }}
@@ -48,8 +49,8 @@ export default function DCPCImageQuestion(props: any) {
                     />
                 </Col> : null}
                 <Col
-                    className={!props?.ignoreAspectRatio ? "col-6": isMobile() ? "col-12" : "col-6"}
-                    style={{height: isMobile() ? window.innerWidth -100 : 500, width: "100%"}} >
+                    className={!props?.ignoreAspectRatio ? "col-6": isMobile ? "col-12" : "col-6"}
+                    style={{height: isMobile ? window.innerWidth -100 : 500, width: "100%"}} >
                     <CardContent>
                         <Typography component="h5" variant="h5">
                             Вопрос

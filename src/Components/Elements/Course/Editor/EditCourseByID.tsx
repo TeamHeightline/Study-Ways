@@ -7,7 +7,7 @@ import {useMutation, useQuery} from "@apollo/client";
 import {Spinner} from "react-bootstrap";
 import {Alert, Pagination} from "@material-ui/lab";
 import {Button, ButtonGroup, Grid, Snackbar, TextField, Typography} from "@material-ui/core";
-import isMobile from "../../../../CustomHooks/isMobile";
+import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 import AddIcon from '@material-ui/icons/Add';
 
 const GET_COURSE_BY_ID = gql`
@@ -36,6 +36,7 @@ export default function EditCourseByID({course_id, ...props}: any){
     const [cardStateOfSave, setCardStateOfSave] = useState(2)
     const [stateOfSave, setStateOfSave] = useState(2) // 0- не сохранено 1- сохранение 2- сохранено
     const [rerender, setRerender] = useState(false)
+    const isMobile = isMobileHook()
 
     const [update_course] = useMutation(UPDATE_COURSE_DATA, {
         variables:{
@@ -168,7 +169,7 @@ export default function EditCourseByID({course_id, ...props}: any){
                     </Button>}
                     <br/>
                     <Typography className="pl-md-5">
-                        {course_id && cardCourseImageName && <div>{isMobile() ? cardCourseImageName.slice(0, 25) + "..."
+                        {course_id && cardCourseImageName && <div>{isMobile ? cardCourseImageName.slice(0, 25) + "..."
                             : cardCourseImageName}</div>}
                     </Typography>
                 </div>
@@ -176,9 +177,9 @@ export default function EditCourseByID({course_id, ...props}: any){
                     <Grid container className="pr-md-5 mt-2">
                         <Grid item xs={12} md={'auto'}>
                             <Pagination
-                                         count={CourseLinesData[0].SameLine.length} shape="rounded"
-                                         onChange={(e, value) =>{setOpenPageIndex(value)}}
-                                         size={isMobile() ? "small" : "large"} variant="outlined" color="secondary"/>
+                                count={CourseLinesData[0].SameLine.length} shape="rounded"
+                                onChange={(e, value) =>{setOpenPageIndex(value)}}
+                                size={isMobile ? "small" : "large"} variant="outlined" color="secondary"/>
                         </Grid>
                         <Grid item xs={12} md={1} style={{marginLeft: 12}}>
                             <ButtonGroup style={{zoom: "109%"}}>

@@ -12,7 +12,7 @@ import CardContent from "@material-ui/core/CardContent";
 import {ArgumentAxis, BarSeries, Chart, SplineSeries, Title, ValueAxis} from "@devexpress/dx-react-chart-material-ui";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {useLocation} from "react-router-dom";
-import isMobile from "../../../../CustomHooks/isMobile";
+import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -50,6 +50,7 @@ const processedStore = new SameQuestionPlayer(null, 85)
 export const ImageQuestion = observer((props: any) => {
         const slug = useLocation();
         const classes = useStyles();
+        const isMobile = isMobileHook()
         useEffect(() => {
             if(slug?.search === "?exam=true"){
                 processedStore?.changeIsUseExamMode(true)
@@ -74,7 +75,7 @@ export const ImageQuestion = observer((props: any) => {
         return(
             <div className="col-12">
                 {!processedStore?.questionHasBeenStarted &&
-                    <Grid container justify="center" alignItems="center" style={{height: isMobile() ?  window.innerHeight - 100: window.innerHeight - 300}}>
+                    <Grid container justify="center" alignItems="center" style={{height: isMobile ?  window.innerHeight - 100: window.innerHeight - 300}}>
                         <Grid item xs={12} md={3}>
                             <Card variant="outlined" style={{padding: 12}}>
                                 <Typography align={"center"} variant="h5">

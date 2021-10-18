@@ -64,7 +64,7 @@ const useStyles = makeStyles(() =>
     }),
 );
 import '../../../../index.css'
-import isMobile from "../../../../CustomHooks/isMobile";
+import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 
 export  const  QSPlayerByID = observer(({...props}: any) =>{
 
@@ -75,6 +75,7 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
         }
         processedStore.setQSID(props?.match?.params?.id? props?.match?.params?.id : props?.id)
     }, [props])
+    const isMobile = isMobileHook()
 
     const classes = useStyles();
     if(!processedStore.allDataNasBeenLoaded){
@@ -85,7 +86,7 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
     // console.log(processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.ArrayForShowAnswerPoints)
     return(
         <div>
-            <Typography align={"center"} variant={isMobile() ?"h6": "h4"}>{processedStore.name}</Typography>
+            <Typography align={"center"} variant={isMobile ?"h6": "h4"}>{processedStore.name}</Typography>
             <div style={{overflowX: "auto"}}>
                 <Stepper nonLinear alternativeLabel activeStep={processedStore.selectedQuestionIndex}>
                     {processedStore?.questionsStoreArray?.map((question, qIndex) => (
@@ -112,7 +113,7 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
             </div>
             {!processedStore?.activeQuestionStoreInstance?.questionHasBeenStarted &&
             <Grid container justify="center" alignItems="center"
-                  style={{height: isMobile() ?  window.innerHeight - 430: window.innerHeight - 600}}>
+                  style={{height: isMobile ?  window.innerHeight - 430: window.innerHeight - 600}}>
                 <Grid item xs={12} md={3}>
                     <Card variant="outlined" style={{padding: 12}}>
                         <Typography variant={"h6"}>

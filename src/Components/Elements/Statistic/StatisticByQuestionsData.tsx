@@ -19,30 +19,38 @@ import {StatisticSelectQuestionInQS} from "./#StatisticSelectQuestionInQS";
 import {StatisticOnlyInQSFlag} from "./#StatisticOnlyInQSFlag";
 import {StatisticOnlyExamMode} from "./#StatisticOnlyExamMode";
 import {StatisticGoToMainPage} from "./#StatisticGoToMainPage";
+import {isMobileHook} from "../../../CustomHooks/isMobileHook";
+import {StatisticRowLimit} from "./#StatisticRowLimit";
+import {StatisticPageStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticPageStore";
 
 export const StatisticByQuestionsData = observer(() =>{
+    const isMobile = isMobileHook()
     return(
         <div>
-            <Grid container style={{paddingLeft: innerHeight/innerWidth > 1 ? 0 : 48}}>
+            {StatisticPageStoreObject.activePageOnTopMenu !==2 &&
+            <Grid container style={{paddingLeft: isMobile? 0 : 48}}>
                 <Grid item xs={12} md={2} style={{marginTop: 20}}>
                     <StatisticGoToMainPage/>
                 </Grid>
-            </Grid>
-            <Grid container style={{paddingLeft: innerHeight/innerWidth > 1 ? 0 : 48}}>
+            </Grid>}
+            <Grid container style={{paddingLeft: isMobile ? 0 : 48}}>
                 <Grid item xs={12} md={2} style={{marginTop: 20}}>
                     <StatisticSearchByUserName/>
                 </Grid>
                 {StatisticByQuestionDataStoreObject?.multiQuestionMode &&
                 <React.Fragment>
-                    <Grid item xs={12} md={2} style={{marginLeft: innerHeight/innerWidth > 1 ? 0 : 20, marginTop: 20}}>
+                    <Grid item xs={12} md={2} style={{marginLeft: isMobile ? 0 : 20, marginTop: 20}}>
                         <StatisticSelectQuestionInQS/>
                     </Grid>
-                    <Grid item xs={12} md={2} style={{marginLeft: innerHeight/innerWidth > 1 ? 0 : 20, marginTop: 20}}>
+                    <Grid item xs={12} md={2} style={{marginLeft: isMobile ? 0 : 20, marginTop: 20}}>
                         <StatisticOnlyInQSFlag/>
                     </Grid>
                 </React.Fragment>}
-                <Grid item xs={12} md={2} style={{marginLeft: innerHeight/innerWidth > 1 ? 0 : 20, marginTop: 20}}>
+                <Grid item xs={12} md={2} style={{marginLeft: isMobile ? 0 : 20, marginTop: 20}}>
                     <StatisticOnlyExamMode/>
+                </Grid>
+                <Grid item xs={12} md={2} style={{marginLeft: isMobile ? 0 : 20, marginTop: 20}}>
+                    <StatisticRowLimit/>
                 </Grid>
             </Grid>
             <TableContainer component={Paper}>
@@ -63,7 +71,8 @@ export const StatisticByQuestionsData = observer(() =>{
                     </TableHead>
                     <TableBody>
                         {StatisticByQuestionDataStoreObject?.rows.map((row, rIndex) => {
-                            return(
+                            if(rIndex < StatisticByQuestionDataStoreObject.rowLimit)
+                                return(
                                 <React.Fragment key={rIndex + "Key"}>
                                 <TableRow>
                                     <TableCell>

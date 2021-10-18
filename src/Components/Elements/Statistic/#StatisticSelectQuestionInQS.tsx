@@ -19,6 +19,13 @@ export const StatisticSelectQuestionInQS = observer(() =>{
                                 {"ID: " + question.id + " " + question.text}</MenuItem>
                         )
                     })}
+                    {StatisticPageStoreObject?.activePageOnTopMenu === 2 &&
+                    StatisticPageStoreObject?.allDetailQuestionStatistic?.map((question) =>{
+                        return(
+                            <MenuItem key={"Select Question" + question.id} value={String(question.id)}>
+                                {"ID: " + question.id + " " + question.text}</MenuItem>
+                        )
+                    })}
                 </Select>
             </FormControl>
         </div>

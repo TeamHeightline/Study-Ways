@@ -9,14 +9,17 @@ export const MainPageTopMenu = observer(() =>{
         <Tabs
             scrollButtons="auto"
             value={StatisticPageStoreObject.activePageOnTopMenu}
-            onChange={(e, newValue) => StatisticPageStoreObject.changeActivePageOnTopMenu(newValue)}
+            onChange={(e, newValue) => {
+                StatisticPageStoreObject.changeActivePageOnTopMenu(newValue)
+                StatisticPageStoreObject.changeIsOpenQuestion(newValue === 2)
+            }}
             indicatorColor="primary"
             textColor="primary"
             centered
         >
             <Tab label="Вопросы" />
             <Tab label="Серии вопросов"/>
-            <Tab label="Пользователи"/>
+            <Tab label="Все попытки"/>
         </Tabs>
     )
 })

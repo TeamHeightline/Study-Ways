@@ -3,7 +3,13 @@ import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
 import {UserStorage} from "../../../UserStore/UserStore";
 import {sort} from "fast-sort";
 import {Maybe, QuestionNode, QuestionSequenceNode} from "../../../../../SchemaTypes";
-import {ALL_QUESTION_SEQUENCE, ALL_QUESTIONS_STATISTIC, GET_QUESTION_DATA_BY_ID, MY_QUESTION_SEQUENCES} from "./Struct";
+import {
+    ALL_QUESTION_SEQUENCE,
+    ALL_QUESTIONS_STATISTIC,
+    GET_ALL_DETAIL_STATISTIC,
+    GET_QUESTION_DATA_BY_ID,
+    MY_QUESTION_SEQUENCES
+} from "./Struct";
 import {StatisticByQuestionDataStoreObject} from "./StatisticByQuestionsDataStore";
 
 class StatisticPageStore {
@@ -12,6 +18,7 @@ class StatisticPageStore {
         this.loadQuestionsDataFromServer()
         reaction(() => this.userStorage.userAccessLevel, () => this.loadQuestionsDataFromServer())
         reaction(()=>this.selectedQuestionID ,() => this.changeSelectedQuestionData())
+        reaction(()=>this.activePageOnTopMenu ,() => this.changeSelectedQuestionData())
         reaction(()=> this?.selectedQuestionsData, () => StatisticByQuestionDataStoreObject?.changeQuestionsData(this?.selectedQuestionsData))
         reaction(() => this.selectedQuestionSequenceID, () => this.loadQSDataFromServer())
     }
@@ -50,9 +57,19 @@ class StatisticPageStore {
                     this.questionSequenceDataHasBeenLoaded = true
                 })
                 .catch(() => void(0))
+            this.clientStorage.client.query({query: GET_ALL_DETAIL_STATISTIC})
+                .then((response) => {
+                    this.allDetailQuestionStatistic = response?.data?.question
+                    // this.allQuestionSequenceData = sort(response?.data?.questionSequence).desc((qs: any) => qs?.id)
+                    this.questionSequenceDataHasBeenLoaded = true
+                })
+                .catch(() => void(0))
 
         }
     }
+    //Данный вообще по всем попыткам
+    allDetailQuestionStatistic: any = []
+
     //Данные по собственным всем сериям вопросов
     myQuestionSequenceData: Maybe<QuestionSequenceNode[]> | any = []
 
@@ -148,6 +165,22 @@ class StatisticPageStore {
                 answers = answers.concat(question.answers)
             })
             this.selectedQuestionsData = {detailquestionstatisticSet: detailquestionstatisticSet, answers: answers}
+
+        }else if(this.activePageOnTopMenu === 2){
+
+            let detailquestionstatisticArr: any = []
+            toJS(this.allDetailQuestionStatistic)?.map((question) =>{
+                detailquestionstatisticArr = detailquestionstatisticArr?.concat(question?.detailquestionstatisticSet)
+            })
+            console.log(detailquestionstatisticArr)
+
+            let answers: any = []
+            toJS(this.allDetailQuestionStatistic)?.map((question) =>{
+                answers = answers.concat(question.answers)
+            })
+            console.log(answers)
+            // this.changeIsOpenQuestion(true)
+            this.selectedQuestionsData = {detailquestionstatisticSet: detailquestionstatisticArr, answers: answers}
         }
 
     }

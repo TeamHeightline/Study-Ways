@@ -158,8 +158,13 @@ class StatisticByQuestionsDataStore {
             )
         }
         if(this.showPassesOnlyIfTheyDoneInQS){
-            __passedQuestionsObjectsArray = __passedQuestionsObjectsArray.filter((passedQuestion) =>
-            Number(passedQuestion?.attemptData?.questionSequence?.id) == Number(StatisticPageStoreObject?.selectedQuestionSequenceID))
+            if(StatisticPageStoreObject.activePageOnTopMenu !==2){
+                __passedQuestionsObjectsArray = __passedQuestionsObjectsArray.filter((passedQuestion) =>
+                Number(passedQuestion?.attemptData?.questionSequence?.id) == Number(StatisticPageStoreObject?.selectedQuestionSequenceID))
+            }else{
+                __passedQuestionsObjectsArray = __passedQuestionsObjectsArray.filter((passedQuestion) =>
+                    passedQuestion?.attemptData?.questionSequence?.id)
+            }
         }
         if(this.showPassesOnlyInActiveExamMode){
             __passedQuestionsObjectsArray = __passedQuestionsObjectsArray.filter((passedQuestion) =>
@@ -195,7 +200,13 @@ class StatisticByQuestionsDataStore {
     }
 
     get multiQuestionMode(){
-        return StatisticPageStoreObject.activePageOnTopMenu === 1;
+        return StatisticPageStoreObject.activePageOnTopMenu === 1 || StatisticPageStoreObject.activePageOnTopMenu === 2;
+    }
+
+    rowLimit: number | number[]  = 100
+
+    changeRowLimit(newLimit: number | number[]){
+        this.rowLimit = Number(newLimit)
     }
 
 

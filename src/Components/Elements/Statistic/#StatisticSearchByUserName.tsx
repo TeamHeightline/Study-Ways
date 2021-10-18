@@ -9,7 +9,7 @@ export const StatisticSearchByUserName= observer(() =>{
     return(
             <TextField
                 value={toJS(StatisticByQuestionDataStoreObject.searchingUserName)}
-                onChange={(e) =>
+                onChange={ async(e) =>
                     StatisticByQuestionDataStoreObject.changeSearchingUserName(e.target.value)}
                 label="Имя пользователя" fullWidth variant="outlined"
                        InputProps={{

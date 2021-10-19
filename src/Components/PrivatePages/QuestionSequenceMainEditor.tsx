@@ -48,7 +48,7 @@ export default function QuestionSequenceMainEditor(){
                 Создать новую серию вопросов
             </Button>
             <Row className="justify-content-around">
-                {sort(question_sequence_data?.me?.questionsequenceSet).desc((sequence: any) => sequence.id)
+                {sort(question_sequence_data?.me?.questionsequenceSet).desc((sequence: any) => sequence?.id)
                     ?.map((sequence: any, ) => {
                     return(
                         <Card variant="outlined" key={sequence?.id + "SequenceKey"} className="mt-3 col-md-5 col-12" style={{padding: 0}}

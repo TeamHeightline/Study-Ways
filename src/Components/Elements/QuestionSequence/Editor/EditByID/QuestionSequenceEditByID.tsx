@@ -24,7 +24,7 @@ export default function QuestionSequenceEditByID({...props}: any) {
     const [autoSaveTimer, changeAutoSaveTimer] = useState<any>()
 
     const getSequenceQuestionArrayWithoutNull = () => {
-        return(questionsIDArray.filter((question) => question !== null))
+        return(questionsIDArray.filter((question) => question !== null && typeof question !== 'object'))
     }
 
     const [updateQuestionSequence] = useMutation<Mutation, {sequenceData: any, sequenceId: number, name: string, description: string}>

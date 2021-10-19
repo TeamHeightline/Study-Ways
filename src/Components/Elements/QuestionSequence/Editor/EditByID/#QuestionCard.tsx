@@ -9,6 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import {sort} from "fast-sort";
 
 export default function QuestionCard({...props}: any) {
     //Логика для выбора тем, скопирована с [LC]MainUserQuestion
@@ -149,7 +150,7 @@ export default function QuestionCard({...props}: any) {
                                         setSelectedTheme(event.target.value)
                                         setQuestionForSelectAfterSelectedTheme(event.target.value)
                                     }}>
-                                    {themesForSearching.map((theme: any) => {
+                                    {sort(themesForSearching).asc((theme: any) => theme?.name)?.map((theme: any) => {
                                         return (<option key={theme.id + "themeForSelect"}
                                                         value={theme.id}>Тема: {theme.name}</option>)
                                     })}

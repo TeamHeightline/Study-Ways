@@ -83,7 +83,7 @@ export const MainUserQuestionPage = observer(() =>{
 
                                 >
                                     {toJS(QuestionPageStorage.QuestionsAfterSelectTheme).map((question) =>{
-                                        return(<MenuItem key={question?.id + "questionSelect"} value={question?.id}>{question?.text}</MenuItem>)
+                                        return(<MenuItem key={question?.id + "questionSelect"} value={question?.id}>{"ID: " + question?.id + " " + question?.text}</MenuItem>)
                                     })}
                                 </Select>
                             </FormControl>

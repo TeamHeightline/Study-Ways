@@ -362,7 +362,7 @@ export default function CardEditByID({cardId, ...props}: any){
                 </Button> : null}
             <Grid container style={{paddingLeft: window.innerHeight / window.innerWidth > 1 ? 0 : 48}}>
                 <Grid item xs={12} md={6} style={{paddingRight: window.innerHeight / window.innerWidth > 1 ? 0 : 24}}>
-                    <Typography variant="h6" color="textPrimary">{"ID: " + cardID + " " + cardHeader}</Typography>
+                    <Typography variant="h5" color="textPrimary" style={{marginTop: 12}}>{"ID: " + cardID}</Typography>
                 </Grid>
                 <Grid item xs={12} md={6}>
                     {memedCardEditMenu}

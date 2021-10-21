@@ -23,6 +23,7 @@ import {sort} from "fast-sort";
 import {GET_CARD_DATA_BY_ID, GET_OWN_AUTHOR, QUESTION_BY_ID, UPDATE_CARD, GET_THEMES, MenuProps} from "./Struct"
 import CopyrightIcon from "@material-ui/icons/Copyright";
 import {CardEditArrowNavigationAndBandAQuestions} from './#CardEditArrowNavigationAndBandAQuestions'
+import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 
 export default function CardEditByID({cardId, ...props}: any){
     const [autoSaveTimer, changeAutoSaveTimer] = useState<any>()
@@ -58,6 +59,7 @@ export default function CardEditByID({cardId, ...props}: any){
     const [isUseArrowNavigation, setIsUseArrowNavigation] = useState(false)
 
     const [dataForThemeTreeView, setDataForThemeTreeView] = useState<any[]>([])
+    const isMobile = isMobileHook()
 
 
 
@@ -360,15 +362,15 @@ export default function CardEditByID({cardId, ...props}: any){
                 }}>
                     Назад
                 </Button> : null}
-            <Grid container style={{paddingLeft: window.innerHeight / window.innerWidth > 1 ? 0 : 48}}>
-                <Grid item xs={12} md={6} style={{paddingRight: window.innerHeight / window.innerWidth > 1 ? 0 : 24}}>
+            <Grid container style={{paddingLeft: isMobile? 0 : 48}}>
+                <Grid item xs={12} md={6} style={{paddingRight: isMobile? 0 : 24}}>
                     <Typography variant="h5" color="textPrimary" style={{marginTop: 12}}>{"ID: " + cardID}</Typography>
                 </Grid>
                 <Grid item xs={12} md={6}>
                     {memedCardEditMenu}
                 </Grid>
                 <Grid item xs={12} md={6}
-                      style={{paddingRight: window.innerHeight / window.innerWidth > 1 ? 0 : 24, marginTop: 12}}>
+                      style={{paddingRight: isMobile? 0 : 24, marginTop: 12}}>
                     <FormControl fullWidth>
                         {/*<InputLabel id="question-author-multiple">Название карточки / Заголовок карточки</InputLabel>*/}
                         <TextField
@@ -389,7 +391,7 @@ export default function CardEditByID({cardId, ...props}: any){
                     </Grid>
                 </Grid>
                 <Grid item xs={12} md={6}
-                      style={{marginTop: 24, paddingRight: window.innerHeight / window.innerWidth > 1 ? 0 : 24}}>
+                      style={{marginTop: 24, paddingRight: isMobile? 0 : 24}}>
                     {memedThemeTree}
                 </Grid>
 
@@ -421,16 +423,16 @@ export default function CardEditByID({cardId, ...props}: any){
 
 
             <Grid container style={{
-                paddingLeft: window.innerHeight / window.innerWidth > 1 ? 0 : 48,
-                marginTop: window.innerHeight / window.innerWidth > 1 ? 0 : 6,
+                paddingLeft: isMobile? 0 : 48,
+                marginTop: isMobile? 0 : 6,
             }}>
                 <Grid item xs={12} md={6}
-                      style={{paddingRight: window.innerHeight / window.innerWidth > 1 ? 0 : 24}}>
+                      style={{paddingRight: isMobile? 0 : 24}}>
                     {isUseMainContent && mainContentType === 0 &&
                         <Fragment>
                             <ReactPlayer controls
                                          url={cardYoutubeVideoUrl}
-                                         height={window.innerHeight / window.innerWidth > 1 ? window.innerWidth / 16 * 9 : 384}
+                                         height={isMobile? window.innerWidth / 16 * 9 : 384}
                                          width="100%"
                             />
                             <TextField

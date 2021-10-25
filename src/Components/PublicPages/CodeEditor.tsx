@@ -92,32 +92,38 @@ export const CodeEditor = observer(() =>{
             )}
         </Highlight>
     )
+    // return(
+    //
+    //     <div>
+    //         <Grid container>
+    //             <Grid item xs={6}>
+    //                 <Editor
+    //                     value={code}
+    //                     onValueChange={code => setCode(code)}
+    //                     highlight={highlight}
+    //                     padding={10}
+    //                     style={{
+    //                         boxSizing: 'border-box',
+    //                         fontFamily: '"Dank Mono", "Fira Code", monospace',
+    //                         overflowY: "auto"
+    //                     }}
+    //                 />
+    //             </Grid>
+    //             <Grid item xs={6}>
+    //                 <div style={{backgroundColor: "white"}}  dangerouslySetInnerHTML={{ __html: code }}/>
+    //                 {/*<script*/}
+    //                 {/*    type="text/javascript"*/}
+    //                 {/*    dangerouslySetInnerHTML={{ __html: oldCode2 }}*/}
+    //                 {/*/>*/}
+    //             </Grid>
+    //         </Grid>
+    //
+    //     </div>
+    // )
     return(
+        <iframe style={{height: "50wh", width: "50vw"}} src="https://3dspace.alaska.edu/explorer.html?chapter=Mechanics&card=2_01_01_01&scenario=Stars_&env=5">
 
-        <div>
-            <Grid container>
-                <Grid item xs={6}>
-                    <Editor
-                        value={code}
-                        onValueChange={code => setCode(code)}
-                        highlight={highlight}
-                        padding={10}
-                        style={{
-                            boxSizing: 'border-box',
-                            fontFamily: '"Dank Mono", "Fira Code", monospace',
-                            overflowY: "auto"
-                        }}
-                    />
-                </Grid>
-                <Grid item xs={6}>
-                    <div style={{backgroundColor: "white"}}  dangerouslySetInnerHTML={{ __html: code }}/>
-                    {/*<script*/}
-                    {/*    type="text/javascript"*/}
-                    {/*    dangerouslySetInnerHTML={{ __html: oldCode2 }}*/}
-                    {/*/>*/}
-                </Grid>
-            </Grid>
-
-        </div>
+        </iframe>
     )
+
 })

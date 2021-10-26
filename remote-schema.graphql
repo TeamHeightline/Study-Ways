@@ -77,6 +77,7 @@ type CardNode {
     author: [CardAuthorNode!]!
     cardContentType: CardCardContentType!
     copyright: String
+    hardLevel: CardHardLevel!
     id: ID!
     isCardUseAdditionalText: Boolean!
     isCardUseArrowNavigation: Boolean!
@@ -326,6 +327,7 @@ type Mutation {
     return `unarchiving=True` on output.
     """
     tokenAuth(email: String, password: String!, username: String): ObtainJSONWebToken
+    unstructuredTheme(input: UnstructuredThemeMutationInput!): UnstructuredThemeMutationPayload
     """
 
     Update user model fields, defined on settings.
@@ -471,6 +473,7 @@ type Query {
     questionSequence: [QuestionSequenceNode]
     questionSequenceById(id: ID): QuestionSequenceNode
     questionThemes: [QuestionThemesNode]
+    unstructuredTheme: [UnstructuredThemesNode]
     "The ID of the object"
     user(id: ID!): UserNode
     users(after: String, before: String, email: String, first: Int, isActive: Boolean, last: Int, offset: Int, status_Archived: Boolean, status_SecondaryEmail: String, status_Verified: Boolean, username: String, username_Icontains: String, username_Istartswith: String): UserNodeConnection
@@ -643,6 +646,20 @@ type SwapEmails {
     success: Boolean
 }
 
+type UnstructuredThemeMutationPayload {
+    clientMutationId: String
+    errors: [ErrorType]
+    unstructuredTheme: UnstructuredThemesNode
+}
+
+type UnstructuredThemesNode {
+    globalIndex: Int!
+    id: ID!
+    parent: UnstructuredThemesNode
+    text: String!
+    unstructuredthemeSet: [UnstructuredThemesNode!]!
+}
+
 """
 
 Update user model fields, defined on settings.
@@ -691,6 +708,7 @@ type UserNode implements Node {
     questionsequenceSet: [QuestionSequenceNode!]!
     questionthemesSet: [QuestionThemesNode!]!
     secondaryEmail: String
+    unstructuredthemeSet: [UnstructuredThemesNode!]!
     userAccessLevel: CustomUserUserAccessLevel!
     "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
     username: String!
@@ -773,6 +791,20 @@ enum CardCardContentType {
 }
 
 "An enumeration."
+enum CardHardLevel {
+    "Выпускникам школ"
+    A_0
+    "Успешным лицеистам и гимназистам"
+    A_1
+    "Рядовым студентам"
+    A_2
+    "Будущим специалистам"
+    A_3
+    "Специалистам (Real Science)"
+    A_4
+}
+
+"An enumeration."
 enum CustomUserUserAccessLevel {
     "Admin"
     ADMIN
@@ -818,6 +850,7 @@ input CardMutationInput {
     clientMutationId: String
     copyright: String
     createdBy: ID!
+    hardLevel: String
     id: ID
     isCardUseAdditionalText: Boolean
     isCardUseArrowNavigation: Boolean
@@ -914,6 +947,15 @@ input StatisticMutationInput {
     numberOfPasses: Int!
     question: ID!
     sumOfAllAttempts: Int!
+}
+
+input UnstructuredThemeMutationInput {
+    clientMutationId: String
+    createdBy: ID!
+    globalIndex: Int
+    id: ID
+    parent: ID
+    text: String!
 }
 
 input UpdateCardCourseInput {

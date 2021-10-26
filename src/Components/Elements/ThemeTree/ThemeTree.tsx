@@ -9,9 +9,13 @@ import { Placeholder } from "./Placeholder";
 import styles from "./App.module.css";
 import SampleData from "./sample_data.json";
 import { CustomDragPreview } from "./CustomDragPreview";
+import {GET_ALL_UNSTRUCTURED_THEME} from "./Struct";
+import {useQuery} from "@apollo/client";
 
 function ThemeTree() {
   const [treeData, setTreeData] = useState<NodeModel<CustomData>[]>(SampleData);
+  const {data, loading} = useQuery(GET_ALL_UNSTRUCTURED_THEME)
+  
   const handleDrop = (newTree: NodeModel<CustomData>[]) => setTreeData(newTree);
 
   console.log(treeData)

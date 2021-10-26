@@ -58,17 +58,19 @@ export const MainCardPublicView = observer(({...props}: any) =>{
                 {toJS(CardPageStorage.cardsDataAfterSelectAuthor) && toJS(CardPageStorage.cardsDataAfterSelectAuthor)
                     ?.filter(card => card.title != "Название карточки по умолчанию")
                     ?.map((sameCard: any, sIndex) =>{
-                    return(
-                        <Grow in={true}  key={sIndex+ "CardMicroView"}>
-                            <div>
-                                <CardMicroView className="mt-2" cardID={sameCard.id}
-                                onChange={(data) =>{
-                                    CardPageStorage.selectedCardID = data
-                                    CardPageStorage.isOpenCard = true
-                                }}/>
-                            </div>
-                        </Grow>
-                    )
+                        if(sIndex < 300){
+                            return(
+                                <Grow in={true}  key={sIndex+ "CardMicroView"}>
+                                    <div>
+                                        <CardMicroView className="mt-2" cardID={sameCard.id}
+                                        onChange={(data) =>{
+                                            CardPageStorage.selectedCardID = data
+                                            CardPageStorage.isOpenCard = true
+                                        }}/>
+                                    </div>
+                                </Grow>
+                            )
+                        }
                 })}
             </Row>
         </div>

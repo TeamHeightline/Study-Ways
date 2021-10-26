@@ -227,11 +227,14 @@ export const CARD = observer(({id, ...props}: any) =>{
                                              // url="https://www.youtube.com/watch?v=vpMJ_rNN9vY"
                                                 url={card_data?.cardById?.videoUrl}
                                 />
+                                //     <iframe style={{height: "100%", width: "100%"}} src="https://3dspace.alaska.edu/explorer.html?chapter=Mechanics&card=2_01_01_01&scenario=Stars_&env=5">
+                                //
+                                //     </iframe>
                             }
                             {(card_data?.cardById.cardContentType === "A_1" || card_data?.cardById.cardContentType === "A_2") &&
                             <div
                                 className={card_data?.cardById.cardContentType === "A_1" ? "hoverImage": ""}
-                                style={{backgroundImage: "url(" + cardImage + ")",
+                                style={{backgroundImage: cardImage? "url(" + cardImage + ")" : "url(https://image-store-iot-experemental.s3.eu-north-1.amazonaws.com/cards-images/template/301.png)",
                                 backgroundSize: "cover",
                                 backgroundRepeat: "no-repeat",
                                 width: "100%",

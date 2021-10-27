@@ -1,4 +1,4 @@
-import {action, autorun, computed, makeObservable, observable, toJS} from "mobx";
+import {autorun,  makeAutoObservable, toJS} from "mobx";
 import {ClientStorage} from "../../ApolloStorage/ClientStorage";
 import {GET_ALL_CARDS, GET_THEMES} from "./Struct";
 import {GlobalCardThemeNode, Maybe} from "../../../../SchemaTypes";
@@ -9,25 +9,7 @@ const { SHOW_CHILD } = TreeSelect;
 
 class CardPage{
     constructor() {
-        makeObservable(this, {
-            clientStorage: observable ,
-            cardsData: observable,
-            dataHasBeenGot: observable,
-            selectedCardID: observable,
-            isOpenCard: observable,
-            cardsDataAfterSelectTheme: computed,
-            cardsDataAfterSelectContentType: computed,
-            cardsDataAfterSelectAuthor: computed,
-            selectedThemes: observable,
-            dataForCardSubThemeSelect: observable,
-            getCardsDataFromServer: action,
-            getDataForCardSubThemeSelectFromServer: action,
-            cardSelectedThemeID: observable,
-            tProps: computed,
-            selectedContentType: observable,
-            selectedAuthor: observable,
-            authorsArray: computed,
-        })
+        makeAutoObservable(this)
         autorun(() => this.getCardsDataFromServer())
     }
 
@@ -205,6 +187,28 @@ class CardPage{
                 }))
             })))
         }
+    }
+
+    get CardsAfterFiltering(){
+        return(this.cardsDataAfterSelectAuthor?.filter(card => card.title != "Название карточки по умолчанию"))
+    }
+
+    numberOfCardsOnPage = 100
+
+    get cardsDataForRender(){
+        return(this.CardsAfterFiltering.slice((this.activeCardMicroViewPage-1) * this.numberOfCardsOnPage,
+            this.activeCardMicroViewPage * this.numberOfCardsOnPage))
+    }
+
+    //Страница на которой пользователь находится
+    activeCardMicroViewPage = 1
+
+    get pageNumber(){
+        return(this.activeCardMicroViewPage)
+    }
+
+    changeActiveCardMicroViewPage(newPageIndex: number){
+        this.activeCardMicroViewPage = newPageIndex
     }
 
     //--------------------------------------------------------------

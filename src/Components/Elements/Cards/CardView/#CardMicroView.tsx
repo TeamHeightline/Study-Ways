@@ -37,7 +37,7 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
         variables:{
             id: cardID
         },
-        pollInterval: 3000,
+        pollInterval: props?.disableReload ? 300000000000000000: 3000,
         onCompleted: () => {
             get_card_image()
         },
@@ -51,7 +51,7 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
         return (
             // <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
             <div {...props}>
-                <Card variant="outlined" className={classes.root}>
+                <Card variant="outlined" className={classes.root} onClick={() =>{props.onChange(cardID)}}>
                     <Row>
                         <Skeleton variant="rect" width={130} height={170} />
                     </Row>
@@ -104,7 +104,7 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                                     <Chip size="small" variant="outlined"
                                           label={card_data?.cardById?.subTheme[0]?.name.slice(0, 25)}/>
 
-                                </Popover> : <div></div>}
+                                </Popover> : <div/>}
                             <br/>
                             {card_data?.cardById?.author.length !== 0 ?
                                         <Chip className="mt-1" label={card_data?.cardById?.author[0]?.name.slice(0, 25)}

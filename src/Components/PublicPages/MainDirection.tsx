@@ -16,26 +16,25 @@ import DoneAllIcon from "@material-ui/icons/DoneAll";
 import {QSPlayerByID} from "../Elements/QuestionSequence/Public/QSPlayerByID";
 import LinearScaleIcon from '@material-ui/icons/LinearScale';
 
+const maxWidthOfElement = 470
 const directionStoreObject = new DirectionStore()
 export const MainDirection = observer(() =>{
     return(
         <div className="col-12" >
             <div style={{overflowX: "auto"}}>
-                <Stepper nonLinear activeStep={-10} alternativeLabel style={{width: 4000}}>
+                <Stepper nonLinear activeStep={-10} alternativeLabel style={{width: maxWidthOfElement * directionStoreObject.directionProcessedObject.length}}>
                 {directionStoreObject.directionProcessedObject.map((processed_object, index) => (
                     <Step key={index}>
                         { processed_object.type === "CardElement" &&
-
                                 <StepLabel
                                     StepIconComponent={ArtTrackIcon}
-
+                                    style={{width: maxWidthOfElement, height: 180}}
                                     onClick={() => {
                                     directionStoreObject.openCardID = Number(processed_object?.cardID)
                                     directionStoreObject.openCard()
                                 }}>
-                                    <div style={{width: 530, height: "170px", textAlign: "left"}} >
+                                    <div  style={{textAlign: "left", marginLeft: (maxWidthOfElement - 400) / 2}}>
                                         <CardMicroView cardID={processed_object.cardID}
-                                                       style={{marginLeft: 65}}
                                                        onChange={() => {
                                                            directionStoreObject.openCardID = Number(processed_object?.cardID)
                                                            directionStoreObject.openCard()
@@ -44,9 +43,8 @@ export const MainDirection = observer(() =>{
                                 </StepLabel>
 
                         }
-
                         {processed_object.type === "CourseElement" &&
-                                <StepLabel StepIconComponent={BlurLinearIcon} style={{width: 530, textAlign: "center"}}>
+                                <StepLabel StepIconComponent={BlurLinearIcon} style={{width: maxWidthOfElement, textAlign: "center"}}>
                                     {directionStoreObject?.cardCourse &&
                                         <CourseMicroView
                                             onEdit={() => {
@@ -59,8 +57,8 @@ export const MainDirection = observer(() =>{
                                 </StepLabel>
                             }
                         {processed_object.type === "QuestionElement" &&
-                        <StepLabel StepIconComponent={DoneAllIcon} style={{width: 530}}>
-                            <Card style={{width: 400, height: 160, marginLeft: 65}} variant="outlined">
+                        <StepLabel StepIconComponent={DoneAllIcon} style={{width: maxWidthOfElement}}>
+                            <Card style={{width: 400, height: 160, marginLeft: (maxWidthOfElement - 400) / 2}} variant="outlined">
                                 <CardActionArea style={{height: "100%"}} onClick={() => processed_object.handleClickOnQuestionCard()}>
                                     <Typography>
                                         {processed_object?.questionText}
@@ -70,8 +68,8 @@ export const MainDirection = observer(() =>{
                         </StepLabel>
                         }
                         {processed_object.type === "QuestionSequenceElement" &&
-                        <StepLabel StepIconComponent={LinearScaleIcon} style={{width: 530}}>
-                            <Card style={{width: 400, height: 160, marginLeft: 65}} variant="outlined">
+                        <StepLabel StepIconComponent={LinearScaleIcon} style={{width: maxWidthOfElement}}>
+                            <Card style={{width: 400, height: 160, marginLeft: (maxWidthOfElement - 400) / 2}} variant="outlined">
                                 <CardActionArea style={{height: "100%"}} onClick={() => processed_object.handleClickOnQuestionSequnceCard()}>
                                     <Typography>
                                         {processed_object?.qsName}

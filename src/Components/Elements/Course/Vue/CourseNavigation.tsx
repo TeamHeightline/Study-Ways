@@ -9,7 +9,7 @@ export default function CourseNavigation({course, ...props}: any){
 
     return(
         <div>
-            <div style={{width: 290, overflowX: "auto"}}>
+            <div style={{overflowX: "auto"}}>
                 {course.courseData.length !== 0 && course.courseData.map((courseRow, CRI) =>{
                     return(
                         <>

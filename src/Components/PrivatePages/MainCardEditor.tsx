@@ -105,7 +105,10 @@ export default function MainCardEditor({...props}: any){
                     .slice(0, 100)
                     .map((e: any) =>{
                     return(
-                            <CardMicroView  cardID={e?.id} key={e?.id + "CardKey"}  className="mt-3 ml-1 col-12 col-md-3"
+                            <CardMicroView  cardID={e?.id} key={e?.id + "CardKey"}
+                                            isNowEditableCard={e?.id === selectedCardID}
+                                            isEditNow={isEditNow}
+                                            className="mt-3 ml-1 col-12 col-md-3"
                                             onChange={selectCardForEditHandle}/>
                         )
                 })}

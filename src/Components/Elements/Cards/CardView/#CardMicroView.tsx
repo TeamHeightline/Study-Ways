@@ -33,11 +33,11 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
             })
     }
 
-    const {data: card_data} = useQuery(GET_CARD_FOR_MICRO_VIEW_BY_ID, {
+    const {data: card_data, refetch} = useQuery(GET_CARD_FOR_MICRO_VIEW_BY_ID, {
         variables:{
             id: cardID
         },
-        pollInterval: props?.disableReload ? 300000000000000000: 3000,
+        fetchPolicy: "cache-first",
         onCompleted: () => {
             get_card_image()
         },
@@ -46,6 +46,11 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
     useEffect(() =>{
         get_card_image()
     }, [card_data?.cardById?.cardContentType])
+    useEffect(() =>{
+        if(props?.isNowEditableCard){
+            refetch()
+        }
+    } , [props?.isEditNow, props?.isNowEditableCard])
 
     if (!card_data){
         return (
@@ -87,8 +92,9 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                             {Number(card_data.cardById.cardContentType[2]) === 2 && <Chip style={{marginLeft: 12}} size="small" variant="outlined" color="default" icon={<ImageIcon />} label="Изображение"/>}
 
                         </Typography>
-                        <Typography variant="button" display="block" gutterBottom>
-                            {card_data?.cardById?.title.slice(0, 48)}
+
+                        <Typography style={{maxHeight: 48, overflow: "hidden"}}>
+                            {card_data?.cardById?.title.slice(0, 56)}
                         </Typography>
 
                         <Typography>

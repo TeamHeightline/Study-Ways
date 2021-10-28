@@ -34,7 +34,6 @@ export const GET_CARD_FOR_MICRO_VIEW_BY_ID = gql`
     query GET_CARD_FOR_MICRO_VIEW_BY_ID($id: ID!){
         cardById(id: $id){
             id
-            text
             title
             cardContentType
             videoUrl

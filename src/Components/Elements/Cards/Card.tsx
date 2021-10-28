@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { Col, Row, Spinner} from "react-bootstrap";
 import ReactPlayer from "react-player";
-import {Button, ButtonGroup, Typography, Tooltip} from "@material-ui/core";
+import {Button, ButtonGroup, Typography, Tooltip, Grid} from "@material-ui/core";
 import KeyboardArrowLeftOutlinedIcon from '@material-ui/icons/KeyboardArrowLeftOutlined';
 import KeyboardArrowRightOutlinedIcon from '@material-ui/icons/KeyboardArrowRightOutlined';
 import KeyboardArrowDownOutlinedIcon from '@material-ui/icons/KeyboardArrowDownOutlined';
@@ -76,6 +76,38 @@ const SHOW_CARD_BY_ID = gql`
     }`
 
 
+function CardTitleAuthorThemeAndCopyrightBlock(props: { mobile: boolean, cardData: any, element: (e, eIndex) => JSX.Element, callbackfn: (sameAuthor, aIndex) => (string | string) }) {
+    return <Row className="mt-4">
+        <Col className="col-12">
+            <Row className="ml-2">
+                <Typography variant={props.mobile ? "h6" : "h4"}>{props.cardData?.cardById?.title}</Typography>:
+                {/*<Typography variant="subtitle2">{card_data?.cardById?.id}</Typography>*/}
+                {props.cardData?.cardById?.isCardUseCopyright && props.cardData?.cardById?.copyright &&
+                <Typography variant="h6" className="ml-md-2">
+                    <Tooltip title={
+                        <Typography>{"Правообладателем изложенного материала является: " + props.cardData?.cardById?.copyright}</Typography>}>
+                        <CopyrightIcon/>
+                    </Tooltip>
+                    {props.cardData?.cardById?.copyright}
+                </Typography>}
+            </Row>
+
+            {props.cardData?.cardById?.subTheme[0] &&
+            <Tooltip title={props.cardData?.cardById?.subTheme.map(props.element)}>
+                <Typography color="textPrimary" className="ml-2 mt-2" style={{maxWidth: 600}}>
+                    {props.cardData?.cardById?.subTheme[0]?.theme?.globalTheme?.name + " / " +
+                    props.cardData?.cardById?.subTheme[0]?.theme?.name + " / " +
+                    props.cardData?.cardById?.subTheme[0]?.name}
+                </Typography>
+            </Tooltip>}
+
+            {props.cardData?.cardById?.author && props.cardData?.cardById?.author.length !== 0 &&
+            <Typography className="ml-2" color="textPrimary">
+                {props.cardData?.cardById?.author.map(props.callbackfn)}</Typography>}
+        </Col>
+    </Row>;
+}
+
 export const CARD = observer(({id, ...props}: any) =>{
     const [rating, setRating] = useState<number | null>(4);
     const [cardImage, setCardImage] = useState()
@@ -132,34 +164,55 @@ export const CARD = observer(({id, ...props}: any) =>{
                         }}>
                         Назад
                     </Button>}
-                {props.openFromCourse &&
-                <div className="ml-md-2 mt-4" style={{overflowX: "auto"}}>
-                    <CourseMicroView
-                        course={CoursePageStorage.courseArr[CoursePageStorage.positionData.courseIndex]}
-                        buttonClick={data=>CoursePageStorage.cardSelectInCourseByMouseClick(data,
-                                         CoursePageStorage.positionData.courseIndex, CoursePageStorage.positionData.courseID)}
-                        cardPositionData={CoursePageStorage.positionData}/>
-                </div>}
+
                 { !props.disableAllButtons &&
-                <div className="mt-3 col-lg-3 col-12">
+                <div>
                     {/*Если карточка открывается из курса, то нам нужны кнопки вверх и вниз, если её открыли
                         просто как карточку из MainCardPublicView, то нам нужно только вперед и назад для перемещения
                         по id вперед и назад*/}
                     {props.openFromCourse  ?
-                        <ButtonGroup size="large" color="primary" aria-label="group">
-                            <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Back")} disabled={CoursePageStorage.disabledBack}>
-                                <KeyboardArrowLeftOutlinedIcon/>
-                            </Button>
-                            <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Down")} disabled={CoursePageStorage.disabledDown}>
-                                <KeyboardArrowDownOutlinedIcon/>
-                            </Button>
-                            <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Up")} disabled={CoursePageStorage.disabledUp}>
-                                <KeyboardArrowUpOutlinedIcon/>
-                            </Button>
-                            <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Next")} disabled={CoursePageStorage.disabledNext}>
-                                <KeyboardArrowRightOutlinedIcon/>
-                            </Button>
-                        </ButtonGroup>:
+                        <Grid container>
+                            <Grid item xs={"auto"}>
+                                <div className=" mt-4" style={{overflowX: "auto"}}>
+                                    <CourseMicroView
+                                        course={CoursePageStorage.courseArr[CoursePageStorage.positionData.courseIndex]}
+                                        buttonClick={data=>CoursePageStorage.cardSelectInCourseByMouseClick(data,
+                                            CoursePageStorage.positionData.courseIndex, CoursePageStorage.positionData.courseID)}
+                                        cardPositionData={CoursePageStorage.positionData}/>
+                                </div>
+                                <ButtonGroup size="large" color="primary" aria-label="group" className="mt-2">
+                                    <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Back")} disabled={CoursePageStorage.disabledBack}>
+                                        <KeyboardArrowLeftOutlinedIcon/>
+                                    </Button>
+                                    <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Down")} disabled={CoursePageStorage.disabledDown}>
+                                        <KeyboardArrowDownOutlinedIcon/>
+                                    </Button>
+                                    <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Up")} disabled={CoursePageStorage.disabledUp}>
+                                        <KeyboardArrowUpOutlinedIcon/>
+                                    </Button>
+                                    <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Next")} disabled={CoursePageStorage.disabledNext}>
+                                        <KeyboardArrowRightOutlinedIcon/>
+                                    </Button>
+                                </ButtonGroup>
+                            </Grid>
+                            <Grid item md={8} xs={12} style={{paddingLeft: isMobile? 0: 12}}>
+                                <CardTitleAuthorThemeAndCopyrightBlock mobile={isMobile} cardData={card_data}
+                                                                       element={(e, eIndex) => {
+                                                                           return (
+                                                                               <Typography key={eIndex + "Tooltip"}>
+                                                                                   {e.theme?.globalTheme?.name.toString() + " / "
+                                                                                   + e?.theme?.name.toString() + " / "
+                                                                                   + e?.name.toString()}
+                                                                               </Typography>
+                                                                           )
+                                                                       }} callbackfn={(sameAuthor, aIndex) => {
+                                    if (aIndex !== 0) {
+                                        return (" | " + sameAuthor.name)
+                                    }
+                                    return (sameAuthor.name)
+                                }}/>
+                            </Grid>
+                        </Grid> :
                         <ButtonGroup size="large" color="primary" aria-label="group">
                             <Button onClick={ () => CardPageStorage.selectedCardID = CardPageStorage.selectedCardID - 1}>
                                 <KeyboardArrowLeftOutlinedIcon/>
@@ -174,83 +227,54 @@ export const CARD = observer(({id, ...props}: any) =>{
                     openTestBeforeCard ? <ImageQuestion id={card_data?.cardById?.testBeforeCard?.id}
                                                         questionHasBeenCompleted={() => setOpenTestBeforeCard(false)}/> :
                 <div>
-                    <Row className="mt-4" >
-                        <Col className="col-12">
-                            <Row className="ml-2">
-                                <Typography variant={isMobile? "h6": "h4" }>{card_data?.cardById?.title}</Typography>:
-                                {/*<Typography variant="subtitle2">{card_data?.cardById?.id}</Typography>*/}
-                                {card_data?.cardById?.isCardUseCopyright && card_data?.cardById?.copyright &&
-                                <Typography variant="h6" className="ml-md-2">
-                                    <Tooltip title={<Typography>{"Правообладателем изложенного материала является: " + card_data?.cardById?.copyright}</Typography>}>
-                                        <CopyrightIcon />
-                                    </Tooltip>
-                                    {card_data?.cardById?.copyright}
-                                </Typography> }
-                            </Row>
-
-                            {card_data?.cardById?.subTheme[0] &&
-                            <Tooltip title={card_data?.cardById?.subTheme.map((e, eIndex) =>{
-                                return(
-                                    <Typography key={eIndex+ "Tooltip"}>
-                                        {e.theme?.globalTheme?.name.toString() + " / "
-                                        + e?.theme?.name.toString() + " / "
-                                        + e?.name.toString() }
-                                    </Typography>
-                                )
-                            })} >
-                                <Typography  color="textPrimary" className="ml-2 mt-2" style={{maxWidth: 600}}>
-                                    {card_data?.cardById?.subTheme[0]?.theme?.globalTheme?.name + " / " +
-                                    card_data?.cardById?.subTheme[0]?.theme?.name + " / " +
-                                    card_data?.cardById?.subTheme[0]?.name}
-                                </Typography>
-                            </Tooltip> }
-
-                            {card_data?.cardById?.author && card_data?.cardById?.author.length !==0 &&
-                            <Typography className="ml-2" color="textPrimary">
-                                {card_data?.cardById?.author.map((sameAuthor, aIndex) =>{
-                                if(aIndex !== 0 ){
-                                    return (" | " + sameAuthor.name)
-                                }
-                                return(sameAuthor.name)
-                            })}</Typography>}
-                        </Col>
-                    </Row>
+                    {!props.openFromCourse &&
+                    <CardTitleAuthorThemeAndCopyrightBlock mobile={isMobile} cardData={card_data}
+                                                           element={(e, eIndex) => {
+                                                               return (
+                                                                   <Typography key={eIndex + "Tooltip"}>
+                                                                       {e.theme?.globalTheme?.name.toString() + " / "
+                                                                       + e?.theme?.name.toString() + " / "
+                                                                       + e?.name.toString()}
+                                                                   </Typography>
+                                                               )
+                                                           }} callbackfn={(sameAuthor, aIndex) => {
+                        if (aIndex !== 0) {
+                            return (" | " + sameAuthor.name)
+                        }
+                        return (sameAuthor.name)
+                    }}/>}
                     <Row>
-                        <Col>
-
-                        </Col>
-                    </Row>
-                    <Row >
                         <Col className="col-12 col-lg-5 mt-2">
                             {card_data?.cardById?.cardContentType === "A_0" &&
-                                <ReactPlayer width="auto" height={height/width >= 1 ? "200px":400} controls
-                                             // url="https://www.youtube.com/watch?v=vpMJ_rNN9vY"
-                                                url={card_data?.cardById?.videoUrl}
-                                />
+                            <ReactPlayer width="auto" height={height / width >= 1 ? "200px" : 400} controls
+                                // url="https://www.youtube.com/watch?v=vpMJ_rNN9vY"
+                                         url={card_data?.cardById?.videoUrl}
+                            />
                                 //     <iframe style={{height: "100%", width: "100%"}} src="https://3dspace.alaska.edu/explorer.html?chapter=Mechanics&card=2_01_01_01&scenario=Stars_&env=5">
                                 //
                                 //     </iframe>
                             }
                             {(card_data?.cardById.cardContentType === "A_1" || card_data?.cardById.cardContentType === "A_2") &&
                             <div
-                                className={card_data?.cardById.cardContentType === "A_1" ? "hoverImage": ""}
-                                style={{backgroundImage: cardImage? "url(" + cardImage + ")" : "url(https://image-store-iot-experemental.s3.eu-north-1.amazonaws.com/cards-images/template/301.png)",
-                                backgroundSize: "cover",
-                                backgroundRepeat: "no-repeat",
-                                width: "100%",
-                                height: 400,
-                            }}
-                                onClick={() =>{
-                                    if(card_data?.cardById.cardContentType === "A_1"){
+                                className={card_data?.cardById.cardContentType === "A_1" ? "hoverImage" : ""}
+                                style={{
+                                    backgroundImage: cardImage ? "url(" + cardImage + ")" : "url(https://image-store-iot-experemental.s3.eu-north-1.amazonaws.com/cards-images/template/301.png)",
+                                    backgroundSize: "cover",
+                                    backgroundRepeat: "no-repeat",
+                                    width: "100%",
+                                    height: 400,
+                                }}
+                                onClick={() => {
+                                    if (card_data?.cardById.cardContentType === "A_1") {
                                         console.log("click on image")
-                                        window.open(card_data?.cardById.videoUrl,'_blank')
+                                        window.open(card_data?.cardById.videoUrl, '_blank')
                                     }
-                            }}>
+                                }}>
                             </div>}
                         </Col>
                         {!isMobile &&
                         <Col className="col-12 col-lg-6 mt-4">
-                            <RichTextPreview initialText={card_data?.cardById?.text} onChange={()  => void(0)}/>
+                            <RichTextPreview initialText={card_data?.cardById?.text} onChange={() => void (0)}/>
                             <Typography className="blockquote">На сколько эта карточка была полезна?</Typography>
                             <Rating
                                 className="ml-md-3"
@@ -270,19 +294,19 @@ export const CARD = observer(({id, ...props}: any) =>{
                             </Typography>
                             <ButtonGroup size="large" color="secondary" variant="outlined">
                                 <Button disabled={!card_data?.cardById?.arrowBefore}
-                                        onClick={ () => window.open(card_data?.cardById?.arrowBefore, "_blank")}>
+                                        onClick={() => window.open(card_data?.cardById?.arrowBefore, "_blank")}>
                                     <KeyboardArrowLeftOutlinedIcon/>
                                 </Button>
                                 <Button disabled={!card_data?.cardById?.arrowDown}
-                                        onClick={ () => window.open(card_data?.cardById?.arrowDown, "_blank")}>
+                                        onClick={() => window.open(card_data?.cardById?.arrowDown, "_blank")}>
                                     <KeyboardArrowDownOutlinedIcon/>
                                 </Button>
                                 <Button disabled={!card_data?.cardById?.arrowUp}
-                                        onClick={ () => window.open(card_data?.cardById?.arrowUp, "_blank")}>
+                                        onClick={() => window.open(card_data?.cardById?.arrowUp, "_blank")}>
                                     <KeyboardArrowUpOutlinedIcon/>
                                 </Button>
                                 <Button disabled={!card_data?.cardById?.arrowNext}
-                                        onClick={ () => window.open(card_data?.cardById?.arrowNext, "_blank")}>
+                                        onClick={() => window.open(card_data?.cardById?.arrowNext, "_blank")}>
                                     <KeyboardArrowRightOutlinedIcon/>
                                 </Button>
                             </ButtonGroup>
@@ -290,7 +314,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                         }
                         {isMobile &&
                         <Col className="col-12 col-lg-6 mt-4">
-                            <RichTextPreview initialText={card_data?.cardById?.text} onChange={()  => void(0)}/>
+                            <RichTextPreview initialText={card_data?.cardById?.text} onChange={() => void (0)}/>
                             <Typography className="blockquote">На сколько эта карточка была полезна?</Typography>
                             <Rating
                                 className="ml-md-3"
@@ -333,9 +357,9 @@ export const CARD = observer(({id, ...props}: any) =>{
                             </DialogActions>
                         </Dialog>}
                         {card_data?.cardById?.isCardUseTestInCard && card_data?.cardById?.testInCard?.id &&
-                            <div style={{marginTop: 12}}>
-                                <ImageQuestion id={card_data?.cardById?.testInCard?.id}/>
-                            </div>}
+                        <div style={{marginTop: 12}}>
+                            <ImageQuestion id={card_data?.cardById?.testInCard?.id}/>
+                        </div>}
                     </div>
 
                 </div>}

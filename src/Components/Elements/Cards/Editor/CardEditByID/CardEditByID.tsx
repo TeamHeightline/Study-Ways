@@ -30,7 +30,7 @@ export default function CardEditByID({cardId, ...props}: any){
     const [stateOfSave, setStateOfSave] = useState(2) // 0- не сохранено 1- сохранение 2- сохранено
 
     const [cardID] = useState(cardId? cardId: props?.match?.params?.id)
-    const [cardHeader, setCardHeader] = useState("Заголовок по умолчанию")
+    const [cardHeader, setCardHeader] = useState("Название карточки по умолчанию")
     const [cardSelectedThemeID, setCardSelectedThemeID] = useState([])
     const [cardAuthorId, changeCardAuthorId]: any = useState([]);
 
@@ -380,7 +380,7 @@ export default function CardEditByID({cardId, ...props}: any){
                             variant="filled"
                             rowsMax={3}
                             // style={{width: "50vw"}}
-                            value={cardHeader}
+                            value={cardHeader !== 'Название карточки по умолчанию'? cardHeader : undefined}
                             onChange={cardHeaderHandle}
                         />
                     </FormControl>

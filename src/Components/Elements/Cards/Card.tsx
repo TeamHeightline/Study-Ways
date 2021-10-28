@@ -79,11 +79,11 @@ const SHOW_CARD_BY_ID = gql`
 function CardTitleAuthorThemeAndCopyrightBlock(props: { mobile: boolean, cardData: any, element: (e, eIndex) => JSX.Element, callbackfn: (sameAuthor, aIndex) => (string | string) }) {
     return <Row className="mt-4">
         <Col className="col-12">
-            <Row className="ml-2">
-                <Typography variant={props.mobile ? "h6" : "h4"}>{props.cardData?.cardById?.title}</Typography>:
+            <Row className="pl-2">
+                <Typography className="pl-md-2" variant={props.mobile ? "h6" : "h4"}>{props.cardData?.cardById?.title}</Typography>:
                 {/*<Typography variant="subtitle2">{card_data?.cardById?.id}</Typography>*/}
                 {props.cardData?.cardById?.isCardUseCopyright && props.cardData?.cardById?.copyright &&
-                <Typography variant="h6" className="ml-md-2">
+                <Typography variant="h6" className="pl-md-2">
                     <Tooltip title={
                         <Typography>{"Правообладателем изложенного материала является: " + props.cardData?.cardById?.copyright}</Typography>}>
                         <CopyrightIcon/>
@@ -94,7 +94,7 @@ function CardTitleAuthorThemeAndCopyrightBlock(props: { mobile: boolean, cardDat
 
             {props.cardData?.cardById?.subTheme[0] &&
             <Tooltip title={props.cardData?.cardById?.subTheme.map(props.element)}>
-                <Typography color="textPrimary" className="ml-2 mt-2" style={{maxWidth: 600}}>
+                <Typography color="textPrimary" className="pl-2 mt-2" style={{maxWidth: 600}}>
                     {props.cardData?.cardById?.subTheme[0]?.theme?.globalTheme?.name + " / " +
                     props.cardData?.cardById?.subTheme[0]?.theme?.name + " / " +
                     props.cardData?.cardById?.subTheme[0]?.name}
@@ -102,7 +102,7 @@ function CardTitleAuthorThemeAndCopyrightBlock(props: { mobile: boolean, cardDat
             </Tooltip>}
 
             {props.cardData?.cardById?.author && props.cardData?.cardById?.author.length !== 0 &&
-            <Typography className="ml-2" color="textPrimary">
+            <Typography className="pl-2" color="textPrimary">
                 {props.cardData?.cardById?.author.map(props.callbackfn)}</Typography>}
         </Col>
     </Row>;
@@ -150,10 +150,10 @@ export const CARD = observer(({id, ...props}: any) =>{
     // console.log("disabledNext " + props.disabledNext)
     return(
         <div className="col-12" style={{padding: 0}}>
-            <div className=" col-12 mr-md-2 ml-md-2">
+            <div className=" col-12 mr-md-2 pl-md-2">
                 {!props.disableAllButtons &&
                     <Button
-                        className="ml-md-2 mt-4  col-12 col-lg-2 mr-2"
+                        className="pl-md-2 mt-4  col-12 col-lg-2 mr-2"
                         variant="outlined" color="primary"
                         onClick={ () => {
                             if(props?.openFromCourse){
@@ -250,7 +250,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                                 // url="https://www.youtube.com/watch?v=vpMJ_rNN9vY"
                                          url={card_data?.cardById?.videoUrl}
                             />
-                                //     <iframe style={{height: "100%", width: "100%"}} src="https://3dspace.alaska.edu/explorer.html?chapter=Mechanics&card=2_01_01_01&scenario=Stars_&env=5">
+                                //     <iframe style={{height: "100%", width: "100%"}} src="https://3dspace.alaska.edu/explorer.htpl?chapter=Mechanics&card=2_01_01_01&scenario=Stars_&env=5">
                                 //
                                 //     </iframe>
                             }
@@ -277,7 +277,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                             <RichTextPreview initialText={card_data?.cardById?.text} onChange={() => void (0)}/>
                             <Typography className="blockquote">На сколько эта карточка была полезна?</Typography>
                             <Rating
-                                className="ml-md-3"
+                                className="pl-md-3"
                                 name="simple-controlled"
                                 value={rating}
                                 onChange={(event, newValue) => {
@@ -317,7 +317,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                             <RichTextPreview initialText={card_data?.cardById?.text} onChange={() => void (0)}/>
                             <Typography className="blockquote">На сколько эта карточка была полезна?</Typography>
                             <Rating
-                                className="ml-md-3"
+                                className="pl-md-3"
                                 name="simple-controlled"
                                 value={rating}
                                 onChange={(event, newValue) => {

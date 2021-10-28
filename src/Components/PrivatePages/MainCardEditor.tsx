@@ -23,23 +23,7 @@ const GET_ALL_CARD_DATA = gql`
                     id
                     name
                 }
-                isCardUseAdditionalText
-                isCardUseMainContent
-                isCardUseMainText
-                isCardUseTestBeforeCard
-                isCardUseTestInCard
                 cardContentType
-                text
-                title
-                additionalText
-                siteUrl
-                videoUrl
-                testBeforeCard{
-                    id
-                }
-                testInCard{
-                    id
-                }
             }
         }
     }`
@@ -116,7 +100,9 @@ export default function MainCardEditor({...props}: any){
             </Row>
             <Row className="justify-content-around col-12 pl-3 pr-3 ">
                 <CreateNewCard className="mt-3 col-12 col-md-3 ml-1" onCreate={() =>refetch()}/>
-                {cardsDataAfterSelectAuthor && sort(cardsDataAfterSelectAuthor).desc((card: any) => Number(card?.id))
+                {cardsDataAfterSelectAuthor && sort(cardsDataAfterSelectAuthor)
+                    .desc((card: any) => Number(card?.id))
+                    .slice(0, 100)
                     .map((e: any) =>{
                     return(
                             <CardMicroView  cardID={e?.id} key={e?.id + "CardKey"}  className="mt-3 ml-1 col-12 col-md-3"

@@ -75,16 +75,17 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                     <CardMedia
                         className={classes.cover}
                         image={cardImage}
-                        title="Live from space album cover"
                     />
                 }
                 <CardActionArea >
                     <CardContent  style={{padding: 4, flex: '1 0 auto', paddingLeft: 10, paddingRight: 10}} className="justify-content-start" >
                         <Typography  variant="h6" gutterBottom >
                             ID: {card_data?.cardById.id}
-                            {Number(card_data.cardById.cardContentType[2]) === 0 && <Chip size="small" variant="outlined" color="secondary" icon={<YouTubeIcon />} label="YouTube"/>}
-                            {Number(card_data.cardById.cardContentType[2]) === 1 && <Chip size="small" variant="outlined" color="primary" icon={<HttpIcon />} label="Ресурс"/>}
-                            {Number(card_data.cardById.cardContentType[2]) === 2 && <Chip size="small" variant="outlined" color="default" icon={<ImageIcon />} label="Изображение"/>}
+
+                            {Number(card_data.cardById.cardContentType[2]) === 0 && <Chip style={{marginLeft: 12}} size="small" variant="outlined" color="secondary" icon={<YouTubeIcon />} label="YouTube"/>}
+                            {Number(card_data.cardById.cardContentType[2]) === 1 && <Chip style={{marginLeft: 12}} size="small" variant="outlined" color="primary" icon={<HttpIcon />} label="Ресурс"/>}
+                            {Number(card_data.cardById.cardContentType[2]) === 2 && <Chip style={{marginLeft: 12}} size="small" variant="outlined" color="default" icon={<ImageIcon />} label="Изображение"/>}
+
                         </Typography>
                         <Typography variant="button" display="block" gutterBottom>
                             {card_data?.cardById?.title.slice(0, 48)}

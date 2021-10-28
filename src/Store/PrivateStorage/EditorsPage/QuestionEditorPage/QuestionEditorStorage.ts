@@ -15,7 +15,6 @@ import {UserStorage} from "../../../UserStore/UserStore";
 class QuestionEditor{
     constructor() {
             makeAutoObservable(this)
-            reaction(() => this.userStorage.userAccessLevel, () => this.loadFromServerAppQuestionsData())
             reaction(() => this.selectedQuestionID, () => this.deliverFromServerImageURL())
             reaction(() => this.selectedQuestionText, () => this.autoSave())
             reaction(() => this.selectedQuestionVideoUrl, () => this.autoSave())

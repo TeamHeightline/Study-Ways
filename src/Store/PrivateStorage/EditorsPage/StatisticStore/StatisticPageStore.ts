@@ -15,8 +15,6 @@ import {StatisticByQuestionDataStoreObject} from "./StatisticByQuestionsDataStor
 class StatisticPageStore {
     constructor(){
         makeAutoObservable(this)
-        this.loadQuestionsDataFromServer()
-        reaction(() => this.userStorage.userAccessLevel, () => this.loadQuestionsDataFromServer())
         reaction(()=>this.selectedQuestionID ,() => this.changeSelectedQuestionData())
         reaction(()=>this.activePageOnTopMenu ,() => this.changeSelectedQuestionData())
         reaction(()=> this?.selectedQuestionsData, () => StatisticByQuestionDataStoreObject?.changeQuestionsData(this?.selectedQuestionsData))

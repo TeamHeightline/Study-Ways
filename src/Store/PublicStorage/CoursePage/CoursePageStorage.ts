@@ -1,4 +1,4 @@
-import {action, autorun, computed, makeObservable, observable, toJS} from "mobx";
+import {action, computed, makeObservable, observable, toJS} from "mobx";
 import {ClientStorage} from "../../ApolloStorage/ClientStorage";
 import {GET_ALL_COURSE} from "./Struct";
 import {CardCourseNode, Maybe} from "../../../../SchemaTypes";
@@ -23,7 +23,6 @@ class CoursePage{
             disabledUp: computed,
             disabledDown: computed
         })
-        autorun(() => this.get_course_data())
     }
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
     clientStorage = ClientStorage

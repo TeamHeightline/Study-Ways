@@ -1,4 +1,4 @@
-import {action, autorun, computed, makeObservable, observable,  toJS} from "mobx";
+import {action, computed, makeObservable, observable,  toJS} from "mobx";
 import {ClientStorage} from "../../ApolloStorage/ClientStorage";
 import {GET_ALL_QUESTIONS} from "./Struct";
 import _ from "lodash";
@@ -32,7 +32,6 @@ class QuestionPage{
             themesForSelect: computed({keepAlive: true}),
             QuestionsAfterSelectTheme: computed({keepAlive: true}),
         })
-        autorun(() => this.getQuestionData())
     }
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
     clientStorage = ClientStorage
@@ -72,7 +71,9 @@ class QuestionPage{
         this.isOpenQuestionPlayer = true
     }
 
+    //функция для получения всех данных о вопросе
     getQuestionData(){
+
         //Функция для удаления вопросов, которые называются "Новый вопрос"
         function removeQuestionsTatNotFilled(questions: Maybe<QuestionNode>[]){
             const questionsCopyWitchoutUnfilledQuestions: Maybe<QuestionNode>[] = []

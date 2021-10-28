@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {Row, Spinner} from "react-bootstrap";
 import CourseMicroView from "../Elements/Course/Editor/CourseMicroView";
 import {CARD} from '../Elements/Cards/Card'
@@ -6,6 +6,7 @@ import {CoursePageStorage} from "../../Store/PublicStorage/CoursePage/CoursePage
 import {observer} from "mobx-react";
 
 export const MainCoursePublicView = observer(({...props}) => {
+    useEffect(() =>CoursePageStorage.get_course_data(), [])
     if (!CoursePageStorage.dataHasBeenGot) {
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>

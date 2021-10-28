@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Container, Form, Spinner} from "react-bootstrap";
 import {Button, FormControl, InputLabel, MenuItem, Paper, Select} from "@material-ui/core";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -13,6 +13,7 @@ import {QuestionPageStorage} from "../../Store/PublicStorage/QuestionPage/Questi
 import {toJS} from "mobx";
 
 export const MainUserQuestionPage = observer(() =>{
+    useEffect(()=> QuestionPageStorage.getQuestionData(), [])
 
     if (!QuestionPageStorage.questionsData) {
         return (

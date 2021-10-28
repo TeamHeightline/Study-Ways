@@ -1,4 +1,4 @@
-import {autorun,  makeAutoObservable, toJS} from "mobx";
+import { makeAutoObservable, toJS} from "mobx";
 import {ClientStorage} from "../../ApolloStorage/ClientStorage";
 import {GET_ALL_CARDS, GET_THEMES} from "./Struct";
 import {GlobalCardThemeNode, Maybe} from "../../../../SchemaTypes";
@@ -10,7 +10,6 @@ const { SHOW_CHILD } = TreeSelect;
 class CardPage{
     constructor() {
         makeAutoObservable(this)
-        autorun(() => this.getCardsDataFromServer())
     }
 
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)

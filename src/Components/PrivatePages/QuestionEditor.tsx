@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {Row, Spinner} from "react-bootstrap";
 import {Card, CardActionArea, Typography} from "@material-ui/core";
 import {QuestionEditorStorage} from "../../Store/PrivateStorage/EditorsPage/QuestionEditorPage/QuestionEditorStorage";
@@ -8,6 +8,7 @@ import {EditQuestionByID} from "../Elements/UserTest/Editor/QuestionEditor/EditQ
 import {QuestionFolders} from "../Elements/UserTest/Editor/QuestionEditor/#QuestionFolders";
 
 export const QuestionEditor = observer(({...props}: any) =>{
+    useEffect(() =>QuestionEditorStorage.loadFromServerAppQuestionsData(), [])
     if (!QuestionEditorStorage.allQuestionsDataHasBeenDeliver) {
         return (<Spinner animation="border" variant="success" className=" offset-6 mt-5"/>)
     }

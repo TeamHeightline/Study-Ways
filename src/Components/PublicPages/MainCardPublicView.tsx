@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {Col, Row} from "react-bootstrap";
 import CardMicroView from "../Elements/Cards/CardView/#CardMicroView";
 import {ThemeSelector} from "../Elements/Cards/Editor/MainCardEditor/#ThemeSelector";
@@ -12,6 +12,8 @@ import {Grid, Grow} from "@material-ui/core";
 import {Pagination} from "@material-ui/lab";
 
 export const MainCardPublicView = observer(({...props}: any) =>{
+    useEffect(() =>{CardPageStorage.getCardsDataFromServer()}, [])
+
     if(CardPageStorage.isOpenCard && CardPageStorage.selectedCardID){
         return (
             <CARD id={CardPageStorage.selectedCardID}/>

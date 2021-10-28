@@ -1,5 +1,5 @@
 import {observer} from "mobx-react";
-import React from "react";
+import React, {useEffect} from "react";
 import {Row, Spinner} from "react-bootstrap";
 import {StatisticByQuestionsData} from "../Elements/Statistic/StatisticByQuestionsData";
 import {MainPageQuestionsForSelect} from "../Elements/Statistic/#MainPageQuestionsForSelect";
@@ -9,6 +9,8 @@ import {MainPageQSForSelect} from "../Elements/Statistic/#MainPageQSForSelect";
 
 
 export const MainStatistic = observer(() =>{
+    useEffect(() =>StatisticPageStoreObject.loadQuestionsDataFromServer(), [])
+
     console.log(StatisticPageStoreObject.activePageOnTopMenu)
     console.log(StatisticPageStoreObject.isOpenQuestion)
 

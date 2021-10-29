@@ -1,4 +1,4 @@
-import {makeAutoObservable, toJS} from "mobx";
+import {makeAutoObservable, reaction, toJS} from "mobx";
 import {directionData, GET_ALL_COURSE, GET_QUESTION_TEXT_BY_ID} from "./Struct";
 import {ClientStorage} from "../../ApolloStorage/ClientStorage";
 import {CardCourseNode} from "../../../../SchemaTypes";
@@ -95,7 +95,12 @@ export class DirectionStore {
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
     clientStorage = ClientStorage
 
-    directionData = directionData
+    directionData: any = directionData
+    setDirectionData(newData){
+        console.log(newData.directionDataProps)
+        this.directionData = newData.directionDataProps
+    }
+
     cardCourse:  CardCourseNode[]  = []
 
     //ID выбранной карточки, используется и для элемента курса
@@ -135,6 +140,10 @@ export class DirectionStore {
     //сколько было попыток и тд.
     directionProcessedObject: any = []
 
+    get DirectionProcessedObjectsForRender(){
+        return(toJS(this.directionProcessedObject))
+    }
+
     get_card_id_in_course_by_position(cardPositionData){
         return(this?.cardCourse?.find( course => Number(course.id) === Number(cardPositionData?.courseID))?.courseData[Number(cardPositionData.row)]
             .SameLine[cardPositionData.fragment].CourseFragment[Number(cardPositionData.buttonIndex)].CourseElement.id)
@@ -150,6 +159,7 @@ export class DirectionStore {
 
     //Превращает данные о пользовательской серии данных в массив наблюдаемых объектов определенных типов
     directionDataParser(){
+        console.log("start parser")
         const directionProcessedObject: any = []
         this.directionData.map((element) =>{
             if(element.type === "CardElement"){
@@ -173,5 +183,6 @@ export class DirectionStore {
         makeAutoObservable(this)
         this.loadCourseDataFromServer()
         this.directionDataParser()
+        reaction(()=> this.directionData, ()=> this.directionDataParser())
     }
 }

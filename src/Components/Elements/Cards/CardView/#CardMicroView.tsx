@@ -5,7 +5,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { Popover } from 'antd';
 
-import {CardActionArea, Chip} from "@material-ui/core";
+import {CardActionArea, Chip, Grid} from "@material-ui/core";
 import 'fontsource-roboto';
 import {useQuery} from "@apollo/client";
 import { Row} from "react-bootstrap";
@@ -72,57 +72,64 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                   onClick={() =>{
                 props.onChange(cardID)
             }} >
-                {Number(card_data.cardById.cardContentType[2]) === 0 &&  card_data?.cardById?.videoUrl && <CardMedia
-                    className={classes.cover}
-                    image={"https://img.youtube.com/vi/"+ card_data?.cardById.videoUrl.split('?v=')[1] + "/hqdefault.jpg"}
-                />}
-                {(Number(card_data.cardById.cardContentType[2]) === 1 || Number(card_data.cardById.cardContentType[2]) === 2) && cardImage &&
-                    <CardMedia
-                        className={classes.cover}
-                        image={cardImage}
-                    />
-                }
-                <CardActionArea >
-                    <CardContent  style={{padding: 4, flex: '1 0 auto', paddingLeft: 10, paddingRight: 10}} className="justify-content-start" >
-                        <Typography  variant="h6" gutterBottom >
-                            ID: {card_data?.cardById.id}
+                <Grid container>
+                    <Grid item xs={4}>
+                        {Number(card_data.cardById.cardContentType[2]) === 0 &&  card_data?.cardById?.videoUrl &&
+                        <CardMedia
+                            style={{width: 132, height: 169}}
+                            image={"https://img.youtube.com/vi/"+ card_data?.cardById.videoUrl.split('?v=')[1] + "/hqdefault.jpg"}
+                        />}
+                        {(Number(card_data.cardById.cardContentType[2]) === 1 || Number(card_data.cardById.cardContentType[2]) === 2) && cardImage &&
+                        <CardMedia
+                            style={{width: 132, height: 169}}
+                            image={cardImage}
+                        />
+                        }
+                    </Grid>
+                    <Grid item xs={8}>
+                        <CardActionArea >
+                            <CardContent style={{padding: 4, paddingLeft: 10, paddingRight: 10}} className="justify-content-start" >
+                                <Typography  variant="h6" gutterBottom >
+                                    ID: {card_data?.cardById.id}
 
-                            {Number(card_data.cardById.cardContentType[2]) === 0 && <Chip style={{marginLeft: 12}} size="small" variant="outlined" color="secondary" icon={<YouTubeIcon />} label="YouTube"/>}
-                            {Number(card_data.cardById.cardContentType[2]) === 1 && <Chip style={{marginLeft: 12}} size="small" variant="outlined" color="primary" icon={<HttpIcon />} label="Ресурс"/>}
-                            {Number(card_data.cardById.cardContentType[2]) === 2 && <Chip style={{marginLeft: 12}} size="small" variant="outlined" color="default" icon={<ImageIcon />} label="Изображение"/>}
+                                    {Number(card_data.cardById.cardContentType[2]) === 0 && <Chip style={{marginLeft: 12}} size="small" variant="outlined" color="secondary" icon={<YouTubeIcon />} label="YouTube"/>}
+                                    {Number(card_data.cardById.cardContentType[2]) === 1 && <Chip style={{marginLeft: 12}} size="small" variant="outlined" color="primary" icon={<HttpIcon />} label="Ресурс"/>}
+                                    {Number(card_data.cardById.cardContentType[2]) === 2 && <Chip style={{marginLeft: 12}} size="small" variant="outlined" color="default" icon={<ImageIcon />} label="Изображение"/>}
 
-                        </Typography>
+                                </Typography>
 
-                        <Typography style={{maxHeight: 48, overflow: "hidden"}}>
-                            {card_data?.cardById?.title.slice(0, 56)}
-                        </Typography>
+                                <Typography style={{maxHeight: 48, overflow: "hidden"}}>
+                                    {card_data?.cardById?.title.slice(0, 56)}
+                                </Typography>
 
-                        <Typography>
-                            {card_data?.cardById?.subTheme.length !== 0 ?
-                                <Popover trigger="hover" title="Темы карточки" content={card_data?.cardById?.subTheme.map((e, eIndex) =>{
-                                    return(
-                                        <div key={eIndex+ "Tooltip"}>
-                                            {e.theme?.globalTheme?.name.toString() + " / "
-                                            + e?.theme?.name.toString() + " / "
-                                            + e?.name.toString() }
-                                        </div>
-                                    )
-                                })} >
-                                    <Chip size="small" variant="outlined"
-                                          label={card_data?.cardById?.subTheme[0]?.name.slice(0, 25)}/>
+                                <Typography>
+                                    {card_data?.cardById?.subTheme.length !== 0 ?
+                                        <Popover trigger="hover" title="Темы карточки" content={card_data?.cardById?.subTheme.map((e, eIndex) =>{
+                                            return(
+                                                <div key={eIndex+ "Tooltip"}>
+                                                    {e.theme?.globalTheme?.name.toString() + " / "
+                                                    + e?.theme?.name.toString() + " / "
+                                                    + e?.name.toString() }
+                                                </div>
+                                            )
+                                        })} >
+                                            <Chip size="small" variant="outlined"
+                                                  label={card_data?.cardById?.subTheme[0]?.name.slice(0, 25)}/>
 
-                                </Popover> : <div/>}
-                            <br/>
-                            {card_data?.cardById?.author.length !== 0 ?
+                                        </Popover> : <div/>}
+                                    <br/>
+                                    {card_data?.cardById?.author.length !== 0 ?
                                         <Chip className="mt-1" label={card_data?.cardById?.author[0]?.name.slice(0, 25)}
-                                               variant="outlined" />
-                                : <br/>}
-                        </Typography>
-                        <br/>
-                        <br/>
+                                              variant="outlined" />
+                                        : <br/>}
+                                </Typography>
+                                <br/>
+                                <br/>
 
-                    </CardContent>
-                </CardActionArea>
+                            </CardContent>
+                        </CardActionArea>
+                    </Grid>
+                </Grid>
             </Card>
         </div>
     )

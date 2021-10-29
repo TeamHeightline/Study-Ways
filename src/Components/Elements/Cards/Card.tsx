@@ -76,7 +76,8 @@ const SHOW_CARD_BY_ID = gql`
     }`
 
 
-function CardTitleAuthorThemeAndCopyrightBlock(props: { mobile: boolean, cardData: any, element: (e, eIndex) => JSX.Element, callbackfn: (sameAuthor, aIndex) => (string | string) }) {
+function CardTitleAuthorThemeAndCopyrightBlock(props: any) {
+    const [ID, setID] = useState(props?.id)
     return <Row className="mt-4">
         <Col className="col-12">
             <Row className="pl-2">
@@ -196,7 +197,9 @@ export const CARD = observer(({id, ...props}: any) =>{
                                 </ButtonGroup>
                             </Grid>
                             <Grid item md={8} xs={12} style={{paddingLeft: isMobile? 0: 12}}>
-                                <CardTitleAuthorThemeAndCopyrightBlock mobile={isMobile} cardData={card_data}
+                                <CardTitleAuthorThemeAndCopyrightBlock mobile={isMobile}
+                                                                       id={id}
+                                                                       cardData={card_data}
                                                                        element={(e, eIndex) => {
                                                                            return (
                                                                                <Typography key={eIndex + "Tooltip"}>

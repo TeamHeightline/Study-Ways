@@ -65,6 +65,8 @@ const useStyles = makeStyles(() =>
 );
 import '../../../../index.css'
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
+import {MainDirection} from "../../../PublicPages/MainDirection";
+import {toJS} from "mobx";
 
 export  const  QSPlayerByID = observer(({...props}: any) =>{
 
@@ -237,6 +239,10 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                                 <Title text="Количество баллов на каждой из попыток" />
                             </Chart>
                     </Row>
+                    {toJS(processedStore.activeQuestionStoreInstance?.dataForDirection).length &&
+                        <div style={{minHeight: 250}}>
+                            <MainDirection directionDataProps={toJS(processedStore.activeQuestionStoreInstance?.dataForDirection)}/>
+                        </div>}
 
                 </div> }
 

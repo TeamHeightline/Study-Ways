@@ -1,5 +1,5 @@
 import {observer} from "mobx-react";
-import React from 'react';
+import React, {useEffect} from 'react';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -15,15 +15,21 @@ import {Card, CardActionArea, Typography} from "@material-ui/core";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
 import {QSPlayerByID} from "../Elements/QuestionSequence/Public/QSPlayerByID";
 import LinearScaleIcon from '@material-ui/icons/LinearScale';
+import {directionData} from "../../Store/InDevComponentsStorage/ComunityDirectionsStore/Struct";
 
 const maxWidthOfElement = 470
 const directionStoreObject = new DirectionStore()
-export const MainDirection = observer(() =>{
+
+export const MainDirection = observer((directionDataProps) =>{
+    useEffect(() =>{
+        directionStoreObject.setDirectionData(directionDataProps)
+    }, [directionDataProps])
+
     return(
         <div className="col-12" >
-            <div style={{overflowX: "auto"}}>
-                <Stepper nonLinear activeStep={-10} alternativeLabel style={{width: maxWidthOfElement * directionStoreObject.directionProcessedObject.length}}>
-                {directionStoreObject.directionProcessedObject.map((processed_object, index) => (
+            <div style={{overflowX: "auto", overflowY: "hidden", minHeight: 235}}>
+                <Stepper nonLinear activeStep={-10} alternativeLabel style={{width: maxWidthOfElement * directionStoreObject.DirectionProcessedObjectsForRender.length}}>
+                {directionStoreObject.DirectionProcessedObjectsForRender.map((processed_object, index) => (
                     <Step key={index}>
                         { processed_object.type === "CardElement" &&
                                 <StepLabel
@@ -82,11 +88,10 @@ export const MainDirection = observer(() =>{
                 ))}
                 </Stepper>
             </div>
-            <div>
+            <div style={{minHeight: 570, overflowX: "hidden"}}>
                 {directionStoreObject.isOpenCard  && <CARD disableAllButtons={true} id={directionStoreObject.openCardID}/>}
                 {directionStoreObject.isOpenQuestion && <ImageQuestion id={directionStoreObject.openQuestionID}/>}
                 {directionStoreObject.isOpenQuestionSequence && <QSPlayerByID notShowStepLabet={true} id={directionStoreObject.openQuestionSequenceID}/>}
-
             </div>
         </div>
     )

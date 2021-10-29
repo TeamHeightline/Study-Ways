@@ -20,7 +20,6 @@ export const MainCardPublicView = observer(({...props}: any) =>{
             <CARD id={CardPageStorage.selectedCardID}/>
         )
     }
-    console.log(CardPageStorage.pageNumber)
     return(
         <div {...props}>
             <MCPVSearchString/>

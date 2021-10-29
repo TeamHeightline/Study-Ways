@@ -466,6 +466,7 @@ type Query {
     detailQuestionStatistic: [DetailQuestionStatisticNode]
     detailQuestionStatisticByQuestionId(id: ID): [DetailQuestionStatisticNode]
     eqbi(id: ID): EQBIDNode
+    ftSearchInCards(searchString: String): [CardNode]
     me: UserNode
     question: [QuestionNode]
     questionAuthor: [QuestionAuthorNode]
@@ -865,6 +866,7 @@ input CardMutationInput {
     testInCard: ID
     text: String
     title: String!
+    vectorColumn: String!
     videoUrl: String
 }
 

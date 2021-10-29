@@ -1,7 +1,7 @@
-import { makeAutoObservable, toJS} from "mobx";
+import {makeAutoObservable, reaction, toJS} from "mobx";
 import {ClientStorage} from "../../ApolloStorage/ClientStorage";
-import {GET_ALL_CARDS, GET_THEMES} from "./Struct";
-import {GlobalCardThemeNode, Maybe} from "../../../../SchemaTypes";
+import {GET_ALL_CARDS, GET_CARDS_ID_BY_SEARCH_STRING, GET_THEMES} from "./Struct";
+import {CardNode, GlobalCardThemeNode, Maybe} from "../../../../SchemaTypes";
 import {TreeSelect} from "antd";
 import _ from "lodash";
 import {sort} from "fast-sort";
@@ -10,13 +10,14 @@ const { SHOW_CHILD } = TreeSelect;
 class CardPage{
     constructor() {
         makeAutoObservable(this)
+        reaction(()=> this.searchString, ()=> this.startQueryTimer())
     }
 
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
     clientStorage = ClientStorage
 
     //Массив данных о всех карточках, получаемый с сервера
-    cardsData = []
+    rawCardsDataWitchoutFiltering = []
 
     //Флаг, проверяющий, были ли получены данные с сервера
     dataHasBeenGot = false
@@ -27,6 +28,46 @@ class CardPage{
     //Открыта ли в данный момент конкретная карточка, или мы находимся в меню карточек
     isOpenCard = false
 
+    //Для умного поиска -------------------------------------------
+    searchString = ''
+
+    async changeSearchString(newString){
+        this.searchString = newString
+    }
+
+    lastQueryAsyncControlIndex = 0
+
+    async loadCardsIDBySearchString(){
+        if(toJS(this.searchString).length !==0){
+            this.lastQueryAsyncControlIndex += 1
+            const thisQueryIndex = this.lastQueryAsyncControlIndex
+            this.clientStorage.client.query({query: GET_CARDS_ID_BY_SEARCH_STRING,
+                variables: {searchString: toJS(this.searchString)}})
+                .then(response =>{
+                    if(thisQueryIndex === toJS(this.lastQueryAsyncControlIndex)){
+                        this.cardsIDAfterSearch = response?.data?.ftSearchInCards
+                    }})
+        }
+    }
+    sendSearchQueryTimer: any = null
+
+    async startQueryTimer(){
+        clearTimeout(this.sendSearchQueryTimer)
+        this.sendSearchQueryTimer = setTimeout(() =>{this.loadCardsIDBySearchString()}, 1000)
+    }
+
+    cardsIDAfterSearch: CardNode[] | [] = []
+
+    get cardsDataAfterCleverSearch(){
+        if(!toJS(this.searchString).length || !toJS(this.cardsIDAfterSearch).length){
+            return(toJS(this.rawCardsDataWitchoutFiltering))
+        }else{
+            return(toJS(this.cardsIDAfterSearch))
+        }
+    }
+
+
+    //--------------------------------------------------------------
 
     //-----------------------для селектора тем------------------------
     selectedThemes: any = []
@@ -39,7 +80,7 @@ class CardPage{
             .then((themesData: any) =>{
                 //сбор массива ID подтем
                 const cardsThemesIDArray: any = []
-                this.cardsData.map((sameCard: any) =>{
+                this.rawCardsDataWitchoutFiltering.map((sameCard: any) =>{
                     sameCard.subTheme.map((sameSubTheme) =>{
                         if(cardsThemesIDArray.indexOf(sameSubTheme.id) == -1){
                             cardsThemesIDArray.push(sameSubTheme.id)
@@ -120,10 +161,10 @@ class CardPage{
     //Массив данных о карточках после фильтрации по темам
     get cardsDataAfterSelectTheme(){
         if(this.selectedThemes.length === 0){
-            return (this.cardsData)
+            return (this.cardsDataAfterCleverSearch)
         }
         const selectedCardsArray: any = []
-        toJS(this.cardsData).map((sameCard: any) =>{
+        toJS(this.cardsDataAfterCleverSearch).map((sameCard: any) =>{
             sameCard.subTheme.map((sameThemeInSameCard: any)=>{
                 if(this.selectedThemes.indexOf(Number(sameThemeInSameCard?.id) * 1000000) !== -1){
                     if(selectedCardsArray.indexOf(sameCard) === -1){
@@ -192,12 +233,14 @@ class CardPage{
         return(this.cardsDataAfterSelectAuthor?.filter(card => card.title != "Название карточки по умолчанию"))
     }
 
-    numberOfCardsOnPage = 100
+
 
     get cardsDataForRender(){
         return(this.CardsAfterFiltering.slice((this.activeCardMicroViewPage-1) * this.numberOfCardsOnPage,
             this.activeCardMicroViewPage * this.numberOfCardsOnPage))
     }
+
+    numberOfCardsOnPage = 100
 
     //Страница на которой пользователь находится
     activeCardMicroViewPage = 1
@@ -209,8 +252,13 @@ class CardPage{
     changeActiveCardMicroViewPage(newPageIndex: number){
         this.activeCardMicroViewPage = newPageIndex
     }
+    get numberOfPages(){
+        return(Math.ceil(toJS(this.cardsDataForRender).length / this.numberOfCardsOnPage))
+
+    }
 
     //--------------------------------------------------------------
+
 
 
     //action для получения данных о всех карточках с сервера
@@ -218,7 +266,7 @@ class CardPage{
         this.clientStorage.client.query({query: GET_ALL_CARDS})
             .then((data) => {
                 //Передаем все полученные данный в cardsData
-                this.cardsData = data?.data?.card
+                this.rawCardsDataWitchoutFiltering = data?.data?.card
                 //Устанавливаем флаг о том, что все данные получены
                 this.dataHasBeenGot = true
                 this.getDataForCardSubThemeSelectFromServer()

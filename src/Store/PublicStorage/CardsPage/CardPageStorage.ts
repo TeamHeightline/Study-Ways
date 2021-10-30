@@ -53,7 +53,7 @@ class CardPage{
 
     async startQueryTimer(){
         clearTimeout(this.sendSearchQueryTimer)
-        this.sendSearchQueryTimer = setTimeout(() =>{this.loadCardsIDBySearchString()}, 1000)
+        this.sendSearchQueryTimer = setTimeout(() =>{this.loadCardsIDBySearchString()}, 2500)
     }
 
     cardsIDAfterSearch: CardNode[] | [] = []

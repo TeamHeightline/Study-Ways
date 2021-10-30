@@ -3,6 +3,7 @@ import {ClientStorage} from "../../ApolloStorage/ClientStorage";
 import {GET_ALL_QUESTIONS} from "./Struct";
 import _ from "lodash";
 import {Maybe, QuestionNode, QuestionThemesNode} from "../../../../SchemaTypes";
+import {sort} from "fast-sort";
 
 class QuestionPage{
     constructor() {
@@ -157,8 +158,8 @@ class QuestionPage{
                 }
             })
         })
-        this.selectedThemeID = Number(themesArray[0].id)
-        return Array.from(themesArray)
+        this.selectedThemeID = Number(sort(themesArray).asc((theme) => theme.name)[0]?.id)
+        return (sort(themesArray).asc((theme) => theme.name))
     }
 
     //ID выбранной темы

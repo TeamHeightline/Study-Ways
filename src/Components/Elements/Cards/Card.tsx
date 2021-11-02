@@ -76,35 +76,34 @@ const SHOW_CARD_BY_ID = gql`
     }`
 
 
-function CardTitleAuthorThemeAndCopyrightBlock(props: any) {
-    const [ID, setID] = useState(props?.id)
+function CardTitleAuthorThemeAndCopyrightBlock({title, copyright, subTheme, author, isCardUseCopyright, isMobile, ...props}: any) {
     return <Row className="mt-4">
         <Col className="col-12">
             <Row className="pl-2">
-                <Typography className="pl-md-2" variant={props.mobile ? "h6" : "h4"}>{props.cardData?.cardById?.title}</Typography>:
+                <Typography className="pl-md-2" variant={isMobile ? "h6" : "h4"}>{title? title : ""}</Typography>:
                 {/*<Typography variant="subtitle2">{card_data?.cardById?.id}</Typography>*/}
-                {props.cardData?.cardById?.isCardUseCopyright && props.cardData?.cardById?.copyright &&
+                {isCardUseCopyright && copyright &&
                 <Typography variant="h6" className="pl-md-2">
                     <Tooltip title={
-                        <Typography>{"Правообладателем изложенного материала является: " + props.cardData?.cardById?.copyright}</Typography>}>
+                        <Typography>{"Правообладателем изложенного материала является: " + copyright}</Typography>}>
                         <CopyrightIcon/>
                     </Tooltip>
-                    {props.cardData?.cardById?.copyright}
+                    {copyright}
                 </Typography>}
             </Row>
 
-            {props.cardData?.cardById?.subTheme[0] &&
-            <Tooltip title={props.cardData?.cardById?.subTheme.map(props.element)}>
+            {subTheme[0] &&
+            <Tooltip title={subTheme.map(props.element)}>
                 <Typography color="textPrimary" className="pl-2 mt-2" style={{maxWidth: 600}}>
-                    {props.cardData?.cardById?.subTheme[0]?.theme?.globalTheme?.name + " / " +
-                    props.cardData?.cardById?.subTheme[0]?.theme?.name + " / " +
-                    props.cardData?.cardById?.subTheme[0]?.name}
+                    {subTheme[0]?.theme?.globalTheme?.name + " / " +
+                    subTheme[0]?.theme?.name + " / " +
+                    subTheme[0]?.name}
                 </Typography>
             </Tooltip>}
 
-            {props.cardData?.cardById?.author && props.cardData?.cardById?.author.length !== 0 &&
+            {author && author.length !== 0 &&
             <Typography className="pl-2" color="textPrimary">
-                {props.cardData?.cardById?.author.map(props.callbackfn)}</Typography>}
+                {author?.author?.map(props.callbackfn)}</Typography>}
         </Col>
     </Row>;
 }
@@ -197,23 +196,31 @@ export const CARD = observer(({id, ...props}: any) =>{
                                 </ButtonGroup>
                             </Grid>
                             <Grid item md={8} xs={12} style={{paddingLeft: isMobile? 0: 12}}>
-                                <CardTitleAuthorThemeAndCopyrightBlock mobile={isMobile}
-                                                                       id={id}
-                                                                       cardData={card_data}
-                                                                       element={(e, eIndex) => {
-                                                                           return (
-                                                                               <Typography key={eIndex + "Tooltip"}>
-                                                                                   {e.theme?.globalTheme?.name.toString() + " / "
-                                                                                   + e?.theme?.name.toString() + " / "
-                                                                                   + e?.name.toString()}
-                                                                               </Typography>
-                                                                           )
-                                                                       }} callbackfn={(sameAuthor, aIndex) => {
-                                    if (aIndex !== 0) {
-                                        return (" | " + sameAuthor.name)
-                                    }
-                                    return (sameAuthor.name)
-                                }}/>
+                                {loading ? <Spinner animation="border" variant="success" className=" offset-6 mt-5"/> :
+                                        <CardTitleAuthorThemeAndCopyrightBlock
+                                        title={card_data?.cardById?.title}
+                                        isCardUseCopyright={card_data?.cardById?.isCardUseCopyright}
+                                        copyright={card_data?.cardById?.copyright}
+                                        subTheme={card_data?.cardById?.subTheme}
+                                        author={card_data?.cardById?.author}
+
+                                        isMobile={isMobile}
+                                        id={id}
+                                        cardData={card_data}
+                                        element={(e, eIndex) => {
+                                            return (
+                                                <Typography key={eIndex + "Tooltip"}>
+                                                    {e.theme?.globalTheme?.name.toString() + " / "
+                                                    + e?.theme?.name.toString() + " / "
+                                                    + e?.name.toString()}
+                                                </Typography>
+                                            )
+                                        }} callbackfn={(sameAuthor, aIndex) => {
+                                        if (aIndex !== 0) {
+                                            return (" | " + sameAuthor?.name)
+                                        }
+                                        return (sameAuthor?.name)
+                                    }}/>}
                             </Grid>
                         </Grid> :
                         <ButtonGroup size="large" color="primary" aria-label="group">
@@ -231,16 +238,23 @@ export const CARD = observer(({id, ...props}: any) =>{
                                                         questionHasBeenCompleted={() => setOpenTestBeforeCard(false)}/> :
                 <div>
                     {!props.openFromCourse &&
-                    <CardTitleAuthorThemeAndCopyrightBlock mobile={isMobile} cardData={card_data}
-                                                           element={(e, eIndex) => {
-                                                               return (
-                                                                   <Typography key={eIndex + "Tooltip"}>
-                                                                       {e.theme?.globalTheme?.name.toString() + " / "
-                                                                       + e?.theme?.name.toString() + " / "
-                                                                       + e?.name.toString()}
-                                                                   </Typography>
-                                                               )
-                                                           }} callbackfn={(sameAuthor, aIndex) => {
+                    <CardTitleAuthorThemeAndCopyrightBlock
+                        title={card_data?.cardById?.title}
+                        isCardUseCopyright={card_data?.cardById?.isCardUseCopyright}
+                        copyright={card_data?.cardById?.copyright}
+                        subTheme={card_data?.cardById?.subTheme}
+                        author={card_data?.cardById?.author}
+                        isMobile={isMobile}
+                        cardData={card_data}
+                        element={(e, eIndex) => {
+                           return (
+                               <Typography key={eIndex + "Tooltip"}>
+                                   {e.theme?.globalTheme?.name.toString() + " / "
+                                   + e?.theme?.name.toString() + " / "
+                                   + e?.name.toString()}
+                               </Typography>
+                           )
+                       }} callbackfn={(sameAuthor, aIndex) => {
                         if (aIndex !== 0) {
                             return (" | " + sameAuthor.name)
                         }
@@ -277,7 +291,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                         </Col>
                         {!isMobile &&
                         <Col className="col-12 col-lg-6 mt-4">
-                            <RichTextPreview initialText={card_data?.cardById?.text} onChange={() => void (0)}/>
+                            <RichTextPreview text={card_data?.cardById?.text} onChange={() => void (0)}/>
                             <Typography className="blockquote">На сколько эта карточка была полезна?</Typography>
                             <Rating
                                 className="pl-md-3"
@@ -317,7 +331,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                         }
                         {isMobile &&
                         <Col className="col-12 col-lg-6 mt-4">
-                            <RichTextPreview initialText={card_data?.cardById?.text} onChange={() => void (0)}/>
+                            <RichTextPreview text={card_data?.cardById?.text} onChange={() => void (0)}/>
                             <Typography className="blockquote">На сколько эта карточка была полезна?</Typography>
                             <Rating
                                 className="pl-md-3"

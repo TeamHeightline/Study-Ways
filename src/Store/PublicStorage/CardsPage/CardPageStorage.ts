@@ -62,6 +62,7 @@ class CardPage{
         if(!toJS(this.searchString).length || !toJS(this.cardsIDAfterSearch).length){
             return(toJS(this.rawCardsDataWitchoutFiltering))
         }else{
+            this.activeCardMicroViewPage = 1
             return(toJS(this.cardsIDAfterSearch))
         }
     }
@@ -253,7 +254,7 @@ class CardPage{
         this.activeCardMicroViewPage = newPageIndex
     }
     get numberOfPages(){
-        return(Math.ceil(toJS(this.cardsDataForRender).length / this.numberOfCardsOnPage))
+        return(Math.ceil(toJS(this.CardsAfterFiltering).length / this.numberOfCardsOnPage))
 
     }
 

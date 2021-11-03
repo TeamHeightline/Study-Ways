@@ -866,7 +866,7 @@ input CardMutationInput {
     testInCard: ID
     text: String
     title: String!
-    vectorColumn: String!
+    vectorColumn: String
     videoUrl: String
 }
 

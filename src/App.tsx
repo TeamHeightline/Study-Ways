@@ -60,7 +60,7 @@ const  App = observer(() => {
 
     if (!animationState){
         return(
-            <Typist className="display-4 text-center mt-4 rl App-header"
+            <Typist className="display-4 text-center pt-4 rl App-header"
                     style={{fontSize: '33px', fontFamily: "Raleway", color: "#ffffff"}}>
                 Study Ways
             </Typist>)

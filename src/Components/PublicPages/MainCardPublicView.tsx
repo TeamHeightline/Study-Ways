@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useMemo} from 'react'
 import {Col, Row} from "react-bootstrap";
 import {ThemeSelector} from "../Elements/Cards/Editor/MainCardEditor/#ThemeSelector";
 import {ContentTypeSelector} from "../Elements/Cards/Editor/MainCardEditor/#ContentTypeSelector";
@@ -15,6 +15,9 @@ import {MCPVCards} from "../Elements/Cards/CardView/#MCPVCards";
 export const MainCardPublicView = observer(({...props}: any) =>{
     useEffect(() =>{CardPageStorage.getCardsDataFromServer()}, [])
 
+    const memorizedCardsForDisplay = useMemo(() => <MCPVCards cardsDataForRender={toJS(CardPageStorage.cardsDataForRender)}/>,
+        [toJS(CardPageStorage.cardsDataForRender)[0]?.id, toJS(CardPageStorage.cardsDataForRender)[1]?.id,
+            toJS(CardPageStorage.cardsDataForRender)[2]?.id])
     if(CardPageStorage.isOpenCard && CardPageStorage.selectedCardID){
         return (
             <CARD id={CardPageStorage.selectedCardID}/>
@@ -57,7 +60,7 @@ export const MainCardPublicView = observer(({...props}: any) =>{
                     {!toJS(CardPageStorage.cardsDataForRender).length && <CircularProgress />}
                 </Grid>
             </Grid>
-            <MCPVCards/>
+            {memorizedCardsForDisplay}
             {toJS(CardPageStorage.cardsDataForRender).length !== 0 && CardPageStorage.cardsDataForRender &&
                 <Grid container justify="center" style={{marginTop: 12}}>
                     <Grid item>

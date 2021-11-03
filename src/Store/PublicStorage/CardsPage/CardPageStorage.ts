@@ -151,7 +151,7 @@ class CardPage{
                 },
                 treeCheckable: true,
                 showCheckedStrategy: SHOW_CHILD,
-                placeholder: 'Выбирите тему карточки',
+                placeholder: 'Выберете тему карточки',
                 style: {
                     width: '100%',
                 },

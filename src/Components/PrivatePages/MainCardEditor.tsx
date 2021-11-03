@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import CardMicroView from "../Elements/Cards/CardView/#CardMicroView";
-import {Col, Row, Spinner} from "react-bootstrap";
+import {Col, Row} from "react-bootstrap";
 import CardEditByID from "../Elements/Cards/Editor/CardEditByID/CardEditByID";
 import {AuthorSelector} from "../Elements/Cards/Editor/MainCardEditor/#AuthorSelector";
 import CreateNewCard from "../Elements/Cards/Editor/MainCardEditor/#CreateNewCard";
@@ -9,6 +9,10 @@ import {gql} from "graphql.macro";
 import {ContentTypeSelector} from "../Elements/Cards/Editor/MainCardEditor/#ContentTypeSelector";
 import {ThemeSelector} from "../Elements/Cards/Editor/MainCardEditor/#ThemeSelector";
 import {sort} from "fast-sort";
+import {Pagination} from "@material-ui/lab";
+import {CircularProgress, Grid} from "@material-ui/core";
+import {toJS} from "mobx";
+import {CardPageStorage} from "../../Store/PublicStorage/CardsPage/CardPageStorage";
 
 const GET_ALL_CARD_DATA = gql`
     query GET_CARD_DATA{
@@ -28,12 +32,15 @@ const GET_ALL_CARD_DATA = gql`
         }
     }`
 
+const numbersOfCardsOnPage = 98
 export default function MainCardEditor({...props}: any){
     const [isEditNow, setIsEditNow] = useState(false)
     const [selectedCardID, setSelectedCardID] = useState(0)
     const [cardsDataAfterSelectTheme, setCardsDataAfterSelectTheme] = useState()
     const [cardsDataAfterSelectContentType, setCardsDataAfterSelectContentType] = useState()
     const [cardsDataAfterSelectAuthor, setCardsDataAfterSelectAuthor] = useState<any>()
+    const [activePageNumber, setActivePageNumber] = useState(1)
+
     const {data: card_data, refetch} = useQuery(GET_ALL_CARD_DATA, {
         // pollInterval: 3000,
     })
@@ -67,7 +74,11 @@ export default function MainCardEditor({...props}: any){
     }
     if(!card_data){
         return (
-            <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
+            <Grid container justify="center" style={{marginTop: 12}}>
+                <Grid item>
+                    {!toJS(CardPageStorage.cardsDataForRender).length && <CircularProgress />}
+                </Grid>
+            </Grid>
         )
     }
     return(
@@ -102,7 +113,7 @@ export default function MainCardEditor({...props}: any){
                 <CreateNewCard className="mt-3 col-12 col-md-3 ml-1" onCreate={() =>refetch()}/>
                 {cardsDataAfterSelectAuthor && sort(cardsDataAfterSelectAuthor)
                     .desc((card: any) => Number(card?.id))
-                    .slice(0, 100)
+                    .slice((activePageNumber - 1)* numbersOfCardsOnPage, activePageNumber* numbersOfCardsOnPage)
                     .map((e: any) =>{
                     return(
                             <CardMicroView  cardID={e?.id} key={e?.id + "CardKey"}
@@ -113,6 +124,16 @@ export default function MainCardEditor({...props}: any){
                         )
                 })}
             </Row>
+            <Grid container justify="center" style={{marginTop: 12}}>
+                <Grid item xs="auto">
+                    <Pagination
+                        shape="rounded"
+                        size="large"
+                        count={Math.ceil(cardsDataAfterSelectAuthor?.length/numbersOfCardsOnPage)}
+                        page={activePageNumber}
+                        onChange={(_, value) => setActivePageNumber(value)}/>
+                </Grid>
+            </Grid>
         </div>
     )
 }

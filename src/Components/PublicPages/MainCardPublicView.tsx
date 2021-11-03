@@ -3,7 +3,6 @@ import {Col, Row} from "react-bootstrap";
 import {ThemeSelector} from "../Elements/Cards/Editor/MainCardEditor/#ThemeSelector";
 import {ContentTypeSelector} from "../Elements/Cards/Editor/MainCardEditor/#ContentTypeSelector";
 import {AuthorSelector} from "../Elements/Cards/Editor/MainCardEditor/#AuthorSelector";
-import {CARD} from "../Elements/Cards/Card"
 import {CardPageStorage} from "../../Store/PublicStorage/CardsPage/CardPageStorage";
 import {observer} from "mobx-react";
 import {toJS} from "mobx";
@@ -18,11 +17,6 @@ export const MainCardPublicView = observer(({...props}: any) =>{
     const memorizedCardsForDisplay = useMemo(() => <MCPVCards cardsDataForRender={toJS(CardPageStorage.cardsDataForRender)}/>,
         [toJS(CardPageStorage.cardsDataForRender)[0]?.id, toJS(CardPageStorage.cardsDataForRender)[1]?.id,
             toJS(CardPageStorage.cardsDataForRender)[2]?.id])
-    if(CardPageStorage.isOpenCard && CardPageStorage.selectedCardID){
-        return (
-            <CARD id={CardPageStorage.selectedCardID}/>
-        )
-    }
     return(
         <div {...props}>
             <MCPVSearchString/>

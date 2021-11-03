@@ -26,6 +26,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
 import {isMobileHook} from "../../../CustomHooks/isMobileHook";
+import {useHistory} from "react-router-dom";
 
 const SHOW_CARD_BY_ID = gql`
     query SHOW_CARD_BY_ID($id: ID!){
@@ -114,6 +115,7 @@ export const CARD = observer(({id, ...props}: any) =>{
     const [openTestBeforeCardDialog, setOpenTestBeforeCardDialog] = useState(true)
     const [openTestBeforeCard, setOpenTestBeforeCard] = useState(false)
     const isMobile = isMobileHook()
+    const history = useHistory();
     const {width, height} = useWindowDimensions()
     const {data: card_data, refetch, loading} = useQuery(SHOW_CARD_BY_ID, {
         // fetchPolicy: "no-cache",
@@ -159,7 +161,8 @@ export const CARD = observer(({id, ...props}: any) =>{
                             if(props?.openFromCourse){
                                 CoursePageStorage.goBackButtonHandler()
                             }else{
-                                CardPageStorage.isOpenCard = false
+                                // CardPageStorage.isOpenCard = false
+                                history.push("/cards")
                             }
                         }}>
                         Назад
@@ -224,10 +227,16 @@ export const CARD = observer(({id, ...props}: any) =>{
                             </Grid>
                         </Grid> :
                         <ButtonGroup size="large" color="primary" aria-label="group">
-                            <Button onClick={ () => CardPageStorage.selectedCardID = CardPageStorage.selectedCardID - 1}>
+                            <Button onClick={ () =>{
+                                history.push("/card/" + (Number(id) - 1))
+                                // CardPageStorage.selectedCardID = CardPageStorage.selectedCardID - 1
+                            }}>
                                 <KeyboardArrowLeftOutlinedIcon/>
                             </Button>
-                            <Button onClick={ () => CardPageStorage.selectedCardID = Number(CardPageStorage.selectedCardID) + 1}>
+                            <Button onClick={ () => {
+                                history.push("/card/" + (Number(id) + 1))
+                                // CardPageStorage.selectedCardID = Number(CardPageStorage.selectedCardID) + 1
+                            }}>
                                 <KeyboardArrowRightOutlinedIcon/>
                             </Button>
                         </ButtonGroup>

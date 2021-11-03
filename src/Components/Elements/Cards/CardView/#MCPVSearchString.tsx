@@ -9,7 +9,7 @@ export const MCPVSearchString = observer(() => {
             <Grid container justify="center" style={{marginTop:6}}>
                 <Grid item xs={12} md={8}>
                     <TextField
-                        // value={CardPageStorage.searchString}
+                        value={CardPageStorage.searchString}
                         onChange={async (e) => CardPageStorage.changeSearchString(e.target.value)}
                         fullWidth label="Умный поиск по названию и тексту карточки" variant="filled" />
                 </Grid>

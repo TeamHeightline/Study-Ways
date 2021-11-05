@@ -6,6 +6,7 @@ export const AnswerHelpTextV2 = observer(({answer}) =>{
     return(
         <>
             <TextField
+                variant={"outlined"}
                 className="mt-2"
                 key={answer.id + "helpTextv2"}
                 id="standard-multiline-flexible"

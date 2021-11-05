@@ -68,11 +68,11 @@ export const AnswersEditor = observer(() => {
                             <Collapse in={QuestionEditorStorage.activeEditAnswerIDSet.has(answer.id)}>
                                 <div >
                                     <Grid container spacing={8} justify="space-around" className={classes.answerContent}>
-                                        <Grid item md={6} xs={12}>
+                                        <Grid item md={6} xs={12} >
                                             <AnswerText answer={answer} />
-                                            <AnswerHelpTextV1 answer={answer} />
-                                            <AnswerVideoUrl answer={answer} />
-                                            <Grid item container xs={12} spacing={3} >
+                                            <AnswerHelpTextV1 answer={answer} style={{marginTop: 12}}/>
+                                            <AnswerVideoUrl answer={answer} style={{marginTop: 12}}/>
+                                            <Grid item container xs={12} spacing={3} style={{marginTop: 6}}>
                                                 <Grid item md={5} xs={12}>
                                                     <AnswerCheckQueue answer={answer} />
                                                 </Grid>
@@ -84,8 +84,8 @@ export const AnswersEditor = observer(() => {
                                         </Grid>
                                         <Grid item md={6} xs={12}>
                                             <AnswerHelpTextV2 answer={answer}/>
-                                            <AnswerHelpTextV3 answer={answer}/>
-                                            <Grid item container spacing={3} xs={12} justify="space-between">
+                                            <AnswerHelpTextV3 answer={answer} style={{marginTop: 12}}/>
+                                            <Grid item container spacing={3} xs={12} justify="space-between" style={{marginTop: 12}}>
                                                 <Grid item md={6} xs={12}>
                                                     <AnswerHardLevel answer={answer}/>
                                                 </Grid>

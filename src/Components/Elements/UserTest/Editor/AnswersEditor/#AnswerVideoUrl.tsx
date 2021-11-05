@@ -2,9 +2,9 @@ import {observer} from "mobx-react";
 import {TextField} from "@material-ui/core";
 import React from "react";
 
-export const AnswerVideoUrl = observer(({answer}) =>{
+export const AnswerVideoUrl = observer(({answer, ...props}) =>{
     return(
-        <>
+        <div {...props}>
             <TextField
                 key={answer.id + "videoUrl"}
                 id="standard-multiline-flexible"
@@ -17,6 +17,6 @@ export const AnswerVideoUrl = observer(({answer}) =>{
                     answer.videoUrl = e.target.value
                 }}
             />
-        </>
+        </div>
     )
 })

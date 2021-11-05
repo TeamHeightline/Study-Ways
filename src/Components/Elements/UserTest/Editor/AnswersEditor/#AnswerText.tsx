@@ -1,16 +1,16 @@
 import {observer} from "mobx-react";
 import {TextField} from "@material-ui/core";
 import React from "react";
-import {toJS} from "mobx";
 
 export const AnswerText = observer(({answer})=>{
     return(
         <>
             <TextField
+                variant={"filled"}
                 className="mt-2"
                 key={answer.id + "text"}
                 id="standard-multiline-flexible"
-                label="Текст ответа"
+                label="ТЕКСТ ОТВЕТА"
                 multiline
                 fullWidth
                 rowsMax={7}

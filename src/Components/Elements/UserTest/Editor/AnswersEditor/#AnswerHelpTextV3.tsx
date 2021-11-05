@@ -2,10 +2,11 @@ import {observer} from "mobx-react";
 import {TextField} from "@material-ui/core";
 import React from "react";
 
-export const AnswerHelpTextV3 = observer(({answer}) =>{
+export const AnswerHelpTextV3 = observer(({answer, ...props}) =>{
     return(
-        <>
+        <div {...props}>
             <TextField
+                variant={"outlined"}
                 className="mt-2"
                 key={answer.id + "helpTextv3"}
                 id="standard-multiline-flexible"
@@ -19,6 +20,6 @@ export const AnswerHelpTextV3 = observer(({answer}) =>{
                     answer.helpTextv3 = e.target.value
                 }}
             />
-        </>
+        </div>
     )
 })

@@ -46,12 +46,12 @@ export const AnswersEditor = observer(() => {
             {QuestionEditorStorage.answers.filter(answer => answer.isDeleted === false)?.map((answer) =>{
                 console.log(answer.isRequired)
                 return(
-                    <div className="mr-md-2 ml-md-2 mt-3 " key={answer.id + "AnswerKey"}>
-                        <Paper elevation={3} variant="outlined" className="ml-md-5 mr-md-5">
+                    <div className="pl-md-5 pr-md-5 mt-3 " key={answer.id + "AnswerKey"}>
+                        <Paper elevation={3} variant="outlined">
                             <br/>
                             <Grid container spacing={1} xs={12} >
                                 <Grid item xs={11}>
-                                    <Typography className="ml-5" variant="h6"  color="inherit">{"ID: " + answer.id + " " + answer.text}</Typography>
+                                    <Typography className="pl-5" variant="h6"  color="inherit">{"ID: " + answer.id + " " + answer.text}</Typography>
                                 </Grid>
                                 <Grid item xs={1}>
                                     <AnswerDeleteOrDisableAnswerMenu answer={answer}/>
@@ -63,7 +63,7 @@ export const AnswersEditor = observer(() => {
                                 control={<Switch checked={QuestionEditorStorage.activeEditAnswerIDSet.has(answer.id)}
                                                  onChange={() => {QuestionEditorStorage.changeActiveEditAnswerIDSet(answer.id)}} />}
                                 label="Редактировать"
-                                className="ml-5"
+                                className="pl-5"
                             />
                             <Collapse in={QuestionEditorStorage.activeEditAnswerIDSet.has(answer.id)}>
                                 <div >

@@ -6,9 +6,10 @@ import React from "react";
 export const AnswerIsTrue = observer(({answer}) =>{
     return(
         <>
-            <FormControl className="col-12" >
+            <FormControl className="col-12">
                 <InputLabel id="demo-simple-select-label">Ответ верный/неверный</InputLabel>
                 <Select
+                    variant={"filled"}
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={answer.isTrue}

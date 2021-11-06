@@ -42,6 +42,7 @@ export default function MainCardEditor({...props}: any){
     const [activePageNumber, setActivePageNumber] = useState(1)
 
     const {data: card_data, refetch} = useQuery(GET_ALL_CARD_DATA, {
+        fetchPolicy: "cache-first"
         // pollInterval: 3000,
     })
 

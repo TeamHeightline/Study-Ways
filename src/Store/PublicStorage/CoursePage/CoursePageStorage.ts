@@ -49,7 +49,7 @@ class CoursePage{
     dataHasBeenGot = false
     //action для получения всех данных о !курсах! и записывание их в courseArr
     get_course_data(){
-        this.clientStorage.client.query({query: GET_ALL_COURSE})
+        this.clientStorage.client.query({query: GET_ALL_COURSE, fetchPolicy: "cache-first"})
             .then((data) => {
                     //используем сортировку для того, чтобы поставить все курсы в порядке ID
                     this.courseArr = sort(data?.data?.cardCourse).desc((c: any) => c?.id)

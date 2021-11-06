@@ -263,14 +263,15 @@ class CardPage{
 
 
     //action для получения данных о всех карточках с сервера
-    getCardsDataFromServer(){
-        this.clientStorage.client.query({query: GET_ALL_CARDS})
+    getCardsDataFromServer(useCache = true){
+        this.clientStorage.client.query({query: GET_ALL_CARDS, fetchPolicy: useCache? "cache-first": "network-only"})
             .then((data) => {
                 //Передаем все полученные данный в cardsData
                 this.rawCardsDataWitchoutFiltering = data?.data?.card
                 //Устанавливаем флаг о том, что все данные получены
                 this.dataHasBeenGot = true
                 this.getDataForCardSubThemeSelectFromServer()
+                this.getCardsDataFromServer(useCache=false)
             })
     }
 

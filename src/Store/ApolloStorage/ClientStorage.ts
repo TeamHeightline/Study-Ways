@@ -1,6 +1,8 @@
 import {action, autorun, makeObservable, observable} from "mobx";
 import {setContext} from "@apollo/client/link/context";
 import {ApolloClient, ApolloLink, HttpLink, InMemoryCache, NormalizedCacheObject} from "@apollo/client";
+import { persistCache, LocalStorageWrapper } from 'apollo3-cache-persist';
+
 import {onError} from "apollo-link-error";
 class Client{
     //Токен авторизации, самая важная вешь в проекте! При запуски он достается из локального хранилища
@@ -32,7 +34,7 @@ class Client{
     //все последующие запросы и мутации будут происходить от его лица(в частности запрос на
     // получение данных о пользователе), так же это позволит в будущем добавлять другие заголоки
     //для запросов, если это понадобится
-    UpdatedApolloClient(){
+     UpdatedApolloClient(){
         const authLink: any = setContext((_, { headers }) => {
             // процесс создания авторизационного заголовка
             return {
@@ -50,10 +52,15 @@ class Client{
         const errorLink: any = onError(({ graphQLErrors }) => {
             if (graphQLErrors) graphQLErrors.map(({ message }) => console.log(message))
         })
+        const cache = new InMemoryCache();
+        persistCache({
+            cache,
+            storage: new LocalStorageWrapper(window.localStorage),
+        });
         //Конечная сборка @client
         const client = new ApolloClient({
             link: ApolloLink.from([errorLink, authLink, httpLink]),
-            cache: new InMemoryCache()
+            cache: cache
         });
         //Новый клиент собран и расшеривается между всеми, кто его использует
         this.client = client

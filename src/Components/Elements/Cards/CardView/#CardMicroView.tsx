@@ -20,17 +20,18 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
     const [cardImage, setCardImage] = useState()
     const get_card_image = () =>{
         // https://iot-experemental.herokuapp.com/cardfiles/card?
-        fetch("https://iot-experemental.herokuapp.com/cardfiles/card?id=" + cardID)
-            .then((response) => response.json())
-            .then((data) =>{
-                // console.log(data)
-                try{
-                    setCardImage(data[0].image)
-                }
-                catch(e){
-                    void(0)
-                }
-            })
+        if(card_data?.cardById?.cardContentType != "A_0" && cardID != 1) {
+            fetch("https://iot-experemental.herokuapp.com/cardfiles/card?id=" + cardID)
+                .then((response) => response.json())
+                .then((data) => {
+                    // console.log(data)
+                    try {
+                        setCardImage(data[0].image)
+                    } catch (e) {
+                        void (0)
+                    }
+                })
+        }
     }
 
     const {data: card_data, refetch} = useQuery(GET_CARD_FOR_MICRO_VIEW_BY_ID, {
@@ -40,6 +41,7 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
         fetchPolicy: "cache-first",
         onCompleted: () => {
             get_card_image()
+
         },
 
     })
@@ -77,9 +79,11 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                         {Number(card_data.cardById.cardContentType[2]) === 0 &&  card_data?.cardById?.videoUrl &&
                         <CardMedia
                             style={{width: 132, height: 169}}
-                            image={"https://img.youtube.com/vi/"+ card_data?.cardById.videoUrl.split('?v=')[1] + "/hqdefault.jpg"}
+                            image={"https://img.youtube.com/vi/"+
+                            card_data?.cardById.videoUrl.split('?v=')[1] + "/hqdefault.jpg"}
                         />}
-                        {(Number(card_data.cardById.cardContentType[2]) === 1 || Number(card_data.cardById.cardContentType[2]) === 2) && cardImage &&
+                        {(Number(card_data.cardById.cardContentType[2]) === 1 ||
+                            Number(card_data.cardById.cardContentType[2]) === 2) && cardImage &&
                         <CardMedia
                             style={{width: 132, height: 169}}
                             image={cardImage}
@@ -88,13 +92,20 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
                     </Grid>
                     <Grid item xs={8}>
                         <CardActionArea >
-                            <CardContent style={{padding: 4, paddingLeft: 10, paddingRight: 10}} className="justify-content-start" >
+                            <CardContent style={{padding: 4, paddingLeft: 10, paddingRight: 10}}
+                                         className="justify-content-start" >
                                 <Typography  variant="h6" gutterBottom >
                                     ID: {card_data?.cardById.id}
 
-                                    {Number(card_data.cardById.cardContentType[2]) === 0 && <Chip style={{marginLeft: 12}} size="small" variant="outlined" color="secondary" icon={<YouTubeIcon />} label="YouTube"/>}
-                                    {Number(card_data.cardById.cardContentType[2]) === 1 && <Chip style={{marginLeft: 12}} size="small" variant="outlined" color="primary" icon={<HttpIcon />} label="Ресурс"/>}
-                                    {Number(card_data.cardById.cardContentType[2]) === 2 && <Chip style={{marginLeft: 12}} size="small" variant="outlined" color="default" icon={<ImageIcon />} label="Изображение"/>}
+                                    {Number(card_data.cardById.cardContentType[2]) === 0 &&
+                                    <Chip style={{marginLeft: 12}} size="small" variant="outlined" color="secondary"
+                                          icon={<YouTubeIcon />} label="YouTube"/>}
+                                    {Number(card_data.cardById.cardContentType[2]) === 1 &&
+                                    <Chip style={{marginLeft: 12}} size="small" variant="outlined" color="primary"
+                                          icon={<HttpIcon />} label="Ресурс"/>}
+                                    {Number(card_data.cardById.cardContentType[2]) === 2 &&
+                                    <Chip style={{marginLeft: 12}} size="small" variant="outlined" color="default"
+                                          icon={<ImageIcon />} label="Изображение"/>}
 
                                 </Typography>
 
@@ -104,7 +115,9 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
 
                                 <Typography>
                                     {card_data?.cardById?.subTheme.length !== 0 ?
-                                        <Popover trigger="hover" title="Темы карточки" content={card_data?.cardById?.subTheme.map((e, eIndex) =>{
+                                        <Popover trigger="hover" title="Темы карточки"
+                                                 content={card_data?.cardById?.subTheme
+                                                     .map((e, eIndex) =>{
                                             return(
                                                 <div key={eIndex+ "Tooltip"}>
                                                     {e.theme?.globalTheme?.name.toString() + " / "

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {gql, useQuery} from "@apollo/client";
 import { TreeSelect} from "antd";
 import {Spinner, Row, Col} from "react-bootstrap";
-import Typography from "@material-ui/core/Typography";
+import Typography from "@mui/material/Typography";
 import {CardPageStorage} from "../../../../../Store/PublicStorage/CardsPage/CardPageStorage";
 import {observer} from "mobx-react";
 import {toJS} from "mobx";

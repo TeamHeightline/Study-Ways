@@ -10,15 +10,16 @@ import {
     StepLabel,
     Stepper,
     Typography
-} from "@material-ui/core";
+} from "@mui/material";
 import {observer} from "mobx-react";
 import {QSPlayerStore} from "../../../../Store/PublicStorage/QSPage/QuestionSequencePlayer/QSPlayerStore";
 import { Row, Spinner} from "react-bootstrap";
 import DCPCImageQuestion from "../../UserTest/ImageQuestion/DCPCImageQuestion";
-import CardMedia from "@material-ui/core/CardMedia";
-import CardContent from "@material-ui/core/CardContent";
-import {createStyles, makeStyles} from "@material-ui/core/styles";
-import {Alert} from "@material-ui/lab";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import { Alert } from '@mui/material';
 
 import {
     Chart,
@@ -86,7 +87,7 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
         )
     }
     // console.log(processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.ArrayForShowAnswerPoints)
-    return(
+    return (
         <div>
             <Typography align={"center"} variant={isMobile ?"h6": "h4"}>{processedStore.name}</Typography>
             <div style={{overflowX: "auto"}}>
@@ -114,7 +115,7 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                 </Stepper>
             </div>
             {!processedStore?.activeQuestionStoreInstance?.questionHasBeenStarted &&
-            <Grid container justify="center" alignItems="center"
+            <Grid container justifyContent="center" alignItems="center"
                   style={{height: isMobile ?  window.innerHeight - 430: window.innerHeight - 600}}>
                 <Grid item xs={12} md={3}>
                     <Card variant="outlined" style={{padding: 12}}>
@@ -247,6 +248,5 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                 </div> }
 
             </div>
-
-    )
+    );
 })

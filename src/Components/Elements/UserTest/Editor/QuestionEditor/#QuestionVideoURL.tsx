@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
-import {TextField} from "@material-ui/core";
+import {TextField} from "@mui/material";
 import {QuestionEditorStorage} from "../../../../../Store/PrivateStorage/EditorsPage/QuestionEditorPage/QuestionEditorStorage";
-import FormControl from "@material-ui/core/FormControl";
+import FormControl from "@mui/material/FormControl";
 import React from "react";
 
 export const QuestionVideoURL = observer(() =>{

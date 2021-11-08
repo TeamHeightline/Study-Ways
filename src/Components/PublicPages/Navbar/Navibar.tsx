@@ -4,25 +4,27 @@
 import s from './navibar.module.css';
 import {Link, useHistory, useLocation} from 'react-router-dom';
 import useWindowDimensions from "../../../CustomHooks/useWindowDimensions";
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import {UserStorage} from '../../../Store/UserStore/UserStore'
 
-import BlurLinearIcon from "@material-ui/icons/BlurLinear";
-import ArtTrackIcon from "@material-ui/icons/ArtTrack";
-import EditIcon from '@material-ui/icons/Edit';
+import BlurLinearIcon from "@mui/icons-material/BlurLinear";
+import ArtTrackIcon from "@mui/icons-material/ArtTrack";
+import EditIcon from '@mui/icons-material/Edit';
 import React from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
+import { Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import {observer} from "mobx-react";
-import {AccountCircle} from "@material-ui/icons";
-import {Menu, MenuItem} from "@material-ui/core";
-import CategoryIcon from '@material-ui/icons/Category';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import {AccountCircle} from "@mui/icons-material";
+import {Menu, MenuItem} from "@mui/material";
+import CategoryIcon from '@mui/icons-material/Category';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -31,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
             // height: 40
         },
         menuButton: {
-            marginRight: theme.spacing(2),
+            marginRight: 12,
         },
         title: {
             flexGrow: 1,
@@ -101,7 +103,7 @@ export const Navibar = observer(() => {
     )}
     return (
         <div className={classes.root}>
-            <AppBar position="static" >
+            <AppBar position="static" enableColorOnDark>
                 <Toolbar variant="dense">
                     {/*<IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">*/}
                     {/*    <br/>*/}
@@ -123,7 +125,7 @@ export const Navibar = observer(() => {
                             aria-haspopup="true"
                             onClick={handleMenu}
                             color="inherit"
-                        >
+                            size="large">
                             <AccountCircle />
                         </IconButton>
                         <Menu

@@ -1,5 +1,5 @@
 import {observer} from "mobx-react";
-import {Checkbox, FormControlLabel} from "@material-ui/core";
+import {Checkbox, FormControlLabel} from "@mui/material";
 import React from "react";
 
 export const AnswerIsRequired = observer(({answer}) =>{

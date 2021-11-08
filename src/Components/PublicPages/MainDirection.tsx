@@ -1,23 +1,23 @@
 import {observer} from "mobx-react";
 import React, {useEffect} from 'react';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
 import {CARD} from "../Elements/Cards/Card";
 import CardMicroView from "../Elements/Cards/CardView/#CardMicroView";
 import CourseMicroView from "../Elements/Course/Editor/CourseMicroView";
 import {DirectionStore} from "../../Store/InDevComponentsStorage/ComunityDirectionsStore/DirectionStore";
 import {toJS} from "mobx";
-import ArtTrackIcon from "@material-ui/icons/ArtTrack";
-import BlurLinearIcon from "@material-ui/icons/BlurLinear";
+import ArtTrackIcon from "@mui/icons-material/ArtTrack";
+import BlurLinearIcon from "@mui/icons-material/BlurLinear";
 import {ImageQuestion} from "../Elements/UserTest/ImageQuestion/ImageQuestion";
-import {Card, CardActionArea, Typography} from "@material-ui/core";
-import DoneAllIcon from "@material-ui/icons/DoneAll";
+import {Card, CardActionArea, Typography} from "@mui/material";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
 import {QSPlayerByID} from "../Elements/QuestionSequence/Public/QSPlayerByID";
-import LinearScaleIcon from '@material-ui/icons/LinearScale';
+import LinearScaleIcon from '@mui/icons-material/LinearScale';
 import {directionData} from "../../Store/InDevComponentsStorage/ComunityDirectionsStore/Struct";
 
-const maxWidthOfElement = 470
+const maxWidthOfElement = 530
 const directionStoreObject = new DirectionStore()
 
 export const MainDirection = observer((directionDataProps) =>{

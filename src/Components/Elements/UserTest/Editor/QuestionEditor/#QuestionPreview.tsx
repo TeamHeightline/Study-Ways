@@ -1,7 +1,7 @@
 import {QuestionEditorStorage} from "../../../../../Store/PrivateStorage/EditorsPage/QuestionEditorPage/QuestionEditorStorage";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
-import {Collapse} from "@material-ui/core";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
+import {Collapse} from "@mui/material";
 import DCPCImageQuestion from "../../ImageQuestion/DCPCImageQuestion";
 import React from "react";
 import {observer} from "mobx-react";
@@ -15,10 +15,10 @@ export const QuestionPreview = observer(() => {
                                          checked={QuestionEditorStorage.showPreview}
                                          onChange={() => QuestionEditorStorage.showPreview = (!QuestionEditorStorage.showPreview)} />}
                         label="Включить предпросмотр"
-                        className="ml-5"
+
                     />}
             <Collapse in={QuestionEditorStorage.showPreview}>
-                <div className="ml-5">
+                <div >
                     <DCPCImageQuestion isNotUseScrollbar={true} setIsNotUseScrollbar={() =>void(0)} showNotUseScrollbarCheckbox={false}
                                        height={window.innerHeight} width={window.innerWidth} urlHasBeenPassed={true}
                                        questionImgUrl={QuestionEditorStorage.selectedQuestionImageURL}

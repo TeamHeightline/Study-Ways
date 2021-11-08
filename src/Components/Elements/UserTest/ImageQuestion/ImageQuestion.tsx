@@ -5,12 +5,13 @@ import {observer} from "mobx-react";
 import {SameQuestionPlayer} from "../../../../Store/PublicStorage/QSPage/QuestionSequencePlayer/SameQuestionPlayer";
 import {Row, Spinner} from "react-bootstrap";
 import DCPCImageQuestion from "./DCPCImageQuestion";
-import {Alert} from "@material-ui/lab";
-import {Button, Card, CardActionArea, Grid, MenuItem, Select, Typography} from "@material-ui/core";
-import CardMedia from "@material-ui/core/CardMedia";
-import CardContent from "@material-ui/core/CardContent";
+import { Alert } from '@mui/material';
+import {Button, Card, CardActionArea, Grid, MenuItem, Select, Typography} from "@mui/material";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
 import {ArgumentAxis, BarSeries, Chart, SplineSeries, Title, ValueAxis} from "@devexpress/dx-react-chart-material-ui";
-import {createStyles, makeStyles} from "@material-ui/core/styles";
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import {useLocation} from "react-router-dom";
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 
@@ -72,10 +73,10 @@ export const ImageQuestion = observer((props: any) => {
                 <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
             )
         }
-        return(
+        return (
             <div className="col-12">
                 {!processedStore?.questionHasBeenStarted &&
-                    <Grid container justify="center" alignItems="center" style={{height: isMobile ?  window.innerHeight - 100: window.innerHeight - 300}}>
+                    <Grid container justifyContent="center" alignItems="center" style={{height: isMobile ?  window.innerHeight - 100: window.innerHeight - 300}}>
                         <Grid item xs={12} md={3}>
                             <Card variant="outlined" style={{padding: 12}}>
                                 <Typography align={"center"} variant="h5">
@@ -195,5 +196,5 @@ export const ImageQuestion = observer((props: any) => {
                     </div> }
 
             </div>
-        )
+        );
 })

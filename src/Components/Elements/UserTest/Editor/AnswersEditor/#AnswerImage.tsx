@@ -1,6 +1,6 @@
 import {observer} from "mobx-react";
 import React from "react";
-import {Button} from "@material-ui/core";
+import {Button} from "@mui/material";
 
 export const AnswerImage = observer(({answer}) =>{
     return(

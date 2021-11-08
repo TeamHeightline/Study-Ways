@@ -1,5 +1,5 @@
 import {observer} from "mobx-react";
-import {FormControl, MenuItem, Select} from "@material-ui/core";
+import {FormControl, MenuItem, Select} from "@mui/material";
 import {StatisticByQuestionDataStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticByQuestionsDataStore";
 import {StatisticPageStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticPageStore";
 import React from 'react';
@@ -8,7 +8,6 @@ export const StatisticSelectQuestionInQS = observer(() =>{
         <div>
             <FormControl fullWidth style={{marginTop: 0, marginRight: 0}}>
                 <Select
-                    variant="outlined"
                     value={StatisticByQuestionDataStoreObject?.selectedQuestionOnPage}
                     onChange={(e) => StatisticByQuestionDataStoreObject?.changeSelectedQuestionOnPage(e.target.value)}
                 >

@@ -1,10 +1,10 @@
 import React, { useMemo, useState, Fragment} from 'react'
-import Typography from "@material-ui/core/Typography";
+import Typography from "@mui/material/Typography";
 import {
     Button, Collapse, FormControl, Grid, InputAdornment,
     Snackbar,
     TextField,
-} from "@material-ui/core";
+} from "@mui/material";
 import {Col, Row, Spinner} from "react-bootstrap";
 import ReactPlayer from "react-player";
 import './styleForCKEditor.css'
@@ -14,20 +14,21 @@ import { useMutation, useQuery} from "@apollo/client";
 import { Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
-import {Alert} from "@material-ui/lab";
+import { Alert } from '@mui/material';
 import RichTextEditor from "./#RichTextEditor";
 import ThemeTree from "./#ThemeTree";
 import CardAuthorsSelect from "./#CardAuthorsSelect";
 import CardEditMenu from "./#CardEditMenu";
 import {sort} from "fast-sort";
 import {GET_CARD_DATA_BY_ID, GET_OWN_AUTHOR, QUESTION_BY_ID, UPDATE_CARD, GET_THEMES, MenuProps} from "./Struct"
-import CopyrightIcon from "@material-ui/icons/Copyright";
+import CopyrightIcon from "@mui/icons-material/Copyright";
 import {CardEditArrowNavigationAndBandAQuestions} from './#CardEditArrowNavigationAndBandAQuestions'
 import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 
 export default function CardEditByID({cardId, ...props}: any){
     const [autoSaveTimer, changeAutoSaveTimer] = useState<any>()
     const [stateOfSave, setStateOfSave] = useState(2) // 0- не сохранено 1- сохранение 2- сохранено
+    const [allDataLoaded, setAllDataLoaded] = useState(false)
 
     const [cardID] = useState(cardId? cardId: props?.match?.params?.id)
     const [cardHeader, setCardHeader] = useState("Название карточки по умолчанию")
@@ -123,7 +124,7 @@ export default function CardEditByID({cardId, ...props}: any){
             variables: {
               id: cardID
             },
-            fetchPolicy: "cache-and-network",
+            fetchPolicy: "network-only",
             onCompleted: async data => {
                 console.log(data)
                 await setIsUseMainContent(data.cardById.isCardUseMainContent)
@@ -155,6 +156,7 @@ export default function CardEditByID({cardId, ...props}: any){
                 await setArrowUp(data.cardById.arrowUp)
                 await setArrowDown(data.cardById.arrowDown)
                 await setArrowNext(data.cardById.arrowNext)
+                await setAllDataLoaded(true)
                 // await setIsAllDataHadBeenGotFromServer(true)
                 get_card_image()
             },
@@ -197,7 +199,6 @@ export default function CardEditByID({cardId, ...props}: any){
                 setStateOfSave(3)
             }
 
-            console.log(arrowBefore)
             console.log(data)
         }
 
@@ -345,12 +346,12 @@ export default function CardEditByID({cardId, ...props}: any){
             isUseArrowNavigation, setIsUseArrowNavigation}}
     />, [isUseMainContent, mainContentType, isUseMainText, isUseAdditionalText, isUseBodyQuestion,
         isUseBeforeCardQuestion, isUseCopyright, isUseArrowNavigation])
-    if (!card_data){
+    if (!allDataLoaded){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
-    return(
+    return (
         <div className="col-12">
             <Typography className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Редактировать
                 карточку</Typography>
@@ -378,9 +379,9 @@ export default function CardEditByID({cardId, ...props}: any){
                             fullWidth
                             multiline
                             variant="filled"
-                            rowsMax={3}
+                            maxRows={3}
                             // style={{width: "50vw"}}
-                            value={cardHeader !== 'Название карточки по умолчанию'? cardHeader : undefined}
+                            value={cardHeader !== 'Название карточки по умолчанию'? cardHeader : ""}
                             onChange={cardHeaderHandle}
                         />
                     </FormControl>
@@ -402,7 +403,7 @@ export default function CardEditByID({cardId, ...props}: any){
                                 variant="outlined"
                                 label="Авторские права принадлежат: "
                                 fullWidth
-                                rowsMax={7}
+                                maxRows={7}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -513,8 +514,8 @@ export default function CardEditByID({cardId, ...props}: any){
             <br/>
             <br/>
             <br/>
-            <Snackbar open={true}>
-                <Alert severity={stateOfSave !== 3? "info": "error"}>
+            <Snackbar open={true} anchorOrigin={{vertical:'bottom',  horizontal: "center"}}>
+                <Alert variant="outlined" severity={stateOfSave !== 3? "info": "error"}>
                     {stateOfSave === 0 &&
                     "Изменения не сохранены"}
                     {stateOfSave === 1 &&
@@ -528,5 +529,5 @@ export default function CardEditByID({cardId, ...props}: any){
             {/*</Row>*/}
 
         </div>
-    )
+    );
 }

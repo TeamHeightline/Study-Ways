@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Card, CardActionArea, Tooltip, Typography} from "@material-ui/core";
+import {Card, CardActionArea, Stack, Tooltip, Typography} from "@mui/material";
 import CourseNavigation from "../Vue/CourseNavigation";
-import {Row, Spinner} from "react-bootstrap";
+import {Spinner} from "react-bootstrap";
 import styles from './Style.module.css'
 
 export default function CourseMicroView({course, ...props}: any) {
@@ -29,41 +29,41 @@ export default function CourseMicroView({course, ...props}: any) {
     }
     return(
         <div {...props} style={{padding: 0}}>
-            <Card style={{padding: 0, width: 455, height: 150}} variant="outlined">
-                <Row>
+            <Card style={{padding: 0}} variant="outlined">
+                <Stack direction="row">
                     <Tooltip title={(course?.name && course?.name?.length !== 0) ? course?.name?.toUpperCase() : "Название курса по умолчанию"}>
-                    <CardActionArea
-                        style={{
-                            width:200,
-                            height: 150,
-                            backgroundSize: "cover",
-                            // boxShadow: "inset 0 0 5em 1em #000",
-                            backgroundImage: cardCourseImageURL ? "url(" + cardCourseImageURL + ")": "url('https://content.skyscnr.com/m/5462d448281ea355/original/GettyImages-468945589.jpg?resize=1800px:1800px&quality=100')"}}
-                        onClick={() => {
-                            props?.onEdit(course.id)
-                        }}>
-                        <Typography
+                        <CardActionArea
                             style={{
-                                background: "rgba(10,33,49,0.73)",
-                                backdropFilter: "blur(5px)",
-                                fontFamily: "system-ui",
-                                fontSize: 15,
-                                color: "white",
-                                textAlign: "center",
-                                marginLeft: "5px",
+                                width:200,
+                                height: 160,
+                                backgroundSize: "cover",
+                                // boxShadow: "inset 0 0 5em 1em #000",
+                                backgroundImage: cardCourseImageURL ? "url(" + cardCourseImageURL + ")": "url('https://content.skyscnr.com/m/5462d448281ea355/original/GettyImages-468945589.jpg?resize=1800px:1800px&quality=100')"}}
+                            onClick={() => {
+                                props?.onEdit(course.id)
                             }}>
-                            {(course?.name && course?.name?.length !== 0) ? course?.name?.toUpperCase() : "Название курса по умолчанию"}
-                        </Typography>
-                    </CardActionArea>
+                            <Typography
+                                style={{
+                                    background: "rgba(10,33,49,0.73)",
+                                    backdropFilter: "blur(5px)",
+                                    fontFamily: "system-ui",
+                                    fontSize: 15,
+                                    color: "white",
+                                    textAlign: "center",
+                                    marginLeft: "5px",
+                                }}>
+                                {(course?.name && course?.name?.length !== 0) ? course?.name?.toUpperCase() : "Название курса по умолчанию"}
+                            </Typography>
+                        </CardActionArea>
                     </Tooltip>
-                    {/*<Divider orientation="vertical" flexItem className="ml-1" />*/}
                     <CourseNavigation className={styles.NavigationBackground}
-                                      style={{width: 255, height: 150,}}
+                                      style={{width: 350, height: 160,}}
                                       course={course} buttonClick={data => props?.buttonClick(data)}
                                       cardPositionData={props?.cardPositionData}/>
 
 
-                </Row>
+                    {/*<Divider orientation="vertical" flexItem className="ml-1" />*/}
+                </Stack>
             </Card>
         </div>
     )

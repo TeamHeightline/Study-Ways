@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import {Container, Form, Spinner} from "react-bootstrap";
-import {Button, FormControl, InputLabel, MenuItem, Paper, Select} from "@material-ui/core";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
-import Collapse from "@material-ui/core/Collapse";
+import {Button, FormControl, InputLabel, MenuItem, Paper, Select} from "@mui/material";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
+import Collapse from "@mui/material/Collapse";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";

@@ -1,9 +1,9 @@
 import {observer} from "mobx-react";
-import {TextField} from "@material-ui/core";
+import {TextField} from "@mui/material";
 import React from "react";
 
 export const AnswerHelpTextV3 = observer(({answer, ...props}) =>{
-    return(
+    return (
         <div {...props}>
             <TextField
                 variant={"outlined"}
@@ -13,7 +13,7 @@ export const AnswerHelpTextV3 = observer(({answer, ...props}) =>{
                 label="Подсказка для усложненного уровня"
                 multiline
                 fullWidth
-                rowsMax={7}
+                maxRows={7}
                 // style={{width: "50vw"}}
                 value={answer.helpTextv3}
                 onChange={(e: any) => {
@@ -21,5 +21,5 @@ export const AnswerHelpTextV3 = observer(({answer, ...props}) =>{
                 }}
             />
         </div>
-    )
+    );
 })

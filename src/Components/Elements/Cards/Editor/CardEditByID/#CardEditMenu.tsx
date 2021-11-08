@@ -1,14 +1,14 @@
 import React from 'react'
-import {Button, Divider, FormControl, InputLabel, ListItemIcon, Menu, MenuItem, Select} from "@material-ui/core";
-import SettingsIcon from "@material-ui/icons/Settings";
-import Switch from "@material-ui/core/Switch";
-import YouTubeIcon from "@material-ui/icons/YouTube";
-import CreateIcon from "@material-ui/icons/Create";
-import DoneAllIcon from "@material-ui/icons/DoneAll";
-import CopyrightIcon from '@material-ui/icons/Copyright';
-import HttpIcon from '@material-ui/icons/Http';
-import ImageIcon from '@material-ui/icons/Image';
-import CodeIcon from '@material-ui/icons/Code';
+import {Button, Divider, FormControl, InputLabel, ListItemIcon, Menu, MenuItem, Select} from "@mui/material";
+import SettingsIcon from "@mui/icons-material/Settings";
+import Switch from "@mui/material/Switch";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import CreateIcon from "@mui/icons-material/Create";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
+import CopyrightIcon from '@mui/icons-material/Copyright';
+import HttpIcon from '@mui/icons-material/Http';
+import ImageIcon from '@mui/icons-material/Image';
+import CodeIcon from '@mui/icons-material/Code';
 
 export default function CardEditMenu({ mainContentType, mainContentTypeHandle, isUseAdditionalTextHandle,
                                          isUseAdditionalText, isUseBodyQuestionHandle, isUseBodyQuestion,

@@ -1,14 +1,15 @@
 import {observer} from "mobx-react";
 import React from "react";
 import {StatisticByQuestionDataStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticByQuestionsDataStore";
-import {Collapse} from "@material-ui/core";
-import Paper from "@material-ui/core/Paper";
-import Table from "@material-ui/core/Table";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import {createStyles, makeStyles} from "@material-ui/core/styles";
+import {Collapse} from "@mui/material";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import {StatisticChart} from "./#StatisticChart";
 import {StatisticEachAttemptStatistic} from "./#StatisticEachAttemptStatistic";
 const useStyles = makeStyles(() =>

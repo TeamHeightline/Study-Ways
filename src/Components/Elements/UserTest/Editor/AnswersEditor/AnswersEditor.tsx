@@ -1,10 +1,10 @@
 import {observer} from "mobx-react";
 import React from 'react'
 import {QuestionEditorStorage} from "../../../../../Store/PrivateStorage/EditorsPage/QuestionEditorPage/QuestionEditorStorage";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import {Collapse, Grid, Switch} from "@material-ui/core";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import {Collapse, Grid, Switch} from "@mui/material";
 import {AnswerText} from "./#AnswerText";
 import {AnswerHelpTextV1} from "./#AnswerHelpTextV1";
 import {AnswerHelpTextV2} from "./#AnswerHelpTextV2";
@@ -18,7 +18,8 @@ import {AnswerPreview} from "./#AnswerPreview";
 import {AnswerSavingNotification} from "./#AnswerSavingNotification";
 import {AnswerDeleteOrDisableAnswerMenu} from "./#AnswerDeleteOrDisableAnswerMenu";
 import {AnswerDeleteDialog} from "./#AnswerDeleteDialog";
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
 import {AnswerIsRequired} from "./#AnswerIsRequired";
 
 const useStyles = makeStyles(() =>
@@ -40,77 +41,75 @@ export const AnswersEditor = observer(() => {
             <></>
         )
     }
-    return(
-        <>
-            <Typography className="display-4 text-center mt-3 col-12" style={{fontSize: '33px'}}>Редактировать ответы</Typography>
-            {QuestionEditorStorage.answers.filter(answer => answer.isDeleted === false)?.map((answer) =>{
-                console.log(answer.isRequired)
-                return(
-                    <div className="pl-md-5 pr-md-5 mt-3 " key={answer.id + "AnswerKey"}>
-                        <Paper elevation={3} variant="outlined">
-                            <br/>
-                            <Grid container spacing={1} xs={12} >
-                                <Grid item xs={11}>
-                                    <Typography className="pl-5" variant="h6"  color="inherit">{"ID: " + answer.id + " " + answer.text}</Typography>
-                                </Grid>
-                                <Grid item xs={1}>
-                                    <AnswerDeleteOrDisableAnswerMenu answer={answer}/>
-                                </Grid>
+    return <>
+        <Typography className="display-4 text-center mt-3 col-12" style={{fontSize: '33px'}}>Редактировать ответы</Typography>
+        {QuestionEditorStorage.answers.filter(answer => answer.isDeleted === false)?.map((answer) =>{
+            console.log(answer.isRequired)
+            return (
+                <div className=" pr-md-5 mt-3 " key={answer.id + "AnswerKey"}>
+                    <Paper  variant="outlined">
+                        <br/>
+                        <Grid container spacing={1} xs={12} >
+                            <Grid item xs={11}>
+                                <Typography className="pl-5" variant="h6"  color="inherit">{"ID: " + answer.id + " " + answer.text}</Typography>
                             </Grid>
-                            <AnswerDeleteDialog answer={answer}/>
+                            <Grid item xs={1}>
+                                <AnswerDeleteOrDisableAnswerMenu answer={answer}/>
+                            </Grid>
+                        </Grid>
+                        <AnswerDeleteDialog answer={answer}/>
 
-                            <FormControlLabel
-                                control={<Switch checked={QuestionEditorStorage.activeEditAnswerIDSet.has(answer.id)}
-                                                 onChange={() => {QuestionEditorStorage.changeActiveEditAnswerIDSet(answer.id)}} />}
-                                label="Редактировать"
-                                className="pl-5"
-                            />
-                            <Collapse in={QuestionEditorStorage.activeEditAnswerIDSet.has(answer.id)}>
-                                <div >
-                                    <Grid container spacing={8} justify="space-around" className={classes.answerContent}>
-                                        <Grid item md={6} xs={12} >
-                                            <AnswerText answer={answer} />
-                                            <AnswerHelpTextV1 answer={answer} style={{marginTop: 12}}/>
-                                            <AnswerVideoUrl answer={answer} style={{marginTop: 12}}/>
-                                            <Grid item container xs={12} spacing={3} style={{marginTop: 6}}>
-                                                <Grid item md={5} xs={12}>
-                                                    <AnswerCheckQueue answer={answer} />
-                                                </Grid>
-                                                <Grid item md={7} xs={12}>
-                                                    <AnswerImage answer={answer}/>
-                                                </Grid>
+                        <FormControlLabel
+                            control={<Switch checked={QuestionEditorStorage.activeEditAnswerIDSet.has(answer.id)}
+                                             onChange={() => {QuestionEditorStorage.changeActiveEditAnswerIDSet(answer.id)}} />}
+                            label="Редактировать"
+                            className="pl-5"
+                        />
+                        <Collapse in={QuestionEditorStorage.activeEditAnswerIDSet.has(answer.id)}>
+                            <div >
+                                <Grid container spacing={8} justifyContent="space-around" className={classes.answerContent}>
+                                    <Grid item md={6} xs={12} >
+                                        <AnswerText answer={answer} />
+                                        <AnswerHelpTextV1 answer={answer} style={{marginTop: 12}}/>
+                                        <AnswerVideoUrl answer={answer} style={{marginTop: 12}}/>
+                                        <Grid item container xs={12} spacing={3} style={{marginTop: 6}}>
+                                            <Grid item md={5} xs={12}>
+                                                <AnswerCheckQueue answer={answer} />
                                             </Grid>
-                                            <AnswerPreview answer={answer}/>
+                                            <Grid item md={7} xs={12}>
+                                                <AnswerImage answer={answer}/>
+                                            </Grid>
                                         </Grid>
-                                        <Grid item md={6} xs={12}>
-                                            <AnswerHelpTextV2 answer={answer}/>
-                                            <AnswerHelpTextV3 answer={answer} style={{marginTop: 12}}/>
-                                            <Grid item container spacing={3} xs={12} justify="space-between" style={{marginTop: 12}}>
-                                                <Grid item md={6} xs={12}>
-                                                    <AnswerHardLevel answer={answer}/>
-                                                </Grid>
-                                                <Grid item md={6} xs={12}>
-                                                    <AnswerIsTrue answer={answer}/>
-                                                </Grid>
+                                        <AnswerPreview answer={answer}/>
+                                    </Grid>
+                                    <Grid item md={6} xs={12}>
+                                        <AnswerHelpTextV2 answer={answer}/>
+                                        <AnswerHelpTextV3 answer={answer} style={{marginTop: 12}}/>
+                                        <Grid item container spacing={3} xs={12} justifyContent="space-between" style={{marginTop: 12}}>
+                                            <Grid item md={6} xs={12}>
+                                                <AnswerHardLevel answer={answer}/>
                                             </Grid>
-                                            <Grid item container spacing={0} xs={12}>
-                                                <Grid item md={6} xs={12}>
-                                                    <AnswerIsRequired answer={answer}/>
-                                                </Grid>
-                                                <Grid item md={6} xs={12} className={classes.savingNotification}>
-                                                    <AnswerSavingNotification answer={answer}/>
-                                                </Grid>
+                                            <Grid item md={6} xs={12}>
+                                                <AnswerIsTrue answer={answer}/>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid item container spacing={0} xs={12}>
+                                            <Grid item md={6} xs={12}>
+                                                <AnswerIsRequired answer={answer}/>
+                                            </Grid>
+                                            <Grid item md={6} xs={12} className={classes.savingNotification}>
+                                                <AnswerSavingNotification answer={answer}/>
                                             </Grid>
                                         </Grid>
                                     </Grid>
-                                </div>
-                            </Collapse>
-                            <br/>
-                            <br/>
-                        </Paper>
-                    </div>
-                )
-            })}
-        </>
-    )
+                                </Grid>
+                            </div>
+                        </Collapse>
+                        <br/>
+                        <br/>
+                    </Paper>
+                </div>
+            );
+        })}
+    </>;
 })

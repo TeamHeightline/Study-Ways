@@ -6,8 +6,8 @@ import {AuthorSelector} from "../Elements/Cards/Editor/MainCardEditor/#AuthorSel
 import {CardPageStorage} from "../../Store/PublicStorage/CardsPage/CardPageStorage";
 import {observer} from "mobx-react";
 import {toJS} from "mobx";
-import {CircularProgress, Grid} from "@material-ui/core";
-import {Pagination} from "@material-ui/lab";
+import {CircularProgress, Grid, Snackbar} from "@mui/material";
+import { Alert, Pagination } from '@mui/material';
 import {MCPVSearchString} from "../Elements/Cards/CardView/#MCPVSearchString";
 import {MCPVCards} from "../Elements/Cards/CardView/#MCPVCards";
 
@@ -17,7 +17,7 @@ export const MainCardPublicView = observer(({...props}: any) =>{
     const memorizedCardsForDisplay = useMemo(() => <MCPVCards cardsDataForRender={toJS(CardPageStorage.cardsDataForRender)}/>,
         [toJS(CardPageStorage.cardsDataForRender)[0]?.id, toJS(CardPageStorage.cardsDataForRender)[1]?.id,
             toJS(CardPageStorage.cardsDataForRender)[2]?.id])
-    return(
+    return (
         <div {...props}>
             <MCPVSearchString/>
             <Row className="mt-3 justify-content-around col-12">
@@ -49,14 +49,14 @@ export const MainCardPublicView = observer(({...props}: any) =>{
                 </Col>
             </Row>
 
-            <Grid container justify="center" style={{marginTop: 12}}>
+            <Grid container justifyContent="center" style={{marginTop: 12}}>
                 <Grid item>
                     {!toJS(CardPageStorage.cardsDataForRender).length && <CircularProgress />}
                 </Grid>
             </Grid>
             {memorizedCardsForDisplay}
             {toJS(CardPageStorage.cardsDataForRender).length !== 0 && CardPageStorage.cardsDataForRender &&
-                <Grid container justify="center" style={{marginTop: 12}}>
+                <Grid container justifyContent="center" style={{marginTop: 12}}>
                     <Grid item>
                             <Pagination
                                 page={CardPageStorage.pageNumber}
@@ -67,6 +67,11 @@ export const MainCardPublicView = observer(({...props}: any) =>{
                                 shape="rounded" />
                     </Grid>
                 </Grid>}
+            <Snackbar open={true} autoHideDuration={6000} >
+                <Alert  severity="success">
+                    Обновить данные
+                </Alert>
+            </Snackbar>
         </div>
-    )
+    );
 })

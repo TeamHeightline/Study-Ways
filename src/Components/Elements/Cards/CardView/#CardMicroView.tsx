@@ -1,21 +1,21 @@
 import React, {useEffect, useState} from 'react';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
 import { Popover } from 'antd';
 
-import {CardActionArea, Chip, Grid} from "@material-ui/core";
+import {CardActionArea, Chip, Grid} from "@mui/material";
 import 'fontsource-roboto';
 import {useQuery} from "@apollo/client";
 import { Row} from "react-bootstrap";
-import YouTubeIcon from "@material-ui/icons/YouTube";
-import HttpIcon from '@material-ui/icons/Http';
-import ImageIcon from '@material-ui/icons/Image';
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import HttpIcon from '@mui/icons-material/Http';
+import ImageIcon from '@mui/icons-material/Image';
 import {GET_CARD_FOR_MICRO_VIEW_BY_ID, useStyles} from "./Struct"
-import {Skeleton} from "@material-ui/lab";
+import { Skeleton } from '@mui/material';
 
-export default function CardMicroView({cardID = 1, ...props}: any,){
+export default function CardMicroView({cardID = 1, ...props}: any){
     const classes = useStyles();
     const [cardImage, setCardImage] = useState()
     const get_card_image = () =>{
@@ -60,11 +60,11 @@ export default function CardMicroView({cardID = 1, ...props}: any,){
             <div {...props}>
                 <Card variant="outlined" className={classes.root} onClick={() =>{props.onChange(cardID)}}>
                     <Row>
-                        <Skeleton variant="rect" width={130} height={170} />
+                        <Skeleton variant="rectangular" width={130} height={170} />
                     </Row>
                 </Card>
             </div>
-        )
+        );
     }
     return(
         <div

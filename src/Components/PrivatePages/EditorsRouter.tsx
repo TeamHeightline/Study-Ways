@@ -1,15 +1,15 @@
 import React, {useEffect} from "react";
 import {QuestionEditor} from "./QuestionEditor";
-import {Alert} from "@material-ui/lab";
-import AlertTitle from "@material-ui/lab/AlertTitle";
-import ArtTrackIcon from '@material-ui/icons/ArtTrack';
+import { Alert } from '@mui/material';
+import AlertTitle from '@mui/material/AlertTitle';
+import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import MainCardEditor from "./MainCardEditor";
-import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import MainCourseEditor from "./MainCourseEditor";
-import BlurLinearIcon from '@material-ui/icons/BlurLinear';
-import RecentActorsIcon from '@material-ui/icons/RecentActors';
+import BlurLinearIcon from '@mui/icons-material/BlurLinear';
+import RecentActorsIcon from '@mui/icons-material/RecentActors';
 
-import LinearScaleIcon from '@material-ui/icons/LinearScale'; // оставим для серии вопросов
+import LinearScaleIcon from '@mui/icons-material/LinearScale'; // оставим для серии вопросов
 import SearchingElementsEditor from "./SearchingElementsEditor";
 import QuestionSequenceMainEditor from "./QuestionSequenceMainEditor";
 import {UserStorage} from '../../Store/UserStore/UserStore'
@@ -21,22 +21,24 @@ import {
 } from "react-router-dom";
 
 import clsx from 'clsx';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import BarChartIcon from '@material-ui/icons/BarChart';
+import { Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import BarChartIcon from '@mui/icons-material/BarChart';
 import {MainStatistic} from "./MainStatistic";
-import {Tooltip, Typography} from "@material-ui/core";
+import {Tooltip, Typography} from "@mui/material";
 import {MainUserQuestionPage} from "./MainUserQuestionPage";
 
-const drawerWidth = 240;
+const drawerWidth = 70;
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -110,7 +112,7 @@ export const EditorsRouter = observer(() =>{
     const { path } = useRouteMatch();
     const location = useLocation();
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(true);
 
 
     const handleDrawer = () => {
@@ -153,7 +155,7 @@ export const EditorsRouter = observer(() =>{
                 }}
             >
                 <div>
-                    <IconButton onClick={handleDrawer}>
+                    <IconButton onClick={handleDrawer} size="large">
                         {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                     </IconButton>
                 </div>

@@ -3,9 +3,9 @@ import React from "react";
 import {Row} from "react-bootstrap";
 import {toJS} from "mobx";
 import {StatisticByQuestionDataStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticByQuestionsDataStore";
-import {Card, CardActionArea, Typography} from "@material-ui/core";
-import CardMedia from "@material-ui/core/CardMedia";
-import CardContent from "@material-ui/core/CardContent";
+import {Card, CardActionArea, Typography} from "@mui/material";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
 
 
 export const StatisticWrongAnswersForAttempt = observer(({row, attempt, classes, aIndex}) =>{

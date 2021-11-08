@@ -1,6 +1,6 @@
 import {observer} from "mobx-react";
 import React from 'react';
-import {FormControlLabel, Switch} from "@material-ui/core";
+import {FormControlLabel, Switch} from "@mui/material";
 import {StatisticByQuestionDataStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticByQuestionsDataStore";
 
 export const StatisticOnlyInQSFlag = observer(() =>{

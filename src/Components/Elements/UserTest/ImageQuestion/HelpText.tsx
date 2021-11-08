@@ -1,7 +1,7 @@
-import {Alert} from "@material-ui/lab";
+import { Alert } from '@mui/material';
 import {Accordion} from "react-bootstrap";
 import BootstrapCard from "react-bootstrap/Card";
-import {Button} from "@material-ui/core";
+import {Button} from "@mui/material";
 import ReactPlayer from "react-player";
 import React from "react";
 

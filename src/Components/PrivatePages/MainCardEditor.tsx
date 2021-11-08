@@ -9,8 +9,8 @@ import {gql} from "graphql.macro";
 import {ContentTypeSelector} from "../Elements/Cards/Editor/MainCardEditor/#ContentTypeSelector";
 import {ThemeSelector} from "../Elements/Cards/Editor/MainCardEditor/#ThemeSelector";
 import {sort} from "fast-sort";
-import {Pagination} from "@material-ui/lab";
-import {CircularProgress, Grid} from "@material-ui/core";
+import { Pagination } from '@mui/material';
+import {CircularProgress, Grid} from "@mui/material";
 import {toJS} from "mobx";
 import {CardPageStorage} from "../../Store/PublicStorage/CardsPage/CardPageStorage";
 
@@ -75,16 +75,16 @@ export default function MainCardEditor({...props}: any){
     }
     if(!card_data){
         return (
-            <Grid container justify="center" style={{marginTop: 12}}>
+            <Grid container justifyContent="center" style={{marginTop: 12}}>
                 <Grid item>
                     {!toJS(CardPageStorage.cardsDataForRender).length && <CircularProgress />}
                 </Grid>
             </Grid>
-        )
+        );
     }
-    return(
+    return (
         <div style={{paddingLeft: 15}}>
-            <Row className="col-12 justify-content-around">
+            <Row className="col-12 justify-content-around mt-3">
                 <Col className="col-md-4 col-12">
                     <ThemeSelector cards_data={card_data.me.cardSet}
                     changeSelectedData={(data)=>{
@@ -115,17 +115,19 @@ export default function MainCardEditor({...props}: any){
                 {cardsDataAfterSelectAuthor && sort(cardsDataAfterSelectAuthor)
                     .desc((card: any) => Number(card?.id))
                     .slice((activePageNumber - 1)* numbersOfCardsOnPage, activePageNumber* numbersOfCardsOnPage)
-                    .map((e: any) =>{
+                    .map((card: any) =>{
                     return(
-                            <CardMicroView  cardID={e?.id} key={e?.id + "CardKey"}
-                                            isNowEditableCard={e?.id === selectedCardID}
+                            <CardMicroView  cardID={card?.id} key={card?.id + "CardKey"}
+                                            isNowEditableCard={card?.id === selectedCardID}
                                             isEditNow={isEditNow}
                                             className="mt-3 ml-1 col-12 col-md-3"
-                                            onChange={selectCardForEditHandle}/>
+                                            onChange={() => void(0)}
+                                            onClick={()=> selectCardForEditHandle(card?.id)}
+                            />
                         )
                 })}
             </Row>
-            <Grid container justify="center" style={{marginTop: 12}}>
+            <Grid container justifyContent="center" style={{marginTop: 12}}>
                 <Grid item xs="auto">
                     <Pagination
                         shape="rounded"
@@ -136,5 +138,5 @@ export default function MainCardEditor({...props}: any){
                 </Grid>
             </Grid>
         </div>
-    )
+    );
 }

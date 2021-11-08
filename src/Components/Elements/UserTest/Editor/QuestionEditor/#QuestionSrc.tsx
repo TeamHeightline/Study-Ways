@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import {QuestionEditorStorage} from "../../../../../Store/PrivateStorage/EditorsPage/QuestionEditorPage/QuestionEditorStorage";
 import {Col} from "react-bootstrap";
-import {Typography} from "@material-ui/core";
+import {Typography} from "@mui/material";
 import React from "react";
 
 export const QuestionSrc = observer(() =>{

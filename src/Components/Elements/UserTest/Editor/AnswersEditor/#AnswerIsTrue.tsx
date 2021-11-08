@@ -1,6 +1,6 @@
 import {observer} from "mobx-react";
-import {InputLabel, MenuItem, Select} from "@material-ui/core";
-import FormControl from "@material-ui/core/FormControl";
+import {InputLabel, MenuItem, Select} from "@mui/material";
+import FormControl from "@mui/material/FormControl";
 import React from "react";
 
 export const AnswerIsTrue = observer(({answer}) =>{

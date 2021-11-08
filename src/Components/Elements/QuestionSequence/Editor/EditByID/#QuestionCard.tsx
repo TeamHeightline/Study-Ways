@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {Card, Grid, TextField} from "@material-ui/core";
+import {Card, Grid, TextField} from "@mui/material";
 import {Form} from "react-bootstrap";
 import {useQuery} from "@apollo/client";
 import {GET_ALL_QUESTIONS} from "../../../../../Store/PublicStorage/QuestionPage/Struct";
 import * as _ from "lodash"
-import {Autocomplete} from "@material-ui/lab";
-import IconButton from "@material-ui/core/IconButton";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
+import { Autocomplete } from '@mui/material';
+import IconButton from "@mui/material/IconButton";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import {sort} from "fast-sort";
 
 export default function QuestionCard({...props}: any) {
@@ -117,7 +117,7 @@ export default function QuestionCard({...props}: any) {
             props.onChange(selectedQuestion.id)
         }
     }, [selectedQuestion])
-    return(
+    return (
         <div {...props}>
             <Card variant="outlined">
                 <div className="ml-3 mr-3 mt-3">
@@ -163,7 +163,7 @@ export default function QuestionCard({...props}: any) {
                                 aria-controls="long-menu"
                                 aria-haspopup="true"
                                 onClick={handleClick}
-                            >
+                                size="large">
                                 <MoreVertIcon />
                             </IconButton>
                             <Menu
@@ -201,5 +201,5 @@ export default function QuestionCard({...props}: any) {
                 </div>
             </Card>
         </div>
-    )
+    );
 }

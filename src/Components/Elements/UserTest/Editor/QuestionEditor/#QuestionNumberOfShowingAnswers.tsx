@@ -1,20 +1,24 @@
 import {observer} from "mobx-react";
 import React from 'react';
-import {FormControl, MenuItem, Select, Typography} from "@material-ui/core";
+import {FormControl, MenuItem, Select, Stack, TextField, Typography} from "@mui/material";
 import {Row} from "react-bootstrap";
 import {QuestionEditorStorage} from "../../../../../Store/PrivateStorage/EditorsPage/QuestionEditorPage/QuestionEditorStorage";
+import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 
 export const QuestionNumberOfShowingAnswers = observer(() =>{
+    const isMobile = isMobileHook()
     console.log(QuestionEditorStorage.selectedQuestionNumberOfShowingAnswers)
     return(
         <div>
-            <Row className="ml-2">
+            <Stack direction={isMobile? "column": "row"}>
                 <Typography className="mt-3">
                     Количество отображаемых ответов
                 </Typography>
-                <FormControl  variant="outlined" className="col-md-2 col-12 ml-md-3">
-                    <Select
-                        className="col-12"
+                <FormControl  variant="outlined" className="col-md-2 pl-3 col-12 ">
+                    <TextField
+                        select
+                        label="От 2 до 12"
+                        fullWidth
                         value={QuestionEditorStorage.selectedQuestionNumberOfShowingAnswers}
                         onChange={(e) => {
                             QuestionEditorStorage.selectedQuestionNumberOfShowingAnswers = String(e.target.value)
@@ -31,11 +35,11 @@ export const QuestionNumberOfShowingAnswers = observer(() =>{
                         <MenuItem value={"10"}>10</MenuItem>
                         <MenuItem value={"11"}>11</MenuItem>
                         <MenuItem value={"12"}>12</MenuItem>
-                    </Select>
+                    </TextField>
                 </FormControl>
 
 
-            </Row>
+            </Stack>
         </div>
     )
 })

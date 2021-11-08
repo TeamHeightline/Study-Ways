@@ -1,22 +1,21 @@
 import {observer} from "mobx-react";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-import Input from "@material-ui/core/Input";
+import InputLabel from "@mui/material/InputLabel";
+import Input from "@mui/material/Input";
 import {MenuProps} from "./Struct";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
 import React from "react";
 import {QuestionEditorStorage} from "../../../../../Store/PrivateStorage/EditorsPage/QuestionEditorPage/QuestionEditorStorage";
 import {toJS} from "mobx";
+import {Select} from "@mui/material";
 
 export const AuthorSelector = observer(()=>{
     return(
-        <FormControl className="col-12 ml-5">
+        <FormControl className="col-12">
             <InputLabel id="question-theme-multiple">Авторы вопросов</InputLabel>
             <Select
-                labelId="demo-mutiple-name-label"
-                id="demo-mutiple-name"
                 multiple
+                variant="filled"
                 value={QuestionEditorStorage.SelectedQuestionAuthorForSelector}
                 onChange={(e: any) => {
                     QuestionEditorStorage.selectedQuestionAuthorsArray = e.target.value

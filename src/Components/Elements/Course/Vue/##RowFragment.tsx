@@ -1,7 +1,7 @@
 import React from 'react';
-import { IconButton} from "@material-ui/core";
+import { IconButton} from "@mui/material";
 import './RowFragment.css'
-import StopSharpIcon from '@material-ui/icons/StopSharp';
+import StopSharpIcon from '@mui/icons-material/StopSharp';
 export default function RowFragment({rowFragment, ...props}: any){
 
     return(

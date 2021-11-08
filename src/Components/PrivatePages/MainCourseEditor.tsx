@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Button,  Container} from "@material-ui/core";
+import {Button,  Container} from "@mui/material";
 import {gql} from "graphql.macro";
 import {useMutation, useQuery} from "@apollo/client";
 import EditCourseByID, {CourseLines} from "../Elements/Course/Editor/EditCourseByID";

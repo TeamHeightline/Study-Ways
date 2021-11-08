@@ -5,10 +5,10 @@ import CourseRow from "./#CourseRow";
 import {gql} from "graphql.macro";
 import {useMutation, useQuery} from "@apollo/client";
 import {Spinner} from "react-bootstrap";
-import {Alert, Pagination} from "@material-ui/lab";
-import {Button, ButtonGroup, Grid, Snackbar, TextField, Typography} from "@material-ui/core";
+import { Alert, Pagination } from '@mui/material';
+import {Button, ButtonGroup, Grid, Snackbar, TextField, Typography} from "@mui/material";
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
-import AddIcon from '@material-ui/icons/Add';
+import AddIcon from '@mui/icons-material/Add';
 
 const GET_COURSE_BY_ID = gql`
     query GET_COURSE_BY_ID($id: ID!){

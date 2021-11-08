@@ -1,10 +1,10 @@
 import React from 'react'
 import {Row, Spinner} from "react-bootstrap";
-import {DataGrid} from "@material-ui/data-grid";
-import {Button, Fab} from "@material-ui/core";
-import SettingsIcon from "@material-ui/icons/Settings";
-import AddIcon from "@material-ui/icons/Add";
-import TextField from "@material-ui/core/TextField";
+import { DataGrid } from '@mui/x-data-grid';
+import {Button, Fab} from "@mui/material";
+import SettingsIcon from "@mui/icons-material/Settings";
+import AddIcon from "@mui/icons-material/Add";
+import TextField from "@mui/material/TextField";
 export default function DCCardAuthorEditor({...props}: any){
     //Нужно, чтобы при открытие текстового
     //поля компонент становился больше, чтобы опустить не перекрыть те элементы, которые находятся ниже

@@ -1,7 +1,6 @@
 import {observer} from "mobx-react";
-import {Button, Typography} from "@material-ui/core";
+import {Button, Grid, Stack, Typography} from "@mui/material";
 import {QuestionEditorStorage} from "../../../../../Store/PrivateStorage/EditorsPage/QuestionEditorPage/QuestionEditorStorage";
-import {Col, Row} from "react-bootstrap";
 import {QuestionText} from "./#QuestionText";
 import {QuestionVideoURL} from "./#QuestionVideoURL";
 import {ThemeSelector} from "./#ThemeSelector";
@@ -14,12 +13,14 @@ import {QuestionPreview} from "./#QuestionPreview";
 import {AnswersEditor} from "../AnswersEditor/AnswersEditor";
 import {CreateNewAnswer} from "./#CreateNewAnswer";
 import React from "react";
+import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 
 export const EditQuestionByID = observer(() =>{
+    const isMobile = isMobileHook()
     return(
-        <div>
+        <div style={{paddingLeft: 40, paddingRight: 10}}>
             <Button
-                className="ml-5 col-12 col-md-2 mt-2"
+                className="col-12 col-md-2 mt-2"
                 variant="outlined" color="primary" onClick={() => {
                 QuestionEditorStorage?.changeQuestionHasBeenSelected(false)
             }}>
@@ -27,31 +28,42 @@ export const EditQuestionByID = observer(() =>{
             </Button>
             <Typography className="display-4 text-center mt-4" style={{fontSize: '33px'}}>Редактировать вопрос</Typography>
             {QuestionEditorStorage?.questionHasBeenSelected &&
-            <Row className="mt-3">
-                <Col className="col-md-6 col-11 ml-5">
-                    <div>
+                <Grid container  columnSpacing={8} rowSpacing={2}>
+                    <Grid item xs={12} md={6}>
                         <QuestionText/>
+                    </Grid>
+                    {/*<Grid item xs={12} md={6} container columnSpacing={6}>*/}
+                    {/*    <Grid item xs={12} md={6}>*/}
+                    {/*        <ThemeSelector/>*/}
+                    {/*    </Grid>*/}
+                    {/*    <Grid item xs={12} md={6}>*/}
+                    {/*        <AuthorSelector/>*/}
+                    {/*    </Grid>*/}
+                    {/*</Grid>*/}
+                    <Grid item xs={12} md={6}>
+                        {QuestionEditorStorage?.questionHasBeenSelected && <QuestionNumberOfShowingAnswers/>}
+                    </Grid>
+                    <Grid item xs={12} md={6}>
                         <QuestionVideoURL/>
-                    </div>
-                </Col>
-                <Col className="col-md-4  col-10 offset-md-1">
-                    <div>
-                        <ThemeSelector/>
-                        <AuthorSelector/>
-                    </div>
-                </Col>
-            </Row>}
-            {QuestionEditorStorage?.questionHasBeenSelected &&
-            <Row className="mt-2">
-                <Col className="col-md-6 col-12 ml-md-5 ml-4 pr-5 pr-md-0">
-                    <QuestionNumberOfShowingAnswers/>
-                </Col>
-            </Row>}
-            <Row className="mt-2">
+                    </Grid>
+                    <Grid item xs={12} md={6} container columnSpacing={6} rowSpacing={2}>
+                        <Grid item xs={12} md={6}>
+                            <ThemeSelector/>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <AuthorSelector/>
+                        </Grid>
+                    </Grid>
+                    {/*<Grid item xs={12} md={6}>*/}
+                    {/*    {QuestionEditorStorage?.questionHasBeenSelected && <QuestionNumberOfShowingAnswers/>}*/}
+                    {/*</Grid>*/}
+                </Grid>
+            }
+            <Stack direction={{xs: 'column', sm: 'row' }} className="mt-2" spacing={2} >
                 <ImageForQuestion/>
                 <QuestionSrc/>
                 <SavingNotification/>
-            </Row>
+            </Stack>
             <QuestionPreview/>
             <AnswersEditor/>
             <CreateNewAnswer/>

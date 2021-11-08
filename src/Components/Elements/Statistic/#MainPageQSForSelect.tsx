@@ -1,15 +1,15 @@
 import {observer} from "mobx-react";
 import React from "react";
 import {StatisticPageStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticPageStore";
-import {Card, CardActionArea, Grid, Typography} from "@material-ui/core";
+import {Card, CardActionArea, Grid, Typography} from "@mui/material";
 import {Row} from "react-bootstrap";
 import {QSShowAllOrMyQSFlag} from "./#QSShowAllOrMyQSFlag";
 
 export const MainPageQSForSelect = observer(() =>{
 
-    return(
+    return (
         <React.Fragment>
-            <Grid container justify="center">
+            <Grid container justifyContent="center">
                 <Grid item xs="auto">
                     <QSShowAllOrMyQSFlag/>
                 </Grid>
@@ -58,5 +58,5 @@ export const MainPageQSForSelect = observer(() =>{
                 )
             })}
         </React.Fragment>
-    )
+    );
 })

@@ -1,6 +1,6 @@
 import {observer} from "mobx-react";
 import React from "react";
-import {Card, CardActionArea, Typography} from "@material-ui/core";
+import {Card, CardActionArea, Typography} from "@mui/material";
 import {StatisticPageStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticPageStore";
 
 export const MainPageQuestionsForSelect = observer(() =>{

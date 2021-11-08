@@ -1,5 +1,5 @@
-import {Autocomplete} from "@material-ui/lab";
-import {TextField} from "@material-ui/core";
+import { Autocomplete } from '@mui/material';
+import {TextField} from "@mui/material";
 import React from "react";
 import {observer} from "mobx-react";
 import {QuestionEditorStorage} from "../../../../../Store/PrivateStorage/EditorsPage/QuestionEditorPage/QuestionEditorStorage";

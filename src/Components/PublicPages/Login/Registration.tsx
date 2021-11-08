@@ -8,8 +8,8 @@ import {useHistory} from "react-router-dom";
 import {ClientStorage} from '../../../Store/ApolloStorage/ClientStorage'
 import {UserStorage} from '../../../Store/UserStore/UserStore'
 import {observer} from "mobx-react";
-import {Typography} from "@material-ui/core";
-import {Alert} from "@material-ui/lab";
+import {Typography} from "@mui/material";
+import { Alert } from '@mui/material';
 
 const REGISTRATION_MUTATION = gql`
 mutation REGISTER($email: String!, $password1: String!, $password2: String!, $username: String!){

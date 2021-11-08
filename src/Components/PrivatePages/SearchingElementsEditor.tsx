@@ -3,7 +3,7 @@ import LCUserTestThemeEditor from "../Elements/SearchingElements/UserTestThemeEd
 import LCUserTestAuthorEditor from "../Elements/SearchingElements/UserTestAuthorEditor/#[LC]UserTestAuthorEditor";
 import LCCardThemeEditor from "../Elements/SearchingElements/CardThemeEditor/#[LC]CardThemeEditor";
 import LCCardAuthorEditor from "../Elements/SearchingElements/CardAuthorEditor/#[LC]CardAuthorEditor";
-import {Grid, Typography} from "@material-ui/core";
+import {Grid, Typography} from "@mui/material";
 
 export default function SearchingElementsEditor({...props}: any){
     return(

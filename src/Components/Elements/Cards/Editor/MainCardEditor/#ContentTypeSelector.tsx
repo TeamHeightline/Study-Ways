@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react'
-import Typography from "@material-ui/core/Typography";
-import {Col, Form, Row} from "react-bootstrap";
+import Typography from "@mui/material/Typography";
 import _ from 'lodash'
 import {observer} from "mobx-react";
-import {autorun, toJS} from "mobx";
 import {CardPageStorage} from "../../../../../Store/PublicStorage/CardsPage/CardPageStorage";
+import {FormControl, InputLabel, MenuItem, Select, Stack, TextField} from "@mui/material";
 
 export const  ContentTypeSelector = observer(({cards_data, ...props}: any) =>{
     const [selectedContentType, setSelectedContentType] = useState<any>(1000000)
@@ -20,19 +19,17 @@ export const  ContentTypeSelector = observer(({cards_data, ...props}: any) =>{
        }, [cards_data])
 
     return(
-        <Row {...props}>
-            <Col className="col-3 mt-2">
-                <Typography variant="h6" gutterBottom className="pr-5">
-                    Тип:
-                </Typography>
-            </Col>
-            <Col className="col-7">
-                <Form.Control
-                    className="mt-1"
-                    // size="lg"
-                    as="select"
+        <Stack direction={"row"} {...props}>
+            <Typography variant="h6" gutterBottom style={{marginTop: 6}}>
+                Тип:
+            </Typography>
+            <div style={{paddingLeft: 12}}>
+                <Select
+                    fullWidth
+                    style={{minWidth: 200, maxWidth: 600, }}
+                    label=""
                     value={!props?.openFromPublicView ? selectedContentType: CardPageStorage.selectedContentType}
-                    onChange={ (event) => {
+                    onChange={(event) => {
                         if(!props?.openFromPublicView){
                             setSelectedContentType(event.target.value)
                             if (Number(event.target.value) != 1000000) {
@@ -43,13 +40,14 @@ export const  ContentTypeSelector = observer(({cards_data, ...props}: any) =>{
                         }else{
                             CardPageStorage.changeContentType(event.target.value)
                         }
-                    }}>
-                    <option value={1000000}>Не выбран</option>
-                    <option value={0}>YouTube</option>
-                    <option value={1}>Внешний ресурс</option>
-                    <option value={2}>Изображение</option>
-                </Form.Control>
-            </Col>
-        </Row>
+                    }}
+                >
+                    <MenuItem value={1000000}>Не выбран</MenuItem>
+                    <MenuItem value={0}>YouTube</MenuItem>
+                    <MenuItem value={1}>Внешний ресурс</MenuItem>
+                    <MenuItem value={2}>Изображение</MenuItem>
+                </Select>
+            </div>
+        </Stack>
     )
 })

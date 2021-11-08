@@ -1,7 +1,7 @@
 import React from 'react'
-import InputLabel from "@material-ui/core/InputLabel";
-import {FormControl, MenuItem, Select} from "@material-ui/core";
-import Input from "@material-ui/core/Input";
+import InputLabel from "@mui/material/InputLabel";
+import {FormControl, MenuItem, Select} from "@mui/material";
+import Input from "@mui/material/Input";
 import {sort} from "fast-sort";
 
 export default function CardAuthorsSelect({cardAuthorId, changeCardAuthorId, autoSave, MenuProps, authorData,

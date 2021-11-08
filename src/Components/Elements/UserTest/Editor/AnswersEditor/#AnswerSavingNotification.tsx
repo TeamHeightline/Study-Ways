@@ -1,6 +1,6 @@
 import {observer} from "mobx-react";
 import React from "react";
-import {Alert} from "@material-ui/lab";
+import { Alert } from '@mui/material';
 
 export const AnswerSavingNotification = observer(({answer}) =>{
     return(

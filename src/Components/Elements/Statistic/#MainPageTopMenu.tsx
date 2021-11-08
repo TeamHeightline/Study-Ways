@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import React from "react";
-import Tab from "@material-ui/core/Tab";
-import Tabs from "@material-ui/core/Tabs";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
 import {StatisticPageStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticPageStore";
 
 export const MainPageTopMenu = observer(() =>{

@@ -1,10 +1,10 @@
 import React from 'react'
-import {DataGrid} from "@material-ui/data-grid";
+import { DataGrid } from '@mui/x-data-grid';
 import {Row, Spinner} from "react-bootstrap";
-import {Button, Fab} from "@material-ui/core";
-import SettingsIcon from "@material-ui/icons/Settings";
-import AddIcon from "@material-ui/icons/Add";
-import TextField from "@material-ui/core/TextField";
+import {Button, Fab} from "@mui/material";
+import SettingsIcon from "@mui/icons-material/Settings";
+import AddIcon from "@mui/icons-material/Add";
+import TextField from "@mui/material/TextField";
 
 export default function DCUserTestAuthorEditor({...props}: any){
     if(!props.rowsHasBeenCalculated){

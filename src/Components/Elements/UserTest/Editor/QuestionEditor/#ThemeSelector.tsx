@@ -1,21 +1,22 @@
 import {observer} from "mobx-react";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-import Input from "@material-ui/core/Input";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import Input from "@mui/material/Input";
 import {MenuProps} from "./Struct";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
 import React from "react";
 import {QuestionEditorStorage} from "../../../../../Store/PrivateStorage/EditorsPage/QuestionEditorPage/QuestionEditorStorage";
 import {toJS} from "mobx";
 
 export const ThemeSelector = observer(()=>{
     return(
-        <FormControl className="col-12 ml-5">
+        <FormControl className="col-12">
             <InputLabel id="question-theme-multiple">Темы вопросов</InputLabel>
             <Select
                 labelId="demo-mutiple-name-label"
                 id="demo-mutiple-name"
+                variant="outlined"
                 multiple
                 value={QuestionEditorStorage.SelectedQuestionThemesForSelector}
                 onChange={(e: any) => {

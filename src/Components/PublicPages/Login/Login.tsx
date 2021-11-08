@@ -8,8 +8,8 @@ import {useState} from "react";
 import { observer } from "mobx-react"
 import { useHistory } from "react-router-dom";
 import {UserStorage} from '../../../Store/UserStore/UserStore';
-import {Typography} from "@material-ui/core";
-import {Alert} from "@material-ui/lab";
+import {Typography} from "@mui/material";
+import { Alert } from '@mui/material';
 
 export  const Login = observer(() =>{
     const [mail, changeMail] = useState('')

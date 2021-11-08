@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import {Row, Spinner} from "react-bootstrap";
-import {Card, CardActionArea, Typography} from "@material-ui/core";
+import {Card, CardActionArea, Typography} from "@mui/material";
 import {QuestionEditorStorage} from "../../Store/PrivateStorage/EditorsPage/QuestionEditorPage/QuestionEditorStorage";
 import {observer} from "mobx-react";
 import {CreateNewQuestion} from "../Elements/UserTest/Editor/QuestionEditor/#CreateNewQuestion";

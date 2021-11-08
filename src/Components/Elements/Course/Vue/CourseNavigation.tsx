@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import NavigationRow from "./#NavigationRow";
 import "../../../../index.css"
-import {Pagination} from "@material-ui/lab";
+import { Pagination } from '@mui/material';
 
 export default function CourseNavigation({course, ...props}: any){
     // console.log(course)

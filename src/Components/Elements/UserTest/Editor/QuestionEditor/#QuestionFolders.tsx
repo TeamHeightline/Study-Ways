@@ -1,6 +1,6 @@
 import {observer} from "mobx-react";
-import Tab from "@material-ui/core/Tab";
-import Tabs from "@material-ui/core/Tabs";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
 import React from "react";
 import {QuestionEditorStorage} from "../../../../../Store/PrivateStorage/EditorsPage/QuestionEditorPage/QuestionEditorStorage";
 import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
@@ -20,7 +20,7 @@ export const QuestionFolders = observer(() =>{
                 variant={!isMobile ? "standard" : "scrollable"}
                 // scrollButtons="auto"
                 centered
-                scrollButtons={!isMobile? "off": 'on'}
+                scrollButtons={isMobile}
             >
                 <Tab label="Все" />
                 <Tab label="Заполненные"/>

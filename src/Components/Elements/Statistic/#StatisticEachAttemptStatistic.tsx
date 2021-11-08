@@ -1,12 +1,12 @@
 import {observer} from "mobx-react";
 import React from "react";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import IconButton from "@material-ui/core/IconButton";
-import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
+import IconButton from "@mui/material/IconButton";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import {toJS} from "mobx";
-import {Collapse, TableBody} from "@material-ui/core";
+import {Collapse, TableBody} from "@mui/material";
 import {StatisticWrongAnswersForAttempt} from "./#StatisticWrongAnswersForAttempt";
 
 export const StatisticEachAttemptStatistic = observer(({row, classes}) =>{

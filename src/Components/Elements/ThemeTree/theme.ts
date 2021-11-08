@@ -1,6 +1,6 @@
-import {createMuiTheme} from "@material-ui/core/styles";
+import { createTheme, adaptV4Theme } from "@mui/material/styles";
 
-export const theme = createMuiTheme({
+export const theme = createTheme(adaptV4Theme({
   overrides: {
     MuiCssBaseline: {
       "@global": {
@@ -20,4 +20,4 @@ export const theme = createMuiTheme({
       root: { verticalAlign: "middle" },
     },
   },
-});
+}));

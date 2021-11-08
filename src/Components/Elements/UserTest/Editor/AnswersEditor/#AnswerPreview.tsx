@@ -1,5 +1,5 @@
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import {Collapse, Switch} from "@material-ui/core";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import {Collapse, Switch} from "@mui/material";
 import ImageAnswerNode from "../../ImageAnswerNode";
 import React from "react";
 import {observer} from "mobx-react";

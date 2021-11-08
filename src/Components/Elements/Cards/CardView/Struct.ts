@@ -1,4 +1,4 @@
-import {makeStyles} from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import {gql} from "@apollo/client/core";
 
 export const useStyles = makeStyles((theme) => ({
@@ -21,8 +21,8 @@ export const useStyles = makeStyles((theme) => ({
     controls: {
         display: 'flex',
         alignItems: 'left',
-        paddingLeft: theme.spacing(1),
-        paddingBottom: theme.spacing(1),
+        paddingLeft: 12,
+        paddingBottom: 12,
     },
     playIcon: {
         height: 38,

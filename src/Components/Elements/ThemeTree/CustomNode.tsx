@@ -1,6 +1,6 @@
 import React from "react";
-import Typography from "@material-ui/core/Typography";
-import ArrowRightIcon from "@material-ui/icons/ArrowRight";
+import Typography from "@mui/material/Typography";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { NodeModel } from "@minoru/react-dnd-treeview";
 import { CustomData } from "./types";
 import { TypeIcon } from "./TypeIcon";

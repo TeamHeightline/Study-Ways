@@ -1,9 +1,9 @@
-import {Button, ButtonGroup, Collapse, Grid, TextField} from "@material-ui/core";
-import KeyboardArrowLeftOutlinedIcon from "@material-ui/icons/KeyboardArrowLeftOutlined";
-import KeyboardArrowDownOutlinedIcon from "@material-ui/icons/KeyboardArrowDownOutlined";
-import KeyboardArrowUpOutlinedIcon from "@material-ui/icons/KeyboardArrowUpOutlined";
-import KeyboardArrowRightOutlinedIcon from "@material-ui/icons/KeyboardArrowRightOutlined";
-import Typography from "@material-ui/core/Typography";
+import {Button, ButtonGroup, Collapse, Grid, TextField} from "@mui/material";
+import KeyboardArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardArrowLeftOutlined";
+import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
+import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
+import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
+import Typography from "@mui/material/Typography";
 import React, {useState} from "react";
 
 export function CardEditArrowNavigationAndBandAQuestions(props: any) {

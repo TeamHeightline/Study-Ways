@@ -6,12 +6,12 @@ import {
     Button, Card, CardActionArea,
     Snackbar,
     TextField, Typography
-} from "@material-ui/core";
+} from "@mui/material";
 import QuestionCard from "./#QuestionCard";
 
 import {Mutation} from "../../../../../../SchemaTypes";
-import {Alert} from "@material-ui/lab";
-import CardMedia from "@material-ui/core/CardMedia";
+import { Alert } from '@mui/material';
+import CardMedia from "@mui/material/CardMedia";
 
 export default function QuestionSequenceEditByID({...props}: any) {
     const [questionsIDArray, setQuestionsIDArray] = useState<any[] >(props?.sequence?.sequenceData?.sequence ? props?.sequence?.sequenceData?.sequence : [])//Нужно для хранения массива айдишников вопросов

@@ -5,7 +5,7 @@ import Editor from 'react-simple-code-editor';
 
 import Highlight, { defaultProps } from 'prism-react-renderer'
 import theme from 'prism-react-renderer/themes/nightOwl'
-import {Grid} from "@material-ui/core";
+import {Grid} from "@mui/material";
 
 
 const oldCode = `<!DOCTYPE html>

@@ -1,12 +1,12 @@
-import {Grid, TextField} from "@material-ui/core";
+import {Grid, TextField} from "@mui/material";
 import {CardPageStorage} from "../../../../Store/PublicStorage/CardsPage/CardPageStorage";
 import React from "react";
 import {observer} from "mobx-react";
 
 export const MCPVSearchString = observer(() => {
-    return(
+    return (
         <div>
-            <Grid container justify="center" style={{marginTop:6}}>
+            <Grid container justifyContent="center" style={{marginTop:6}}>
                 <Grid item xs={12} md={8}>
                     <TextField
                         value={CardPageStorage.searchString}
@@ -15,5 +15,5 @@ export const MCPVSearchString = observer(() => {
                 </Grid>
             </Grid>
         </div>
-    )
+    );
 })

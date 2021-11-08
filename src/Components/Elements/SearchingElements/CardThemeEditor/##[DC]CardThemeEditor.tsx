@@ -1,15 +1,16 @@
 import React from 'react'
 import {Row, Spinner} from "react-bootstrap";
-import { makeStyles } from '@material-ui/core/styles';
-import TreeView from '@material-ui/lab/TreeView';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import TreeItem from '@material-ui/lab/TreeItem';
-import {Button, Fab, Paper} from "@material-ui/core";
-import SettingsIcon from "@material-ui/icons/Settings";
-import AddIcon from "@material-ui/icons/Add";
-import TextField from "@material-ui/core/TextField";
-import SubdirectoryArrowRightIcon from '@material-ui/icons/SubdirectoryArrowRight';
+import makeStyles from '@mui/styles/makeStyles';
+import TreeView from '@mui/lab/TreeView';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import TreeItem from '@mui/lab/TreeItem';
+
+import {Button, Fab, Paper} from "@mui/material";
+import SettingsIcon from "@mui/icons-material/Settings";
+import AddIcon from "@mui/icons-material/Add";
+import TextField from "@mui/material/TextField";
+import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 import {sort} from "fast-sort";
 
 const useStyles = makeStyles({
@@ -35,11 +36,11 @@ export default function DCCardThemeEditor({...props}: any){
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
-    return(
+    return (
         <div style={{maxWidth: 600, height: props.isEditNowCardTheme || props.isCreatingNowCardTheme ||
                 props.isAddingNowSubInstance ? 600 :470}}>
             <div style={{height: 470}}>
-                <Paper elevation={2} variant="outlined">
+                <Paper  variant="outlined">
                     {
                         !props.all_card_themes_data ? <Spinner animation="border" variant="success" className=" offset-6 mt-5"/> :
                             <TreeView
@@ -57,7 +58,7 @@ export default function DCCardThemeEditor({...props}: any){
                                     (anyTheme: any) => anyTheme.name.replace(/\D/g,'').length != 0? Number(anyTheme.name.replace(/[^\d]/g, '')) : 10000000,
                                     (anyTheme: any) => anyTheme.name])
                                     ?.map((sameGlobalTheme: any) =>{
-                                    return(
+                                    return (
                                         <TreeItem nodeId={String(sameGlobalTheme.id * 1000000)}
                                                   label={sameGlobalTheme.name}
                                                   key={sameGlobalTheme.id *1000000} >
@@ -67,7 +68,7 @@ export default function DCCardThemeEditor({...props}: any){
                                                         (anyTheme: any) => anyTheme.name.replace(/\D/g,'').length != 0? Number(anyTheme.name.replace(/[^\d]/g, '')) : 10000000,
                                                         (anyTheme: any) => anyTheme.name])
                                                     ?.map((sameTheme: any) =>{
-                                                    return(
+                                                    return (
                                                         <TreeItem
                                                             nodeId={String(sameTheme.id * 1000)}
                                                                   label={sameTheme.name}
@@ -83,11 +84,11 @@ export default function DCCardThemeEditor({...props}: any){
                                                                                  key={sameSubTheme.id}/>)
                                                             })}
                                                         </TreeItem>
-                                                    )
+                                                    );
                                                 })
                                             }
                                         </TreeItem>
-                                    )
+                                    );
                                 })}
                             </TreeView>}
                 </Paper>
@@ -274,5 +275,5 @@ export default function DCCardThemeEditor({...props}: any){
                 }
             </div>
         </div>
-    )
+    );
 }

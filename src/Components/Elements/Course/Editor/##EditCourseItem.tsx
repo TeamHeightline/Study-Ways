@@ -1,12 +1,12 @@
 import React, {useState} from 'react'
-import {Card, Chip, TextField, Tooltip} from "@material-ui/core";
+import {Card, Chip, TextField, Tooltip} from "@mui/material";
 import {gql} from "graphql.macro";
 import {useQuery} from "@apollo/client";
-import YouTubeIcon from "@material-ui/icons/YouTube";
-import HttpIcon from "@material-ui/icons/Http";
-import ImageIcon from "@material-ui/icons/Image";
-import Typography from "@material-ui/core/Typography";
-import {makeStyles} from "@material-ui/core/styles";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import HttpIcon from "@mui/icons-material/Http";
+import ImageIcon from "@mui/icons-material/Image";
+import Typography from "@mui/material/Typography";
+import makeStyles from '@mui/styles/makeStyles';
 
 const GET_CARD_DATA_BY_ID=gql`
     query GET_CARD_DATA_BY_ID($id: ID!){
@@ -98,7 +98,7 @@ export default function EditCourseItem({item_id, item_position, ...props}: any){
         }
     })
     // console.log(itemID)
-    return(
+    return (
         <Card style={{height:80, width: 135, marginLeft:12}} variant="outlined">
             <Tooltip title={itemID && card_data &&
                 <div>
@@ -129,6 +129,7 @@ export default function EditCourseItem({item_id, item_position, ...props}: any){
                         label=""
                         fullWidth
                         value={itemID}
+                        variant="standard"
                         onChange={(e) =>{
                             const valueWithOnlyNumber = e.target.value.replace(/[^\d]/g, '')
                             props.updateItem({
@@ -142,5 +143,5 @@ export default function EditCourseItem({item_id, item_position, ...props}: any){
                 </div>
             </Tooltip>
         </Card>
-    )
+    );
 }

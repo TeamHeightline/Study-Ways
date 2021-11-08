@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
 import { Col, Row, Spinner} from "react-bootstrap";
 import ReactPlayer from "react-player";
-import {Button, ButtonGroup, Typography, Tooltip, Grid} from "@material-ui/core";
-import KeyboardArrowLeftOutlinedIcon from '@material-ui/icons/KeyboardArrowLeftOutlined';
-import KeyboardArrowRightOutlinedIcon from '@material-ui/icons/KeyboardArrowRightOutlined';
-import KeyboardArrowDownOutlinedIcon from '@material-ui/icons/KeyboardArrowDownOutlined';
-import KeyboardArrowUpOutlinedIcon from '@material-ui/icons/KeyboardArrowUpOutlined';
-import {Rating} from "@material-ui/lab";
+import {Button, ButtonGroup, Typography, Tooltip, Grid} from "@mui/material";
+import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
+import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
+import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
+import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
+import { Rating } from '@mui/material';
 import {gql} from "graphql.macro";
 import {useQuery} from "@apollo/client";
 import "../../../App.css"
@@ -18,13 +18,13 @@ import {CoursePageStorage} from "../../../Store/PublicStorage/CoursePage/CourseP
 import {observer} from "mobx-react";
 import {CardPageStorage} from "../../../Store/PublicStorage/CardsPage/CardPageStorage";
 import RichTextPreview from "./CardView/#RichTextPreview";
-import CopyrightIcon from "@material-ui/icons/Copyright";
+import CopyrightIcon from "@mui/icons-material/Copyright";
 import {ImageQuestion} from "../UserTest/ImageQuestion/ImageQuestion";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogActions from "@material-ui/core/DialogActions";
-import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogActions from "@mui/material/DialogActions";
+import Dialog from "@mui/material/Dialog";
 import {isMobileHook} from "../../../CustomHooks/isMobileHook";
 import {useHistory} from "react-router-dom";
 

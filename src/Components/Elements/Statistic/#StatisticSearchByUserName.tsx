@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import React from "react";
-import {InputAdornment, TextField} from "@material-ui/core";
-import {AccountCircle} from "@material-ui/icons";
+import {InputAdornment, TextField} from "@mui/material";
+import {AccountCircle} from "@mui/icons-material";
 import {StatisticByQuestionDataStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticByQuestionsDataStore";
 import {toJS} from "mobx";
 

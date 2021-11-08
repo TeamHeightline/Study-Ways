@@ -1,8 +1,8 @@
 import React from "react";
-import FolderIcon from "@material-ui/icons/Folder";
-import ImageIcon from "@material-ui/icons/Image";
-import ListAltIcon from "@material-ui/icons/ListAlt";
-import DescriptionIcon from "@material-ui/icons/Description";
+import FolderIcon from "@mui/icons-material/Folder";
+import ImageIcon from "@mui/icons-material/Image";
+import ListAltIcon from "@mui/icons-material/ListAlt";
+import DescriptionIcon from "@mui/icons-material/Description";
 
 type Props = {
   droppable: boolean;

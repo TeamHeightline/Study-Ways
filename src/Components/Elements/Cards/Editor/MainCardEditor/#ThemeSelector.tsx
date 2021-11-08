@@ -47,7 +47,7 @@ export const ThemeSelector = observer(({cards_data, ...props}: any) =>{
         })
         return(selectedCardsArray)
     }
-    const {data: themesData} = useQuery(GET_THEMES, {
+    const {data: _} = useQuery(GET_THEMES, {
         onCompleted: themesData => {
             //сбор массива ID подтем
             const cardsThemesIDArray: any = []
@@ -119,7 +119,7 @@ export const ThemeSelector = observer(({cards_data, ...props}: any) =>{
     }
     const tProps = {
         treeDataSimpleMode: true,
-        treeData: toJS(CardPageStorage.dataForCardSubThemeSelect),
+        treeData: !props?.openFromPublicView ? dataForCardSubThemeSelect : toJS(CardPageStorage.dataForCardSubThemeSelect),
         value: cardSelectedThemeID,
         onChange: (data) =>{
             props.changeSelectedData(selectByThemes(data))

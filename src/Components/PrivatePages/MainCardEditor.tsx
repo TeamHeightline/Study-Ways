@@ -11,8 +11,6 @@ import {ThemeSelector} from "../Elements/Cards/Editor/MainCardEditor/#ThemeSelec
 import {sort} from "fast-sort";
 import { Pagination } from '@mui/material';
 import {CircularProgress, Grid} from "@mui/material";
-import {toJS} from "mobx";
-import {CardPageStorage} from "../../Store/PublicStorage/CardsPage/CardPageStorage";
 
 const GET_ALL_CARD_DATA = gql`
     query GET_CARD_DATA{
@@ -42,8 +40,7 @@ export default function MainCardEditor({...props}: any){
     const [activePageNumber, setActivePageNumber] = useState(1)
 
     const {data: card_data, refetch} = useQuery(GET_ALL_CARD_DATA, {
-        fetchPolicy: "cache-first"
-        // pollInterval: 3000,
+        fetchPolicy: "cache-and-network"
     })
 
     const selectCardForEditHandle = async(e) =>{
@@ -77,7 +74,7 @@ export default function MainCardEditor({...props}: any){
         return (
             <Grid container justifyContent="center" style={{marginTop: 12}}>
                 <Grid item>
-                    {!toJS(CardPageStorage.cardsDataForRender).length && <CircularProgress />}
+                    <CircularProgress />
                 </Grid>
             </Grid>
         );

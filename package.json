@@ -1,6 +1,6 @@
 {
   "name": "study_ways",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "babel": {
     "plugins": [
       "@babel/plugin-transform-modules-commonjs"

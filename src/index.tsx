@@ -7,9 +7,8 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
 import { configure } from "mobx"
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import darkScrollbar from '@mui/material/darkScrollbar';
 import CssBaseline from '@mui/material/CssBaseline';
-
+import "./Components/Elements/Cards/CardView/RichTextPreviewStyle.css"
 
 
 export const theme = createTheme( {
@@ -53,7 +52,12 @@ export const theme = createTheme( {
                         backgroundColor: "#1A202C",
                         border: "1px solid #2296F3"
                     },
-
+                    ".ck-editor": {
+                        "--ck-color-toolbar-background": "#0A1929",
+                        "--ck-color-toolbar-border": "#0A1929",
+                        "--ck-color-input-disabled-text": "#ffffff",
+                        "--ck-color-text": "#ffffff"
+                    }
                 }
             },
         },

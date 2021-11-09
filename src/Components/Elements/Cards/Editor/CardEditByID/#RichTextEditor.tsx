@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import { CKEditor } from '@ckeditor/ckeditor5-react'
-import './styleForCKEditor.css'
 import {Card, Typography} from "@mui/material";
+import '../../CardView/RichTextPreviewStyle.css'
 
 export default function RichTextEditor({initialText, onChange}: any,){
     const [localText, setLocalText] = useState(initialText? initialText: null)

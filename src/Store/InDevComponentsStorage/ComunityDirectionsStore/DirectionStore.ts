@@ -97,8 +97,7 @@ export class DirectionStore {
 
     directionData: any = directionData
     setDirectionData(newData){
-        console.log(newData.directionDataProps)
-        this.directionData = newData.directionDataProps
+        this.directionData = newData
     }
 
     cardCourse:  CardCourseNode[]  = []

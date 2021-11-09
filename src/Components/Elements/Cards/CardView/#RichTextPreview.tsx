@@ -6,13 +6,17 @@ import './RichTextPreviewStyle.css'
 export default function RichTextPreview({text,}: any,){
 
     return(
-        <CKEditor
-            editor={ Editor }
-            data={text}
-            style={{maxHeight: "440px"}}
-            disabled={true}
-            config={ {} }
-        />
+        <>
+            {/*<CssBaseline />*/}
+            <CKEditor
+                className="ckeditor"
+                editor={ Editor }
+                data={text}
+                style={{maxHeight: "440px"}}
+                disabled={true}
+                config={ {} }
+            />
+        </>
     )
 }
 

@@ -27,6 +27,8 @@ import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
 import {isMobileHook} from "../../../CustomHooks/isMobileHook";
 import {useHistory} from "react-router-dom";
+import {CardAuthorNode, CardSubThemeNode, Query} from "../../../../SchemaTypes";
+import CssBaseline from "@mui/material/CssBaseline";
 
 const SHOW_CARD_BY_ID = gql`
     query SHOW_CARD_BY_ID($id: ID!){
@@ -76,12 +78,19 @@ const SHOW_CARD_BY_ID = gql`
         }
     }`
 
-
-function CardTitleAuthorThemeAndCopyrightBlock({title, copyright, subTheme, author, isCardUseCopyright, isMobile, ...props}: any) {
+type CardTitleAuthorThemeAndCopyrightBlockProps = {
+    title?: string,
+    copyright?: string,
+    subTheme?: CardSubThemeNode[]
+    author?: CardAuthorNode[]
+    isCardUseCopyright?: boolean,
+    isMobile?: boolean,
+}
+function CardTitleAuthorThemeAndCopyrightBlock({title, copyright, subTheme, author, isCardUseCopyright, isMobile}: CardTitleAuthorThemeAndCopyrightBlockProps) {
     return <Row className="mt-4">
         <Col className="col-12">
             <Row className="pl-2">
-                <Typography className="pl-md-2" variant={isMobile ? "h6" : "h4"}>{title? title : ""}</Typography>:
+                <Typography className="pl-md-2" variant={isMobile ? "h6" : "h4"}>{title? title : ""}</Typography>
                 {/*<Typography variant="subtitle2">{card_data?.cardById?.id}</Typography>*/}
                 {isCardUseCopyright && copyright &&
                 <Typography variant="h6" className="pl-md-2">
@@ -93,8 +102,16 @@ function CardTitleAuthorThemeAndCopyrightBlock({title, copyright, subTheme, auth
                 </Typography>}
             </Row>
 
-            {subTheme[0] &&
-            <Tooltip title={subTheme.map(props.element)}>
+            {subTheme && subTheme[0] &&
+            <Tooltip title={subTheme.map((e, eIndex) => {
+                return (
+                    <Typography key={eIndex + "Tooltip"}>
+                        {e.theme?.globalTheme?.name.toString() + " / "
+                        + e?.theme?.name.toString() + " / "
+                        + e?.name.toString()}
+                    </Typography>
+                )
+            })}>
                 <Typography color="textPrimary" className="pl-2 mt-2" style={{maxWidth: 600}}>
                     {subTheme[0]?.theme?.globalTheme?.name + " / " +
                     subTheme[0]?.theme?.name + " / " +
@@ -104,7 +121,12 @@ function CardTitleAuthorThemeAndCopyrightBlock({title, copyright, subTheme, auth
 
             {author && author.length !== 0 &&
             <Typography className="pl-2" color="textPrimary">
-                {author?.author?.map(props.callbackfn)}</Typography>}
+                {author?.map((sameAuthor, aIndex) => {
+                    if (aIndex !== 0) {
+                        return (" | " + sameAuthor?.name)
+                    }
+                    return (sameAuthor?.name)
+                })}</Typography>}
         </Col>
     </Row>;
 }
@@ -117,7 +139,7 @@ export const CARD = observer(({id, ...props}: any) =>{
     const isMobile = isMobileHook()
     const history = useHistory();
     const {width, height} = useWindowDimensions()
-    const {data: card_data, refetch, loading} = useQuery(SHOW_CARD_BY_ID, {
+    const {data: card_data, refetch, loading} = useQuery<Query>(SHOW_CARD_BY_ID, {
         // fetchPolicy: "no-cache",
         variables:{
             id: id? id :
@@ -126,7 +148,7 @@ export const CARD = observer(({id, ...props}: any) =>{
         onCompleted: data => {
             setOpenTestBeforeCardDialog(true)
             setOpenTestBeforeCard(false)
-            if(data.cardById.cardContentType !== "A_0"){
+            if(data?.cardById?.cardContentType !== "A_0"){
                 get_card_image()
             }
         }
@@ -151,7 +173,8 @@ export const CARD = observer(({id, ...props}: any) =>{
 
     // console.log("disabledNext " + props.disabledNext)
     return(
-        <div className="col-12" style={{padding: 0}}>
+        <div  style={{padding: 0}}>
+            <CssBaseline />
             <div className=" col-12 mr-md-2 pl-md-2">
                 {!props.disableAllButtons &&
                     <Button
@@ -203,27 +226,11 @@ export const CARD = observer(({id, ...props}: any) =>{
                                         <CardTitleAuthorThemeAndCopyrightBlock
                                         title={card_data?.cardById?.title}
                                         isCardUseCopyright={card_data?.cardById?.isCardUseCopyright}
-                                        copyright={card_data?.cardById?.copyright}
+                                        copyright={card_data?.cardById?.copyright || ""}
                                         subTheme={card_data?.cardById?.subTheme}
                                         author={card_data?.cardById?.author}
-
                                         isMobile={isMobile}
-                                        id={id}
-                                        cardData={card_data}
-                                        element={(e, eIndex) => {
-                                            return (
-                                                <Typography key={eIndex + "Tooltip"}>
-                                                    {e.theme?.globalTheme?.name.toString() + " / "
-                                                    + e?.theme?.name.toString() + " / "
-                                                    + e?.name.toString()}
-                                                </Typography>
-                                            )
-                                        }} callbackfn={(sameAuthor, aIndex) => {
-                                        if (aIndex !== 0) {
-                                            return (" | " + sameAuthor?.name)
-                                        }
-                                        return (sameAuthor?.name)
-                                    }}/>}
+                                        />}
                             </Grid>
                         </Grid> :
                         <ButtonGroup size="large" color="primary" aria-label="group">
@@ -250,37 +257,23 @@ export const CARD = observer(({id, ...props}: any) =>{
                     <CardTitleAuthorThemeAndCopyrightBlock
                         title={card_data?.cardById?.title}
                         isCardUseCopyright={card_data?.cardById?.isCardUseCopyright}
-                        copyright={card_data?.cardById?.copyright}
+                        copyright={card_data?.cardById?.copyright || ""}
                         subTheme={card_data?.cardById?.subTheme}
                         author={card_data?.cardById?.author}
                         isMobile={isMobile}
-                        cardData={card_data}
-                        element={(e, eIndex) => {
-                           return (
-                               <Typography key={eIndex + "Tooltip"}>
-                                   {e.theme?.globalTheme?.name.toString() + " / "
-                                   + e?.theme?.name.toString() + " / "
-                                   + e?.name.toString()}
-                               </Typography>
-                           )
-                       }} callbackfn={(sameAuthor, aIndex) => {
-                        if (aIndex !== 0) {
-                            return (" | " + sameAuthor.name)
-                        }
-                        return (sameAuthor.name)
-                    }}/>}
+                        />}
                     <Row>
                         <Col className="col-12 col-lg-5 mt-2">
                             {card_data?.cardById?.cardContentType === "A_0" &&
                             <ReactPlayer width="auto" height={height / width >= 1 ? "200px" : 400} controls
                                 // url="https://www.youtube.com/watch?v=vpMJ_rNN9vY"
-                                         url={card_data?.cardById?.videoUrl}
+                                         url={String(card_data?.cardById?.videoUrl)}
                             />
                                 //     <iframe style={{height: "100%", width: "100%"}} src="https://3dspace.alaska.edu/explorer.htpl?chapter=Mechanics&card=2_01_01_01&scenario=Stars_&env=5">
                                 //
                                 //     </iframe>
                             }
-                            {(card_data?.cardById.cardContentType === "A_1" || card_data?.cardById.cardContentType === "A_2") &&
+                            {(card_data?.cardById?.cardContentType === "A_1" || card_data?.cardById?.cardContentType === "A_2") &&
                             <div
                                 className={card_data?.cardById.cardContentType === "A_1" ? "hoverImage" : ""}
                                 style={{
@@ -291,9 +284,9 @@ export const CARD = observer(({id, ...props}: any) =>{
                                     height: 400,
                                 }}
                                 onClick={() => {
-                                    if (card_data?.cardById.cardContentType === "A_1") {
+                                    if (card_data?.cardById?.cardContentType === "A_1") {
                                         console.log("click on image")
-                                        window.open(card_data?.cardById.videoUrl, '_blank')
+                                        window.open(card_data?.cardById?.videoUrl || undefined, '_blank')
                                     }
                                 }}>
                             </div>}
@@ -320,19 +313,19 @@ export const CARD = observer(({id, ...props}: any) =>{
                             </Typography>
                             <ButtonGroup size="large" color="secondary" variant="outlined">
                                 <Button disabled={!card_data?.cardById?.arrowBefore}
-                                        onClick={() => window.open(card_data?.cardById?.arrowBefore, "_blank")}>
+                                        onClick={() => window.open(card_data?.cardById?.arrowBefore || undefined, "_blank")}>
                                     <KeyboardArrowLeftOutlinedIcon/>
                                 </Button>
                                 <Button disabled={!card_data?.cardById?.arrowDown}
-                                        onClick={() => window.open(card_data?.cardById?.arrowDown, "_blank")}>
+                                        onClick={() => window.open(card_data?.cardById?.arrowDown || undefined, "_blank")}>
                                     <KeyboardArrowDownOutlinedIcon/>
                                 </Button>
                                 <Button disabled={!card_data?.cardById?.arrowUp}
-                                        onClick={() => window.open(card_data?.cardById?.arrowUp, "_blank")}>
+                                        onClick={() => window.open(card_data?.cardById?.arrowUp || undefined, "_blank")}>
                                     <KeyboardArrowUpOutlinedIcon/>
                                 </Button>
                                 <Button disabled={!card_data?.cardById?.arrowNext}
-                                        onClick={() => window.open(card_data?.cardById?.arrowNext, "_blank")}>
+                                        onClick={() => window.open(card_data?.cardById?.arrowNext || undefined, "_blank")}>
                                     <KeyboardArrowRightOutlinedIcon/>
                                 </Button>
                             </ButtonGroup>
@@ -340,7 +333,9 @@ export const CARD = observer(({id, ...props}: any) =>{
                         }
                         {isMobile &&
                         <Col className="col-12 col-lg-6 mt-4">
-                            <RichTextPreview text={card_data?.cardById?.text} onChange={() => void (0)}/>
+                            {/*<Typography>*/}
+                                <RichTextPreview text={card_data?.cardById?.text} onChange={() => void (0)}/>
+                            {/*</Typography>*/}
                             <Typography className="blockquote">На сколько эта карточка была полезна?</Typography>
                             <Rating
                                 className="pl-md-3"
@@ -387,6 +382,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                             <ImageQuestion id={card_data?.cardById?.testInCard?.id}/>
                         </div>}
                     </div>
+                    {/*<MainDirection/>*/}
 
                 </div>}
             </div>

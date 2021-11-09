@@ -7,7 +7,6 @@ import {
 } from "@mui/material";
 import {Col, Row, Spinner} from "react-bootstrap";
 import ReactPlayer from "react-player";
-import './styleForCKEditor.css'
 
 
 import { useMutation, useQuery} from "@apollo/client";

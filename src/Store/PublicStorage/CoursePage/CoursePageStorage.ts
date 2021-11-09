@@ -59,7 +59,7 @@ class CoursePage{
     }
     //парсит courseArr для получения id конкретной карточки в опрделенной позиции
     get_card_id_by_position(cardPositionData, stepRight = 0, stepUp = 0){
-        if(cardPositionData.buttonIndex + stepRight >= 0 && cardPositionData.buttonIndex + stepRight <= 11 &&
+        if(cardPositionData.buttonIndex + stepRight >= 0 && cardPositionData.buttonIndex + stepRight <= 9 &&
             Number(cardPositionData.row) + stepUp >= 0 && Number(cardPositionData.row) + stepUp <= 3){
             return(CoursePageStorage.courseArr[cardPositionData.courseIndex].courseData[Number(cardPositionData.row) + stepUp]
                 .SameLine[cardPositionData.fragment].CourseFragment[Number(cardPositionData.buttonIndex) + stepRight]?.CourseElement?.id)

@@ -1,5 +1,5 @@
 import {observer} from "mobx-react";
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -15,18 +15,19 @@ import {Card, CardActionArea, Typography} from "@mui/material";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import {QSPlayerByID} from "../Elements/QuestionSequence/Public/QSPlayerByID";
 import LinearScaleIcon from '@mui/icons-material/LinearScale';
-import {directionData} from "../../Store/InDevComponentsStorage/ComunityDirectionsStore/Struct";
 
 const maxWidthOfElement = 530
-const directionStoreObject = new DirectionStore()
-
-export const MainDirection = observer((directionDataProps) =>{
+type MainDirectionProps = {
+    directionDataProps?: any
+}
+export const MainDirection = observer(({directionDataProps}: MainDirectionProps) =>{
+    const [directionStoreObject, setDirectionStoreObject] = useState<any>(new DirectionStore())
     useEffect(() =>{
         directionStoreObject.setDirectionData(directionDataProps)
     }, [directionDataProps])
 
     return(
-        <div className="col-12" >
+        <div>
             <div style={{overflowX: "auto", overflowY: "hidden", minHeight: 235}}>
                 <Stepper nonLinear activeStep={-10} alternativeLabel style={{width: maxWidthOfElement * directionStoreObject.DirectionProcessedObjectsForRender.length}}>
                 {directionStoreObject.DirectionProcessedObjectsForRender.map((processed_object, index) => (

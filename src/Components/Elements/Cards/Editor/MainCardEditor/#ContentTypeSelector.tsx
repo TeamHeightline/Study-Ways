@@ -19,8 +19,8 @@ export const  ContentTypeSelector = observer(({cards_data, ...props}: any) =>{
        }, [cards_data])
 
     return(
-        <Stack direction={"row"} {...props}>
-            <Typography variant="h6" gutterBottom style={{marginTop: 6}}>
+        <Stack direction={"row"} alignItems={"center"} {...props}>
+            <Typography variant="h6" gutterBottom>
                 Тип:
             </Typography>
             <div style={{paddingLeft: 12}}>

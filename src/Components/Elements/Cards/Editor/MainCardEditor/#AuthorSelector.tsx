@@ -43,8 +43,8 @@ export const AuthorSelector = observer(({cards_data, ...props}: any) =>{
     }
     return(
         <div {...props}>
-            <Stack direction={"row"}>
-                <Typography variant="h6" gutterBottom style={{marginTop: 6}}>
+            <Stack direction={"row"} alignItems={"center"}>
+                <Typography variant="h6" gutterBottom>
                     Автор:
                 </Typography>
                 <div style={{paddingLeft: 12}}>

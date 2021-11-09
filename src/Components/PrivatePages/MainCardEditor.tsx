@@ -39,7 +39,7 @@ export default function MainCardEditor({...props}: any){
     const [cardsDataAfterSelectAuthor, setCardsDataAfterSelectAuthor] = useState<any>()
     const [activePageNumber, setActivePageNumber] = useState(1)
 
-    const {data: card_data, refetch} = useQuery(GET_ALL_CARD_DATA, {
+    const {data: card_data, refetch, loading} = useQuery(GET_ALL_CARD_DATA, {
         fetchPolicy: "cache-and-network"
     })
 
@@ -70,7 +70,7 @@ export default function MainCardEditor({...props}: any){
             }}/>
         )
     }
-    if(!card_data){
+    if(loading){
         return (
             <Grid container justifyContent="center" style={{marginTop: 12}}>
                 <Grid item>

@@ -3,7 +3,6 @@ import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import {Card, Typography} from "@mui/material";
 import '../../CardView/RichTextPreviewStyle.css'
-
 export default function RichTextEditor({initialText, onChange}: any,){
     const [localText, setLocalText] = useState(initialText? initialText: null)
     const [autoSave, setAutoSave] = useState<any>()
@@ -24,6 +23,7 @@ export default function RichTextEditor({initialText, onChange}: any,){
                     data={localText}
                     style={{maxHeight: "440px",}}
                     config={ {
+                        fontColor: "#ffffff",
                         // plugins: [ Paragraph, Bold, Italic, Essentials ],
                         toolbar: [ 'bold', 'italic', 'fontSize', 'FontColor', 'link','|', 'undo', 'redo', '|',
                             'MathType', ],

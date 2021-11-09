@@ -29,7 +29,7 @@ export default function CourseMicroView({course, ...props}: any) {
     }
     return(
         <div {...props} style={{padding: 0, overflowX: "auto"}}>
-            <Card style={{padding: 0, width:550}} variant="outlined">
+            <Card style={{padding: 0, width:530}} variant="outlined">
                 <Stack direction="row">
                     <Tooltip title={(course?.name && course?.name?.length !== 0) ? course?.name?.toUpperCase() : "Название курса по умолчанию"}>
                         <CardActionArea
@@ -57,7 +57,7 @@ export default function CourseMicroView({course, ...props}: any) {
                         </CardActionArea>
                     </Tooltip>
                     <CourseNavigation className={styles.NavigationBackground}
-                                      style={{width: 350, height: 160,}}
+                                      style={{width: 330, height: 160,}}
                                       course={course} buttonClick={data => props?.buttonClick(data)}
                                       cardPositionData={props?.cardPositionData}/>
 

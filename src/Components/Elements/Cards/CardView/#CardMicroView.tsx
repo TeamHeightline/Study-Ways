@@ -57,7 +57,7 @@ export default function CardMicroView({cardID = 1, ...props}: any){
     if (!card_data){
         return (
             // <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
-            <div {...props}>
+            <div {...props} id={"CMV-loading-skeleton"}>
                 <Card variant="outlined" className={classes.root} onClick={() =>{props.onChange(cardID)}}>
                     <Row>
                         <Skeleton variant="rectangular" width={130} height={170} />
@@ -98,7 +98,8 @@ export default function CardMicroView({cardID = 1, ...props}: any){
                                     ID: {card_data?.cardById.id}
 
                                     {Number(card_data.cardById.cardContentType[2]) === 0 &&
-                                    <Chip style={{marginLeft: 12}} size="small" variant="outlined" color="secondary"
+                                    <Chip id={"YouTube-icon"}
+                                          style={{marginLeft: 12}} size="small" variant="outlined" color="secondary"
                                           icon={<YouTubeIcon />} label="YouTube"/>}
                                     {Number(card_data.cardById.cardContentType[2]) === 1 &&
                                     <Chip style={{marginLeft: 12}} size="small" variant="outlined" color="primary"

@@ -36,6 +36,7 @@
     "@testing-library/user-event": "^13.1.8",
     "@types/ckeditor": "^4.9.10",
     "@types/react-router-dom": "^5.1.7",
+    "@types/react-test-renderer": "^17.0.1",
     "@types/react-transition-group": "^4.4.1",
     "antd": "^4.15.5",
     "apollo-link-error": "^1.1.13",
@@ -45,6 +46,7 @@
     "ckeditor5-custom-build": "file:ckeditor5",
     "crypto-js": "^4.1.1",
     "css-loader": "^4.3.0",
+    "enzyme-to-json": "^3.6.2",
     "fast-sort": "^3.0.2",
     "file": "^0.2.2",
     "fontsource-roboto": "^4.0.0",
@@ -81,6 +83,7 @@
     "styled-components": "^5.3.0",
     "ts-loader": "^9.1.2",
     "typescript": "^4.2.4",
+    "waait": "^1.0.5",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
@@ -115,8 +118,12 @@
     "@babel/cli": "^7.13.16",
     "@ckeditor/ckeditor5-alignment": "^27.1.0",
     "@types/react-router-dom": "^5.1.7",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.5",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
     "file-loader": "^6.1.1",
     "react-app-rewired": "^2.1.8",
+    "react-test-renderer": "^17.0.2",
     "webpack": "4.44.2",
     "webpack-cli": "^4.7.0",
     "webpack-dev-server": "3.11.1"

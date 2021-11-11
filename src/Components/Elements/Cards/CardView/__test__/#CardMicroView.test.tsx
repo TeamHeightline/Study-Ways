@@ -7,7 +7,6 @@ import wait from "waait";
 import  {mountToJson} from "enzyme-to-json";
 
 
-
 const mocks = [];
 
 const mocksWithData = {

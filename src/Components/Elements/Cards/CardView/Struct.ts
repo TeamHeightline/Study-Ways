@@ -56,3 +56,50 @@ export const GET_CARD_FOR_MICRO_VIEW_BY_ID = gql`
 
         }
     }`
+export const SHOW_CARD_BY_ID = gql`
+    query SHOW_CARD_BY_ID($id: ID!){
+        cardById(id: $id){
+            id
+            videoUrl
+            title
+            text
+            subTheme{
+                name
+                id
+                theme{
+                    id
+                    name
+                    globalTheme{
+                        id
+                        name
+                    }
+                }
+            }
+            siteUrl
+            testInCard{
+                id
+            }
+            testBeforeCard{
+                id
+            }
+            isCardUseTestInCard
+            isCardUseTestBeforeCard
+            isCardUseMainText
+            isCardUseMainContent
+            isCardUseAdditionalText
+            isCardUseCopyright
+            isCardUseArrowNavigation
+            arrowBefore
+            arrowDown
+            arrowUp
+            arrowNext
+            copyright
+            cardContentType
+            additionalText
+            author{
+                name
+                id
+            }
+
+        }
+    }`

@@ -7,7 +7,6 @@ import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRig
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
 import { Rating } from '@mui/material';
-import {gql} from "graphql.macro";
 import {useQuery} from "@apollo/client";
 import "../../../App.css"
 import CourseMicroView from "../Course/Editor/CourseMicroView";
@@ -29,54 +28,7 @@ import {isMobileHook} from "../../../CustomHooks/isMobileHook";
 import {useHistory} from "react-router-dom";
 import {CardAuthorNode, CardSubThemeNode, Query} from "../../../../SchemaTypes";
 import CssBaseline from "@mui/material/CssBaseline";
-
-const SHOW_CARD_BY_ID = gql`
-    query SHOW_CARD_BY_ID($id: ID!){
-        cardById(id: $id){
-            id
-            videoUrl
-            title
-            text
-            subTheme{
-                name
-                id
-                theme{
-                    id
-                    name
-                    globalTheme{
-                        id
-                        name
-                    }
-                }
-            }
-            siteUrl
-            testInCard{
-                id
-            }
-            testBeforeCard{
-                id
-            }
-            isCardUseTestInCard
-            isCardUseTestBeforeCard
-            isCardUseMainText
-            isCardUseMainContent
-            isCardUseAdditionalText
-            isCardUseCopyright
-            isCardUseArrowNavigation
-            arrowBefore
-            arrowDown
-            arrowUp
-            arrowNext
-            copyright
-            cardContentType
-            additionalText
-            author{
-                name
-                id
-            }
-
-        }
-    }`
+import {SHOW_CARD_BY_ID} from "./CardView/Struct"
 
 type CardTitleAuthorThemeAndCopyrightBlockProps = {
     title?: string,
@@ -90,7 +42,7 @@ function CardTitleAuthorThemeAndCopyrightBlock({title, copyright, subTheme, auth
     return <Row className="mt-4">
         <Col className="col-12">
             <Row className="pl-2">
-                <Typography className="pl-md-2" variant={isMobile ? "h6" : "h4"}>{title? title : ""}</Typography>
+                <Typography id={"card-title"} className="pl-md-2" variant={isMobile ? "h6" : "h4"}>{title? title : ""}</Typography>
                 {/*<Typography variant="subtitle2">{card_data?.cardById?.id}</Typography>*/}
                 {isCardUseCopyright && copyright &&
                 <Typography variant="h6" className="pl-md-2">
@@ -130,8 +82,12 @@ function CardTitleAuthorThemeAndCopyrightBlock({title, copyright, subTheme, auth
         </Col>
     </Row>;
 }
-
-export const CARD = observer(({id, ...props}: any) =>{
+type CardProps = {
+    id?: number,
+    openFromCourse?: boolean,
+    disableAllButtons?: boolean,
+}
+export const CARD = observer(({id,  ...props}: CardProps) =>{
     const [rating, setRating] = useState<number | null>(4);
     const [cardImage, setCardImage] = useState()
     const [openTestBeforeCardDialog, setOpenTestBeforeCardDialog] = useState(true)
@@ -143,7 +99,7 @@ export const CARD = observer(({id, ...props}: any) =>{
         // fetchPolicy: "no-cache",
         variables:{
             id: id? id :
-                props?.openFromCourse? CoursePageStorage.selectedCardID : CardPageStorage.selectedCardID,
+                 props?.openFromCourse? CoursePageStorage.selectedCardID : CardPageStorage.selectedCardID,
         },
         onCompleted: data => {
             setOpenTestBeforeCardDialog(true)
@@ -199,14 +155,14 @@ export const CARD = observer(({id, ...props}: any) =>{
                     {props.openFromCourse  ?
                         <Grid container>
                             <Grid item xs={"auto"}>
-                                <div className=" mt-4" style={{overflowX: "auto"}}>
+                                <div className=" mt-4" style={{overflowX: "auto"}} id={"course-micro-view"}>
                                     <CourseMicroView
                                         course={CoursePageStorage.courseArr[CoursePageStorage.positionData.courseIndex]}
                                         buttonClick={data=>CoursePageStorage.cardSelectInCourseByMouseClick(data,
                                             CoursePageStorage.positionData.courseIndex, CoursePageStorage.positionData.courseID)}
                                         cardPositionData={CoursePageStorage.positionData}/>
                                 </div>
-                                <ButtonGroup size="large" color="primary" aria-label="group" className="mt-2">
+                                <ButtonGroup id={"course-btn-group"} size="large" color="primary" aria-label="group" className="mt-2">
                                     <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Back")} disabled={CoursePageStorage.disabledBack}>
                                         <KeyboardArrowLeftOutlinedIcon/>
                                     </Button>
@@ -222,7 +178,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                                 </ButtonGroup>
                             </Grid>
                             <Grid item md={8} xs={12} style={{paddingLeft: isMobile? 0: 12}}>
-                                {loading ? <Spinner animation="border" variant="success" className=" offset-6 mt-5"/> :
+                                {loading ? <Spinner id={"course-only-loading"} animation="border" variant="success" className=" offset-6 mt-5"/> :
                                         <CardTitleAuthorThemeAndCopyrightBlock
                                         title={card_data?.cardById?.title}
                                         isCardUseCopyright={card_data?.cardById?.isCardUseCopyright}
@@ -233,7 +189,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                                         />}
                             </Grid>
                         </Grid> :
-                        <ButtonGroup size="large" color="primary" aria-label="group">
+                        <ButtonGroup size="large" color="primary" aria-label="group" id={"btn-group-for-card-page"}>
                             <Button onClick={ () =>{
                                 history.push("/card/" + (Number(id) - 1))
                                 // CardPageStorage.selectedCardID = CardPageStorage.selectedCardID - 1
@@ -249,7 +205,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                         </ButtonGroup>
                     }
                 </div>}
-                {loading ? <Spinner animation="border" variant="success" className=" offset-6 mt-5"/> :
+                {loading ? <Spinner id={"simple-loading"} animation="border" variant="success" className=" offset-6 mt-5"/> :
                     openTestBeforeCard ? <ImageQuestion id={card_data?.cardById?.testBeforeCard?.id}
                                                         questionHasBeenCompleted={() => setOpenTestBeforeCard(false)}/> :
                 <div>
@@ -311,7 +267,7 @@ export const CARD = observer(({id, ...props}: any) =>{
                             <Typography variant="h6">
                                 Авторская навигация:
                             </Typography>
-                            <ButtonGroup size="large" color="secondary" variant="outlined">
+                            <ButtonGroup size="large" color="secondary" variant="outlined" id={"author-navigation"}>
                                 <Button disabled={!card_data?.cardById?.arrowBefore}
                                         onClick={() => window.open(card_data?.cardById?.arrowBefore || undefined, "_blank")}>
                                     <KeyboardArrowLeftOutlinedIcon/>
@@ -334,9 +290,9 @@ export const CARD = observer(({id, ...props}: any) =>{
                         {isMobile &&
                         <Col className="col-12 col-lg-6 mt-4">
                             {/*<Typography>*/}
-                                <RichTextPreview text={card_data?.cardById?.text} onChange={() => void (0)}/>
+                                <RichTextPreview id={"rich-text-preview"} text={card_data?.cardById?.text} onChange={() => void (0)}/>
                             {/*</Typography>*/}
-                            <Typography className="blockquote">На сколько эта карточка была полезна?</Typography>
+                            <Typography className="blockquote" id={"card-rating"}>На сколько эта карточка была полезна?</Typography>
                             <Rating
                                 className="pl-md-3"
                                 name="simple-controlled"
@@ -382,8 +338,6 @@ export const CARD = observer(({id, ...props}: any) =>{
                             <ImageQuestion id={card_data?.cardById?.testInCard?.id}/>
                         </div>}
                     </div>
-                    {/*<MainDirection/>*/}
-
                 </div>}
             </div>
         </div>

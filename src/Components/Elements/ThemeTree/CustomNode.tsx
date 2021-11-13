@@ -1,49 +1,32 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Typography from "@mui/material/Typography";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import { NodeModel } from "@minoru/react-dnd-treeview";
-import { CustomData } from "./types";
-import { TypeIcon } from "./TypeIcon";
-import styles from "./CustomNode.module.css";
+import {Collapse, Stack} from "@mui/material";
+import { useTheme } from "@material-ui/core/styles";
 
-type Props = {
-  node: NodeModel<CustomData>;
-  depth: number;
-  isOpen: boolean;
-  onToggle: (id: NodeModel["id"]) => void;
-};
-
-export const CustomNode: React.FC<Props> = (props: any) => {
-  const { droppable, data } = props.node;
-  const indent = props.depth * 24;
-
+export const CustomNode = (props: any) => {
+  const theme = useTheme();
+  const [startOpenAnimation, setStartOpenAnimation] = useState(false)
+    useEffect(()=>{
+        setStartOpenAnimation(true)
+    }, [])
   const handleToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
     props.onToggle(props.node.id);
   };
-
   return (
-    <div
-      className={`tree-node ${styles.root}`}
-      style={{ paddingInlineStart: indent }}
-    >
-      <div
-        className={`${styles.expandIconWrapper} ${
-          props.isOpen ? styles.isOpen : ""
-        }`}
-      >
-        {props.node.droppable && (
-          <div onClick={handleToggle}>
-            <ArrowRightIcon />
-          </div>
-        )}
-      </div>
-      <div>
-        <TypeIcon droppable={droppable || false} fileType={data?.fileType} />
-      </div>
-      <div className={styles.labelGridItem}>
-        <Typography variant="body2">{`${props.node.text}`}</Typography>
-      </div>
-    </div>
-  );
+      <Collapse in={startOpenAnimation}>
+        <Stack direction={"row"} onClick={() => props.setSelectedThemeID(props.node.id)}>
+            {props.node.droppable && (
+              <div onClick={handleToggle}>
+                <ArrowRightIcon />
+              </div>
+            )}
+          <Typography variant="body2" style={{backgroundColor: props.node.id == props.selectedThemeID?
+                theme.palette.primary.main : ""}}>
+            {props.node.text}
+          </Typography>
+        </Stack>
+      </Collapse>
+  )
 };

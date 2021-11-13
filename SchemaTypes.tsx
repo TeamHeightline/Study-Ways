@@ -128,6 +128,7 @@ export type CardNode = {
     author: Array<CardAuthorNode>;
     cardContentType: CardCardContentType;
     copyright?: Maybe<Scalars['String']>;
+    hardLevel: CardHardLevel;
     id: Scalars['ID'];
     isCardUseAdditionalText: Scalars['Boolean'];
     isCardUseArrowNavigation: Scalars['Boolean'];
@@ -379,6 +380,7 @@ export type Mutation = {
      * return `unarchiving=True` on output.
      */
     tokenAuth?: Maybe<ObtainJsonWebToken>;
+    unstructuredTheme?: Maybe<UnstructuredThemeMutationPayload>;
     /**
      * Update user model fields, defined on settings.
      *
@@ -561,6 +563,11 @@ export type MutationTokenAuthArgs = {
 };
 
 
+export type MutationUnstructuredThemeArgs = {
+    input: UnstructuredThemeMutationInput;
+};
+
+
 export type MutationUpdateAccountArgs = {
     firstName?: Maybe<Scalars['String']>;
     lastName?: Maybe<Scalars['String']>;
@@ -709,6 +716,7 @@ export type Query = {
     detailQuestionStatistic?: Maybe<Array<Maybe<DetailQuestionStatisticNode>>>;
     detailQuestionStatisticByQuestionId?: Maybe<Array<Maybe<DetailQuestionStatisticNode>>>;
     eqbi?: Maybe<EqbidNode>;
+    ftSearchInCards?: Maybe<Array<Maybe<CardNode>>>;
     me?: Maybe<UserNode>;
     question?: Maybe<Array<Maybe<QuestionNode>>>;
     questionAuthor?: Maybe<Array<Maybe<QuestionAuthorNode>>>;
@@ -716,6 +724,7 @@ export type Query = {
     questionSequence?: Maybe<Array<Maybe<QuestionSequenceNode>>>;
     questionSequenceById?: Maybe<QuestionSequenceNode>;
     questionThemes?: Maybe<Array<Maybe<QuestionThemesNode>>>;
+    unstructuredTheme?: Maybe<Array<Maybe<UnstructuredThemesNode>>>;
     /** The ID of the object */
     user?: Maybe<UserNode>;
     users?: Maybe<UserNodeConnection>;
@@ -739,6 +748,11 @@ export type QueryDetailQuestionStatisticByQuestionIdArgs = {
 
 export type QueryEqbiArgs = {
     id?: Maybe<Scalars['ID']>;
+};
+
+
+export type QueryFtSearchInCardsArgs = {
+    searchString?: Maybe<Scalars['String']>;
 };
 
 
@@ -951,6 +965,22 @@ export type SwapEmails = {
     success?: Maybe<Scalars['Boolean']>;
 };
 
+export type UnstructuredThemeMutationPayload = {
+    __typename?: 'UnstructuredThemeMutationPayload';
+    clientMutationId?: Maybe<Scalars['String']>;
+    errors?: Maybe<Array<Maybe<ErrorType>>>;
+    unstructuredTheme?: Maybe<UnstructuredThemesNode>;
+};
+
+export type UnstructuredThemesNode = {
+    __typename?: 'UnstructuredThemesNode';
+    globalIndex: Scalars['Int'];
+    id: Scalars['ID'];
+    parent?: Maybe<UnstructuredThemesNode>;
+    text: Scalars['String'];
+    unstructuredthemeSet: Array<UnstructuredThemesNode>;
+};
+
 /**
  * Update user model fields, defined on settings.
  *
@@ -1002,6 +1032,7 @@ export type UserNode = Node & {
     questionsequenceSet: Array<QuestionSequenceNode>;
     questionthemesSet: Array<QuestionThemesNode>;
     secondaryEmail?: Maybe<Scalars['String']>;
+    unstructuredthemeSet: Array<UnstructuredThemesNode>;
     userAccessLevel: CustomUserUserAccessLevel;
     /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
     username: Scalars['String'];
@@ -1087,6 +1118,20 @@ export enum CardCardContentType {
 }
 
 /** An enumeration. */
+export enum CardHardLevel {
+    /** Выпускникам школ */
+    A_0 = 'A_0',
+    /** Успешным лицеистам и гимназистам */
+    A_1 = 'A_1',
+    /** Рядовым студентам */
+    A_2 = 'A_2',
+    /** Будущим специалистам */
+    A_3 = 'A_3',
+    /** Специалистам (Real Science) */
+    A_4 = 'A_4'
+}
+
+/** An enumeration. */
 export enum CustomUserUserAccessLevel {
     /** Admin */
     Admin = 'ADMIN',
@@ -1132,6 +1177,7 @@ export type CardMutationInput = {
     clientMutationId?: Maybe<Scalars['String']>;
     copyright?: Maybe<Scalars['String']>;
     createdBy: Scalars['ID'];
+    hardLevel?: Maybe<Scalars['String']>;
     id?: Maybe<Scalars['ID']>;
     isCardUseAdditionalText?: Maybe<Scalars['Boolean']>;
     isCardUseArrowNavigation?: Maybe<Scalars['Boolean']>;
@@ -1146,6 +1192,7 @@ export type CardMutationInput = {
     testInCard?: Maybe<Scalars['ID']>;
     text?: Maybe<Scalars['String']>;
     title: Scalars['String'];
+    vectorColumn?: Maybe<Scalars['String']>;
     videoUrl?: Maybe<Scalars['String']>;
 };
 
@@ -1228,6 +1275,15 @@ export type StatisticMutationInput = {
     numberOfPasses: Scalars['Int'];
     question: Scalars['ID'];
     sumOfAllAttempts: Scalars['Int'];
+};
+
+export type UnstructuredThemeMutationInput = {
+    clientMutationId?: Maybe<Scalars['String']>;
+    createdBy: Scalars['ID'];
+    globalIndex?: Maybe<Scalars['Int']>;
+    id?: Maybe<Scalars['ID']>;
+    parent?: Maybe<Scalars['ID']>;
+    text: Scalars['String'];
 };
 
 export type UpdateCardCourseInput = {

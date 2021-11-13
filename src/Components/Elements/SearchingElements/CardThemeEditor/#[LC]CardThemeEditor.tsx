@@ -46,7 +46,9 @@ export default function LCCardThemeEditor(){
     const {data: my_sub_theme_data, refetch: refetch_my_sub_theme_data} = useQuery<Query, null>(GET_MY_SUB_THEMES)//Получаем подтемы карточек
     const {data: my_themes_data, refetch: refetch_my_theme_data} = useQuery<Query, null>(GET_MY_THEMES)//Получаем наши темы
     const {data: my_global_themes_data, refetch: refetch_my_global_theme_data} = useQuery<Query, null>(GET_MY_GLOBAL_THEMES)//Получаем наши глобальные темы
-    const {data: all_card_themes_data, refetch: refetch_all_card_themes_data} = useQuery<Query, null>(ALL_CARD_THEMES)
+    const {data: all_card_themes_data, refetch: refetch_all_card_themes_data} = useQuery<Query, null>(ALL_CARD_THEMES, {
+        fetchPolicy:"cache-and-network"
+    })
     const [update_sub_theme, {loading: update_sub_theme_loading}] = useMutation<Mutation, {name: string, id: string}>(UPDATE_CARD_SUB_THEME, {
         variables:{
             name: activeEditData,

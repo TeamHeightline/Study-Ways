@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { Col, Row, Spinner} from "react-bootstrap";
 import ReactPlayer from "react-player";
-import {Button, ButtonGroup, Typography, Tooltip, Grid} from "@mui/material";
+import {Button, ButtonGroup, Typography, Tooltip, Grid, Link} from "@mui/material";
 import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
@@ -178,7 +178,7 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
                                 </ButtonGroup>
                             </Grid>
                             <Grid item md={8} xs={12} style={{paddingLeft: isMobile? 0: 12}}>
-                                {loading ? <Spinner id={"course-only-loading"} animation="border" variant="success" className=" offset-6 mt-5"/> :
+                                {!card_data ? <Spinner id={"course-only-loading"} animation="border" variant="success" className=" offset-6 mt-5"/> :
                                         <CardTitleAuthorThemeAndCopyrightBlock
                                         title={card_data?.cardById?.title}
                                         isCardUseCopyright={card_data?.cardById?.isCardUseCopyright}
@@ -205,7 +205,7 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
                         </ButtonGroup>
                     }
                 </div>}
-                {loading ? <Spinner id={"simple-loading"} animation="border" variant="success" className=" offset-6 mt-5"/> :
+                {!card_data ? <Spinner id={"simple-loading"} animation="border" variant="success" className=" offset-6 mt-5"/> :
                     openTestBeforeCard ? <ImageQuestion id={card_data?.cardById?.testBeforeCard?.id}
                                                         questionHasBeenCompleted={() => setOpenTestBeforeCard(false)}/> :
                 <div>
@@ -269,19 +269,44 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
                             </Typography>
                             <ButtonGroup size="large" color="secondary" variant="outlined" id={"author-navigation"}>
                                 <Button disabled={!card_data?.cardById?.arrowBefore}
-                                        onClick={() => window.open(card_data?.cardById?.arrowBefore || undefined, "_blank")}>
-                                    <KeyboardArrowLeftOutlinedIcon/>
+                                        onClick={() => {
+                                            //ВРЕМЕННОЕ РЕШЕНИЕ, ПОКА НЕ ПОЙМЕМ, КАК СДЕЛАТЬ НОРМАЛЬНО
+                                            if(card_data?.cardById?.arrowBefore?.includes("sw-university.com/card/")){
+                                                history.push(String(card_data?.cardById?.arrowBefore)?.split("sw-university.com/card/")[1])
+                                            }else{
+                                                window.open(card_data?.cardById?.arrowBefore || undefined, "_blank")
+                                            }
+                                        }}>
+                                        <KeyboardArrowLeftOutlinedIcon/>
                                 </Button>
                                 <Button disabled={!card_data?.cardById?.arrowDown}
-                                        onClick={() => window.open(card_data?.cardById?.arrowDown || undefined, "_blank")}>
+                                        onClick={() => {
+                                            if(card_data?.cardById?.arrowDown?.includes("sw-university.com/card/")){
+                                                history.push(String(card_data?.cardById?.arrowDown)?.split("sw-university.com/card/")[1])
+                                            }else{
+                                                window.open(card_data?.cardById?.arrowDown || undefined, "_blank")
+                                            }
+                                        }}>
                                     <KeyboardArrowDownOutlinedIcon/>
                                 </Button>
                                 <Button disabled={!card_data?.cardById?.arrowUp}
-                                        onClick={() => window.open(card_data?.cardById?.arrowUp || undefined, "_blank")}>
+                                        onClick={() => {
+                                            if(card_data?.cardById?.arrowUp?.includes("sw-university.com/card/")){
+                                                history.push(String(card_data?.cardById?.arrowUp)?.split("sw-university.com/card/")[1])
+                                            }else{
+                                                window.open(card_data?.cardById?.arrowUp || undefined, "_blank")
+                                            }
+                                        }}>
                                     <KeyboardArrowUpOutlinedIcon/>
                                 </Button>
                                 <Button disabled={!card_data?.cardById?.arrowNext}
-                                        onClick={() => window.open(card_data?.cardById?.arrowNext || undefined, "_blank")}>
+                                        onClick={() => {
+                                            if(card_data?.cardById?.arrowNext?.includes("sw-university.com/card/")){
+                                                history.push(String(card_data?.cardById?.arrowNext)?.split("sw-university.com/card/")[1])
+                                            }else{
+                                                window.open(card_data?.cardById?.arrowNext || undefined, "_blank")
+                                            }
+                                        }}>
                                     <KeyboardArrowRightOutlinedIcon/>
                                 </Button>
                             </ButtonGroup>

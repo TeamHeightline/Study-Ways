@@ -96,7 +96,7 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
     const history = useHistory();
     const {width, height} = useWindowDimensions()
     const {data: card_data, refetch, loading} = useQuery<Query>(SHOW_CARD_BY_ID, {
-        // fetchPolicy: "no-cache",
+        fetchPolicy: "cache-and-network",
         variables:{
             id: id? id :
                  props?.openFromCourse? CoursePageStorage.selectedCardID : CardPageStorage.selectedCardID,

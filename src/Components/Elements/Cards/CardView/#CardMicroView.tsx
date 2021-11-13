@@ -80,7 +80,10 @@ export default function CardMicroView({cardID = 1, ...props}: any){
                         <CardMedia
                             style={{width: 132, height: 169}}
                             image={"https://img.youtube.com/vi/"+
-                            card_data?.cardById.videoUrl.split('?v=')[1] + "/hqdefault.jpg"}
+                            card_data?.cardById.videoUrl.includes('?v=') ?
+                            card_data?.cardById.videoUrl.split('?v=')[1] :
+                                card_data?.cardById.videoUrl.split('/youtu.be/')[1]
+                                + "/hqdefault.jpg"}
                         />}
                         {(Number(card_data.cardById.cardContentType[2]) === 1 ||
                             Number(card_data.cardById.cardContentType[2]) === 2) && cardImage &&

@@ -36,12 +36,6 @@ const useStyles = makeStyles((theme) => ({
     cover: {
         width: 200,
     },
-    controls: {
-        display: 'flex',
-        alignItems: 'center',
-        paddingLeft: theme.spacing(1),
-        paddingBottom: theme.spacing(1),
-    },
     playIcon: {
         height: 38,
         width: 38,

@@ -8,8 +8,8 @@
   },
   "private": true,
   "engines": {
-    "node": "v16.1.0",
-    "npm": "7.12.1"
+    "node": "v16.13.0",
+    "npm": "8.1.0"
   },
   "dependencies": {
     "@apollo/client": "^3.3.16",
@@ -96,12 +96,6 @@
   "ignore": [
     "/src/plugins/ckeditor-mathtype/ckeditor5/"
   ],
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -127,5 +121,8 @@
     "webpack": "4.44.2",
     "webpack-cli": "^4.7.0",
     "webpack-dev-server": "3.11.1"
+  },
+  "eslintConfig": {
+    "ignorePatterns": ["src/*", "!src/test.js"]
   }
 }

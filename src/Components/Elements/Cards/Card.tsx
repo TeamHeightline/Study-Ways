@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { Col, Row, Spinner} from "react-bootstrap";
 import ReactPlayer from "react-player";
-import {Button, ButtonGroup, Typography, Tooltip, Grid, Link} from "@mui/material";
+import {Button, ButtonGroup, Typography, Tooltip, Grid} from "@mui/material";
 import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
@@ -95,7 +95,7 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
     const isMobile = isMobileHook()
     const history = useHistory();
     const {width, height} = useWindowDimensions()
-    const {data: card_data, refetch, loading} = useQuery<Query>(SHOW_CARD_BY_ID, {
+    const {data: card_data, refetch} = useQuery<Query>(SHOW_CARD_BY_ID, {
         fetchPolicy: "cache-and-network",
         variables:{
             id: id? id :

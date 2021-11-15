@@ -1,7 +1,7 @@
 import {action, computed, makeObservable, observable, toJS} from "mobx";
 import {ClientStorage} from "../../ApolloStorage/ClientStorage";
 import {GET_ALL_COURSE} from "./Struct";
-import {CardCourseNode, Maybe} from "../../../../SchemaTypes";
+import {CardCourseNode, Maybe} from "../../../SchemaTypes";
 import {sort} from "fast-sort";
 
 class CoursePage{

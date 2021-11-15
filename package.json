@@ -123,6 +123,9 @@
     "webpack-dev-server": "3.11.1"
   },
   "eslintConfig": {
-    "ignorePatterns": ["src/*", "!src/test.js"]
+    "ignorePatterns": [
+      "src/*",
+      "!src/test.js"
+    ]
   }
 }

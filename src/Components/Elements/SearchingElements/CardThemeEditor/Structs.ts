@@ -1,5 +1,5 @@
 import {gql} from "graphql.macro";
-import {CardThemeNode, Scalars} from "../../../../../SchemaTypes";
+import {CardThemeNode, Scalars} from "../../../../SchemaTypes";
 
 export const GET_MY_SUB_THEMES = gql`
     query GET_MY_SUB_THEMES{

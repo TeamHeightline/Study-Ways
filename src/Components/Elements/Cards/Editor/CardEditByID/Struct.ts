@@ -20,6 +20,7 @@ export const GET_CARD_DATA_BY_ID = gql`query GET_CARD_DATA_BY_ID($id: ID!){
         cardContentType
         text
         title
+        hardLevel
         additionalText
         siteUrl
         videoUrl
@@ -59,14 +60,14 @@ export const UPDATE_CARD = gql`
         $isCardUseAdditionalText: Boolean, $isCardUseMainContent: Boolean, $isCardUseMainText: Boolean,
         $isCardUseTestBeforeCard: Boolean, $isCardUseTestInCard: Boolean, $isCardUseCopyright: Boolean,
         $copyright: String, $isCardUseArrowNavigation: Boolean, $arrowBefore: String, $arrowUp: String,
-        $arrowDown: String, $arrowNext: String,
+        $arrowDown: String, $arrowNext: String, $hardLevel: String,
     ){
         card(input: {id: $id, author: $author, subTheme: $subTheme,  additionalText: $additionalText, cardContentType: $cardContentType,
             createdBy: 0, title: $title, text: $text, videoUrl: $videoUrl, testInCard: $testInCard, testBeforeCard: $testBeforeCard,
             siteUrl: $siteUrl, isCardUseAdditionalText: $isCardUseAdditionalText, isCardUseMainContent: $isCardUseMainContent,
             isCardUseMainText: $isCardUseMainText, isCardUseTestBeforeCard: $isCardUseTestBeforeCard, isCardUseTestInCard: $isCardUseTestInCard,
             isCardUseCopyright: $isCardUseCopyright, copyright: $copyright, isCardUseArrowNavigation: $isCardUseArrowNavigation,
-            arrowBefore: $arrowBefore, arrowUp: $arrowUp, arrowDown: $arrowDown, arrowNext: $arrowNext
+            arrowBefore: $arrowBefore, arrowUp: $arrowUp, arrowDown: $arrowDown, arrowNext: $arrowNext, hardLevel: $hardLevel,
         }){
             errors{
                 field

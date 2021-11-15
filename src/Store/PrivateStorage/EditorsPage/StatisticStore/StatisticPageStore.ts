@@ -2,7 +2,7 @@ import {makeAutoObservable, reaction, toJS} from "mobx";
 import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
 import {UserStorage} from "../../../UserStore/UserStore";
 import {sort} from "fast-sort";
-import {Maybe, QuestionNode, QuestionSequenceNode} from "../../../../../SchemaTypes";
+import {Maybe, QuestionNode, QuestionSequenceNode} from "../../../../SchemaTypes";
 import {
     ALL_QUESTION_SEQUENCE,
     ALL_QUESTIONS_STATISTIC,

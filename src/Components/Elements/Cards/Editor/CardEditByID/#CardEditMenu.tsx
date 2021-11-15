@@ -9,7 +9,7 @@ import CopyrightIcon from '@mui/icons-material/Copyright';
 import HttpIcon from '@mui/icons-material/Http';
 import ImageIcon from '@mui/icons-material/Image';
 import CodeIcon from '@mui/icons-material/Code';
-
+import Filter3Icon from '@mui/icons-material/Filter3';
 export default function CardEditMenu({ mainContentType, mainContentTypeHandle, isUseAdditionalTextHandle,
                                          isUseAdditionalText, isUseBodyQuestionHandle, isUseBodyQuestion,
                                          isUseBeforeCardQuestionHandle, isUseBeforeCardQuestion, isUseCopyright,
@@ -64,6 +64,17 @@ export default function CardEditMenu({ mainContentType, mainContentTypeHandle, i
                     </ListItemIcon>
                     Авторское право
                 </MenuItem>
+                {/*<MenuItem onClick={isUseCopyrightHandle}>*/}
+                {/*    <Switch*/}
+                {/*        checked={isUseCopyright}*/}
+                {/*        onChange={isUseCopyrightHandle}*/}
+                {/*        color="secondary"*/}
+                {/*    />*/}
+                {/*    <ListItemIcon>*/}
+                {/*        <Filter3Icon/>*/}
+                {/*    </ListItemIcon>*/}
+                {/*    Уровень сложности*/}
+                {/*</MenuItem>*/}
                 <Divider/>
                 <MenuItem>
                     <FormControl fullWidth variant="filled">

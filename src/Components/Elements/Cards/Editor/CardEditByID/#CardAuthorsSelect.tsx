@@ -8,9 +8,9 @@ export default function CardAuthorsSelect({cardAuthorId, changeCardAuthorId, aut
                                               cardID}: any) {
     console.log("update id card authors")
     return(
-        <div>
+        <>
             <FormControl fullWidth>
-                <InputLabel id="question-author-multiple">Авторы карточки</InputLabel>
+                <InputLabel>Авторы карточки</InputLabel>
                 <Select
                     labelId="demo-mutiple-name-label"
                     id="demo-mutiple-name"
@@ -34,6 +34,6 @@ export default function CardAuthorsSelect({cardAuthorId, changeCardAuthorId, aut
 
                 </Select>
             </FormControl>
-        </div>
+        </>
     )
 }

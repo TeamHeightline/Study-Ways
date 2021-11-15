@@ -2,7 +2,7 @@ import {makeAutoObservable, reaction} from "mobx";
 import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
 import {UserStorage} from "../../../UserStore/UserStore";
 import {GET_QS_DATA_BY_ID} from "./Struct";
-import {Query} from "../../../../../SchemaTypes";
+import {Query} from "../../../../SchemaTypes";
 import {SameQuestionPlayer} from "./SameQuestionPlayer";
 import * as _ from "lodash"
 

@@ -7,7 +7,7 @@ import {
     CREATE_NEW_QUESTION,
     UPDATE_QUESTION
 } from "./Struct";
-import {Maybe, QuestionAuthorNode, QuestionNode, QuestionThemesNode} from "../../../../../SchemaTypes";
+import {Maybe, QuestionAuthorNode, QuestionNode, QuestionThemesNode} from "../../../../SchemaTypes";
 import {sort} from "fast-sort";
 import {Answer} from "./AnswersStorage";
 import {UserStorage} from "../../../UserStore/UserStore";

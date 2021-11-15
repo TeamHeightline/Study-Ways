@@ -3,7 +3,7 @@ import {NodeModel} from "@minoru/react-dnd-treeview";
 import {GET_ALL_UNSTRUCTURED_THEME} from "./Struct";
 import {useQuery} from "@apollo/client";
 import {CircularProgress, Collapse, Fab, Grid, TextField} from "@mui/material";
-import {Query} from "../../../../SchemaTypes";
+import {Query} from "../../../SchemaTypes";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AddIcon from "@mui/icons-material/Add";
 import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";

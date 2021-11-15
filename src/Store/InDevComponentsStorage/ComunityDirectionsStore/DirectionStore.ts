@@ -1,7 +1,7 @@
 import {makeAutoObservable, reaction, toJS} from "mobx";
 import {directionData, GET_ALL_COURSE, GET_QUESTION_TEXT_BY_ID} from "./Struct";
 import {ClientStorage} from "../../ApolloStorage/ClientStorage";
-import {CardCourseNode} from "../../../../SchemaTypes";
+import {CardCourseNode} from "../../../SchemaTypes";
 import {GET_QS_DATA_BY_ID} from "../../PublicStorage/QSPage/QuestionSequencePlayer/Struct";
 
 class CardProcessedClass{

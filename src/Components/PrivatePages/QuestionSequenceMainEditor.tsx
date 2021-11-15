@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {useMutation, useQuery} from "@apollo/client";
-import { Mutation, Query} from "../../../SchemaTypes";
+import { Mutation, Query} from "../../SchemaTypes";
 import {CREATE_QUESTION_SEQUENCE, GET_MY_QUESTION_SEQUENCE, question_sequence_struct} from "../Elements/QuestionSequence/Editor/Struct"
 import {Button, Typography, Card, CardActionArea} from "@mui/material";
 import {Row, Spinner} from "react-bootstrap";

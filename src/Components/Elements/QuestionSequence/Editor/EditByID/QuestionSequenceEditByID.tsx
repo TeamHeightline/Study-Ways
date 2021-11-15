@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import QuestionCard from "./#QuestionCard";
 
-import {Mutation} from "../../../../../../SchemaTypes";
+import {Mutation} from "../../../../../SchemaTypes";
 import { Alert } from '@mui/material';
 import CardMedia from "@mui/material/CardMedia";
 

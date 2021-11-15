@@ -12,7 +12,7 @@ import {
     CREATE_GLOBAL_THEME
 } from './Structs'
 import {useMutation, useQuery} from "@apollo/client";
-import {Mutation, Query} from "../../../../../SchemaTypes";
+import {Mutation, Query} from "../../../../SchemaTypes";
 import DCCardThemeEditor from "./##[DC]CardThemeEditor";
 import {sort} from "fast-sort";
 export default function LCCardThemeEditor(){

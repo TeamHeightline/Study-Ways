@@ -2,7 +2,7 @@ import {action, computed, makeObservable, observable,  toJS} from "mobx";
 import {ClientStorage} from "../../ApolloStorage/ClientStorage";
 import {GET_ALL_QUESTIONS} from "./Struct";
 import _ from "lodash";
-import {Maybe, QuestionNode, QuestionThemesNode} from "../../../../SchemaTypes";
+import {Maybe, QuestionNode, QuestionThemesNode} from "../../../SchemaTypes";
 import {sort} from "fast-sort";
 
 class QuestionPage{

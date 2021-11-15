@@ -26,7 +26,7 @@ import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
 import {isMobileHook} from "../../../CustomHooks/isMobileHook";
 import {useHistory} from "react-router-dom";
-import {CardAuthorNode, CardSubThemeNode, Query} from "../../../../SchemaTypes";
+import {CardAuthorNode, CardSubThemeNode, Query} from "../../../SchemaTypes";
 import CssBaseline from "@mui/material/CssBaseline";
 import {SHOW_CARD_BY_ID} from "./CardView/Struct"
 

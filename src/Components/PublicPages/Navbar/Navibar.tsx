@@ -115,7 +115,9 @@ export const Navibar = observer(() => {
                      <Link className={s.link} to="/cards">Карточки</Link>
                      {/*<Link className={s.link} to="/test">Вопросы</Link>*/}
                      <Typography className="ml-4"> | </Typography>
-                     <Link className={s.link} to="/direction">Direction (beta)</Link>
+                    {UserStorage.userAccessLevel == "ADMIN" || UserStorage.userAccessLevel == "TEACHER" ?
+                        <Link className={s.link} to="/editor">Редакторы</Link>:
+                     <Link className={s.link} to="/direction">Direction (beta)</Link>}
                     {UserStorage.isLogin ?
                         <>
                         <Typography className="ml-5 mr-4">{UserStorage.username}</Typography>

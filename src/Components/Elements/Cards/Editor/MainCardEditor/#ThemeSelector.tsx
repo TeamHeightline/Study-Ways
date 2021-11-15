@@ -36,8 +36,8 @@ export const ThemeSelector = observer(({cards_data, ...props}: any) =>{
             return (cards_data)
         }
         const selectedCardsArray: any = []
-        cards_data.map((sameCard) =>{
-            sameCard.subTheme.map((sameThemeInSameCard)=>{
+        cards_data?.map((sameCard) =>{
+            sameCard?.subTheme?.map((sameThemeInSameCard)=>{
                 if(selected_themes.indexOf(sameThemeInSameCard.id * 1000000) !== -1){
                     if(selectedCardsArray.indexOf(sameCard) === -1){
                         selectedCardsArray.push(sameCard)
@@ -51,8 +51,8 @@ export const ThemeSelector = observer(({cards_data, ...props}: any) =>{
         onCompleted: themesData => {
             //сбор массива ID подтем
             const cardsThemesIDArray: any = []
-            cards_data.map((sameCard) =>{
-                sameCard.subTheme.map((sameSubTheme) =>{
+            cards_data?.map((sameCard) =>{
+                sameCard?.subTheme?.map((sameSubTheme) =>{
                     if(cardsThemesIDArray.indexOf(sameSubTheme.id) == -1){
                         cardsThemesIDArray.push(sameSubTheme.id)
                     }

@@ -83,7 +83,7 @@ export default function MainCardEditor({...props}: any){
         <div style={{paddingLeft: 15}}>
             <Row className="col-12 justify-content-around mt-3">
                 <Col className="col-md-4 col-12">
-                    <ThemeSelector cards_data={card_data.me.cardSet}
+                    <ThemeSelector cards_data={card_data?.me?.cardSet}
                     changeSelectedData={(data)=>{
                         setCardsDataAfterSelectTheme(data)
                     }}/>

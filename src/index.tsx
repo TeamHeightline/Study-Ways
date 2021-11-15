@@ -57,7 +57,10 @@ export const theme = createTheme( {
                         "--ck-color-toolbar-border": "#0A1929",
                         "--ck-color-input-disabled-text": "#ffffff",
                         "--ck-color-text": "#ffffff"
-                    }
+                    },
+                    ".ck-content" : {
+                        color: "#ffffff"
+                    },
                 }
             },
         },

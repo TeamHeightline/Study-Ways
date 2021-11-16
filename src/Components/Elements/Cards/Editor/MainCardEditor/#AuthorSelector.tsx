@@ -43,13 +43,13 @@ export const AuthorSelector = observer(({cards_data, ...props}: any) =>{
     }
     return(
         <div {...props}>
-            <Stack direction={"row"} alignItems={"center"}>
+            <Stack direction={"row"} alignItems={"center"} spacing={2}>
                 <Typography variant="h6" gutterBottom>
                     Автор:
                 </Typography>
-                <div style={{paddingLeft: 12}}>
+
                     <Select
-                        style={{minWidth: 200, maxWidth: 600}}
+                        style={{width: "100%", maxWidth: 600}}
                         fullWidth
                         label=""
                         value={selectedAuthor}
@@ -77,7 +77,6 @@ export const AuthorSelector = observer(({cards_data, ...props}: any) =>{
                                                 value={author.id}> {author.name}</MenuItem>)})
                         }
                     </Select>
-                </div>
             </Stack>
         </div>
     )

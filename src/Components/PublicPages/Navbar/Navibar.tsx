@@ -12,7 +12,6 @@ import BlurLinearIcon from "@mui/icons-material/BlurLinear";
 import ArtTrackIcon from "@mui/icons-material/ArtTrack";
 import EditIcon from '@mui/icons-material/Edit';
 import React from 'react';
-import { Theme } from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import AppBar from '@mui/material/AppBar';
@@ -22,11 +21,11 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import {observer} from "mobx-react";
 import {AccountCircle} from "@mui/icons-material";
-import {Menu, MenuItem} from "@mui/material";
+import {Card, Menu, MenuItem} from "@mui/material";
 import CategoryIcon from '@mui/icons-material/Category';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
     createStyles({
         root: {
             flexGrow: 1,
@@ -92,18 +91,20 @@ export const Navibar = observer(() => {
 
     if(height/width >= 1){
     return (
-        <BottomNavigation value={value} onChange={mobileMunuClickHandleChange} className="col-12">
-            <BottomNavigationAction label="Курсы" value="0" icon={<BlurLinearIcon />} />
-            <BottomNavigationAction label="Карточки" value="1" icon={<ArtTrackIcon />} />
-            <BottomNavigationAction label="Direction (beta)" value="2" icon={<CategoryIcon />} />
-            {UserStorage.isLogin ?
-            <BottomNavigationAction label="Редакторы" value="3" icon={<EditIcon />} />:
-            <BottomNavigationAction label="Войти" value="4" icon={<AccountCircleIcon/>} />}
-        </BottomNavigation>
+        <div >
+            <BottomNavigation  value={value} onChange={mobileMunuClickHandleChange} className="col-12">
+                <BottomNavigationAction label="Курсы" value="0" icon={<BlurLinearIcon />} />
+                <BottomNavigationAction label="Карточки" value="1" icon={<ArtTrackIcon />} />
+                {/*<BottomNavigationAction label="Direction (beta)" value="2" icon={<CategoryIcon />} />*/}
+                {UserStorage.isLogin ?
+                <BottomNavigationAction label="Редакторы" value="3" icon={<EditIcon />} />:
+                <BottomNavigationAction label="Войти" value="4" icon={<AccountCircleIcon/>} />}
+            </BottomNavigation>
+        </div>
     )}
     return (
         <div className={classes.root}>
-            <AppBar position="static" enableColorOnDark>
+            <AppBar position="fixed" enableColorOnDark>
                 <Toolbar variant="dense">
                     {/*<IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">*/}
                     {/*    <br/>*/}

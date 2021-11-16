@@ -50,6 +50,7 @@ import {LogInNotification} from "./Components/PublicPages/Login/#LogInNotificati
 import { CodeEditor } from './Components/PublicPages/CodeEditor';
 import ThemeEditor from "./Components/Elements/ThemeTree/ThemeEditor";
 import CardByURL from "./Components/Elements/Cards/CardView/CardByURL";
+import {isMobileHook} from "./CustomHooks/isMobileHook";
 
 
 const  App = observer(() => {
@@ -57,6 +58,7 @@ const  App = observer(() => {
     useEffect(() =>{
         setTimeout(setAnimationState, 1500, true)
     }, [])
+    const isMobile = isMobileHook()
 
     if (!animationState){
         return(
@@ -72,24 +74,27 @@ const  App = observer(() => {
             <Router>
                 <Navibar/>
                 <LogInNotification/>
-                <Switch >
-                    <Route exact path="/login" component={Login}/>
-                    <Route exact path="/unlogin" component={UnLogin}/>
-                    <Route exact path="/registration" component={Registration}/>
-                    <Route path="/editor" component={UserStorage.isLogin !== null? EditorsRouter: Login}/>
+                <div style={{marginTop: isMobile? 0: 48}}>
+                    <Switch >
+                        <Route exact path="/login" component={Login}/>
+                        <Route exact path="/unlogin" component={UnLogin}/>
+                        <Route exact path="/registration" component={Registration}/>
+                        <Route path="/editor" component={UserStorage.isLogin !== null? EditorsRouter: Login}/>
 
-                    <Route exact path="/iq/:id" component={ImageQuestion}/>
-                    <Route exact path="/qs/:id" component={QSPlayerByID}/>
+                        <Route exact path="/iq/:id" component={ImageQuestion}/>
+                        <Route exact path="/qs/:id" component={QSPlayerByID}/>
 
-                    <Route exact path="/cards" component={MainCardPublicView}/>
-                    <Route exact path={"/card/:id"} component={CardByURL}/>
+                        <Route exact path="/cards" component={MainCardPublicView}/>
+                        <Route exact path={"/card/:id"} component={CardByURL}/>
 
-                    <Route exact path="/courses" component={MainCoursePublicView}/>
-                    <Route exact path="/direction" component={MainDirection}/>
-                    <Route exact path="/cedit" component={CodeEditor}/>
-                    <Route exact path="/tt" component={ThemeEditor}/>
-                    <Redirect to="/courses"/>
-                </Switch>
+                        <Route exact path="/courses" component={MainCoursePublicView}/>
+                        <Route exact path="/direction" component={MainDirection}/>
+                        <Route exact path="/cedit" component={CodeEditor}/>
+                        <Route exact path="/tt" component={ThemeEditor}/>
+                        <Redirect to="/courses"/>
+                    </Switch>
+
+                </div>
             </Router>
         </ApolloProvider>
     </>

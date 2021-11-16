@@ -19,14 +19,14 @@ export const  ContentTypeSelector = observer(({cards_data, ...props}: any) =>{
        }, [cards_data])
 
     return(
-        <Stack direction={"row"} alignItems={"center"} {...props}>
+        <Stack direction={"row"} alignItems={"center"} {...props} spacing={2} >
             <Typography variant="h6" gutterBottom>
                 Тип:
             </Typography>
-            <div style={{paddingLeft: 12}}>
+
                 <Select
                     fullWidth
-                    style={{minWidth: 200, maxWidth: 600, }}
+                    style={{width: "100%", maxWidth: 600, }}
                     label=""
                     value={!props?.openFromPublicView ? selectedContentType: CardPageStorage.selectedContentType}
                     onChange={(event) => {
@@ -47,7 +47,6 @@ export const  ContentTypeSelector = observer(({cards_data, ...props}: any) =>{
                     <MenuItem value={1}>Внешний ресурс</MenuItem>
                     <MenuItem value={2}>Изображение</MenuItem>
                 </Select>
-            </div>
         </Stack>
     )
 })

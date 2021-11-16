@@ -7,6 +7,7 @@ import {CardPageStorage} from "../../../../../Store/PublicStorage/CardsPage/Card
 import {observer} from "mobx-react";
 import {toJS} from "mobx";
 import {sort} from "fast-sort";
+import {Stack} from "@mui/material";
 const { SHOW_CHILD } = TreeSelect;
 const GET_THEMES = gql`
     query GET_THEMES{
@@ -134,17 +135,12 @@ export const ThemeSelector = observer(({cards_data, ...props}: any) =>{
     };
 
     return(
-        <Row {...tProps}>
-            <Col className="col-3 mt-2 ml-lg-2">
-                <Typography variant="h6" gutterBottom className="ml-lg-4">
+        <Stack direction={"row"} alignItems={"center"} spacing={2}>
+                <Typography variant="h6" gutterBottom >
                     Тема:
                 </Typography>
-            </Col>
-            <Col className="col-8 mt-2 ml-2 ml-lg-0">
                 {!(props.openFromPublicView ? !dataForCardSubThemeSelect : !toJS(CardPageStorage.dataForCardSubThemeSelect))
-                && <TreeSelect className="col-11" {...props?.openFromPublicView ? CardPageStorage.tProps : tProps}/>}
-
-            </Col>
-        </Row>
+                && <TreeSelect  {...props?.openFromPublicView ? CardPageStorage.tProps : tProps}/>}
+        </Stack>
     )
 })

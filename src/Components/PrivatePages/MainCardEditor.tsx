@@ -9,8 +9,9 @@ import {gql} from "graphql.macro";
 import {ContentTypeSelector} from "../Elements/Cards/Editor/MainCardEditor/#ContentTypeSelector";
 import {ThemeSelector} from "../Elements/Cards/Editor/MainCardEditor/#ThemeSelector";
 import {sort} from "fast-sort";
-import { Pagination } from '@mui/material';
+import {Pagination, Stack} from '@mui/material';
 import {CircularProgress, Grid} from "@mui/material";
+import {isMobileHook} from "../../CustomHooks/isMobileHook";
 
 const GET_ALL_CARD_DATA = gql`
     query GET_CARD_DATA{
@@ -38,6 +39,7 @@ export default function MainCardEditor({...props}: any){
     const [cardsDataAfterSelectContentType, setCardsDataAfterSelectContentType] = useState()
     const [cardsDataAfterSelectAuthor, setCardsDataAfterSelectAuthor] = useState<any>()
     const [activePageNumber, setActivePageNumber] = useState(1)
+    const isMobile = isMobileHook()
 
     const {data: card_data, refetch, loading} = useQuery(GET_ALL_CARD_DATA, {
         fetchPolicy: "cache-and-network"
@@ -80,34 +82,32 @@ export default function MainCardEditor({...props}: any){
         );
     }
     return (
-        <div style={{paddingLeft: 15}}>
-            <Row className="col-12 justify-content-around mt-3">
-                <Col className="col-md-4 col-12">
+        <div style={{paddingLeft: 15, overflowX: 'auto'}}>
+            <Grid container justifyContent={"space-around"} alignItems={"center"} style={{marginTop: 6,}}>
+                <Grid item xs={12} md={3}>
                     <ThemeSelector cards_data={card_data?.me?.cardSet}
-                    changeSelectedData={(data)=>{
-                        setCardsDataAfterSelectTheme(data)
-                    }}/>
-                </Col>
-                <Col className="col-md-3 col-12">
+                                   changeSelectedData={(data)=>{
+                                       setCardsDataAfterSelectTheme(data)
+                                   }}/>
+                </Grid>
+                <Grid item xs={12} md={3}>
                     {cardsDataAfterSelectTheme &&
                     <ContentTypeSelector cards_data={cardsDataAfterSelectTheme}
                                          ChangeSelectedData={(data) =>{
                                              // console.log(data)
                                              setCardsDataAfterSelectContentType(data)
                                          }}/>}
-                </Col>
-                <Col className="col-md-3 col-12">
+                </Grid>
+                <Grid item xs={12} md={3}>
                     {cardsDataAfterSelectContentType &&
                     <AuthorSelector cards_data={cardsDataAfterSelectContentType}
                                     ChangeSelectedData={(data) =>{
                                         // console.log(data)
                                         setCardsDataAfterSelectAuthor(data)
                                     }}/>}
-                </Col>
-
-
-            </Row>
-            <Row className="justify-content-around col-12 pl-3 pr-3 ">
+                </Grid>
+            </Grid>
+            <Row className="justify-content-around col-12" style={{overflowX: 'auto'}}>
                 <CreateNewCard className="mt-3 col-12 col-md-3 ml-1" onCreate={() =>refetch()}/>
                 {cardsDataAfterSelectAuthor && sort(cardsDataAfterSelectAuthor)
                     .desc((card: any) => Number(card?.id))
@@ -124,7 +124,7 @@ export default function MainCardEditor({...props}: any){
                         )
                 })}
             </Row>
-            <Grid container justifyContent="center" style={{marginTop: 12}}>
+            <Grid container justifyContent="center" style={{marginTop: 12, overflowX: 'auto'}}>
                 <Grid item xs="auto">
                     <Pagination
                         shape="rounded"

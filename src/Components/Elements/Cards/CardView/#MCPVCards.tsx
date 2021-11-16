@@ -9,7 +9,7 @@ export const MCPVCards = observer(({cardsDataForRender}) => {
     const history = useHistory();
     return(
         <div>
-            <Row className="justify-content-around col-12">
+            <Row className="justify-content-around col-12"  style={{overflow: 'auto'}}>
                 {cardsDataForRender?.length > 0 && cardsDataForRender
                     ?.map((sameCard: any, sIndex) =>{
                         return(

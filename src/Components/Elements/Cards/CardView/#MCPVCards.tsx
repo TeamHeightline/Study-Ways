@@ -16,7 +16,6 @@ export const MCPVCards = observer(({cardsDataForRender}) => {
                             <Grow in={true}  key={sIndex+ "CardMicroView"}>
                                 <div>
                                     <CardMicroView
-                                        disableReload={true}
                                         className="mt-2" cardID={sameCard.id}
                                         onChange={(data) =>{
                                             history.push('/card/' + data)

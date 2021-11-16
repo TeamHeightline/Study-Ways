@@ -1,43 +1,54 @@
 import React, {useEffect, useState} from 'react'
-import Typography from "@mui/material/Typography";
 import _ from 'lodash'
 import {observer} from "mobx-react";
 import {CardPageStorage} from "../../../../../Store/PublicStorage/CardsPage/CardPageStorage";
-import {FormControl, InputLabel, MenuItem, Select, Stack, TextField} from "@mui/material";
+import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {CardNode} from "../../../../../SchemaTypes";
 
-export const  ContentTypeSelector = observer(({cards_data, ...props}: any) =>{
+interface ContentTypeSelectorProps extends React.HTMLAttributes<HTMLDivElement> {
+    cards_data?: CardNode[],
+    openFromPublicView?: boolean,
+    changeSelectedData?: any,
+}
+
+export const ContentTypeSelector = observer(({
+                                                 cards_data,
+                                                 openFromPublicView,
+                                                 changeSelectedData,
+                                                 ...props
+                                             }: ContentTypeSelectorProps) => {
     const [selectedContentType, setSelectedContentType] = useState<any>(1000000)
-    function makeFiltering(){
+
+    function makeFiltering() {
         if (Number(selectedContentType) != 1000000) {
-            props.ChangeSelectedData(_.filter(cards_data, {'cardContentType': "A_" + selectedContentType}))
+            changeSelectedData(_.filter(cards_data, {'cardContentType': "A_" + selectedContentType}))
         } else {
-            props.ChangeSelectedData(cards_data)
+            changeSelectedData(cards_data)
         }
     }
-    useEffect(() =>{
+
+    useEffect(() => {
         makeFiltering()
-       }, [cards_data])
+    }, [cards_data])
 
-    return(
-        <Stack direction={"row"} alignItems={"center"} {...props} spacing={2} >
-            <Typography variant="h6" gutterBottom>
-                Тип:
-            </Typography>
-
+    return (
+        <div {...props} >
+            <FormControl fullWidth>
+                <InputLabel>Тип карточки:</InputLabel>
                 <Select
                     fullWidth
-                    style={{width: "100%", maxWidth: 600, }}
-                    label=""
-                    value={!props?.openFromPublicView ? selectedContentType: CardPageStorage.selectedContentType}
+                    style={{width: "100%", maxWidth: 600,}}
+                    label="Тип карточки:"
+                    value={!openFromPublicView ? selectedContentType : CardPageStorage.selectedContentType}
                     onChange={(event) => {
-                        if(!props?.openFromPublicView){
+                        if (!openFromPublicView) {
                             setSelectedContentType(event.target.value)
                             if (Number(event.target.value) != 1000000) {
-                                props.ChangeSelectedData(_.filter(cards_data, {'cardContentType': "A_" + event.target.value}))
+                                changeSelectedData(_.filter(cards_data, {'cardContentType': "A_" + event.target.value}))
                             } else {
-                                props.ChangeSelectedData(cards_data)
+                                changeSelectedData(cards_data)
                             }
-                        }else{
+                        } else {
                             CardPageStorage.changeContentType(event.target.value)
                         }
                     }}
@@ -47,6 +58,7 @@ export const  ContentTypeSelector = observer(({cards_data, ...props}: any) =>{
                     <MenuItem value={1}>Внешний ресурс</MenuItem>
                     <MenuItem value={2}>Изображение</MenuItem>
                 </Select>
-        </Stack>
+            </FormControl>
+        </div>
     )
 })

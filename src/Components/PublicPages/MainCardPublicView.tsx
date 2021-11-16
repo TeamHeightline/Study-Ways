@@ -1,5 +1,4 @@
 import React, {useEffect, useMemo} from 'react'
-import {Col, Row} from "react-bootstrap";
 import {ThemeSelector} from "../Elements/Cards/Editor/MainCardEditor/#ThemeSelector";
 import {ContentTypeSelector} from "../Elements/Cards/Editor/MainCardEditor/#ContentTypeSelector";
 import {AuthorSelector} from "../Elements/Cards/Editor/MainCardEditor/#AuthorSelector";
@@ -7,68 +6,73 @@ import {CardPageStorage} from "../../Store/PublicStorage/CardsPage/CardPageStora
 import {observer} from "mobx-react";
 import {toJS} from "mobx";
 import {CircularProgress, Grid, Snackbar} from "@mui/material";
-import { Alert, Pagination } from '@mui/material';
+import {Alert, Pagination} from '@mui/material';
 import {MCPVSearchString} from "../Elements/Cards/CardView/#MCPVSearchString";
 import {MCPVCards} from "../Elements/Cards/CardView/#MCPVCards";
+import {isMobileHook} from "../../CustomHooks/isMobileHook";
 
-export const MainCardPublicView = observer(({...props}: any) =>{
-    useEffect(() =>{CardPageStorage.getCardsDataFromServer()}, [])
+export const MainCardPublicView = observer(({...props}: any) => {
+    useEffect(() => {
+        CardPageStorage.getCardsDataFromServer()
+    }, [])
+    const isMobile = isMobileHook()
 
-    const memorizedCardsForDisplay = useMemo(() => <MCPVCards cardsDataForRender={toJS(CardPageStorage.cardsDataForRender)}/>,
+    const memorizedCardsForDisplay = useMemo(() => <MCPVCards
+            cardsDataForRender={toJS(CardPageStorage.cardsDataForRender)}/>,
         [toJS(CardPageStorage.cardsDataForRender)[0]?.id, toJS(CardPageStorage.cardsDataForRender)[1]?.id,
             toJS(CardPageStorage.cardsDataForRender)[2]?.id])
     return (
-        <div {...props}>
+        <div {...props} style={{paddingTop: isMobile? 0: 3}}>
             <MCPVSearchString/>
-            <Row className="mt-3 justify-content-around col-12">
-                <Col className="col-lg-4 col-12">
+            <Grid container justifyContent={"space-around"} alignItems={"center"} rowSpacing={1}
+                  style={{paddingTop: isMobile? 0: 9}}>
+                <Grid item xs={12} md={3}>
                     <ThemeSelector openFromPublicView={true}
                                    cards_data={[]}
-                                   changeSelectedData={()=>{
-                                       void(0)
+                                   changeSelectedData={() => {
+                                       void (0)
                                    }}/>
-
-                </Col>
-                <Col className="col-lg-3 col-12">
+                </Grid>
+                <Grid item xs={12} md={3}>
                     {CardPageStorage.cardsDataAfterSelectTheme &&
                     <ContentTypeSelector
                         openFromPublicView={true}
                         cards_data={[]}
-                        ChangeSelectedData={() =>{
-                             // console.log(data)
-                            void(0)
+                        changeSelectedData={() => {
+                            // console.log(data)
+                            void (0)
                         }}/>}
-                </Col>
-                <Col className=" col-lg-3 col-12">
+                </Grid>
+                <Grid item xs={12} md={3}>
                     {CardPageStorage.cardsDataAfterSelectContentType &&
                     <AuthorSelector cards_data={[]}
                                     openFromPublicView={true}
-                                    ChangeSelectedData={() =>{
-                                        void(0)
+                                    changeSelectedData={() => {
+                                        void (0)
                                     }}/>}
-                </Col>
-            </Row>
+                </Grid>
+            </Grid>
 
-            <Grid container justifyContent="center" style={{marginTop: 12}}>
+            <Grid container justifyContent="center" >
                 <Grid item>
-                    {!toJS(CardPageStorage.cardsDataForRender).length && <CircularProgress />}
+                    {!toJS(CardPageStorage.cardsDataForRender).length && <div style={{marginTop: 12}}><CircularProgress/></div>}
                 </Grid>
             </Grid>
             {memorizedCardsForDisplay}
             {toJS(CardPageStorage.cardsDataForRender).length !== 0 && CardPageStorage.cardsDataForRender &&
-                <Grid container justifyContent="center" style={{marginTop: 12}}>
-                    <Grid item>
-                            <Pagination
-                                page={CardPageStorage.pageNumber}
-                                onChange={(e, value) =>
-                                    CardPageStorage.changeActiveCardMicroViewPage(value)}
-                                size="large"
-                                count={CardPageStorage.numberOfPages}
-                                shape="rounded" />
-                    </Grid>
-                </Grid>}
-            <Snackbar open={true} autoHideDuration={6000} >
-                <Alert  severity="success">
+            <Grid container justifyContent="center" style={{marginTop: 12}}>
+                <Grid item>
+                    <Pagination
+                        page={CardPageStorage.pageNumber}
+                        onChange={(e, value) =>
+                            CardPageStorage.changeActiveCardMicroViewPage(value)}
+                        size="large"
+                        count={CardPageStorage.numberOfPages}
+                        shape="rounded"/>
+                </Grid>
+            </Grid>}
+            <Snackbar open={true} autoHideDuration={6000}>
+                <Alert severity="success">
                     Обновить данные
                 </Alert>
             </Snackbar>

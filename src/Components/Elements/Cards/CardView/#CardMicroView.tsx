@@ -15,7 +15,13 @@ import ImageIcon from '@mui/icons-material/Image';
 import {GET_CARD_FOR_MICRO_VIEW_BY_ID, useStyles} from "./Struct"
 import { Skeleton } from '@mui/material';
 
-export default function CardMicroView({cardID = 1, ...props}: any){
+interface ICardMicroViewProps extends React.HTMLAttributes<HTMLDivElement> {
+    cardID: number,
+    isEditNow?: boolean,
+    isNowEditableCard?: boolean,
+    onChange?: any,
+}
+export default function CardMicroView({cardID = 1, isEditNow, isNowEditableCard, onChange, ...props}: ICardMicroViewProps){
     const classes = useStyles();
     const [cardImage, setCardImage] = useState()
     const get_card_image = () =>{
@@ -49,16 +55,16 @@ export default function CardMicroView({cardID = 1, ...props}: any){
         get_card_image()
     }, [card_data?.cardById?.cardContentType])
     useEffect(() =>{
-        if(props?.isNowEditableCard){
+        if(isNowEditableCard){
             refetch()
         }
-    } , [props?.isEditNow, props?.isNowEditableCard])
+    } , [isEditNow, isNowEditableCard])
 
     if (!card_data){
         return (
             // <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
             <div {...props} id={"CMV-loading-skeleton"}>
-                <Card variant="outlined" className={classes.root} onClick={() =>{props.onChange(cardID)}}>
+                <Card variant="outlined" className={classes.root} onClick={() =>{onChange(cardID)}}>
                     <Row>
                         <Skeleton variant="rectangular" width={130} height={170} />
                     </Row>
@@ -72,7 +78,7 @@ export default function CardMicroView({cardID = 1, ...props}: any){
             {...props}>
             <Card variant="outlined" className={classes.root}
                   onClick={() =>{
-                props.onChange(cardID)
+                onChange(cardID)
             }} >
                 <Grid container>
                     <Grid item xs={4}>

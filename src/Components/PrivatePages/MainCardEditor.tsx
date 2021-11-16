@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import CardMicroView from "../Elements/Cards/CardView/#CardMicroView";
-import {Col, Row} from "react-bootstrap";
+import { Row} from "react-bootstrap";
 import CardEditByID from "../Elements/Cards/Editor/CardEditByID/CardEditByID";
 import {AuthorSelector} from "../Elements/Cards/Editor/MainCardEditor/#AuthorSelector";
 import CreateNewCard from "../Elements/Cards/Editor/MainCardEditor/#CreateNewCard";
@@ -9,7 +9,7 @@ import {gql} from "graphql.macro";
 import {ContentTypeSelector} from "../Elements/Cards/Editor/MainCardEditor/#ContentTypeSelector";
 import {ThemeSelector} from "../Elements/Cards/Editor/MainCardEditor/#ThemeSelector";
 import {sort} from "fast-sort";
-import {Pagination, Stack} from '@mui/material';
+import {Pagination} from '@mui/material';
 import {CircularProgress, Grid} from "@mui/material";
 import {isMobileHook} from "../../CustomHooks/isMobileHook";
 
@@ -82,9 +82,9 @@ export default function MainCardEditor({...props}: any){
         );
     }
     return (
-        <div style={{paddingLeft: 15, overflowX: 'auto'}}>
-            <Grid container justifyContent={"space-around"} alignItems={"center"} style={{marginTop: 6,}}>
-                <Grid item xs={12} md={3}>
+        <div style={{paddingLeft: 24, overflowX: 'auto', paddingTop: isMobile? 0: 24}}>
+            <Grid container justifyContent={"space-around"} alignItems={"center"} rowSpacing={1} >
+                <Grid item xs={12} md={3} >
                     <ThemeSelector cards_data={card_data?.me?.cardSet}
                                    changeSelectedData={(data)=>{
                                        setCardsDataAfterSelectTheme(data)
@@ -93,16 +93,14 @@ export default function MainCardEditor({...props}: any){
                 <Grid item xs={12} md={3}>
                     {cardsDataAfterSelectTheme &&
                     <ContentTypeSelector cards_data={cardsDataAfterSelectTheme}
-                                         ChangeSelectedData={(data) =>{
-                                             // console.log(data)
+                                         changeSelectedData={(data) =>{
                                              setCardsDataAfterSelectContentType(data)
                                          }}/>}
                 </Grid>
                 <Grid item xs={12} md={3}>
                     {cardsDataAfterSelectContentType &&
                     <AuthorSelector cards_data={cardsDataAfterSelectContentType}
-                                    ChangeSelectedData={(data) =>{
-                                        // console.log(data)
+                                    changeSelectedData={(data) =>{
                                         setCardsDataAfterSelectAuthor(data)
                                     }}/>}
                 </Grid>

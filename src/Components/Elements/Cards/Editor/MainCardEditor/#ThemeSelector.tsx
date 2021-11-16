@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react'
 import {gql, useQuery} from "@apollo/client";
-import { TreeSelect} from "antd";
-import {Spinner, Row, Col} from "react-bootstrap";
-import Typography from "@mui/material/Typography";
+import TreeSelect from "antd/es/tree-select";
+import {Spinner} from "react-bootstrap";
 import {CardPageStorage} from "../../../../../Store/PublicStorage/CardsPage/CardPageStorage";
 import {observer} from "mobx-react";
 import {toJS} from "mobx";
 import {sort} from "fast-sort";
-import {Stack} from "@mui/material";
-const { SHOW_CHILD } = TreeSelect;
+import {CardNode} from "../../../../../SchemaTypes";
+
+const {SHOW_CHILD} = TreeSelect;
 const GET_THEMES = gql`
     query GET_THEMES{
         cardGlobalTheme{
@@ -25,36 +25,46 @@ const GET_THEMES = gql`
         }
     }`
 
+interface IThemeSelectorProps extends React.HTMLAttributes<HTMLDivElement> {
+    cards_data?: CardNode[],
+    openFromPublicView?: boolean,
+    changeSelectedData?: any,
+}
 
-export const ThemeSelector = observer(({cards_data, ...props}: any) =>{
+export const ThemeSelector = observer(({
+                                           cards_data,
+                                           openFromPublicView,
+                                           changeSelectedData,
+                                           ...props
+                                       }: IThemeSelectorProps) => {
     const [dataForCardSubThemeSelect, setDataForCardThemeSelect] = useState<any>()
     const [cardSelectedThemeID, setCardSelectedThemeID] = useState<any>()
-    useEffect(()=>{
-        props.changeSelectedData(cards_data)
+    useEffect(() => {
+        changeSelectedData(cards_data)
     }, [cards_data])
-    const selectByThemes = (selected_themes) =>{
-        if(selected_themes.length === 0){
+    const selectByThemes = (selected_themes) => {
+        if (selected_themes.length === 0) {
             return (cards_data)
         }
         const selectedCardsArray: any = []
-        cards_data?.map((sameCard) =>{
-            sameCard?.subTheme?.map((sameThemeInSameCard)=>{
-                if(selected_themes.indexOf(sameThemeInSameCard.id * 1000000) !== -1){
-                    if(selectedCardsArray.indexOf(sameCard) === -1){
+        cards_data?.map((sameCard) => {
+            sameCard?.subTheme?.map((sameThemeInSameCard) => {
+                if (selected_themes.indexOf(Number(sameThemeInSameCard?.id) * 1000000) !== -1) {
+                    if (selectedCardsArray.indexOf(sameCard) === -1) {
                         selectedCardsArray.push(sameCard)
                     }
                 }
             })
         })
-        return(selectedCardsArray)
+        return (selectedCardsArray)
     }
-    const {data: _} = useQuery(GET_THEMES, {
+    useQuery(GET_THEMES, {
         onCompleted: themesData => {
             //сбор массива ID подтем
             const cardsThemesIDArray: any = []
-            cards_data?.map((sameCard) =>{
-                sameCard?.subTheme?.map((sameSubTheme) =>{
-                    if(cardsThemesIDArray.indexOf(sameSubTheme.id) == -1){
+            cards_data?.map((sameCard) => {
+                sameCard?.subTheme?.map((sameSubTheme) => {
+                    if (cardsThemesIDArray.indexOf(sameSubTheme.id) == -1) {
                         cardsThemesIDArray.push(sameSubTheme.id)
                     }
                 })
@@ -65,7 +75,7 @@ export const ThemeSelector = observer(({cards_data, ...props}: any) =>{
             //подтемы, темы и глобальные темы
 
             const data: any = []
-            themesData.cardGlobalTheme.map((GlobalTheme) =>{
+            themesData.cardGlobalTheme.map((GlobalTheme) => {
                 const ThisGlobalTheme: any = {}
                 ThisGlobalTheme.title = GlobalTheme.name
                 ThisGlobalTheme.id = GlobalTheme.id
@@ -73,7 +83,7 @@ export const ThemeSelector = observer(({cards_data, ...props}: any) =>{
                 ThisGlobalTheme.isLead = false
                 ThisGlobalTheme.pid = 0
                 let validGlobalThemeCounter = 0
-                GlobalTheme.cardthemeSet.map((Theme) =>{
+                GlobalTheme.cardthemeSet.map((Theme) => {
                     const ThisTheme: any = {}
                     ThisTheme.title = Theme.name
                     ThisTheme.id = Theme.id * 1000
@@ -81,8 +91,8 @@ export const ThemeSelector = observer(({cards_data, ...props}: any) =>{
                     ThisTheme.pId = ThisGlobalTheme.id
                     ThisGlobalTheme.isLead = false
                     let validSubThemeCounter = 0
-                    Theme.cardsubthemeSet.map((SubTheme) =>{
-                        if(cardsThemesIDArray.indexOf(SubTheme.id) !== -1){
+                    Theme.cardsubthemeSet.map((SubTheme) => {
+                        if (cardsThemesIDArray.indexOf(SubTheme.id) !== -1) {
                             validSubThemeCounter += 1
                             const ThisSubTheme: any = {}
                             ThisSubTheme.title = SubTheme.name
@@ -93,37 +103,37 @@ export const ThemeSelector = observer(({cards_data, ...props}: any) =>{
                             data.push(ThisSubTheme)
                         }
                     })
-                    if(validSubThemeCounter !== 0){
+                    if (validSubThemeCounter !== 0) {
                         data.push(ThisTheme)
                         validGlobalThemeCounter += 1
                     }
 
                 })
-                if(validGlobalThemeCounter !== 0){
+                if (validGlobalThemeCounter !== 0) {
                     data.push(ThisGlobalTheme)
                 }
 
             })
             console.log(data)
             setDataForCardThemeSelect(sort(data).asc([
-                (anyTheme: any) => anyTheme.title.replace(/\D/g,'').length != 0? Number(anyTheme.title.replace(/[^\d]/g, '')) : 10000000,
+                (anyTheme: any) => anyTheme.title.replace(/\D/g, '').length != 0 ? Number(anyTheme.title.replace(/[^\d]/g, '')) : 10000000,
                 (anyTheme: any) => anyTheme.title
             ]))
 
         }
     })
 
-    if(props.openFromPublicView ? !dataForCardSubThemeSelect : !toJS(CardPageStorage.dataForCardSubThemeSelect)){
-        return(
+    if (openFromPublicView ? !dataForCardSubThemeSelect : !toJS(CardPageStorage.dataForCardSubThemeSelect)) {
+        return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
     const tProps = {
         treeDataSimpleMode: true,
-        treeData: !props?.openFromPublicView ? dataForCardSubThemeSelect : toJS(CardPageStorage.dataForCardSubThemeSelect),
+        treeData: !openFromPublicView ? dataForCardSubThemeSelect : toJS(CardPageStorage.dataForCardSubThemeSelect),
         value: cardSelectedThemeID,
-        onChange: (data) =>{
-            props.changeSelectedData(selectByThemes(data))
+        onChange: (data) => {
+            changeSelectedData(selectByThemes(data))
             setCardSelectedThemeID(data)
         },
         treeCheckable: true,
@@ -134,13 +144,10 @@ export const ThemeSelector = observer(({cards_data, ...props}: any) =>{
         },
     };
 
-    return(
-        <Stack direction={"row"} alignItems={"center"} spacing={2}>
-                <Typography variant="h6" gutterBottom >
-                    Тема:
-                </Typography>
-                {!(props.openFromPublicView ? !dataForCardSubThemeSelect : !toJS(CardPageStorage.dataForCardSubThemeSelect))
-                && <TreeSelect  {...props?.openFromPublicView ? CardPageStorage.tProps : tProps}/>}
-        </Stack>
+    return (
+        <div {...props}>
+            {!(openFromPublicView ? !dataForCardSubThemeSelect : !toJS(CardPageStorage.dataForCardSubThemeSelect))
+            && <TreeSelect  {...openFromPublicView ? CardPageStorage.tProps : tProps}/>}
+        </div>
     )
 })

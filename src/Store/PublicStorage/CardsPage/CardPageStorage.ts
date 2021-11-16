@@ -2,7 +2,7 @@ import {makeAutoObservable, reaction, toJS} from "mobx";
 import {ClientStorage} from "../../ApolloStorage/ClientStorage";
 import {GET_ALL_CARDS, GET_CARDS_ID_BY_SEARCH_STRING, GET_THEMES} from "./Struct";
 import {CardNode, GlobalCardThemeNode, Maybe} from "../../../SchemaTypes";
-import {TreeSelect} from "antd";
+import TreeSelect from "antd/es/tree-select";
 import _ from "lodash";
 import {sort} from "fast-sort";
 const { SHOW_CHILD } = TreeSelect;

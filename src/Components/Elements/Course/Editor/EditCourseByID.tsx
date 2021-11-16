@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react'
-import {Row} from "antd";
 import MainCardEditor from "../../../PrivatePages/MainCardEditor";
 import CourseRow from "./#CourseRow";
 import {gql} from "graphql.macro";
 import {useMutation, useQuery} from "@apollo/client";
-import {Spinner} from "react-bootstrap";
+import {Row, Spinner} from "react-bootstrap";
 import { Alert, Pagination } from '@mui/material';
 import {Button, ButtonGroup, Grid, Snackbar, TextField, Typography} from "@mui/material";
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";

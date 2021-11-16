@@ -3,9 +3,8 @@ import {Button,  Container} from "@mui/material";
 import {gql} from "graphql.macro";
 import {useMutation, useQuery} from "@apollo/client";
 import EditCourseByID, {CourseLines} from "../Elements/Course/Editor/EditCourseByID";
-import {Col} from "antd";
-import {Row} from "antd";
 import CourseMicroView from "../Elements/Course/Editor/CourseMicroView";
+import {Col, Row} from "react-bootstrap";
 
 
 const CREATE_COURSE_WITH_DEFAULT_VALUE = gql`

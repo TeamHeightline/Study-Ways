@@ -1,11 +1,10 @@
 import React from 'react'
-import {Row} from "antd";
 import RowFragment from "./##RowFragment";
 
 export default function NavigationRow({courseRow, openPage, ...props}: any){
     // console.log(courseRow)
     return(
-        <Row>
+        <div>
             <RowFragment
                 buttonClick={(data) =>{
                     props.buttonClick({
@@ -19,6 +18,6 @@ export default function NavigationRow({courseRow, openPage, ...props}: any){
                 rowFragment={courseRow.SameLine[openPage - 1]}
                 cardPositionData={props.cardPositionData}/>
 
-        </Row>
+        </div>
     )
 }

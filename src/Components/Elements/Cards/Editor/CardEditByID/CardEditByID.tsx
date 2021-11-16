@@ -10,7 +10,8 @@ import ReactPlayer from "react-player";
 
 
 import {useMutation, useQuery} from "@apollo/client";
-import {Upload, message} from 'antd';
+import Upload from 'antd/es/upload';
+import message from 'antd/es/message';
 import {InboxOutlined} from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import {Alert} from '@mui/material';

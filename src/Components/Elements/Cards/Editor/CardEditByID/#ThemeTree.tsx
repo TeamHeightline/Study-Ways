@@ -1,7 +1,6 @@
 import React from "react";
-import {TreeSelect} from "antd";
+import TreeSelect from "antd/es/tree-select";
 import {Spinner} from "react-bootstrap";
-import {sort} from "fast-sort";
 const { SHOW_CHILD } = TreeSelect;
 export default function ThemeTree({dataForThemeTreeView, cardSelectedThemeID, cardSelectedThemeIDHandle }: any){
     const tProps = {

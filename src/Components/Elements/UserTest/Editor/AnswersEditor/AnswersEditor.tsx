@@ -4,7 +4,7 @@ import {QuestionEditorStorage} from "../../../../../Store/PrivateStorage/Editors
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import {Collapse, Grid, Switch} from "@mui/material";
+import {Collapse, Grid, Stack, Switch} from "@mui/material";
 import {AnswerText} from "./#AnswerText";
 import {AnswerHelpTextV1} from "./#AnswerHelpTextV1";
 import {AnswerHelpTextV2} from "./#AnswerHelpTextV2";
@@ -21,6 +21,7 @@ import {AnswerDeleteDialog} from "./#AnswerDeleteDialog";
 import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
 import {AnswerIsRequired} from "./#AnswerIsRequired";
+import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -36,6 +37,7 @@ const useStyles = makeStyles(() =>
 
 export const AnswersEditor = observer(() => {
     const classes = useStyles();
+    const isMobile = isMobileHook()
     if(!QuestionEditorStorage.questionHasBeenSelected){
         return (
             <></>
@@ -46,17 +48,16 @@ export const AnswersEditor = observer(() => {
         {QuestionEditorStorage.answers.filter(answer => answer.isDeleted === false)?.map((answer) =>{
             console.log(answer.isRequired)
             return (
-                <div className=" pr-md-5 mt-3 " key={answer.id + "AnswerKey"}>
+                <div className={isMobile ? "mt-3": "pr-md-5 mt-3"} key={answer.id + "AnswerKey"}>
                     <Paper  variant="outlined">
                         <br/>
-                        <Grid container spacing={1} xs={12} >
-                            <Grid item xs={11}>
-                                <Typography className="pl-5" variant="h6"  color="inherit">{"ID: " + answer.id + " " + answer.text}</Typography>
-                            </Grid>
-                            <Grid item xs={1}>
-                                <AnswerDeleteOrDisableAnswerMenu answer={answer}/>
-                            </Grid>
-                        </Grid>
+                        <Stack direction={"row"} >
+                            <Typography className={isMobile ? "pl-2": "pl-5"} variant={isMobile ? "body1":"h6"}
+                                        color="inherit">
+                                {"ID: " + answer.id + " " + answer.text}
+                            </Typography>
+                            <AnswerDeleteOrDisableAnswerMenu answer={answer}/>
+                        </Stack>
                         <AnswerDeleteDialog answer={answer}/>
 
                         <FormControlLabel
@@ -67,7 +68,8 @@ export const AnswersEditor = observer(() => {
                         />
                         <Collapse in={QuestionEditorStorage.activeEditAnswerIDSet.has(answer.id)}>
                             <div >
-                                <Grid container spacing={8} justifyContent="space-around" className={classes.answerContent}>
+                                <Grid container spacing={isMobile? 0: 8} justifyContent="space-around"
+                                      className={!isMobile ? classes.answerContent: ""}>
                                     <Grid item md={6} xs={12} >
                                         <AnswerText answer={answer} />
                                         <AnswerHelpTextV1 answer={answer} style={{marginTop: 12}}/>

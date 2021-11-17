@@ -14,7 +14,7 @@ export const QSShowAllOrMyQSFlag = observer(() =>{
                         onChange={() => StatisticPageStoreObject.changeShowOnlyMyQSStatistic()}
                     />
                 }
-                label="Показать только мои серии вопросов"
+                label="Только мои серии вопросов"
             />
         </div>
     )

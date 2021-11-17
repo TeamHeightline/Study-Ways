@@ -6,9 +6,11 @@ import {MainPageQuestionsForSelect} from "../Elements/Statistic/#MainPageQuestio
 import {MainPageTopMenu} from "../Elements/Statistic/#MainPageTopMenu";
 import {StatisticPageStoreObject} from "../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticPageStore";
 import {MainPageQSForSelect} from "../Elements/Statistic/#MainPageQSForSelect";
+import {isMobileHook} from "../../CustomHooks/isMobileHook";
 
 
 export const MainStatistic = observer(() =>{
+    const isMobile = isMobileHook()
     useEffect(() =>StatisticPageStoreObject.loadQuestionsDataFromServer(), [])
 
     console.log(StatisticPageStoreObject.activePageOnTopMenu)
@@ -21,7 +23,7 @@ export const MainStatistic = observer(() =>{
     }
     if(StatisticPageStoreObject.activePageOnTopMenu === 2 && StatisticPageStoreObject.isOpenQuestion){
         return(
-            <div className="pl-3">
+            <div className={isMobile? "" : "pl-3"}>
                 <MainPageTopMenu/>
                 <StatisticByQuestionsData/>
             </div>
@@ -30,7 +32,7 @@ export const MainStatistic = observer(() =>{
 
     if(StatisticPageStoreObject.isOpenQuestion){
         return (
-            <div className="pl-3">
+            <div className={isMobile? "" : "pl-3"}>
                 <StatisticByQuestionsData/>
             </div>
         )
@@ -39,7 +41,7 @@ export const MainStatistic = observer(() =>{
     return(
         <div>
             <MainPageTopMenu/>
-            <Row className="justify-content-around pl-5 col-12">
+            <Row className={isMobile? "" : "justify-content-around pl-5 col-12"}>
                 {StatisticPageStoreObject.activePageOnTopMenu === 0 &&
                 <MainPageQuestionsForSelect/>}
                 {StatisticPageStoreObject.activePageOnTopMenu === 1 &&

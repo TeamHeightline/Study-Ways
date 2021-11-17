@@ -18,7 +18,7 @@ import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 export const EditQuestionByID = observer(() =>{
     const isMobile = isMobileHook()
     return(
-        <div style={{paddingLeft: 40, paddingRight: 10}}>
+        <div style={{paddingLeft: isMobile? 0: 40, paddingRight: 10}}>
             <Button
                 className="col-12 col-md-2 mt-2"
                 variant="outlined" color="primary" onClick={() => {
@@ -32,14 +32,6 @@ export const EditQuestionByID = observer(() =>{
                     <Grid item xs={12} md={6}>
                         <QuestionText/>
                     </Grid>
-                    {/*<Grid item xs={12} md={6} container columnSpacing={6}>*/}
-                    {/*    <Grid item xs={12} md={6}>*/}
-                    {/*        <ThemeSelector/>*/}
-                    {/*    </Grid>*/}
-                    {/*    <Grid item xs={12} md={6}>*/}
-                    {/*        <AuthorSelector/>*/}
-                    {/*    </Grid>*/}
-                    {/*</Grid>*/}
                     <Grid item xs={12} md={6}>
                         {QuestionEditorStorage?.questionHasBeenSelected && <QuestionNumberOfShowingAnswers/>}
                     </Grid>
@@ -54,12 +46,9 @@ export const EditQuestionByID = observer(() =>{
                             <AuthorSelector/>
                         </Grid>
                     </Grid>
-                    {/*<Grid item xs={12} md={6}>*/}
-                    {/*    {QuestionEditorStorage?.questionHasBeenSelected && <QuestionNumberOfShowingAnswers/>}*/}
-                    {/*</Grid>*/}
                 </Grid>
             }
-            <Stack direction={{xs: 'column', sm: 'row' }} className="mt-2" spacing={2} >
+            <Stack direction={{xs: 'column', sm: 'row' }} className="mt-2" spacing={isMobile? 0: 2} >
                 <ImageForQuestion/>
                 <QuestionSrc/>
                 <SavingNotification/>

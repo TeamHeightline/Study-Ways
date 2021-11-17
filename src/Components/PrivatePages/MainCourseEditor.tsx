@@ -63,7 +63,7 @@ export default function MainCourseEditor() {
                     {own_course_data?.me.cardcourseSet.map((course) =>{
                         return(
                             <Col key={"CourseID" + course.id}>
-                                <CourseMicroView key={course.id} course={course} className="ml-3 mt-4" cIndex={course.id}
+                                <CourseMicroView key={course.id} course={course} className="ml-1 mt-4" cIndex={course.id}
                                                  buttonClick={data =>console.log(data)}
                                                  onEdit={(data) =>{
                                                      setSelectedCourseID(data)

@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import {QuestionEditor} from "./QuestionEditor";
-import { Alert } from '@mui/material';
+import {Alert, Button, Grid} from '@mui/material';
 import AlertTitle from '@mui/material/AlertTitle';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import MainCardEditor from "./MainCardEditor";
@@ -37,43 +37,15 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import {MainStatistic} from "./MainStatistic";
 import {Tooltip, Typography} from "@mui/material";
 import {MainUserQuestionPage} from "./MainUserQuestionPage";
-
+import MenuIcon from '@mui/icons-material/Menu';
+import {isMobileHook} from "../../CustomHooks/isMobileHook";
 const drawerWidth = 70;
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        root: {
-            display: 'flex',
-        },
-        appBar: {
-            zIndex: theme.zIndex.drawer + 1,
-            transition: theme.transitions.create(['width', 'margin'], {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.leavingScreen,
-            }),
-        },
-        appBarShift: {
-            marginLeft: drawerWidth,
-            width: `calc(100% - ${drawerWidth}px)`,
-            transition: theme.transitions.create(['width', 'margin'], {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
-        },
-        menuButton: {
-            marginRight: 36,
-        },
-        hide: {
-            display: 'none',
-        },
-        drawer: {
-            width: drawerWidth,
-            flexShrink: 0,
-            whiteSpace: 'nowrap',
-        },
         drawerOpen: {
             marginTop: "50px",
-            width: drawerWidth,
+            width: theme.spacing(7) + 1,
             transition: theme.transitions.create('width', {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.enteringScreen,
@@ -86,22 +58,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 duration: theme.transitions.duration.leavingScreen,
             }),
             overflowX: 'hidden',
-            width: theme.spacing(7) + 1,
-            // [theme.breakpoints.up('sm')]: {
-            //     width: theme.spacing(9) + 1,
-            // },
-        },
-        toolbar: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            padding: theme.spacing(0, 1),
-            // necessary for content to be below app bar
-            ...theme.mixins.toolbar,
-        },
-        content: {
-            flexGrow: 1,
-            padding: theme.spacing(3),
+            width: drawerWidth,
         },
     }),
 );
@@ -112,8 +69,8 @@ export const EditorsRouter = observer(() =>{
     const { path } = useRouteMatch();
     const location = useLocation();
     const classes = useStyles();
-    const [open, setOpen] = React.useState(true);
-
+    const [open, setOpen] = React.useState(false);
+    const isMobile = isMobileHook()
 
     const handleDrawer = () => {
         setOpen(!open);
@@ -146,7 +103,10 @@ export const EditorsRouter = observer(() =>{
     return (
         <div>
             <Drawer
-                variant="permanent"
+                variant={isMobile? "temporary": "permanent"}
+                open={open}
+                onClose={()=> setOpen(!open)}
+
                 classes={{
                     paper: clsx({
                         [classes.drawerOpen]: open,
@@ -162,7 +122,12 @@ export const EditorsRouter = observer(() =>{
                 <Divider />
                 <List>
                     <Tooltip title={<Typography variant="body1">Редактор курсов</Typography>}>
-                        <ListItem button onClick={() => history.push(`${path}/course`)}>
+                        <ListItem button onClick={() => {
+                            if(isMobile){
+                                setOpen(false)
+                            }
+                            history.push(`${path}/course`)
+                        }}>
                             <ListItemIcon>
                                 <BlurLinearIcon/>
                             </ListItemIcon>
@@ -170,7 +135,11 @@ export const EditorsRouter = observer(() =>{
                         </ListItem>
                     </Tooltip>
                     <Tooltip title={<Typography variant="body1">Редактор карточек</Typography>}>
-                        <ListItem button onClick={() => history.push(`${path}/card`)}>
+                        <ListItem button onClick={() => {
+                            if(isMobile){
+                                setOpen(false)
+                            }
+                            history.push(`${path}/card`)}}>
                             <ListItemIcon>
                                 <ArtTrackIcon/>
                             </ListItemIcon>
@@ -178,7 +147,11 @@ export const EditorsRouter = observer(() =>{
                         </ListItem>
                     </Tooltip>
                     <Tooltip title={<Typography variant="body1">Темы и авторы</Typography>}>
-                        <ListItem button onClick={() => history.push(`${path}/se`)}>
+                        <ListItem button onClick={() => {
+                            if(isMobile){
+                                setOpen(false)
+                            }
+                            history.push(`${path}/se`)}}>
                             <ListItemIcon>
                                 <RecentActorsIcon/>
                             </ListItemIcon>
@@ -186,7 +159,11 @@ export const EditorsRouter = observer(() =>{
                         </ListItem>
                     </Tooltip>
                     <Tooltip title={<Typography variant="body1">Редактор вопросов</Typography>}>
-                        <ListItem button onClick={() => history.push(`${path}/question`)}>
+                        <ListItem button onClick={() => {
+                            if(isMobile){
+                                setOpen(false)
+                            }
+                            history.push(`${path}/question`)}}>
                             <ListItemIcon>
                                 <FormatListBulletedIcon/>
                             </ListItemIcon>
@@ -194,7 +171,11 @@ export const EditorsRouter = observer(() =>{
                         </ListItem>
                     </Tooltip>
                     <Tooltip title={<Typography variant="body1">Редактор серии вопросов</Typography>}>
-                        <ListItem button onClick={() => history.push(`${path}/qse`)}>
+                        <ListItem button onClick={() => {
+                            if(isMobile){
+                                setOpen(false)
+                            }
+                            history.push(`${path}/qse`)}}>
                             <ListItemIcon>
                                 <LinearScaleIcon/>
                             </ListItemIcon>
@@ -202,7 +183,9 @@ export const EditorsRouter = observer(() =>{
                         </ListItem>
                     </Tooltip>
                     <Tooltip title={<Typography variant="body1">Статистика</Typography>}>
-                        <ListItem button onClick={() => history.push(`${path}/statistic`)}>
+                        <ListItem button onClick={() => {
+                            if(isMobile){setOpen(false)}
+                            history.push(`${path}/statistic`)}}>
                             <ListItemIcon>
                                 <BarChartIcon/>
                             </ListItemIcon>
@@ -211,7 +194,19 @@ export const EditorsRouter = observer(() =>{
                     </Tooltip>
                 </List>
             </Drawer>
-            <div className="pl-5">
+            {isMobile &&
+            <Grid container justifyContent="center">
+                <Grid item>
+                    <Button fullWidth variant="outlined"
+                            endIcon={<MenuIcon />} onClick={() => {
+                                setOpen(!open)
+                            }}
+                    >
+                        Меню
+                    </Button>
+                </Grid>
+            </Grid>}
+            <div className={isMobile? "" :"pl-5"}>
                 <Switch>
                     <Route  path={`${path}/course`} component={MainCourseEditor}/>
                     <Route  path={`${path}/card`} component={MainCardEditor}/>

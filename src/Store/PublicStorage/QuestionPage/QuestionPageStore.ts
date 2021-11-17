@@ -1,7 +1,7 @@
 import {action, computed, makeObservable, observable,  toJS} from "mobx";
 import {ClientStorage} from "../../ApolloStorage/ClientStorage";
 import {GET_ALL_QUESTIONS} from "./Struct";
-import _ from "lodash";
+import {some} from "lodash";
 import {Maybe, QuestionNode, QuestionThemesNode} from "../../../SchemaTypes";
 import {sort} from "fast-sort";
 
@@ -109,7 +109,7 @@ class QuestionPage{
         const authors: any = []
         toJS(this.questionsData).map((sameQuestion) => {
             sameQuestion?.author.map(async (sameAuthor) => {
-                if (!_.some(authors, sameAuthor)) {
+                if (!some(authors, sameAuthor)) {
                     authors.push(sameAuthor)
                 }
             })

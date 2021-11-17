@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useMutation, useQuery} from "@apollo/client";
-import * as _ from 'lodash';
+import {sortBy} from 'lodash';
 
 import {GET_MY_USER_TEST_THEMES, CREATE_NEW_USER_TEST_THEME, UPDATE_USER_TEST_THEME,
     columnsForAuthorsDataGrid } from "./Structs";
@@ -22,7 +22,7 @@ export default function LCUserTestThemeEditor(){
     const update_row_by_data = async(data) =>{
         if(data){
             const _rows: any = []
-            const sorted_questionthemesSet = _.sortBy(data.me.questionthemesSet, 'id');
+            const sorted_questionthemesSet = sortBy(data.me.questionthemesSet, 'id');
             sorted_questionthemesSet.map((sameTheme) =>{
                 _rows.push({id: sameTheme.id, name: sameTheme.name})
             })

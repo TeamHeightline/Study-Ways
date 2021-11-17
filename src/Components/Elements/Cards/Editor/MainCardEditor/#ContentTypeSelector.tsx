@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import _ from 'lodash'
+import {filter} from 'lodash'
 import {observer} from "mobx-react";
 import {CardPageStorage} from "../../../../../Store/PublicStorage/CardsPage/CardPageStorage";
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
@@ -21,7 +21,7 @@ export const ContentTypeSelector = observer(({
 
     function makeFiltering() {
         if (Number(selectedContentType) != 1000000) {
-            changeSelectedData(_.filter(cards_data, {'cardContentType': "A_" + selectedContentType}))
+            changeSelectedData(filter(cards_data, {'cardContentType': "A_" + selectedContentType}))
         } else {
             changeSelectedData(cards_data)
         }
@@ -44,7 +44,7 @@ export const ContentTypeSelector = observer(({
                         if (!openFromPublicView) {
                             setSelectedContentType(event.target.value)
                             if (Number(event.target.value) != 1000000) {
-                                changeSelectedData(_.filter(cards_data, {'cardContentType': "A_" + event.target.value}))
+                                changeSelectedData(filter(cards_data, {'cardContentType': "A_" + event.target.value}))
                             } else {
                                 changeSelectedData(cards_data)
                             }

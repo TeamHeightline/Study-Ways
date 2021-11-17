@@ -3,7 +3,7 @@ import {ClientStorage} from "../../ApolloStorage/ClientStorage";
 import {GET_ALL_CARDS, GET_CARDS_ID_BY_SEARCH_STRING, GET_THEMES} from "./Struct";
 import {CardNode, GlobalCardThemeNode, Maybe} from "../../../SchemaTypes";
 import TreeSelect from "antd/es/tree-select";
-import _ from "lodash";
+import {filter, find} from "lodash";
 import {sort} from "fast-sort";
 const { SHOW_CHILD } = TreeSelect;
 
@@ -184,7 +184,7 @@ class CardPage{
     //Массив данных о карточках после фильтрации по типу контента
     get cardsDataAfterSelectContentType(){
         if (Number(this.selectedContentType) != 1000000) {
-            return(_.filter(this.cardsDataAfterSelectTheme, {'cardContentType': "A_" + this.selectedContentType}))
+            return(filter(this.cardsDataAfterSelectTheme, {'cardContentType': "A_" + this.selectedContentType}))
         } else {
             return(this.cardsDataAfterSelectTheme)
         }
@@ -222,8 +222,8 @@ class CardPage{
         if(Number(this.selectedAuthor) === 1000000){
             return(toJS(this.cardsDataAfterSelectContentType))
         }else{
-            return (_.filter(toJS(this.cardsDataAfterSelectContentType), ((card) =>{
-                return (_.find(card.author, (item) => {
+            return (filter(toJS(this.cardsDataAfterSelectContentType), ((card) =>{
+                return (find(card.author, (item) => {
                     return(item.id == this.selectedAuthor)
                 }))
             })))

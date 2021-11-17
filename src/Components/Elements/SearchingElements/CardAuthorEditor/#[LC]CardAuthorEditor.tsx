@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {useMutation, useQuery} from "@apollo/client";
-import * as _ from 'lodash'
+import {sortBy} from 'lodash'
 import  {GET_CARD_AUTHOR, CREATE_NEW_AUTHOR, UPDATE_CARD_AUTHOR} from './Structs'
 import DCCardAuthorEditor from "./##[DC]CardAuthorEditor";
 
@@ -21,7 +21,7 @@ export default  function LCCardAuthorEditor(){
     const update_row_by_data = async (data) =>{
         if(data){
             const _rows: any = []
-            const sorted_cardauthorSet = _.sortBy(data.me.cardauthorSet, 'id');
+            const sorted_cardauthorSet = sortBy(data.me.cardauthorSet, 'id');
             sorted_cardauthorSet.map((sameAuthor) =>{
                 _rows.push({id: sameAuthor.id, name: sameAuthor.name})
             })

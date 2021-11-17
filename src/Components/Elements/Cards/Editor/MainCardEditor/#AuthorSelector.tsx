@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Spinner} from "react-bootstrap";
 import 'fontsource-roboto';
-import _ from 'lodash'
+import {filter, find} from 'lodash'
 import {observer} from "mobx-react";
 import {toJS} from "mobx";
 import {CardPageStorage} from "../../../../../Store/PublicStorage/CardsPage/CardPageStorage";
@@ -23,11 +23,11 @@ export const AuthorSelector = observer(({
     const [selectedAuthor, setSelectedAuthor] = useState<any>(1000000)
     const [authorsArray, setAuthorsArray] = useState<any>([])
     const get_cards_data_by_author_id = (author_id) => {
-        return (_.filter(cards_data, ((obj) => {
+        return (filter(cards_data, ((obj) => {
             if (obj.author.length === 0) {
                 return false
             }
-            return (_.find(obj.author, (item) => {
+            return (find(obj.author, (item) => {
                 return (item.id == author_id)
             }))
         })))

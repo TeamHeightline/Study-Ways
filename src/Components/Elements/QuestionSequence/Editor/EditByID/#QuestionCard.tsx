@@ -3,7 +3,7 @@ import {Card, Grid, TextField} from "@mui/material";
 import {Form} from "react-bootstrap";
 import {useQuery} from "@apollo/client";
 import {GET_ALL_QUESTIONS} from "../../../../../Store/PublicStorage/QuestionPage/Struct";
-import * as _ from "lodash"
+import {some} from "lodash"
 import { Autocomplete } from '@mui/material';
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -52,7 +52,7 @@ export default function QuestionCard({...props}: any) {
         data.question.map((sameQuestion) => {
             sameQuestion.author.map((sameAuthor) => {
                 if (sameAuthor.id === idOfAuthor) {
-                    if (!_.some(questionsAfterSelectedAuthor, sameQuestion)) {
+                    if (!some(questionsAfterSelectedAuthor, sameQuestion)) {
                         questionsAfterSelectedAuthor.push(sameQuestion)
                     }
                 }
@@ -60,7 +60,7 @@ export default function QuestionCard({...props}: any) {
         })
         questionsAfterSelectedAuthor.map((sameQuestion) => {
             sameQuestion.theme.map((sameTheme) => {
-                if (!_.some(themes, sameTheme)) {
+                if (!some(themes, sameTheme)) {
                     themes.push(sameTheme)
                 }
             })
@@ -73,7 +73,7 @@ export default function QuestionCard({...props}: any) {
         data.question.map((sameQuestion) => {
             sameQuestion.author.map((sameAuthor) => {
                 if (sameAuthor.id === justSelectedAuthor) {
-                    if (!_.some(questionsAfterSelectedAuthor, sameQuestion)) {
+                    if (!some(questionsAfterSelectedAuthor, sameQuestion)) {
                         questionsAfterSelectedAuthor.push(sameQuestion)
                     }
                 }
@@ -83,7 +83,7 @@ export default function QuestionCard({...props}: any) {
         questionsAfterSelectedAuthor.map((sameQuestion) => {
             sameQuestion.theme.map((sameTheme) => {
                 if (sameTheme.id === justSelectedTheme) {
-                    if (!_.some(questionsAfterSelectedTheme, sameQuestion)) {
+                    if (!some(questionsAfterSelectedTheme, sameQuestion)) {
                         questionsAfterSelectedTheme.push(sameQuestion)
                     }
                 }
@@ -96,7 +96,7 @@ export default function QuestionCard({...props}: any) {
             const authors: any = []
             data.question.map((sameQuestion) => {
                 sameQuestion.author.map(async (sameAuthor) => {
-                    if (!_.some(authors, sameAuthor)) {
+                    if (!some(authors, sameAuthor)) {
                         authors.push(sameAuthor)
                     }
                 })

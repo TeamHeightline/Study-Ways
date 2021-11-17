@@ -4,7 +4,7 @@ import {UserStorage} from "../../../UserStore/UserStore";
 import {GET_QS_DATA_BY_ID} from "./Struct";
 import {Query} from "../../../../SchemaTypes";
 import {SameQuestionPlayer} from "./SameQuestionPlayer";
-import * as _ from "lodash"
+import {shuffle} from "lodash"
 
 export class QSPlayerStore {
     constructor(){
@@ -82,7 +82,7 @@ export class QSPlayerStore {
                 .then((data) => {
                     this.name = String(data?.data?.questionSequenceById?.name)
                     //Перемешиваем вопросы
-                    _.shuffle(data?.data?.questionSequenceById?.sequenceData?.sequence).map((sameQuestion) =>{
+                    shuffle(data?.data?.questionSequenceById?.sequenceData?.sequence).map((sameQuestion) =>{
                         __questionsStoreArray.push(new SameQuestionPlayer(this, Number(sameQuestion)))
                     })
                     this.questionsStoreArray = __questionsStoreArray

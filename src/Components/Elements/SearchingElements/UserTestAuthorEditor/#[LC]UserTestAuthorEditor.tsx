@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {useMutation, useQuery} from "@apollo/client";
-import * as _ from 'lodash'
+import {sortBy} from 'lodash'
 
 import {GET_MY_USER_TEST_AUTHORS, columnsForAuthorsDataGrid, CREATE_NEW_USER_TEST_AUTHOR,
     UPDATE_USER_TEST_AUTHOR} from './Structs'
@@ -20,7 +20,7 @@ export default function LCUserTestAuthorEditor(){
     const update_row_by_data = async (data) =>{
         if(data){
             const _rows: any = []
-            const sorted_questionauthorSet = _.sortBy(data.me.questionauthorSet, 'id');
+            const sorted_questionauthorSet = sortBy(data.me.questionauthorSet, 'id');
             sorted_questionauthorSet.map((sameAuthor) =>{
                 _rows.push({id: sameAuthor.id, name: sameAuthor.name})
             })

@@ -32,7 +32,6 @@ export const ThemeTreeView = memo(function ThemeTreeView({
     }>({id: 0, parent: 0, text: "_"})
 
     useEffect(() => {
-        console.log(updateData)
         if (updateData.id !== 0) {
             updateTheme()
         }

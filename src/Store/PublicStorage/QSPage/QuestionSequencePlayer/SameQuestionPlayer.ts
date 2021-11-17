@@ -6,7 +6,7 @@ import {
     SAVE_DETAIL_STATISTIC_WITH_QS
 } from "./Struct";
 import {SameAnswerNode} from "./SameAnswerNode";
-import * as _ from "lodash"
+import {shuffle} from "lodash"
 import {UserStorage} from "../../../UserStore/UserStore";
 import CryptoJS from 'crypto-js'
 import {GET_CARDS_ID_BY_SEARCH_STRING} from "../../CardsPage/Struct";
@@ -280,10 +280,10 @@ export class SameQuestionPlayer{
                 //максимальное число баллов, которые можно получить выбрав все правильные ответы
                 let __maxSumOfAnswerPoints = 0
                 //Перемешиваем ответы и обрезаем из количество на значение из настроек
-                const __requiredAnswersForDisplay = _.shuffle(__decrypt_answers?.filter((answer) => answer.is_deleted === false)?.filter((answer) => answer.is_required === true))?.slice(0, __decrypt_question?.number_of_showing_answers)
-                const __notRequiredAnswersForDisplay = _.shuffle(__decrypt_answers?.filter((answer) => answer.is_deleted === false)?.filter((answer) => answer.is_required === false))?.slice(0, __decrypt_question?.number_of_showing_answers - __requiredAnswersForDisplay.length)
+                const __requiredAnswersForDisplay = shuffle(__decrypt_answers?.filter((answer) => answer.is_deleted === false)?.filter((answer) => answer.is_required === true))?.slice(0, __decrypt_question?.number_of_showing_answers)
+                const __notRequiredAnswersForDisplay = shuffle(__decrypt_answers?.filter((answer) => answer.is_deleted === false)?.filter((answer) => answer.is_required === false))?.slice(0, __decrypt_question?.number_of_showing_answers - __requiredAnswersForDisplay.length)
                 let __answersForDisplay = __requiredAnswersForDisplay.length > 0 ? __requiredAnswersForDisplay.concat(__notRequiredAnswersForDisplay) : __notRequiredAnswersForDisplay;
-                __answersForDisplay = _.shuffle(__answersForDisplay)
+                __answersForDisplay = shuffle(__answersForDisplay)
                 __answersForDisplay.map((answer) =>{
                     if(answer.hard_level_of_answer == "EASY"){
                         __maxSumOfAnswerPoints += 5

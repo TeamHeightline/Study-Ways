@@ -3,11 +3,12 @@ import React from "react";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import {StatisticPageStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticPageStore";
+import {isMobileHook} from "../../../CustomHooks/isMobileHook";
 
 export const MainPageTopMenu = observer(() =>{
+    const isMobile = isMobileHook()
     return(
         <Tabs
-            scrollButtons="auto"
             value={StatisticPageStoreObject.activePageOnTopMenu}
             onChange={(e, newValue) => {
                 StatisticPageStoreObject.changeActivePageOnTopMenu(newValue)
@@ -16,6 +17,8 @@ export const MainPageTopMenu = observer(() =>{
             indicatorColor="primary"
             textColor="primary"
             centered
+            variant={!isMobile ? "standard" : "scrollable"}
+            scrollButtons={isMobile}
         >
             <Tab label="Вопросы" />
             <Tab label="Серии вопросов"/>

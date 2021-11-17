@@ -83,7 +83,7 @@ export default function MainCardEditor({...props}: any){
     }
     return (
         <div style={{paddingLeft: isMobile? 0: 24, overflowX: 'auto', paddingTop: isMobile? 0: 24}}>
-            <Grid container justifyContent={"space-around"} alignItems={"center"} rowSpacing={1} >
+            <Grid container justifyContent={"space-around"} alignItems={"center"} rowSpacing={1} style={{paddingTop: isMobile? 12: 0}}>
                 <Grid item xs={12} md={3} >
                     <ThemeSelector cards_data={card_data?.me?.cardSet}
                                    changeSelectedData={(data)=>{

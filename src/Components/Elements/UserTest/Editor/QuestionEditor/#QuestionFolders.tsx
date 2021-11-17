@@ -11,14 +11,12 @@ export const QuestionFolders = observer(() =>{
         <div>
             <Tabs
 
-                // scrollButtons="auto"
+
                 value={QuestionEditorStorage.activeFolder}
                 onChange={(e, newValue) => QuestionEditorStorage.changeActiveFolder(newValue)}
                 indicatorColor="primary"
                 textColor="primary"
-                // centered
                 variant={!isMobile ? "standard" : "scrollable"}
-                // scrollButtons="auto"
                 centered
                 scrollButtons={isMobile}
             >

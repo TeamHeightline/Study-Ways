@@ -11,11 +11,11 @@ export const GET_ALL_UNSTRUCTURED_THEME = gql`
         }
     }`
 
-export const UpdateSubTheme = gql`
+export const UpdateTheme = gql`
     mutation UpdateTheme(
         $text: String!,
         $id: ID!,
-        $parent: ID!
+        $parent: ID
     ){
         updateUnstructuredTheme(input: {
             text: $text,

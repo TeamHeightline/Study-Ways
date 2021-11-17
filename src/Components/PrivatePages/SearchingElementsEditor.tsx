@@ -4,6 +4,7 @@ import LCUserTestAuthorEditor from "../Elements/SearchingElements/UserTestAuthor
 import LCCardThemeEditor from "../Elements/SearchingElements/CardThemeEditor/#[LC]CardThemeEditor";
 import LCCardAuthorEditor from "../Elements/SearchingElements/CardAuthorEditor/#[LC]CardAuthorEditor";
 import {Grid, Typography} from "@mui/material";
+import ThemeEditor from "../Elements/ThemeTree/ThemeEditor";
 
 export default function SearchingElementsEditor({...props}: any){
     return(
@@ -19,7 +20,13 @@ export default function SearchingElementsEditor({...props}: any){
                 <Grid item xs={12} md={6}>
                     <LCCardAuthorEditor/>
                 </Grid>
-
+            </Grid>
+            <Typography className="display-4 text-center mt-4"
+                        style={{fontSize: window.innerHeight/window.innerWidth > 1? "25px": '33px'}}>
+                Редактор связанных тем
+            </Typography>
+            <Grid container justifyContent={"center"}>
+                <ThemeEditor/>
             </Grid>
             <Typography className="display-4 text-center mt-4"
                         style={{fontSize: window.innerHeight/window.innerWidth > 1? "25px": '33px'}}>

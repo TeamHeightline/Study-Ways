@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {NodeModel} from "@minoru/react-dnd-treeview";
-import {CreateTheme, GET_ALL_UNSTRUCTURED_THEME, UpdateSubTheme} from "./Struct";
+import {CreateTheme, GET_ALL_UNSTRUCTURED_THEME, UpdateTheme} from "./Struct";
 import {useMutation, useQuery} from "@apollo/client";
 import {CircularProgress, Collapse, Fab, Grid, TextField} from "@mui/material";
 import {Mutation, Query} from "../../../SchemaTypes";
@@ -25,7 +25,7 @@ function ThemeEditor() {
     const [manualUpdate, setManualUpdate] = useState<boolean>(false)
 
     const [updateTheme, {loading: update_theme_loading}] =
-        useMutation<Mutation>(UpdateSubTheme, {
+        useMutation<Mutation>(UpdateTheme, {
             variables:{
                 id: selectedThemeID,
                 parent: getParentIDByTargetID(selectedThemeID),

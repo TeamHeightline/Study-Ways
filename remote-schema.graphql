@@ -984,7 +984,7 @@ input UpdateQuestionSequenceInput {
 input UpdateUnstructuredThemeInput {
     clientMutationId: String
     id: ID!
-    parent: ID!
+    parent: ID
     text: String!
 }
 

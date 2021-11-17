@@ -1,4 +1,5 @@
 export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -393,6 +394,7 @@ export type Mutation = {
     updateQuestionAuthor?: Maybe<QuestionAuthorMutationPayload>;
     updateQuestionSequence?: Maybe<UpdateQuestionSequencePayload>;
     updateQuestionThemes?: Maybe<QuestionThemesMutationPayload>;
+    updateUnstructuredTheme?: Maybe<UpdateUnstructuredThemePayload>;
     /**
      * Verify user account.
      *
@@ -557,9 +559,9 @@ export type MutationSwapEmailsArgs = {
 
 
 export type MutationTokenAuthArgs = {
-    email?: Maybe<Scalars['String']>;
+    email?: InputMaybe<Scalars['String']>;
     password: Scalars['String'];
-    username?: Maybe<Scalars['String']>;
+    username?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -569,8 +571,8 @@ export type MutationUnstructuredThemeArgs = {
 
 
 export type MutationUpdateAccountArgs = {
-    firstName?: Maybe<Scalars['String']>;
-    lastName?: Maybe<Scalars['String']>;
+    firstName?: InputMaybe<Scalars['String']>;
+    lastName?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -601,6 +603,11 @@ export type MutationUpdateQuestionSequenceArgs = {
 
 export type MutationUpdateQuestionThemesArgs = {
     input: QuestionThemesMutationInput;
+};
+
+
+export type MutationUpdateUnstructuredThemeArgs = {
+    input: UpdateUnstructuredThemeInput;
 };
 
 
@@ -732,37 +739,37 @@ export type Query = {
 
 
 export type QueryCardByIdArgs = {
-    id?: Maybe<Scalars['ID']>;
+    id?: InputMaybe<Scalars['ID']>;
 };
 
 
 export type QueryCardCourseByIdArgs = {
-    id?: Maybe<Scalars['ID']>;
+    id?: InputMaybe<Scalars['ID']>;
 };
 
 
 export type QueryDetailQuestionStatisticByQuestionIdArgs = {
-    id?: Maybe<Scalars['ID']>;
+    id?: InputMaybe<Scalars['ID']>;
 };
 
 
 export type QueryEqbiArgs = {
-    id?: Maybe<Scalars['ID']>;
+    id?: InputMaybe<Scalars['ID']>;
 };
 
 
 export type QueryFtSearchInCardsArgs = {
-    searchString?: Maybe<Scalars['String']>;
+    searchString?: InputMaybe<Scalars['String']>;
 };
 
 
 export type QueryQuestionByIdArgs = {
-    id?: Maybe<Scalars['ID']>;
+    id?: InputMaybe<Scalars['ID']>;
 };
 
 
 export type QueryQuestionSequenceByIdArgs = {
-    id?: Maybe<Scalars['ID']>;
+    id?: InputMaybe<Scalars['ID']>;
 };
 
 
@@ -772,19 +779,19 @@ export type QueryUserArgs = {
 
 
 export type QueryUsersArgs = {
-    after?: Maybe<Scalars['String']>;
-    before?: Maybe<Scalars['String']>;
-    email?: Maybe<Scalars['String']>;
-    first?: Maybe<Scalars['Int']>;
-    isActive?: Maybe<Scalars['Boolean']>;
-    last?: Maybe<Scalars['Int']>;
-    offset?: Maybe<Scalars['Int']>;
-    status_Archived?: Maybe<Scalars['Boolean']>;
-    status_SecondaryEmail?: Maybe<Scalars['String']>;
-    status_Verified?: Maybe<Scalars['Boolean']>;
-    username?: Maybe<Scalars['String']>;
-    username_Icontains?: Maybe<Scalars['String']>;
-    username_Istartswith?: Maybe<Scalars['String']>;
+    after?: InputMaybe<Scalars['String']>;
+    before?: InputMaybe<Scalars['String']>;
+    email?: InputMaybe<Scalars['String']>;
+    first?: InputMaybe<Scalars['Int']>;
+    isActive?: InputMaybe<Scalars['Boolean']>;
+    last?: InputMaybe<Scalars['Int']>;
+    offset?: InputMaybe<Scalars['Int']>;
+    status_Archived?: InputMaybe<Scalars['Boolean']>;
+    status_SecondaryEmail?: InputMaybe<Scalars['String']>;
+    status_Verified?: InputMaybe<Scalars['Boolean']>;
+    username?: InputMaybe<Scalars['String']>;
+    username_Icontains?: InputMaybe<Scalars['String']>;
+    username_Istartswith?: InputMaybe<Scalars['String']>;
 };
 
 export type QuestionAuthorMutationPayload = {
@@ -1004,6 +1011,12 @@ export type UpdateQuestionSequencePayload = {
     sequence?: Maybe<QuestionSequenceNode>;
 };
 
+export type UpdateUnstructuredThemePayload = {
+    __typename?: 'UpdateUnstructuredThemePayload';
+    clientMutationId?: Maybe<Scalars['String']>;
+    theme?: Maybe<UnstructuredThemesNode>;
+};
+
 export type UserNode = Node & {
     __typename?: 'UserNode';
     answerSet: Array<AnswerNode>;
@@ -1143,160 +1156,167 @@ export enum CustomUserUserAccessLevel {
 
 export type AnswerMutationInput = {
     checkQueue: Scalars['Int'];
-    clientMutationId?: Maybe<Scalars['String']>;
+    clientMutationId?: InputMaybe<Scalars['String']>;
     createdBy: Scalars['ID'];
     hardLevelOfAnswer: Scalars['String'];
-    helpTextv1?: Maybe<Scalars['String']>;
-    helpTextv2?: Maybe<Scalars['String']>;
-    helpTextv3?: Maybe<Scalars['String']>;
-    id?: Maybe<Scalars['ID']>;
-    isDeleted?: Maybe<Scalars['Boolean']>;
-    isInvisible?: Maybe<Scalars['Boolean']>;
-    isRequired?: Maybe<Scalars['Boolean']>;
-    isTrue?: Maybe<Scalars['Boolean']>;
+    helpTextv1?: InputMaybe<Scalars['String']>;
+    helpTextv2?: InputMaybe<Scalars['String']>;
+    helpTextv3?: InputMaybe<Scalars['String']>;
+    id?: InputMaybe<Scalars['ID']>;
+    isDeleted?: InputMaybe<Scalars['Boolean']>;
+    isInvisible?: InputMaybe<Scalars['Boolean']>;
+    isRequired?: InputMaybe<Scalars['Boolean']>;
+    isTrue?: InputMaybe<Scalars['Boolean']>;
     question: Scalars['ID'];
-    text?: Maybe<Scalars['String']>;
-    videoUrl?: Maybe<Scalars['String']>;
+    text?: InputMaybe<Scalars['String']>;
+    videoUrl?: InputMaybe<Scalars['String']>;
 };
 
 export type CardAuthorMutationInput = {
-    clientMutationId?: Maybe<Scalars['String']>;
+    clientMutationId?: InputMaybe<Scalars['String']>;
     createdBy: Scalars['ID'];
-    id?: Maybe<Scalars['ID']>;
+    id?: InputMaybe<Scalars['ID']>;
     name: Scalars['String'];
 };
 
 export type CardMutationInput = {
-    additionalText?: Maybe<Scalars['String']>;
-    arrowBefore?: Maybe<Scalars['String']>;
-    arrowDown?: Maybe<Scalars['String']>;
-    arrowNext?: Maybe<Scalars['String']>;
-    arrowUp?: Maybe<Scalars['String']>;
-    author?: Maybe<Array<Maybe<Scalars['ID']>>>;
+    additionalText?: InputMaybe<Scalars['String']>;
+    arrowBefore?: InputMaybe<Scalars['String']>;
+    arrowDown?: InputMaybe<Scalars['String']>;
+    arrowNext?: InputMaybe<Scalars['String']>;
+    arrowUp?: InputMaybe<Scalars['String']>;
+    author?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
     cardContentType: Scalars['String'];
-    clientMutationId?: Maybe<Scalars['String']>;
-    copyright?: Maybe<Scalars['String']>;
+    clientMutationId?: InputMaybe<Scalars['String']>;
+    copyright?: InputMaybe<Scalars['String']>;
     createdBy: Scalars['ID'];
-    hardLevel?: Maybe<Scalars['String']>;
-    id?: Maybe<Scalars['ID']>;
-    isCardUseAdditionalText?: Maybe<Scalars['Boolean']>;
-    isCardUseArrowNavigation?: Maybe<Scalars['Boolean']>;
-    isCardUseCopyright?: Maybe<Scalars['Boolean']>;
-    isCardUseMainContent?: Maybe<Scalars['Boolean']>;
-    isCardUseMainText?: Maybe<Scalars['Boolean']>;
-    isCardUseTestBeforeCard?: Maybe<Scalars['Boolean']>;
-    isCardUseTestInCard?: Maybe<Scalars['Boolean']>;
-    siteUrl?: Maybe<Scalars['String']>;
-    subTheme?: Maybe<Array<Maybe<Scalars['ID']>>>;
-    testBeforeCard?: Maybe<Scalars['ID']>;
-    testInCard?: Maybe<Scalars['ID']>;
-    text?: Maybe<Scalars['String']>;
+    hardLevel?: InputMaybe<Scalars['String']>;
+    id?: InputMaybe<Scalars['ID']>;
+    isCardUseAdditionalText?: InputMaybe<Scalars['Boolean']>;
+    isCardUseArrowNavigation?: InputMaybe<Scalars['Boolean']>;
+    isCardUseCopyright?: InputMaybe<Scalars['Boolean']>;
+    isCardUseMainContent?: InputMaybe<Scalars['Boolean']>;
+    isCardUseMainText?: InputMaybe<Scalars['Boolean']>;
+    isCardUseTestBeforeCard?: InputMaybe<Scalars['Boolean']>;
+    isCardUseTestInCard?: InputMaybe<Scalars['Boolean']>;
+    siteUrl?: InputMaybe<Scalars['String']>;
+    subTheme?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+    testBeforeCard?: InputMaybe<Scalars['ID']>;
+    testInCard?: InputMaybe<Scalars['ID']>;
+    text?: InputMaybe<Scalars['String']>;
     title: Scalars['String'];
-    vectorColumn?: Maybe<Scalars['String']>;
-    videoUrl?: Maybe<Scalars['String']>;
+    vectorColumn?: InputMaybe<Scalars['String']>;
+    videoUrl?: InputMaybe<Scalars['String']>;
 };
 
 export type CardSubThemeMutationInput = {
-    clientMutationId?: Maybe<Scalars['String']>;
+    clientMutationId?: InputMaybe<Scalars['String']>;
     createdBy: Scalars['ID'];
-    id?: Maybe<Scalars['ID']>;
+    id?: InputMaybe<Scalars['ID']>;
     name: Scalars['String'];
-    theme?: Maybe<Scalars['ID']>;
+    theme?: InputMaybe<Scalars['ID']>;
 };
 
 export type CardThemeMutationInput = {
-    clientMutationId?: Maybe<Scalars['String']>;
+    clientMutationId?: InputMaybe<Scalars['String']>;
     createdBy: Scalars['ID'];
-    globalTheme?: Maybe<Scalars['ID']>;
-    id?: Maybe<Scalars['ID']>;
+    globalTheme?: InputMaybe<Scalars['ID']>;
+    id?: InputMaybe<Scalars['ID']>;
     name: Scalars['String'];
 };
 
 export type CreateCardCourseInput = {
-    clientMutationId?: Maybe<Scalars['String']>;
-    courseData?: Maybe<Scalars['GenericScalar']>;
-    createdBy?: Maybe<Scalars['ID']>;
+    clientMutationId?: InputMaybe<Scalars['String']>;
+    courseData?: InputMaybe<Scalars['GenericScalar']>;
+    createdBy?: InputMaybe<Scalars['ID']>;
 };
 
 export type CreateDetailQuestionStatisticInput = {
-    clientMutationId?: Maybe<Scalars['String']>;
-    isLogin?: Maybe<Scalars['Boolean']>;
-    isUseexammode?: Maybe<Scalars['Boolean']>;
+    clientMutationId?: InputMaybe<Scalars['String']>;
+    isLogin?: InputMaybe<Scalars['Boolean']>;
+    isUseexammode?: InputMaybe<Scalars['Boolean']>;
     question: Scalars['ID'];
-    questionHasBeenCompleted?: Maybe<Scalars['Boolean']>;
-    questionSequence?: Maybe<Scalars['ID']>;
-    statistic?: Maybe<Scalars['GenericScalar']>;
-    userName?: Maybe<Scalars['String']>;
+    questionHasBeenCompleted?: InputMaybe<Scalars['Boolean']>;
+    questionSequence?: InputMaybe<Scalars['ID']>;
+    statistic?: InputMaybe<Scalars['GenericScalar']>;
+    userName?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateQuestionSequenceInput = {
-    clientMutationId?: Maybe<Scalars['String']>;
-    createdBy?: Maybe<Scalars['ID']>;
-    sequenceData?: Maybe<Scalars['GenericScalar']>;
+    clientMutationId?: InputMaybe<Scalars['String']>;
+    createdBy?: InputMaybe<Scalars['ID']>;
+    sequenceData?: InputMaybe<Scalars['GenericScalar']>;
 };
 
 export type GlobalCardThemeMutationInput = {
-    clientMutationId?: Maybe<Scalars['String']>;
+    clientMutationId?: InputMaybe<Scalars['String']>;
     createdBy: Scalars['ID'];
-    id?: Maybe<Scalars['ID']>;
+    id?: InputMaybe<Scalars['ID']>;
     name: Scalars['String'];
 };
 
 export type QuestionAuthorMutationInput = {
-    clientMutationId?: Maybe<Scalars['String']>;
+    clientMutationId?: InputMaybe<Scalars['String']>;
     createdBy: Scalars['ID'];
-    id?: Maybe<Scalars['ID']>;
+    id?: InputMaybe<Scalars['ID']>;
     name: Scalars['String'];
 };
 
 export type QuestionMutationInput = {
-    author?: Maybe<Array<Maybe<Scalars['ID']>>>;
-    clientMutationId?: Maybe<Scalars['String']>;
+    author?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+    clientMutationId?: InputMaybe<Scalars['String']>;
     createdBy: Scalars['ID'];
-    id?: Maybe<Scalars['ID']>;
-    isImageQuestion?: Maybe<Scalars['Boolean']>;
-    numberOfShowingAnswers?: Maybe<Scalars['Int']>;
+    id?: InputMaybe<Scalars['ID']>;
+    isImageQuestion?: InputMaybe<Scalars['Boolean']>;
+    numberOfShowingAnswers?: InputMaybe<Scalars['Int']>;
     text: Scalars['String'];
-    theme?: Maybe<Array<Maybe<Scalars['ID']>>>;
-    videoUrl?: Maybe<Scalars['String']>;
+    theme?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+    videoUrl?: InputMaybe<Scalars['String']>;
 };
 
 export type QuestionThemesMutationInput = {
-    clientMutationId?: Maybe<Scalars['String']>;
+    clientMutationId?: InputMaybe<Scalars['String']>;
     createdBy: Scalars['ID'];
-    description?: Maybe<Scalars['String']>;
-    id?: Maybe<Scalars['ID']>;
+    description?: InputMaybe<Scalars['String']>;
+    id?: InputMaybe<Scalars['ID']>;
     name: Scalars['String'];
 };
 
 export type StatisticMutationInput = {
-    clientMutationId?: Maybe<Scalars['String']>;
-    id?: Maybe<Scalars['ID']>;
+    clientMutationId?: InputMaybe<Scalars['String']>;
+    id?: InputMaybe<Scalars['ID']>;
     numberOfPasses: Scalars['Int'];
     question: Scalars['ID'];
     sumOfAllAttempts: Scalars['Int'];
 };
 
 export type UnstructuredThemeMutationInput = {
-    clientMutationId?: Maybe<Scalars['String']>;
+    clientMutationId?: InputMaybe<Scalars['String']>;
     createdBy: Scalars['ID'];
-    globalIndex?: Maybe<Scalars['Int']>;
-    id?: Maybe<Scalars['ID']>;
-    parent?: Maybe<Scalars['ID']>;
+    globalIndex?: InputMaybe<Scalars['Int']>;
+    id?: InputMaybe<Scalars['ID']>;
+    parent?: InputMaybe<Scalars['ID']>;
     text: Scalars['String'];
 };
 
 export type UpdateCardCourseInput = {
-    clientMutationId?: Maybe<Scalars['String']>;
-    courseData?: Maybe<Scalars['GenericScalar']>;
+    clientMutationId?: InputMaybe<Scalars['String']>;
+    courseData?: InputMaybe<Scalars['GenericScalar']>;
     courseId: Scalars['ID'];
-    name?: Maybe<Scalars['String']>;
+    name?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateQuestionSequenceInput = {
-    clientMutationId?: Maybe<Scalars['String']>;
-    description?: Maybe<Scalars['String']>;
-    name?: Maybe<Scalars['String']>;
-    sequenceData?: Maybe<Scalars['GenericScalar']>;
+    clientMutationId?: InputMaybe<Scalars['String']>;
+    description?: InputMaybe<Scalars['String']>;
+    name?: InputMaybe<Scalars['String']>;
+    sequenceData?: InputMaybe<Scalars['GenericScalar']>;
     sequenceId: Scalars['ID'];
+};
+
+export type UpdateUnstructuredThemeInput = {
+    clientMutationId?: InputMaybe<Scalars['String']>;
+    id: Scalars['ID'];
+    parent: Scalars['ID'];
+    text: Scalars['String'];
 };

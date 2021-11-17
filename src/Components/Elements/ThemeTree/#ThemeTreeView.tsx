@@ -8,7 +8,7 @@ import React, {memo, useEffect, useState} from "react";
 import {differenceWith} from "lodash"
 import {useMutation} from "@apollo/client";
 import {Mutation} from "../../../SchemaTypes";
-import {UpdateSubTheme} from "./Struct";
+import {UpdateTheme} from "./Struct";
 
 type IThemeTreeViewProps = {
     treeData?: NodeModel[],
@@ -33,23 +33,23 @@ export const ThemeTreeView = memo(function ThemeTreeView({
 
     useEffect(() => {
         console.log(updateData)
-        if(updateData.id !== 0){
+        if (updateData.id !== 0) {
             updateTheme()
         }
     }, [updateData])
 
     const [updateTheme] =
-        useMutation<Mutation>(UpdateSubTheme, {
+        useMutation<Mutation>(UpdateTheme, {
             variables: {
                 id: updateData.id,
-                parent: updateData.parent !== 0? updateData.parent: null,
+                parent: updateData.parent,
                 text: updateData.text,
             }
         })
 
     const handleDrop = (newTree: NodeModel[]) => {
         const diff: NodeModel = differenceWith(newTree, treeData)[0]
-        if(diff.id && diff.id !== 0){
+        if (diff?.id && diff?.id !== 0) {
             setUpdateData({id: Number(diff.id), parent: Number(diff.parent), text: diff.text})
         }
         setTreeData(newTree)

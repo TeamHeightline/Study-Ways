@@ -341,6 +341,7 @@ type Mutation {
     updateQuestionAuthor(input: QuestionAuthorMutationInput!): QuestionAuthorMutationPayload
     updateQuestionSequence(input: UpdateQuestionSequenceInput!): UpdateQuestionSequencePayload
     updateQuestionThemes(input: QuestionThemesMutationInput!): QuestionThemesMutationPayload
+    updateUnstructuredTheme(input: UpdateUnstructuredThemeInput!): UpdateUnstructuredThemePayload
     """
 
     Verify user account.
@@ -682,6 +683,11 @@ type UpdateQuestionSequencePayload {
     sequence: QuestionSequenceNode
 }
 
+type UpdateUnstructuredThemePayload {
+    clientMutationId: String
+    theme: UnstructuredThemesNode
+}
+
 type UserNode implements Node {
     answerSet: [AnswerNode!]!
     archived: Boolean
@@ -973,6 +979,13 @@ input UpdateQuestionSequenceInput {
     name: String
     sequenceData: GenericScalar
     sequenceId: ID!
+}
+
+input UpdateUnstructuredThemeInput {
+    clientMutationId: String
+    id: ID!
+    parent: ID!
+    text: String!
 }
 
 

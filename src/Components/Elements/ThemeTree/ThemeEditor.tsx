@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {NodeModel} from "@minoru/react-dnd-treeview";
-import {GET_ALL_UNSTRUCTURED_THEME} from "./Struct";
-import {useQuery} from "@apollo/client";
+import {CreateTheme, GET_ALL_UNSTRUCTURED_THEME, UpdateSubTheme} from "./Struct";
+import {useMutation, useQuery} from "@apollo/client";
 import {CircularProgress, Collapse, Fab, Grid, TextField} from "@mui/material";
-import {Query} from "../../../SchemaTypes";
+import {Mutation, Query} from "../../../SchemaTypes";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AddIcon from "@mui/icons-material/Add";
 import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
@@ -23,6 +23,25 @@ function ThemeEditor() {
     const [isOpenTextField, setIsOpenTextField] = useState<boolean>(false)
     const [selectedThemeID, setSelectedThemeID] = useState<string | undefined>()
     const [manualUpdate, setManualUpdate] = useState<boolean>(false)
+
+    const [updateTheme, {loading: update_theme_loading}] =
+        useMutation<Mutation>(UpdateSubTheme, {
+            variables:{
+                id: selectedThemeID,
+                parent: getParentIDByTargetID(selectedThemeID),
+                text: activeEditText
+            }
+        })
+
+    const [createTheme,  {loading: create_theme_loading}] =
+        useMutation<Mutation>(CreateTheme, {
+            variables:{
+                text: activeEditText,
+                parent: activeEditMode === editingModes.CreateThemeOnSameLevel?
+                    getParentIDByTargetID(selectedThemeID):
+                    selectedThemeID
+            }
+        })
 
     function onButtonsClickHandler(buttonType: editingModes) {
         if (buttonType === activeEditMode) {
@@ -59,9 +78,10 @@ function ThemeEditor() {
     }
 
     function onSaveButtonClickHandler() {
-        if (activeEditMode === editingModes.EditTheme) {
+        if (activeEditMode === editingModes.EditTheme && activeEditText) {
             const newTree: NodeModel[] | undefined = treeData?.map((node: NodeModel) => {
-                if (node.id === selectedThemeID) {
+                if (node.id === selectedThemeID && activeEditText) {
+                    updateTheme()
                     return {...node, text: activeEditText};
                 } else {
                     return (node)
@@ -69,7 +89,7 @@ function ThemeEditor() {
             })
             setTreeData(newTree)
             setManualUpdate(!manualUpdate)
-        } else if (activeEditMode === editingModes.CreateSubTheme) {
+        } else if (activeEditMode === editingModes.CreateSubTheme && activeEditText) {
             const newTree: NodeModel[] | undefined = treeData
             newTree?.push({
                 id: String(generateNewThemeID()),
@@ -77,10 +97,11 @@ function ThemeEditor() {
                 text: activeEditText,
                 droppable: true
             })
+            createTheme()
             setTreeData(newTree)
             setActiveEditText("")
             setManualUpdate(!manualUpdate)
-        } else if (activeEditMode === editingModes.CreateThemeOnSameLevel) {
+        } else if (activeEditMode === editingModes.CreateThemeOnSameLevel && activeEditText) {
             const newTree: NodeModel[] | undefined = treeData
             newTree?.push({
                 id: String(generateNewThemeID()),
@@ -88,6 +109,7 @@ function ThemeEditor() {
                 text: activeEditText,
                 droppable: true
             })
+            createTheme()
             setTreeData(newTree)
             setActiveEditText("")
             setManualUpdate(!manualUpdate)
@@ -155,10 +177,10 @@ function ThemeEditor() {
                            onChange={(e: any) => setActiveEditText(e.target.value)}/>
                 <Grid container justifyContent="end" style={{marginTop: 6}}>
                     <LoadingButton
+                        loading={update_theme_loading || create_theme_loading}
                         disabled={!activeEditText}
                         variant="contained"
                         onClick={() => onSaveButtonClickHandler()}
-
                     >
                         {
                             activeEditMode === editingModes.EditTheme ? "Сохранить название темы" :
@@ -166,6 +188,7 @@ function ThemeEditor() {
                     </LoadingButton>
                 </Grid>
             </Collapse>
+
         </Grid>
     );
 }

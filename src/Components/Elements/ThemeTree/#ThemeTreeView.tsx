@@ -4,7 +4,11 @@ import {CustomDragPreview} from "./CustomDragPreview";
 import styles from "./App.module.css";
 import {Placeholder} from "./Placeholder";
 import {Card} from "@mui/material";
-import React, {memo, useEffect} from "react";
+import React, {memo, useEffect, useState} from "react";
+import {differenceWith} from "lodash"
+import {useMutation} from "@apollo/client";
+import {Mutation} from "../../../SchemaTypes";
+import {UpdateSubTheme} from "./Struct";
 
 type IThemeTreeViewProps = {
     treeData?: NodeModel[],
@@ -21,7 +25,35 @@ export const ThemeTreeView = memo(function ThemeTreeView({
                                                              setSelectedThemeID,
                                                              manualUpdate
                                                          }: IThemeTreeViewProps) {
-    const handleDrop = (newTree: NodeModel[]) => setTreeData(newTree);
+    const [updateData, setUpdateData] = useState<{
+        id: number,
+        parent: number,
+        text: string
+    }>({id: 0, parent: 0, text: "_"})
+
+    useEffect(() => {
+        console.log(updateData)
+        if(updateData.id !== 0){
+            updateTheme()
+        }
+    }, [updateData])
+
+    const [updateTheme] =
+        useMutation<Mutation>(UpdateSubTheme, {
+            variables: {
+                id: updateData.id,
+                parent: updateData.parent !== 0? updateData.parent: null,
+                text: updateData.text,
+            }
+        })
+
+    const handleDrop = (newTree: NodeModel[]) => {
+        const diff: NodeModel = differenceWith(newTree, treeData)[0]
+        if(diff.id && diff.id !== 0){
+            setUpdateData({id: Number(diff.id), parent: Number(diff.parent), text: diff.text})
+        }
+        setTreeData(newTree)
+    };
     useEffect(() => {
         void (0)
     }, [manualUpdate])

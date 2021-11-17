@@ -44,7 +44,9 @@ const drawerWidth = 70;
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         drawerOpen: {
-            marginTop: "50px",
+            [theme.breakpoints.up('md')]: {
+                marginTop: "50px"
+            },
             width: theme.spacing(7) + 1,
             transition: theme.transitions.create('width', {
                 easing: theme.transitions.easing.sharp,
@@ -52,7 +54,9 @@ const useStyles = makeStyles((theme: Theme) =>
             }),
         },
         drawerClose: {
-            marginTop: "50px",
+            [theme.breakpoints.up('md')]: {
+                marginTop: "50px"
+            },
             transition: theme.transitions.create('width', {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.leavingScreen,

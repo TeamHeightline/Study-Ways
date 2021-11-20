@@ -412,10 +412,10 @@ export default function CardEditByID({cardId, ...props}: any) {
                                 <MenuItem value={CardHardLevel.A_2}>
                                     Рядовым студентам
                                 </MenuItem>
-                                <MenuItem>
+                                <MenuItem value={CardHardLevel.A_3}>
                                     Будущим специалистам
                                 </MenuItem>
-                                <MenuItem value={CardHardLevel.A_3}>
+                                <MenuItem value={CardHardLevel.A_4}>
                                     Специалистам (Real Science)
                                 </MenuItem>
                             </Select>

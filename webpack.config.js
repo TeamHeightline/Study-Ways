@@ -1,57 +1,29 @@
-const CKEditorWebpackPlugin = require( '@ckeditor/ckeditor5-dev-webpack-plugin' );
-const { styles } = require( '@ckeditor/ckeditor5-dev-utils' );
+const path = require('path');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
+    mode: 'none',
+    entry: {
+        app: path.join(__dirname, 'src', 'index.tsx')
+    },
+    target: 'web',
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js']
+    },
     plugins: [
-        // ...
-
-        new CKEditorWebpackPlugin( {
-            // See https://ckeditor.com/docs/ckeditor5/latest/features/ui-language.html
-            language: 'ru'
-        } )
+        new BundleAnalyzerPlugin()
     ],
-
     module: {
         rules: [
             {
-                test: /\.m?js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: "babel-loader",
-                    options: {
-                        presets: ['@babel/preset-env']
-                    }
-                }
-            },
-            {
-                test: /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
-                use: [ 'babel-loader' ]
-            },
-            {
-                test: /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/,
-                use: [
-                    {
-                        loader: 'style-loader',
-                        options: {
-                            injectType: 'singletonStyleTag',
-                            attributes: {
-                                'data-cke': true
-                            }
-                        }
-                    },
-                    {
-                        loader: 'postcss-loader',
-                        options: styles.getPostCssConfig( {
-                            themeImporter: {
-                                themePath: require.resolve( '@ckeditor/ckeditor5-theme-lark' )
-                            },
-                            minify: true
-                        } )
-                    },
-                ]
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                // exclude: [ path.join(__dirname, 'node_modules')]
             }
-        ]
+        ],
+    },
+    output: {
+        filename: '[name].js',
+        path: path.resolve(__dirname, 'dist')
     }
-
-
-};
+}

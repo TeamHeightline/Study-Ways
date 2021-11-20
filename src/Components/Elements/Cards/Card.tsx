@@ -317,7 +317,7 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
                             {/*<Typography>*/}
                                 <RichTextPreview id={"rich-text-preview"} text={card_data?.cardById?.text} onChange={() => void (0)}/>
                             {/*</Typography>*/}
-                            <Typography className="blockquote" id={"card-rating"}>На сколько эта карточка была полезна?</Typography>
+                            <Typography className="blockquote" id={"card-rating"}>Насколько эта карточка была полезна?</Typography>
                             <Rating
                                 className="pl-md-3"
                                 name="simple-controlled"

@@ -25,7 +25,8 @@ import CopyrightIcon from "@mui/icons-material/Copyright";
 import {CardEditArrowNavigationAndBandAQuestions} from './#CardEditArrowNavigationAndBandAQuestions'
 import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 import {CardHardLevel, Mutation, Query} from "../../../../../SchemaTypes";
-
+import urlParser from "js-video-url-parser";
+import "js-video-url-parser/lib/provider/youtube";
 export default function CardEditByID({cardId, ...props}: any) {
     const [autoSaveTimer, changeAutoSaveTimer] = useState<any>()
     const [stateOfSave, setStateOfSave] = useState(2) // 0- не сохранено 1- сохранение 2- сохранено
@@ -293,7 +294,28 @@ export default function CardEditByID({cardId, ...props}: any) {
     }
     const cardYoutubeVideoUrlHandle = (e) => {
         autoSave()
-        setCardYoutubeVideoUrl(e.target.value.split("&")[0])
+        const parsed_url =  urlParser.parse(e.target.value)
+        if (parsed_url?.provider == "youtube" && parsed_url?.id){
+            //Для видео с ютуба мы оставляем только id и точку начала, игнорируем
+            const video_data = {
+                videoInfo: {
+                    provider: 'youtube',
+                    id: parsed_url?.id,
+                    mediaType: 'video'
+                },
+                params:{}
+            }
+            if(parsed_url?.params && parsed_url?.params.start){
+                video_data.params = {start: parsed_url.params.start}
+            }
+
+            const video_url = urlParser.create(video_data)
+            if (video_url){
+                setCardYoutubeVideoUrl(video_url)
+            }
+        }else{
+            setCardYoutubeVideoUrl(e.target.value)
+        }
     }
     const cardAdditionalTextHandle = (e) => {
         autoSave()

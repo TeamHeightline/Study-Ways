@@ -222,12 +222,8 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
                         <Col className="col-12 col-lg-5 mt-2">
                             {card_data?.cardById?.cardContentType === "A_0" &&
                             <ReactPlayer width="auto" height={height / width >= 1 ? "200px" : 400} controls
-                                // url="https://www.youtube.com/watch?v=vpMJ_rNN9vY"
                                          url={String(card_data?.cardById?.videoUrl)}
                             />
-                                //     <iframe style={{height: "100%", width: "100%"}} src="https://3dspace.alaska.edu/explorer.htpl?chapter=Mechanics&card=2_01_01_01&scenario=Stars_&env=5">
-                                //
-                                //     </iframe>
                             }
                             {(card_data?.cardById?.cardContentType === "A_1" || card_data?.cardById?.cardContentType === "A_2") &&
                             <div

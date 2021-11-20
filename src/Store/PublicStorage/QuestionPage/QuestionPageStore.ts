@@ -86,7 +86,7 @@ class QuestionPage{
             return(questionsCopyWitchoutUnfilledQuestions)
         }
 
-        this.clientStorage.client.query({query: GET_ALL_QUESTIONS})
+        this.clientStorage.client.query({query: GET_ALL_QUESTIONS, fetchPolicy: "network-only"})
             .then((response) =>{
                 this.questionsData = removeQuestionsTatNotFilled(response.data.question)
                 this.dataHasBeenDelivered = true

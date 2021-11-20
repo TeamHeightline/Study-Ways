@@ -113,6 +113,8 @@ export class SameQuestionPlayer{
     //Максимальный балл, который можно получить за то, что выберешь все правильные ответы
     maxSumOfPoints = 0
 
+    numberOfSelectAnswersOnThisPass = 0
+
     //Проверка ошибок
     checkErrors(){
         //Говорим что теперь мы точно совершили первую проверку на ошибку и теперь можно или показывать
@@ -129,7 +131,7 @@ export class SameQuestionPlayer{
 
         //Полученные баллы за правильные выбранные ответы
         let __sumOfGotAnswerPoints = 0
-
+        this.numberOfSelectAnswersOnThisPass = this.selectedAnswers?.size
         this.answersArray.map((answer, aIndex) => {
             if((answer.isTrue && !this.selectedAnswers.has(answer.id)) || (!answer.isTrue && this.selectedAnswers.has(answer.id))){
                 __errorArray.push(answer.id)
@@ -210,7 +212,9 @@ export class SameQuestionPlayer{
     }
     //Выводит подсказку
     get HelpTextForShow(){
-        if(this.selectedAnswers.size === 0){
+        console.log(this.numberOfSelectAnswersOnThisPass)
+        console.log(this.numberOfPasses)
+        if(Number(this.numberOfSelectAnswersOnThisPass) == 0 && this.numberOfPasses == 1){
             return ("Среди предложенных вариантов ответа есть хотя бы один правильный, проверьте еще раз")
         }
         if(this.ownStore?.isUseExamMode || this.isUseExamMode){

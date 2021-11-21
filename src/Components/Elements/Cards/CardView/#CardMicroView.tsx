@@ -12,6 +12,11 @@ import { Row} from "react-bootstrap";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import HttpIcon from '@mui/icons-material/Http';
 import ImageIcon from '@mui/icons-material/Image';
+import ScienceIcon from '@mui/icons-material/Science';
+import SchoolIcon from '@mui/icons-material/School';
+import BiotechIcon from '@mui/icons-material/Biotech';
+import ArchitectureIcon from '@mui/icons-material/Architecture';
+import FunctionsIcon from '@mui/icons-material/Functions';
 import {GET_CARD_FOR_MICRO_VIEW_BY_ID, useStyles} from "./Struct"
 import { Skeleton } from '@mui/material';
 import urlParser from "js-video-url-parser";
@@ -105,7 +110,6 @@ export default function CardMicroView({cardID = 1, isEditNow, isNowEditableCard,
                                          className="justify-content-start" >
                                 <Typography  variant="h6" gutterBottom >
                                     ID: {card_data?.cardById.id}
-
                                     {Number(card_data.cardById.cardContentType[2]) === 0 &&
                                     <Chip id={"YouTube-icon"}
                                           style={{marginLeft: 12}} size="small" variant="outlined" color="secondary"
@@ -117,6 +121,16 @@ export default function CardMicroView({cardID = 1, isEditNow, isNowEditableCard,
                                     <Chip style={{marginLeft: 12}} size="small" variant="outlined" color="default"
                                           icon={<ImageIcon />} label="Изображение"/>}
 
+                                    {Number(card_data.cardById.hardLevel.slice(2.3)) == 0 &&
+                                    <ArchitectureIcon style={{marginLeft: 12}}  fontSize="small"  />}
+                                    {Number(card_data.cardById.hardLevel.slice(2.3)) == 1 &&
+                                    <SchoolIcon style={{marginLeft: 12}}  fontSize="small"  />}
+                                    {Number(card_data.cardById.hardLevel.slice(2.3)) == 2 &&
+                                    <FunctionsIcon style={{marginLeft: 12}}  fontSize="small"  />}
+                                    {Number(card_data.cardById.hardLevel.slice(2.3)) == 3 &&
+                                    <ScienceIcon style={{marginLeft: 12}}  fontSize="small"  />}
+                                    {Number(card_data.cardById.hardLevel.slice(2.3)) == 4 &&
+                                    <BiotechIcon style={{marginLeft: 12}}  fontSize="small"  />}
                                 </Typography>
 
                                 <Typography style={{maxHeight: 48, overflow: "hidden"}}>

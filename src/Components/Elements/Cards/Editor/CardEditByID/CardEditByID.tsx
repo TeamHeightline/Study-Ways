@@ -27,6 +27,11 @@ import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 import {CardHardLevel, Mutation, Query} from "../../../../../SchemaTypes";
 import urlParser from "js-video-url-parser";
 import "js-video-url-parser/lib/provider/youtube";
+import ArchitectureIcon from "@mui/icons-material/Architecture";
+import SchoolIcon from "@mui/icons-material/School";
+import FunctionsIcon from "@mui/icons-material/Functions";
+import ScienceIcon from "@mui/icons-material/Science";
+import BiotechIcon from "@mui/icons-material/Biotech";
 export default function CardEditByID({cardId, ...props}: any) {
     const [autoSaveTimer, changeAutoSaveTimer] = useState<any>()
     const [stateOfSave, setStateOfSave] = useState(2) // 0- не сохранено 1- сохранение 2- сохранено
@@ -426,18 +431,23 @@ export default function CardEditByID({cardId, ...props}: any) {
                                     fullWidth
                                     label={"Уровень сложности"}>
                                 <MenuItem value={CardHardLevel.A_0}>
+                                    <ArchitectureIcon style={{marginRight: 12}}  fontSize="small"  />
                                     Выпускникам школ
                                 </MenuItem>
                                 <MenuItem value={CardHardLevel.A_1}>
+                                    <SchoolIcon style={{marginRight: 12}}  fontSize="small"  />
                                     Успешным лицеистам и гимназистам
                                 </MenuItem>
                                 <MenuItem value={CardHardLevel.A_2}>
+                                    <FunctionsIcon style={{marginRight: 12}}  fontSize="small"  />
                                     Рядовым студентам
                                 </MenuItem>
                                 <MenuItem value={CardHardLevel.A_3}>
+                                    <ScienceIcon style={{marginRight: 12}}  fontSize="small"  />
                                     Будущим специалистам
                                 </MenuItem>
                                 <MenuItem value={CardHardLevel.A_4}>
+                                    <BiotechIcon style={{marginRight: 12}}  fontSize="small"  />
                                     Специалистам (Real Science)
                                 </MenuItem>
                             </Select>

@@ -1,7 +1,7 @@
 import makeStyles from '@mui/styles/makeStyles';
 import {gql} from "@apollo/client/core";
 
-export const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles(() => ({
     root: {
         display: 'flex',
         width: "400px",
@@ -37,6 +37,7 @@ export const GET_CARD_FOR_MICRO_VIEW_BY_ID = gql`
             title
             cardContentType
             videoUrl
+            hardLevel
             subTheme{
                 id
                 name

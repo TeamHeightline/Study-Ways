@@ -124,9 +124,9 @@ export default function CardMicroView({cardID = 1, isEditNow, isNowEditableCard,
                                     {Number(card_data.cardById.hardLevel.slice(2.3)) == 0 &&
                                     <ArchitectureIcon style={{marginLeft: 12}}  fontSize="small"  />}
                                     {Number(card_data.cardById.hardLevel.slice(2.3)) == 1 &&
-                                    <SchoolIcon style={{marginLeft: 12}}  fontSize="small"  />}
-                                    {Number(card_data.cardById.hardLevel.slice(2.3)) == 2 &&
                                     <FunctionsIcon style={{marginLeft: 12}}  fontSize="small"  />}
+                                    {Number(card_data.cardById.hardLevel.slice(2.3)) == 2 &&
+                                    <SchoolIcon style={{marginLeft: 12}}  fontSize="small"  />}
                                     {Number(card_data.cardById.hardLevel.slice(2.3)) == 3 &&
                                     <ScienceIcon style={{marginLeft: 12}}  fontSize="small"  />}
                                     {Number(card_data.cardById.hardLevel.slice(2.3)) == 4 &&

@@ -435,11 +435,11 @@ export default function CardEditByID({cardId, ...props}: any) {
                                     Выпускникам школ
                                 </MenuItem>
                                 <MenuItem value={CardHardLevel.A_1}>
-                                    <SchoolIcon style={{marginRight: 12}}  fontSize="small"  />
+                                    <FunctionsIcon style={{marginRight: 12}}  fontSize="small"  />
                                     Успешным лицеистам и гимназистам
                                 </MenuItem>
                                 <MenuItem value={CardHardLevel.A_2}>
-                                    <FunctionsIcon style={{marginRight: 12}}  fontSize="small"  />
+                                    <SchoolIcon style={{marginRight: 12}}  fontSize="small"  />
                                     Рядовым студентам
                                 </MenuItem>
                                 <MenuItem value={CardHardLevel.A_3}>

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { Col, Row, Spinner} from "react-bootstrap";
 import ReactPlayer from "react-player";
-import {Button, ButtonGroup, Typography, Tooltip, Grid} from "@mui/material";
+import {Button, ButtonGroup, Typography, Tooltip, Grid, Snackbar, Stack} from "@mui/material";
 import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
@@ -28,7 +28,9 @@ import {isMobileHook} from "../../../CustomHooks/isMobileHook";
 import {useHistory} from "react-router-dom";
 import {CardAuthorNode, CardSubThemeNode, Query} from "../../../SchemaTypes";
 import CssBaseline from "@mui/material/CssBaseline";
-import {SHOW_CARD_BY_ID} from "./CardView/Struct"
+import {SHOW_CARD_BY_ID, GET_ALL_COURSE} from "./CardView/Struct"
+import {ICourseLine} from "../Course/Editor/EditCourseByID";
+import {Alert, AlertTitle} from "@mui/lab";
 
 type CardTitleAuthorThemeAndCopyrightBlockProps = {
     title?: string,
@@ -82,6 +84,10 @@ function CardTitleAuthorThemeAndCopyrightBlock({title, copyright, subTheme, auth
         </Col>
     </Row>;
 }
+type IFindInCourseNotification = {
+    course_name: string
+    position: typeof CoursePageStorage.positionData
+}[] | []
 type CardProps = {
     id?: number,
     openFromCourse?: boolean,
@@ -95,6 +101,7 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
     const isMobile = isMobileHook()
     const history = useHistory();
     const {width, height} = useWindowDimensions()
+    const [findInCourseNotification, setFindInCourseNotification] = useState<IFindInCourseNotification>([])
     const {data: card_data, refetch} = useQuery<Query>(SHOW_CARD_BY_ID, {
         fetchPolicy: "cache-and-network",
         variables:{
@@ -106,6 +113,49 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
             setOpenTestBeforeCard(false)
             if(data?.cardById?.cardContentType !== "A_0"){
                 get_card_image()
+            }
+        }
+    })
+     useQuery<Query>(GET_ALL_COURSE, {
+        fetchPolicy: "cache-only",
+        skip: props?.openFromCourse,
+        onCompleted: data => {
+            if(data?.cardCourse && data?.cardCourse?.length > 1){
+                const __findInCourseNotification: IFindInCourseNotification = [{
+                    course_name: "_",
+                    position: {
+                        courseIndex: 0,
+                        row: 0,
+                        fragment: 0,
+                        buttonIndex: 0,
+                        courseID: 0,
+                        openPage: 0
+                    }
+                }]
+                __findInCourseNotification.pop()
+                CoursePageStorage.get_course_data()
+                data?.cardCourse?.map((course, cIndex) => {
+                    course?.courseData?.map((course_line: ICourseLine, lIndex) =>{
+                        course_line.SameLine?.map((fragment, fIndex) =>{
+                            fragment.CourseFragment?.map((element, bIndex) =>{
+                                if (element?.CourseElement?.id == id){
+                                    __findInCourseNotification?.push({
+                                            course_name: course?.name || "_",
+                                            position: {
+                                                courseIndex: cIndex,
+                                                row: lIndex,
+                                                fragment: fIndex,
+                                                openPage: fIndex + 1,
+                                                buttonIndex: bIndex,
+                                                courseID: Number(course?.id),
+                                            }
+                                        })
+                                }
+                            })
+                        })
+                    })
+                })
+                setFindInCourseNotification(__findInCourseNotification)
             }
         }
     })
@@ -127,7 +177,6 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
             })
     }
 
-    // console.log("disabledNext " + props.disabledNext)
     return(
         <div  style={{padding: 0}}>
             <CssBaseline />
@@ -361,6 +410,33 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
                     </div>
                 </div>}
             </div>
+            <Snackbar
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }}
+                open={findInCourseNotification?.length > 0}
+            >
+                <Alert severity="success" sx={{ width: '100%' }} variant="outlined">
+                    <AlertTitle>
+                        {findInCourseNotification?.length == 1 ?
+                        "Эта карточка встречается в курсе:" :
+                        "Эта карточка встречается в курсах:"}
+                    </AlertTitle>
+                    {findInCourseNotification?.map((course) =>{
+                        return(
+                            <Stack direction={"row"} alignItems={"center"}>
+                                <Button title={"Перейти"}
+
+                                        color={"info"}
+                                        onClick={() =>{
+                                            CoursePageStorage.changeCardPosition(course.position)
+                                            history.push("/courses")
+                                        }}>
+                                    Перейти
+                                </Button>
+                                <Typography variant={"body2"}>{course.course_name}</Typography>
+                            </Stack>)
+                    })}
+                </Alert>
+            </Snackbar>
         </div>
     )
 })

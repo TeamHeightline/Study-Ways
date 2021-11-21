@@ -104,3 +104,13 @@ export const SHOW_CARD_BY_ID = gql`
 
         }
     }`
+
+export const GET_ALL_COURSE = gql`
+    query GET_ALL_COURSE{
+        cardCourse{
+            id
+            courseData
+            name
+        }
+    }
+`

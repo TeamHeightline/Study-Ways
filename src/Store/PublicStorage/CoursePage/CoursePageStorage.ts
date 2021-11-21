@@ -18,6 +18,7 @@ class CoursePage{
             inCardButtonClickedHandler: action,
             cardSelectInCourseByMouseClick: action,
             goBackButtonHandler: action,
+            changeCardPosition: action,
             disabledNext: computed,
             disabledBack: computed,
             disabledUp: computed,
@@ -36,7 +37,8 @@ class CoursePage{
         row: 0,
         fragment: 0,
         buttonIndex: 0,
-        courseID: 0
+        courseID: 0,
+        openPage: 1,
     }
 
     //ID выбранной карточки
@@ -61,11 +63,16 @@ class CoursePage{
     get_card_id_by_position(cardPositionData, stepRight = 0, stepUp = 0){
         if(cardPositionData.buttonIndex + stepRight >= 0 && cardPositionData.buttonIndex + stepRight <= 9 &&
             Number(cardPositionData.row) + stepUp >= 0 && Number(cardPositionData.row) + stepUp <= 3){
-            return(CoursePageStorage.courseArr[cardPositionData.courseIndex].courseData[Number(cardPositionData.row) + stepUp]
+            return(this.courseArr[cardPositionData.courseIndex].courseData[Number(cardPositionData.row) + stepUp]
                 .SameLine[cardPositionData.fragment].CourseFragment[Number(cardPositionData.buttonIndex) + stepRight]?.CourseElement?.id)
         }else{
             return null
         }
+    }
+    changeCardPosition(cardPositionData){
+        this.positionData = cardPositionData
+        this.isOpenCard = true
+        this.selectedCardID = this.get_card_id_by_position(cardPositionData)
     }
 
     //Обработчик реакций на нажатия кнопок навигации в карточке

@@ -212,8 +212,6 @@ export class SameQuestionPlayer{
     }
     //Выводит подсказку
     get HelpTextForShow(){
-        console.log(this.numberOfSelectAnswersOnThisPass)
-        console.log(this.numberOfPasses)
         if(Number(this.numberOfSelectAnswersOnThisPass) == 0 && this.numberOfPasses == 1){
             return ("Среди предложенных вариантов ответа есть хотя бы один правильный, проверьте еще раз")
         }

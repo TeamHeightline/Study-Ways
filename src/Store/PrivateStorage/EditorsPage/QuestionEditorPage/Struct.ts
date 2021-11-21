@@ -90,7 +90,10 @@ export const MenuProps = {
 export const CREATE_NEW_QUESTION = gql`
     mutation CREATE_NEW_QUESTION{
         updateQuestion(input: {createdBy: 0, text: "Новый вопрос", author: [46], theme: [72]}){
-            clientMutationId
+            clientMutationId,
+            question{
+                id
+            }
         }
     }`
 

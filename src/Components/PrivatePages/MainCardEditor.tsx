@@ -4,7 +4,7 @@ import { Row} from "react-bootstrap";
 import CardEditByID from "../Elements/Cards/Editor/CardEditByID/CardEditByID";
 import {AuthorSelector} from "../Elements/Cards/Editor/MainCardEditor/#AuthorSelector";
 import CreateNewCard from "../Elements/Cards/Editor/MainCardEditor/#CreateNewCard";
-import {useQuery} from "@apollo/client";
+import {useMutation, useQuery} from "@apollo/client";
 import {gql} from "graphql.macro";
 import {ContentTypeSelector} from "../Elements/Cards/Editor/MainCardEditor/#ContentTypeSelector";
 import {ThemeSelector} from "../Elements/Cards/Editor/MainCardEditor/#ThemeSelector";
@@ -12,6 +12,20 @@ import {sort} from "fast-sort";
 import {Pagination} from '@mui/material';
 import {CircularProgress, Grid} from "@mui/material";
 import {isMobileHook} from "../../CustomHooks/isMobileHook";
+import {Mutation} from "../../SchemaTypes";
+
+const CREATE_NEW_CARD = gql`
+    mutation CREATE_NEW_CARD{
+        card(input: {cardContentType: "0", isCardUseMainContent: true, isCardUseMainText: true,
+            title: "Название карточки по умолчанию", createdBy: 0, text: "Описание карточки"}){
+            errors{
+                field
+            },
+            card{
+                id
+            }
+        }
+    }`
 
 const GET_ALL_CARD_DATA = gql`
     query GET_CARD_DATA{
@@ -39,11 +53,26 @@ export default function MainCardEditor({...props}: any){
     const [cardsDataAfterSelectContentType, setCardsDataAfterSelectContentType] = useState()
     const [cardsDataAfterSelectAuthor, setCardsDataAfterSelectAuthor] = useState<any>()
     const [activePageNumber, setActivePageNumber] = useState(1)
+    const [stateOfCreating, setStateOfCreating] = useState(false)
     const isMobile = isMobileHook()
 
     const {data: card_data, refetch, loading} = useQuery(GET_ALL_CARD_DATA, {
         fetchPolicy: "cache-and-network"
     })
+    const [create_mutation] = useMutation<Mutation>(CREATE_NEW_CARD,
+        {
+            onError: () => {
+                setStateOfCreating(false)
+            },
+            onCompleted: (data) => {
+                if(data?.card?.card?.id){
+                    setSelectedCardID(Number(data?.card?.card?.id))
+                    setIsEditNow(true)
+                    refetch()
+                }
+                setStateOfCreating(false)
+            }
+        })
 
     const selectCardForEditHandle = async(e) =>{
         await setSelectedCardID(e)
@@ -67,12 +96,11 @@ export default function MainCardEditor({...props}: any){
                                     if(props.onSetIsEditNow){
                                         props.onSetIsEditNow(false)
                                     }
-                                    refetch()
                                 }
             }}/>
         )
     }
-    if(loading){
+    if(loading || stateOfCreating){
         return (
             <Grid container justifyContent="center" style={{marginTop: 12}}>
                 <Grid item>
@@ -106,7 +134,11 @@ export default function MainCardEditor({...props}: any){
                 </Grid>
             </Grid>
             <Row className="justify-content-around col-12" style={{overflowX: 'auto'}}>
-                <CreateNewCard className="mt-3 col-12 col-md-3 ml-1" onCreate={() =>refetch()}/>
+                <CreateNewCard className="mt-3 col-12 col-md-3 ml-1"
+                               startCreatingCard={() =>{
+                                   setStateOfCreating(true)
+                                   create_mutation()
+                               }}/>
                 {cardsDataAfterSelectAuthor && sort(cardsDataAfterSelectAuthor)
                     .desc((card: any) => Number(card?.id))
                     .slice((activePageNumber - 1)* numbersOfCardsOnPage, activePageNumber* numbersOfCardsOnPage)

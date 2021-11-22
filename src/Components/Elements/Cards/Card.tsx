@@ -292,6 +292,29 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
                                 }}>
                             </div>}
                         </Col>
+                        {isMobile && findInCourseNotification?.length > 0 &&
+                        <Alert severity="success" sx={{ width: '100%' }} variant="outlined">
+                            <AlertTitle>
+                                {findInCourseNotification?.length == 1 ?
+                                    "Эта карточка встречается в курсе:" :
+                                    "Эта карточка встречается в курсах:"}
+                            </AlertTitle>
+                            {findInCourseNotification?.map((course) =>{
+                                return(
+                                    <Stack direction={"row"} alignItems={"center"}>
+                                        <Button title={"Перейти"}
+
+                                                color={"info"}
+                                                onClick={() =>{
+                                                    CoursePageStorage.changeCardPosition(course.position)
+                                                    history.push("/courses")
+                                                }}>
+                                            Перейти
+                                        </Button>
+                                        <Typography variant={"body2"} style={{paddingLeft: 12}}>{course.course_name}</Typography>
+                                    </Stack>)
+                            })}
+                        </Alert>}
                         {!isMobile &&
                         <Col className="col-12 col-lg-6 mt-4">
                             <RichTextPreview text={card_data?.cardById?.text} onChange={() => void (0)}/>
@@ -410,6 +433,7 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
                     </div>
                 </div>}
             </div>
+            {!isMobile &&
             <Snackbar
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }}
                 open={findInCourseNotification?.length > 0}
@@ -436,7 +460,7 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
                             </Stack>)
                     })}
                 </Alert>
-            </Snackbar>
+            </Snackbar>}
         </div>
     )
 })

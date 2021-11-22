@@ -74,7 +74,7 @@ const  App = observer(() => {
             <Router>
                 <Navibar/>
                 <LogInNotification/>
-                <div style={{marginTop: isMobile? 0: 48}}>
+                <div style={{paddingTop: isMobile? 0: 48}}>
                     <Switch >
                         <Route exact path="/login" component={Login}/>
                         <Route exact path="/unlogin" component={UnLogin}/>

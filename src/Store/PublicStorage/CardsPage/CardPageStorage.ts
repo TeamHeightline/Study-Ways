@@ -271,7 +271,9 @@ class CardPage{
                 //Устанавливаем флаг о том, что все данные получены
                 this.dataHasBeenGot = true
                 this.getDataForCardSubThemeSelectFromServer()
-                this.getCardsDataFromServer(useCache=false)
+                if(useCache){
+                    this.getCardsDataFromServer(useCache=false)
+                }
             })
     }
 

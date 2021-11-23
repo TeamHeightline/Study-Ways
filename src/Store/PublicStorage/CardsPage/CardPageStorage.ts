@@ -260,17 +260,20 @@ class CardPage{
 
     //--------------------------------------------------------------
 
-
-
+    dataHasBeenUpdated: boolean = false
     //action для получения данных о всех карточках с сервера
     getCardsDataFromServer(useCache = true){
         this.clientStorage.client.query({query: GET_ALL_CARDS, fetchPolicy: useCache? "cache-first": "network-only"})
             .then((data) => {
                 //Передаем все полученные данный в cardsData
                 this.rawCardsDataWitchoutFiltering = data?.data?.card
+                console.log(useCache)
+                this.dataHasBeenUpdated = !useCache
+
                 //Устанавливаем флаг о том, что все данные получены
                 this.dataHasBeenGot = true
                 this.getDataForCardSubThemeSelectFromServer()
+
                 if(useCache){
                     this.getCardsDataFromServer(useCache=false)
                 }

@@ -72,9 +72,13 @@ export const MainCardPublicView = observer(({...props}: any) => {
                 </Grid>
             </Grid>}
             <Snackbar open={true} autoHideDuration={6000}>
-                <Alert severity="success">
-                    Обновить данные
-                </Alert>
+                {CardPageStorage?.dataHasBeenUpdated ?
+                    <Alert severity="success" variant={"filled"}>
+                        Данные обновлены
+                    </Alert>:
+                    <Alert severity="info" variant={"filled"}>
+                        Обновление данных
+                    </Alert>}
             </Snackbar>
         </div>
     );

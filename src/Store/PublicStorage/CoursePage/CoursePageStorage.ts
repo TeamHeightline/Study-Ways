@@ -49,14 +49,22 @@ class CoursePage{
 
     //Успел ли клиент получить все данные с сервера
     dataHasBeenGot = false
+
+    dataHasBeenUpdated: boolean = false
     //action для получения всех данных о !курсах! и записывание их в courseArr
-    get_course_data(){
-        this.clientStorage.client.query({query: GET_ALL_COURSE, fetchPolicy: "cache-first"})
+    get_course_data(useCache=true){
+        this.clientStorage.client.query({query: GET_ALL_COURSE, fetchPolicy: useCache? "cache-first": "network-only"})
             .then((data) => {
                     //используем сортировку для того, чтобы поставить все курсы в порядке ID
                     this.courseArr = sort(data?.data?.cardCourse).desc((c: any) => c?.id)
                     //Устанавливаем флаг о том, что все данные получены
                     this.dataHasBeenGot = true
+                    if(useCache){
+                        this.get_course_data(false)
+                    }
+                if(!useCache){
+                    this.dataHasBeenUpdated = true
+                }
             })
     }
     //парсит courseArr для получения id конкретной карточки в опрделенной позиции

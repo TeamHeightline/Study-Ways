@@ -8,6 +8,7 @@ import { Alert, Pagination } from '@mui/material';
 import {Button, ButtonGroup, Grid, Snackbar, TextField, Typography} from "@mui/material";
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 import AddIcon from '@mui/icons-material/Add';
+import {SERVER_BASE_URL} from "../../../../settings";
 
 const GET_COURSE_BY_ID = gql`
     query GET_COURSE_BY_ID($id: ID!){
@@ -75,7 +76,7 @@ export default function EditCourseByID({course_id, ...props}: any){
         formData.append('image', img);
         formData.append('card_course', course_id);
         fetch(
-            'https://iot-experemental.herokuapp.com/cardfiles/course?update_id=' + course_id,
+            SERVER_BASE_URL + '/cardfiles/course?update_id=' + course_id,
             {
                 method: 'POST',
                 body: formData,
@@ -91,7 +92,7 @@ export default function EditCourseByID({course_id, ...props}: any){
             });
     };
     async function getCourseImageData(){
-        fetch("https://iot-experemental.herokuapp.com/cardfiles/course?id=" + course_id)
+        fetch(SERVER_BASE_URL + "/cardfiles/course?id=" + course_id)
             .then((response) => response.json())
             .then((result) => {
                 console.log('Success:', result);

@@ -54,7 +54,7 @@ describe("CardMicroView Testing", () => {
     beforeEach(async () =>{
          wrapper = mount(
             <MockedProvider mocks={mocks} addTypename={false}>
-                <CardMicroView/>
+                <CardMicroView cardID={1800}/>
             </MockedProvider>
         );
         await act(async()=>{

@@ -11,6 +11,7 @@ import {Maybe, QuestionAuthorNode, QuestionNode, QuestionThemesNode} from "../..
 import {sort} from "fast-sort";
 import {Answer} from "./AnswersStorage";
 import {UserStorage} from "../../../UserStore/UserStore";
+import {SERVER_BASE_URL} from "../../../../settings";
 
 class QuestionEditor{
     constructor() {
@@ -97,7 +98,7 @@ class QuestionEditor{
     }
 
     deliverFromServerImageURL(){
-        fetch("https://iot-experemental.herokuapp.com/files/question?id="+ this.selectedQuestionID)
+        fetch(SERVER_BASE_URL + "/files/question?id="+ this.selectedQuestionID)
             .then(response => response.json())
             .then(jResponse =>{
                 this.selectedQuestionImageURL = jResponse[0].image
@@ -111,7 +112,7 @@ class QuestionEditor{
         formData.append('image', event.target.files[0]);
         formData.append('owner_question', String(this.selectedQuestionID));
         fetch(
-            'https://iot-experemental.herokuapp.com/files/question?update_id='+ String(this.selectedQuestionID),
+            SERVER_BASE_URL + '/files/question?update_id='+ String(this.selectedQuestionID),
             {
                 method: 'POST',
                 body: formData,

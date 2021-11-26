@@ -1,6 +1,7 @@
 import {makeAutoObservable, reaction} from "mobx";
 import {UPDATE_ANSWER} from "./Struct";
 import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
+import {SERVER_BASE_URL} from "../../../../settings";
 
 export class Answer{
     ownStore: any = null
@@ -42,7 +43,7 @@ export class Answer{
     }
 
     getImageUrlFromServer(){
-        fetch("https://iot-experemental.herokuapp.com/files/answer?id="+ this.id)
+        fetch(SERVER_BASE_URL + "/files/answer?id="+ this.id)
             .then(response => response.json())
             .then(data => this.imageUrl = data[0].image)
             .then(() => this.fakeAnswerIndexForUpdatePreview = this.fakeAnswerIndexForUpdatePreview + 1)
@@ -54,7 +55,7 @@ export class Answer{
         formData.append('image', e.target.files[0]);
         formData.append('owner_answer', String(this.id));
         fetch(
-            'https://iot-experemental.herokuapp.com/files/answer?update_id=' + String(this.id),
+            SERVER_BASE_URL + '/files/answer?update_id=' + String(this.id),
             {
                 method: 'POST',
                 body: formData

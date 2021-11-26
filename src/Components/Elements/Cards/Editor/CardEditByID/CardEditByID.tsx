@@ -32,6 +32,7 @@ import SchoolIcon from "@mui/icons-material/School";
 import FunctionsIcon from "@mui/icons-material/Functions";
 import ScienceIcon from "@mui/icons-material/Science";
 import BiotechIcon from "@mui/icons-material/Biotech";
+import {SERVER_BASE_URL} from "../../../../../settings";
 export default function CardEditByID({cardId, ...props}: any) {
     const [autoSaveTimer, changeAutoSaveTimer] = useState<any>()
     const [stateOfSave, setStateOfSave] = useState(2) // 0- не сохранено 1- сохранение 2- сохранено
@@ -113,8 +114,8 @@ export default function CardEditByID({cardId, ...props}: any) {
         }
     })
     const get_card_image = () => {
-        // https://iot-experemental.herokuapp.com/cardfiles/card?
-        fetch("https://iot-experemental.herokuapp.com/cardfiles/card?id=" + cardID)
+        // SERVER_BASE_URL/cardfiles/card?
+        fetch(SERVER_BASE_URL + "/cardfiles/card?id=" + cardID)
             .then((response) => response.json())
             .then((data) => {
                 try {
@@ -272,7 +273,7 @@ export default function CardEditByID({cardId, ...props}: any) {
         formData.append('image', e.file);
         formData.append('card', cardID.toString());
         fetch(
-            'https://iot-experemental.herokuapp.com/cardfiles/card?update_id=' + cardID,
+            SERVER_BASE_URL+ '/cardfiles/card?update_id=' + cardID,
             {
                 method: 'POST',
                 body: formData,

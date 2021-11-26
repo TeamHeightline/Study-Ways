@@ -4,6 +4,7 @@ import {ApolloClient, ApolloLink, HttpLink, InMemoryCache, NormalizedCacheObject
 import { persistCache, LocalStorageWrapper } from 'apollo3-cache-persist';
 
 import {onError} from "apollo-link-error";
+import {SERVER_BASE_URL} from "../../settings";
 class Client{
     //Токен авторизации, самая важная вешь в проекте! При запуски он достается из локального хранилища
     token = localStorage.getItem('token');
@@ -46,7 +47,7 @@ class Client{
         });
         //Ссылка на бэкенд
         const httpLink = new HttpLink({
-            uri: 'https://iot-experemental.herokuapp.com/graphql/'
+            uri: SERVER_BASE_URL + '/graphql/'
             // Additional options
         });
         const errorLink: any = onError(({ graphQLErrors }) => {

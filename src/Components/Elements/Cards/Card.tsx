@@ -31,6 +31,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import {SHOW_CARD_BY_ID, GET_ALL_COURSE} from "./CardView/Struct"
 import {ICourseLine} from "../Course/Editor/EditCourseByID";
 import {Alert, AlertTitle} from "@mui/lab";
+import {SERVER_BASE_URL} from "../../../settings";
 
 type CardTitleAuthorThemeAndCopyrightBlockProps = {
     title?: string,
@@ -163,7 +164,7 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
         refetch()
     }, [id,])
     const get_card_image = () =>{
-        fetch("https://iot-experemental.herokuapp.com/cardfiles/card?id=" +
+        fetch(SERVER_BASE_URL + "/cardfiles/card?id=" +
             Number(props?.openFromCourse? CoursePageStorage.selectedCardID : CardPageStorage.selectedCardID))
             .then((response) => response.json())
             .then((data) =>{

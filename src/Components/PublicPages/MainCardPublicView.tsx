@@ -10,6 +10,7 @@ import {Alert, Pagination} from '@mui/material';
 import {MCPVSearchString} from "../Elements/Cards/CardView/#MCPVSearchString";
 import {MCPVCards} from "../Elements/Cards/CardView/#MCPVCards";
 import {isMobileHook} from "../../CustomHooks/isMobileHook";
+import {HardLevelSelector} from "../Elements/Cards/Editor/MainCardEditor/#HardLevelSelector";
 
 export const MainCardPublicView = observer(({...props}: any) => {
     useEffect(() => {
@@ -24,14 +25,23 @@ export const MainCardPublicView = observer(({...props}: any) => {
     return (
         <div {...props} style={{paddingTop: isMobile? 0: 3}}>
             <MCPVSearchString/>
-            <Grid container justifyContent={"space-around"} alignItems={"center"} rowSpacing={1}
-                  style={{paddingTop: isMobile? 0: 9}}>
+            <Grid container justifyContent={"space-evenly"} alignItems={"center"} rowSpacing={1}
+                  spacing={4}
+                  sx={{pt: isMobile? 1: 2, pl: 2, pr: 2}}
+                  // style={{paddingTop: isMobile? 0: 9}}
+            >
                 <Grid item xs={12} md={3}>
                     <ThemeSelector openFromPublicView={true}
                                    cards_data={[]}
                                    changeSelectedData={() => {
                                        void (0)
                                    }}/>
+                </Grid>
+                <Grid item xs={12} md={3}>
+                    <HardLevelSelector cards_data={[]}
+                                       changeSelectedData={() => {
+                                           void (0)
+                                       }}/>
                 </Grid>
                 <Grid item xs={12} md={3}>
                     {CardPageStorage.cardsDataAfterSelectTheme &&

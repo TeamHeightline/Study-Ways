@@ -4,11 +4,11 @@ import {CardActionArea} from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { Theme } from "@mui/material/styles";
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import axios from "axios";
-const useStyles = makeStyles((theme: Theme) =>
+import {SERVER_BASE_URL} from "../../../settings";
+const useStyles = makeStyles(() =>
     createStyles({
         root: {
             display: 'flex',
@@ -48,7 +48,7 @@ export default function ImageAnswerNode(props: any){
     const [urlHasBeenPassed, setUrlHasBeenPassed] = useState(false)
     const [isSelected, changeIsSelected] = useState(false)
     const fetchData = async () => {
-        const data = await axios("https://iot-experemental.herokuapp.com/files/answer?id=" + props.answer.id)
+        const data = await axios(SERVER_BASE_URL + "/files/answer?id=" + props.answer.id)
         try {
                 setUrlHasBeenPassed(true)
                 setAnswerImgUrl(data.data[0].image)

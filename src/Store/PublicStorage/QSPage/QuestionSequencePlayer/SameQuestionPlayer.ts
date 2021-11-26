@@ -10,6 +10,7 @@ import {shuffle} from "lodash"
 import {UserStorage} from "../../../UserStore/UserStore";
 import CryptoJS from 'crypto-js'
 import {GET_CARDS_ID_BY_SEARCH_STRING} from "../../CardsPage/Struct";
+import {SERVER_BASE_URL} from "../../../../settings";
 
 export class SameQuestionPlayer{
     constructor(ownStore, questionID){
@@ -232,7 +233,7 @@ export class SameQuestionPlayer{
 
     //Доставка изображения для вопроса с сервера
     deliverFromServerImageURL(){
-        fetch("https://iot-experemental.herokuapp.com/files/question?id="+ this.questionID)
+        fetch(SERVER_BASE_URL+ "/files/question?id="+ this.questionID)
             .then(response => response.json())
             .then(jResponse =>{
                 this.questionImageUrl = jResponse[0].image

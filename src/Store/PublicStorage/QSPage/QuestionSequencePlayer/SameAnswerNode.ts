@@ -1,4 +1,5 @@
 import {makeAutoObservable, reaction} from "mobx";
+import {SERVER_BASE_URL} from "../../../../settings";
 
 export class SameAnswerNode{
     constructor(id, text, isTrue, checkQueue?, helpTextv1?, helpTextv2?, helpTextv3?, hardLevelOfAnswer?) {
@@ -26,7 +27,7 @@ export class SameAnswerNode{
     helpTextv3 = ''
 
     getImageUrlFromServer(){
-        fetch("https://iot-experemental.herokuapp.com/files/answer?id="+ this.id)
+        fetch(SERVER_BASE_URL + "/files/answer?id="+ this.id)
             .then(response => response.json())
             .then(data => {
                 if(data && data[0]?.image){

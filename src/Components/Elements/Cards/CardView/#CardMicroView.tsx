@@ -21,6 +21,7 @@ import {GET_CARD_FOR_MICRO_VIEW_BY_ID, useStyles} from "./Struct"
 import { Skeleton } from '@mui/material';
 import urlParser from "js-video-url-parser";
 import "js-video-url-parser/lib/provider/youtube";
+import {SERVER_BASE_URL} from "../../../../settings";
 
 interface ICardMicroViewProps extends React.HTMLAttributes<HTMLDivElement> {
     cardID: number,
@@ -32,9 +33,9 @@ export default function CardMicroView({cardID = 1, isEditNow, isNowEditableCard,
     const classes = useStyles();
     const [cardImage, setCardImage] = useState()
     const get_card_image = () =>{
-        // https://iot-experemental.herokuapp.com/cardfiles/card?
+        // SERVER_BASE_URL/cardfiles/card?
         if(card_data?.cardById?.cardContentType != "A_0" && cardID != 1) {
-            fetch("https://iot-experemental.herokuapp.com/cardfiles/card?id=" + cardID)
+            fetch(SERVER_BASE_URL + "/cardfiles/card?id=" + cardID)
                 .then((response) => response.json())
                 .then((data) => {
                     // console.log(data)

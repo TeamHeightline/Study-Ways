@@ -7,6 +7,7 @@ import HttpIcon from "@mui/icons-material/Http";
 import ImageIcon from "@mui/icons-material/Image";
 import Typography from "@mui/material/Typography";
 import makeStyles from '@mui/styles/makeStyles';
+import {SERVER_BASE_URL} from "../../../../settings";
 
 const GET_CARD_DATA_BY_ID=gql`
     query GET_CARD_DATA_BY_ID($id: ID!){
@@ -38,7 +39,7 @@ const GET_CARD_DATA_BY_ID=gql`
 
         }
     }`
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     root: {
         display: 'flex',
         width: "550px",
@@ -67,8 +68,8 @@ export default function EditCourseItem({item_id, item_position, ...props}: any){
     const [itemID, setItemID] = useState(item_id)
     const [cardImage, setCardImage] = useState()
     const get_card_image = () =>{
-        // https://iot-experemental.herokuapp.com/cardfiles/card?
-        fetch("https://iot-experemental.herokuapp.com/cardfiles/card?id=" + itemID)
+        // SERVER_BASE_URL/cardfiles/card?
+        fetch(SERVER_BASE_URL + "/cardfiles/card?id=" + itemID)
             .then((response) => response.json())
             .then((data) =>{
                 // console.log(data)

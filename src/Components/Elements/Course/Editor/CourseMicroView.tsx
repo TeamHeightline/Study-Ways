@@ -3,11 +3,12 @@ import {Card, CardActionArea, Stack, Tooltip, Typography} from "@mui/material";
 import CourseNavigation from "../Vue/CourseNavigation";
 import {Spinner} from "react-bootstrap";
 import styles from './Style.module.css'
+import {SERVER_BASE_URL} from "../../../../settings";
 
 export default function CourseMicroView({course, ...props}: any) {
     const [cardCourseImageURL, setCardCourseImageURL] = useState('');
     async function getCourseImageData(){
-        fetch("https://iot-experemental.herokuapp.com/cardfiles/course?id=" + course?.id)
+        fetch(SERVER_BASE_URL+ "/cardfiles/course?id=" + course?.id)
             .then((response) => response.json())
             .then((result) => {
                 // console.log('Success:', result);

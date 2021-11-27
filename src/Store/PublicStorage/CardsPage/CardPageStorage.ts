@@ -1,11 +1,12 @@
 import {makeAutoObservable, reaction, toJS} from "mobx";
 import {ClientStorage} from "../../ApolloStorage/ClientStorage";
 import {GET_ALL_CARDS, GET_CARDS_ID_BY_SEARCH_STRING, GET_THEMES} from "./Struct";
-import {CardNode, GlobalCardThemeNode, Maybe} from "../../../SchemaTypes";
+import {CardHardLevel, CardNode, GlobalCardThemeNode, Maybe} from "../../../SchemaTypes";
 import TreeSelect from "antd/es/tree-select";
 import {filter, find} from "lodash";
 import {sort} from "fast-sort";
 const { SHOW_CHILD } = TreeSelect;
+type HardLevelWithUndefined = CardHardLevel | "undefined"
 
 class CardPage{
     constructor() {
@@ -176,6 +177,20 @@ class CardPage{
         })
         return(selectedCardsArray)
     }
+
+    selectedHardLevel: HardLevelWithUndefined = "undefined"
+    setSelectedHardLevel(newLevel: any){
+        this.selectedHardLevel = newLevel
+    }
+    get cardsDataAfterSelectHardLevel() {
+        if (this.selectedHardLevel === "undefined") {
+            return (this.cardsDataAfterSelectTheme)
+        } else{
+            console.log(this.selectedHardLevel)
+            return(this.cardsDataAfterSelectTheme
+                .filter((theme) => theme.hardLevel == this.selectedHardLevel))
+        }
+    }
     //----------------------для селектора типа контента-------------------
     selectedContentType = 1000000
     changeContentType(type){
@@ -184,9 +199,9 @@ class CardPage{
     //Массив данных о карточках после фильтрации по типу контента
     get cardsDataAfterSelectContentType(){
         if (Number(this.selectedContentType) != 1000000) {
-            return(filter(this.cardsDataAfterSelectTheme, {'cardContentType': "A_" + this.selectedContentType}))
+            return(filter(this.cardsDataAfterSelectHardLevel, {'cardContentType': "A_" + this.selectedContentType}))
         } else {
-            return(this.cardsDataAfterSelectTheme)
+            return(this.cardsDataAfterSelectHardLevel)
         }
     }
     //--------------------селектор автора--------------------------------

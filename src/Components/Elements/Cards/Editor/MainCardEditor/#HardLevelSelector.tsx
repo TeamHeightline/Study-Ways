@@ -1,26 +1,28 @@
 import {observer} from "mobx-react";
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
-import React, {useState} from "react";
+import React from "react";
 import {CardHardLevel} from "../../../../../SchemaTypes";
 import ArchitectureIcon from "@mui/icons-material/Architecture";
 import FunctionsIcon from "@mui/icons-material/Functions";
 import SchoolIcon from "@mui/icons-material/School";
 import ScienceIcon from "@mui/icons-material/Science";
 import BiotechIcon from "@mui/icons-material/Biotech";
+import {CardPageStorage} from "../../../../../Store/PublicStorage/CardsPage/CardPageStorage";
 
-export const HardLevelSelector = observer(({cards_data, changeSelectedData}) =>{
-    const [cardHardLevel, setCardHardLevel] = useState<CardHardLevel>(CardHardLevel.A_2)
-    const cardHardLevelHandler = (e) => {
-        setCardHardLevel(e.target.value)
-    }
+
+export const HardLevelSelector = observer(() =>{
     return(
         <div>
             <FormControl variant="outlined" fullWidth>
                 <InputLabel>Уровень сложности</InputLabel>
-                <Select value={cardHardLevel}
-                        onChange={cardHardLevelHandler}
+                <Select value={CardPageStorage.selectedHardLevel}
+                        onChange={(e) => CardPageStorage.setSelectedHardLevel(e.target.value)}
                         fullWidth
                         label={"Уровень сложности"}>
+                    <MenuItem value={"undefined"}>
+                        {/*<ArchitectureIcon style={{marginRight: 12}}  fontSize="small"  />*/}
+                        Все
+                    </MenuItem>
                     <MenuItem value={CardHardLevel.A_0}>
                         <ArchitectureIcon style={{marginRight: 12}}  fontSize="small"  />
                         Выпускникам школ

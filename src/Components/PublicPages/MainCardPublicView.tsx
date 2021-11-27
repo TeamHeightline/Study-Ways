@@ -38,10 +38,7 @@ export const MainCardPublicView = observer(({...props}: any) => {
                                    }}/>
                 </Grid>
                 <Grid item xs={12} md={3}>
-                    <HardLevelSelector cards_data={[]}
-                                       changeSelectedData={() => {
-                                           void (0)
-                                       }}/>
+                    <HardLevelSelector />
                 </Grid>
                 <Grid item xs={12} md={3}>
                     {CardPageStorage.cardsDataAfterSelectTheme &&

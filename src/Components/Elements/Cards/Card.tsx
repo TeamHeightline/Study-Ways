@@ -288,7 +288,7 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
                                 onClick={() => {
                                     if (card_data?.cardById?.cardContentType === "A_1") {
                                         console.log("click on image")
-                                        window.open(card_data?.cardById?.videoUrl || undefined, '_blank')
+                                        window.open(card_data?.cardById?.siteUrl || undefined, '_blank')
                                     }
                                 }}>
                             </div>}

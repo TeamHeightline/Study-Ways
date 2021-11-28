@@ -21,7 +21,7 @@ export const MainCardPublicView = observer(({...props}: any) => {
     const memorizedCardsForDisplay = useMemo(() => <MCPVCards
             cardsDataForRender={toJS(CardPageStorage.cardsDataForRender)}/>,
         [toJS(CardPageStorage.cardsDataForRender)[0]?.id, toJS(CardPageStorage.cardsDataForRender)[1]?.id,
-            toJS(CardPageStorage.cardsDataForRender)[2]?.id])
+            toJS(CardPageStorage.cardsDataForRender)[20]?.id])
     return (
         <div {...props} style={{paddingTop: isMobile? 0: 3}}>
             <MCPVSearchString/>

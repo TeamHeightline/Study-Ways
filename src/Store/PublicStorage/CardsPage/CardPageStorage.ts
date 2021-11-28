@@ -183,10 +183,9 @@ class CardPage{
         this.selectedHardLevel = newLevel
     }
     get cardsDataAfterSelectHardLevel() {
-        if (this.selectedHardLevel === "undefined") {
+        if (this.selectedHardLevel == "undefined") {
             return (this.cardsDataAfterSelectTheme)
         } else{
-            console.log(this.selectedHardLevel)
             return(this.cardsDataAfterSelectTheme
                 .filter((theme) => theme.hardLevel == this.selectedHardLevel))
         }
@@ -199,7 +198,7 @@ class CardPage{
     //Массив данных о карточках после фильтрации по типу контента
     get cardsDataAfterSelectContentType(){
         if (Number(this.selectedContentType) != 1000000) {
-            return(filter(this.cardsDataAfterSelectHardLevel, {'cardContentType': "A_" + this.selectedContentType}))
+            return(this.cardsDataAfterSelectHardLevel.filter((card) => card.cardContentType == "A_" + this.selectedContentType))
         } else {
             return(this.cardsDataAfterSelectHardLevel)
         }

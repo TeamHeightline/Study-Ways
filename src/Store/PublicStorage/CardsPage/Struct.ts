@@ -12,6 +12,7 @@ export const GET_ALL_CARDS = gql`
                 id
                 name
             }
+            hardLevel
             cardContentType
         }
     }`
@@ -45,6 +46,7 @@ export const GET_CARDS_ID_BY_SEARCH_STRING= gql`
                 name
             }
             cardContentType
+            hardLevel
         }
     }
 `

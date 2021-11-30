@@ -165,7 +165,9 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
     }, [id,])
     const get_card_image = () =>{
         fetch(SERVER_BASE_URL + "/cardfiles/card?id=" +
-            Number(props?.openFromCourse? CoursePageStorage.selectedCardID : CardPageStorage.selectedCardID))
+            Number(id? id :
+                props?.openFromCourse? CoursePageStorage.selectedCardID :
+                    CardPageStorage.selectedCardID,))
             .then((response) => response.json())
             .then((data) =>{
                 try{

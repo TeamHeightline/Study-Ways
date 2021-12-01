@@ -98,10 +98,10 @@ export default function CardMicroView({cardID = 1, isEditNow, isNowEditableCard,
                                 }
                         />}
                         {(Number(card_data.cardById.cardContentType[2]) === 1 ||
-                            Number(card_data.cardById.cardContentType[2]) === 2) && cardImage &&
+                            Number(card_data.cardById.cardContentType[2]) === 2)  &&
                         <CardMedia
                             style={{width: 132, height: 169}}
-                            image={cardImage}
+                            image={cardImage? cardImage : "https://storage.googleapis.com/sw-files/cards-images/card/" + cardID }
                         />
                         }
                     </Grid>

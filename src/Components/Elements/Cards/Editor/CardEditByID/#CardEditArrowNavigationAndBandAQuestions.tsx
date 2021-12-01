@@ -55,8 +55,8 @@ export function CardEditArrowNavigationAndBandAQuestions(props: any) {
                 <Grid item xs={12} container style={{marginTop: 6}}>
                     <Grid item xs={3} md={1}>
                         <ButtonGroup size="medium" color="primary">
-                            <Button>
-                                <KeyboardArrowLeftOutlinedIcon/>
+                            <Button onClick={() => window.open(props.arrowBefore, "_blank")}>
+                                <KeyboardArrowLeftOutlinedIcon />
                             </Button>
                         </ButtonGroup>
                     </Grid>
@@ -75,7 +75,7 @@ export function CardEditArrowNavigationAndBandAQuestions(props: any) {
                 <Grid item xs={12} container style={{marginTop: 6}}>
                     <Grid item xs={3} md={1}>
                         <ButtonGroup size="medium" color="primary">
-                            <Button>
+                            <Button onClick={() => window.open(props.arrowDown, "_blank")}>
                                 <KeyboardArrowDownOutlinedIcon/>
                             </Button>
                         </ButtonGroup>
@@ -95,7 +95,7 @@ export function CardEditArrowNavigationAndBandAQuestions(props: any) {
                 <Grid item xs={12} container style={{marginTop: 6}}>
                     <Grid item xs={3} md={1}>
                         <ButtonGroup size="medium" color="primary">
-                            <Button>
+                            <Button onClick={() => window.open(props.arrowUp, "_blank")}>
                                 <KeyboardArrowUpOutlinedIcon/>
                             </Button>
                         </ButtonGroup>
@@ -115,7 +115,7 @@ export function CardEditArrowNavigationAndBandAQuestions(props: any) {
                 <Grid item xs={12} container style={{marginTop: 6}}>
                     <Grid item xs={3} md={1}>
                         <ButtonGroup size="medium" color="primary">
-                            <Button>
+                            <Button onClick={() => window.open(props.arrowNext, "_blank")}>
                                 <KeyboardArrowRightOutlinedIcon/>
                             </Button>
                         </ButtonGroup>

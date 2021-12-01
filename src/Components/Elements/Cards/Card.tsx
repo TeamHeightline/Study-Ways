@@ -34,18 +34,21 @@ import {Alert, AlertTitle} from "@mui/lab";
 import {SERVER_BASE_URL} from "../../../settings";
 
 type CardTitleAuthorThemeAndCopyrightBlockProps = {
+    id?: number,
     title?: string,
     copyright?: string,
     subTheme?: CardSubThemeNode[]
     author?: CardAuthorNode[]
     isCardUseCopyright?: boolean,
     isMobile?: boolean,
+
 }
-function CardTitleAuthorThemeAndCopyrightBlock({title, copyright, subTheme, author, isCardUseCopyright, isMobile}: CardTitleAuthorThemeAndCopyrightBlockProps) {
+function CardTitleAuthorThemeAndCopyrightBlock({id, title, copyright, subTheme, author, isCardUseCopyright, isMobile}: CardTitleAuthorThemeAndCopyrightBlockProps) {
     return <Row className="mt-4">
         <Col className="col-12">
             <Row className="pl-2">
                 <Typography id={"card-title"} className="pl-md-2" variant={isMobile ? "h6" : "h4"}>{title? title : ""}</Typography>
+                <Typography id={"card-id"} className="pl-md-2" variant={isMobile ? "subtitle2" : "subtitle1"}>{id? id : ""}</Typography>
                 {/*<Typography variant="subtitle2">{card_data?.cardById?.id}</Typography>*/}
                 {isCardUseCopyright && copyright &&
                 <Typography variant="h6" className="pl-md-2">
@@ -163,16 +166,21 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
     useEffect(() =>{
         refetch()
     }, [id,])
-    const get_card_image = () =>{
+    const get_card_image = (useCache=true) =>{
         fetch(SERVER_BASE_URL + "/cardfiles/card?id=" +
             Number(id? id :
                 props?.openFromCourse? CoursePageStorage.selectedCardID :
-                    CardPageStorage.selectedCardID,))
+                    CardPageStorage.selectedCardID,), {cache: useCache? "force-cache": "default"})
             .then((response) => response.json())
             .then((data) =>{
                 try{
                     // console.log(data)
-                    setCardImage(data[0].image)
+                    if(data[0].image != cardImage){
+                        setCardImage(data[0].image)
+                    }
+                    if(useCache){
+                        get_card_image(false)
+                    }
                 }
                 catch(e){
                     void(0)
@@ -231,7 +239,7 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
                             </Grid>
                             <Grid item md={8} xs={12} style={{paddingLeft: isMobile? 0: 12}}>
                                 {!card_data ? <Spinner id={"course-only-loading"} animation="border" variant="success" className=" offset-6 mt-5"/> :
-                                        <CardTitleAuthorThemeAndCopyrightBlock
+                                        <CardTitleAuthorThemeAndCopyrightBlock id={id}
                                         title={card_data?.cardById?.title}
                                         isCardUseCopyright={card_data?.cardById?.isCardUseCopyright}
                                         copyright={card_data?.cardById?.copyright || ""}
@@ -262,7 +270,7 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
                                                         questionHasBeenCompleted={() => setOpenTestBeforeCard(false)}/> :
                 <div>
                     {!props.openFromCourse &&
-                    <CardTitleAuthorThemeAndCopyrightBlock
+                    <CardTitleAuthorThemeAndCopyrightBlock id={id}
                         title={card_data?.cardById?.title}
                         isCardUseCopyright={card_data?.cardById?.isCardUseCopyright}
                         copyright={card_data?.cardById?.copyright || ""}

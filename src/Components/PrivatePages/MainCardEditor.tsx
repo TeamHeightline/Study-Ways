@@ -56,7 +56,7 @@ export default function MainCardEditor({...props}: any){
     const [stateOfCreating, setStateOfCreating] = useState(false)
     const isMobile = isMobileHook()
 
-    const {data: card_data, refetch, loading} = useQuery(GET_ALL_CARD_DATA, {
+    const {data: card_data, refetch} = useQuery(GET_ALL_CARD_DATA, {
         fetchPolicy: "cache-and-network"
     })
     const [create_mutation] = useMutation<Mutation>(CREATE_NEW_CARD,
@@ -100,7 +100,7 @@ export default function MainCardEditor({...props}: any){
             }}/>
         )
     }
-    if(loading || stateOfCreating){
+    if(stateOfCreating){
         return (
             <Grid container justifyContent="center" style={{marginTop: 12}}>
                 <Grid item>

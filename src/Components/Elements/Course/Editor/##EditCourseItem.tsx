@@ -8,6 +8,7 @@ import ImageIcon from "@mui/icons-material/Image";
 import Typography from "@mui/material/Typography";
 import makeStyles from '@mui/styles/makeStyles';
 import {SERVER_BASE_URL} from "../../../../settings";
+import urlParser from "js-video-url-parser";
 
 const GET_CARD_DATA_BY_ID=gql`
     query GET_CARD_DATA_BY_ID($id: ID!){
@@ -110,7 +111,7 @@ export default function EditCourseItem({item_id, item_position, ...props}: any){
                     <div className={classes.cover}>
                         {Number(card_data?.cardById.cardContentType[2]) === 0 &&  card_data?.cardById?.videoUrl &&
                         <>
-                            <img className={classes.cover} src={"https://img.youtube.com/vi/"+ card_data?.cardById?.videoUrl.split('?v=')[1] + "/hqdefault.jpg"}/>
+                            <img className={classes.cover} src={"https://img.youtube.com/vi/" + urlParser.parse(card_data?.cardById?.videoUrl)?.id + "/hqdefault.jpg"}/>
                         </>}
                         {(Number(card_data?.cardById.cardContentType[2]) === 1 || Number(card_data?.cardById?.cardContentType[2]) === 2) && cardImage ?
                             <img className={classes.cover} src={cardImage}/>: null

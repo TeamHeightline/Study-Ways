@@ -7,12 +7,17 @@ import {SERVER_BASE_URL} from "../../../../settings";
 
 export default function CourseMicroView({course, ...props}: any) {
     const [cardCourseImageURL, setCardCourseImageURL] = useState('');
-    async function getCourseImageData(){
-        fetch(SERVER_BASE_URL+ "/cardfiles/course?id=" + course?.id)
+    async function getCourseImageData(useCache=true){
+        fetch(SERVER_BASE_URL+ "/cardfiles/course?id=" + course?.id, {cache: useCache? "force-cache": "default"})
             .then((response) => response.json())
             .then((result) => {
                 // console.log('Success:', result);
-                setCardCourseImageURL(result[0].image)
+                if(result[0].image !== cardCourseImageURL){
+                    setCardCourseImageURL(result[0].image)
+                }
+                if(useCache){
+                    getCourseImageData(false)
+                }
             })
             .catch(() => {
                 void(0)
@@ -39,7 +44,7 @@ export default function CourseMicroView({course, ...props}: any) {
                                 height: 160,
                                 backgroundSize: "cover",
                                 // boxShadow: "inset 0 0 5em 1em #000",
-                                backgroundImage: cardCourseImageURL ? "url(" + cardCourseImageURL + ")": "url('https://content.skyscnr.com/m/5462d448281ea355/original/GettyImages-468945589.jpg?resize=1800px:1800px&quality=100')"}}
+                                backgroundImage: cardCourseImageURL ? "url(" + cardCourseImageURL + ")": "url('https://storage.googleapis.com/sw-files/cards-course-images/course/')"}}
                             onClick={() => {
                                 props?.onEdit(course.id)
                             }}>

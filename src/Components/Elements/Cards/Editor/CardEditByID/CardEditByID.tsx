@@ -51,7 +51,7 @@ export default function CardEditByID({cardId, ...props}: any) {
     const [cardAdditionalText, setCardAdditionalText] = useState('')
     const [cardBodyQuestionId, setCardBodyQuestionId] = useState<number | string>('')
     const [cardBeforeCardQuestionId, setCardBeforeCardQuestionId] = useState<number | string>('')
-    const [cardImage, setCardImage] = useState()
+    const [cardImage, setCardImage] = useState<string>('')
     const [cardSrcToOtherSite, setCardSrcToOtherSite] = useState('')
     const [cardCopyrightText, setCardCopyrightText] = useState('')
     const [arrowBefore, setArrowBefore] = useState('')
@@ -120,7 +120,7 @@ export default function CardEditByID({cardId, ...props}: any) {
             .then((data) => {
                 try {
                     console.log(data)
-                    setCardImage(data[0].image)
+                    setCardImage(data[0].image.split("/card/")[1])
                 } catch (e) {
                     console.log(e)
                 }
@@ -283,7 +283,7 @@ export default function CardEditByID({cardId, ...props}: any) {
             .then((result) => {
                 console.log('Success:', result);
                 message.success(`${e.file.name} успешно загружен.`);
-                setCardImage(result.image)
+                setCardImage(result.image.split("/card/")[1])
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -518,7 +518,7 @@ export default function CardEditByID({cardId, ...props}: any) {
                                  beforeUpload={() => false}
                                  onChange={handleUploadImage}
                                  style={{
-                                     backgroundImage: "url(" + cardImage + ")",
+                                     backgroundImage: "url(https://storage.googleapis.com/sw-files/cards-images/card/" + cardImage + ")",
                                      backgroundSize: "cover",
                                      backgroundRepeat: "no-repeat",
                                  }}

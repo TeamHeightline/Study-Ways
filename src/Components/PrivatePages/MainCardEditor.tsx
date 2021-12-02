@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import CardMicroView from "../Elements/Cards/CardView/#CardMicroView";
 import { Row} from "react-bootstrap";
 import CardEditByID from "../Elements/Cards/Editor/CardEditByID/CardEditByID";
@@ -55,6 +55,17 @@ export default function MainCardEditor({...props}: any){
     const [activePageNumber, setActivePageNumber] = useState(1)
     const [stateOfCreating, setStateOfCreating] = useState(false)
     const isMobile = isMobileHook()
+
+    useEffect(()=>{
+        if(props?.activeEditCard){
+            console.log(props?.activeEditCard)
+            setIsEditNow(false)
+            setSelectedCardID(0)
+            setSelectedCardID(props?.activeEditCard)
+            setIsEditNow(true)
+            // props?.setActiveEditCard(undefined)
+        }
+    }, [props?.activeEditCard])
 
     const {data: card_data, refetch} = useQuery(GET_ALL_CARD_DATA, {
         fetchPolicy: "cache-and-network"

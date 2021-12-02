@@ -54,7 +54,7 @@ const useStyles = makeStyles(() => ({
         flex: '1 0 auto',
     },
     cover: {
-        width: 150,
+        width: 135,
         height: 50,
         objectFit: 'cover'
     },
@@ -108,7 +108,7 @@ export default function EditCourseItem({item_id, item_position, ...props}: any){
             }>
                 <div>
                     {itemID ?
-                    <div className={classes.cover}>
+                    <div className={classes.cover} onClick={() => props.editCard(itemID)}>
                         {Number(card_data?.cardById.cardContentType[2]) === 0 &&  card_data?.cardById?.videoUrl &&
                         <>
                             <img className={classes.cover} src={"https://img.youtube.com/vi/" + urlParser.parse(card_data?.cardById?.videoUrl)?.id + "/hqdefault.jpg"}/>

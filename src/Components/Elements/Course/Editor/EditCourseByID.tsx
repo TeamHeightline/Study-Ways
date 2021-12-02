@@ -36,6 +36,7 @@ export default function EditCourseByID({course_id, ...props}: any){
     const [cardStateOfSave, setCardStateOfSave] = useState(2)
     const [stateOfSave, setStateOfSave] = useState(2) // 0- не сохранено 1- сохранение 2- сохранено
     const [rerender, setRerender] = useState(false)
+    const [activeEditCard, setActiveEditCard] = useState<number | undefined>()
     const isMobile = isMobileHook()
 
     const [update_course] = useMutation(UPDATE_COURSE_DATA, {
@@ -129,6 +130,9 @@ export default function EditCourseByID({course_id, ...props}: any){
         setRerender(!rerender)
         autoSave()
     }
+    function setEditCard(card_id){
+        setActiveEditCard(card_id)
+    }
 
 
     if(!course_data){
@@ -136,7 +140,6 @@ export default function EditCourseByID({course_id, ...props}: any){
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
-    console.log(CourseLinesData)
     return(
         <div className="mt-4 pl-2">
             <div className="pl-md-5">
@@ -195,7 +198,9 @@ export default function EditCourseByID({course_id, ...props}: any){
             <div className="pl-md-5 pr-md-5" style={{overflow: "auto"}}>
                 {CourseLinesData.length !== 0 && CourseLinesData.map((line, lIndex) =>{
                     return(
-                        <CourseRow key={lIndex + "course" + props.cIndex} row={line} lIndex={lIndex}
+                        <CourseRow
+                            editCard={(item_id) => setEditCard(item_id)}
+                            key={lIndex + "course" + props.cIndex} row={line} lIndex={lIndex}
                                    cIndex={props.cIndex}
                                    openPageIndex={openPageIndex}
                                    updateCourseRow={new_row =>{
@@ -212,6 +217,8 @@ export default function EditCourseByID({course_id, ...props}: any){
             </div>
             <div style={{overflow: "auto"}}>
                 <MainCardEditor
+                    {...{activeEditCard, setActiveEditCard}}
+
                     returnStateOfSave={(data) =>{
                         setCardStateOfSave(data)
                     }}

@@ -1,16 +1,13 @@
 import React, {useState} from 'react'
-import {Card, Chip, TextField, Tooltip} from "@mui/material";
+import {Card, Popover, TextField} from "@mui/material";
 import {gql} from "graphql.macro";
 import {useQuery} from "@apollo/client";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-import HttpIcon from "@mui/icons-material/Http";
-import ImageIcon from "@mui/icons-material/Image";
-import Typography from "@mui/material/Typography";
 import makeStyles from '@mui/styles/makeStyles';
 import {SERVER_BASE_URL} from "../../../../settings";
 import urlParser from "js-video-url-parser";
+import CardMicroView from "../../Cards/CardView/#CardMicroView";
 
-const GET_CARD_DATA_BY_ID=gql`
+const GET_CARD_DATA_BY_ID = gql`
     query GET_CARD_DATA_BY_ID($id: ID!){
         cardById(id: $id){
             id
@@ -64,80 +61,106 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-export default function EditCourseItem({item_id, item_position, ...props}: any){
+export default function EditCourseItem({item_id, item_position, ...props}: any) {
     const classes = useStyles();
     const [itemID, setItemID] = useState(item_id)
     const [cardImage, setCardImage] = useState()
-    const get_card_image = () =>{
+    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
+
+    const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handlePopoverClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
+
+    const get_card_image = () => {
         // SERVER_BASE_URL/cardfiles/card?
         fetch(SERVER_BASE_URL + "/cardfiles/card?id=" + itemID)
             .then((response) => response.json())
-            .then((data) =>{
+            .then((data) => {
                 // console.log(data)
-                try{
+                try {
                     setCardImage(data[0].image)
-                }
-                catch(e){
-                    void(0)
+                } catch (e) {
+                    void (0)
                 }
             })
     }
 
     const {data: card_data} = useQuery(GET_CARD_DATA_BY_ID, {
-        variables:{
+        variables: {
             id: itemID
         },
-        onCompleted: () =>{
-            if (itemID){
+        onCompleted: () => {
+            if (itemID) {
                 get_card_image()
             }
         }
     })
     // console.log(itemID)
     return (
-        <Card style={{height:80, width: 135, marginLeft:12}} variant="outlined">
-            <Tooltip title={itemID && card_data &&
-                <div>
-                    <Typography  variant="h6" gutterBottom className="pr-5">
-                        {Number(card_data?.cardById?.cardContentType[2]) === 0 && <Chip size="small" variant="outlined" color="secondary" icon={<YouTubeIcon />} label="YouTube"/>}
-                        {Number(card_data?.cardById?.cardContentType[2]) === 1 && <Chip size="small" variant="outlined" color="primary" icon={<HttpIcon />} label="Ресурс"/>}
-                        {Number(card_data?.cardById?.cardContentType[2]) === 2 && <Chip size="small" variant="outlined" color="default" icon={<ImageIcon />} label="Изображение"/>}
-                        {card_data?.cardById?.title}
-                    </Typography>
-                </div>
-            }>
-                <div>
-                    {itemID ?
-                    <div className={classes.cover} onClick={() => props.editCard(itemID)}>
-                        {Number(card_data?.cardById.cardContentType[2]) === 0 &&  card_data?.cardById?.videoUrl &&
+        <Card style={{height: 80, width: 135, marginLeft: 12}} variant="outlined">
+            <Popover
+                id="mouse-over-popover"
+                sx={{
+                    pointerEvents: 'none',
+                }}
+                open={open}
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                }}
+                onClose={handlePopoverClose}
+                disableRestoreFocus
+            >
+                <CardMicroView cardID={itemID}/>
+            </Popover>
+            <div>
+                {itemID ?
+                    <div className={classes.cover}
+                         onMouseEnter={handlePopoverOpen}
+                         onMouseLeave={handlePopoverClose}
+                         onClick={() => props.editCard(itemID)}>
+                        {Number(card_data?.cardById.cardContentType[2]) === 0 && card_data?.cardById?.videoUrl &&
                         <>
-                            <img className={classes.cover} src={"https://img.youtube.com/vi/" + urlParser.parse(card_data?.cardById?.videoUrl)?.id + "/hqdefault.jpg"}/>
+                            <img className={classes.cover}
+                                 src={"https://img.youtube.com/vi/" + urlParser.parse(card_data?.cardById?.videoUrl)?.id + "/hqdefault.jpg"}/>
                         </>}
                         {(Number(card_data?.cardById.cardContentType[2]) === 1 || Number(card_data?.cardById?.cardContentType[2]) === 2) && cardImage ?
-                            <img className={classes.cover} src={cardImage}/>: null
+                            <img className={classes.cover} src={cardImage}/> : null
                         }
-                    </div>: <div className={classes.cover}/>}
+                    </div> : <div className={classes.cover}/>}
 
 
-                    <TextField
-                        className="col-10 ml-2"
-                        // id={"courseItemID" + itemID}
-                        label=""
-                        fullWidth
-                        value={itemID}
-                        variant="standard"
-                        onChange={(e) =>{
-                            const valueWithOnlyNumber = e.target.value.replace(/[^\d]/g, '')
-                            props.updateItem({
-                                CourseElement: {
-                                    id: valueWithOnlyNumber
-                                }
-                            })
-                            setItemID(valueWithOnlyNumber)
-                        }}
-                    />
-                </div>
-            </Tooltip>
+                <TextField
+                    className="col-12 pl-2"
+                    // id={"courseItemID" + itemID}
+                    label=""
+                    fullWidth
+                    value={itemID}
+                    variant="standard"
+                    onChange={(e) => {
+                        const valueWithOnlyNumber = e.target.value.replace(/[^\d]/g, '')
+                        props.updateItem({
+                            CourseElement: {
+                                id: valueWithOnlyNumber
+                            }
+                        })
+                        setItemID(valueWithOnlyNumber)
+                    }}
+                />
+            </div>
+
         </Card>
     );
 }

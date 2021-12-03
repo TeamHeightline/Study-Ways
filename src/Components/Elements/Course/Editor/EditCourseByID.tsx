@@ -3,7 +3,7 @@ import MainCardEditor from "../../../PrivatePages/MainCardEditor";
 import CourseRow from "./#CourseRow";
 import {gql} from "graphql.macro";
 import {useMutation, useQuery} from "@apollo/client";
-import {Row, Spinner} from "react-bootstrap";
+import {Spinner} from "react-bootstrap";
 import { Alert, Pagination } from '@mui/material';
 import {Button, ButtonGroup, Grid, Snackbar, TextField, Typography} from "@mui/material";
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
@@ -151,13 +151,11 @@ export default function EditCourseByID({course_id, ...props}: any){
                         Назад
                     </Button>: null}
                 <br/>
-                <Row>
-                    <TextField className=" mt-2 col-md-4 col-12" value={courseName}
-                               onChange={(e) =>{
-                                    setCourseName(e.target.value)
-                                    autoSave()
-                               }} label="Название курса" variant="filled" size="small" multiline/>
-                </Row>
+                <TextField className=" mt-2 col-md-4 col-12" value={courseName}
+                           onChange={(e) =>{
+                                setCourseName(e.target.value)
+                                autoSave()
+                           }} label="Название курса" variant="filled" size="small" multiline/>
                 <div>
                     {course_id &&
                     <Button
@@ -171,7 +169,7 @@ export default function EditCourseByID({course_id, ...props}: any){
                         Изображение для курса
                     </Button>}
                     <br/>
-                    <Typography className="pl-md-5">
+                    <Typography >
                         {course_id && cardCourseImageName && <div>{isMobile ? cardCourseImageName.slice(0, 25) + "..."
                             : cardCourseImageName}</div>}
                     </Typography>
@@ -184,7 +182,7 @@ export default function EditCourseByID({course_id, ...props}: any){
                                 onChange={(e, value) =>{setOpenPageIndex(value)}}
                                 size={isMobile ? "small" : "large"} variant="outlined" color="secondary"/>
                         </Grid>
-                        <Grid item xs={12} md={1} style={{marginLeft: 12}}>
+                        <Grid item xs={12} md={1} style={{paddingLeft: 12}}>
                             <ButtonGroup style={{zoom: "109%"}}>
                                 <Button onClick={() => addCourseFragment()}>
                                     <AddIcon/>
@@ -192,8 +190,6 @@ export default function EditCourseByID({course_id, ...props}: any){
                             </ButtonGroup>
                         </Grid>
                     </Grid>}
-
-
             </div>
             <div className="pl-md-5 pr-md-5" style={{overflow: "auto"}}>
                 {CourseLinesData.length !== 0 && CourseLinesData.map((line, lIndex) =>{

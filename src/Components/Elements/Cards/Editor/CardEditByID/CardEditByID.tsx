@@ -133,7 +133,6 @@ export default function CardEditByID({cardId, ...props}: any) {
             },
             fetchPolicy: "network-only",
             onCompleted: async data => {
-                console.log(data)
                 if (data && data?.cardById) {
                     await setIsUseMainContent(data?.cardById?.isCardUseMainContent || true)
                     await setIsUseMainText(data?.cardById?.isCardUseMainText || true)

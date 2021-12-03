@@ -12,7 +12,7 @@
     "npm": "8.1.0"
   },
   "dependencies": {
-    "@apollo/client": "^3.3.16",
+    "@apollo/client": "3.4.17",
     "@babel/plugin-transform-modules-commonjs": "^7.14.0",
     "@ckeditor/ckeditor5-dev-webpack-plugin": "^24.4.2",
     "@ckeditor/ckeditor5-react": "^3.0.2",

@@ -1,13 +1,18 @@
 steps:
+  - name: 'gcr.io/kaniko-project/executor:latest'
+    args:
+      - --destination=gcr.io/$PROJECT_ID/image
+      - --cache=true
+      - --cache-ttl=90h
   - name: node:16.13.0
     entrypoint: npm
-    args: ["install"]
+    args: [ "install" ]
   - name: node:10.15.1
     entrypoint: npm
-    args: ["run", "build"]
+    args: [ "run", "build" ]
     env:
       - 'NODE_ENV=production'
       - 'GENERATE_SOURCEMAP=false'
   - name: "gcr.io/cloud-builders/gcloud"
-    args: ["app", "deploy"]
+    args: [ "app", "deploy" ]
 timeout: "1600s"

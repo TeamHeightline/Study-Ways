@@ -2,7 +2,7 @@ steps:
   - name: node:16.13.0
     entrypoint: npm
     args: [ "install" ]
-  - name: node:10.15.1
+  - name: node:16.13.0
     entrypoint: npm
     args: [ "run", "build" ]
     env:

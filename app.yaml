@@ -1,10 +1,6 @@
 # [START runtime]
 runtime: nodejs
-env: flex
-instance_class: F1
-automatic_scaling:
-  max_instances: 1 (--> you can adjust this as you wish)
-  min_instances: 0 (--> will scale to 0 when there is no traffic so won't incur costs)
+env: standard
 # [END runtime]
 
 # [START handlers]

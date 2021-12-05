@@ -14,9 +14,15 @@ import {AnswersEditor} from "../AnswersEditor/AnswersEditor";
 import {CreateNewAnswer} from "./#CreateNewAnswer";
 import React from "react";
 import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
+import {Spinner} from "react-bootstrap";
 
 export const EditQuestionByID = observer(() =>{
     const isMobile = isMobileHook()
+    if(!QuestionEditorStorage?.allQuestionsDataHasBeenDeliver){
+        return (
+            <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
+        )
+    }
     return(
         <div style={{paddingLeft: isMobile? 0: 40, paddingRight: 10}}>
             <Button

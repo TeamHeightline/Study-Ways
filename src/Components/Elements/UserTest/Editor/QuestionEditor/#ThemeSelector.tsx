@@ -18,7 +18,8 @@ export const ThemeSelector = observer(()=>{
                 id="demo-mutiple-name"
                 variant="outlined"
                 multiple
-                value={QuestionEditorStorage.SelectedQuestionThemesForSelector}
+                defaultValue={"undefined"}
+                value={QuestionEditorStorage.SelectedQuestionThemesForSelector || "undefined"}
                 onChange={(e: any) => {
                     console.log(e.target.value)
                     QuestionEditorStorage.selectedQuestionThemesArray = e.target.value
@@ -26,6 +27,9 @@ export const ThemeSelector = observer(()=>{
                 input={<Input/>}
                 MenuProps={MenuProps}
             >
+                <MenuItem  value={"undefined"}>
+                    Не выбрана
+                </MenuItem>
                 {QuestionEditorStorage.allQuestionsDataHasBeenDeliver &&
                 toJS(QuestionEditorStorage.allThemesForQuestion).map((theme: any) => (
                     <MenuItem key={theme.name + theme.id} value={theme.id}>

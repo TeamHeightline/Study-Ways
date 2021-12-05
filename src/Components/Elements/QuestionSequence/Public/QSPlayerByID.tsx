@@ -178,7 +178,7 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                             <Row>
                                 {processedStore.activeQuestionStoreInstance?.answersArray.map((answer, aIndex) =>{
                                     return(
-                                        <Card  key={aIndex} variant="outlined" elevation={2} className={classes.root}
+                                        <Card  key={aIndex} variant="outlined"  className={classes.root}
                                               style={{backgroundColor: processedStore.activeQuestionStoreInstance?.selectedAnswers?.has(answer?.id)? "#2296F3" : "",}}
                                                  onClick={() =>{
                                                      processedStore.activeQuestionStoreInstance.selectAnswerHandleChange(answer.id)

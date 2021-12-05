@@ -82,16 +82,18 @@ class QuestionEditor{
         //Т.к. с сервера темы и автора приходят как обьекты, а нам нужны только их ID, то
         //здесь мы собираем массивы ID и устанавливает их в наблюдаемые переменные
         const selectedThemeIDArray: string[] = []
-        questionData?.theme.map((theme) =>{
-            selectedThemeIDArray.push(theme?.id)
+        questionData?.theme?.map((theme) =>{
+            selectedThemeIDArray?.push(theme?.id)
         })
         this.selectedQuestionThemesArray = selectedThemeIDArray
 
         const selectedAuthorIDArray: string[]  = []
-        questionData?.author.map((author) =>{
-            selectedAuthorIDArray.push(author?.id)
+        questionData?.author?.map((author) =>{
+            selectedAuthorIDArray?.push(author?.id)
         })
-        this.selectedQuestionAuthorsArray = selectedAuthorIDArray
+        if(selectedAuthorIDArray){
+            this.selectedQuestionAuthorsArray = selectedAuthorIDArray
+        }
 
         //После выбора вопроса собирается массив ответов
         this.loadAnswers()
@@ -136,8 +138,8 @@ class QuestionEditor{
         this.clientStorage.client.mutate({mutation: UPDATE_QUESTION, variables:{
                 id: this.selectedQuestionID,
                 createdBy: 0,
-                theme: this.selectedQuestionThemesArray,
-                author: this.selectedQuestionAuthorsArray,
+                theme: this.selectedQuestionThemesArray !== "undefined" ? this.selectedQuestionThemesArray: [],
+                author: this.selectedQuestionAuthorsArray !== "undefined"? this.selectedQuestionAuthorsArray : [],
                 text: this.selectedQuestionText,
                 videoUrl: this.selectedQuestionVideoUrl,
                 numberOfShowingAnswers: Number(this.selectedQuestionNumberOfShowingAnswers),
@@ -171,10 +173,10 @@ class QuestionEditor{
     selectedQuestionVideoUrl: string | undefined = ''
 
     //Темы выбранного вопроса
-    selectedQuestionThemesArray: string[]  = []
+    selectedQuestionThemesArray: string[] | string  = []
 
     //Авторы выбранного вопроса
-    selectedQuestionAuthorsArray: string[]  = []
+    selectedQuestionAuthorsArray: string[] | string  = []
 
     //Ссылка на изображение для вопроса
     selectedQuestionImageURL = ''
@@ -186,7 +188,7 @@ class QuestionEditor{
 
     //Геттер для тем вопроса которые выбрал автор
     get SelectedQuestionThemesForSelector(){
-        return(toJS(this.selectedQuestionThemesArray))
+        return(toJS(this.selectedQuestionThemesArray) || [])
     }
 
     //Геттер для аторов вопроса которые выбрал автор

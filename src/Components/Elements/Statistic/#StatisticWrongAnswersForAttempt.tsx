@@ -17,7 +17,7 @@ export const StatisticWrongAnswersForAttempt = observer(({row, attempt, classes,
                         const answerObjectStorage = StatisticByQuestionDataStoreObject?.answersArrayDataStore.find((answer) => Number(answer.id) == Number(errorAnswer))
                         return(
                             <div key={errorAnswer + "Error Answer Key" + attempt.numberOfPasses + "DetailStatisticKey"}>
-                                <Card  key={aIndex} variant="outlined" elevation={2} className={classes.root}
+                                <Card  key={aIndex} variant="outlined"  className={classes.root}
                                        style={{borderColor: answerObjectStorage.isTrue? "#2296F3" : "#f50057",}}
                                 >
                                     <CardActionArea>

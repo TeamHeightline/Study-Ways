@@ -13,23 +13,28 @@ export const AuthorSelector = observer(()=>{
     return(
         <FormControl className="col-12">
             <InputLabel id="question-theme-multiple">Авторы вопросов</InputLabel>
+            {QuestionEditorStorage.allQuestionsDataHasBeenDeliver && QuestionEditorStorage.SelectedQuestionAuthorForSelector&&
             <Select
                 multiple
                 variant="filled"
-                value={QuestionEditorStorage.SelectedQuestionAuthorForSelector}
+                defaultValue={"undefined"}
+                value={QuestionEditorStorage.SelectedQuestionAuthorForSelector || ["undefined"]}
                 onChange={(e: any) => {
                     QuestionEditorStorage.selectedQuestionAuthorsArray = e.target.value
                 }}
                 input={<Input/>}
                 MenuProps={MenuProps}
             >
+                <MenuItem  value={"undefined"}>
+                    Не выбран
+                </MenuItem>
                 {QuestionEditorStorage.allQuestionsDataHasBeenDeliver &&
                 toJS(QuestionEditorStorage.allAuthorsForQuestion).map((author: any) => (
                     <MenuItem key={author.name + author.id} value={author.id}>
                         {author.name}
                     </MenuItem>
                 ))}
-            </Select>
+            </Select>}
         </FormControl>
     )
 })

@@ -22,16 +22,6 @@ export default function RichTextEditor({initialText, onChange}: any,){
                     editor={ Editor }
                     data={localText}
                     style={{maxHeight: "440px",}}
-                    config={ {
-                        fontColor: "#ffffff",
-                        // plugins: [ Paragraph, Bold, Italic, Essentials ],
-                        toolbar: [ 'bold', 'italic', 'fontSize', 'FontColor', 'link','|', 'undo', 'redo', '|',
-                            'MathType', ],
-                        //Можно добавить химические формулы 'ChemType'
-                        //и специальные символы 'specialCharacters',
-
-                    } }
-
                     onChange={ ( event, editor ) => {
                         textHandler(editor.getData());
                     } }

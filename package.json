@@ -44,6 +44,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "ckeditor5-custom-build": "file:ckeditor5",
+    "compression-webpack-plugin": "^9.0.1",
     "crypto-js": "^4.1.1",
     "css-loader": "^4.3.0",
     "enzyme-to-json": "^3.6.2",
@@ -82,13 +83,16 @@
     "react-simple-code-editor": "^0.11.0",
     "react-typist": "^2.0.5",
     "serve": "^13.0.2",
+    "source-map-explorer": "^2.5.2",
     "styled-components": "^5.3.0",
     "ts-loader": "^9.1.2",
     "typescript": "^4.2.4",
     "waait": "^1.0.5",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^1.1.2",
+    "webpack": "4.44.2"
   },
   "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "serve -s build",
     "dev": "react-scripts start",
     "build": "react-scripts build",
@@ -120,10 +124,9 @@
     "file-loader": "^6.1.1",
     "react-app-rewired": "^2.1.8",
     "react-test-renderer": "^17.0.2",
-    "webpack": "4.44.2",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.7.0",
-    "webpack-dev-server": "3.11.1"
+    "webpack-dev-server": "^3.11.1"
   },
   "eslintConfig": {
     "ignorePatterns": [

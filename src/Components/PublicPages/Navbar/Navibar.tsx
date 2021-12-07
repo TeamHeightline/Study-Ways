@@ -103,6 +103,7 @@ export const Navibar = observer(() => {
     return (
         <div className={classes.root}>
             <AppBar position="fixed" enableColorOnDark>
+
                 <Toolbar variant="dense">
                     {/*<IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">*/}
                     {/*    <br/>*/}
@@ -110,16 +111,20 @@ export const Navibar = observer(() => {
                     <Typography variant="h6" className={classes.title}>
                         { width >= 765 ? "Study Ways" : "SW"}
                     </Typography>
-                     <Link style={{color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25}}
+                     <Link style={{color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25,
+                     textDecoration: "none"}}
                            to="/courses">Курсы </Link>
-                     <Link style={{color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25}}
+                     <Link style={{color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25,
+                         textDecoration: "none"}}
                            to="/cards">Карточки</Link>
                      {/*<Link className={s.link} to="/test">Вопросы</Link>*/}
                      <Typography className="ml-4"> | </Typography>
                     {UserStorage.userAccessLevel == "ADMIN" || UserStorage.userAccessLevel == "TEACHER" ?
-                        <Link style={{color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25}}
+                        <Link style={{color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25,
+                            textDecoration: "none"}}
                               to="/editor">Редакторы</Link>:
-                     <Link style={{color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25}}
+                     <Link style={{color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25,
+                         textDecoration: "none"}}
                            to="/direction">Direction (beta)</Link>}
                     {UserStorage.isLogin ?
                         <>

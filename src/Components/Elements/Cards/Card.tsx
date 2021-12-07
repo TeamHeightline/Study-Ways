@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, Suspense} from "react";
 import { Col, Row, Spinner} from "react-bootstrap";
 import ReactPlayer from "react-player";
-import {Button, ButtonGroup, Typography, Tooltip, Grid, Snackbar, Stack} from "@mui/material";
+import {Button, ButtonGroup, Typography, Tooltip, Grid, Snackbar, Stack, CircularProgress} from "@mui/material";
 import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
@@ -16,7 +16,8 @@ import useWindowDimensions from "../../../CustomHooks/useWindowDimensions";
 import {CoursePageStorage} from "../../../Store/PublicStorage/CoursePage/CoursePageStorage";
 import {observer} from "mobx-react";
 import {CardPageStorage} from "../../../Store/PublicStorage/CardsPage/CardPageStorage";
-import RichTextPreview from "./CardView/#RichTextPreview";
+// import RichTextPreview from "./CardView/#RichTextPreview";
+const RichTextPreview =  React.lazy(() =>import('./CardView/#RichTextPreview'));
 import CopyrightIcon from "@mui/icons-material/Copyright";
 import {ImageQuestion} from "../UserTest/ImageQuestion/ImageQuestion";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -120,49 +121,49 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
             }
         }
     })
-     useQuery<Query>(GET_ALL_COURSE, {
+    const {data: all_courses_data} = useQuery<Query>(GET_ALL_COURSE, {
         fetchPolicy: "cache-only",
         skip: props?.openFromCourse,
-        onCompleted: data => {
-            if(data?.cardCourse && data?.cardCourse?.length > 1){
-                const __findInCourseNotification: IFindInCourseNotification = [{
-                    course_name: "_",
-                    position: {
-                        courseIndex: 0,
-                        row: 0,
-                        fragment: 0,
-                        buttonIndex: 0,
-                        courseID: 0,
-                        openPage: 0
-                    }
-                }]
-                __findInCourseNotification.pop()
-                CoursePageStorage.get_course_data()
-                data?.cardCourse?.map((course, cIndex) => {
-                    course?.courseData?.map((course_line: ICourseLine, lIndex) =>{
-                        course_line.SameLine?.map((fragment, fIndex) =>{
-                            fragment.CourseFragment?.map((element, bIndex) =>{
-                                if (element?.CourseElement?.id == id){
-                                    __findInCourseNotification?.push({
-                                            course_name: course?.name || "_",
-                                            position: {
-                                                courseIndex: cIndex,
-                                                row: lIndex,
-                                                fragment: fIndex,
-                                                openPage: fIndex + 1,
-                                                buttonIndex: bIndex,
-                                                courseID: Number(course?.id),
-                                            }
-                                        })
-                                }
-                            })
+    })
+    useEffect(() =>{
+        if(all_courses_data){
+            const __findInCourseNotification: IFindInCourseNotification = [{
+                course_name: "_",
+                position: {
+                    courseIndex: 0,
+                    row: 0,
+                    fragment: 0,
+                    buttonIndex: 0,
+                    courseID: 0,
+                    openPage: 0
+                }
+            }]
+            __findInCourseNotification.pop()
+            CoursePageStorage.get_course_data()
+            all_courses_data?.cardCourse?.map((course, cIndex) => {
+                course?.courseData?.map((course_line: ICourseLine, lIndex) =>{
+                    course_line.SameLine?.map((fragment, fIndex) =>{
+                        fragment.CourseFragment?.map((element, bIndex) =>{
+                            if (element?.CourseElement?.id == id){
+                                __findInCourseNotification?.push({
+                                    course_name: course?.name || "_",
+                                    position: {
+                                        courseIndex: cIndex,
+                                        row: lIndex,
+                                        fragment: fIndex,
+                                        openPage: fIndex + 1,
+                                        buttonIndex: bIndex,
+                                        courseID: Number(course?.id),
+                                    }
+                                })
+                            }
                         })
                     })
                 })
-                setFindInCourseNotification(__findInCourseNotification)
-            }
+            })
+            setFindInCourseNotification(__findInCourseNotification)
         }
-    })
+    }, [id, all_courses_data])
     useEffect(() =>{
         refetch()
     }, [id,])
@@ -190,6 +191,7 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
 
     return(
         <div  style={{padding: 0}}>
+            <Suspense fallback={<Grid container justifyContent={"center"}><CircularProgress /></Grid>}>
             <CssBaseline />
             <div className=" col-12 mr-md-2 pl-md-2">
                 {!props.disableAllButtons &&
@@ -472,6 +474,7 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
                     })}
                 </Alert>
             </Snackbar>}
+            </Suspense>
         </div>
     )
 })

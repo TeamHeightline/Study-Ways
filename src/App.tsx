@@ -14,11 +14,10 @@
 //23 июля начат процесс полного переписывания проекта на mobX, документация может быть устаревшей
 //10 августа, документация ОЧЕНЬ сильно устарела, вернее сказать, она в принципе ни как не связана с реальностью
 
-import React, {useState, Suspense} from 'react';
+import React, {Suspense} from 'react';
 import './App.css';
 import {Navibar} from './Components/PublicPages/Navbar/Navibar';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {useEffect} from "react";
 import {UserStorage} from './Store/UserStore/UserStore'
 import '@fontsource/roboto/300.css';
 
@@ -42,7 +41,6 @@ const ThemeEditor = React.lazy(() => import("./Components/Elements/ThemeTree/The
 const QSPlayerByID = React.lazy(() => import("./Components/Elements/QuestionSequence/Public/QSPlayerByID").then(module => ({default: module.QSPlayerByID})))
 const ImageQuestion = React.lazy(() => import("./Components/Elements/UserTest/ImageQuestion/ImageQuestion").then(module => ({default: module.ImageQuestion})))
 
-import Typist from 'react-typist';
 import {MainCoursePublicView} from "./Components/PublicPages/MainCoursePublicView";
 import { observer } from "mobx-react"
 import {ClientStorage} from "./Store/ApolloStorage/ClientStorage";
@@ -54,20 +52,7 @@ import {CircularProgress, Grid} from "@mui/material";
 
 
 const  App = observer(() => {
-    const [animationState, setAnimationState] = useState(false)
-    useEffect(() =>{
-        setTimeout(setAnimationState, 1500, true)
-    }, [])
     const isMobile = isMobileHook()
-
-    if (!animationState){
-        return(
-            <Typist className="display-4 text-center pt-4 rl App-header"
-                    style={{fontSize: '33px', fontFamily: "Raleway", color: "#ffffff"}}>
-                Study Ways
-            </Typist>)
-    }
-
     return (
     <>
         <ApolloProvider client={ClientStorage.client}>

@@ -1,17 +1,21 @@
-import React, {useEffect} from "react";
-import {QuestionEditor} from "./QuestionEditor";
-import {Alert, Button, Grid} from '@mui/material';
+import React, {useEffect, Suspense} from "react";
+import {Alert, Button, CircularProgress, Grid} from '@mui/material';
 import AlertTitle from '@mui/material/AlertTitle';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
-import MainCardEditor from "./MainCardEditor";
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import MainCourseEditor from "./MainCourseEditor";
 import BlurLinearIcon from '@mui/icons-material/BlurLinear';
 import RecentActorsIcon from '@mui/icons-material/RecentActors';
+import LinearScaleIcon from '@mui/icons-material/LinearScale';
 
-import LinearScaleIcon from '@mui/icons-material/LinearScale'; // оставим для серии вопросов
-import SearchingElementsEditor from "./SearchingElementsEditor";
-import QuestionSequenceMainEditor from "./QuestionSequenceMainEditor";
+const SearchingElementsEditor = React.lazy(() => import("./SearchingElementsEditor"))
+const QuestionSequenceMainEditor = React.lazy(() => import("./QuestionSequenceMainEditor"))
+const MainCourseEditor = React.lazy(() => import("./MainCourseEditor"))
+const MainCardEditor = React.lazy(() => import("./MainCardEditor"))
+
+const QuestionEditor = React.lazy(() => import("./QuestionEditor").then(module => ({default: module.QuestionEditor})))
+const MainUserQuestionPage = React.lazy(() => import("./MainUserQuestionPage").then(module => ({default: module.MainUserQuestionPage})))
+const MainStatistic = React.lazy(() => import("./MainStatistic").then(module => ({default: module.MainStatistic})))
+
 import {UserStorage} from '../../Store/UserStore/UserStore'
 import {observer} from "mobx-react";
 import {
@@ -34,9 +38,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import BarChartIcon from '@mui/icons-material/BarChart';
-import {MainStatistic} from "./MainStatistic";
 import {Tooltip, Typography} from "@mui/material";
-import {MainUserQuestionPage} from "./MainUserQuestionPage";
 import MenuIcon from '@mui/icons-material/Menu';
 import {isMobileHook} from "../../CustomHooks/isMobileHook";
 const drawerWidth = 70;
@@ -210,21 +212,23 @@ export const EditorsRouter = observer(() =>{
                     </Button>
                 </Grid>
             </Grid>}
-            <div className={isMobile? "" :"pl-5"}>
-                <Switch>
-                    <Route  path={`${path}/course`} component={MainCourseEditor}/>
-                    <Route  path={`${path}/card`} component={MainCardEditor}/>
-                    <Route  path={`${path}/se`} component={SearchingElementsEditor}/>
-                    <Route  path={`${path}/question`} component={QuestionEditor}/>
-                    <Route  path={`${path}/qse`} component={QuestionSequenceMainEditor}/>
-                    <Route  path={`${path}/statistic`} component={MainStatistic}/>
-                    <Route path={`${path}/allquestions`} component={MainUserQuestionPage}/>
-                    {/*Чтобы на основной странице отображался редактор курсов, в самом низу
-                    потому что иначе будет открываться только он, потому что это будет первым
-                    результатом switch*/}
-                    <Redirect to={`${path}/course`}/>
-                </Switch>
-            </div>
+            <Suspense fallback={<Grid container justifyContent={"center"} sx={{pt: 4}}><CircularProgress /></Grid>}>
+                <div className={isMobile? "" :"pl-5"}>
+                    <Switch>
+                        <Route  path={`${path}/course`} component={MainCourseEditor}/>
+                        <Route  path={`${path}/card`} component={MainCardEditor}/>
+                        <Route  path={`${path}/se`} component={SearchingElementsEditor}/>
+                        <Route  path={`${path}/question`} component={QuestionEditor}/>
+                        <Route  path={`${path}/qse`} component={QuestionSequenceMainEditor}/>
+                        <Route  path={`${path}/statistic`} component={MainStatistic}/>
+                        <Route path={`${path}/allquestions`} component={MainUserQuestionPage}/>
+                        {/*Чтобы на основной странице отображался редактор курсов, в самом низу
+                        потому что иначе будет открываться только он, потому что это будет первым
+                        результатом switch*/}
+                        <Redirect to={`${path}/course`}/>
+                    </Switch>
+                </div>
+            </Suspense>
 
         </div>
     );

@@ -14,7 +14,7 @@
 //23 июля начат процесс полного переписывания проекта на mobX, документация может быть устаревшей
 //10 августа, документация ОЧЕНЬ сильно устарела, вернее сказать, она в принципе ни как не связана с реальностью
 
-import React, {useState} from 'react';
+import React, {useState, Suspense} from 'react';
 import './App.css';
 import {Navibar} from './Components/PublicPages/Navbar/Navibar';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -35,22 +35,22 @@ import {Login} from "./Components/PublicPages/Login/Login"
 import {ApolloProvider} from "@apollo/client";
 import {UnLogin} from "./Components/PublicPages/Login/UnLogin";
 import {Registration} from "./Components/PublicPages/Login/Registration";
-import {EditorsRouter} from "./Components/PrivatePages/EditorsRouter";
+const EditorsRouter = React.lazy(() => import("./Components/PrivatePages/EditorsRouter").then(module => ({default: module.EditorsRouter})))
+const MainCardPublicView = React.lazy(() => import("./Components/PublicPages/MainCardPublicView").then(module => ({default: module.MainCardPublicView})))
+const CodeEditor = React.lazy(() => import('./Components/PublicPages/CodeEditor').then(module => ({default: module.CodeEditor})))
+const ThemeEditor = React.lazy(() => import("./Components/Elements/ThemeTree/ThemeEditor"))
+const QSPlayerByID = React.lazy(() => import("./Components/Elements/QuestionSequence/Public/QSPlayerByID").then(module => ({default: module.QSPlayerByID})))
+const ImageQuestion = React.lazy(() => import("./Components/Elements/UserTest/ImageQuestion/ImageQuestion").then(module => ({default: module.ImageQuestion})))
 
-
-import {ImageQuestion} from "./Components/Elements/UserTest/ImageQuestion/ImageQuestion";
 import Typist from 'react-typist';
-import {MainCardPublicView} from "./Components/PublicPages/MainCardPublicView";
 import {MainCoursePublicView} from "./Components/PublicPages/MainCoursePublicView";
-import {QSPlayerByID} from "./Components/Elements/QuestionSequence/Public/QSPlayerByID";
 import { observer } from "mobx-react"
 import {ClientStorage} from "./Store/ApolloStorage/ClientStorage";
 import {MainDirection} from "./Components/PublicPages/MainDirection";
 import {LogInNotification} from "./Components/PublicPages/Login/#LogInNotification";
-import { CodeEditor } from './Components/PublicPages/CodeEditor';
-import ThemeEditor from "./Components/Elements/ThemeTree/ThemeEditor";
 import CardByURL from "./Components/Elements/Cards/CardView/CardByURL";
 import {isMobileHook} from "./CustomHooks/isMobileHook";
+import {CircularProgress, Grid} from "@mui/material";
 
 
 const  App = observer(() => {
@@ -73,27 +73,28 @@ const  App = observer(() => {
         <ApolloProvider client={ClientStorage.client}>
             <Router>
                 <Navibar/>
-                <LogInNotification/>
                 <div style={{paddingTop: isMobile? 0: 48}}>
-                    <Switch >
-                        <Route exact path="/login" component={Login}/>
-                        <Route exact path="/unlogin" component={UnLogin}/>
-                        <Route exact path="/registration" component={Registration}/>
-                        <Route path="/editor" component={UserStorage.isLogin !== null? EditorsRouter: Login}/>
+                    <Suspense fallback={<Grid container justifyContent={"center"} sx={{pt: 4}}><CircularProgress /></Grid>}>
+                    <LogInNotification/>
+                        <Switch >
+                            <Route exact path="/login" component={Login}/>
+                            <Route exact path="/unlogin" component={UnLogin}/>
+                            <Route exact path="/registration" component={Registration}/>
+                            <Route path="/editor" component={UserStorage.isLogin !== null? EditorsRouter: Login}/>
 
-                        <Route exact path="/iq/:id" component={ImageQuestion}/>
-                        <Route exact path="/qs/:id" component={QSPlayerByID}/>
+                            <Route exact path="/iq/:id" component={ImageQuestion}/>
+                            <Route exact path="/qs/:id" component={QSPlayerByID}/>
 
-                        <Route exact path="/cards" component={MainCardPublicView}/>
-                        <Route exact path={"/card/:id"} component={CardByURL}/>
+                            <Route exact path="/cards" component={MainCardPublicView}/>
+                            <Route exact path={"/card/:id"} component={CardByURL}/>
 
-                        <Route exact path="/courses" component={MainCoursePublicView}/>
-                        <Route exact path="/direction" component={MainDirection}/>
-                        <Route exact path="/cedit" component={CodeEditor}/>
-                        <Route exact path="/tt" component={ThemeEditor}/>
-                        <Redirect to="/courses"/>
-                    </Switch>
-
+                            <Route exact path="/courses" component={MainCoursePublicView}/>
+                            <Route exact path="/direction" component={MainDirection}/>
+                            <Route exact path="/cedit" component={CodeEditor}/>
+                            <Route exact path="/tt" component={ThemeEditor}/>
+                            <Redirect to="/courses"/>
+                        </Switch>
+                    </Suspense>
                 </div>
             </Router>
         </ApolloProvider>

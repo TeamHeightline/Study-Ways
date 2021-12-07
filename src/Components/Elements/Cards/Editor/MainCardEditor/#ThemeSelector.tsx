@@ -7,7 +7,7 @@ import {observer} from "mobx-react";
 import {toJS} from "mobx";
 import {sort} from "fast-sort";
 import {CardNode} from "../../../../../SchemaTypes";
-
+import 'antd/dist/antd.dark.min.css';
 const {SHOW_CHILD} = TreeSelect;
 const GET_THEMES = gql`
     query GET_THEMES{

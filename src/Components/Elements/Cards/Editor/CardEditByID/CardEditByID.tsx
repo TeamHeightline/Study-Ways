@@ -13,7 +13,7 @@ import {useMutation, useQuery} from "@apollo/client";
 import Upload from 'antd/es/upload';
 import message from 'antd/es/message';
 import {InboxOutlined} from '@ant-design/icons';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.dark.min.css';
 import {Alert} from '@mui/material';
 import RichTextEditor from "./#RichTextEditor";
 import ThemeTree from "./#ThemeTree";

@@ -1,7 +1,6 @@
 // Мы в панели навигации, ВСЕ ПЕРЕХОДЫ СДЕЛАНЫ ЧЕРЕЗ LINK, никаких href, иначе все приложение
 // будет перегружаться
 
-import s from './navibar.module.css';
 import {Link, useHistory, useLocation} from 'react-router-dom';
 import useWindowDimensions from "../../../CustomHooks/useWindowDimensions";
 import BottomNavigation from '@mui/material/BottomNavigation';
@@ -21,8 +20,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import {observer} from "mobx-react";
 import {AccountCircle} from "@mui/icons-material";
-import {Card, Menu, MenuItem} from "@mui/material";
-import CategoryIcon from '@mui/icons-material/Category';
+import { Menu, MenuItem} from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const useStyles = makeStyles(() =>
@@ -112,13 +110,17 @@ export const Navibar = observer(() => {
                     <Typography variant="h6" className={classes.title}>
                         { width >= 765 ? "Study Ways" : "SW"}
                     </Typography>
-                     <Link className={s.link} to="/courses">Курсы </Link>
-                     <Link className={s.link} to="/cards">Карточки</Link>
+                     <Link style={{color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25}}
+                           to="/courses">Курсы </Link>
+                     <Link style={{color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25}}
+                           to="/cards">Карточки</Link>
                      {/*<Link className={s.link} to="/test">Вопросы</Link>*/}
                      <Typography className="ml-4"> | </Typography>
                     {UserStorage.userAccessLevel == "ADMIN" || UserStorage.userAccessLevel == "TEACHER" ?
-                        <Link className={s.link} to="/editor">Редакторы</Link>:
-                     <Link className={s.link} to="/direction">Direction (beta)</Link>}
+                        <Link style={{color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25}}
+                              to="/editor">Редакторы</Link>:
+                     <Link style={{color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25}}
+                           to="/direction">Direction (beta)</Link>}
                     {UserStorage.isLogin ?
                         <>
                         <Typography className="ml-5 mr-4">{UserStorage.username}</Typography>

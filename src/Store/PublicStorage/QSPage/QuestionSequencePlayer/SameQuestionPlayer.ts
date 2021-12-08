@@ -260,9 +260,10 @@ export class SameQuestionPlayer{
 
     //Функция для загрузки данных о вопросе с сервера
     loadQuestionDataFromServer(){
-        this.clientStorage.client.query({query: GET_ENCRYPT_QUESTION_DATA_BY_ID, variables:{
+        this.clientStorage.client.query({query: GET_ENCRYPT_QUESTION_DATA_BY_ID,
+            variables:{
             id: this.questionID
-            }})
+        }, fetchPolicy: "network-only"})
             .then((data) => {
                 let __decrypt_question: any = {}
                 let __decrypt_answers: any = [{}]

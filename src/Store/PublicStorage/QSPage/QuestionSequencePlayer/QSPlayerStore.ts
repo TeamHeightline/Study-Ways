@@ -78,7 +78,7 @@ export class QSPlayerStore {
                 {query: GET_QS_DATA_BY_ID,
                     variables: {
                     id: Number(this.questionSequenceID)
-                }})
+                }, fetchPolicy: "network-only"})
                 .then((data) => {
                     this.name = String(data?.data?.questionSequenceById?.name)
                     //Перемешиваем вопросы

@@ -160,3 +160,4 @@ export class Answer{
         reaction(() => this.isInvisible, ()=> this.saveDataOnServer())
     }
 }
+

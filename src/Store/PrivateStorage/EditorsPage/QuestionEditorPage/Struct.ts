@@ -1,38 +1,8 @@
 import {gql} from "@apollo/client";
 
-export const ALL_QUESTIONS_DATA = gql`
+export const THEMES_AND_AUTHORS_FOR_QUESTION = gql`
     query{
         me{
-            questionSet{
-                id
-                isImageQuestion
-                theme{
-                    id
-                    name
-                    description
-                }
-                author{
-                    id
-                    name
-                }
-                text
-                videoUrl
-                numberOfShowingAnswers
-                answers{
-                    id
-                    isTrue
-                    text
-                    helpTextv1
-                    helpTextv2
-                    helpTextv3
-                    checkQueue
-                    videoUrl
-                    hardLevelOfAnswer
-                    isDeleted
-                    isInvisible
-                    isRequired
-                }
-            }
             questionauthorSet{
                 id
                 name
@@ -44,6 +14,46 @@ export const ALL_QUESTIONS_DATA = gql`
             description
         }
     }`
+export const MY_QUESTIONS_BASIC_DATA = gql`
+    query{
+        me{
+            questionSet{
+                id
+                text
+            }
+        }
+    }`
+
+export const GET_QUESTION_DATA_BY_ID = gql`
+    query GET_QUESTION_DATA_BY_ID($id: ID!){
+        questionById(id: $id){
+            id
+            numberOfShowingAnswers
+            text
+            videoUrl
+            author{
+                id
+            }
+            theme{
+                id
+            }
+            answers{
+                id
+                checkQueue
+                hardLevelOfAnswer
+                helpTextv1
+                helpTextv2
+                helpTextv3
+                isTrue
+                text
+                videoUrl
+                isDeleted
+                isInvisible
+                isRequired
+            }
+        }
+    }
+`
 
 export const CREATE_NEW_ANSWER = gql`mutation CREATE_ANSWER($question: ID!){
     createAnswer(input: {createdBy:0, question: $question, isTrue:true, checkQueue: 1, hardLevelOfAnswer:"MEDIUM", helpTextv3: "Вы допустили одну или более ошибок"}){
@@ -73,6 +83,18 @@ export const UPDATE_QUESTION = gql`mutation UPDATE_QUESTION($createdBy: ID!, $th
             field
             messages
         }
+        question{
+            id
+            theme{
+                id
+                name
+            }
+            author{
+                id
+                name
+            }
+            
+        }
     }
 }`
 
@@ -89,7 +111,7 @@ export const MenuProps = {
 };
 export const CREATE_NEW_QUESTION = gql`
     mutation CREATE_NEW_QUESTION{
-        updateQuestion(input: {createdBy: 0, text: "Новый вопрос", author: [46], theme: [72]}){
+        updateQuestion(input: {createdBy: 0, text: "Новый вопрос"}){
             clientMutationId,
             question{
                 id

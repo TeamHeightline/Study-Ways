@@ -49,6 +49,7 @@ import {LogInNotification} from "./Components/PublicPages/Login/#LogInNotificati
 import CardByURL from "./Components/Elements/Cards/CardView/CardByURL";
 import {isMobileHook} from "./CustomHooks/isMobileHook";
 import {CircularProgress, Grid} from "@mui/material";
+import {EditCardByID} from "./Components/Elements/Cards/Editor/v2/EditCardByID";
 
 
 const  App = observer(() => {
@@ -77,6 +78,7 @@ const  App = observer(() => {
                             <Route exact path="/direction" component={MainDirection}/>
                             <Route exact path="/cedit" component={CodeEditor}/>
                             <Route exact path="/tt" component={ThemeEditor}/>
+                            <Route exact path={"/ce"} component={EditCardByID}/>
                             <Redirect to="/courses"/>
                         </Switch>
                     </Suspense>

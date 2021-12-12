@@ -165,7 +165,7 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                 {processedStore.activeQuestionStoreInstance?.oneTimeCheckError &&
                 processedStore.activeQuestionStoreInstance?.IndexOfMostWantedError !== -1 &&
                     <div>
-                        <Alert severity="warning" variant="outlined" className="mt-2">
+                        <Alert severity="error" variant="filled" className="mt-2">
                             {processedStore.activeQuestionStoreInstance?.HelpTextForShow}
                         </Alert>
                     </div>

@@ -38,7 +38,7 @@ class CardEditorStorage{
         return(this.card_object?.title !== 'Название карточки по умолчанию' ? this.card_object?.title : '')
     }
     getField = computedFn((field_name, default_value = "", card_object = this.card_object) =>{
-        return card_object && card_object[field_name] ? card_object[field_name]: default_value
+        return (card_object && card_object[field_name]) ? card_object[field_name]: default_value
     })
     changeCardField = field => (e) =>{
         console.log(e)

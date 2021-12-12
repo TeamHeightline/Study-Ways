@@ -8,11 +8,11 @@ import React from "react";
 export default function HelpText(props: { errorArray: any[], helpLevel: unknown, answers: any, activeWrongAnswerIndex: number, b: boolean }) {
     return <div className=" mt-2" style={{padding: 0, overflowY: "scroll",}}>
         {props.errorArray.length !== 0 ? <div className="col-lg-10 col-12 offset-lg-1">
-            {props.helpLevel === "0" ? <Alert severity="error" variant="outlined">
+            {props.helpLevel === "0" ? <Alert severity="error" variant="filled">
                 {props.answers[props.activeWrongAnswerIndex]?.helpTextv1}</Alert> : null}
-            {props.helpLevel === "1" ? <Alert severity="error" variant="outlined">
+            {props.helpLevel === "1" ? <Alert severity="error" variant="filled">
                 {props.answers[props.activeWrongAnswerIndex]?.helpTextv2}</Alert> : null}
-            {props.helpLevel === "2" ? <Alert severity="error" variant="outlined">
+            {props.helpLevel === "2" ? <Alert severity="error" variant="filled">
                 {props.answers[props.activeWrongAnswerIndex]?.helpTextv3}</Alert> : null}
             {props.answers[props.activeWrongAnswerIndex]?.videoUrl ?
                 <div>

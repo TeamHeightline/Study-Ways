@@ -5,6 +5,10 @@ import {GET_CARD_DATA_BY_ID} from "./Struct";
 import {CardNode} from "../../../../SchemaTypes";
 import { computedFn } from "mobx-utils"
 
+export enum ValueOrChecked {
+    value= "value",
+    checked= "checked"
+}
 class CardEditorStorage{
     constructor() {
         makeAutoObservable(this)
@@ -34,16 +38,15 @@ class CardEditorStorage{
 
     card_object: CardNode | undefined = undefined
 
-    get cardTitle(){
-        return(this.card_object?.title !== 'Название карточки по умолчанию' ? this.card_object?.title : '')
-    }
+    // get cardTitle(){
+    //     return(this.card_object?.title !== 'Название карточки по умолчанию' ? this.card_object?.title : '')
+    // }
     getField = computedFn((field_name, default_value = "", card_object = this.card_object) =>{
         return (card_object && card_object[field_name]) ? card_object[field_name]: default_value
     })
-    changeCardField = field => (e) =>{
-        console.log(e)
+    changeField = (field, eventField: "value"| "checked" = "value") => (e) =>{
         if(this.card_object){
-            this.card_object[field] = e.target.value
+            this.card_object[field] = e.target[eventField]
         }
     }
 }

@@ -399,6 +399,7 @@ export default function CardEditByID({cardId, ...props}: any) {
                 }}>
                     Назад
                 </Button> : null}
+
             <Grid container style={{paddingLeft: isMobile ? 0 : 48}}>
                 <Grid item xs={12} md={6} style={{paddingRight: isMobile ? 0 : 24}}>
                     <Typography variant="h5" color="textPrimary" style={{marginTop: 12}}>{"ID: " + cardID}</Typography>

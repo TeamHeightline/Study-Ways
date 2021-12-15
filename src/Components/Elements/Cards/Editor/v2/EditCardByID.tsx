@@ -9,11 +9,17 @@ import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 import {CMenu} from "./#CMenu";
 import {ID} from "./#ID";
 import {YouTubeVideo} from "./YouTubeVideo";
+import {RichTextEditor} from "./#RichTextEditor";
+import {toJS} from "mobx";
 
 export const EditCardByID = observer(({id= 1826}) => {
-    useEffect(() => CESObject.loadCardDataFromServer(id), [id, UserStorage.userAccessLevel])
+    useEffect(() => {
+        CESObject.loadCardDataFromServer(id)
+        CESObject.loadCardAuthorsFromServer()
+    }, [id, UserStorage.userAccessLevel])
     const isMobile = isMobileHook()
 
+    console.log(toJS(CESObject.all_my_card_authors))
     if(!CESObject.cardDataLoaded){
         return (
             <Grid container justifyContent="center" style={{marginTop: 12}}>
@@ -25,7 +31,7 @@ export const EditCardByID = observer(({id= 1826}) => {
     }
     return(
         <div>
-            <Grid container style={{paddingLeft: isMobile ? 0 : 48}} rowSpacing={2} spacing={4}>
+            <Grid container  sx={{pl: isMobile ? 0 : 8, pr: isMobile ? 0 : 8}} rowSpacing={2} spacing={4}>
 
                 <Grid item xs={12} md={6}>
                     <ID/>
@@ -47,7 +53,9 @@ export const EditCardByID = observer(({id= 1826}) => {
                     {CESObject.getField("cardContentType", "A_0") === "A_0" &&
                         <YouTubeVideo/>}
                 </Grid>
-
+                <Grid item xs={12} md={6}>
+                    <RichTextEditor/>
+                </Grid>
 
             </Grid>
         </div>

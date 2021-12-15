@@ -32,3 +32,14 @@ export const GET_CARD_DATA_BY_ID = gql`
         }
     }
     `
+
+export const GET_MY_CARD_AUTHOR = gql`
+    query GET_MY_CARD_AUTHOR{
+        me{
+            cardauthorSet{
+                id
+                name
+            }
+        }
+    }
+    `

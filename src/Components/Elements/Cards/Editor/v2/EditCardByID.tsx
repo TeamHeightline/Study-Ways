@@ -11,8 +11,9 @@ import {ID} from "./#ID";
 import {YouTubeVideo} from "./YouTubeVideo";
 import {RichTextEditor} from "./#RichTextEditor";
 import {toJS} from "mobx";
+import {AuthorSelector} from "./#AuthorSelector";
 
-export const EditCardByID = observer(({id= 1826}) => {
+export const EditCardByID = observer(({id= 1825}) => {
     useEffect(() => {
         CESObject.loadCardDataFromServer(id)
         CESObject.loadCardAuthorsFromServer()
@@ -20,7 +21,7 @@ export const EditCardByID = observer(({id= 1826}) => {
     const isMobile = isMobileHook()
 
     console.log(toJS(CESObject.all_my_card_authors))
-    if(!CESObject.cardDataLoaded){
+    if(!(CESObject.cardDataLoaded && CESObject.authorsDataLoaded)){
         return (
             <Grid container justifyContent="center" style={{marginTop: 12}}>
                 <Grid item>
@@ -46,6 +47,16 @@ export const EditCardByID = observer(({id= 1826}) => {
                 <Grid xs={12} md={6} item container >
                     <Grid item xs={12} md={6}>
                         <HardLevel/>
+                    </Grid>
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                </Grid>
+                <Grid item xs={12} md={6} container>
+                    <Grid item xs={12} md={6}>
+                        <AuthorSelector/>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
                     </Grid>
                 </Grid>
 

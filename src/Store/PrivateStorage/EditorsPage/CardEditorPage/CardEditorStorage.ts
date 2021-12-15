@@ -4,11 +4,8 @@ import {UserStorage} from "../../../UserStore/UserStore";
 import {GET_CARD_DATA_BY_ID} from "./Struct";
 import {CardNode} from "../../../../SchemaTypes";
 import { computedFn } from "mobx-utils"
+export type card_object_fields = keyof CardNode
 
-export enum ValueOrChecked {
-    value= "value",
-    checked= "checked"
-}
 class CardEditorStorage{
     constructor() {
         makeAutoObservable(this)
@@ -28,7 +25,6 @@ class CardEditorStorage{
                 variables:{id: id}})
                     .then((response) => (response.data.cardById))
                     .then((card_data) => {
-                        console.log(card_data)
                         this.card_object = card_data
                         this.cardDataLoaded = true})
             }
@@ -41,14 +37,17 @@ class CardEditorStorage{
     // get cardTitle(){
     //     return(this.card_object?.title !== 'Название карточки по умолчанию' ? this.card_object?.title : '')
     // }
-    getField = computedFn((field_name, default_value = "", card_object = this.card_object) =>{
+    getField = computedFn((field_name: card_object_fields, default_value = "", card_object = this.card_object) =>{
         return (card_object && card_object[field_name]) ? card_object[field_name]: default_value
     })
-    changeField = (field, eventField: "value"| "checked" = "value") => (e) =>{
-        if(this.card_object){
-            this.card_object[field] = e.target[eventField]
+
+    //number в field - это грязный хак, чтобы не было ошибки из строчки с присвоением, как только TS видит что используются
+    //конкретные ключи, начинает сразу говорить, что это never тип
+    changeField = (field: card_object_fields | number, eventField: "value"| "checked" = "value",
+                   card_object = this.card_object) => ({target}) =>{
+        if(card_object && card_object[field]){
+            card_object[field] = target[eventField]
         }
     }
 }
-
 export const CESObject = new CardEditorStorage()

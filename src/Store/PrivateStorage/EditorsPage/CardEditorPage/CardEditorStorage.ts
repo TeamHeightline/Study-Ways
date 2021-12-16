@@ -25,14 +25,12 @@ class CardEditorStorage{
                 variables:{id: id}})
                     .then((response) => (response.data.cardById))
                     .then((card_data) => {
-                        this.card_object = card_data
 
                         //--------для полей, содержащих массивы, делаем дополнительную загрузку уже только айдишников
-                        if(this?.card_object?.author){
-                            this.card_object.author = card_data?.author?.map((author) => author.id)
-                        }
+                        const author = card_data?.author?.map((author) => author.id)
                         //----------------------------------------------------------------
 
+                        this.card_object = {...card_data, author}
                         this.cardDataLoaded = true})
             }
         }

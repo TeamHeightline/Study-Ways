@@ -20,7 +20,6 @@ class CardEditorStorage{
 
     loadCardDataFromServer(id: string | number | undefined){
         if(id){
-            console.log(id)
             if(this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN") {
                 this.clientStorage.client.query({query: GET_CARD_DATA_BY_ID, fetchPolicy: "network-only",
                 variables:{id: id}})
@@ -64,14 +63,15 @@ class CardEditorStorage{
     card_object: CardNode | undefined = undefined
 
     //Умный Getter позволяет получать кэшированные значения сразу для все полей объекта, принимает поле и дефолтное значение
-    getField = computedFn((field_name: card_object_fields, default_value = "", card_object = this.card_object) =>{
+    getField = computedFn((field_name: card_object_fields, default_value: string | number| boolean | [] = "",
+                           card_object = this.card_object) =>{
         return (card_object && card_object[field_name]) ? card_object[field_name]: default_value
     })
     //number в field - это грязный хак, чтобы не было ошибки из строчки с присвоением, как только TS видит что используются
     //конкретные ключи, начинает сразу говорить, что это never тип
     changeField = (field: card_object_fields | number, eventField: "value"| "checked" = "value",
                    card_object = this.card_object) => ({target}) =>{
-        if(card_object && card_object[field]){
+        if(card_object && field in card_object){
             card_object[field] = target[eventField]
         }
     }
@@ -82,5 +82,27 @@ class CardEditorStorage{
             card_object[field] = value
         }
     }
+
+    //----------------------------------------------------------------
+    urlValidation(arrow_url){
+        if(!arrow_url){
+            return true
+        }
+        try {
+            const url = new URL(arrow_url);
+            return url.protocol === "http:" || url.protocol === "https:";
+        } catch (_) {
+            return false;
+        }
+    }
+    validateUrlField = computedFn((fieldName: card_object_fields, card_object:  CardNode | undefined  = this.card_object) => {
+        if(card_object && fieldName in card_object){
+        return(
+            this.urlValidation(card_object[fieldName])
+        )}
+    })
+
+
+
 }
 export const CESObject = new CardEditorStorage()

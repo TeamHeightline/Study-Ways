@@ -80,6 +80,10 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
     }, [props])
     const isMobile = isMobileHook()
 
+    function detectSwipepage(){
+        console.log("Page swiped")
+    }
+
     const classes = useStyles();
     if(!processedStore.allDataNasBeenLoaded){
         return (
@@ -88,10 +92,10 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
     }
     // console.log(processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.ArrayForShowAnswerPoints)
     return (
-        <div>
+        <div onBlur={detectSwipepage}>
             <Typography align={"center"} variant={isMobile ?"h6": "h4"}>{processedStore.name}</Typography>
             <div style={{overflowX: "auto"}}>
-                <Stepper nonLinear alternativeLabel activeStep={processedStore.selectedQuestionIndex}>
+                <Stepper nonLinear alternativeLabel activeStep={processedStore.selectedQuestionIndex} sx={{pb: 2}}>
                     {processedStore?.questionsStoreArray?.map((question, qIndex) => (
                         <Step key={qIndex} onClick={() => processedStore.changeSelectedQuestionIndex(qIndex)}>
                             {!props?.notShowStepLabet ?
@@ -178,7 +182,9 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                             <Row>
                                 {processedStore.activeQuestionStoreInstance?.answersArray.map((answer, aIndex) =>{
                                     return(
-                                        <Card  key={aIndex} variant="outlined"  className={classes.root}
+                                        <Card key={aIndex} variant="outlined"
+                                              sx={{pb:4}}
+                                              className={classes.root}
                                               style={{backgroundColor: processedStore.activeQuestionStoreInstance?.selectedAnswers?.has(answer?.id)? "#2296F3" : "",}}
                                                  onClick={() =>{
                                                      processedStore.activeQuestionStoreInstance.selectAnswerHandleChange(answer.id)

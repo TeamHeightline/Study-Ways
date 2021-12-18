@@ -11,7 +11,7 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    FormControlLabel
+    FormControlLabel, Stack
 } from "@mui/material";
 import React, {useState} from "react";
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
@@ -64,12 +64,14 @@ export default function DCPCImageQuestion(props: any) {
                                 Назад
                             </Button>}
 
-                        <Button className="col-md-6 col-12 mt-2 " variant="contained" color="primary" onClick={props.onClick1} fullWidth>
-                            Проверить
-                        </Button>
-                        <Button className="col-md-6 col-12 mt-2 " variant="outlined" color="secondary" onClick={() => setOpenAcceptDefeatDialog(true)} fullWidth>
-                            Сдаться
-                        </Button>
+                        <Stack direction={"row"} spacing={1}>
+                            <Button variant="contained" color="primary" onClick={props.onClick1} fullWidth>
+                                Проверить
+                            </Button>
+                            <Button variant="outlined" color="secondary" onClick={() => setOpenAcceptDefeatDialog(true)} fullWidth>
+                                Сдаться
+                            </Button>
+                        </Stack>
                     </CardContent>
                 </Col>
             </Row>

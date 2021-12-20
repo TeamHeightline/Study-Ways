@@ -29,6 +29,10 @@ export const GET_CARD_DATA_BY_ID = gql`
             text
             title
             videoUrl
+            cardBefore{id}
+            cardDown{id}
+            cardNext{id}
+            cardUp{id}
         }
     }
     `

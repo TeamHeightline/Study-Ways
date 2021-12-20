@@ -127,7 +127,11 @@ export type CardNode = {
     arrowNext?: Maybe<Scalars['String']>;
     arrowUp?: Maybe<Scalars['String']>;
     author: Array<CardAuthorNode>;
+    cardBefore: Array<CardNode>;
     cardContentType: CardCardContentType;
+    cardDown: Array<CardNode>;
+    cardNext: Array<CardNode>;
+    cardUp: Array<CardNode>;
     copyright?: Maybe<Scalars['String']>;
     hardLevel: CardHardLevel;
     id: Scalars['ID'];
@@ -1186,7 +1190,11 @@ export type CardMutationInput = {
     arrowNext?: InputMaybe<Scalars['String']>;
     arrowUp?: InputMaybe<Scalars['String']>;
     author?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+    cardBefore?: InputMaybe<Scalars['ID']>;
     cardContentType: Scalars['String'];
+    cardDown?: InputMaybe<Scalars['ID']>;
+    cardNext?: InputMaybe<Scalars['ID']>;
+    cardUp?: InputMaybe<Scalars['ID']>;
     clientMutationId?: InputMaybe<Scalars['String']>;
     copyright?: InputMaybe<Scalars['String']>;
     createdBy: Scalars['ID'];
@@ -1317,6 +1325,6 @@ export type UpdateQuestionSequenceInput = {
 export type UpdateUnstructuredThemeInput = {
     clientMutationId?: InputMaybe<Scalars['String']>;
     id: Scalars['ID'];
-    parent: Scalars['ID'];
+    parent?: InputMaybe<Scalars['ID']>;
     text: Scalars['String'];
 };

@@ -12,13 +12,19 @@ import {MCPVCards} from "../Elements/Cards/CardView/#MCPVCards";
 import {isMobileHook} from "../../CustomHooks/isMobileHook";
 import {HardLevelSelector} from "../Elements/Cards/Editor/MainCardEditor/#HardLevelSelector";
 
-export const MainCardPublicView = observer(({...props}: any) => {
+interface IMainCardPublicViewProps extends React.HTMLAttributes<HTMLDivElement>{
+    onlyCardSelectionMode?: boolean,
+    onCardSelect?: any,
+}
+export const MainCardPublicView = observer(({onlyCardSelectionMode, onCardSelect, ...props}: IMainCardPublicViewProps) => {
     useEffect(() => {
         CardPageStorage.getCardsDataFromServer()
     }, [])
     const isMobile = isMobileHook()
 
     const memorizedCardsForDisplay = useMemo(() => <MCPVCards
+            onlyCardSelectionMode={onlyCardSelectionMode}
+            onCardSelect={(card_id) => onCardSelect(card_id)}
             cardsDataForRender={toJS(CardPageStorage.cardsDataForRender)}/>,
         [toJS(CardPageStorage.cardsDataForRender)[0]?.id, toJS(CardPageStorage.cardsDataForRender)[1]?.id,
             toJS(CardPageStorage.cardsDataForRender)[20]?.id])

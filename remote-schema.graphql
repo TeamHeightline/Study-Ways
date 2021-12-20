@@ -75,7 +75,11 @@ type CardNode {
     arrowNext: String
     arrowUp: String
     author: [CardAuthorNode!]!
+    cardBefore: [CardNode!]!
     cardContentType: CardCardContentType!
+    cardDown: [CardNode!]!
+    cardNext: [CardNode!]!
+    cardUp: [CardNode!]!
     copyright: String
     hardLevel: CardHardLevel!
     id: ID!
@@ -853,7 +857,11 @@ input CardMutationInput {
     arrowNext: String
     arrowUp: String
     author: [ID]
+    cardBefore: ID
     cardContentType: String!
+    cardDown: ID
+    cardNext: ID
+    cardUp: ID
     clientMutationId: String
     copyright: String
     createdBy: ID!

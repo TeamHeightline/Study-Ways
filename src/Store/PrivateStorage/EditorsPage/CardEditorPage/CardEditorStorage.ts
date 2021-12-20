@@ -30,7 +30,13 @@ class CardEditorStorage{
                         const author = card_data?.author?.map((author) => author.id)
                         //----------------------------------------------------------------
 
-                        this.card_object = {...card_data, author}
+                        //-для полей в которых ссылка на такую же модель используется присвоение элемента с 0 индексом
+                        const cardBefore = card_data?.cardBefore[0]?.id
+                        const cardDown = card_data?.cardBefore[0]?.id
+                        const cardNext = card_data?.cardBefore[0]?.id
+                        const cardUp = card_data?.cardBefore[0]?.id
+                        //----------------------------------------------------------------
+                        this.card_object = {...card_data, author, cardBefore, cardDown, cardNext, cardUp}
                         this.cardDataLoaded = true})
             }
         }
@@ -76,8 +82,10 @@ class CardEditorStorage{
 
     changeFieldByValue(field: card_object_fields | number, value: string | number | boolean,
                        card_object = this.card_object){
-        if(card_object && card_object[field]){
+        if(card_object && field in card_object){
             card_object[field] = value
+        }else{
+            throw "pass unexpected field to changeFieldByValue"
         }
     }
 

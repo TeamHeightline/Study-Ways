@@ -44,7 +44,7 @@ export const EditCardByID = observer(({id= 1825}) => {
                 <Grid item xs={12} md={6}>
                     <Title/>
                 </Grid>
-                <Grid xs={12} md={6} item container >
+                <Grid xs={12} md={6} item container spacing={4}>
                     <Grid item xs={12} md={6}>
                         <HardLevel/>
                     </Grid>
@@ -53,7 +53,7 @@ export const EditCardByID = observer(({id= 1825}) => {
                 <Grid item xs={12} md={6}>
                 </Grid>
                 <Grid item xs={12} md={6} container
-                      spacing={CESObject.getField('isCardUseCopyright', false)? 4: 0}>
+                      spacing={4}>
                     <Grid item xs={12} md={6}>
                         <AuthorSelector/>
                     </Grid>

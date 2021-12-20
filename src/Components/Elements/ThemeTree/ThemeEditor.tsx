@@ -184,7 +184,7 @@ function ThemeEditor() {
                     >
                         {
                             activeEditMode === editingModes.EditTheme ? "Сохранить название темы" :
-                                activeEditMode === editingModes.CreateSubTheme ? "Создать под тему" : "Создать тему"}
+                                activeEditMode === editingModes.CreateSubTheme ? "Создать подтему" : "Создать тему"}
                     </LoadingButton>
                 </Grid>
             </Collapse>

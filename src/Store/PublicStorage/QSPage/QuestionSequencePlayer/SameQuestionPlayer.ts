@@ -216,9 +216,9 @@ export class SameQuestionPlayer{
         if(Number(this.numberOfSelectAnswersOnThisPass) == 0 && this.numberOfPasses == 1){
             return ("Среди предложенных вариантов ответа есть хотя бы один правильный, проверьте еще раз")
         }
-        if(this.ownStore?.isUseExamMode || this.isUseExamMode){
-            return ("Вы допустили одну или более ошибок")
-        }
+        // if(this.ownStore?.isUseExamMode || this.isUseExamMode){
+        //     return ("Вы допустили одну или более ошибок")
+        // }
         if(this.hardLevelOfHelpText == "0"){
             return (this.answersArray[this.IndexOfMostWantedError].helpTextv1)
         }

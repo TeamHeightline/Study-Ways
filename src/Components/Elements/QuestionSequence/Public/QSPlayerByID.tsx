@@ -20,6 +20,7 @@ import CardContent from "@mui/material/CardContent";
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { Alert } from '@mui/material';
+import { usePageVisibility } from 'react-page-visibility';
 
 import {
     Chart,
@@ -80,19 +81,25 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
     }, [props])
     const isMobile = isMobileHook()
 
-    function detectSwipepage(){
-        console.log("Page swiped")
-    }
+    const isVisible = usePageVisibility()
 
     const classes = useStyles();
+
+    useEffect(() => {
+        if(processedStore.isUseExamMode && !isVisible){
+            processedStore.activeQuestionStoreInstance.onAcceptDefeat()
+        }
+    }, [isVisible])
+
     if(!processedStore.allDataNasBeenLoaded){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
-    // console.log(processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.ArrayForShowAnswerPoints)
+    // console.log(isVisible)
+
     return (
-        <div onBlur={detectSwipepage}>
+        <div>
             <Typography align={"center"} variant={isMobile ?"h6": "h4"}>{processedStore.name}</Typography>
             <div style={{overflowX: "auto"}}>
                 <Stepper nonLinear alternativeLabel activeStep={processedStore.selectedQuestionIndex} sx={{pb: 2}}>

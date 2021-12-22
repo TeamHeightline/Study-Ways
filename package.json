@@ -75,6 +75,7 @@
     "react-iframe": "^1.8.0",
     "react-image-crop": "^8.6.9",
     "react-number-format": "^4.5.5",
+    "react-page-visibility": "^6.4.0",
     "react-player": "^2.9.0",
     "react-render-html": "^0.6.0",
     "react-resizable": "^3.0.1",

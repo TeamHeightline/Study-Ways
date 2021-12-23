@@ -14,7 +14,6 @@ import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEdi
 import Popover from '@mui/material/Popover';
 import CardMicroView from "../../CardView/#CardMicroView";
 import {toJS} from "mobx";
-import {Fab} from "@mui/material";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 interface ISelectCardProps extends React.HTMLAttributes<HTMLDivElement>{
@@ -62,13 +61,14 @@ export const SelectCard = observer(({card_direction, ...props}: ISelectCardProps
                     "Выбрана карточка c ID:" + CESObject.getField(card_direction, ""):
                 "Нажмите для выбора карточки"}
             </Button>
-            <Fab size="small" color="inherit"
+            <IconButton
+                size="small"
                  onClick={() => window.open("https://www.sw-university.com/card/" +
                      CESObject.getField(card_direction, ""), "_blank")}
                  disabled={!CESObject.getField(card_direction, "")}
-                 sx={{color: "gray", bgcolor: 'neutral', ml: 2}} >
+                 sx={{ml: 2}} >
                 <OpenInNewIcon />
-            </Fab>
+            </IconButton>
             <Popover
                 open={openPopover}
                 anchorEl={popoverAnchorEl}

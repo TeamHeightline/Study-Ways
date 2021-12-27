@@ -10,6 +10,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import {sort} from "fast-sort";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 export default function QuestionCard({...props}: any) {
     //Логика для выбора тем, скопирована с [LC]MainUserQuestion
@@ -177,6 +178,14 @@ export default function QuestionCard({...props}: any) {
                                     Удалить
                                 </MenuItem>
                             </Menu>
+
+                            <IconButton
+                                onClick={()=> window.open("https://www.sw-university.com/iq/" + selectedQuestion?.id,
+                                    "_blank")}
+                                disabled={!selectedQuestion?.id}
+                                size="large">
+                                <OpenInNewIcon />
+                            </IconButton>
                         </Grid>
                     </Grid>
                 </div>

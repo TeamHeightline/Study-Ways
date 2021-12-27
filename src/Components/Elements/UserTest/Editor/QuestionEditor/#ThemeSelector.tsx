@@ -10,29 +10,25 @@ import {QuestionEditorStorage} from "../../../../../Store/PrivateStorage/Editors
 import {toJS} from "mobx";
 
 export const ThemeSelector = observer(()=>{
+    console.log()
     return(
         <FormControl className="col-12">
-            <InputLabel id="question-theme-multiple">Темы вопросов</InputLabel>
+            <InputLabel id="question-theme-multiple">Темы вопроса</InputLabel>
             <Select
                 labelId="demo-mutiple-name-label"
                 id="demo-mutiple-name"
                 variant="outlined"
                 multiple
-                defaultValue={"undefined"}
-                value={QuestionEditorStorage.SelectedQuestionThemesForSelector || "undefined"}
+                value={QuestionEditorStorage.SelectedQuestionThemesForSelector}
                 onChange={(e: any) => {
-                    console.log(e.target.value)
                     QuestionEditorStorage.selectedQuestionThemesArray = e.target.value
                 }}
                 input={<Input/>}
                 MenuProps={MenuProps}
             >
-                <MenuItem  value={"undefined"}>
-                    Не выбрана
-                </MenuItem>
-                {QuestionEditorStorage.allQuestionsDataHasBeenDeliver &&
-                toJS(QuestionEditorStorage.allThemesForQuestion).map((theme: any) => (
-                    <MenuItem key={theme.name + theme.id} value={theme.id}>
+
+                {toJS(QuestionEditorStorage.allThemesForQuestion).map((theme: any) => (
+                    <MenuItem key={theme.name + theme.id} value={String(theme.id)}>
                         {theme.name}
                     </MenuItem>
                 ))}

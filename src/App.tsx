@@ -36,7 +36,6 @@ import {UnLogin} from "./Components/PublicPages/Login/UnLogin";
 import {Registration} from "./Components/PublicPages/Login/Registration";
 const EditorsRouter = React.lazy(() => import("./Components/PrivatePages/EditorsRouter").then(module => ({default: module.EditorsRouter})))
 const MainCardPublicView = React.lazy(() => import("./Components/PublicPages/MainCardPublicView").then(module => ({default: module.MainCardPublicView})))
-const CodeEditor = React.lazy(() => import('./Components/PublicPages/CodeEditor').then(module => ({default: module.CodeEditor})))
 const ThemeEditor = React.lazy(() => import("./Components/Elements/ThemeTree/ThemeEditor"))
 const QSPlayerByID = React.lazy(() => import("./Components/Elements/QuestionSequence/Public/QSPlayerByID").then(module => ({default: module.QSPlayerByID})))
 const ImageQuestion = React.lazy(() => import("./Components/Elements/UserTest/ImageQuestion/ImageQuestion").then(module => ({default: module.ImageQuestion})))
@@ -49,6 +48,7 @@ import {LogInNotification} from "./Components/PublicPages/Login/#LogInNotificati
 import CardByURL from "./Components/Elements/Cards/CardView/CardByURL";
 import {isMobileHook} from "./CustomHooks/isMobileHook";
 import {CircularProgress, Grid} from "@mui/material";
+import {EditCardByID} from "./Components/Elements/Cards/Editor/v2/EditCardByID";
 
 
 const  App = observer(() => {
@@ -75,8 +75,8 @@ const  App = observer(() => {
 
                             <Route exact path="/courses" component={MainCoursePublicView}/>
                             <Route exact path="/direction" component={MainDirection}/>
-                            <Route exact path="/cedit" component={CodeEditor}/>
                             <Route exact path="/tt" component={ThemeEditor}/>
+                            <Route exact path={"/ce"} component={EditCardByID}/>
                             <Redirect to="/courses"/>
                         </Switch>
                     </Suspense>

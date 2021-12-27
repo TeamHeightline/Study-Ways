@@ -12,29 +12,23 @@ import {Select} from "@mui/material";
 export const AuthorSelector = observer(()=>{
     return(
         <FormControl className="col-12">
-            <InputLabel id="question-theme-multiple">Авторы вопросов</InputLabel>
-            {QuestionEditorStorage.allQuestionsDataHasBeenDeliver && QuestionEditorStorage.SelectedQuestionAuthorForSelector&&
+            <InputLabel id="question-theme-multiple">Авторы вопроса</InputLabel>
             <Select
                 multiple
                 variant="filled"
-                defaultValue={"undefined"}
-                value={QuestionEditorStorage.SelectedQuestionAuthorForSelector || ["undefined"]}
+                value={QuestionEditorStorage.SelectedQuestionAuthorForSelector || []}
                 onChange={(e: any) => {
                     QuestionEditorStorage.selectedQuestionAuthorsArray = e.target.value
                 }}
                 input={<Input/>}
                 MenuProps={MenuProps}
             >
-                <MenuItem  value={"undefined"}>
-                    Не выбран
-                </MenuItem>
-                {QuestionEditorStorage.allQuestionsDataHasBeenDeliver &&
-                toJS(QuestionEditorStorage.allAuthorsForQuestion).map((author: any) => (
-                    <MenuItem key={author.name + author.id} value={author.id}>
+                {toJS(QuestionEditorStorage.allAuthorsForQuestion).map((author: any) => (
+                    <MenuItem key={author.name + author.id} value={String(author.id)}>
                         {author.name}
                     </MenuItem>
                 ))}
-            </Select>}
+            </Select>
         </FormControl>
     )
 })

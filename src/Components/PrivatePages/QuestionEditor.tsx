@@ -7,12 +7,17 @@ import {CreateNewQuestion} from "../Elements/UserTest/Editor/QuestionEditor/#Cre
 import {EditQuestionByID} from "../Elements/UserTest/Editor/QuestionEditor/EditQuestionByID";
 import {QuestionFolders} from "../Elements/UserTest/Editor/QuestionEditor/#QuestionFolders";
 
-export const QuestionEditor = observer(({...props}: any) =>{
-    useEffect(() =>QuestionEditorStorage.loadFromServerAppQuestionsData(), [])
-    if (!QuestionEditorStorage.allQuestionsDataHasBeenDeliver) {
+export const QuestionEditor = observer(() =>{
+    useEffect(() =>{
+        QuestionEditorStorage.loadQuestionAuthorsAndThemes()
+        QuestionEditorStorage.loadBasicQuestionData()
+    }, [])
+    console.log(QuestionEditorStorage.loadingQuestionData)
+
+    if (QuestionEditorStorage.loadingQuestionData || (!QuestionEditorStorage.questionHasBeenSelected && QuestionEditorStorage.loadingBasicQuestionData)) {
         return (<Spinner animation="border" variant="success" className=" offset-6 mt-5"/>)
     }
-    if(QuestionEditorStorage.questionHasBeenSelected){
+    if(QuestionEditorStorage.questionHasBeenSelected ){
         return (
             <EditQuestionByID/>
         )
@@ -29,7 +34,7 @@ export const QuestionEditor = observer(({...props}: any) =>{
                               variant="outlined">
                             <CardActionArea style={{height: "100%"}}
                                             onClick={() => {
-                                                QuestionEditorStorage.selectorHandleChange(question, question)
+                                                QuestionEditorStorage.selectQuestionClickHandler(question.id)
                                             }}>
                                 <Typography>
                                     {"ID: " + question.id}

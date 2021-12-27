@@ -1,19 +1,21 @@
-import React from 'react'
+import {observer} from "mobx-react";
+import React from 'react';
 import {Button, Divider, FormControl, InputLabel, ListItemIcon, Menu, MenuItem, Select} from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import Switch from "@mui/material/Switch";
+import CopyrightIcon from "@mui/icons-material/Copyright";
 import YouTubeIcon from "@mui/icons-material/YouTube";
+import HttpIcon from "@mui/icons-material/Http";
+import ImageIcon from "@mui/icons-material/Image";
+import CodeIcon from "@mui/icons-material/Code";
 import CreateIcon from "@mui/icons-material/Create";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
-import CopyrightIcon from '@mui/icons-material/Copyright';
-import HttpIcon from '@mui/icons-material/Http';
-import ImageIcon from '@mui/icons-material/Image';
-import CodeIcon from '@mui/icons-material/Code';
-export default function CardEditMenu({ mainContentType, mainContentTypeHandle, isUseAdditionalTextHandle,
-                                         isUseAdditionalText, isUseBodyQuestionHandle, isUseBodyQuestion,
-                                         isUseBeforeCardQuestionHandle, isUseBeforeCardQuestion, isUseCopyright,
-                                         setIsUseCopyright, autoSave, isUseArrowNavigation, setIsUseArrowNavigation}: any){
-    const [anchorEl, setAnchorEl] = React.useState(null);
+import {
+    CESObject,
+} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
+
+export const CMenu = observer(({...props}) =>{
+    const [anchorEl, setAnchorEl] = React.useState<any>(null);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -21,41 +23,30 @@ export default function CardEditMenu({ mainContentType, mainContentTypeHandle, i
     const handleClose = () => {
         setAnchorEl(null);
     };
-    const isUseCopyrightHandle = () =>{
-        autoSave()
-        setIsUseCopyright(!isUseCopyright)
-    }
-    const isUseArrowNavigationHandler = () =>{
-        autoSave()
-        setIsUseArrowNavigation(!isUseArrowNavigation)
-    }
 
     return(
-        <div>
-            <Button
-                className="mt-2"
-                aria-controls="customized-menu"
-                aria-haspopup="true"
-                variant="outlined"
-                color="primary"
-                onClick={handleClick}
-            >
-                <ListItemIcon>
-                    <SettingsIcon/>
-                </ListItemIcon>
-                Настроить содержимое
-            </Button>
+        <div {...props}>
+            <div>
+                <Button
+                    className="mt-2"
+                    variant="outlined"
+                    color="primary"
+                    onClick={handleClick}
+                >
+                    <ListItemIcon>
+                        <SettingsIcon/>
+                    </ListItemIcon>
+                    Настроить содержимое
+                </Button>
             <Menu
-                id="customized-menu"
                 anchorEl={anchorEl}
-                // keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={isUseCopyrightHandle}>
+                <MenuItem onClick={CESObject.changeField("isCardUseCopyright", "checked")}>
                     <Switch
-                        checked={isUseCopyright}
-                        onChange={isUseCopyrightHandle}
+                        checked={CESObject.getField("isCardUseCopyright", false)}
+                        onChange={CESObject.changeField("isCardUseCopyright", "checked")}
                         color="secondary"
                     />
                     <ListItemIcon>
@@ -72,20 +63,20 @@ export default function CardEditMenu({ mainContentType, mainContentTypeHandle, i
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={mainContentType}
-                            onChange={mainContentTypeHandle}
+                            value={CESObject.getField("cardContentType", "A_0")}
+                            onChange={CESObject.changeField("cardContentType")}
                         >
-                            <MenuItem value={0}><YouTubeIcon/> {" Видео Youtube"}</MenuItem>
-                            <MenuItem value={1}><HttpIcon/>{" Внешний ресурс"}</MenuItem>
-                            <MenuItem value={2}><ImageIcon/>{" Изображение"}</MenuItem>
+                            <MenuItem value={"A_0"}><YouTubeIcon/> {" Видео Youtube"}</MenuItem>
+                            <MenuItem value={"A_1"}><HttpIcon/>{" Внешний ресурс"}</MenuItem>
+                            <MenuItem value={"A_2"}><ImageIcon/>{" Изображение"}</MenuItem>
                         </Select>
                     </FormControl>
                 </MenuItem>
 
-                <MenuItem onClick={isUseArrowNavigationHandler}>
+                <MenuItem onClick={CESObject.changeField("isCardUseArrowNavigation", "checked")}>
                     <Switch
-                        checked={isUseArrowNavigation}
-                        onChange={isUseArrowNavigationHandler}
+                        checked={CESObject.getField("isCardUseArrowNavigation", false)}
+                        onChange={CESObject.changeField("isCardUseArrowNavigation", "checked")}
                         color="secondary"
                     />
                     <ListItemIcon>
@@ -95,10 +86,10 @@ export default function CardEditMenu({ mainContentType, mainContentTypeHandle, i
                 </MenuItem>
 
                 <Divider/>
-                <MenuItem onClick={isUseAdditionalTextHandle}>
+                <MenuItem onClick={CESObject.changeField("isCardUseAdditionalText", "checked")}>
                     <Switch
-                        checked={isUseAdditionalText}
-                        onChange={isUseAdditionalTextHandle}
+                        checked={CESObject.getField("isCardUseAdditionalText", false)}
+                        onChange={CESObject.changeField("isCardUseAdditionalText", "checked")}
                         name="checkedB"
                         color="secondary"
                     />
@@ -108,11 +99,10 @@ export default function CardEditMenu({ mainContentType, mainContentTypeHandle, i
                     Дополнительный текст
                 </MenuItem>
                 <Divider/>
-                <MenuItem onClick={isUseBodyQuestionHandle}
-                >
+                <MenuItem onClick={CESObject.changeField("isCardUseTestInCard", "checked")}>
                     <Switch
-                        checked={isUseBodyQuestion}
-                        onChange={isUseBodyQuestionHandle}
+                        checked={CESObject.getField("isCardUseTestInCard", false)}
+                        onChange={CESObject.changeField("isCardUseTestInCard", "checked")}
                         name="checkedB"
                         color="secondary"
                     />
@@ -121,11 +111,10 @@ export default function CardEditMenu({ mainContentType, mainContentTypeHandle, i
                     </ListItemIcon>
                     Тест в карточке
                 </MenuItem>
-                <MenuItem onClick={isUseBeforeCardQuestionHandle}
-                >
+                <MenuItem onClick={CESObject.changeField("isCardUseTestBeforeCard", "checked")}>
                     <Switch
-                        checked={isUseBeforeCardQuestion}
-                        onChange={isUseBeforeCardQuestionHandle}
+                        checked={CESObject.getField("isCardUseTestBeforeCard", false)}
+                        onChange={CESObject.changeField("isCardUseTestBeforeCard", "checked")}
                         name="checkedB"
                         color="secondary"
                     />
@@ -135,6 +124,7 @@ export default function CardEditMenu({ mainContentType, mainContentTypeHandle, i
                     Тест перед карточкой
                 </MenuItem>
             </Menu>
+            </div>
         </div>
     )
-}
+})

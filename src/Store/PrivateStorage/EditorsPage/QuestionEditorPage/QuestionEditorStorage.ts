@@ -1,18 +1,30 @@
 import { makeAutoObservable, reaction, toJS} from "mobx";
 import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
 import {
-    ALL_QUESTIONS_DATA,
+    THEMES_AND_AUTHORS_FOR_QUESTION,
     CREATE_NEW_ANSWER,
     CREATE_NEW_ANSWER_BASED_ON_DATA,
-    CREATE_NEW_QUESTION,
+    CREATE_NEW_QUESTION, GET_QUESTION_DATA_BY_ID, MY_QUESTIONS_BASIC_DATA,
     UPDATE_QUESTION
 } from "./Struct";
-import {Maybe, QuestionAuthorNode, QuestionNode, QuestionThemesNode} from "../../../../SchemaTypes";
+import {
+    AnswerNode,
+    Maybe,
+    Mutation,
+    Query,
+    QuestionAuthorNode,
+    QuestionNode,
+    QuestionThemesNode
+} from "../../../../SchemaTypes";
 import {sort} from "fast-sort";
 import {Answer} from "./AnswersStorage";
 import {UserStorage} from "../../../UserStore/UserStore";
 import {SERVER_BASE_URL} from "../../../../settings";
-
+export enum variantsOfStateOfSave{
+    SAVED = "SAVED",
+    SAVING = "SAVING",
+    ERROR = "ERROR"
+}
 class QuestionEditor{
     constructor() {
             makeAutoObservable(this)
@@ -22,7 +34,6 @@ class QuestionEditor{
             reaction(() => this.selectedQuestionThemesArray, () => this.autoSave())
             reaction(() => this.selectedQuestionAuthorsArray, () => this.autoSave())
             reaction(() => this.selectedQuestionNumberOfShowingAnswers, () => this.autoSave())
-            reaction(() => this.allQuestionsData, () => this.loadAnswers())
     }
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
     clientStorage = ClientStorage
@@ -53,16 +64,69 @@ class QuestionEditor{
     showPreview = false
 
     //Функция для получения данных о всех вопросов с сервера
-    loadFromServerAppQuestionsData(){
+    loadQuestionAuthorsAndThemes(){
         if(this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN"){
-            this.clientStorage.client.query({query:ALL_QUESTIONS_DATA, fetchPolicy: "network-only"})
+            this.clientStorage.client.query({query:THEMES_AND_AUTHORS_FOR_QUESTION, fetchPolicy: "network-only"})
                 .then((response) =>{
-                    this.allQuestionsData = sort(response?.data?.me?.questionSet).desc((question: any) => question?.id)
                     this.allThemesForQuestion = sort(response?.data?.questionThemes).desc((theme: any) => theme?.id)
                     this.allAuthorsForQuestion = sort(response?.data?.me?.questionauthorSet).desc((author: any) => author?.id)
-                    this.allQuestionsDataHasBeenDeliver = true
+                    this.AuthorsAndThemesHasBeenLoaded = true
                 })
                 .catch(() => void(0))
+        }
+    }
+    AuthorsAndThemesHasBeenLoaded = false
+
+    loadBasicQuestionData(){
+        this.loadingBasicQuestionData = true
+        if(this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN") {
+            this.clientStorage.client.query({query: MY_QUESTIONS_BASIC_DATA, fetchPolicy: "network-only"})
+                .then((response) => (response?.data?.me?.questionSet))
+                .then((questionsArray: QuestionNode[] | undefined) => {
+                    if(questionsArray){
+                        this.basicQuestionData = sort(questionsArray).desc((question: any) => question?.id)
+                    }
+                    this.loadingBasicQuestionData = false
+                })
+        }
+    }
+    basicQuestionData: QuestionNode[] = []
+    loadingBasicQuestionData = true
+    loadingQuestionData = false
+    selectQuestionClickHandler(id: number){
+        this.loadingQuestionData = true
+        if(this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN") {
+            this.clientStorage.client.query<Query>({query: GET_QUESTION_DATA_BY_ID, fetchPolicy: "network-only",
+            variables:{id: id}})
+                .then((response) => (response.data.questionById))
+                .then((question_data) =>{
+                    if(question_data){
+                        this.selectedQuestionID = Number(question_data.id);
+                        this.selectedQuestionText = question_data.text;
+                        if(question_data.videoUrl){
+                            this.selectedQuestionVideoUrl = question_data.videoUrl;
+                        }
+                        if(question_data.numberOfShowingAnswers){
+                            this.selectedQuestionNumberOfShowingAnswers = String(question_data.numberOfShowingAnswers)
+                        }
+                        const __QuestionAuthors = question_data.author.map((author) => {return(String(author.id))})
+                        this.selectedQuestionAuthorsArray = __QuestionAuthors ? __QuestionAuthors: []
+                        const __QuestionThemes = question_data.theme.map((theme) => {return(String(theme.id))})
+                        this.selectedQuestionThemesArray = __QuestionThemes ?__QuestionThemes:  []
+
+                        if(question_data.answers){
+                            const __Answers: Answer[] = []
+                            sort(question_data.answers)
+                                .asc((answer:  AnswerNode) => answer?.id)
+                                .filter((answer:  AnswerNode) => !answer.isDeleted)
+                                .map((answer: AnswerNode) => __Answers.push(new Answer(this, answer, this.selectedQuestionID)))
+                            this.answers = __Answers
+                        }
+                        this.questionHasBeenSelected = true;
+                        this.loadingQuestionData = false
+                    }
+                })
+
         }
     }
 
@@ -71,33 +135,6 @@ class QuestionEditor{
         return(toJS(this.allQuestionsData))
     }
 
-    //Обработчик изменений в селекторе вопросов
-    selectorHandleChange(e, questionData: Maybe<QuestionNode>){
-        this.questionHasBeenSelected = true
-        this.selectedQuestionID = Number(questionData?.id)
-        this.selectedQuestionText = questionData?.text
-        this.selectedQuestionVideoUrl = questionData?.videoUrl ? questionData?.videoUrl: ''
-        this.selectedQuestionNumberOfShowingAnswers = String(questionData?.numberOfShowingAnswers)
-
-        //Т.к. с сервера темы и автора приходят как обьекты, а нам нужны только их ID, то
-        //здесь мы собираем массивы ID и устанавливает их в наблюдаемые переменные
-        const selectedThemeIDArray: string[] = []
-        questionData?.theme?.map((theme) =>{
-            selectedThemeIDArray?.push(theme?.id)
-        })
-        this.selectedQuestionThemesArray = selectedThemeIDArray
-
-        const selectedAuthorIDArray: string[]  = []
-        questionData?.author?.map((author) =>{
-            selectedAuthorIDArray?.push(author?.id)
-        })
-        if(selectedAuthorIDArray){
-            this.selectedQuestionAuthorsArray = selectedAuthorIDArray
-        }
-
-        //После выбора вопроса собирается массив ответов
-        this.loadAnswers()
-    }
 
     deliverFromServerImageURL(){
         fetch(SERVER_BASE_URL + "/files/question?id="+ this.selectedQuestionID)
@@ -138,24 +175,32 @@ class QuestionEditor{
         this.clientStorage.client.mutate({mutation: UPDATE_QUESTION, variables:{
                 id: this.selectedQuestionID,
                 createdBy: 0,
-                theme: this.selectedQuestionThemesArray !== "undefined" ? this.selectedQuestionThemesArray: [],
-                author: this.selectedQuestionAuthorsArray !== "undefined"? this.selectedQuestionAuthorsArray : [],
+                theme: this.selectedQuestionThemesArray,
+                author: this.selectedQuestionAuthorsArray,
                 text: this.selectedQuestionText,
                 videoUrl: this.selectedQuestionVideoUrl,
                 numberOfShowingAnswers: Number(this.selectedQuestionNumberOfShowingAnswers),
             }})
+            .then((response) => {
+                console.log(response)
+                if(response.data.updateQuestion.errors.length > 0){
+                    this.stateOfSave = variantsOfStateOfSave.ERROR
+                }else{
+                    this.stateOfSave = variantsOfStateOfSave.SAVED
+                }
+            })
             .then(() =>{
+                this.loadBasicQuestionData()
                 this.simpleUpdateFlag = true
-                this.loadFromServerAppQuestionsData()
-                this.stateOfSave = true
             })
     }
-    //сохранен/не сохранен
-    stateOfSave = true
+    //сохранен/не сохранен / ошибка
+
+    stateOfSave: variantsOfStateOfSave = variantsOfStateOfSave.SAVED
 
     //Функция для авто сохранений
     autoSave(){
-        this.stateOfSave = false
+        this.stateOfSave = variantsOfStateOfSave.SAVING
         clearTimeout(this.savingTimer)
         this.savingTimer = setTimeout(() =>{this.saveDataOnServer()}, 5000)
     }
@@ -173,10 +218,10 @@ class QuestionEditor{
     selectedQuestionVideoUrl: string | undefined = ''
 
     //Темы выбранного вопроса
-    selectedQuestionThemesArray: string[] | string  = []
+    selectedQuestionThemesArray: string[]   = []
 
     //Авторы выбранного вопроса
-    selectedQuestionAuthorsArray: string[] | string  = []
+    selectedQuestionAuthorsArray: string[]  = []
 
     //Ссылка на изображение для вопроса
     selectedQuestionImageURL = ''
@@ -188,12 +233,12 @@ class QuestionEditor{
 
     //Геттер для тем вопроса которые выбрал автор
     get SelectedQuestionThemesForSelector(){
-        return(toJS(this.selectedQuestionThemesArray) || [])
+        return(toJS(this.selectedQuestionThemesArray))
     }
 
     //Геттер для аторов вопроса которые выбрал автор
     get SelectedQuestionAuthorForSelector(){
-        return(toJS(this.selectedQuestionAuthorsArray))
+        return(toJS(this.selectedQuestionAuthorsArray) || [])
     }
 
     //Геттер имени фотографии вопроса (приводит ссылку к красивому виду)
@@ -201,7 +246,7 @@ class QuestionEditor{
         return(this.selectedQuestionImageURL.slice(70).split('?')[0])
     }
     //Раздел ответов ----------------------------------------------------------
-    answers: any = []
+    answers:  any = []
 
 
     //Флаг который позволяет игнорировать пересоздание сторов для ответов в случае если это просто обновление
@@ -212,24 +257,13 @@ class QuestionEditor{
         this.simpleUpdateFlag = newFlag
     }
 
-    //Подгрузка данных о вопросах в массив
-    loadAnswers(){
-        if(this.questionHasBeenSelected && !this.simpleUpdateFlag){
-        this.answers = sort(this.allQuestionsData?.find((question) => Number(question.id) === Number(this.selectedQuestionID))
-            .answers)
-            .asc((answer: any) => answer?.id)
-            .filter((answer: any) => answer.isDeleted !== true)
-            .map((answer) => new Answer(this, answer, this.selectedQuestionID))
-        }
-        if(this.simpleUpdateFlag){
-            this.changeSimpleUpdateFlag(false)
-        }
-    }
 
     //Создаем новый вопрос
     createNewQuestion(){
-        this.clientStorage.client.mutate({mutation: CREATE_NEW_QUESTION})
-            .then(() => this.loadFromServerAppQuestionsData())
+        this.clientStorage.client.mutate<Mutation>({mutation: CREATE_NEW_QUESTION})
+            .then((response) => (response?.data?.updateQuestion?.question?.id))
+            .then((id) => this.selectQuestionClickHandler(Number(id)))
+            .then(() => this.loadBasicQuestionData())
     }
 
     //Создаем новый ответ
@@ -237,7 +271,7 @@ class QuestionEditor{
         this.clientStorage.client.mutate({mutation: CREATE_NEW_ANSWER, variables:{
                 question: this.selectedQuestionID
             }})
-            .then(() => this.loadFromServerAppQuestionsData())
+            .then(() => this.selectQuestionClickHandler(this.selectedQuestionID))
             .catch(() => void(0))
     }
 
@@ -257,8 +291,6 @@ class QuestionEditor{
                 hardLevelOfAnswer: basedAnswer.hardLevelOfAnswer,
                 isDeleted: basedAnswer.isDeleted,
         }})
-            .then(() => {
-                this.loadFromServerAppQuestionsData()})
             .catch(() => void(0))
     }
 
@@ -271,19 +303,22 @@ class QuestionEditor{
     }
 
     get QuestionArrayForDisplay(){
+        if(!this?.basicQuestionData){
+            return([])
+        }
         if(this.activeFolder === 0 ){
             return(
-                sort(this?.allQuestionsData).desc((question: any) => Number(question.id))
+                sort(this.basicQuestionData)?.desc((question: any) => Number(question.id))
             )
         }
         if(this.activeFolder === 1){
             return (
-                sort(this?.allQuestionsData.filter((question) => question.text !== "Новый вопрос")).desc((question: any) => Number(question.id))
+                sort(this.basicQuestionData?.filter((question) => question.text !== "Новый вопрос"))?.desc((question: any) => Number(question.id))
             )
         }
         if(this.activeFolder === 2){
             return (
-                sort(this?.allQuestionsData.filter((question) => question.text === "Новый вопрос")).desc((question: any) => Number(question.id))
+                sort(this.basicQuestionData?.filter((question) => question.text === "Новый вопрос"))?.desc((question: any) => Number(question.id))
             )
         }
     }

@@ -5,7 +5,7 @@ import React from "react";
 import {observer} from "mobx-react";
 import {useHistory} from "react-router-dom";
 
-export const MCPVCards = observer(({cardsDataForRender}) => {
+export const MCPVCards = observer(({cardsDataForRender,onCardSelect, onlyCardSelectionMode}) => {
     const history = useHistory();
     return(
         <div>
@@ -18,9 +18,11 @@ export const MCPVCards = observer(({cardsDataForRender}) => {
                                     <CardMicroView
                                         className="mt-2" cardID={sameCard.id}
                                         onChange={(data) =>{
-                                            history.push('/card/' + data)
-                                            // CardPageStorage.selectedCardID = data
-                                            // CardPageStorage.isOpenCard = true
+                                            if(onlyCardSelectionMode){
+                                                onCardSelect(data)
+                                            }else{
+                                                history.push('/card/' + data)
+                                            }
                                         }}/>
                                 </div>
                             </Grow>

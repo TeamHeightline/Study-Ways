@@ -20,6 +20,7 @@ import CardContent from "@mui/material/CardContent";
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { Alert } from '@mui/material';
+import { usePageVisibility } from 'react-page-visibility';
 
 import {
     Chart,
@@ -80,18 +81,28 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
     }, [props])
     const isMobile = isMobileHook()
 
+    const isVisible = usePageVisibility()
+
     const classes = useStyles();
+
+    useEffect(() => {
+        if(processedStore.isUseExamMode && !isVisible){
+            processedStore.activeQuestionStoreInstance.onAcceptDefeat()
+        }
+    }, [isVisible])
+
     if(!processedStore.allDataNasBeenLoaded){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
-    // console.log(processedStore.questionsStoreArray[processedStore.selectedQuestionIndex]?.ArrayForShowAnswerPoints)
+    // console.log(isVisible)
+
     return (
         <div>
             <Typography align={"center"} variant={isMobile ?"h6": "h4"}>{processedStore.name}</Typography>
             <div style={{overflowX: "auto"}}>
-                <Stepper nonLinear alternativeLabel activeStep={processedStore.selectedQuestionIndex}>
+                <Stepper nonLinear alternativeLabel activeStep={processedStore.selectedQuestionIndex} sx={{pb: 2}}>
                     {processedStore?.questionsStoreArray?.map((question, qIndex) => (
                         <Step key={qIndex} onClick={() => processedStore.changeSelectedQuestionIndex(qIndex)}>
                             {!props?.notShowStepLabet ?
@@ -165,7 +176,7 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                 {processedStore.activeQuestionStoreInstance?.oneTimeCheckError &&
                 processedStore.activeQuestionStoreInstance?.IndexOfMostWantedError !== -1 &&
                     <div>
-                        <Alert severity="warning" variant="outlined" className="mt-2">
+                        <Alert severity="error" variant="filled" className="mt-2">
                             {processedStore.activeQuestionStoreInstance?.HelpTextForShow}
                         </Alert>
                     </div>
@@ -178,7 +189,9 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                             <Row>
                                 {processedStore.activeQuestionStoreInstance?.answersArray.map((answer, aIndex) =>{
                                     return(
-                                        <Card  key={aIndex} variant="outlined"  className={classes.root}
+                                        <Card key={aIndex} variant="outlined"
+                                              sx={{pb:4}}
+                                              className={classes.root}
                                               style={{backgroundColor: processedStore.activeQuestionStoreInstance?.selectedAnswers?.has(answer?.id)? "#2296F3" : "",}}
                                                  onClick={() =>{
                                                      processedStore.activeQuestionStoreInstance.selectAnswerHandleChange(answer.id)

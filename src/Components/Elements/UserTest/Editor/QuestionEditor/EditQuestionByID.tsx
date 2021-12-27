@@ -14,15 +14,9 @@ import {AnswersEditor} from "../AnswersEditor/AnswersEditor";
 import {CreateNewAnswer} from "./#CreateNewAnswer";
 import React from "react";
 import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
-import {Spinner} from "react-bootstrap";
 
 export const EditQuestionByID = observer(() =>{
     const isMobile = isMobileHook()
-    if(!QuestionEditorStorage?.allQuestionsDataHasBeenDeliver){
-        return (
-            <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
-        )
-    }
     return(
         <div style={{paddingLeft: isMobile? 0: 40, paddingRight: 10}}>
             <Button
@@ -44,6 +38,7 @@ export const EditQuestionByID = observer(() =>{
                     <Grid item xs={12} md={6}>
                         <QuestionVideoURL/>
                     </Grid>
+                    {QuestionEditorStorage?.AuthorsAndThemesHasBeenLoaded && QuestionEditorStorage.questionHasBeenSelected &&
                     <Grid item xs={12} md={6} container columnSpacing={6} rowSpacing={2}>
                         <Grid item xs={12} md={6}>
                             <ThemeSelector/>
@@ -51,7 +46,7 @@ export const EditQuestionByID = observer(() =>{
                         <Grid item xs={12} md={6}>
                             <AuthorSelector/>
                         </Grid>
-                    </Grid>
+                    </Grid>}
                 </Grid>
             }
             <Stack direction={{xs: 'column', sm: 'row' }} className="mt-2" spacing={isMobile? 0: 2} >

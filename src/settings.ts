@@ -1,2 +1,2 @@
-const dev_env = true
-export const SERVER_BASE_URL = dev_env? "http://127.0.0.1:8000": "https://iot-experemental.herokuapp.com"
+const dev_env = false
+export const SERVER_BASE_URL = dev_env? "http://127.0.0.1:8000": "https://iotbv3-qrhz6rl3cq-lz.a.run.app"

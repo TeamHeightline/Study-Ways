@@ -13,6 +13,7 @@ import {RichTextEditor} from "./#RichTextEditor";
 import {AuthorSelector} from "./#AuthorSelector";
 import {CopyRight} from "./#CopyRight";
 import {ArrowNavigation} from "./#ArrowNavigation";
+import {UploadImage} from "./#UploadImage";
 
 export const EditCardByID = observer(({id= 1825}) => {
     useEffect(() => {
@@ -63,8 +64,8 @@ export const EditCardByID = observer(({id= 1825}) => {
                 </Grid>
 
                 <Grid item xs={12} md={6}>
-                    {CESObject.getField("cardContentType", "A_0") === "A_0" &&
-                        <YouTubeVideo/>}
+                    {CESObject.getField("cardContentType", "A_0") === "A_0" ?
+                        <YouTubeVideo/>: <UploadImage/>}
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <RichTextEditor/>

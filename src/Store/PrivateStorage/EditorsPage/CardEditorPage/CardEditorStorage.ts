@@ -5,6 +5,8 @@ import {GET_CARD_DATA_BY_ID, GET_MY_CARD_AUTHOR} from "./Struct";
 import {CardAuthorNode, CardNode} from "../../../../SchemaTypes";
 import { computedFn } from "mobx-utils"
 import {sort} from "fast-sort";
+import {SERVER_BASE_URL} from "../../../../settings";
+import message from "antd/es/message";
 export type card_object_fields = keyof CardNode
 
 class CardEditorStorage{
@@ -37,7 +39,9 @@ class CardEditorStorage{
                         const cardUp = card_data?.cardBefore[0]?.id
                         //----------------------------------------------------------------
                         this.card_object = {...card_data, author, cardBefore, cardDown, cardNext, cardUp}
-                        this.cardDataLoaded = true})
+                        this.cardDataLoaded = true
+                        this.get_card_image()
+                    })
             }
         }
     }
@@ -108,6 +112,53 @@ class CardEditorStorage{
         )}
     })
 
+
+    //---------------ИЗОБРАЖЕНИЕ КАРТОЧКИ----------------------------------------------
+
+    //Ссылка на изображение
+    image_url = ''
+    update_image_counter = 0
+    get fakeImageUrl(){
+        return(this.image_url + "?" + this.update_image_counter)
+    }
+    //Загрузка изображения для карточки
+    handleUploadImage(e, card_id){
+        const formData = new FormData();
+        formData.append('image', e.file);
+        formData.append('card', String(card_id));
+        fetch(
+            SERVER_BASE_URL+ '/cardfiles/card?update_id=' + String(card_id),
+            {
+                method: 'POST',
+                body: formData,
+            }
+        )
+            .then((response) => response.json())
+            .then((result) => {
+                this.update_image_counter = this.update_image_counter + 1
+                console.log('Success:', result);
+                message.success(`${e.file.name} успешно загружен.`);
+                this.image_url = result.image
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                message.error(`${e.file.name} не удалось загрузить`);
+            });
+    }
+    //Получение с сервера изображения ------------------------------------------------
+    get_card_image(){
+        fetch(SERVER_BASE_URL + "/cardfiles/card?id=" + String(this?.card_object?.id))
+            .then((response) => response.json())
+            .then((data) => {
+                try {
+                    this.update_image_counter = this.update_image_counter + 1
+                    console.log(data)
+                    this.image_url = data[0].image
+                } catch (e) {
+                    console.log(e)
+                }
+            })
+    }
 
 
 }

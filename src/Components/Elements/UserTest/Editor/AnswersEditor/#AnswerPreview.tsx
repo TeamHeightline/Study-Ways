@@ -23,7 +23,7 @@ export const AnswerPreview = observer(({answer}) =>{
                         onChange={() => {
                             void(0)
                         }}
-                        answer={{id: answer.id, text: answer.text}}
+                        answer={answer}
                     />
                 </div>
             </Collapse>

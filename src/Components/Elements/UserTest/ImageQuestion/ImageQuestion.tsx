@@ -137,7 +137,7 @@ export const ImageQuestion = observer((props: any) => {
                                                    processedStore.selectAnswerHandleChange(answer.id)
                                                }}>
                                             <CardActionArea>
-                                                {answer.answerImageUrl?
+                                                {!answer.isImageDeleted && answer.answerImageUrl?
                                                     <CardMedia
                                                         style={{opacity: processedStore?.selectedAnswers?.has(answer?.id)? 0.5 : 1}}
                                                         className={answer?.answerText? classes.media : classes.fullHeightMedia}

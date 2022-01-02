@@ -78,7 +78,7 @@ export const AnswersEditor = observer(() => {
                                             <Grid item md={5} xs={12}>
                                                 <AnswerCheckQueue answer={answer} />
                                             </Grid>
-                                            <Grid item md={7} xs={12}>
+                                            <Grid item md={7} xs={12} sx={{pr:4}}>
                                                 <AnswerImage answer={answer}/>
                                             </Grid>
                                         </Grid>
@@ -87,7 +87,7 @@ export const AnswersEditor = observer(() => {
                                     <Grid item md={6} xs={12}>
                                         <AnswerHelpTextV2 answer={answer}/>
                                         <AnswerHelpTextV3 answer={answer} style={{marginTop: 12}}/>
-                                        <Grid item container spacing={3} xs={12} justifyContent="space-between" style={{marginTop: 12}}>
+                                        <Grid item container columnSpacing={2} xs={12} justifyContent="space-between" style={{marginTop: 12}}>
                                             <Grid item md={6} xs={12}>
                                                 <AnswerHardLevel answer={answer}/>
                                             </Grid>
@@ -95,11 +95,11 @@ export const AnswersEditor = observer(() => {
                                                 <AnswerIsTrue answer={answer}/>
                                             </Grid>
                                         </Grid>
-                                        <Grid item container spacing={0} xs={12}>
+                                        <Grid item container columnSpacing={2} xs={12}>
                                             <Grid item md={6} xs={12}>
                                                 <AnswerIsRequired answer={answer}/>
                                             </Grid>
-                                            <Grid item md={6} xs={12} className={classes.savingNotification}>
+                                            <Grid item md={6} xs={12} sx={{pt:1}}>
                                                 <AnswerSavingNotification answer={answer}/>
                                             </Grid>
                                         </Grid>

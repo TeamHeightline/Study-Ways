@@ -11,12 +11,6 @@ export type Scalars = {
     Int: number;
     Float: number;
     /**
-     * The `GenericScalar` scalar type represents a generic
-     * GraphQL scalar value that could be:
-     * String, Boolean, Int, Float, List or Object.
-     */
-    GenericScalar: any;
-    /**
      * The `DateTime` scalar type represents a DateTime
      * value as specified by
      * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
@@ -48,6 +42,12 @@ export type Scalars = {
      * }
      */
     ExpectedErrorType: any;
+    /**
+     * The `GenericScalar` scalar type represents a generic
+     * GraphQL scalar value that could be:
+     * String, Boolean, Int, Float, List or Object.
+     */
+    GenericScalar: any;
 };
 
 /** An object with an ID */
@@ -72,6 +72,7 @@ export type AnswerNode = {
     helpTextv3?: Maybe<Scalars['String']>;
     id: Scalars['ID'];
     isDeleted: Scalars['Boolean'];
+    isImageDeleted: Scalars['Boolean'];
     isInvisible: Scalars['Boolean'];
     isRequired: Scalars['Boolean'];
     isTrue: Scalars['Boolean'];
@@ -1168,6 +1169,7 @@ export type AnswerMutationInput = {
     helpTextv3?: InputMaybe<Scalars['String']>;
     id?: InputMaybe<Scalars['ID']>;
     isDeleted?: InputMaybe<Scalars['Boolean']>;
+    isImageDeleted?: InputMaybe<Scalars['Boolean']>;
     isInvisible?: InputMaybe<Scalars['Boolean']>;
     isRequired?: InputMaybe<Scalars['Boolean']>;
     isTrue?: InputMaybe<Scalars['Boolean']>;

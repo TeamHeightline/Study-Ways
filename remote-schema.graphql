@@ -25,6 +25,7 @@ type AnswerNode {
     helpTextv3: String
     id: ID!
     isDeleted: Boolean!
+    isImageDeleted: Boolean!
     isInvisible: Boolean!
     isRequired: Boolean!
     isTrue: Boolean!
@@ -825,6 +826,50 @@ enum CustomUserUserAccessLevel {
     TEACHER
 }
 
+"""
+
+The `DateTime` scalar type represents a DateTime
+value as specified by
+[iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+"""
+scalar DateTime
+
+"""
+
+Errors messages and codes mapped to
+fields or non fields errors.
+Example:
+{
+field_name: [
+{
+"message": "error message",
+"code": "error_code"
+}
+],
+other_field: [
+{
+"message": "error message",
+"code": "error_code"
+}
+],
+nonFieldErrors: [
+{
+"message": "error message",
+"code": "error_code"
+}
+]
+}
+"""
+scalar ExpectedErrorType
+
+"""
+
+The `GenericScalar` scalar type represents a generic
+GraphQL scalar value that could be:
+String, Boolean, Int, Float, List or Object.
+"""
+scalar GenericScalar
+
 input AnswerMutationInput {
     checkQueue: Int!
     clientMutationId: String
@@ -835,6 +880,7 @@ input AnswerMutationInput {
     helpTextv3: String
     id: ID
     isDeleted: Boolean
+    isImageDeleted: Boolean
     isInvisible: Boolean
     isRequired: Boolean
     isTrue: Boolean
@@ -995,45 +1041,3 @@ input UpdateUnstructuredThemeInput {
     parent: ID
     text: String!
 }
-
-
-"""
-The `GenericScalar` scalar type represents a generic
-GraphQL scalar value that could be:
-String, Boolean, Int, Float, List or Object.
-"""
-scalar GenericScalar
-
-"""
-The `DateTime` scalar type represents a DateTime
-value as specified by
-[iso8601](https://en.wikipedia.org/wiki/ISO_8601).
-"""
-scalar DateTime
-
-"""
-Errors messages and codes mapped to
-fields or non fields errors.
-Example:
-{
-field_name: [
-{
-"message": "error message",
-"code": "error_code"
-}
-],
-other_field: [
-{
-"message": "error message",
-"code": "error_code"
-}
-],
-nonFieldErrors: [
-{
-"message": "error message",
-"code": "error_code"
-}
-]
-}
-"""
-scalar ExpectedErrorType

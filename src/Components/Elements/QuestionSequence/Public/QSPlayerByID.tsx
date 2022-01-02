@@ -197,7 +197,7 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                                                      processedStore.activeQuestionStoreInstance.selectAnswerHandleChange(answer.id)
                                                  }}>
                                         <CardActionArea>
-                                            {answer.answerImageUrl?
+                                            {!answer.isImageDeleted && answer.answerImageUrl?
                                                 <CardMedia
                                                     style={{opacity: processedStore.activeQuestionStoreInstance?.selectedAnswers?.has(answer?.id)? 0.5 : 1}}
                                                     className={answer?.answerText? classes.media : classes.fullHeightMedia}

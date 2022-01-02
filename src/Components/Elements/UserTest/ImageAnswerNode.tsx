@@ -69,7 +69,7 @@ export default function ImageAnswerNode(props: any){
                         setTimeout(changeIsSelected, 150,  !isSelected)
             }}>
                 <CardActionArea>
-                    {answerImgUrl?
+                    {!props?.answer.isImageDeleted && answerImgUrl?
                         <CardMedia
                             style={{opacity: props.selected.indexOf(props.answer.id) !== -1? 0.5 : 1}}
                             className={(props?.answer?.text || props?.answerText)? classes.media : classes.fullHeightMedia}

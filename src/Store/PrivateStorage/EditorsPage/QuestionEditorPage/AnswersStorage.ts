@@ -16,6 +16,7 @@ export class Answer{
     hardLevelOfAnswer = ''
     imageUrl = ''
     usePreview = false
+    isImageDeleted=false
     fakeAnswerIndexForUpdatePreview = 0
     questionID = 0
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
@@ -98,11 +99,12 @@ export class Answer{
                 isDeleted: this.isDeleted,
                 isInvisible: this.isInvisible,
                 isRequired: this.isRequired,
+                isImageDeleted: this.isImageDeleted,
             }})
             .then(() =>{
                 this.stateOfSave = true
                 this?.ownStore?.changeSimpleUpdateFlag(true)
-                this?.ownStore?.loadFromServerAppQuestionsData()
+                // this?.ownStore?.loadFromServerAppQuestionsData()
             })
     }
     //сохранен/не сохранен
@@ -143,6 +145,7 @@ export class Answer{
         this.videoUrl = answer.videoUrl
         this.hardLevelOfAnswer = answer.hardLevelOfAnswer
         this.isRequired = answer.isRequired
+        this.isImageDeleted = answer.isImageDeleted
         this.questionID = questionID
         this.getImageUrlFromServer()
         reaction(() => this.id, () => this.autoSave())
@@ -155,9 +158,13 @@ export class Answer{
         reaction(() => this.videoUrl, () => this.autoSave())
         reaction(() => this.hardLevelOfAnswer, () => this.autoSave())
         reaction(() => this.questionID, () => this.autoSave())
+        reaction(() => this.isImageDeleted, () => this.autoSave())
         reaction(() => this.isRequired, () => this.autoSave())
         reaction(() => this.isDeleted, () => this.saveDataOnServer())
         reaction(() => this.isInvisible, ()=> this.saveDataOnServer())
+        reaction(() => this.isImageDeleted,
+            () => this.fakeAnswerIndexForUpdatePreview = this.fakeAnswerIndexForUpdatePreview + 1)
     }
 }
 
+export type AnswerStorageType =  Answer

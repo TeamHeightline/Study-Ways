@@ -136,7 +136,7 @@ class CardEditorStorage{
             .then((response) => response.json())
             .then((result) => {
                 this.update_image_counter = this.update_image_counter + 1
-                console.log('Success:', result);
+                // console.log('Success:', result);
                 message.success(`${e.file.name} успешно загружен.`);
                 this.image_url = result.image
             })
@@ -152,12 +152,31 @@ class CardEditorStorage{
             .then((data) => {
                 try {
                     this.update_image_counter = this.update_image_counter + 1
-                    console.log(data)
+                    // console.log(data)
                     this.image_url = data[0].image
                 } catch (e) {
                     console.log(e)
                 }
             })
+    }
+    //----------------------------------------------------------------
+    //Теги
+    get CheckThatTagFieldNotEmpty(){
+        return (this.card_object?.tagField && this.card_object?.tagField?.length !==1
+            && this?.card_object?.tagField[0] !== "")
+    }
+    get DefaultTagValue(): string[] | undefined{
+        return this.CheckThatTagFieldNotEmpty ?
+            this.getField("tagField", []).split(","):
+            undefined
+    }
+    updateTagField(newValue){
+        this.TagArray = newValue
+    }
+
+    TagArray?: string[]  = undefined
+    get TagFieldForSave(){
+        return String(this.TagArray)
     }
 
 

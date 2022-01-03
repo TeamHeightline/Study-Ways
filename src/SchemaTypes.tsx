@@ -145,6 +145,7 @@ export type CardNode = {
     isCardUseTestInCard: Scalars['Boolean'];
     siteUrl?: Maybe<Scalars['String']>;
     subTheme: Array<CardSubThemeNode>;
+    tagField?: Maybe<Scalars['String']>;
     testBeforeCard?: Maybe<QuestionNode>;
     testInCard?: Maybe<QuestionNode>;
     text?: Maybe<Scalars['String']>;
@@ -1211,6 +1212,7 @@ export type CardMutationInput = {
     isCardUseTestInCard?: InputMaybe<Scalars['Boolean']>;
     siteUrl?: InputMaybe<Scalars['String']>;
     subTheme?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+    tagField?: InputMaybe<Scalars['String']>;
     testBeforeCard?: InputMaybe<Scalars['ID']>;
     testInCard?: InputMaybe<Scalars['ID']>;
     text?: InputMaybe<Scalars['String']>;

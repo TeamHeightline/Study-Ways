@@ -33,6 +33,7 @@ export const GET_CARD_DATA_BY_ID = gql`
             cardDown{id}
             cardNext{id}
             cardUp{id}
+            tagField
         }
     }
     `

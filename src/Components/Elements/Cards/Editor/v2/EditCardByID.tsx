@@ -14,6 +14,7 @@ import {AuthorSelector} from "./#AuthorSelector";
 import {CopyRight} from "./#CopyRight";
 import {ArrowNavigation} from "./#ArrowNavigation";
 import {UploadImage} from "./#UploadImage";
+import {TagField} from "./#TagField";
 
 export const EditCardByID = observer(({id= 1825}) => {
     useEffect(() => {
@@ -33,7 +34,7 @@ export const EditCardByID = observer(({id= 1825}) => {
     }
     return(
         <div>
-            <Grid container  sx={{pl: isMobile ? 0 : 8, pr: isMobile ? 0 : 8}} rowSpacing={2} spacing={4}>
+            <Grid container item  sx={{pl: isMobile ? 0 : 8, pr: isMobile ? 0 : 8}} rowSpacing={2} spacing={4}>
 
                 <Grid item xs={12} md={6}>
                     <ID/>
@@ -69,6 +70,9 @@ export const EditCardByID = observer(({id= 1825}) => {
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <RichTextEditor/>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <TagField/>
                 </Grid>
 
                 <Grid item xs={12} md={6}>

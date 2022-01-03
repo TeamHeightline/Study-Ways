@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React from 'react';
 import Dragger from "antd/es/upload/Dragger";
 import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
-import {Stack, TextField, Typography} from "@mui/material";
+import {Collapse, Stack, TextField, Typography} from "@mui/material";
 import "@fontsource/raleway";
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -48,16 +48,16 @@ export const UploadImage = observer(({...props}: IUploadImageProps) =>{
                     </Typography>
                 </Stack>
             </Dragger>
-            <Paper elevation={0} sx={{pt: 2}}>
-                {CESObject.getField("cardContentType", "A_0") === "A_1" &&
+            <Collapse in={CESObject.getField("cardContentType", "A_0") === "A_1"}>
+                <Paper elevation={0} sx={{pt: 2}}>
                     <TextField
                         onChange={CESObject.changeField("siteUrl")}
                         error={!CESObject.UrlValidation}
                         value={CESObject.getField("siteUrl", "")}
                         fullWidth label={"Ссылка на внешний ресурс"}
                     />
-                }
-            </Paper>
+                </Paper>
+            </Collapse>
         </div>
     )
 })

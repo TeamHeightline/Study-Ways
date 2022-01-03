@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
 import React, {useEffect} from "react";
-import {CircularProgress, Grid} from "@mui/material";
+import {CircularProgress, Collapse, Grid} from "@mui/material";
 import {UserStorage} from "../../../../../Store/UserStore/UserStore";
 import {Title} from "./#Title";
 import {HardLevel} from "./#HardLeve";
@@ -65,8 +65,14 @@ export const EditCardByID = observer(({id= 1825}) => {
                 </Grid>
 
                 <Grid item xs={12} md={6}>
-                    {CESObject.getField("cardContentType", "A_0") === "A_0" ?
-                        <YouTubeVideo/>: <UploadImage/>}
+                    <Collapse in={CESObject.getField("cardContentType", "A_0") === "A_0"}>
+                        <YouTubeVideo/>
+                    </Collapse>
+                    <Collapse in={!(CESObject.getField("cardContentType", "A_0") === "A_0")}>
+                        <UploadImage/>
+                    </Collapse>
+                    {/*{CESObject.getField("cardContentType", "A_0") === "A_0" ?*/}
+                    {/*    <YouTubeVideo/>: <UploadImage/>}*/}
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <RichTextEditor/>

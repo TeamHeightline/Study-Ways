@@ -179,6 +179,24 @@ class CardEditorStorage{
         return String(this.TagArray)
     }
 
+    //----------------------------------------------------------------
+    //Валидация ссылки
+    get UrlValidation(){
+        if (this.getField("siteUrl", "").length == 0){
+            return true
+        }else{
+            let url;
+
+            try {
+                url = new URL(this.getField("siteUrl", ""));
+            } catch (_) {
+                return false;
+            }
+
+            return url.protocol === "http:" || url.protocol === "https:";
+        }
+    }
+
 
 }
 export const CESObject = new CardEditorStorage()

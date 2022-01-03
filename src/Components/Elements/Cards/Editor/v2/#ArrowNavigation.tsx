@@ -18,8 +18,7 @@ export const ArrowNavigation = observer(({...props}: IArrowNavigationProps) =>{
                 <Grid alignItems={"center"} item xs={12} container style={{marginTop: 6}}>
                     <Grid item xs={3} md={1}>
                         <ButtonGroup size="medium" color="primary">
-                            <Button onClick={() =>
-                                window.open(CESObject.getField("arrowBefore", ""), "_blank")}>
+                            <Button >
                                 <KeyboardArrowLeftOutlinedIcon />
                             </Button>
                         </ButtonGroup>
@@ -31,8 +30,7 @@ export const ArrowNavigation = observer(({...props}: IArrowNavigationProps) =>{
                 <Grid item xs={12} container style={{marginTop: 6}}>
                     <Grid item xs={3} md={1}>
                         <ButtonGroup size="medium" color="primary">
-                            <Button onClick={() =>
-                                window.open(CESObject.getField("arrowDown", ""), "_blank")}>
+                            <Button>
                                 <KeyboardArrowDownOutlinedIcon/>
                             </Button>
                         </ButtonGroup>
@@ -44,7 +42,7 @@ export const ArrowNavigation = observer(({...props}: IArrowNavigationProps) =>{
                 <Grid item xs={12} container style={{marginTop: 6}}>
                     <Grid item xs={3} md={1}>
                         <ButtonGroup size="medium" color="primary">
-                            <Button onClick={() => window.open(CESObject.getField("arrowUp", ""), "_blank")}>
+                            <Button>
                                 <KeyboardArrowUpOutlinedIcon/>
                             </Button>
                         </ButtonGroup>
@@ -56,8 +54,7 @@ export const ArrowNavigation = observer(({...props}: IArrowNavigationProps) =>{
                 <Grid item xs={12} container style={{marginTop: 6}}>
                     <Grid item xs={3} md={1}>
                         <ButtonGroup size="medium" color="primary">
-                            <Button onClick={() =>
-                                window.open(CESObject.getField("arrowNext", ""), "_blank")}>
+                            <Button>
                                 <KeyboardArrowRightOutlinedIcon/>
                             </Button>
                         </ButtonGroup>

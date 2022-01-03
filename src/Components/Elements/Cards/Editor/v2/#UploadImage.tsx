@@ -2,10 +2,11 @@ import {observer} from "mobx-react";
 import React from 'react';
 import Dragger from "antd/es/upload/Dragger";
 import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
-import {Stack, Typography} from "@mui/material";
+import {Stack, TextField, Typography} from "@mui/material";
 import "@fontsource/raleway";
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import Paper from "@mui/material/Paper";
 
 interface IUploadImageProps extends React.HTMLAttributes<HTMLDivElement>{
 
@@ -47,6 +48,16 @@ export const UploadImage = observer(({...props}: IUploadImageProps) =>{
                     </Typography>
                 </Stack>
             </Dragger>
+            <Paper elevation={0} sx={{pt: 2}}>
+                {CESObject.getField("cardContentType", "A_0") === "A_1" &&
+                    <TextField
+                        onChange={CESObject.changeField("siteUrl")}
+                        error={!CESObject.UrlValidation}
+                        value={CESObject.getField("siteUrl", "")}
+                        fullWidth label={"Ссылка на внешний ресурс"}
+                    />
+                }
+            </Paper>
         </div>
     )
 })

@@ -62,6 +62,21 @@ export const CREATE_NEW_ANSWER = gql`mutation CREATE_ANSWER($question: ID!){
             field
             messages
         }
+        answer {
+            id
+            checkQueue
+            hardLevelOfAnswer
+            helpTextv1
+            helpTextv2
+            helpTextv3
+            isTrue
+            text
+            videoUrl
+            isDeleted
+            isInvisible
+            isRequired
+            isImageDeleted
+        }
     }
 }`
 
@@ -74,6 +89,21 @@ export const CREATE_NEW_ANSWER_BASED_ON_DATA = gql`mutation CREATE_ANSWER($quest
         errors{
             field
             messages
+        }
+        answer {
+            id
+            checkQueue
+            hardLevelOfAnswer
+            helpTextv1
+            helpTextv2
+            helpTextv3
+            isTrue
+            text
+            videoUrl
+            isDeleted
+            isInvisible
+            isRequired
+            isImageDeleted
         }
     }
 }`

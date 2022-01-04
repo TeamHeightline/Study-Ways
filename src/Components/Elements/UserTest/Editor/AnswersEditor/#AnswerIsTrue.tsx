@@ -6,12 +6,11 @@ import React from "react";
 export const AnswerIsTrue = observer(({answer}) =>{
     return(
         <>
-            <FormControl className="col-12">
-                <InputLabel id="demo-simple-select-label">Ответ верный/неверный</InputLabel>
+            <FormControl fullWidth >
+                <InputLabel sx={{pt:2}}>Ответ верный/неверный</InputLabel>
                 <Select
+                    fullWidth
                     variant={"filled"}
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
                     value={answer.isTrue}
                     onChange={(e:any) =>{answer.changeAnswerIsTrue(e.target.value)}}
                 >

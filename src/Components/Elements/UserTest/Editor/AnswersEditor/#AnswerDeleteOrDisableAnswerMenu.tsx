@@ -39,14 +39,23 @@ export const AnswerDeleteOrDisableAnswerMenu = observer(({answer}) =>{
                     open={open}
                     onClose={handleClose}
                 >
-                    <MenuItem key={0} value="Delete" onClick={() => answer.openDeleteDialog = !answer.openDeleteDialog}>
+                    <MenuItem key={0} value="Delete" onClick={() => {
+                        answer.openDeleteDialog = !answer.openDeleteDialog
+                        handleClose()
+                    }}>
                         Удалить
                     </MenuItem>
-                    <MenuItem key={1} value="Make Invisible" onClick={() => answer.openMakeInvisibleDialog = !answer.openMakeInvisibleDialog}>
+                    <MenuItem key={1} value="Make Invisible" onClick={() => {
+                        answer.openMakeInvisibleDialog = !answer.openMakeInvisibleDialog
+                        handleClose()
+                    }}>
                         Скрыть
                     </MenuItem>
-                    <MenuItem key={2} value="Create new answer based on this answer" onClick={() => answer.createNewAnswerBasedOnThisAnswer()}>
-                        Создать новый ответ на основе этого
+                    <MenuItem key={2} value="Create new answer based on this answer" onClick={() => {
+                        answer.createNewAnswerBasedOnThisAnswer()
+                        handleClose()
+                    }}>
+                        Создать копию
                     </MenuItem>
                 </Menu>
             </div>

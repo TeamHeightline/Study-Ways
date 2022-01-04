@@ -51,7 +51,7 @@ export const AnswersEditor = observer(() => {
                 <div className={isMobile ? "mt-3": "pr-md-5 mt-3"} key={answer.id + "AnswerKey"}>
                     <Paper  variant="outlined">
                         <br/>
-                        <Stack direction={"row"} >
+                        <Stack direction={"row"} justifyContent="space-between">
                             <Typography className={isMobile ? "pl-2": "pl-5"} variant={isMobile ? "body1":"h6"}
                                         color="inherit">
                                 {"ID: " + answer.id + " " + answer.text}
@@ -87,7 +87,7 @@ export const AnswersEditor = observer(() => {
                                     <Grid item md={6} xs={12}>
                                         <AnswerHelpTextV2 answer={answer}/>
                                         <AnswerHelpTextV3 answer={answer} style={{marginTop: 12}}/>
-                                        <Grid item container columnSpacing={2} xs={12} justifyContent="space-between" style={{marginTop: 12}}>
+                                        <Grid item container columnSpacing={2} xs={12} justifyContent="space-between"  style={{marginTop: 12}}>
                                             <Grid item md={6} xs={12}>
                                                 <AnswerHardLevel answer={answer}/>
                                             </Grid>

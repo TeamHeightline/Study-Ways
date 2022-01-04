@@ -117,7 +117,7 @@ class QuestionEditor{
                         if(question_data.answers){
                             const __Answers: Answer[] = []
                             sort(question_data.answers)
-                                .asc((answer:  AnswerNode) => answer?.id)
+                                .asc((answer:  AnswerNode) => Number(answer?.id))
                                 .filter((answer:  AnswerNode) => !answer.isDeleted)
                                 .map((answer: AnswerNode) => __Answers.push(new Answer(this, answer, this.selectedQuestionID)))
                             this.answers = __Answers
@@ -266,12 +266,20 @@ class QuestionEditor{
             .then(() => this.loadBasicQuestionData())
     }
 
+    addCreatedAnswerToAnswersObjectArray(answer: AnswerNode){
+        this.answers.push(new Answer(this, answer, this.selectedQuestionID))
+    }
+
     //Создаем новый ответ
     createNewAnswer(){
         this.clientStorage.client.mutate({mutation: CREATE_NEW_ANSWER, variables:{
                 question: this.selectedQuestionID
             }})
-            .then(() => this.selectQuestionClickHandler(this.selectedQuestionID))
+            .then((response) => {
+                console.log(response.data)
+                this.addCreatedAnswerToAnswersObjectArray(response.data.createAnswer.answer)
+                // this.selectQuestionClickHandler(this.selectedQuestionID)
+                })
             .catch(() => void(0))
     }
 
@@ -291,6 +299,11 @@ class QuestionEditor{
                 hardLevelOfAnswer: basedAnswer.hardLevelOfAnswer,
                 isDeleted: basedAnswer.isDeleted,
         }})
+            .then((response) => {
+                console.log(response.data)
+                this.addCreatedAnswerToAnswersObjectArray(response.data.createAnswer.answer)
+                // this.selectQuestionClickHandler(this.selectedQuestionID)
+            })
             .catch(() => void(0))
     }
 

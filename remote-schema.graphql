@@ -93,6 +93,7 @@ type CardNode {
     isCardUseTestInCard: Boolean!
     siteUrl: String
     subTheme: [CardSubThemeNode!]!
+    tagField: String
     testBeforeCard: QuestionNode
     testInCard: QuestionNode
     text: String
@@ -922,6 +923,7 @@ input CardMutationInput {
     isCardUseTestInCard: Boolean
     siteUrl: String
     subTheme: [ID]
+    tagField: String
     testBeforeCard: ID
     testInCard: ID
     text: String

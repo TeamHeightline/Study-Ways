@@ -8,7 +8,6 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import HttpIcon from "@mui/icons-material/Http";
 import ImageIcon from "@mui/icons-material/Image";
 import CodeIcon from "@mui/icons-material/Code";
-import CreateIcon from "@mui/icons-material/Create";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import {
     CESObject,
@@ -43,18 +42,6 @@ export const CMenu = observer(({...props}) =>{
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={CESObject.changeField("isCardUseCopyright", "checked")}>
-                    <Switch
-                        checked={CESObject.getField("isCardUseCopyright", false)}
-                        onChange={CESObject.changeField("isCardUseCopyright", "checked")}
-                        color="secondary"
-                    />
-                    <ListItemIcon>
-                        <CopyrightIcon/>
-                    </ListItemIcon>
-                    Авторское право
-                </MenuItem>
-                <Divider/>
                 <MenuItem>
                     <FormControl fullWidth variant="filled">
                         <InputLabel>
@@ -72,6 +59,19 @@ export const CMenu = observer(({...props}) =>{
                         </Select>
                     </FormControl>
                 </MenuItem>
+                <Divider/>
+
+                <MenuItem onClick={CESObject.changeField("isCardUseCopyright", "checked")}>
+                    <Switch
+                        checked={CESObject.getField("isCardUseCopyright", false)}
+                        onChange={CESObject.changeField("isCardUseCopyright", "checked")}
+                        color="secondary"
+                    />
+                    <ListItemIcon>
+                        <CopyrightIcon/>
+                    </ListItemIcon>
+                    Авторское право
+                </MenuItem>
 
                 <MenuItem onClick={CESObject.changeField("isCardUseArrowNavigation", "checked")}>
                     <Switch
@@ -85,19 +85,19 @@ export const CMenu = observer(({...props}) =>{
                     Авторская навигация
                 </MenuItem>
 
-                <Divider/>
-                <MenuItem onClick={CESObject.changeField("isCardUseAdditionalText", "checked")}>
-                    <Switch
-                        checked={CESObject.getField("isCardUseAdditionalText", false)}
-                        onChange={CESObject.changeField("isCardUseAdditionalText", "checked")}
-                        name="checkedB"
-                        color="secondary"
-                    />
-                    <ListItemIcon>
-                        <CreateIcon/>
-                    </ListItemIcon>
-                    Дополнительный текст
-                </MenuItem>
+                {/*<Divider/>*/}
+                {/*<MenuItem onClick={CESObject.changeField("isCardUseAdditionalText", "checked")}>*/}
+                {/*    <Switch*/}
+                {/*        checked={CESObject.getField("isCardUseAdditionalText", false)}*/}
+                {/*        onChange={CESObject.changeField("isCardUseAdditionalText", "checked")}*/}
+                {/*        name="checkedB"*/}
+                {/*        color="secondary"*/}
+                {/*    />*/}
+                {/*    <ListItemIcon>*/}
+                {/*        <CreateIcon/>*/}
+                {/*    </ListItemIcon>*/}
+                {/*    Дополнительный текст*/}
+                {/*</MenuItem>*/}
                 <Divider/>
                 <MenuItem onClick={CESObject.changeField("isCardUseTestInCard", "checked")}>
                     <Switch

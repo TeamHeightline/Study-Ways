@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
 import React, {useEffect} from "react";
-import {CircularProgress, Grid} from "@mui/material";
+import {CircularProgress, Collapse, Grid} from "@mui/material";
 import {UserStorage} from "../../../../../Store/UserStore/UserStore";
 import {Title} from "./#Title";
 import {HardLevel} from "./#HardLeve";
@@ -13,6 +13,8 @@ import {RichTextEditor} from "./#RichTextEditor";
 import {AuthorSelector} from "./#AuthorSelector";
 import {CopyRight} from "./#CopyRight";
 import {ArrowNavigation} from "./#ArrowNavigation";
+import {UploadImage} from "./#UploadImage";
+import {TagField} from "./#TagField";
 
 export const EditCardByID = observer(({id= 1825}) => {
     useEffect(() => {
@@ -32,7 +34,7 @@ export const EditCardByID = observer(({id= 1825}) => {
     }
     return(
         <div>
-            <Grid container  sx={{pl: isMobile ? 0 : 8, pr: isMobile ? 0 : 8}} rowSpacing={2} spacing={4}>
+            <Grid container item  sx={{pl: isMobile ? 0 : 8, pr: isMobile ? 0 : 8}} rowSpacing={2} spacing={4}>
 
                 <Grid item xs={12} md={6}>
                     <ID/>
@@ -63,11 +65,20 @@ export const EditCardByID = observer(({id= 1825}) => {
                 </Grid>
 
                 <Grid item xs={12} md={6}>
-                    {CESObject.getField("cardContentType", "A_0") === "A_0" &&
-                        <YouTubeVideo/>}
+                    <Collapse in={CESObject.getField("cardContentType", "A_0") === "A_0"}>
+                        <YouTubeVideo/>
+                    </Collapse>
+                    <Collapse in={!(CESObject.getField("cardContentType", "A_0") === "A_0")}>
+                        <UploadImage/>
+                    </Collapse>
+                    {/*{CESObject.getField("cardContentType", "A_0") === "A_0" ?*/}
+                    {/*    <YouTubeVideo/>: <UploadImage/>}*/}
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <RichTextEditor/>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <TagField/>
                 </Grid>
 
                 <Grid item xs={12} md={6}>

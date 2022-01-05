@@ -201,6 +201,13 @@ export type CreateQuestionSequencePayload = {
     sequence?: Maybe<QuestionSequenceNode>;
 };
 
+export type CreateUsThemeSequencePayload = {
+    __typename?: 'CreateUSThemeSequencePayload';
+    clientMutationId?: Maybe<Scalars['String']>;
+    errors?: Maybe<Array<Maybe<ErrorType>>>;
+    uSThemeSequence?: Maybe<UsThemeSequenceNode>;
+};
+
 /**
  * Delete account permanently or make `user.is_active=False`.
  *
@@ -401,6 +408,7 @@ export type Mutation = {
     updateQuestionSequence?: Maybe<UpdateQuestionSequencePayload>;
     updateQuestionThemes?: Maybe<QuestionThemesMutationPayload>;
     updateUnstructuredTheme?: Maybe<UpdateUnstructuredThemePayload>;
+    usThemeSequence?: Maybe<CreateUsThemeSequencePayload>;
     /**
      * Verify user account.
      *
@@ -617,6 +625,11 @@ export type MutationUpdateUnstructuredThemeArgs = {
 };
 
 
+export type MutationUsThemeSequenceArgs = {
+    input: CreateUsThemeSequenceInput;
+};
+
+
 export type MutationVerifyAccountArgs = {
     token: Scalars['String'];
 };
@@ -738,6 +751,7 @@ export type Query = {
     questionSequenceById?: Maybe<QuestionSequenceNode>;
     questionThemes?: Maybe<Array<Maybe<QuestionThemesNode>>>;
     unstructuredTheme?: Maybe<Array<Maybe<UnstructuredThemesNode>>>;
+    usThemeSequence?: Maybe<UsThemeSequenceNode>;
     /** The ID of the object */
     user?: Maybe<UserNode>;
     users?: Maybe<UserNodeConnection>;
@@ -978,6 +992,12 @@ export type SwapEmails = {
     success?: Maybe<Scalars['Boolean']>;
 };
 
+export type UsThemeSequenceNode = {
+    __typename?: 'USThemeSequenceNode';
+    id: Scalars['ID'];
+    sequence: Scalars['String'];
+};
+
 export type UnstructuredThemeMutationPayload = {
     __typename?: 'UnstructuredThemeMutationPayload';
     clientMutationId?: Maybe<Scalars['String']>;
@@ -1055,6 +1075,7 @@ export type UserNode = Node & {
     userAccessLevel: CustomUserUserAccessLevel;
     /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
     username: Scalars['String'];
+    usthemesequenceSet: Array<UsThemeSequenceNode>;
     verified?: Maybe<Scalars['Boolean']>;
 };
 
@@ -1258,6 +1279,13 @@ export type CreateQuestionSequenceInput = {
     clientMutationId?: InputMaybe<Scalars['String']>;
     createdBy?: InputMaybe<Scalars['ID']>;
     sequenceData?: InputMaybe<Scalars['GenericScalar']>;
+};
+
+export type CreateUsThemeSequenceInput = {
+    clientMutationId?: InputMaybe<Scalars['String']>;
+    createdBy: Scalars['ID'];
+    id?: InputMaybe<Scalars['ID']>;
+    sequence: Scalars['String'];
 };
 
 export type GlobalCardThemeMutationInput = {

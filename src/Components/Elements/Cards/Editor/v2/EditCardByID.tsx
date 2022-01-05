@@ -73,8 +73,6 @@ export const EditCardByID = observer(({id= 1825}) => {
                     <Collapse in={!(CESObject.getField("cardContentType", "A_0") === "A_0")}>
                         <UploadImage/>
                     </Collapse>
-                    {/*{CESObject.getField("cardContentType", "A_0") === "A_0" ?*/}
-                    {/*    <YouTubeVideo/>: <UploadImage/>}*/}
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <RichTextEditor/>

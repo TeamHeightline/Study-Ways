@@ -19,6 +19,7 @@ export const ConnectedThemeSelector = observer(({...props}: IConnectedThemeSelec
             showSearch: false,
             showCheckedStrategy: SHOW_CHILD,
             placeholder: 'Выбирите тему карточки',
+            // bordered: true,
             style: {
             width: '100%',
             },
@@ -32,7 +33,7 @@ export const ConnectedThemeSelector = observer(({...props}: IConnectedThemeSelec
     }
     return(
         <div {...props}>
-            <TreeSelect {...tProps}/>
+            <TreeSelect {...tProps} size={'large'}/>
         </div>
     )
 })

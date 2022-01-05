@@ -61,6 +61,9 @@ export const theme = createTheme( {
                     ".ck-content" : {
                         color: "#ffffff"
                     },
+                    ".ck-widget":{
+                        filter: "invert(1)"
+                    }
                 }
             },
         },

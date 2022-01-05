@@ -79,7 +79,7 @@ export const EditCardByID = observer(({id= 1825}) => {
                 <Grid item xs={12} md={6}>
                     <RichTextEditor/>
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12}>
                     <TagField/>
                 </Grid>
 

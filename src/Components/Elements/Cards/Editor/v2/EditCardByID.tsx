@@ -15,6 +15,7 @@ import {CopyRight} from "./#CopyRight";
 import {ArrowNavigation} from "./#ArrowNavigation";
 import {UploadImage} from "./#UploadImage";
 import {TagField} from "./#TagField";
+import {ConnectedThemeSelector} from "./#ConnectedThemeSelector";
 
 export const EditCardByID = observer(({id= 1825}) => {
     useEffect(() => {
@@ -53,6 +54,7 @@ export const EditCardByID = observer(({id= 1825}) => {
                 </Grid>
 
                 <Grid item xs={12} md={6}>
+                    <ConnectedThemeSelector/>
                 </Grid>
                 <Grid item xs={12} md={6} container
                       spacing={4}>

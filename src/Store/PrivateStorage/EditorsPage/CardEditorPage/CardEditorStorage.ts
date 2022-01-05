@@ -1,8 +1,8 @@
 import {makeAutoObservable, toJS} from "mobx";
 import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
 import {UserStorage} from "../../../UserStore/UserStore";
-import {GET_CARD_DATA_BY_ID, GET_MY_CARD_AUTHOR} from "./Struct";
-import {CardAuthorNode, CardNode} from "../../../../SchemaTypes";
+import {GET_CARD_DATA_BY_ID, GET_CONNECTED_THEMES, GET_MY_CARD_AUTHOR} from "./Struct";
+import {CardAuthorNode, CardNode, UnstructuredThemesNode} from "../../../../SchemaTypes";
 import { computedFn } from "mobx-utils"
 import {sort} from "fast-sort";
 import {SERVER_BASE_URL} from "../../../../settings";
@@ -23,6 +23,7 @@ class CardEditorStorage{
     loadCardDataFromServer(id: string | number | undefined){
         if(id){
             if(this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN") {
+                this.loadConnectedThemes()
                 this.clientStorage.client.query({query: GET_CARD_DATA_BY_ID, fetchPolicy: "network-only",
                 variables:{id: id}})
                     .then((response) => (response.data.cardById))
@@ -30,6 +31,7 @@ class CardEditorStorage{
 
                         //--------для полей, содержащих массивы, делаем дополнительную загрузку уже только айдишников
                         const author = card_data?.author?.map((author) => author.id)
+                        const connectedTheme = card_data?.connectedTheme?.map((theme:  UnstructuredThemesNode) => theme.id)
                         //----------------------------------------------------------------
 
                         //-для полей в которых ссылка на такую же модель используется присвоение элемента с 0 индексом
@@ -38,7 +40,7 @@ class CardEditorStorage{
                         const cardNext = card_data?.cardBefore[0]?.id
                         const cardUp = card_data?.cardBefore[0]?.id
                         //----------------------------------------------------------------
-                        this.card_object = {...card_data, author, cardBefore, cardDown, cardNext, cardUp}
+                        this.card_object = {...card_data, connectedTheme, author, cardBefore, cardDown, cardNext, cardUp}
                         this.cardDataLoaded = true
                         this.get_card_image()
                     })
@@ -84,7 +86,7 @@ class CardEditorStorage{
         }
     }
 
-    changeFieldByValue(field: card_object_fields | number, value: string | number | boolean,
+    changeFieldByValue(field: card_object_fields | number, value: string | number | boolean | string[],
                        card_object = this.card_object){
         if(card_object && field in card_object){
             card_object[field] = value
@@ -195,6 +197,30 @@ class CardEditorStorage{
 
             return url.protocol === "http:" || url.protocol === "https:";
         }
+    }
+
+    //----------------------------------------------------------------
+    //Работа с объединенными темами
+    allConnectedThemes?: UnstructuredThemesNode[] = []
+    isAllConnectedThemesLoaded = false
+    loadConnectedThemes(){
+        this.clientStorage.client.query({query: GET_CONNECTED_THEMES, fetchPolicy: "network-only"})
+            .then((response) => (response.data.unstructuredTheme))
+            .then((connectedThemes) =>{
+                this.allConnectedThemes = connectedThemes
+                this.isAllConnectedThemesLoaded = true
+            })
+    }
+    get connectedThemesForSelector(){
+        return toJS(this.allConnectedThemes)
+            ?.map((theme)=> {
+                return({
+                    id: theme.id,
+                    value: theme.id,
+                    title: theme.text,
+                    pId: theme?.parent?.id || 0
+                })
+            })
     }
 
 

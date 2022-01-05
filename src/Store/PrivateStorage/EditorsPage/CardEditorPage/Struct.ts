@@ -6,6 +6,7 @@ export const GET_CARD_DATA_BY_ID = gql`
         cardById(id: $id){
             id
             text
+            connectedTheme {id}
             additionalText
             arrowBefore
             arrowDown
@@ -48,3 +49,12 @@ export const GET_MY_CARD_AUTHOR = gql`
         }
     }
     `
+
+export const GET_CONNECTED_THEMES = gql`
+    query GET_CONNECTED_THEMES{
+        unstructuredTheme {
+            id
+            text
+            parent{id}
+        }
+    }`

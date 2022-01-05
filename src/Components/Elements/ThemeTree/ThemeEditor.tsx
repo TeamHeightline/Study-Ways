@@ -1,6 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {NodeModel} from "@minoru/react-dnd-treeview";
-import {CreateTheme, GET_ALL_UNSTRUCTURED_THEME, UpdateTheme} from "./Struct";
+import {
+    CreateTheme,
+    GET_ALL_UNSTRUCTURED_THEME,
+    SAVE_NEW_THEMES_SEQUENCE,
+    UpdateTheme
+} from "./Struct";
 import {useMutation, useQuery} from "@apollo/client";
 import {CircularProgress, Collapse, Fab, Grid, TextField} from "@mui/material";
 import {Mutation, Query} from "../../../SchemaTypes";
@@ -23,6 +28,13 @@ function ThemeEditor() {
     const [isOpenTextField, setIsOpenTextField] = useState<boolean>(false)
     const [selectedThemeID, setSelectedThemeID] = useState<string | undefined>()
     const [manualUpdate, setManualUpdate] = useState<boolean>(false)
+    const [sequenceDataForSave, setSequenceDataForSave] = useState<string>('')
+    //Переменная для предотвращения сохранения той последовательности, если она не изменилась
+    const [lastSavedSequenceData, setLSSD] = useState<string>("")
+
+    function convertTreeDataForSave(tree_data: NodeModel[] | undefined = treeData): string{
+        return String(tree_data?.map((theme) => theme.id).join(","))
+    }
 
     const [updateTheme, {loading: update_theme_loading}] =
         useMutation<Mutation>(UpdateTheme, {
@@ -123,7 +135,7 @@ function ThemeEditor() {
     }, [selectedThemeID])
 
     const {loading} = useQuery<Query>(GET_ALL_UNSTRUCTURED_THEME, {
-        fetchPolicy: "cache-and-network",
+        fetchPolicy: "network-only",
         onCompleted: (data) => {
             const dataForDisplay: NodeModel[] = []
             data?.unstructuredTheme?.map((theme) => {
@@ -135,8 +147,32 @@ function ThemeEditor() {
                 })
             })
             setTreeData(dataForDisplay)
+            setLSSD(convertTreeDataForSave())
         }
     })
+    const [save_themes_sequence] = useMutation<Mutation>(SAVE_NEW_THEMES_SEQUENCE, {
+        variables:{
+            sequence: sequenceDataForSave
+        },
+        onCompleted: (data) =>{
+            if(data?.usThemeSequence?.uSThemeSequence && data?.usThemeSequence?.uSThemeSequence?.sequence){
+                setLSSD(String(data?.usThemeSequence?.uSThemeSequence?.sequence))
+            }
+        }
+    })
+
+
+    useEffect(()=>{
+        if(treeData){
+            setSequenceDataForSave(convertTreeDataForSave())
+        }
+    }, [convertTreeDataForSave()])
+
+    useEffect(()=>{
+        if(sequenceDataForSave !== lastSavedSequenceData){
+            save_themes_sequence()
+        }
+    }, [sequenceDataForSave])
 
     if (loading) {
         return (

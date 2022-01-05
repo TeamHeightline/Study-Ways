@@ -10,6 +10,26 @@ export const GET_ALL_UNSTRUCTURED_THEME = gql`
             }
         }
     }`
+export const SAVE_NEW_THEMES_SEQUENCE = gql`
+    mutation SAVE_NEW_THEMES_SEQUENCE($sequence: String!){
+        usThemeSequence(input: {sequence: $sequence, createdBy: 0}){
+            errors {
+                field
+                messages
+            }
+            uSThemeSequence {
+                id
+                sequence
+            }
+        }
+    }`
+export const GET_US_THEME_SEQUENCE = gql`
+    query GET_US_THEME_SEQUENCE{
+        usThemeSequence {
+            id
+            sequence
+        }
+    }`
 
 export const UpdateTheme = gql`
     mutation UpdateTheme(

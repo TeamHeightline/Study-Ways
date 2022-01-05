@@ -142,6 +142,12 @@ type CreateQuestionSequencePayload {
     sequence: QuestionSequenceNode
 }
 
+type CreateUSThemeSequencePayload {
+    clientMutationId: String
+    errors: [ErrorType]
+    uSThemeSequence: USThemeSequenceNode
+}
+
 """
 
 Delete account permanently or make `user.is_active=False`.
@@ -348,6 +354,7 @@ type Mutation {
     updateQuestionSequence(input: UpdateQuestionSequenceInput!): UpdateQuestionSequencePayload
     updateQuestionThemes(input: QuestionThemesMutationInput!): QuestionThemesMutationPayload
     updateUnstructuredTheme(input: UpdateUnstructuredThemeInput!): UpdateUnstructuredThemePayload
+    usThemeSequence(input: CreateUSThemeSequenceInput!): CreateUSThemeSequencePayload
     """
 
     Verify user account.
@@ -482,6 +489,7 @@ type Query {
     questionSequenceById(id: ID): QuestionSequenceNode
     questionThemes: [QuestionThemesNode]
     unstructuredTheme: [UnstructuredThemesNode]
+    usThemeSequence: USThemeSequenceNode
     "The ID of the object"
     user(id: ID!): UserNode
     users(after: String, before: String, email: String, first: Int, isActive: Boolean, last: Int, offset: Int, status_Archived: Boolean, status_SecondaryEmail: String, status_Verified: Boolean, username: String, username_Icontains: String, username_Istartswith: String): UserNodeConnection
@@ -654,6 +662,11 @@ type SwapEmails {
     success: Boolean
 }
 
+type USThemeSequenceNode {
+    id: ID!
+    sequence: String!
+}
+
 type UnstructuredThemeMutationPayload {
     clientMutationId: String
     errors: [ErrorType]
@@ -725,6 +738,7 @@ type UserNode implements Node {
     userAccessLevel: CustomUserUserAccessLevel!
     "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
     username: String!
+    usthemesequenceSet: [USThemeSequenceNode!]!
     verified: Boolean
 }
 
@@ -969,6 +983,13 @@ input CreateQuestionSequenceInput {
     clientMutationId: String
     createdBy: ID
     sequenceData: GenericScalar
+}
+
+input CreateUSThemeSequenceInput {
+    clientMutationId: String
+    createdBy: ID!
+    id: ID
+    sequence: String!
 }
 
 input GlobalCardThemeMutationInput {

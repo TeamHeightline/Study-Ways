@@ -2,6 +2,7 @@ import {autorun, makeAutoObservable, reaction, toJS} from "mobx";
 import {SameAnswerNode} from "../../../PublicStorage/QSPage/QuestionSequencePlayer/SameAnswerNode";
 import {sort} from "fast-sort";
 import {StatisticPageStoreObject} from "./StatisticPageStore";
+import React from "react";
 
 class PassedQuestion{
     constructor(attemptData){
@@ -72,7 +73,7 @@ class StatisticByQuestionsDataStore {
             this.showPassesOnlyIfTheyDoneInQS = false
             this.showPassesOnlyInActiveExamMode = false
         })
-
+        reaction(() => this.activePage > this.NumberOfPages, () => this.activePage = this.NumberOfPages)
     }
 
 
@@ -144,9 +145,20 @@ class StatisticByQuestionsDataStore {
         this.showPassesOnlyInActiveExamMode = newState
     }
 
+    //Выбранная страница в пагинации
+    activePage = 1
+    changeActivePage = (event: React.ChangeEvent<unknown>, value: number) => {
+        console.log(value)
+        this.activePage = value
+    }
+
+    get NumberOfPages(){
+        return(Math.ceil(this.passesAfterFiltering.length / Number(this.rowLimit)))
+    }
+
 
     //Данные для таблицы по каждому прохождению теста
-    get rows(){
+    get passesAfterFiltering(){
         let __passedQuestionsObjectsArray = this.passedQuestionsObjectsArray
         if(this.searchingUserName.length > 0){
             __passedQuestionsObjectsArray = __passedQuestionsObjectsArray.filter((passedQuestion) =>
@@ -160,7 +172,7 @@ class StatisticByQuestionsDataStore {
         if(this.showPassesOnlyIfTheyDoneInQS){
             if(StatisticPageStoreObject.activePageOnTopMenu !==2){
                 __passedQuestionsObjectsArray = __passedQuestionsObjectsArray.filter((passedQuestion) =>
-                Number(passedQuestion?.attemptData?.questionSequence?.id) == Number(StatisticPageStoreObject?.selectedQuestionSequenceID))
+                    Number(passedQuestion?.attemptData?.questionSequence?.id) == Number(StatisticPageStoreObject?.selectedQuestionSequenceID))
             }else{
                 __passedQuestionsObjectsArray = __passedQuestionsObjectsArray.filter((passedQuestion) =>
                     passedQuestion?.attemptData?.questionSequence?.id)
@@ -170,8 +182,16 @@ class StatisticByQuestionsDataStore {
             __passedQuestionsObjectsArray = __passedQuestionsObjectsArray.filter((passedQuestion) =>
                 passedQuestion?.attemptData?.isUseexammode)
         }
+        return(__passedQuestionsObjectsArray)
+    }
+
+    get passesAfterPaginate(){
+        return(this.passesAfterFiltering.slice((this.activePage -1 ) * Number(this.rowLimit), this.activePage * Number(this.rowLimit)))
+    }
+
+    get rows(){
         return(
-            __passedQuestionsObjectsArray?.map((passedQuestion) =>{
+            this.passesAfterPaginate?.map((passedQuestion) =>{
                 const ArrayOfNumberOfWrongAnswers: any[] = []
                 passedQuestion?.attemptData?.statistic?.ArrayForShowWrongAnswers.map((attempt) =>{
                     ArrayOfNumberOfWrongAnswers.push({numberOfPasses: attempt?.numberOfPasses,

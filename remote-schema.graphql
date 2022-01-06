@@ -81,6 +81,7 @@ type CardNode {
     cardDown: [CardNode!]!
     cardNext: [CardNode!]!
     cardUp: [CardNode!]!
+    connectedTheme: [UnstructuredThemesNode!]!
     copyright: String
     hardLevel: CardHardLevel!
     id: ID!
@@ -674,6 +675,7 @@ type UnstructuredThemeMutationPayload {
 }
 
 type UnstructuredThemesNode {
+    cardSet: [CardNode!]!
     globalIndex: Int!
     id: ID!
     parent: UnstructuredThemesNode
@@ -924,6 +926,7 @@ input CardMutationInput {
     cardNext: ID
     cardUp: ID
     clientMutationId: String
+    connectedTheme: [ID]
     copyright: String
     createdBy: ID!
     hardLevel: String

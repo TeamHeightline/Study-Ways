@@ -133,6 +133,7 @@ export type CardNode = {
     cardDown: Array<CardNode>;
     cardNext: Array<CardNode>;
     cardUp: Array<CardNode>;
+    connectedTheme: Array<UnstructuredThemesNode>;
     copyright?: Maybe<Scalars['String']>;
     hardLevel: CardHardLevel;
     id: Scalars['ID'];
@@ -1007,6 +1008,7 @@ export type UnstructuredThemeMutationPayload = {
 
 export type UnstructuredThemesNode = {
     __typename?: 'UnstructuredThemesNode';
+    cardSet: Array<CardNode>;
     globalIndex: Scalars['Int'];
     id: Scalars['ID'];
     parent?: Maybe<UnstructuredThemesNode>;
@@ -1220,6 +1222,7 @@ export type CardMutationInput = {
     cardNext?: InputMaybe<Scalars['ID']>;
     cardUp?: InputMaybe<Scalars['ID']>;
     clientMutationId?: InputMaybe<Scalars['String']>;
+    connectedTheme?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
     copyright?: InputMaybe<Scalars['String']>;
     createdBy: Scalars['ID'];
     hardLevel?: InputMaybe<Scalars['String']>;

@@ -19,7 +19,6 @@ export const RichTextEditor = observer(({...props}: IRichTextEditorProps) =>{
                     style={{maxHeight: "440px",}}
                     onChange={ ( event, editor ) => {
                         CESObject.changeFieldByValue('text', editor.getData())
-                        console.log(CESObject.getField("text", ""))
                     } }
                 />
             </Card>

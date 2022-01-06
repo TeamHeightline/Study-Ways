@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {Autocomplete} from "@mui/lab";
 import {Button, Chip, Collapse, TextField} from "@mui/material";
 import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 interface ITagFieldProps extends React.HTMLAttributes<HTMLDivElement>{
 
@@ -13,11 +14,13 @@ export const TagField = observer(({...props}: ITagFieldProps) =>{
         <div {...props}>
             <Button
                 onClick={() =>{setShowTags(!showTags)}}
-                variant="text"
+                variant="outlined"
+                size={"small"}
+                endIcon={<ArrowDropDownIcon/>}
             >
                 Показать поле для тегов
             </Button>
-            <Collapse in={showTags}>
+            <Collapse in={showTags} sx={{pt: 1}}>
                 <Autocomplete
                     multiple
                     id="search-tag"

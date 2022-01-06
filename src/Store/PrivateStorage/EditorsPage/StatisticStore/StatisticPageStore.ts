@@ -32,6 +32,8 @@ class StatisticPageStore {
     //Флаг загрузки всех данных
     questionDataHasBeenLoaded = false
 
+    allAttemptDataHasBeenLoaded = false
+
     //Функция для загрузки нужных данных о вопросах с сервера
     loadQuestionsDataFromServer(){
         if(this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN"){
@@ -58,6 +60,7 @@ class StatisticPageStore {
             this.clientStorage.client.query({query: GET_ALL_DETAIL_STATISTIC})
                 .then((response) => {
                     this.allDetailQuestionStatistic = response?.data?.question
+                    this.allAttemptDataHasBeenLoaded = true
                     // this.allQuestionSequenceData = sort(response?.data?.questionSequence).desc((qs: any) => qs?.id)
                     this.questionSequenceDataHasBeenLoaded = true
                 })
@@ -172,13 +175,11 @@ class StatisticPageStore {
             toJS(this.allDetailQuestionStatistic)?.map((question) =>{
                 detailquestionstatisticArr = detailquestionstatisticArr?.concat(question?.detailquestionstatisticSet)
             })
-            console.log(detailquestionstatisticArr)
 
             let answers: any = []
             toJS(this.allDetailQuestionStatistic)?.map((question) =>{
                 answers = answers.concat(question.answers)
             })
-            console.log(answers)
             // this.changeIsOpenQuestion(true)
             this.selectedQuestionsData = {detailquestionstatisticSet: detailquestionstatisticArr, answers: answers}
         }

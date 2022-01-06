@@ -2,10 +2,10 @@ import React, {useEffect, useState} from "react";
 import Typography from "@mui/material/Typography";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import {Collapse, Stack,} from "@mui/material";
-import {useTheme} from "@material-ui/core/styles";
+import {useTheme} from "@mui/styles";
 
 export const CustomNode = (props: any) => {
-    const theme = useTheme();
+    const theme: any = useTheme();
     const [startOpenAnimation, setStartOpenAnimation] = useState(false)
     useEffect(() => {
         setStartOpenAnimation(true)
@@ -27,7 +27,7 @@ export const CustomNode = (props: any) => {
                 )}
                 <Typography variant="body1" style={{
                     backgroundColor: props.node.id == props.selectedThemeID ?
-                        theme.palette.primary.main : ""
+                        theme?.palette?.primary?.main : ""
                 }}>
                     {props.node.text}
                 </Typography>

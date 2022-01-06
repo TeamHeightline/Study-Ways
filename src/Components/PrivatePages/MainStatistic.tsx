@@ -13,9 +13,6 @@ export const MainStatistic = observer(() =>{
     const isMobile = isMobileHook()
     useEffect(() =>StatisticPageStoreObject.loadQuestionsDataFromServer(), [])
 
-    console.log(StatisticPageStoreObject.activePageOnTopMenu)
-    console.log(StatisticPageStoreObject.isOpenQuestion)
-
     if(!StatisticPageStoreObject.questionDataHasBeenLoaded){
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>

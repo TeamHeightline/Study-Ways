@@ -70,7 +70,7 @@ class CardEditorStorage{
 
     //----------------------раздел работы с данными в самом редакторе ------------------------------
 
-    card_object: CardNode | undefined = undefined
+    card_object?: CardObjectForStore = undefined
 
     //Умный Getter позволяет получать кэшированные значения сразу для все полей объекта, принимает поле и дефолтное значение
     getField = computedFn((field_name: card_object_fields, default_value: string | number| boolean | [] = "",
@@ -107,7 +107,7 @@ class CardEditorStorage{
             return false;
         }
     }
-    validateUrlField = computedFn((fieldName: card_object_fields, card_object:  CardNode | undefined  = this.card_object) => {
+    validateUrlField = computedFn((fieldName: card_object_fields, card_object:  CardObjectForStore | undefined  = this.card_object) => {
         if(card_object && fieldName in card_object){
         return(
             this.urlValidation(card_object[fieldName])
@@ -225,4 +225,15 @@ class CardEditorStorage{
 
 
 }
+//Мапер, который удаляет из типа __typename, для стрелок, которые являются массивами Card Node, делает тип string, для
+//объектов, которые являются темами, авторами и тд, делает массив строк, чтобы хранить ID[]
+type RemoveTypename<O> = Omit<O, "__typename">
+type object_properties_to_array_mapper<MainObject> = {
+    [Field in keyof MainObject]: MainObject[Field] extends object?
+        MainObject[Field] extends Array<MainObject>?
+            string:
+            string[]
+        : MainObject[Field]
+}
+type CardObjectForStore = object_properties_to_array_mapper<RemoveTypename<CardNode>>
 export const CESObject = new CardEditorStorage()

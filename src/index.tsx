@@ -63,6 +63,10 @@ export const theme = createTheme( {
                     },
                     ".ck-widget":{
                         filter: "invert(1)"
+                    },
+                    //делает все подписи в статистике белыми
+                    ".Component-root-4":{
+                        filter: "invert(1)"
                     }
                 }
             },

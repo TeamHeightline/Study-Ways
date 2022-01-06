@@ -1,6 +1,6 @@
 import {observer} from "mobx-react";
 import React from "react";
-import {Grid} from "@mui/material";
+import {CircularProgress, Grid, Stack} from "@mui/material";
 import {StatisticByQuestionDataStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticByQuestionsDataStore";
 import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
@@ -22,9 +22,19 @@ import {StatisticGoToMainPage} from "./#StatisticGoToMainPage";
 import {isMobileHook} from "../../../CustomHooks/isMobileHook";
 import {StatisticRowLimit} from "./#StatisticRowLimit";
 import {StatisticPageStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticPageStore";
+import {PaginationForStatistic} from "./#Pagination";
 
 export const StatisticByQuestionsData = observer(() =>{
     const isMobile = isMobileHook()
+    if(!StatisticPageStoreObject.questionDataHasBeenLoaded || !StatisticPageStoreObject.allAttemptDataHasBeenLoaded ||
+    StatisticByQuestionDataStoreObject?.passesAfterPaginate.length == 0){
+        return (
+            
+            <Stack alignItems={"center"}>
+                <CircularProgress />
+            </Stack>
+        )
+    }
     return(
         <div>
             {StatisticPageStoreObject.activePageOnTopMenu !==2 &&
@@ -110,6 +120,9 @@ export const StatisticByQuestionsData = observer(() =>{
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Stack alignItems={"center"}>
+                <PaginationForStatistic/>
+            </Stack>
         </div>
     )
 })

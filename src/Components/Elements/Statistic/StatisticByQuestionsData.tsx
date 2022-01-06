@@ -29,10 +29,17 @@ export const StatisticByQuestionsData = observer(() =>{
     if(!StatisticPageStoreObject.questionDataHasBeenLoaded || !StatisticPageStoreObject.allAttemptDataHasBeenLoaded ||
     StatisticByQuestionDataStoreObject?.passesAfterPaginate.length == 0){
         return (
-            
-            <Stack alignItems={"center"}>
-                <CircularProgress />
-            </Stack>
+            <div>
+                {StatisticPageStoreObject.activePageOnTopMenu !==2 &&
+                    <Grid container style={{paddingLeft: isMobile? 0 : 48}}>
+                        <Grid item xs={12} md={2} style={{marginTop: 20}}>
+                            <StatisticGoToMainPage/>
+                        </Grid>
+                    </Grid>}
+                <Stack alignItems={"center"}>
+                    <CircularProgress />
+                </Stack>
+            </div>
         )
     }
     return(

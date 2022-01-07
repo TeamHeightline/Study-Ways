@@ -18,6 +18,7 @@ export const ALL_QUESTIONS_STATISTIC = gql`
                     userName
                     isLogin
                     statistic
+                    maxSumOfAnswersPoint
                     questionSequence{
                         id
                     }
@@ -101,6 +102,7 @@ export const GET_ALL_DETAIL_STATISTIC = gql`
                 userName
                 isLogin
                 statistic
+                maxSumOfAnswersPoint
                 questionSequence{
                     id
                 }

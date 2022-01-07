@@ -8,7 +8,7 @@ export const StatisticChart = observer(({row}) =>{
         <div>
             <Grid container justifyContent="space-around">
                 <Grid item xs={6} md={5}>
-                    <Chart data={row[9]}>
+                    <Chart data={row.ArrayOfNumberOfWrongAnswers}>
                         <Title text="Количество ошибок на каждой из попыток" />
                         <ArgumentAxis showGrid={true}/>
                         <ValueAxis/>
@@ -23,7 +23,7 @@ export const StatisticChart = observer(({row}) =>{
                     </Chart>
                 </Grid>
                 <Grid item xs={6} md={5}>
-                    <Chart  data={row[8]}>
+                    <Chart  data={row.ArrayForShowAnswerPoints}>
                         <BarSeries
                             valueField="answerPoints"
                             argumentField="numberOfPasses"

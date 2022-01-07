@@ -167,6 +167,7 @@ type DetailQuestionStatisticNode {
     id: ID!
     isLogin: Boolean!
     isUseexammode: Boolean!
+    maxSumOfAnswersPoint: Int
     question: QuestionNode
     questionHasBeenCompleted: Boolean!
     questionSequence: QuestionSequenceNode
@@ -975,6 +976,7 @@ input CreateDetailQuestionStatisticInput {
     clientMutationId: String
     isLogin: Boolean
     isUseexammode: Boolean
+    maxSumOfAnswersPoint: Int
     question: ID!
     questionHasBeenCompleted: Boolean
     questionSequence: ID

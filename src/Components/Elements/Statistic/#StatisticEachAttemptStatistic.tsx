@@ -12,14 +12,15 @@ import {StatisticWrongAnswersForAttempt} from "./#StatisticWrongAnswersForAttemp
 export const StatisticEachAttemptStatistic = observer(({row, classes}) =>{
     return(
         <TableBody>
-            {row[10]?.map((attempt, aIndex) =>{
+            {row.ArrayOfNumberOfWrongAnswers?.map((attempt, aIndex) =>{
                 return(
                     <React.Fragment key={attempt.numberOfPasses + "DetailStatisticKey"}>
                         <TableRow>
                             <TableCell>
                                 <IconButton  size="small"
-                                             onClick={() => row[11]?.changeOpenAttemptForDetailStatistic(aIndex)}>
-                                    {row[11]?.openAttemptForDetailStatistic?.has(aIndex) ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                                             onClick={() => row.passedQuestion?.changeOpenAttemptForDetailStatistic(aIndex)}>
+                                    {row.passedQuestion?.openAttemptForDetailStatistic?.has(aIndex) ?
+                                        <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                                     {/*<KeyboardArrowUpIcon />*/}
                                 </IconButton>
                             </TableCell>
@@ -27,15 +28,15 @@ export const StatisticEachAttemptStatistic = observer(({row, classes}) =>{
                                 {toJS(attempt.numberOfPasses)}
                             </TableCell>
                             <TableCell>
-                                {toJS(row[10][Number(attempt.numberOfPasses) -1]).numberOfWrongAnswers.length}
+                                {toJS(row.ArrayForShowWrongAnswers[Number(attempt.numberOfPasses) -1]).numberOfWrongAnswers.length}
                             </TableCell>
                             <TableCell>
-                                {toJS(row[8][Number(attempt.numberOfPasses) -1]?.answerPoints)}
+                                {toJS(row.ArrayForShowAnswerPoints[Number(attempt.numberOfPasses) -1]?.answerPoints)}
                             </TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell colSpan={4} style={{ paddingBottom: 0, paddingTop: 0, maxWidth: window.innerWidth - 100 }}>
-                                <Collapse in={row[11]?.openAttemptForDetailStatistic?.has(aIndex)} unmountOnExit>
+                                <Collapse in={row.passedQuestion?.openAttemptForDetailStatistic?.has(aIndex)} unmountOnExit>
                                     <StatisticWrongAnswersForAttempt {...{row, attempt, classes, aIndex}}/>
                                 </Collapse>
                             </TableCell>

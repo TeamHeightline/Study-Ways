@@ -228,6 +228,7 @@ export type DetailQuestionStatisticNode = {
     id: Scalars['ID'];
     isLogin: Scalars['Boolean'];
     isUseexammode: Scalars['Boolean'];
+    maxSumOfAnswersPoint?: Maybe<Scalars['Int']>;
     question?: Maybe<QuestionNode>;
     questionHasBeenCompleted: Scalars['Boolean'];
     questionSequence?: Maybe<QuestionSequenceNode>;
@@ -1271,6 +1272,7 @@ export type CreateDetailQuestionStatisticInput = {
     clientMutationId?: InputMaybe<Scalars['String']>;
     isLogin?: InputMaybe<Scalars['Boolean']>;
     isUseexammode?: InputMaybe<Scalars['Boolean']>;
+    maxSumOfAnswersPoint?: InputMaybe<Scalars['Int']>;
     question: Scalars['ID'];
     questionHasBeenCompleted?: InputMaybe<Scalars['Boolean']>;
     questionSequence?: InputMaybe<Scalars['ID']>;

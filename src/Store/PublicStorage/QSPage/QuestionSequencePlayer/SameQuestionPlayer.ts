@@ -324,6 +324,7 @@ export class SameQuestionPlayer{
                     isUseexammode: this.isUseExamMode || this?.ownStore?.isUseExamMode,
                     questionSequence: this?.ownStore?.questionSequenceID,
                     questionHasBeenCompleted: this?.questionHasBeenCompleted,
+                    maxSumOfAnswersPoint: this.maxSumOfPoints,
                     statistic:{
                         numberOfPasses: this.numberOfPasses,
                         ArrayForShowAnswerPoints : this.ArrayForShowAnswerPoints,
@@ -338,6 +339,7 @@ export class SameQuestionPlayer{
                     userName: this.userStore.isLogin? this.userStore.username : localStorage?.getItem('username')?.length !== 0 ? localStorage?.getItem('username') : "Анонимный пользователь",
                     isUseexammode: this.isUseExamMode || this?.ownStore?.isUseExamMode,
                     questionHasBeenCompleted: this?.questionHasBeenCompleted,
+                    maxSumOfAnswersPoint: this.maxSumOfPoints,
                     statistic:{
                         numberOfPasses: this.numberOfPasses,
                         ArrayForShowAnswerPoints : this.ArrayForShowAnswerPoints,

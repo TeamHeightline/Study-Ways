@@ -26,7 +26,7 @@ class PassedQuestion{
     attemptData: any = undefined;
 
     //Вычисляемое значение среднего балла за попытку
-    get arithmeticMeanNumberOfAnswersPoints(){
+    get arithmeticMeanNumberOfAnswersPointsDivideToMaxPoints(){
         let __sumOfAnswerPoints = 0
         let __minAnswerPoint = 100000
         this.attemptData?.statistic?.ArrayForShowAnswerPoints?.map((attempt) => {
@@ -36,7 +36,9 @@ class PassedQuestion{
             }
         })
         this.minAnswerPoint = __minAnswerPoint
-        return (__sumOfAnswerPoints / Number(this.attemptData?.statistic?.numberOfPasses)).toFixed(2)
+        const arithmeticMeanNumberOfAnswersPoints = Math.ceil(__sumOfAnswerPoints / Math.ceil(Number(this.attemptData?.statistic?.numberOfPasses)))
+        const dividePercent = Math.ceil(arithmeticMeanNumberOfAnswersPoints / this.maxSumOfAnswersPoint * 100)
+        return (arithmeticMeanNumberOfAnswersPoints + "/" + this.maxSumOfAnswersPoint + " (" + dividePercent+ "%)" )
     }
 
     //Минимальны балл за попытку
@@ -51,16 +53,56 @@ class PassedQuestion{
                 __maxNumberOfWrongAnswers = attempt?.numberOfWrongAnswers?.length
             }
         })
+        this.numberOfWrongAnswers = __sumOfWrongAnswers
         this.maxNumberOfWrongAnswers = __maxNumberOfWrongAnswers
-        return (__sumOfWrongAnswers / (Number(this.attemptData?.statistic?.numberOfPasses) - 1)).toFixed(1)
+        return (__sumOfWrongAnswers > 0?
+            ( __sumOfWrongAnswers / (Number(this.attemptData?.statistic?.numberOfPasses) - 1)).toFixed(1):
+            "Ошибок нет")
     }
+
+    //Максимальное число баллов для того набора ответов, который попался ученику
+    get maxSumOfAnswersPoint(){
+        return(this?.attemptData?.maxSumOfAnswersPoint ?
+            this?.attemptData?.maxSumOfAnswersPoint:
+            this.attemptData?.questionHasBeenCompleted?
+                this.attemptData?.statistic?.ArrayForShowAnswerPoints[this.attemptData?.statistic?.ArrayForShowAnswerPoints.length - 1].answerPoints:
+                0)
+    }
+
+
+    get SumOFPointsWithNewMethod(){
+        const divideValue = StatisticPageStoreObject.divideValueForCalculations
+        let sumOfAnswerPoints = 0
+        let sumOfAnswerPointsNewMethod = 0
+        let maxSumNewMethod = 0
+
+        this.attemptData?.statistic?.ArrayForShowAnswerPoints?.map((attempt, aIndex) => {
+            sumOfAnswerPoints += Number(attempt.answerPoints)
+            sumOfAnswerPointsNewMethod += Number(attempt.answerPoints) * (divideValue ** aIndex)
+            maxSumNewMethod += Number(this.maxSumOfAnswersPoint) * (divideValue ** aIndex)
+        })
+        let result = Math.ceil(sumOfAnswerPointsNewMethod / maxSumNewMethod * 100)
+        // if(result < 0){
+        //     result = 0
+        // }
+
+        if(!this?.attemptData?.maxSumOfAnswersPoint &&  !this.attemptData?.questionHasBeenCompleted){
+            return ("Невозможно рассчитать")
+        }else{
+            return (result + "%")
+        }
+        // return(sumOfAnswerPointsNewMethod + "/" + sumOfAnswerPoints)
+    }
+
+    numberOfWrongAnswers = 0
 
     maxNumberOfWrongAnswers = 0
 
 
 
 }
-
+const PassedQuestionObject = new PassedQuestion({})
+type PassedQuestionObjectType = typeof PassedQuestionObject
 class StatisticByQuestionsDataStore {
     constructor(){
         makeAutoObservable(this)
@@ -73,7 +115,7 @@ class StatisticByQuestionsDataStore {
             this.showPassesOnlyIfTheyDoneInQS = false
             this.showPassesOnlyInActiveExamMode = false
         })
-        reaction(() => this.activePage > this.NumberOfPages, () => this.activePage = this.NumberOfPages)
+        reaction(() => this.activePage > this.NumberOfPages, () => this.activePage = 1)
     }
 
 
@@ -103,10 +145,10 @@ class StatisticByQuestionsDataStore {
     answersArrayDataStore: any[] = []
 
 
-    passedQuestionsObjectsArray: any = []
+    passedQuestionsObjectsArray: PassedQuestionObjectType[] = []
 
     fillPassedQuestionsObjectsArray(){
-        const __passedQuestionsObjectsArray: any = []
+        const __passedQuestionsObjectsArray: PassedQuestionObjectType[]  = []
         this.questionStatistic?.map((attempt) =>{
             __passedQuestionsObjectsArray?.push(new PassedQuestion(attempt))
         })
@@ -189,25 +231,61 @@ class StatisticByQuestionsDataStore {
         return(this.passesAfterFiltering.slice((this.activePage -1 ) * Number(this.rowLimit), this.activePage * Number(this.rowLimit)))
     }
 
-    get rows(){
+    get objectRows(){
         return(
-            this.passesAfterPaginate?.map((passedQuestion) =>{
+            this.passesAfterPaginate?.map((passedQuestionObject) =>{
                 const ArrayOfNumberOfWrongAnswers: any[] = []
-                passedQuestion?.attemptData?.statistic?.ArrayForShowWrongAnswers.map((attempt) =>{
+                passedQuestionObject?.attemptData?.statistic?.ArrayForShowWrongAnswers.map((attempt) =>{
                     ArrayOfNumberOfWrongAnswers.push({numberOfPasses: attempt?.numberOfPasses,
                         numberOfWrongAnswers: attempt?.numberOfWrongAnswers?.length})
                 })
-                return([passedQuestion?.attemptData?.userName, passedQuestion?.attemptData?.isLogin ? "да" : "нет",
-                passedQuestion?.attemptData?.statistic?.numberOfPasses, passedQuestion?.arithmeticMeanNumberOfWrongAnswer,
-                passedQuestion?.maxNumberOfWrongAnswers, passedQuestion?.arithmeticMeanNumberOfAnswersPoints,
-                passedQuestion?.minAnswerPoint, passedQuestion?.attemptData?.id,
-                    passedQuestion?.attemptData?.statistic?.ArrayForShowAnswerPoints, ArrayOfNumberOfWrongAnswers,
-                    passedQuestion?.attemptData?.statistic?.ArrayForShowWrongAnswers, passedQuestion,
-                    passedQuestion?.attemptData?.questionHasBeenCompleted
-                ])
-            })
-        )
+
+                return({
+                    username: passedQuestionObject?.attemptData?.userName,
+                    isLogin: passedQuestionObject?.attemptData?.isLogin ? "да" : "нет",
+                    numberOfPasses: passedQuestionObject?.attemptData?.statistic?.numberOfPasses,
+                    arithmeticMeanNumberOfWrongAnswer: passedQuestionObject?.arithmeticMeanNumberOfWrongAnswer,
+                    numberOfWrongAnswers: passedQuestionObject?.numberOfWrongAnswers,
+                    arithmeticMeanNumberOfAnswersPointsDivideToMaxPoints: passedQuestionObject?.arithmeticMeanNumberOfAnswersPointsDivideToMaxPoints,
+                    minAnswerPoint: passedQuestionObject?.minAnswerPoint,
+                    questionID: passedQuestionObject?.attemptData?.question?.id,
+                    attemptID: passedQuestionObject?.attemptData?.id,
+                    ArrayForShowAnswerPoints: passedQuestionObject?.attemptData?.statistic?.ArrayForShowAnswerPoints,
+                    ArrayOfNumberOfWrongAnswers: ArrayOfNumberOfWrongAnswers,
+                    ArrayForShowWrongAnswers: passedQuestionObject?.attemptData?.statistic?.ArrayForShowWrongAnswers,
+                    passedQuestion: passedQuestionObject,
+                    questionHasBeenCompleted: passedQuestionObject?.attemptData?.questionHasBeenCompleted,
+                    SumOFPointsWithNewMethod: passedQuestionObject?.SumOFPointsWithNewMethod
+                })
+            }
+        ))
     }
+
+    // get rows(){
+    //     return(
+    //         this.passesAfterPaginate?.map((passedQuestion) =>{
+    //             const ArrayOfNumberOfWrongAnswers: any[] = []
+    //             passedQuestion?.attemptData?.statistic?.ArrayForShowWrongAnswers.map((attempt) =>{
+    //                 ArrayOfNumberOfWrongAnswers.push({numberOfPasses: attempt?.numberOfPasses,
+    //                     numberOfWrongAnswers: attempt?.numberOfWrongAnswers?.length})
+    //             })
+    //             return([passedQuestion?.attemptData?.userName,
+    //                 passedQuestion?.attemptData?.isLogin ? "да" : "нет",
+    //             passedQuestion?.attemptData?.statistic?.numberOfPasses,
+    //                 passedQuestion?.arithmeticMeanNumberOfWrongAnswer,
+    //             passedQuestion?.attemptData?.numberOfWrongAnswers,
+    //                 passedQuestion?.arithmeticMeanNumberOfAnswersPoints,
+    //             passedQuestion?.minAnswerPoint,
+    //                 passedQuestion?.attemptData?.id,
+    //                 passedQuestion?.attemptData?.statistic?.ArrayForShowAnswerPoints,
+    //                 ArrayOfNumberOfWrongAnswers,
+    //                 passedQuestion?.attemptData?.statistic?.ArrayForShowWrongAnswers,
+    //                 passedQuestion,
+    //                 passedQuestion?.attemptData?.questionHasBeenCompleted
+    //             ])
+    //         })
+    //     )
+    // }
 
     rowsOpenForDetailStatistic = new Set()
 
@@ -234,3 +312,4 @@ class StatisticByQuestionsDataStore {
 }
 
 export const StatisticByQuestionDataStoreObject = new StatisticByQuestionsDataStore()
+// export type rowsType = StatisticByQuestionsDataStore['objectRows']

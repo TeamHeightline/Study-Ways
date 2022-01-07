@@ -1,6 +1,8 @@
 import {observer} from "mobx-react";
 import React from "react";
-import {StatisticByQuestionDataStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticByQuestionsDataStore";
+import {
+    StatisticByQuestionDataStoreObject
+} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticByQuestionsDataStore";
 import {Collapse} from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -35,7 +37,7 @@ export const StatisticChartAndDetailStatistic = observer(({row}) =>{
     const classes = useStyles();
     return(
         <div>
-            <Collapse in={StatisticByQuestionDataStoreObject?.rowsOpenForDetailStatistic?.has(row[7])} unmountOnExit>
+            <Collapse in={StatisticByQuestionDataStoreObject?.rowsOpenForDetailStatistic?.has(row.attemptID)} unmountOnExit>
                 <StatisticChart row={row} />
                 <TableContainer component={Paper}>
                     <Table aria-label="collapsible table">

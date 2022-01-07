@@ -12,8 +12,8 @@ export const StatisticWrongAnswersForAttempt = observer(({row, attempt, classes,
     return(
         <div>
             <div style={{overflowX: "auto"}}>
-                <Row style={{width:  toJS(row[10][Number(attempt.numberOfPasses) -1])?.numberOfWrongAnswers.length * 410}}>
-                    {toJS(row[10][Number(attempt.numberOfPasses) -1])?.numberOfWrongAnswers?.map((errorAnswer) =>{
+                <Row style={{width:  toJS(row.ArrayForShowWrongAnswers[Number(attempt.numberOfPasses) -1])?.numberOfWrongAnswers.length * 410}}>
+                    {toJS(row.ArrayForShowWrongAnswers[Number(attempt.numberOfPasses) -1])?.numberOfWrongAnswers?.map((errorAnswer) =>{
                         const answerObjectStorage = StatisticByQuestionDataStoreObject?.answersArrayDataStore.find((answer) => Number(answer.id) == Number(errorAnswer))
                         return(
                             <div key={errorAnswer + "Error Answer Key" + attempt.numberOfPasses + "DetailStatisticKey"}>

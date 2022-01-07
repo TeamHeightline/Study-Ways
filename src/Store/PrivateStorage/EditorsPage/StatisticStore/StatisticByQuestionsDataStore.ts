@@ -51,16 +51,20 @@ class PassedQuestion{
                 __maxNumberOfWrongAnswers = attempt?.numberOfWrongAnswers?.length
             }
         })
+        this.numberOfWrongAnswers = __sumOfWrongAnswers
         this.maxNumberOfWrongAnswers = __maxNumberOfWrongAnswers
         return (__sumOfWrongAnswers / (Number(this.attemptData?.statistic?.numberOfPasses) - 1)).toFixed(1)
     }
+
+    numberOfWrongAnswers = 0
 
     maxNumberOfWrongAnswers = 0
 
 
 
 }
-
+const PassedQuestionObject = new PassedQuestion({})
+type PassedQuestionObjectType = typeof PassedQuestionObject
 class StatisticByQuestionsDataStore {
     constructor(){
         makeAutoObservable(this)
@@ -73,7 +77,7 @@ class StatisticByQuestionsDataStore {
             this.showPassesOnlyIfTheyDoneInQS = false
             this.showPassesOnlyInActiveExamMode = false
         })
-        reaction(() => this.activePage > this.NumberOfPages, () => this.activePage = this.NumberOfPages)
+        reaction(() => this.activePage > this.NumberOfPages, () => this.activePage = 1)
     }
 
 
@@ -103,10 +107,10 @@ class StatisticByQuestionsDataStore {
     answersArrayDataStore: any[] = []
 
 
-    passedQuestionsObjectsArray: any = []
+    passedQuestionsObjectsArray: PassedQuestionObjectType[] = []
 
     fillPassedQuestionsObjectsArray(){
-        const __passedQuestionsObjectsArray: any = []
+        const __passedQuestionsObjectsArray: PassedQuestionObjectType[]  = []
         this.questionStatistic?.map((attempt) =>{
             __passedQuestionsObjectsArray?.push(new PassedQuestion(attempt))
         })
@@ -189,25 +193,60 @@ class StatisticByQuestionsDataStore {
         return(this.passesAfterFiltering.slice((this.activePage -1 ) * Number(this.rowLimit), this.activePage * Number(this.rowLimit)))
     }
 
-    get rows(){
+    get objectRows(){
         return(
-            this.passesAfterPaginate?.map((passedQuestion) =>{
+            this.passesAfterPaginate?.map((passedQuestionObject) =>{
                 const ArrayOfNumberOfWrongAnswers: any[] = []
-                passedQuestion?.attemptData?.statistic?.ArrayForShowWrongAnswers.map((attempt) =>{
+                passedQuestionObject?.attemptData?.statistic?.ArrayForShowWrongAnswers.map((attempt) =>{
                     ArrayOfNumberOfWrongAnswers.push({numberOfPasses: attempt?.numberOfPasses,
                         numberOfWrongAnswers: attempt?.numberOfWrongAnswers?.length})
                 })
-                return([passedQuestion?.attemptData?.userName, passedQuestion?.attemptData?.isLogin ? "да" : "нет",
-                passedQuestion?.attemptData?.statistic?.numberOfPasses, passedQuestion?.arithmeticMeanNumberOfWrongAnswer,
-                passedQuestion?.maxNumberOfWrongAnswers, passedQuestion?.arithmeticMeanNumberOfAnswersPoints,
-                passedQuestion?.minAnswerPoint, passedQuestion?.attemptData?.id,
-                    passedQuestion?.attemptData?.statistic?.ArrayForShowAnswerPoints, ArrayOfNumberOfWrongAnswers,
-                    passedQuestion?.attemptData?.statistic?.ArrayForShowWrongAnswers, passedQuestion,
-                    passedQuestion?.attemptData?.questionHasBeenCompleted
-                ])
-            })
-        )
+
+                return({
+                    username: passedQuestionObject?.attemptData?.userName,
+                    isLogin: passedQuestionObject?.attemptData?.isLogin ? "да" : "нет",
+                    numberOfPasses: passedQuestionObject?.attemptData?.statistic?.numberOfPasses,
+                    arithmeticMeanNumberOfWrongAnswer: passedQuestionObject?.arithmeticMeanNumberOfWrongAnswer,
+                    numberOfWrongAnswers: passedQuestionObject?.numberOfWrongAnswers,
+                    arithmeticMeanNumberOfAnswersPoints: passedQuestionObject?.arithmeticMeanNumberOfAnswersPoints,
+                    minAnswerPoint: passedQuestionObject?.minAnswerPoint,
+                    questionID: passedQuestionObject?.attemptData?.question?.id,
+                    attemptID: passedQuestionObject?.attemptData?.id,
+                    ArrayForShowAnswerPoints: passedQuestionObject?.attemptData?.statistic?.ArrayForShowAnswerPoints,
+                    ArrayOfNumberOfWrongAnswers: ArrayOfNumberOfWrongAnswers,
+                    ArrayForShowWrongAnswers: passedQuestionObject?.attemptData?.statistic?.ArrayForShowWrongAnswers,
+                    passedQuestion: passedQuestionObject,
+                    questionHasBeenCompleted: passedQuestionObject?.attemptData?.questionHasBeenCompleted
+                })
+            }
+        ))
     }
+
+    // get rows(){
+    //     return(
+    //         this.passesAfterPaginate?.map((passedQuestion) =>{
+    //             const ArrayOfNumberOfWrongAnswers: any[] = []
+    //             passedQuestion?.attemptData?.statistic?.ArrayForShowWrongAnswers.map((attempt) =>{
+    //                 ArrayOfNumberOfWrongAnswers.push({numberOfPasses: attempt?.numberOfPasses,
+    //                     numberOfWrongAnswers: attempt?.numberOfWrongAnswers?.length})
+    //             })
+    //             return([passedQuestion?.attemptData?.userName,
+    //                 passedQuestion?.attemptData?.isLogin ? "да" : "нет",
+    //             passedQuestion?.attemptData?.statistic?.numberOfPasses,
+    //                 passedQuestion?.arithmeticMeanNumberOfWrongAnswer,
+    //             passedQuestion?.attemptData?.numberOfWrongAnswers,
+    //                 passedQuestion?.arithmeticMeanNumberOfAnswersPoints,
+    //             passedQuestion?.minAnswerPoint,
+    //                 passedQuestion?.attemptData?.id,
+    //                 passedQuestion?.attemptData?.statistic?.ArrayForShowAnswerPoints,
+    //                 ArrayOfNumberOfWrongAnswers,
+    //                 passedQuestion?.attemptData?.statistic?.ArrayForShowWrongAnswers,
+    //                 passedQuestion,
+    //                 passedQuestion?.attemptData?.questionHasBeenCompleted
+    //             ])
+    //         })
+    //     )
+    // }
 
     rowsOpenForDetailStatistic = new Set()
 
@@ -234,3 +273,4 @@ class StatisticByQuestionsDataStore {
 }
 
 export const StatisticByQuestionDataStoreObject = new StatisticByQuestionsDataStore()
+// export type rowsType = StatisticByQuestionsDataStore['objectRows']

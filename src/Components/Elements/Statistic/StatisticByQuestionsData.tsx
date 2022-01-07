@@ -23,6 +23,7 @@ import {isMobileHook} from "../../../CustomHooks/isMobileHook";
 import {StatisticRowLimit} from "./#StatisticRowLimit";
 import {StatisticPageStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticPageStore";
 import {PaginationForStatistic} from "./#Pagination";
+import {toJS} from "mobx";
 
 export const StatisticByQuestionsData = observer(() =>{
     const isMobile = isMobileHook()
@@ -81,39 +82,58 @@ export const StatisticByQuestionsData = observer(() =>{
                             <TableCell align="right">ID вопроса </TableCell>}
                             <TableCell align="right">Количество попыток</TableCell>
                             <TableCell align="right">Среднее количество ошибок</TableCell>
-                            <TableCell align="right">Максимальное количество ошибок</TableCell>
+                            <TableCell align="right">Всего ошибок</TableCell>
                             <TableCell align="right">Среднее количество баллов</TableCell>
                             <TableCell align="right">Минимальное количество баллов</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {StatisticByQuestionDataStoreObject?.rows.map((row, rIndex) => {
+                        {StatisticByQuestionDataStoreObject?.objectRows.map((row, rIndex) => {
                             if(rIndex < StatisticByQuestionDataStoreObject.rowLimit)
                                 return(
                                 <React.Fragment key={rIndex + "Key"}>
                                 <TableRow>
                                     <TableCell>
                                         <IconButton aria-label="expand row" size="small"
-                                                    onClick={() => StatisticByQuestionDataStoreObject.changeRowsForDetailStatistic(row[7])}>
-                                        {StatisticByQuestionDataStoreObject?.rowsOpenForDetailStatistic?.has(row[7]) ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                                                    onClick={() => StatisticByQuestionDataStoreObject.changeRowsForDetailStatistic(toJS(row.attemptID))}>
+                                        {StatisticByQuestionDataStoreObject?.rowsOpenForDetailStatistic?.has(toJS(row.attemptID)) ?
+                                            <KeyboardArrowUpIcon /> :
+                                            <KeyboardArrowDownIcon />}
                                             {/*<KeyboardArrowUpIcon />*/}
                                         </IconButton>
                                     </TableCell>
                                     <TableCell component="th" scope="row"
-                                               style={{color: row[12]? "" :"rgb(245,0,87)"}}>
-                                        {row[0]}
+                                               style={{color: row.questionHasBeenCompleted? "" :"rgb(245,0,87)"}}>
+                                        {row.username}
                                     </TableCell>
-                                    <TableCell align="right" style={{color: row[12]? "" :"rgb(245,0,87)"}}>{row[1]}</TableCell>
+                                    <TableCell align="right" style={{color: row.questionHasBeenCompleted? "" :"rgb(245,0,87)"}}>
+                                        {row.isLogin}
+                                    </TableCell>
                                     {StatisticByQuestionDataStoreObject?.multiQuestionMode &&
-                                        <TableCell align="right" style={{color: row[12]? "" :"rgb(245,0,87)"}}>
-                                            {row[11]?.attemptData?.question?.id}
+                                        <TableCell align="right" style={{color: row.questionHasBeenCompleted? "" :"rgb(245,0,87)"}}>
+                                            {row.questionID}
                                         </TableCell>
                                     }
-                                    <TableCell align="right" style={{color: row[12]? "" :"rgb(245,0,87)"}}>{row[2]}</TableCell>
-                                    <TableCell align="right" style={{color: row[12]? "" :"rgb(245,0,87)"}}>{row[3]}</TableCell>
-                                    <TableCell align="right" style={{color: row[12]? "" :"rgb(245,0,87)"}}>{row[4]}</TableCell>
-                                    <TableCell align="right" style={{color: row[12]? "" :"rgb(245,0,87)"}}>{row[5]}</TableCell>
-                                    <TableCell align="right" style={{color: row[12]? "" :"rgb(245,0,87)"}}>{row[6]}</TableCell>
+                                    <TableCell align="right"
+                                               style={{color: row.questionHasBeenCompleted? "" :"rgb(245,0,87)"}}>
+                                        {row.numberOfPasses}
+                                    </TableCell>
+                                    <TableCell align="right"
+                                               style={{color: row.questionHasBeenCompleted? "" :"rgb(245,0,87)"}}>
+                                        {row.arithmeticMeanNumberOfWrongAnswer}
+                                    </TableCell>
+                                    <TableCell align="right"
+                                               style={{color: row.questionHasBeenCompleted? "" :"rgb(245,0,87)"}}>
+                                        {row.numberOfWrongAnswers}
+                                    </TableCell>
+                                    <TableCell align="right"
+                                               style={{color: row.questionHasBeenCompleted? "" :"rgb(245,0,87)"}}>
+                                        {row.arithmeticMeanNumberOfAnswersPoints}
+                                    </TableCell>
+                                    <TableCell align="right"
+                                               style={{color: row.questionHasBeenCompleted? "" :"rgb(245,0,87)"}}>
+                                        {row.minAnswerPoint}
+                                    </TableCell>
                                 </TableRow>
                                 <TableRow>
                                     <TableCell colSpan={StatisticByQuestionDataStoreObject?.multiQuestionMode ? 9 :8}

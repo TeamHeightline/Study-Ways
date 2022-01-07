@@ -45,13 +45,14 @@ export const GET_ENCRYPT_QUESTION_DATA_BY_ID = gql`
 
 export const SAVE_DETAIL_STATISTIC = gql`
     mutation SAVE_DETAIL_STATISTIC($question: ID!, $userName: String, $isLogin: Boolean, $statistic: GenericScalar, 
-        $isUseexammode: Boolean, $questionHasBeenCompleted: Boolean){
+        $isUseexammode: Boolean, $questionHasBeenCompleted: Boolean, $maxSumOfAnswersPoint: Int){
         createDetailQuestionStatistic(input: {
             question: $question,
             userName: $userName,
             isLogin: $isLogin,
             statistic: $statistic,
             isUseexammode: $isUseexammode,
+            maxSumOfAnswersPoint: $maxSumOfAnswersPoint,
             questionHasBeenCompleted: $questionHasBeenCompleted,
 #            questionSequence: $questionSequence
         }){
@@ -62,7 +63,7 @@ export const SAVE_DETAIL_STATISTIC = gql`
 
 export const SAVE_DETAIL_STATISTIC_WITH_QS = gql`
     mutation SAVE_DETAIL_STATISTIC($question: ID!, $userName: String, $isLogin: Boolean, $statistic: GenericScalar,
-        $isUseexammode: Boolean, $questionSequence: ID, $questionHasBeenCompleted: Boolean){
+        $isUseexammode: Boolean, $questionSequence: ID, $questionHasBeenCompleted: Boolean, $maxSumOfAnswersPoint: Int){
         createDetailQuestionStatistic(input: {
             question: $question,
             userName: $userName,
@@ -71,6 +72,7 @@ export const SAVE_DETAIL_STATISTIC_WITH_QS = gql`
             isUseexammode: $isUseexammode,
             questionSequence: $questionSequence,
             questionHasBeenCompleted: $questionHasBeenCompleted,
+            maxSumOfAnswersPoint: $maxSumOfAnswersPoint
         }){
             clientMutationId
         }

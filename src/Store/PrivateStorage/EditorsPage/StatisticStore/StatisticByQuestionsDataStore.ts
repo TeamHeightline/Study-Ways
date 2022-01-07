@@ -26,7 +26,7 @@ class PassedQuestion{
     attemptData: any = undefined;
 
     //Вычисляемое значение среднего балла за попытку
-    get arithmeticMeanNumberOfAnswersPoints(){
+    get arithmeticMeanNumberOfAnswersPointsDivideToMaxPoints(){
         let __sumOfAnswerPoints = 0
         let __minAnswerPoint = 100000
         this.attemptData?.statistic?.ArrayForShowAnswerPoints?.map((attempt) => {
@@ -36,7 +36,9 @@ class PassedQuestion{
             }
         })
         this.minAnswerPoint = __minAnswerPoint
-        return (__sumOfAnswerPoints / Number(this.attemptData?.statistic?.numberOfPasses)).toFixed(2)
+        const arithmeticMeanNumberOfAnswersPoints = Math.ceil(__sumOfAnswerPoints / Math.ceil(Number(this.attemptData?.statistic?.numberOfPasses)))
+        const dividePercent = Math.ceil(arithmeticMeanNumberOfAnswersPoints / this.maxSumOfAnswersPoint * 100)
+        return (arithmeticMeanNumberOfAnswersPoints + "/" + this.maxSumOfAnswersPoint + " (" + dividePercent+ "%)" )
     }
 
     //Минимальны балл за попытку
@@ -53,7 +55,43 @@ class PassedQuestion{
         })
         this.numberOfWrongAnswers = __sumOfWrongAnswers
         this.maxNumberOfWrongAnswers = __maxNumberOfWrongAnswers
-        return (__sumOfWrongAnswers / (Number(this.attemptData?.statistic?.numberOfPasses) - 1)).toFixed(1)
+        return (__sumOfWrongAnswers > 0?
+            ( __sumOfWrongAnswers / (Number(this.attemptData?.statistic?.numberOfPasses) - 1)).toFixed(1):
+            "Ошибок нет")
+    }
+
+    //Максимальное число баллов для того набора ответов, который попался ученику
+    get maxSumOfAnswersPoint(){
+        return(this?.attemptData?.maxSumOfAnswersPoint ?
+            this?.attemptData?.maxSumOfAnswersPoint:
+            this.attemptData?.questionHasBeenCompleted?
+                this.attemptData?.statistic?.ArrayForShowAnswerPoints[this.attemptData?.statistic?.ArrayForShowAnswerPoints.length - 1].answerPoints:
+                0)
+    }
+
+
+    get SumOFPointsWithNewMethod(){
+        const divideValue = StatisticPageStoreObject.divideValueForCalculations
+        let sumOfAnswerPoints = 0
+        let sumOfAnswerPointsNewMethod = 0
+        let maxSumNewMethod = 0
+
+        this.attemptData?.statistic?.ArrayForShowAnswerPoints?.map((attempt, aIndex) => {
+            sumOfAnswerPoints += Number(attempt.answerPoints)
+            sumOfAnswerPointsNewMethod += Number(attempt.answerPoints) * (divideValue ** aIndex)
+            maxSumNewMethod += Number(this.maxSumOfAnswersPoint) * (divideValue ** aIndex)
+        })
+        let result = Math.ceil(sumOfAnswerPointsNewMethod / maxSumNewMethod * 100)
+        // if(result < 0){
+        //     result = 0
+        // }
+
+        if(!this?.attemptData?.maxSumOfAnswersPoint &&  !this.attemptData?.questionHasBeenCompleted){
+            return ("Невозможно рассчитать")
+        }else{
+            return (result + "%")
+        }
+        // return(sumOfAnswerPointsNewMethod + "/" + sumOfAnswerPoints)
     }
 
     numberOfWrongAnswers = 0
@@ -208,7 +246,7 @@ class StatisticByQuestionsDataStore {
                     numberOfPasses: passedQuestionObject?.attemptData?.statistic?.numberOfPasses,
                     arithmeticMeanNumberOfWrongAnswer: passedQuestionObject?.arithmeticMeanNumberOfWrongAnswer,
                     numberOfWrongAnswers: passedQuestionObject?.numberOfWrongAnswers,
-                    arithmeticMeanNumberOfAnswersPoints: passedQuestionObject?.arithmeticMeanNumberOfAnswersPoints,
+                    arithmeticMeanNumberOfAnswersPointsDivideToMaxPoints: passedQuestionObject?.arithmeticMeanNumberOfAnswersPointsDivideToMaxPoints,
                     minAnswerPoint: passedQuestionObject?.minAnswerPoint,
                     questionID: passedQuestionObject?.attemptData?.question?.id,
                     attemptID: passedQuestionObject?.attemptData?.id,
@@ -216,7 +254,8 @@ class StatisticByQuestionsDataStore {
                     ArrayOfNumberOfWrongAnswers: ArrayOfNumberOfWrongAnswers,
                     ArrayForShowWrongAnswers: passedQuestionObject?.attemptData?.statistic?.ArrayForShowWrongAnswers,
                     passedQuestion: passedQuestionObject,
-                    questionHasBeenCompleted: passedQuestionObject?.attemptData?.questionHasBeenCompleted
+                    questionHasBeenCompleted: passedQuestionObject?.attemptData?.questionHasBeenCompleted,
+                    SumOFPointsWithNewMethod: passedQuestionObject?.SumOFPointsWithNewMethod
                 })
             }
         ))

@@ -186,6 +186,21 @@ class StatisticPageStore {
 
     }
 
+    divideValue = 7
+
+    get divideValueForTextField(){
+        return this.divideValue
+    }
+    get divideValueForCalculations(){
+        return Number ("0." + String(this.divideValue))
+    }
+
+    changeDivideValue = (e) => {
+        if(e.target.value && e.target.value > 0 && e.target.value < 10){
+            this.divideValue = Number(e.target.value)
+        }
+    }
+
     //Открыт ли вопрос для просмотра его статистики
     isOpenQuestion = false
 

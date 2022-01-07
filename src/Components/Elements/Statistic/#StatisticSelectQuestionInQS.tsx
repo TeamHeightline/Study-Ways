@@ -1,5 +1,5 @@
 import {observer} from "mobx-react";
-import {FormControl, MenuItem, Select} from "@mui/material";
+import {FormControl, MenuItem, TextField} from "@mui/material";
 import {StatisticByQuestionDataStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticByQuestionsDataStore";
 import {StatisticPageStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticPageStore";
 import React from 'react';
@@ -7,7 +7,9 @@ export const StatisticSelectQuestionInQS = observer(() =>{
     return(
         <div>
             <FormControl fullWidth style={{marginTop: 0, marginRight: 0}}>
-                <Select
+                <TextField
+                    select
+                    label={"Выберите вопрос"}
                     value={StatisticByQuestionDataStoreObject?.selectedQuestionOnPage}
                     onChange={(e) => StatisticByQuestionDataStoreObject?.changeSelectedQuestionOnPage(e.target.value)}
                 >
@@ -25,7 +27,7 @@ export const StatisticSelectQuestionInQS = observer(() =>{
                                 {"ID: " + question.id + " " + question.text}</MenuItem>
                         )
                     })}
-                </Select>
+                </TextField>
             </FormControl>
         </div>
     )

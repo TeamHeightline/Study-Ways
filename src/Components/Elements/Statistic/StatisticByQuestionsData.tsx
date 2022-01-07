@@ -24,6 +24,7 @@ import {StatisticRowLimit} from "./#StatisticRowLimit";
 import {StatisticPageStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticPageStore";
 import {PaginationForStatistic} from "./#Pagination";
 import {toJS} from "mobx";
+import {DivideValue} from "./#DivideValue";
 
 export const StatisticByQuestionsData = observer(() =>{
     const isMobile = isMobileHook()
@@ -70,6 +71,10 @@ export const StatisticByQuestionsData = observer(() =>{
                 <Grid item xs={12} md={2} style={{marginLeft: isMobile ? 0 : 20, marginTop: 20}}>
                     <StatisticRowLimit/>
                 </Grid>
+                <Grid item xs={12} md={1} style={{marginLeft: isMobile ? 0 : 20, marginTop: 20}}>
+                    <DivideValue/>
+                </Grid>
+
             </Grid>
             <TableContainer component={Paper}>
                 <Table aria-label="collapsible table">
@@ -83,8 +88,8 @@ export const StatisticByQuestionsData = observer(() =>{
                             <TableCell align="right">Количество попыток</TableCell>
                             <TableCell align="right">Среднее количество ошибок</TableCell>
                             <TableCell align="right">Всего ошибок</TableCell>
-                            <TableCell align="right">Среднее количество баллов</TableCell>
-                            <TableCell align="right">Минимальное количество баллов</TableCell>
+                            <TableCell align="right">Среднее/максимальное количество баллов</TableCell>
+                            <TableCell align="right">% выполнения (в зависимости от коэффициента)</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -128,11 +133,11 @@ export const StatisticByQuestionsData = observer(() =>{
                                     </TableCell>
                                     <TableCell align="right"
                                                style={{color: row.questionHasBeenCompleted? "" :"rgb(245,0,87)"}}>
-                                        {row.arithmeticMeanNumberOfAnswersPoints}
+                                        {row.arithmeticMeanNumberOfAnswersPointsDivideToMaxPoints}
                                     </TableCell>
                                     <TableCell align="right"
                                                style={{color: row.questionHasBeenCompleted? "" :"rgb(245,0,87)"}}>
-                                        {row.minAnswerPoint}
+                                        {row.SumOFPointsWithNewMethod}
                                     </TableCell>
                                 </TableRow>
                                 <TableRow>

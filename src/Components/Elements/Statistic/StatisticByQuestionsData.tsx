@@ -20,11 +20,11 @@ import {StatisticOnlyInQSFlag} from "./#StatisticOnlyInQSFlag";
 import {StatisticOnlyExamMode} from "./#StatisticOnlyExamMode";
 import {StatisticGoToMainPage} from "./#StatisticGoToMainPage";
 import {isMobileHook} from "../../../CustomHooks/isMobileHook";
-import {StatisticRowLimit} from "./#StatisticRowLimit";
 import {StatisticPageStoreObject} from "../../../Store/PrivateStorage/EditorsPage/StatisticStore/StatisticPageStore";
 import {PaginationForStatistic} from "./#Pagination";
 import {toJS} from "mobx";
 import {DivideValue} from "./#DivideValue";
+import {CreateAfterDateAndTimePicker} from "./#CreateAfterDateAndTimePicker";
 
 export const StatisticByQuestionsData = observer(() =>{
     const isMobile = isMobileHook()
@@ -69,7 +69,7 @@ export const StatisticByQuestionsData = observer(() =>{
                     <StatisticOnlyExamMode/>
                 </Grid>
                 <Grid item xs={12} md={2} style={{marginLeft: isMobile ? 0 : 20, marginTop: 20}}>
-                    <StatisticRowLimit/>
+                    <CreateAfterDateAndTimePicker/>
                 </Grid>
                 <Grid item xs={12} md={1} style={{marginLeft: isMobile ? 0 : 20, marginTop: 20}}>
                     <DivideValue/>
@@ -142,7 +142,7 @@ export const StatisticByQuestionsData = observer(() =>{
                                     </TableCell>
                                     <TableCell align="right"
                                                style={{color: row.questionHasBeenCompleted? "" :"rgb(245,0,87)"}}>
-                                        {row.createdAt}
+                                        {row.FormattedCreatedAt}
                                     </TableCell>
                                 </TableRow>
                                 <TableRow>

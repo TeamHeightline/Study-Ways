@@ -214,6 +214,18 @@ class StatisticByQuestionsDataStore {
         return(Math.ceil(this.passesAfterFiltering.length / Number(this.rowLimit)))
     }
 
+    todayTimeWithZeroHours(): Date{
+        const actualTime = new Date(Date.now())
+        actualTime.setHours(0,0,0,0)
+        return(actualTime)
+    }
+    timeBeforeAttempt: Date = this.todayTimeWithZeroHours()
+    changeTimeBeforeAttempt = (newValue: Date | null) => {
+        if(newValue){
+            this.timeBeforeAttempt = (newValue);
+        }
+    };
+
 
     //Данные для таблицы по каждому прохождению теста
     get passesAfterFiltering(){
@@ -239,6 +251,10 @@ class StatisticByQuestionsDataStore {
         if(this.showPassesOnlyInActiveExamMode){
             __passedQuestionsObjectsArray = __passedQuestionsObjectsArray.filter((passedQuestion) =>
                 passedQuestion?.attemptData?.isUseexammode)
+        }
+        if(this?.timeBeforeAttempt){
+            __passedQuestionsObjectsArray = __passedQuestionsObjectsArray.filter((passedQuestion) =>
+                new Date(passedQuestion.attemptData.createdAt) > this.timeBeforeAttempt)
         }
         return(__passedQuestionsObjectsArray)
     }
@@ -272,7 +288,7 @@ class StatisticByQuestionsDataStore {
                     passedQuestion: passedQuestionObject,
                     questionHasBeenCompleted: passedQuestionObject?.attemptData?.questionHasBeenCompleted,
                     SumOFPointsWithNewMethod: passedQuestionObject?.SumOFPointsWithNewMethod,
-                    createdAt: passedQuestionObject?.FormattedCreatedAt
+                    FormattedCreatedAt: passedQuestionObject?.FormattedCreatedAt
                 })
             }
         ))

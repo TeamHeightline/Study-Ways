@@ -89,7 +89,7 @@ class PassedQuestion{
         if(!this?.attemptData?.maxSumOfAnswersPoint &&  !this.attemptData?.questionHasBeenCompleted){
             return ("Невозможно рассчитать")
         }else{
-            return (result + "%")
+            return (result)
         }
         // return(sumOfAnswerPointsNewMethod + "/" + sumOfAnswerPoints)
     }

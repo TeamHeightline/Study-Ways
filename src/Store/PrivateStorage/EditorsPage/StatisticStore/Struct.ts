@@ -19,6 +19,7 @@ export const ALL_QUESTIONS_STATISTIC = gql`
                     isLogin
                     statistic
                     maxSumOfAnswersPoint
+                    createdAt
                     questionSequence{
                         id
                     }
@@ -65,6 +66,7 @@ export const GET_QUESTION_DATA_BY_ID = gql`
                 id
                 userName
                 isLogin
+                createdAt
                 statistic
                 isUseexammode
                 questionHasBeenCompleted
@@ -97,6 +99,7 @@ export const GET_ALL_DETAIL_STATISTIC = gql`
             }
             detailquestionstatisticSet{
                 questionHasBeenCompleted
+                createdAt
                 isUseexammode
                 id
                 userName

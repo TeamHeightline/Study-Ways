@@ -94,6 +94,22 @@ class PassedQuestion{
         // return(sumOfAnswerPointsNewMethod + "/" + sumOfAnswerPoints)
     }
 
+    get FormattedCreatedAt(){
+        const createdAtDate = new Date(Date.parse(this.attemptData.createdAt))
+            .toLocaleString('ru', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric'
+        })
+        if(this.attemptData.createdAt){
+            return(String(createdAtDate))
+        }else{
+            return ("Дата не сохранена")
+        }
+    }
+
     numberOfWrongAnswers = 0
 
     maxNumberOfWrongAnswers = 0
@@ -255,7 +271,8 @@ class StatisticByQuestionsDataStore {
                     ArrayForShowWrongAnswers: passedQuestionObject?.attemptData?.statistic?.ArrayForShowWrongAnswers,
                     passedQuestion: passedQuestionObject,
                     questionHasBeenCompleted: passedQuestionObject?.attemptData?.questionHasBeenCompleted,
-                    SumOFPointsWithNewMethod: passedQuestionObject?.SumOFPointsWithNewMethod
+                    SumOFPointsWithNewMethod: passedQuestionObject?.SumOFPointsWithNewMethod,
+                    createdAt: passedQuestionObject?.FormattedCreatedAt
                 })
             }
         ))

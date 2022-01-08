@@ -90,6 +90,7 @@ export const StatisticByQuestionsData = observer(() =>{
                             <TableCell align="right">Всего ошибок</TableCell>
                             <TableCell align="right">Среднее/максимальное количество баллов</TableCell>
                             <TableCell align="right">% выполнения (в зависимости от коэффициента)</TableCell>
+                            <TableCell align="right">Дата и время (год-месяц-день часы:минуты)</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -139,9 +140,13 @@ export const StatisticByQuestionsData = observer(() =>{
                                                style={{color: row.questionHasBeenCompleted? "" :"rgb(245,0,87)"}}>
                                         {row.SumOFPointsWithNewMethod}
                                     </TableCell>
+                                    <TableCell align="right"
+                                               style={{color: row.questionHasBeenCompleted? "" :"rgb(245,0,87)"}}>
+                                        {row.createdAt}
+                                    </TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell colSpan={StatisticByQuestionDataStoreObject?.multiQuestionMode ? 9 :8}
+                                    <TableCell colSpan={StatisticByQuestionDataStoreObject?.multiQuestionMode ? 10 :9}
                                                style={{ paddingBottom: 0, paddingTop: 0 }}>
                                         <StatisticChartAndDetailStatistic row={row}/>
                                     </TableCell>

@@ -223,8 +223,14 @@ export type DeleteAccount = {
     success?: Maybe<Scalars['Boolean']>;
 };
 
+export type DetailArrayNames = {
+    __typename?: 'DetailArrayNames';
+    names?: Maybe<Scalars['String']>;
+};
+
 export type DetailQuestionStatisticNode = {
     __typename?: 'DetailQuestionStatisticNode';
+    createdAt?: Maybe<Scalars['DateTime']>;
     id: Scalars['ID'];
     isLogin: Scalars['Boolean'];
     isUseexammode: Scalars['Boolean'];
@@ -234,6 +240,12 @@ export type DetailQuestionStatisticNode = {
     questionSequence?: Maybe<QuestionSequenceNode>;
     statistic?: Maybe<Scalars['GenericScalar']>;
     userName?: Maybe<Scalars['String']>;
+};
+
+export type DetailStatIdArray = {
+    __typename?: 'DetailStatIDArray';
+    IDs?: Maybe<Array<Maybe<Scalars['String']>>>;
+    numPages?: Maybe<Scalars['Int']>;
 };
 
 export type EqbidNode = {
@@ -741,8 +753,10 @@ export type Query = {
     cardGlobalTheme?: Maybe<Array<Maybe<GlobalCardThemeNode>>>;
     cardSubTheme?: Maybe<Array<Maybe<CardSubThemeNode>>>;
     cardTheme?: Maybe<Array<Maybe<CardThemeNode>>>;
+    detailArrayNames?: Maybe<DetailArrayNames>;
     detailQuestionStatistic?: Maybe<Array<Maybe<DetailQuestionStatisticNode>>>;
     detailQuestionStatisticByQuestionId?: Maybe<Array<Maybe<DetailQuestionStatisticNode>>>;
+    detailStatIdArray?: Maybe<DetailStatIdArray>;
     eqbi?: Maybe<EqbidNode>;
     ftSearchInCards?: Maybe<Array<Maybe<CardNode>>>;
     me?: Maybe<UserNode>;
@@ -772,6 +786,13 @@ export type QueryCardCourseByIdArgs = {
 
 export type QueryDetailQuestionStatisticByQuestionIdArgs = {
     id?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type QueryDetailStatIdArrayArgs = {
+    page?: InputMaybe<Scalars['Int']>;
+    questions?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+    userName?: InputMaybe<Scalars['String']>;
 };
 
 

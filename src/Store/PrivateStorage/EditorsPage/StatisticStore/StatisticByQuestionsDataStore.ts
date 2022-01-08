@@ -38,7 +38,7 @@ class PassedQuestion{
         this.minAnswerPoint = __minAnswerPoint
         const arithmeticMeanNumberOfAnswersPoints = Math.ceil(__sumOfAnswerPoints / Math.ceil(Number(this.attemptData?.statistic?.numberOfPasses)))
         const dividePercent = Math.ceil(arithmeticMeanNumberOfAnswersPoints / this.maxSumOfAnswersPoint * 100)
-        return (arithmeticMeanNumberOfAnswersPoints + "/" + this.maxSumOfAnswersPoint + " (" + dividePercent+ ")" )
+        return (arithmeticMeanNumberOfAnswersPoints + "/" + this.maxSumOfAnswersPoint + " (" + dividePercent+ "%)" )
     }
 
     //Минимальны балл за попытку

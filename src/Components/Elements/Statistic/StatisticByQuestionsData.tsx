@@ -90,7 +90,7 @@ export const StatisticByQuestionsData = observer(() =>{
                             <TableCell align="right">Всего ошибок</TableCell>
                             <TableCell align="right">Среднее/максимальное количество баллов</TableCell>
                             <TableCell align="right">% выполнения (в зависимости от коэффициента)</TableCell>
-                            <TableCell align="right">Дата и время (год-месяц-день часы:минуты)</TableCell>
+                            <TableCell align="right">Дата и время окончания попытки</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

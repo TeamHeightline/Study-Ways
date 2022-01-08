@@ -17,6 +17,7 @@
     "@ckeditor/ckeditor5-dev-webpack-plugin": "^24.4.2",
     "@ckeditor/ckeditor5-react": "^3.0.2",
     "@ckeditor/ckeditor5-theme-lark": "^27.1.0",
+    "@date-io/moment": "^2.11.0",
     "@devexpress/dx-react-chart": "^3.0.0-beta.2",
     "@devexpress/dx-react-chart-material-ui": "^3.0.0-beta.2",
     "@devexpress/dx-react-core": "^3.0.0-beta.2",

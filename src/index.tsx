@@ -9,7 +9,8 @@ import { configure } from "mobx"
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import "./Components/Elements/Cards/CardView/RichTextPreviewStyle.css"
-
+import DateAdapter from '@mui/lab/AdapterMoment';
+import {LocalizationProvider} from "@mui/lab";
 
 export const theme = createTheme( {
     palette: {
@@ -81,7 +82,7 @@ configure({
 //Этот файл полностью посвящен тму, чтобы создать темную тему во все проекте
 //Для Material UI мы создаем ThemeProvider, для AntDesign - импортируем темную тему
 ReactDOM.render(
-
+    <LocalizationProvider dateAdapter={DateAdapter}>
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <style>{'body {background-color: #0A1929}'}</style>
@@ -90,7 +91,8 @@ ReactDOM.render(
                     <App />
                 </DndProvider>
             </div>
-        </ThemeProvider>,
+        </ThemeProvider>
+    </LocalizationProvider>,
   document.getElementById('root')
 );
 

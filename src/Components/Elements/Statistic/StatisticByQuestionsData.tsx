@@ -28,8 +28,7 @@ import {CreateAfterDateAndTimePicker} from "./#CreateAfterDateAndTimePicker";
 
 export const StatisticByQuestionsData = observer(() =>{
     const isMobile = isMobileHook()
-    if(!StatisticPageStoreObject.questionDataHasBeenLoaded || !StatisticPageStoreObject.allAttemptDataHasBeenLoaded ||
-    StatisticByQuestionDataStoreObject?.passesAfterPaginate.length == 0){
+    if(!StatisticPageStoreObject.questionDataHasBeenLoaded || !StatisticPageStoreObject.allAttemptDataHasBeenLoaded){
         return (
             <div>
                 {StatisticPageStoreObject.activePageOnTopMenu !==2 &&

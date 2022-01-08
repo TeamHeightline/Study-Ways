@@ -163,7 +163,12 @@ type DeleteAccount {
     success: Boolean
 }
 
+type DetailArrayNames {
+    names: String
+}
+
 type DetailQuestionStatisticNode {
+    createdAt: DateTime
     id: ID!
     isLogin: Boolean!
     isUseexammode: Boolean!
@@ -173,6 +178,11 @@ type DetailQuestionStatisticNode {
     questionSequence: QuestionSequenceNode
     statistic: GenericScalar
     userName: String
+}
+
+type DetailStatIDArray {
+    IDs: [String]
+    numPages: Int
 }
 
 type EQBIDNode {
@@ -479,8 +489,10 @@ type Query {
     cardGlobalTheme: [GlobalCardThemeNode]
     cardSubTheme: [CardSubThemeNode]
     cardTheme: [CardThemeNode]
+    detailArrayNames: DetailArrayNames
     detailQuestionStatistic: [DetailQuestionStatisticNode]
     detailQuestionStatisticByQuestionId(id: ID): [DetailQuestionStatisticNode]
+    detailStatIdArray(page: Int, questions: [String], userName: String): DetailStatIDArray
     eqbi(id: ID): EQBIDNode
     ftSearchInCards(searchString: String): [CardNode]
     me: UserNode

@@ -6,9 +6,9 @@ import {SQSObject} from "../Store/SelectQuestionStore";
 
 
 interface ISequencesProps extends React.HTMLAttributes<HTMLDivElement>{
-
+    onSelectQS: (qs_id: number) => void
 }
-export const Sequences = observer(({...props}: ISequencesProps) =>{
+export const Sequences = observer(({onSelectQS, ...props}: ISequencesProps) =>{
     return(
         <div {...props}>
             <Grid container item xs={12}
@@ -22,7 +22,7 @@ export const Sequences = observer(({...props}: ISequencesProps) =>{
                             <Card variant="outlined" key={sequence?.id + "SequenceKey"}>
                                 <CardActionArea
                                     onClick={() => {
-                                        SQSObject.sequenceHandler(Number(sequence.id))
+                                        onSelectQS(Number(sequence.id))
                                     }}>
                                         <Typography variant="h6" color="textSecondary" sx={{pl: 2, pt:1}}>
                                             <strong>

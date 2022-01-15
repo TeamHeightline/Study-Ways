@@ -182,6 +182,7 @@ type DetailQuestionStatisticNode {
 
 type DetailStatIDArray {
     IDs: [String]
+    activePage: Int
     numPages: Int
 }
 
@@ -480,6 +481,7 @@ type PasswordSet {
 
 type Query {
     answer: [AnswerNode]
+    answerById(id: ID): AnswerNode
     answersInRandomPositions: [AnswerNode]
     card: [CardNode]
     cardAuthor: [CardAuthorNode]
@@ -492,7 +494,8 @@ type Query {
     detailArrayNames: DetailArrayNames
     detailQuestionStatistic: [DetailQuestionStatisticNode]
     detailQuestionStatisticByQuestionId(id: ID): [DetailQuestionStatisticNode]
-    detailStatIdArray(page: Int, questions: [String], userName: String): DetailStatIDArray
+    detailStatIdArray(afterTime: DateTime, onlyInExam: Boolean, onlyInQs: Boolean, page: Int, questions: [String], userName: String): DetailStatIDArray
+    detailStatisticById(id: ID): DetailQuestionStatisticNode
     eqbi(id: ID): EQBIDNode
     ftSearchInCards(searchString: String): [CardNode]
     me: UserNode

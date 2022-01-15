@@ -39,7 +39,6 @@ const MainCardPublicView = React.lazy(() => import("./Components/PublicPages/Mai
 const ThemeEditor = React.lazy(() => import("./Components/Elements/ThemeTree/ThemeEditor"))
 const QSPlayerByID = React.lazy(() => import("./Components/Elements/QuestionSequence/Public/QSPlayerByID").then(module => ({default: module.QSPlayerByID})))
 const ImageQuestion = React.lazy(() => import("./Components/Elements/UserTest/ImageQuestion/ImageQuestion").then(module => ({default: module.ImageQuestion})))
-
 import {MainCoursePublicView} from "./Components/PublicPages/MainCoursePublicView";
 import { observer } from "mobx-react"
 import {ClientStorage} from "./Store/ApolloStorage/ClientStorage";

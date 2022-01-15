@@ -245,6 +245,7 @@ export type DetailQuestionStatisticNode = {
 export type DetailStatIdArray = {
     __typename?: 'DetailStatIDArray';
     IDs?: Maybe<Array<Maybe<Scalars['String']>>>;
+    activePage?: Maybe<Scalars['Int']>;
     numPages?: Maybe<Scalars['Int']>;
 };
 
@@ -744,6 +745,7 @@ export type PasswordSet = {
 export type Query = {
     __typename?: 'Query';
     answer?: Maybe<Array<Maybe<AnswerNode>>>;
+    answerById?: Maybe<AnswerNode>;
     answersInRandomPositions?: Maybe<Array<Maybe<AnswerNode>>>;
     card?: Maybe<Array<Maybe<CardNode>>>;
     cardAuthor?: Maybe<Array<Maybe<CardAuthorNode>>>;
@@ -757,6 +759,7 @@ export type Query = {
     detailQuestionStatistic?: Maybe<Array<Maybe<DetailQuestionStatisticNode>>>;
     detailQuestionStatisticByQuestionId?: Maybe<Array<Maybe<DetailQuestionStatisticNode>>>;
     detailStatIdArray?: Maybe<DetailStatIdArray>;
+    detailStatisticById?: Maybe<DetailQuestionStatisticNode>;
     eqbi?: Maybe<EqbidNode>;
     ftSearchInCards?: Maybe<Array<Maybe<CardNode>>>;
     me?: Maybe<UserNode>;
@@ -771,6 +774,11 @@ export type Query = {
     /** The ID of the object */
     user?: Maybe<UserNode>;
     users?: Maybe<UserNodeConnection>;
+};
+
+
+export type QueryAnswerByIdArgs = {
+    id?: InputMaybe<Scalars['ID']>;
 };
 
 
@@ -790,9 +798,17 @@ export type QueryDetailQuestionStatisticByQuestionIdArgs = {
 
 
 export type QueryDetailStatIdArrayArgs = {
+    afterTime?: InputMaybe<Scalars['DateTime']>;
+    onlyInExam?: InputMaybe<Scalars['Boolean']>;
+    onlyInQs?: InputMaybe<Scalars['Boolean']>;
     page?: InputMaybe<Scalars['Int']>;
     questions?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
     userName?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryDetailStatisticByIdArgs = {
+    id?: InputMaybe<Scalars['ID']>;
 };
 
 

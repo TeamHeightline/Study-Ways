@@ -1,4 +1,4 @@
-import React, {useEffect, Suspense} from "react";
+import React, {Suspense} from "react";
 import {Alert, Button, CircularProgress, Grid} from '@mui/material';
 import AlertTitle from '@mui/material/AlertTitle';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
@@ -6,6 +6,7 @@ import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import BlurLinearIcon from '@mui/icons-material/BlurLinear';
 import RecentActorsIcon from '@mui/icons-material/RecentActors';
 import LinearScaleIcon from '@mui/icons-material/LinearScale';
+import AddchartIcon from '@mui/icons-material/Addchart';
 
 const SearchingElementsEditor = React.lazy(() => import("./SearchingElementsEditor"))
 const QuestionSequenceMainEditor = React.lazy(() => import("./QuestionSequenceMainEditor"))
@@ -15,13 +16,14 @@ const MainCardEditor = React.lazy(() => import("./MainCardEditor"))
 const QuestionEditor = React.lazy(() => import("./QuestionEditor").then(module => ({default: module.QuestionEditor})))
 const MainUserQuestionPage = React.lazy(() => import("./MainUserQuestionPage").then(module => ({default: module.MainUserQuestionPage})))
 const MainStatistic = React.lazy(() => import("./MainStatistic").then(module => ({default: module.MainStatistic})))
+const StatisticV2 = React.lazy(() =>import("../Elements/Statistic/V2/show-statistic-for-selected-questions/StatisticV2").then(module => ({default: module.StatisticV2})))
 
 import {UserStorage} from '../../Store/UserStore/UserStore'
 import {observer} from "mobx-react";
 import {
     Switch,
     Route,
-    useRouteMatch, useHistory, useLocation, Redirect
+    useRouteMatch, useHistory, Redirect
 } from "react-router-dom";
 
 import clsx from 'clsx';
@@ -70,10 +72,10 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export const EditorsRouter = observer(() =>{
-    const [value, setValue] = React.useState(0);
+    // const [value, setValue] = React.useState(0);
     const history = useHistory();
     const { path } = useRouteMatch();
-    const location = useLocation();
+    // const location = useLocation();
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const isMobile = isMobileHook()
@@ -83,21 +85,21 @@ export const EditorsRouter = observer(() =>{
     };
 
 
-    useEffect(() =>{
-        //Необходимо для того, чтобы правильно подсвечивать активную вкладку
-        if(location.pathname ==="/editor/course" && value !== 1){
-            setValue(1)
-        }
-        if(location.pathname ==="/editor/card" && value !== 2){
-            setValue(2)
-        }
-        if(location.pathname ==="/editor/se" && value !== 3){
-            setValue(3)
-        }
-        if(location.pathname ==="/editor/qse" && value !== 4){
-            setValue(4)
-        }
-    }, [])
+    // useEffect(() =>{
+    //     //Необходимо для того, чтобы правильно подсвечивать активную вкладку
+    //     if(location.pathname ==="/editor/course" && value !== 1){
+    //         setValue(1)
+    //     }
+    //     if(location.pathname ==="/editor/card" && value !== 2){
+    //         setValue(2)
+    //     }
+    //     if(location.pathname ==="/editor/se" && value !== 3){
+    //         setValue(3)
+    //     }
+    //     if(location.pathname ==="/editor/qse" && value !== 4){
+    //         setValue(4)
+    //     }
+    // }, [])
     if (UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER"){
         return (
             <Alert severity="error">
@@ -195,7 +197,17 @@ export const EditorsRouter = observer(() =>{
                             <ListItemIcon>
                                 <BarChartIcon/>
                             </ListItemIcon>
-                            <ListItemText primary="Статистика"/>
+                            <ListItemText primary="Статистика (устаревшее)"/>
+                        </ListItem>
+                    </Tooltip>
+                    <Tooltip title={<Typography variant="body1">Статистика (второе поколение)</Typography>}>
+                        <ListItem button onClick={() => {
+                            if(isMobile){setOpen(false)}
+                            history.push(`${path}/statistic2`)}}>
+                            <ListItemIcon>
+                                <AddchartIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="Статистика (второе поколение)"/>
                         </ListItem>
                     </Tooltip>
                 </List>
@@ -222,6 +234,7 @@ export const EditorsRouter = observer(() =>{
                         <Route  path={`${path}/qse`} component={QuestionSequenceMainEditor}/>
                         <Route  path={`${path}/statistic`} component={MainStatistic}/>
                         <Route path={`${path}/allquestions`} component={MainUserQuestionPage}/>
+                        <Route path={`${path}/statistic2`} component={StatisticV2}/>
                         {/*Чтобы на основной странице отображался редактор курсов, в самом низу
                         потому что иначе будет открываться только он, потому что это будет первым
                         результатом switch*/}

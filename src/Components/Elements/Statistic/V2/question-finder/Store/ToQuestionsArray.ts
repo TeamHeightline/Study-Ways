@@ -1,6 +1,6 @@
 import {makeAutoObservable} from "mobx";
 import {ClientStorage} from "../../../../../../Store/ApolloStorage/ClientStorage";
-import {GET_QUESTIONS_FROM_QS_BY_ID} from "./Query";
+import {GET_ALL_QUESTIONS_ID, GET_QUESTIONS_FROM_QS_BY_ID} from "./Query";
 import {Query} from "../../../../../../SchemaTypes";
 
 class ToQuestionsArray{
@@ -17,6 +17,22 @@ class ToQuestionsArray{
                 }})
                 .then((response) =>response.data.questionSequenceById)
                 .then((qs_data) => this.selectedQuestions = qs_data?.sequenceData?.sequence)
+        }catch(e){
+            console.log(e)
+        }
+    }
+    getAllQuestions(){
+        try{
+            this.clientStorage.client.query<Query>({query: GET_ALL_QUESTIONS_ID, variables:{
+
+                }})
+                .then((response) =>response.data.question)
+                .then((questions) => {
+                    if(questions){
+                        this.selectedQuestions = questions
+                            .map((question) => Number(question?.id))
+                    }
+                })
         }catch(e){
             console.log(e)
         }

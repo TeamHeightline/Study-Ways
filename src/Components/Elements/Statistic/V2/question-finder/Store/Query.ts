@@ -9,3 +9,10 @@ export const GET_QUESTIONS_FROM_QS_BY_ID = gql`
         }
     }
     `
+export const GET_ALL_QUESTIONS_ID = gql`
+    query GET_ALL_QUESTIONS_ID{
+        question {
+            id
+        }
+    }
+    `

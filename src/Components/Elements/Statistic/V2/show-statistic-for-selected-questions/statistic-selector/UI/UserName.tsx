@@ -15,7 +15,7 @@ export const UserName = observer(({...props}: IUserNameProps) =>{
                 value={toJS(SASObject.userName)}
                 onChange={ async(e) =>
                     SASObject.userName = e.target.value}
-                label="Имя пользователя" fullWidth variant="outlined"
+                label="Имя пользователя"  variant="outlined"
                 InputProps={{
                     startAdornment: (
                         <InputAdornment position="start">

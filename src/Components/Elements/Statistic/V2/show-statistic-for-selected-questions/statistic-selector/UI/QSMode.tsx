@@ -10,6 +10,7 @@ export const QSMode = observer(({...props}: IQSModeProps) =>{
     return(
         <div {...props}>
             <FormControlLabel
+                sx={{pl:1}}
                 control={
                     <Switch
                         color="primary"

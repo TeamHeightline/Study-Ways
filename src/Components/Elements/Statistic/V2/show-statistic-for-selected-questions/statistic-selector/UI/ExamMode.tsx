@@ -9,7 +9,7 @@ interface IExamModeProps extends React.HTMLAttributes<HTMLDivElement>{
 export const ExamMode = observer(({...props}: IExamModeProps) =>{
     return(
         <div {...props}>
-            <FormControlLabel control={
+            <FormControlLabel sx={{pl:1}} control={
                 <Switch
                     checked={SASObject?.onlyInExam}
                     onChange={e => SASObject.onlyInExam = e.target.checked}

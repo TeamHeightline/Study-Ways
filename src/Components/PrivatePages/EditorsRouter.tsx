@@ -16,14 +16,14 @@ const MainCardEditor = React.lazy(() => import("./MainCardEditor"))
 const QuestionEditor = React.lazy(() => import("./QuestionEditor").then(module => ({default: module.QuestionEditor})))
 const MainUserQuestionPage = React.lazy(() => import("./MainUserQuestionPage").then(module => ({default: module.MainUserQuestionPage})))
 const MainStatistic = React.lazy(() => import("./MainStatistic").then(module => ({default: module.MainStatistic})))
-const StatisticV2 = React.lazy(() =>import("../Elements/Statistic/V2/show-statistic-for-selected-questions/StatisticV2").then(module => ({default: module.StatisticV2})))
+const StatisticV2 = React.lazy(() =>import("../Elements/Statistic/V2/StatisticV2").then(module => ({default: module.StatisticV2})))
 
 import {UserStorage} from '../../Store/UserStore/UserStore'
 import {observer} from "mobx-react";
 import {
     Switch,
     Route,
-    useRouteMatch, useHistory, Redirect
+    useRouteMatch, useHistory
 } from "react-router-dom";
 
 import clsx from 'clsx';
@@ -84,22 +84,6 @@ export const EditorsRouter = observer(() =>{
         setOpen(!open);
     };
 
-
-    // useEffect(() =>{
-    //     //Необходимо для того, чтобы правильно подсвечивать активную вкладку
-    //     if(location.pathname ==="/editor/course" && value !== 1){
-    //         setValue(1)
-    //     }
-    //     if(location.pathname ==="/editor/card" && value !== 2){
-    //         setValue(2)
-    //     }
-    //     if(location.pathname ==="/editor/se" && value !== 3){
-    //         setValue(3)
-    //     }
-    //     if(location.pathname ==="/editor/qse" && value !== 4){
-    //         setValue(4)
-    //     }
-    // }, [])
     if (UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER"){
         return (
             <Alert severity="error">
@@ -238,7 +222,8 @@ export const EditorsRouter = observer(() =>{
                         {/*Чтобы на основной странице отображался редактор курсов, в самом низу
                         потому что иначе будет открываться только он, потому что это будет первым
                         результатом switch*/}
-                        <Redirect to={`${path}/course`}/>
+
+                        {/*<Redirect to={`${path}/course`}/>*/}
                     </Switch>
                 </div>
             </Suspense>

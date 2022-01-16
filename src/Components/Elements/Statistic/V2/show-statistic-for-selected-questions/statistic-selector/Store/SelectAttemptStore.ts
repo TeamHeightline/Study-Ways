@@ -13,6 +13,12 @@ class SelectAttemptStoreS{
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
     clientStorage = ClientStorage
 
+    selectedQs?: number = undefined
+
+    changeSelectedSQ(qs_id){
+        this.selectedQs = qs_id
+    }
+
     selectedQuestions: number[] | [] = []
 
     changeSelectedQuestions(newArray: number[]): void {

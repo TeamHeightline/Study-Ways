@@ -1,8 +1,8 @@
-import {makeAutoObservable, toJS} from "mobx";
+import {makeAutoObservable, reaction, toJS} from "mobx";
 import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
 import {UserStorage} from "../../../UserStore/UserStore";
-import {GET_CARD_DATA_BY_ID, GET_CONNECTED_THEMES, GET_MY_CARD_AUTHOR} from "./Struct";
-import {CardAuthorNode, CardNode, UnstructuredThemesNode} from "../../../../SchemaTypes";
+import {GET_CARD_DATA_BY_ID, GET_CONNECTED_THEMES, GET_MY_CARD_AUTHOR, GET_QUESTION_TEXT_BY_ID} from "./Struct";
+import {CardAuthorNode, CardNode, Query, QuestionNode, UnstructuredThemesNode} from "../../../../SchemaTypes";
 import { computedFn } from "mobx-utils"
 import {sort} from "fast-sort";
 import {SERVER_BASE_URL} from "../../../../settings";
@@ -12,6 +12,8 @@ export type card_object_fields = keyof CardNode
 class CardEditorStorage{
     constructor() {
         makeAutoObservable(this)
+        reaction(()=> this.getField("testInCard", ''), ()=> this.loadTestInCardText())
+        reaction(()=> this.getField("testBeforeCard", ''), ()=> this.loadTestBeforeCardText())
     }
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
     clientStorage = ClientStorage
@@ -221,6 +223,41 @@ class CardEditorStorage{
                     pId: theme?.parent?.id || 0
                 })
             })
+    }
+
+    //--------Работа с тестом перед и в карточки-----------------
+    testInCardData?: QuestionNode | null = undefined
+
+    loadTestInCardText(){
+        if(this.getField("testInCard", '')){
+            try{
+                this.clientStorage.client.query<Query>({query: GET_QUESTION_TEXT_BY_ID, variables:{
+                    id: this.getField("testInCard", '')
+                }})
+                    .then((response) =>response.data.questionById)
+                    .then((question) => this.testInCardData = question)
+
+                }catch(e){
+                    console.log(e)
+            }
+        }
+    }
+
+    testBeforeCardData?: QuestionNode | null = undefined
+
+    loadTestBeforeCardText(){
+        if(this.getField("testBeforeCard", '')){
+            try{
+                this.clientStorage.client.query<Query>({query: GET_QUESTION_TEXT_BY_ID, variables:{
+                        id: this.getField("testBeforeCard", '')
+                    }})
+                    .then((response) =>response.data.questionById)
+                    .then((question) => this.testBeforeCardData = question)
+
+            }catch(e){
+                console.log(e)
+            }
+        }
     }
 
 

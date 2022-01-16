@@ -16,6 +16,8 @@ import {ArrowNavigation} from "./#ArrowNavigation";
 import {UploadImage} from "./#UploadImage";
 import {TagField} from "./#TagField";
 import {ConnectedThemeSelector} from "./#ConnectedThemeSelector";
+import {TestInCard} from "./#TestInCard";
+import {TestBeforeCard} from "./#TestBeforeCard";
 
 export const EditCardByID = observer(({id= 1825}) => {
     useEffect(() => {
@@ -83,6 +85,19 @@ export const EditCardByID = observer(({id= 1825}) => {
 
                 <Grid item xs={12} md={6}>
                     <ArrowNavigation/>
+                </Grid>
+                <Grid item container xs={12} md={6} spacing={4}>
+                    <Grid item xs={12} md={6}>
+                        <Collapse in={CESObject.getField("isCardUseTestInCard", false)}>
+                            <TestInCard/>
+                        </Collapse>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <Collapse in={CESObject.getField("isCardUseTestBeforeCard", false)}>
+                            <TestBeforeCard/>
+                        </Collapse>
+                    </Grid>
+
                 </Grid>
 
 

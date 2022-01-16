@@ -58,3 +58,12 @@ export const GET_CONNECTED_THEMES = gql`
             parent{id}
         }
     }`
+
+export const GET_QUESTION_TEXT_BY_ID = gql`
+    query GET_QUESTION_TEXT_BY_ID($id: ID!){
+        questionById(id: $id){
+            id
+            text
+        }
+    }
+    `

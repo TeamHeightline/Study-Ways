@@ -78,7 +78,8 @@ export const SelectCard = observer(({card_direction, ...props}: ISelectCardProps
                     horizontal: 'left',
                 }}
             >
-                <CardMicroView cardID={CESObject.getField(card_direction, "")}/>
+                <CardMicroView onChange={() => void(0)}
+                               cardID={CESObject.getField(card_direction, "")}/>
             </Popover>
             <Dialog
                 fullScreen

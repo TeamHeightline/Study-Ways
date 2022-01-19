@@ -7,7 +7,9 @@ import BlurLinearIcon from '@mui/icons-material/BlurLinear';
 import RecentActorsIcon from '@mui/icons-material/RecentActors';
 import LinearScaleIcon from '@mui/icons-material/LinearScale';
 import AddchartIcon from '@mui/icons-material/Addchart';
-
+import QuizIcon from '@mui/icons-material/Quiz';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+// import HubIcon from '@mui/icons-material/Hub';
 const SearchingElementsEditor = React.lazy(() => import("./SearchingElementsEditor"))
 const QuestionSequenceMainEditor = React.lazy(() => import("./QuestionSequenceMainEditor"))
 const MainCourseEditor = React.lazy(() => import("./MainCourseEditor"))
@@ -17,6 +19,7 @@ const QuestionEditor = React.lazy(() => import("./QuestionEditor").then(module =
 const MainUserQuestionPage = React.lazy(() => import("./MainUserQuestionPage").then(module => ({default: module.MainUserQuestionPage})))
 const MainStatistic = React.lazy(() => import("./MainStatistic").then(module => ({default: module.MainStatistic})))
 const StatisticV2 = React.lazy(() =>import("../Elements/Statistic/V2/StatisticV2").then(module => ({default: module.StatisticV2})))
+const CardEditorV2 = React.lazy(() => import("../Elements/Cards/Editor/EditorPageV2/Page").then(module => ({default: module.EditorPage})))
 
 import {UserStorage} from '../../Store/UserStore/UserStore'
 import {observer} from "mobx-react";
@@ -39,7 +42,6 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import BarChartIcon from '@mui/icons-material/BarChart';
 import {Tooltip, Typography} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import {isMobileHook} from "../../CustomHooks/isMobileHook";
@@ -138,16 +140,29 @@ export const EditorsRouter = observer(() =>{
                             <ListItemText primary="Редактор карточек"/>
                         </ListItem>
                     </Tooltip>
-                    <Tooltip title={<Typography variant="body1">Темы и авторы</Typography>}>
+                    <Tooltip title={<Typography variant="body1">Редактор карточек (второе поколение)</Typography>}>
+                        <ListItem button onClick={() => {
+                            if(isMobile){
+                                setOpen(false)
+                            }
+                            history.push(`${path}/card2`)}}>
+                            <ListItemIcon>
+                                <AppRegistrationIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="Редактор карточек"/>
+                        </ListItem>
+                    </Tooltip>
+                    <Tooltip title={<Typography variant="body1">Объединенные темы и авторы</Typography>}>
                         <ListItem button onClick={() => {
                             if(isMobile){
                                 setOpen(false)
                             }
                             history.push(`${path}/se`)}}>
                             <ListItemIcon>
+                                {/*<HubIcon/>*/}
                                 <RecentActorsIcon/>
                             </ListItemIcon>
-                            <ListItemText primary="Темы и авторы"/>
+                            <ListItemText primary="Объединенные темы и авторы"/>
                         </ListItem>
                     </Tooltip>
                     <Tooltip title={<Typography variant="body1">Редактор вопросов</Typography>}>
@@ -157,7 +172,7 @@ export const EditorsRouter = observer(() =>{
                             }
                             history.push(`${path}/question`)}}>
                             <ListItemIcon>
-                                <FormatListBulletedIcon/>
+                                <QuizIcon/>
                             </ListItemIcon>
                             <ListItemText primary="Редактор вопросов"/>
                         </ListItem>
@@ -172,16 +187,6 @@ export const EditorsRouter = observer(() =>{
                                 <LinearScaleIcon/>
                             </ListItemIcon>
                             <ListItemText primary="Редактор серии вопросов"/>
-                        </ListItem>
-                    </Tooltip>
-                    <Tooltip title={<Typography variant="body1">Статистика</Typography>}>
-                        <ListItem button onClick={() => {
-                            if(isMobile){setOpen(false)}
-                            history.push(`${path}/statistic`)}}>
-                            <ListItemIcon>
-                                <BarChartIcon/>
-                            </ListItemIcon>
-                            <ListItemText primary="Статистика (устаревшее)"/>
                         </ListItem>
                     </Tooltip>
                     <Tooltip title={<Typography variant="body1">Статистика (второе поколение)</Typography>}>
@@ -219,6 +224,7 @@ export const EditorsRouter = observer(() =>{
                         <Route  path={`${path}/statistic`} component={MainStatistic}/>
                         <Route path={`${path}/allquestions`} component={MainUserQuestionPage}/>
                         <Route path={`${path}/statistic2`} component={StatisticV2}/>
+                        <Route  path={`${path}/card2`} component={CardEditorV2}/>
                         {/*Чтобы на основной странице отображался редактор курсов, в самом низу
                         потому что иначе будет открываться только он, потому что это будет первым
                         результатом switch*/}

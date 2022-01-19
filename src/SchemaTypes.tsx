@@ -113,6 +113,13 @@ export type CardCourseNode = {
     name?: Maybe<Scalars['String']>;
 };
 
+export type CardIdResolverForSelector = {
+    __typename?: 'CardIDResolverForSelector';
+    IDs?: Maybe<Array<Maybe<Scalars['String']>>>;
+    activePage?: Maybe<Scalars['Int']>;
+    numPages?: Maybe<Scalars['Int']>;
+};
+
 export type CardMutationPayload = {
     __typename?: 'CardMutationPayload';
     card?: Maybe<CardNode>;
@@ -128,11 +135,11 @@ export type CardNode = {
     arrowNext?: Maybe<Scalars['String']>;
     arrowUp?: Maybe<Scalars['String']>;
     author: Array<CardAuthorNode>;
-    cardBefore: Array<CardNode>;
+    cardBefore?: Maybe<CardNode>;
     cardContentType: CardCardContentType;
-    cardDown: Array<CardNode>;
-    cardNext: Array<CardNode>;
-    cardUp: Array<CardNode>;
+    cardDown?: Maybe<CardNode>;
+    cardNext?: Maybe<CardNode>;
+    cardUp?: Maybe<CardNode>;
     connectedTheme: Array<UnstructuredThemesNode>;
     copyright?: Maybe<Scalars['String']>;
     hardLevel: CardHardLevel;
@@ -753,6 +760,7 @@ export type Query = {
     cardCourse?: Maybe<Array<Maybe<CardCourseNode>>>;
     cardCourseById?: Maybe<CardCourseNode>;
     cardGlobalTheme?: Maybe<Array<Maybe<GlobalCardThemeNode>>>;
+    cardIdResolverForSelector?: Maybe<CardIdResolverForSelector>;
     cardSubTheme?: Maybe<Array<Maybe<CardSubThemeNode>>>;
     cardTheme?: Maybe<Array<Maybe<CardThemeNode>>>;
     detailArrayNames?: Maybe<DetailArrayNames>;
@@ -789,6 +797,17 @@ export type QueryCardByIdArgs = {
 
 export type QueryCardCourseByIdArgs = {
     id?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type QueryCardIdResolverForSelectorArgs = {
+    activePage?: InputMaybe<Scalars['Int']>;
+    cardAuthor?: InputMaybe<Scalars['ID']>;
+    cardHardLevel?: InputMaybe<Scalars['Int']>;
+    cardType?: InputMaybe<Scalars['Int']>;
+    connectedTheme?: InputMaybe<Scalars['String']>;
+    createdByMe?: InputMaybe<Scalars['Boolean']>;
+    smartSearchString?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -1047,11 +1066,10 @@ export type UnstructuredThemeMutationPayload = {
 export type UnstructuredThemesNode = {
     __typename?: 'UnstructuredThemesNode';
     cardSet: Array<CardNode>;
-    globalIndex: Scalars['Int'];
+    childrenSet: Array<UnstructuredThemesNode>;
     id: Scalars['ID'];
     parent?: Maybe<UnstructuredThemesNode>;
     text: Scalars['String'];
-    unstructuredthemeSet: Array<UnstructuredThemesNode>;
 };
 
 /**
@@ -1375,7 +1393,6 @@ export type StatisticMutationInput = {
 export type UnstructuredThemeMutationInput = {
     clientMutationId?: InputMaybe<Scalars['String']>;
     createdBy: Scalars['ID'];
-    globalIndex?: InputMaybe<Scalars['Int']>;
     id?: InputMaybe<Scalars['ID']>;
     parent?: InputMaybe<Scalars['ID']>;
     text: Scalars['String'];

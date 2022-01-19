@@ -10,30 +10,7 @@ export const GET_QS_DATA_BY_ID = gql`
     }
     `
 
-export const GET_QUESTION_DATA_BY_ID = gql`
-    query GET_QUESTION_DATA_BY_ID($id: ID!){
-        questionById(id: $id){
-            id
-            numberOfShowingAnswers
-            text
-            videoUrl
-            answers{
-                id
-                checkQueue
-                hardLevelOfAnswer
-                helpTextv1
-                helpTextv2
-                helpTextv3
-                isTrue
-                text
-                videoUrl
-                isDeleted
-                isInvisible
-                isRequired
-            }
-        }
-    }
-    `
+
 export const GET_ENCRYPT_QUESTION_DATA_BY_ID = gql`
     query GET_ENCRYPT_QUESTION_DATA_BY_ID($id: ID!){
         eqbi(id: $id){

@@ -47,7 +47,7 @@ import {LogInNotification} from "./Components/PublicPages/Login/#LogInNotificati
 import CardByURL from "./Components/Elements/Cards/CardView/CardByURL";
 import {isMobileHook} from "./CustomHooks/isMobileHook";
 import {CircularProgress, Grid} from "@mui/material";
-import {EditCardByID} from "./Components/Elements/Cards/Editor/v2/EditCardByID";
+import {EditCardByID} from "./Components/Elements/Cards/Editor/EditorByIDV2/EditCardByID";
 
 
 const  App = observer(() => {

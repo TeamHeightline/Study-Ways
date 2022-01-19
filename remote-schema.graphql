@@ -63,6 +63,12 @@ type CardCourseNode {
     name: String
 }
 
+type CardIDResolverForSelector {
+    IDs: [String]
+    activePage: Int
+    numPages: Int
+}
+
 type CardMutationPayload {
     card: CardNode
     clientMutationId: String
@@ -76,11 +82,11 @@ type CardNode {
     arrowNext: String
     arrowUp: String
     author: [CardAuthorNode!]!
-    cardBefore: [CardNode!]!
+    cardBefore: CardNode
     cardContentType: CardCardContentType!
-    cardDown: [CardNode!]!
-    cardNext: [CardNode!]!
-    cardUp: [CardNode!]!
+    cardDown: CardNode
+    cardNext: CardNode
+    cardUp: CardNode
     connectedTheme: [UnstructuredThemesNode!]!
     copyright: String
     hardLevel: CardHardLevel!
@@ -489,6 +495,7 @@ type Query {
     cardCourse: [CardCourseNode]
     cardCourseById(id: ID): CardCourseNode
     cardGlobalTheme: [GlobalCardThemeNode]
+    cardIdResolverForSelector(activePage: Int, cardAuthor: ID, cardHardLevel: Int, cardType: Int, connectedTheme: String, createdByMe: Boolean, smartSearchString: String): CardIDResolverForSelector
     cardSubTheme: [CardSubThemeNode]
     cardTheme: [CardThemeNode]
     detailArrayNames: DetailArrayNames
@@ -692,11 +699,10 @@ type UnstructuredThemeMutationPayload {
 
 type UnstructuredThemesNode {
     cardSet: [CardNode!]!
-    globalIndex: Int!
+    childrenSet: [UnstructuredThemesNode!]!
     id: ID!
     parent: UnstructuredThemesNode
     text: String!
-    unstructuredthemeSet: [UnstructuredThemesNode!]!
 }
 
 """
@@ -1057,7 +1063,6 @@ input StatisticMutationInput {
 input UnstructuredThemeMutationInput {
     clientMutationId: String
     createdBy: ID!
-    globalIndex: Int
     id: ID
     parent: ID
     text: String!

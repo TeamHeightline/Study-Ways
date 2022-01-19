@@ -1,8 +1,14 @@
-import {makeAutoObservable, toJS} from "mobx";
+import {makeAutoObservable, reaction, toJS} from "mobx";
 import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
 import {UserStorage} from "../../../UserStore/UserStore";
-import {GET_CARD_DATA_BY_ID, GET_CONNECTED_THEMES, GET_MY_CARD_AUTHOR} from "./Struct";
-import {CardAuthorNode, CardNode, UnstructuredThemesNode} from "../../../../SchemaTypes";
+import {
+    GET_CARD_DATA_BY_ID,
+    GET_CONNECTED_THEMES,
+    GET_MY_CARD_AUTHOR,
+    GET_QUESTION_TEXT_BY_ID,
+    UPDATE_CARD
+} from "./Struct";
+import {CardAuthorNode, CardNode, Mutation, Query, QuestionNode, UnstructuredThemesNode} from "../../../../SchemaTypes";
 import { computedFn } from "mobx-utils"
 import {sort} from "fast-sort";
 import {SERVER_BASE_URL} from "../../../../settings";
@@ -12,6 +18,10 @@ export type card_object_fields = keyof CardNode
 class CardEditorStorage{
     constructor() {
         makeAutoObservable(this)
+        reaction(()=> this.getField("testInCard", ''), ()=> this.loadTestInCardText())
+        reaction(()=> this.getField("testBeforeCard", ''), ()=> this.loadTestBeforeCardText())
+        reaction(()=> toJS(this.card_object), ()=> this.autoSave())
+        reaction(()=> toJS(this.TagArray), ()=> this.autoSave())
     }
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
     clientStorage = ClientStorage
@@ -34,19 +44,57 @@ class CardEditorStorage{
                         const connectedTheme = card_data?.connectedTheme?.map((theme:  UnstructuredThemesNode) => theme.id)
                         //----------------------------------------------------------------
 
-                        //-для полей в которых ссылка на такую же модель используется присвоение элемента с 0 индексом
-                        const cardBefore = card_data?.cardBefore[0]?.id
-                        const cardDown = card_data?.cardBefore[0]?.id
-                        const cardNext = card_data?.cardBefore[0]?.id
-                        const cardUp = card_data?.cardBefore[0]?.id
+                        //-для объектов-----------------------------------
+                        const cardBefore = card_data?.cardBefore?.id
+                        const cardDown = card_data?.cardDown?.id
+                        const cardNext = card_data?.cardNext?.id
+                        const cardUp = card_data?.cardUp?.id
+                        const testInCard = card_data.testInCard?.id
+                        const testBeforeCard = card_data.testBeforeCard?.id
+
                         //----------------------------------------------------------------
-                        this.card_object = {...card_data, connectedTheme, author, cardBefore, cardDown, cardNext, cardUp}
+                        this.card_object = {...card_data, connectedTheme, author, cardBefore, cardDown, cardNext,
+                            cardUp, testInCard, testBeforeCard}
                         this.cardDataLoaded = true
                         this.get_card_image()
                     })
             }
         }
     }
+    //Таймер для сохранения
+    savingTimer: any
+
+    stateOfSave = true
+    //Функция для авто сохранений
+    autoSave(){
+        if(this.card_object && this.card_object.id){
+            this.stateOfSave = false
+            clearTimeout(this.savingTimer)
+            this.savingTimer = setTimeout(() =>{this.saveDataOnServer()}, 3000)
+        }
+    }
+
+    saveDataOnServer(editor_context = this, card_object = this.card_object){
+        const data_object = toJS(card_object)
+        if(this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN") {
+            if(card_object){
+                try{
+                    this.clientStorage.client.mutate<Mutation>({mutation: UPDATE_CARD, variables:{
+                            ...data_object,
+                            tagField: toJS(editor_context.TagArray)?.join(","),
+                            cardContentType: card_object?.cardContentType ? String(card_object?.cardContentType).slice(2, 3): 0,
+                            hardLevel: card_object?.hardLevel? String(card_object?.hardLevel).slice(2, 3): 0
+
+                    }})
+                        .then((response) => console.log(response))
+
+                    }catch(e){
+                        console.log(e)
+                }
+            }
+        }
+    }
+
     // ---------------------раздел работы с авторами карточек---------------------------------------
     all_my_card_authors: CardAuthorNode[] | undefined = undefined
     authorsDataLoaded = false
@@ -177,9 +225,6 @@ class CardEditorStorage{
     }
 
     TagArray?: string[]  = undefined
-    get TagFieldForSave(){
-        return String(this.TagArray)
-    }
 
     //----------------------------------------------------------------
     //Валидация ссылки
@@ -221,6 +266,41 @@ class CardEditorStorage{
                     pId: theme?.parent?.id || 0
                 })
             })
+    }
+
+    //--------Работа с тестом перед и в карточки-----------------
+    testInCardData?: QuestionNode | null = undefined
+
+    loadTestInCardText(){
+        if(this.getField("testInCard", '')){
+            try{
+                this.clientStorage.client.query<Query>({query: GET_QUESTION_TEXT_BY_ID, variables:{
+                    id: this.getField("testInCard", '')
+                }})
+                    .then((response) =>response.data.questionById)
+                    .then((question) => this.testInCardData = question)
+
+                }catch(e){
+                    console.log(e)
+            }
+        }
+    }
+
+    testBeforeCardData?: QuestionNode | null = undefined
+
+    loadTestBeforeCardText(){
+        if(this.getField("testBeforeCard", '')){
+            try{
+                this.clientStorage.client.query<Query>({query: GET_QUESTION_TEXT_BY_ID, variables:{
+                        id: this.getField("testBeforeCard", '')
+                    }})
+                    .then((response) =>response.data.questionById)
+                    .then((question) => this.testBeforeCardData = question)
+
+            }catch(e){
+                console.log(e)
+            }
+        }
     }
 
 

@@ -16,8 +16,11 @@ import {ArrowNavigation} from "./#ArrowNavigation";
 import {UploadImage} from "./#UploadImage";
 import {TagField} from "./#TagField";
 import {ConnectedThemeSelector} from "./#ConnectedThemeSelector";
+import {TestInCard} from "./#TestInCard";
+import {TestBeforeCard} from "./#TestBeforeCard";
+import {CloseButton} from "./CloseButton";
 
-export const EditCardByID = observer(({id= 1825}) => {
+export const EditCardByID = observer(({id}) => {
     useEffect(() => {
         CESObject.loadCardDataFromServer(id)
         CESObject.loadCardAuthorsFromServer()
@@ -35,8 +38,11 @@ export const EditCardByID = observer(({id= 1825}) => {
     }
     return(
         <div>
-            <Grid container item  sx={{pl: isMobile ? 0 : 8, pr: isMobile ? 0 : 8}} rowSpacing={2} spacing={4}>
-
+            <Grid container item  sx={{pl: isMobile ? 0 : 8, pr: isMobile ? 0 : 8, pt: isMobile ? 0 : 1}}
+                  rowSpacing={2} spacing={4}>
+                <Grid item xs={12}>
+                    <CloseButton/>
+                </Grid>
                 <Grid item xs={12} md={6}>
                     <ID/>
                 </Grid>
@@ -83,6 +89,19 @@ export const EditCardByID = observer(({id= 1825}) => {
 
                 <Grid item xs={12} md={6}>
                     <ArrowNavigation/>
+                </Grid>
+                <Grid item container xs={12} md={6} spacing={4}>
+                    <Grid item xs={12} md={6}>
+                        <Collapse in={CESObject.getField("isCardUseTestInCard", false)}>
+                            <TestInCard/>
+                        </Collapse>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <Collapse in={CESObject.getField("isCardUseTestBeforeCard", false)}>
+                            <TestBeforeCard/>
+                        </Collapse>
+                    </Grid>
+
                 </Grid>
 
 

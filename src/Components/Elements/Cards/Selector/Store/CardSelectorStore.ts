@@ -55,10 +55,10 @@ export class CardSelectorStore{
                 })
             })
     }
-    loadCardConnectedThemes(){
+    loadCardConnectedThemes( useCache=true){
         try{
             this.clientStorage.client.query({query: GET_CONNECTED_THEME,
-                fetchPolicy:"network-only",
+                fetchPolicy: useCache? "cache-first": "network-only",
                 variables:{
 
             }})
@@ -67,6 +67,9 @@ export class CardSelectorStore{
                     this.allConnectedThemes = connected_themes
                     this.connectedThemesHasBeenLoaded = true
                 })
+            if(useCache){
+                this.loadCardConnectedThemes(false)
+            }
 
             }catch(e){
                 console.log(e)

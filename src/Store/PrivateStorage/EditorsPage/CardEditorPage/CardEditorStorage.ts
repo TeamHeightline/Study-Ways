@@ -248,12 +248,16 @@ class CardEditorStorage{
     //Работа с объединенными темами
     allConnectedThemes?: UnstructuredThemesNode[] = []
     isAllConnectedThemesLoaded = false
-    loadConnectedThemes(){
-        this.clientStorage.client.query({query: GET_CONNECTED_THEMES, fetchPolicy: "network-only"})
+    loadConnectedThemes(useCache=true){
+        this.clientStorage.client.query({query: GET_CONNECTED_THEMES,
+            fetchPolicy: useCache? "cache-first":"network-only"})
             .then((response) => (response.data.unstructuredTheme))
             .then((connectedThemes) =>{
                 this.allConnectedThemes = connectedThemes
                 this.isAllConnectedThemesLoaded = true
+                if(useCache){
+                    this.loadConnectedThemes(false)
+                }
             })
     }
     get connectedThemesForSelector(){

@@ -1,6 +1,7 @@
 import {makeAutoObservable, reaction, toJS} from "mobx";
 import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
 import {
+    GET_CARDS_ID_BY_SEARCH_STRING,
     GET_ENCRYPT_QUESTION_DATA_BY_ID,
     SAVE_DETAIL_STATISTIC,
     SAVE_DETAIL_STATISTIC_WITH_QS
@@ -9,7 +10,6 @@ import {SameAnswerNode} from "./SameAnswerNode";
 import {shuffle} from "lodash"
 import {UserStorage} from "../../../UserStore/UserStore";
 import CryptoJS from 'crypto-js'
-import {GET_CARDS_ID_BY_SEARCH_STRING} from "../../CardsPage/Struct";
 import {SERVER_BASE_URL} from "../../../../settings";
 
 export class SameQuestionPlayer{

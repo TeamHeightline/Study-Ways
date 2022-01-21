@@ -9,12 +9,12 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
-import {MainCardPublicView} from "../../../../PublicPages/MainCardPublicView";
 import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
 import Popover from '@mui/material/Popover';
 import CardMicroView from "../../CardView/#CardMicroView";
 import {toJS} from "mobx";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import {CardSelector} from "../../Selector/UI/CardSelector";
 
 interface ISelectCardProps extends React.HTMLAttributes<HTMLDivElement>{
     card_direction: "cardBefore"| "cardDown" | "cardNext" | "cardUp"
@@ -105,8 +105,8 @@ export const SelectCard = observer(({card_direction, ...props}: ISelectCardProps
                         </Button>
                     </Toolbar>
                 </AppBar>
-                <MainCardPublicView onlyCardSelectionMode={true} onCardSelect={(selected_card_id: number) =>{
-                    CESObject.changeFieldByValue(card_direction, selected_card_id)
+                <CardSelector onCardSelect={(card_id) => {
+                    CESObject.changeFieldByValue(card_direction, card_id)
                     handleCloseSelectCard()
                 }}/>
             </Dialog>

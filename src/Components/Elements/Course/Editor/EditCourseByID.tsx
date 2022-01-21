@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react'
-import MainCardEditor from "../../../PrivatePages/MainCardEditor";
 import CourseRow from "./#CourseRow";
 import {gql} from "graphql.macro";
 import {useMutation, useQuery} from "@apollo/client";
@@ -9,6 +8,7 @@ import {Button, ButtonGroup, Grid, Snackbar, TextField, Typography} from "@mui/m
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 import AddIcon from '@mui/icons-material/Add';
 import {SERVER_BASE_URL} from "../../../../settings";
+import {EditorPage} from "../../Cards/Editor/EditorPageV2/Page";
 
 const GET_COURSE_BY_ID = gql`
     query GET_COURSE_BY_ID($id: ID!){
@@ -32,8 +32,8 @@ export default function EditCourseByID({course_id, ...props}: any){
     const [courseName, setCourseName] = useState('')
     const [openPageIndex, setOpenPageIndex] = useState(1) //пагинация работает с элемента под номером 1
     const [autoSaveTimer, changeAutoSaveTimer] = useState<any>()
-    const [isCardEditNow, setIsCardEditNow] = useState(false)
-    const [cardStateOfSave, setCardStateOfSave] = useState(2)
+    const [isCardEditNow] = useState(false)
+    const [cardStateOfSave] = useState(2)
     const [stateOfSave, setStateOfSave] = useState(2) // 0- не сохранено 1- сохранение 2- сохранено
     const [rerender, setRerender] = useState(false)
     const [activeEditCard, setActiveEditCard] = useState<number | undefined>()
@@ -211,17 +211,18 @@ export default function EditCourseByID({course_id, ...props}: any){
                     )
                 })}
             </div>
-            <div style={{overflow: "auto"}}>
-                <MainCardEditor
-                    {...{activeEditCard, setActiveEditCard}}
+            {/*<div style={{overflow: "auto"}}>*/}
+            {/*    <MainCardEditor*/}
+            {/*        {...{activeEditCard, setActiveEditCard}}*/}
 
-                    returnStateOfSave={(data) =>{
-                        setCardStateOfSave(data)
-                    }}
-                    onSetIsEditNow={(data) =>{
-                        setIsCardEditNow(data)
-                }}/>
-            </div>
+            {/*        returnStateOfSave={(data) =>{*/}
+            {/*            setCardStateOfSave(data)*/}
+            {/*        }}*/}
+            {/*        onSetIsEditNow={(data) =>{*/}
+            {/*            setIsCardEditNow(data)*/}
+            {/*    }}/>*/}
+            {/*</div>*/}
+            <EditorPage/>
             <Snackbar open={true}>
                 {isCardEditNow?
                     <Alert severity="info">

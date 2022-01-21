@@ -70,7 +70,7 @@ class CardEditorStorage{
         if(this.card_object && this.card_object.id){
             this.stateOfSave = false
             clearTimeout(this.savingTimer)
-            this.savingTimer = setTimeout(() =>{this.saveDataOnServer()}, 3000)
+            this.savingTimer = setTimeout(() =>{this.saveDataOnServer()}, 2000)
         }
     }
 

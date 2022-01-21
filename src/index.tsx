@@ -11,6 +11,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import "./Components/Elements/Cards/CardView/RichTextPreviewStyle.css"
 import DateAdapter from '@mui/lab/AdapterMoment';
 import {LocalizationProvider} from "@mui/lab";
+import 'antd/dist/antd.dark.min.css';
 
 export const theme = createTheme( {
     palette: {

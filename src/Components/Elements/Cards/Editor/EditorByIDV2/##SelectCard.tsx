@@ -15,6 +15,7 @@ import CardMicroView from "../../CardView/#CardMicroView";
 import {toJS} from "mobx";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import {CardSelector} from "../../Selector/UI/CardSelector";
+import ClearIcon from "@mui/icons-material/Clear";
 
 interface ISelectCardProps extends React.HTMLAttributes<HTMLDivElement>{
     card_direction: "cardBefore"| "cardDown" | "cardNext" | "cardUp"
@@ -62,17 +63,29 @@ export const SelectCard = observer(({card_direction, ...props}: ISelectCardProps
                 "Нажмите для выбора карточки"}
             </Button>
             <IconButton
+                // sx={{ml: 2}}
+                onClick={()=>{CESObject.changeFieldByValue(card_direction, undefined)}}
+                size="small"
+                disabled={!CESObject.getField(card_direction, "")}>
+                <ClearIcon/>
+            </IconButton>
+
+            <IconButton
                 size="small"
                  onClick={() => window.open("https://www.sw-university.com/card/" +
                      CESObject.getField(card_direction, ""), "_blank")}
-                 disabled={!CESObject.getField(card_direction, "")}
-                 sx={{ml: 2}} >
+                 disabled={!CESObject.getField(card_direction, "")}>
                 <OpenInNewIcon />
             </IconButton>
             <Popover
+                // sx={{
+                //     pointerEvents: 'none',
+                // }}
+                // disableRestoreFocus
                 open={openPopover}
                 anchorEl={popoverAnchorEl}
                 onClose={handlePopoverClose}
+                style={{marginLeft: 300}}
                 anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'left',

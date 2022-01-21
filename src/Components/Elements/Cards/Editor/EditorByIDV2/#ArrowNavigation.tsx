@@ -1,6 +1,6 @@
 import {observer} from "mobx-react";
 import React from 'react';
-import {Button, ButtonGroup, Collapse, Grid} from "@mui/material";
+import {Button, ButtonGroup, Collapse, Stack} from "@mui/material";
 import KeyboardArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardArrowLeftOutlined";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
@@ -15,54 +15,40 @@ export const ArrowNavigation = observer(({...props}: IArrowNavigationProps) =>{
     return(
         <div {...props}>
             <Collapse in={CESObject.getField("isCardUseArrowNavigation", false)}>
-                <Grid alignItems={"center"} item xs={12} container style={{marginTop: 6}}>
-                    <Grid item xs={3} md={1}>
+                <Stack spacing={1}>
+                    <Stack direction={"row"} spacing={1}>
                         <ButtonGroup size="medium" color="primary">
                             <Button >
                                 <KeyboardArrowLeftOutlinedIcon />
                             </Button>
                         </ButtonGroup>
-                    </Grid>
-                    <Grid xs={9} md={6}>
                         <SelectCard card_direction={"cardBefore"}/>
-                    </Grid>
-                </Grid>
-                <Grid item xs={12} container style={{marginTop: 6}}>
-                    <Grid item xs={3} md={1}>
+                    </Stack>
+                    <Stack direction={"row"} spacing={1}>
                         <ButtonGroup size="medium" color="primary">
                             <Button>
                                 <KeyboardArrowDownOutlinedIcon/>
                             </Button>
                         </ButtonGroup>
-                    </Grid>
-                    <Grid xs={9} md={6}>
                         <SelectCard card_direction={"cardDown"}/>
-                    </Grid>
-                </Grid>
-                <Grid item xs={12} container style={{marginTop: 6}}>
-                    <Grid item xs={3} md={1}>
+                    </Stack>
+                    <Stack direction={"row"} spacing={1}>
                         <ButtonGroup size="medium" color="primary">
                             <Button>
                                 <KeyboardArrowUpOutlinedIcon/>
                             </Button>
                         </ButtonGroup>
-                    </Grid>
-                    <Grid xs={9} md={6}>
                         <SelectCard card_direction={"cardUp"}/>
-                    </Grid>
-                </Grid>
-                <Grid item xs={12} container style={{marginTop: 6}}>
-                    <Grid item xs={3} md={1}>
+                    </Stack>
+                    <Stack direction={"row"} spacing={1}>
                         <ButtonGroup size="medium" color="primary">
                             <Button>
                                 <KeyboardArrowRightOutlinedIcon/>
                             </Button>
                         </ButtonGroup>
-                    </Grid>
-                    <Grid xs={9} md={6}>
                         <SelectCard card_direction={"cardNext"}/>
-                    </Grid>
-                </Grid>
+                    </Stack>
+                </Stack>
             </Collapse>
         </div>
     )

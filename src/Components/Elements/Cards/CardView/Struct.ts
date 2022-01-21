@@ -64,17 +64,17 @@ export const SHOW_CARD_BY_ID = gql`
             videoUrl
             title
             text
-            subTheme{
-                name
+            cardUp {
                 id
-                theme{
-                    id
-                    name
-                    globalTheme{
-                        id
-                        name
-                    }
-                }
+            }
+            cardNext {
+                id
+            }
+            cardDown {
+                id
+            }
+            cardBefore {
+                id
             }
             siteUrl
             testInCard{

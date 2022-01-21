@@ -134,7 +134,7 @@ class CardEditorStorage{
         }
     }
 
-    changeFieldByValue(field: card_object_fields | number, value: string | number | boolean | string[],
+    changeFieldByValue(field: card_object_fields | number, value: string | number | boolean | string[] | undefined,
                        card_object = this.card_object){
         if(card_object && field in card_object){
             card_object[field] = value

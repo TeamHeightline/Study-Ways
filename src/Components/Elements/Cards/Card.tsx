@@ -336,50 +336,44 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
                             />
                         </Col>}
 
-                        {card_data?.cardById?.isCardUseArrowNavigation && (card_data?.cardById?.arrowBefore ||
-                            card_data?.cardById?.arrowDown || card_data?.cardById?.arrowUp || card_data?.cardById?.arrowNext) &&
+                        {card_data?.cardById?.isCardUseArrowNavigation &&
+                            (card_data?.cardById?.cardBefore?.id ||
+                                card_data?.cardById?.cardDown?.id ||
+                                card_data?.cardById?.cardUp?.id ||
+                                card_data?.cardById?.cardNext?.id) &&
                         <Col className="col-12">
                             <Typography variant="h6">
                                 Авторская навигация:
                             </Typography>
                             <ButtonGroup size="large" color="secondary" variant="outlined" id={"author-navigation"}>
-                                <Button disabled={!card_data?.cardById?.arrowBefore}
+                                <Button disabled={!card_data?.cardById?.cardBefore?.id}
                                         onClick={() => {
-                                            //ВРЕМЕННОЕ РЕШЕНИЕ, ПОКА НЕ ПОЙМЕМ, КАК СДЕЛАТЬ НОРМАЛЬНО
-                                            if(card_data?.cardById?.arrowBefore?.includes("sw-university.com/card/")){
-                                                history.push(String(card_data?.cardById?.arrowBefore)?.split("sw-university.com/card/")[1])
-                                            }else{
-                                                window.open(card_data?.cardById?.arrowBefore || undefined, "_blank")
+                                            if(card_data?.cardById?.cardBefore?.id){
+                                                history.push("/card/" + card_data?.cardById?.cardBefore?.id)
                                             }
                                         }}>
                                         <KeyboardArrowLeftOutlinedIcon/>
                                 </Button>
-                                <Button disabled={!card_data?.cardById?.arrowDown}
+                                <Button disabled={!card_data?.cardById?.cardDown?.id}
                                         onClick={() => {
-                                            if(card_data?.cardById?.arrowDown?.includes("sw-university.com/card/")){
-                                                history.push(String(card_data?.cardById?.arrowDown)?.split("sw-university.com/card/")[1])
-                                            }else{
-                                                window.open(card_data?.cardById?.arrowDown || undefined, "_blank")
+                                            if(card_data?.cardById?.cardDown?.id){
+                                                history.push("/card/" + card_data?.cardById?.cardDown?.id)
                                             }
                                         }}>
                                     <KeyboardArrowDownOutlinedIcon/>
                                 </Button>
-                                <Button disabled={!card_data?.cardById?.arrowUp}
+                                <Button disabled={!card_data?.cardById?.cardUp?.id}
                                         onClick={() => {
-                                            if(card_data?.cardById?.arrowUp?.includes("sw-university.com/card/")){
-                                                history.push(String(card_data?.cardById?.arrowUp)?.split("sw-university.com/card/")[1])
-                                            }else{
-                                                window.open(card_data?.cardById?.arrowUp || undefined, "_blank")
+                                            if(card_data?.cardById?.cardUp?.id){
+                                                history.push("/card/" + card_data?.cardById?.cardUp?.id)
                                             }
                                         }}>
                                     <KeyboardArrowUpOutlinedIcon/>
                                 </Button>
-                                <Button disabled={!card_data?.cardById?.arrowNext}
+                                <Button disabled={!card_data?.cardById?.cardNext?.id}
                                         onClick={() => {
-                                            if(card_data?.cardById?.arrowNext?.includes("sw-university.com/card/")){
-                                                history.push(String(card_data?.cardById?.arrowNext)?.split("sw-university.com/card/")[1])
-                                            }else{
-                                                window.open(card_data?.cardById?.arrowNext || undefined, "_blank")
+                                            if(card_data?.cardById?.cardNext?.id){
+                                                history.push("/card/" + card_data?.cardById?.cardNext?.id)
                                             }
                                         }}>
                                     <KeyboardArrowRightOutlinedIcon/>

@@ -11,9 +11,10 @@ import {Pages} from "./Pages";
 
 interface ICardSelectorProps extends React.HTMLAttributes<HTMLDivElement>{
     mode?: "onlyCreatedByMe" | "standard";
-    onCardSelect: (card_id: number) => void
+    onCardSelect: (card_id: number) => void;
+    showCreateNewCard?: boolean
 }
-export const CardSelector = observer(({onCardSelect, mode="standard", ...props}: ICardSelectorProps) =>{
+export const CardSelector = observer(({onCardSelect, mode="standard", showCreateNewCard, ...props}: ICardSelectorProps) =>{
     useEffect(()=>CSSObject.setMode(mode), [mode])
     useEffect(()=> {
         if(CSSObject.selectedCardID){
@@ -33,7 +34,7 @@ export const CardSelector = observer(({onCardSelect, mode="standard", ...props}:
                 <div/>
                 <div/>
             </Stack>
-            <MicroCardField/>
+            <MicroCardField showCreateNewCard={showCreateNewCard}/>
             <Pages/>
         </div>
     )

@@ -16,6 +16,7 @@ export const EditorPage = observer(({...props}: IEditorPageProps) =>{
             <Switch>
                 <Route  path={`${path}/select`}
                         render={() => <CardSelector
+                            showCreateNewCard={true}
                             mode={"onlyCreatedByMe"}
                             onCardSelect={(card_id)=>history.push(`${path}/card/`+card_id )} />}/>
                 <Route  path={`${path}/card/:id`}

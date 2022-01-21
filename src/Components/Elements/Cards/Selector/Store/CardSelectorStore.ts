@@ -1,8 +1,9 @@
 import {autorun, makeAutoObservable, toJS} from "mobx";
 import { ClientStorage } from "../../../../../Store/ApolloStorage/ClientStorage";
-import {GET_CARD_ID_BY_SEARCHING_PARAMS, GET_CONNECTED_THEME} from "./Query";
+import {CREATE_NEW_CARD, GET_CARD_ID_BY_SEARCHING_PARAMS, GET_CONNECTED_THEME} from "./Query";
 import {UserStorage} from "../../../../../Store/UserStore/UserStore";
-import {CardCardContentType, CardHardLevel, UnstructuredThemesNode} from "../../../../../SchemaTypes";
+import {CardCardContentType, CardHardLevel, Mutation, UnstructuredThemesNode} from "../../../../../SchemaTypes";
+
 
 export class CardSelectorStore{
     constructor() {
@@ -13,6 +14,27 @@ export class CardSelectorStore{
     clientStorage = ClientStorage
     //доступ к данным о пользователе, чтобы можно было проверять уровень доступа
     userStorage = UserStorage
+
+    //---Создание новых карточек--------------------------------------------------------
+    createNewCard(){
+        try{
+            this.clientStorage.client.mutate<Mutation>({mutation: CREATE_NEW_CARD, variables:{
+
+                }})
+                .then((response) =>response?.data?.card?.card)
+                .then((new_card) => {
+                    if(new_card){
+                        this.selectedCardID = new_card.id
+                    }
+                    this.loadCardsIDBBySearchingParams()
+                })
+                .catch((e) => console.log(e))
+
+        }catch(e){
+            console.log(e)
+        }
+    }
+    //-------------------------------------------------------------------------------
 
     activePage = 1
     maxPages = 1

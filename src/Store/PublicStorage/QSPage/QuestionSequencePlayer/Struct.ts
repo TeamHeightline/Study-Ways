@@ -55,3 +55,21 @@ export const SAVE_DETAIL_STATISTIC_WITH_QS = gql`
         }
     }
 `
+
+export const GET_CARDS_ID_BY_SEARCH_STRING= gql`
+    query GET_CARDS_ID_BY_SEARCH_STRING($searchString: String!){
+        ftSearchInCards(searchString: $searchString){
+            id
+            author{
+                id
+                name
+            }
+            subTheme{
+                id
+                name
+            }
+            cardContentType
+            hardLevel
+        }
+    }
+`

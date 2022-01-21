@@ -1,8 +1,6 @@
 import React, {Suspense} from "react";
 import {Alert, Button, CircularProgress, Grid} from '@mui/material';
 import AlertTitle from '@mui/material/AlertTitle';
-import ArtTrackIcon from '@mui/icons-material/ArtTrack';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import BlurLinearIcon from '@mui/icons-material/BlurLinear';
 import RecentActorsIcon from '@mui/icons-material/RecentActors';
 import LinearScaleIcon from '@mui/icons-material/LinearScale';
@@ -13,7 +11,6 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 const SearchingElementsEditor = React.lazy(() => import("./SearchingElementsEditor"))
 const QuestionSequenceMainEditor = React.lazy(() => import("./QuestionSequenceMainEditor"))
 const MainCourseEditor = React.lazy(() => import("./MainCourseEditor"))
-const MainCardEditor = React.lazy(() => import("./MainCardEditor"))
 
 const QuestionEditor = React.lazy(() => import("./QuestionEditor").then(module => ({default: module.QuestionEditor})))
 const MainUserQuestionPage = React.lazy(() => import("./MainUserQuestionPage").then(module => ({default: module.MainUserQuestionPage})))
@@ -128,18 +125,6 @@ export const EditorsRouter = observer(() =>{
                             <ListItemText primary="Редактор курсов"/>
                         </ListItem>
                     </Tooltip>
-                    <Tooltip title={<Typography variant="body1">Редактор карточек</Typography>}>
-                        <ListItem button onClick={() => {
-                            if(isMobile){
-                                setOpen(false)
-                            }
-                            history.push(`${path}/card`)}}>
-                            <ListItemIcon>
-                                <ArtTrackIcon/>
-                            </ListItemIcon>
-                            <ListItemText primary="Редактор карточек"/>
-                        </ListItem>
-                    </Tooltip>
                     <Tooltip title={<Typography variant="body1">Редактор карточек (второе поколение)</Typography>}>
                         <ListItem button onClick={() => {
                             if(isMobile){
@@ -217,7 +202,6 @@ export const EditorsRouter = observer(() =>{
                 <div className={isMobile? "" :"pl-5"}>
                     <Switch>
                         <Route  path={`${path}/course`} component={MainCourseEditor}/>
-                        <Route  path={`${path}/card`} component={MainCardEditor}/>
                         <Route  path={`${path}/se`} component={SearchingElementsEditor}/>
                         <Route  path={`${path}/question`} component={QuestionEditor}/>
                         <Route  path={`${path}/qse`} component={QuestionSequenceMainEditor}/>

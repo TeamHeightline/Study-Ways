@@ -15,8 +15,6 @@ import CourseMicroView from "../Course/Editor/CourseMicroView";
 import useWindowDimensions from "../../../CustomHooks/useWindowDimensions";
 import {CoursePageStorage} from "../../../Store/PublicStorage/CoursePage/CoursePageStorage";
 import {observer} from "mobx-react";
-import {CardPageStorage} from "../../../Store/PublicStorage/CardsPage/CardPageStorage";
-// import RichTextPreview from "./CardView/#RichTextPreview";
 const RichTextPreview =  React.lazy(() =>import('./CardView/#RichTextPreview'));
 import CopyrightIcon from "@mui/icons-material/Copyright";
 import {ImageQuestion} from "../UserTest/ImageQuestion/ImageQuestion";
@@ -110,8 +108,7 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
     const {data: card_data, refetch} = useQuery<Query>(SHOW_CARD_BY_ID, {
         fetchPolicy: "cache-and-network",
         variables:{
-            id: id? id :
-                 props?.openFromCourse? CoursePageStorage.selectedCardID : CardPageStorage.selectedCardID,
+            id: id? id : CoursePageStorage.selectedCardID ,
         },
         onCompleted: data => {
             setOpenTestBeforeCardDialog(true)
@@ -169,9 +166,7 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
     }, [id,])
     const get_card_image = (useCache=true) =>{
         fetch(SERVER_BASE_URL + "/cardfiles/card?id=" +
-            Number(id? id :
-                props?.openFromCourse? CoursePageStorage.selectedCardID :
-                    CardPageStorage.selectedCardID,), {cache: useCache? "force-cache": "default"})
+            Number(id? id : CoursePageStorage.selectedCardID ), {cache: useCache? "force-cache": "default"})
             .then((response) => response.json())
             .then((data) =>{
                 try{
@@ -202,8 +197,7 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
                             if(props?.openFromCourse){
                                 CoursePageStorage.goBackButtonHandler()
                             }else{
-                                // CardPageStorage.isOpenCard = false
-                                history.push("/cards")
+                                history.goBack()
                             }
                         }}>
                         Назад

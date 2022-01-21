@@ -70,7 +70,7 @@ class CardEditorStorage{
         if(this.card_object && this.card_object.id){
             this.stateOfSave = false
             clearTimeout(this.savingTimer)
-            this.savingTimer = setTimeout(() =>{this.saveDataOnServer()}, 3000)
+            this.savingTimer = setTimeout(() =>{this.saveDataOnServer()}, 2000)
         }
     }
 
@@ -248,12 +248,16 @@ class CardEditorStorage{
     //Работа с объединенными темами
     allConnectedThemes?: UnstructuredThemesNode[] = []
     isAllConnectedThemesLoaded = false
-    loadConnectedThemes(){
-        this.clientStorage.client.query({query: GET_CONNECTED_THEMES, fetchPolicy: "network-only"})
+    loadConnectedThemes(useCache=true){
+        this.clientStorage.client.query({query: GET_CONNECTED_THEMES,
+            fetchPolicy: useCache? "cache-first":"network-only"})
             .then((response) => (response.data.unstructuredTheme))
             .then((connectedThemes) =>{
                 this.allConnectedThemes = connectedThemes
                 this.isAllConnectedThemesLoaded = true
+                if(useCache){
+                    this.loadConnectedThemes(false)
+                }
             })
     }
     get connectedThemesForSelector(){
@@ -302,8 +306,6 @@ class CardEditorStorage{
             }
         }
     }
-
-
 }
 //Мапер, который удаляет из типа __typename, для стрелок, которые являются массивами Card Node, делает тип string, для
 //объектов, которые являются темами, авторами и тд, делает массив строк, чтобы хранить ID[]

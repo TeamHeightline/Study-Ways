@@ -50,7 +50,7 @@ export class CardSelectorStore{
 
     cards_id_array: string[] = []
 
-    mode: "onlyCreatedByMe" | "standard" = "standard"
+    mode?: "onlyCreatedByMe" | "standard" = undefined
     setMode(new_mode){
         this.mode = new_mode
     }
@@ -107,43 +107,45 @@ export class CardSelectorStore{
     }
 
     loadCardsIDBBySearchingParams(){
-        const filters = {}
-        if(this.searching_string.length > 2){
-            filters['smartSearchString'] = this.searching_string
-        }
-        if(this.mode == "onlyCreatedByMe"){
-            filters['createdByMe'] = true
-        }
-        if(this.hardLevel !== "undefined"){
-            filters['cardHardLevel'] = Number(this.hardLevel.slice(2,3))
-        }
-        if(this.contentType !== "undefined"){
-            filters['cardType'] = Number(this.contentType.slice(2,3))
-        }
-        if(this.cardConnectedTheme){
-            filters['connectedTheme'] = this.cardConnectedTheme
-        }
+        if(this.mode){
+            const filters = {}
+            if(this.searching_string.length > 2){
+                filters['smartSearchString'] = this.searching_string
+            }
+            if(this.mode == "onlyCreatedByMe"){
+                filters['createdByMe'] = true
+            }
+            if(this.hardLevel !== "undefined"){
+                filters['cardHardLevel'] = Number(this.hardLevel.slice(2,3))
+            }
+            if(this.contentType !== "undefined"){
+                filters['cardType'] = Number(this.contentType.slice(2,3))
+            }
+            if(this.cardConnectedTheme){
+                filters['connectedTheme'] = this.cardConnectedTheme
+            }
 
-        try{
-            this.clientStorage.client.query({query: GET_CARD_ID_BY_SEARCHING_PARAMS,
-                fetchPolicy: "network-only",
-                variables:{
-                    activePage: this.activePage,
-                    ...filters
-            }})
-                .then((response) =>response.data.cardIdResolverForSelector)
-                .then((searching_data) =>{
-                    if(searching_data){
-                        if(searching_data?.IDs){
-                            this.activePage = Number(searching_data.activePage)
-                            this.maxPages = Number(searching_data.numPages)
-                            this.cards_id_array = searching_data?.IDs
+            try{
+                this.clientStorage.client.query({query: GET_CARD_ID_BY_SEARCHING_PARAMS,
+                    fetchPolicy: "network-only",
+                    variables:{
+                        activePage: this.activePage,
+                        ...filters
+                }})
+                    .then((response) =>response.data.cardIdResolverForSelector)
+                    .then((searching_data) =>{
+                        if(searching_data){
+                            if(searching_data?.IDs){
+                                this.activePage = Number(searching_data.activePage)
+                                this.maxPages = Number(searching_data.numPages)
+                                this.cards_id_array = searching_data?.IDs
+                            }
                         }
-                    }
-                })
+                    })
 
-            }catch(e){
-                console.log(e)
+                }catch(e){
+                    console.log(e)
+            }
         }
     }
 

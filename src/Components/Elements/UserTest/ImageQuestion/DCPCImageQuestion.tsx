@@ -18,6 +18,7 @@ import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 
 export default function DCPCImageQuestion(props: any) {
     const [openAcceptDefeatDialog, setOpenAcceptDefeatDialog] = useState(false)
+    const [disableCheckButton, setDisableCheckButton] = useState(false)
     const isMobile = isMobileHook()
     window.addEventListener("keydown",function (e) {
         if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) {
@@ -26,7 +27,7 @@ export default function DCPCImageQuestion(props: any) {
     })
 
     return <div className="col-12">
-        {(props.height / props.width < 1 || props.ignoreAspectRatio) &&
+        {(!isMobile || props.ignoreAspectRatio) &&
         <Card variant="outlined"
               style={{ padding: 0,
                   maxHeight: isMobile ? window.innerWidth * 2: 510,
@@ -35,7 +36,7 @@ export default function DCPCImageQuestion(props: any) {
             <Row className="justify-content-center">
                 {props.questionImgUrl ?
                     <Col className={!props?.ignoreAspectRatio ? "col-6 justify-content-start":
-                    window.innerHeight / window.innerWidth > 1 ? "col-12 justify-content-start" : "col-6 justify-content-start"}>
+                        isMobile ? "col-12 justify-content-start" : "col-6 justify-content-start"}>
                     <CardMedia
                         className="col-12 mr-auto"
                         style={{
@@ -65,7 +66,14 @@ export default function DCPCImageQuestion(props: any) {
                             </Button>}
 
                         <Stack direction={"row"} spacing={1}>
-                            <Button variant="contained" color="primary" onClick={props.onClick1} fullWidth>
+                            <Button
+                                disabled={disableCheckButton}
+                                variant="contained" color="primary"
+                                onClick={(e) =>{
+                                    props.onClick1(e)
+                                    setDisableCheckButton(true)
+                                    setTimeout(setDisableCheckButton, 1000, false)
+                            }} fullWidth>
                                 Проверить
                             </Button>
                             <Button variant="outlined" color="secondary" onClick={() => setOpenAcceptDefeatDialog(true)} fullWidth>

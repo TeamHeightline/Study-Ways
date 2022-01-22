@@ -13,6 +13,7 @@
 
 //23 июля начат процесс полного переписывания проекта на mobX, документация может быть устаревшей
 //10 августа, документация ОЧЕНЬ сильно устарела, вернее сказать, она в принципе ни как не связана с реальностью
+//22 января - проект переписывается на новую архитектуру, селекторы выделены в независимый слой, вся логика в сторах
 
 import React, {Suspense} from 'react';
 import './App.css';
@@ -36,18 +37,18 @@ import {UnLogin} from "./Components/PublicPages/Login/UnLogin";
 import {Registration} from "./Components/PublicPages/Login/Registration";
 const EditorsRouter = React.lazy(() => import("./Components/PrivatePages/EditorsRouter").then(module => ({default: module.EditorsRouter})))
 const MainCardPublicView = React.lazy(() => import("./Components/PublicPages/MainCardPublicView").then(module => ({default: module.MainCardPublicView})))
-const ThemeEditor = React.lazy(() => import("./Components/Elements/ThemeTree/ThemeEditor"))
 const QSPlayerByID = React.lazy(() => import("./Components/Elements/QuestionSequence/Public/QSPlayerByID").then(module => ({default: module.QSPlayerByID})))
 const ImageQuestion = React.lazy(() => import("./Components/Elements/UserTest/ImageQuestion/ImageQuestion").then(module => ({default: module.ImageQuestion})))
+const SelfStatistic = React.lazy(()=> import("./Components/Elements/SimpleSelfStatistic/UI/self-statistic-page").then(module => ({default: module.SelfStatisticPage})))
+
 import {MainCoursePublicView} from "./Components/PublicPages/MainCoursePublicView";
 import { observer } from "mobx-react"
 import {ClientStorage} from "./Store/ApolloStorage/ClientStorage";
-import {MainDirection} from "./Components/PublicPages/MainDirection";
 import {LogInNotification} from "./Components/PublicPages/Login/#LogInNotification";
 import CardByURL from "./Components/Elements/Cards/CardView/CardByURL";
 import {isMobileHook} from "./CustomHooks/isMobileHook";
 import {CircularProgress, Grid} from "@mui/material";
-import {EditCardByID} from "./Components/Elements/Cards/Editor/EditorByIDV2/EditCardByID";
+
 
 
 const  App = observer(() => {
@@ -71,11 +72,10 @@ const  App = observer(() => {
 
                             <Route exact path="/cards" component={MainCardPublicView}/>
                             <Route exact path={"/card/:id"} component={CardByURL}/>
+                            <Route exact path={"/selfstatistic"} component={SelfStatistic}/>
 
                             <Route exact path="/courses" component={MainCoursePublicView}/>
-                            <Route exact path="/direction" component={MainDirection}/>
-                            <Route exact path="/tt" component={ThemeEditor}/>
-                            <Route exact path={"/ce"} component={EditCardByID}/>
+
                             <Redirect to="/courses"/>
                         </Switch>
                     </Suspense>

@@ -5,7 +5,7 @@ import {
     CardActionArea,
     Grid,
     MenuItem,
-    Select,
+    Select, Stack,
     Step,
     StepLabel,
     Stepper,
@@ -41,8 +41,6 @@ const useStyles = makeStyles(() =>
             display: 'flex',
             width: 385,
             height: 400,
-            marginLeft: 20,
-            marginTop: 20
         },
         media: {
             height: 240,
@@ -136,6 +134,7 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                         <Select
                             style={{marginTop: 12}}
                             defaultValue={"0"}
+                            label={""}
                             fullWidth
                             //Очень важно, меняем сложность в QS Store, оттуда уже передается в вопросы
                             onChange={(e) =>
@@ -184,9 +183,11 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
 
 
                 <div style={{overflowX: "scroll"}}>
-                    <Row style={{width:  processedStore.activeQuestionStoreInstance?.answersArray.length * 410}}>
+                    <Stack
+                        style={{width: isMobile? "":  processedStore.activeQuestionStoreInstance?.answersArray.length * 410}}>
                         {processedStore.selectedQuestionIndex !== null && processedStore.activeQuestionStoreInstance?.answersArray &&
-                            <Row>
+                            <Stack direction={isMobile? "column" : "row"} spacing={2}
+                                   sx={{height: isMobile?  processedStore.activeQuestionStoreInstance?.answersArray.length * 410: "", pt:2}}>
                                 {processedStore.activeQuestionStoreInstance?.answersArray.map((answer, aIndex) =>{
                                     return(
                                         <Card key={aIndex} variant="outlined"
@@ -213,8 +214,8 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                                     </Card>)
                                 })}
 
-                            </Row>}
-                    </Row>
+                            </Stack>}
+                    </Stack>
                 </div>
             </div>:
                 processedStore?.activeQuestionStoreInstance?.questionHasBeenStarted &&

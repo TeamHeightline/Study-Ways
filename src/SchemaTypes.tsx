@@ -76,6 +76,7 @@ export type AnswerNode = {
     isInvisible: Scalars['Boolean'];
     isRequired: Scalars['Boolean'];
     isTrue: Scalars['Boolean'];
+    onlyForExam: Scalars['Boolean'];
     question: QuestionNode;
     text: Scalars['String'];
     videoUrl?: Maybe<Scalars['String']>;
@@ -833,6 +834,7 @@ export type QueryDetailStatisticByIdArgs = {
 
 
 export type QueryEqbiArgs = {
+    examMode?: InputMaybe<Scalars['Boolean']>;
     id?: InputMaybe<Scalars['ID']>;
 };
 
@@ -1266,6 +1268,7 @@ export type AnswerMutationInput = {
     isInvisible?: InputMaybe<Scalars['Boolean']>;
     isRequired?: InputMaybe<Scalars['Boolean']>;
     isTrue?: InputMaybe<Scalars['Boolean']>;
+    onlyForExam?: InputMaybe<Scalars['Boolean']>;
     question: Scalars['ID'];
     text?: InputMaybe<Scalars['String']>;
     videoUrl?: InputMaybe<Scalars['String']>;

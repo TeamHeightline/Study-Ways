@@ -260,50 +260,54 @@ export class SameQuestionPlayer{
 
     //Функция для загрузки данных о вопросе с сервера
     loadQuestionDataFromServer(){
-        this.clientStorage.client.query({query: GET_ENCRYPT_QUESTION_DATA_BY_ID,
-            variables:{
-            id: this.questionID
-        }, fetchPolicy: "network-only"})
-            .then((data) => {
-                let __decrypt_question: any = {}
-                let __decrypt_answers: any = [{}]
-                if(data?.data?.eqbi) {
-                    const _question_string =  CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(data?.data?.eqbi?.qbs.slice(2)))
-                    __decrypt_question =  JSON.parse(_question_string)[0]?.fields
-                    const _answer_string =  CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(data?.data?.eqbi?.abs.slice(2)))
-                    __decrypt_answers =   JSON.parse(_answer_string)
-                    __decrypt_answers.map((answer, aIndex) =>{
-                        const ___fields_to_pass = answer?.fields
-                        ___fields_to_pass.id = answer.pk
-                        __decrypt_answers[aIndex] = ___fields_to_pass
-                    })
-                }
-                // this.questionText = CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(data.data.questionById.text))
-                this.questionText = __decrypt_question?.text
-                const __AnswersArray: any[] = []
-                //максимальное число баллов, которые можно получить выбрав все правильные ответы
-                let __maxSumOfAnswerPoints = 0
-                //Перемешиваем ответы и обрезаем из количество на значение из настроек
-                const __requiredAnswersForDisplay = shuffle(__decrypt_answers?.filter((answer) => answer.is_deleted === false)?.filter((answer) => answer.is_required === true))?.slice(0, __decrypt_question?.number_of_showing_answers)
-                const __notRequiredAnswersForDisplay = shuffle(__decrypt_answers?.filter((answer) => answer.is_deleted === false)?.filter((answer) => answer.is_required === false))?.slice(0, __decrypt_question?.number_of_showing_answers - __requiredAnswersForDisplay.length)
-                let __answersForDisplay = __requiredAnswersForDisplay.length > 0 ? __requiredAnswersForDisplay.concat(__notRequiredAnswersForDisplay) : __notRequiredAnswersForDisplay;
-                __answersForDisplay = shuffle(__answersForDisplay)
-                __answersForDisplay.map((answer) =>{
-                    if(answer.hard_level_of_answer == "EASY"){
-                        __maxSumOfAnswerPoints += 5
-                    }else if(answer.hard_level_of_answer == "MEDIUM"){
-                        __maxSumOfAnswerPoints += 10
-                    }else{
-                        __maxSumOfAnswerPoints += 15
+        if(this.questionID){
+            this.clientStorage.client.query({query: GET_ENCRYPT_QUESTION_DATA_BY_ID,
+                variables:{
+                    id: this.questionID,
+                    examMode: this.isUseExamMode || this?.ownStore?.isUseExamMode
+            }, fetchPolicy: "network-only"})
+                .then((data) => {
+                    let __decrypt_question: any = {}
+                    let __decrypt_answers: any = [{}]
+                    if(data?.data?.eqbi) {
+                        const _question_string =  CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(data?.data?.eqbi?.qbs.slice(2)))
+                        __decrypt_question =  JSON.parse(_question_string)[0]?.fields
+                        const _answer_string =  CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(data?.data?.eqbi?.abs.slice(2)))
+                        __decrypt_answers =   JSON.parse(_answer_string)
+                        __decrypt_answers.map((answer, aIndex) =>{
+                            const ___fields_to_pass = answer?.fields
+                            ___fields_to_pass.id = answer.pk
+                            __decrypt_answers[aIndex] = ___fields_to_pass
+                        })
                     }
-                    this.maxSumOfPoints = __maxSumOfAnswerPoints
-                    __AnswersArray.push(new SameAnswerNode(answer.id,  answer.text, answer.is_true, answer.check_queue,
-                        answer.help_textV1, answer.help_textV2, answer.help_textV3, answer.hard_level_of_answer, answer.is_image_deleted))
+                    // this.questionText = CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(data.data.questionById.text))
+                    this.questionText = __decrypt_question?.text
+                    const __AnswersArray: any[] = []
+                    //максимальное число баллов, которые можно получить выбрав все правильные ответы
+                    let __maxSumOfAnswerPoints = 0
+                    //Перемешиваем ответы и обрезаем из количество на значение из настроек
+                    const __requiredAnswersForDisplay = shuffle(__decrypt_answers?.filter((answer) => answer.is_deleted === false)?.filter((answer) => answer.is_required === true))?.slice(0, __decrypt_question?.number_of_showing_answers)
+                    const __notRequiredAnswersForDisplay = shuffle(__decrypt_answers?.filter((answer) => answer.is_deleted === false)?.filter((answer) => answer.is_required === false))?.slice(0, __decrypt_question?.number_of_showing_answers - __requiredAnswersForDisplay.length)
+                    let __answersForDisplay = __requiredAnswersForDisplay.length > 0 ? __requiredAnswersForDisplay.concat(__notRequiredAnswersForDisplay) : __notRequiredAnswersForDisplay;
+                    __answersForDisplay = shuffle(__answersForDisplay)
+                    __answersForDisplay.map((answer) =>{
+                        if(answer.hard_level_of_answer == "EASY"){
+                            __maxSumOfAnswerPoints += 5
+                        }else if(answer.hard_level_of_answer == "MEDIUM"){
+                            __maxSumOfAnswerPoints += 10
+                        }else{
+                            __maxSumOfAnswerPoints += 15
+                        }
+                        this.maxSumOfPoints = __maxSumOfAnswerPoints
+                        __AnswersArray.push(new SameAnswerNode(answer.id,  answer.text, answer.is_true, answer.check_queue,
+                            answer.help_textV1, answer.help_textV2, answer.help_textV3, answer.hard_level_of_answer, answer.is_image_deleted))
+                    })
+
+
+                    this.answersArray = __AnswersArray
                 })
 
-
-                this.answersArray = __AnswersArray
-            })
+        }
     }
 
     //Сдался ли пользователь при попытке пройти вопрос

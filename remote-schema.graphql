@@ -29,6 +29,7 @@ type AnswerNode {
     isInvisible: Boolean!
     isRequired: Boolean!
     isTrue: Boolean!
+    onlyForExam: Boolean!
     question: QuestionNode!
     text: String!
     videoUrl: String
@@ -503,7 +504,7 @@ type Query {
     detailQuestionStatisticByQuestionId(id: ID): [DetailQuestionStatisticNode]
     detailStatIdArray(afterTime: DateTime, onlyInExam: Boolean, onlyInQs: Boolean, page: Int, questions: [String], userName: String): DetailStatIDArray
     detailStatisticById(id: ID): DetailQuestionStatisticNode
-    eqbi(id: ID): EQBIDNode
+    eqbi(examMode: Boolean, id: ID): EQBIDNode
     ftSearchInCards(searchString: String): [CardNode]
     me: UserNode
     question: [QuestionNode]
@@ -930,6 +931,7 @@ input AnswerMutationInput {
     isInvisible: Boolean
     isRequired: Boolean
     isTrue: Boolean
+    onlyForExam: Boolean
     question: ID!
     text: String
     videoUrl: String

@@ -22,6 +22,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
 import {AnswerIsRequired} from "./#AnswerIsRequired";
 import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
+import {OnlyForExam} from "./OnlyForExam";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -100,6 +101,7 @@ export const AnswersEditor = observer(() => {
                                                 <AnswerIsRequired answer={answer}/>
                                             </Grid>
                                             <Grid item md={6} xs={12} sx={{pt:1}}>
+                                                <OnlyForExam answer={answer}/>
                                                 <AnswerSavingNotification answer={answer}/>
                                             </Grid>
                                         </Grid>

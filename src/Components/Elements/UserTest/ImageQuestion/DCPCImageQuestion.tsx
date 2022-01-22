@@ -26,7 +26,7 @@ export default function DCPCImageQuestion(props: any) {
     })
 
     return <div className="col-12">
-        {(props.height / props.width < 1 || props.ignoreAspectRatio) &&
+        {(!isMobile || props.ignoreAspectRatio) &&
         <Card variant="outlined"
               style={{ padding: 0,
                   maxHeight: isMobile ? window.innerWidth * 2: 510,
@@ -35,7 +35,7 @@ export default function DCPCImageQuestion(props: any) {
             <Row className="justify-content-center">
                 {props.questionImgUrl ?
                     <Col className={!props?.ignoreAspectRatio ? "col-6 justify-content-start":
-                    window.innerHeight / window.innerWidth > 1 ? "col-12 justify-content-start" : "col-6 justify-content-start"}>
+                        isMobile ? "col-12 justify-content-start" : "col-6 justify-content-start"}>
                     <CardMedia
                         className="col-12 mr-auto"
                         style={{

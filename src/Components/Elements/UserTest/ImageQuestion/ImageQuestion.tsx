@@ -5,7 +5,7 @@ import {observer} from "mobx-react";
 import {SameQuestionPlayer} from "../../../../Store/PublicStorage/QSPage/QuestionSequencePlayer/SameQuestionPlayer";
 import {Row, Spinner} from "react-bootstrap";
 import DCPCImageQuestion from "./DCPCImageQuestion";
-import { Alert } from '@mui/material';
+import {Alert, Stack} from '@mui/material';
 import {Button, Card, CardActionArea, Grid, MenuItem, Select, Typography} from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -21,8 +21,6 @@ const useStyles = makeStyles(() =>
             display: 'flex',
             width: 385,
             height: 400,
-            marginLeft: 20,
-            marginTop: 20
         },
         media: {
             height: 240,
@@ -74,7 +72,7 @@ export const ImageQuestion = observer((props: any) => {
             )
         }
         return (
-            <div className="col-12">
+            <Stack  justifyContent={"center"} direction={"column"}>
                 {!processedStore?.questionHasBeenStarted &&
                     <Grid container justifyContent="center" alignItems="center" style={{height: isMobile ?  window.innerHeight - 100: window.innerHeight - 300}}>
                         <Grid item xs={12} md={3}>
@@ -119,16 +117,19 @@ export const ImageQuestion = observer((props: any) => {
                     {processedStore?.oneTimeCheckError &&
                     processedStore?.IndexOfMostWantedError !== -1 &&
                     <div>
-                        <Alert severity="warning" variant="outlined" className="mt-2">
+                        <Alert severity="error" variant="filled" className="mt-2">
                             {processedStore?.HelpTextForShow}
                         </Alert>
                     </div>
                     }
 
                     <div style={{overflowX: "scroll"}}>
-                        <Row style={{width:  processedStore?.answersArray.length * 410}}>
+                        {/*<Row style={{width:  processedStore?.answersArray.length * 410}}>*/}
+                            <Stack
+                                style={{width: isMobile? "":  processedStore?.answersArray.length * 410}}>
                             {processedStore?.answersArray &&
-                            <Row>
+                                <Stack direction={isMobile? "column" : "row"} spacing={2}
+                                       sx={{height: isMobile?  processedStore?.answersArray * 410: "", pt:2}}>
                                 {processedStore?.answersArray.map((answer, aIndex) =>{
                                     return(
                                         <Card  key={aIndex} variant="outlined"  className={classes.root}
@@ -153,8 +154,8 @@ export const ImageQuestion = observer((props: any) => {
                                         </Card>)
                                 })}
 
-                            </Row>}
-                        </Row>
+                            </Stack>}
+                        </Stack>
                     </div>
                 </div>
                 : processedStore?.questionHasBeenStarted &&
@@ -195,6 +196,6 @@ export const ImageQuestion = observer((props: any) => {
                         </Row>
                     </div> }
 
-            </div>
+            </Stack>
         );
 })

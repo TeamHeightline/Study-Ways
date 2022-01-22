@@ -22,7 +22,7 @@ import {observer} from "mobx-react";
 import {AccountCircle} from "@mui/icons-material";
 import { Menu, MenuItem} from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-
+import StackedLineChartIcon from '@mui/icons-material/StackedLineChart';
 const useStyles = makeStyles(() =>
     createStyles({
         root: {
@@ -69,6 +69,9 @@ export const Navibar = observer(() => {
         if(newValue == 4){
             history.push('/login')
         }
+        if(newValue == 5){
+            history.push("/selfstatistic")
+        }
         setValue(newValue);
     };
 
@@ -95,6 +98,8 @@ export const Navibar = observer(() => {
                 <BottomNavigationAction label="Карточки" value="1" icon={<ArtTrackIcon />} />
                 {/*<BottomNavigationAction label="Direction (beta)" value="2" icon={<CategoryIcon />} />*/}
                 {UserStorage.isLogin ?
+                    UserStorage.userAccessLevel =="STUDENT"?
+                        <BottomNavigationAction label="Собственная статистика" value="5" icon={<StackedLineChartIcon />} />:
                 <BottomNavigationAction label="Редакторы" value="3" icon={<EditIcon />} />:
                 <BottomNavigationAction label="Войти" value="4" icon={<AccountCircleIcon/>} />}
             </BottomNavigation>
@@ -125,7 +130,7 @@ export const Navibar = observer(() => {
                               to="/editor">Редакторы</Link>:
                      <Link style={{color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25,
                          textDecoration: "none"}}
-                           to="/direction">Direction (beta)</Link>}
+                           to="/selfstatistic">Собственная статистика</Link>}
                     {UserStorage.isLogin ?
                         <>
                         <Typography className="ml-5 mr-4">{UserStorage.username}</Typography>

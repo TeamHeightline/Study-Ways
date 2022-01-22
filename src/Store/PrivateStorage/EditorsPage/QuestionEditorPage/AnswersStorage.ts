@@ -33,6 +33,8 @@ export class Answer{
     //Обязательно ли отображать ответ или нет
     isRequired = false
 
+    onlyForExam = false
+
     //Функция обработки изменений в isRequired
     changeIsRequired(newRequiredState: boolean){
         this.isRequired = newRequiredState
@@ -41,6 +43,10 @@ export class Answer{
     deleteAnswer(){
         this.isDeleted = true
         // console.log("Delete answer with id" + this.id)
+    }
+
+    changeOnlyForExam(){
+        this.onlyForExam = !this.onlyForExam
     }
 
     getImageUrlFromServer(){
@@ -100,6 +106,7 @@ export class Answer{
                 isInvisible: this.isInvisible,
                 isRequired: this.isRequired,
                 isImageDeleted: this.isImageDeleted,
+                onlyForExam: this.onlyForExam
             }})
             .then(() =>{
                 this.stateOfSave = true
@@ -147,6 +154,7 @@ export class Answer{
         this.isRequired = answer.isRequired
         this.isImageDeleted = answer.isImageDeleted
         this.questionID = questionID
+        this.onlyForExam = answer.onlyForExam
         this.getImageUrlFromServer()
         reaction(() => this.id, () => this.autoSave())
         reaction(() => this.isTrue, () => this.autoSave())
@@ -158,6 +166,7 @@ export class Answer{
         reaction(() => this.videoUrl, () => this.autoSave())
         reaction(() => this.hardLevelOfAnswer, () => this.autoSave())
         reaction(() => this.questionID, () => this.autoSave())
+        reaction(() => this.onlyForExam, () => this.autoSave())
         reaction(() => this.isImageDeleted, () => this.autoSave())
         reaction(() => this.isRequired, () => this.autoSave())
         reaction(() => this.isDeleted, () => this.saveDataOnServer())

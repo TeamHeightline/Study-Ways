@@ -12,8 +12,8 @@ export const GET_QS_DATA_BY_ID = gql`
 
 
 export const GET_ENCRYPT_QUESTION_DATA_BY_ID = gql`
-    query GET_ENCRYPT_QUESTION_DATA_BY_ID($id: ID!){
-        eqbi(id: $id){
+    query GET_ENCRYPT_QUESTION_DATA_BY_ID($id: ID!, $examMode: Boolean){
+        eqbi(id: $id, examMode: $examMode){
             qbs
             abs
         }

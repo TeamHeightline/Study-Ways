@@ -23,7 +23,9 @@ class ToQuestionsArray{
     }
     getAllQuestions(){
         try{
-            this.clientStorage.client.query<Query>({query: GET_ALL_QUESTIONS_ID, variables:{
+            this.clientStorage.client.query<Query>({query: GET_ALL_QUESTIONS_ID,
+                fetchPolicy:"network-only",
+                variables:{
 
                 }})
                 .then((response) =>response.data.question)
@@ -36,6 +38,7 @@ class ToQuestionsArray{
         }catch(e){
             console.log(e)
         }
+        // this.selectedQuestions = []
     }
 
 

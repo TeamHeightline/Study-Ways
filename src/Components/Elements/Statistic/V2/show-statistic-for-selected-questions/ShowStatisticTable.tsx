@@ -10,13 +10,14 @@ import TableBody from "@mui/material/TableBody";
 import {DetailStatisticByID} from "../../../DetailStatistic/UI/DetailStatisticByID";
 
 interface IShowStatisticTableProps extends React.HTMLAttributes<HTMLDivElement>{
-    attempt_id_array: number[] | string[]
+    attempt_id_array: number[] | string[],
+    stickyHeader?: boolean
 }
-export const ShowStatisticTable = observer(({attempt_id_array, ...props}: IShowStatisticTableProps) =>{
+export const ShowStatisticTable = observer(({attempt_id_array, stickyHeader = false, ...props}: IShowStatisticTableProps) =>{
     return(
         <div {...props}>
-            <TableContainer component={Paper}>
-                <Table aria-label="collapsible table" stickyHeader>
+            <TableContainer component={Paper} sx={{ maxHeight: stickyHeader? 900: '', overflowX: "auto"}}>
+                <Table aria-label="collapsible table" stickyHeader={stickyHeader} sx={{ minWidth:1200,}}>
                     <TableHead>
                         <TableRow>
                             <TableCell />

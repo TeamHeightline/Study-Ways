@@ -84,6 +84,7 @@ export const ImageQuestion = observer((props: any) => {
                                     style={{marginTop: 12}}
                                     defaultValue={"0"}
                                     fullWidth
+                                    label={""}
                                     onChange={(e) => processedStore?.changeHardLevelOfHelpText(e.target.value)}
                                     variant="outlined">
                                     <MenuItem value={"0"}>Легкий</MenuItem>

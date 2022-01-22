@@ -18,6 +18,7 @@ import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 
 export default function DCPCImageQuestion(props: any) {
     const [openAcceptDefeatDialog, setOpenAcceptDefeatDialog] = useState(false)
+    const [disableCheckButton, setDisableCheckButton] = useState(false)
     const isMobile = isMobileHook()
     window.addEventListener("keydown",function (e) {
         if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) {
@@ -65,7 +66,14 @@ export default function DCPCImageQuestion(props: any) {
                             </Button>}
 
                         <Stack direction={"row"} spacing={1}>
-                            <Button variant="contained" color="primary" onClick={props.onClick1} fullWidth>
+                            <Button
+                                disabled={disableCheckButton}
+                                variant="contained" color="primary"
+                                onClick={(e) =>{
+                                    props.onClick1(e)
+                                    setDisableCheckButton(true)
+                                    setTimeout(setDisableCheckButton, 1000, false)
+                            }} fullWidth>
                                 Проверить
                             </Button>
                             <Button variant="outlined" color="secondary" onClick={() => setOpenAcceptDefeatDialog(true)} fullWidth>

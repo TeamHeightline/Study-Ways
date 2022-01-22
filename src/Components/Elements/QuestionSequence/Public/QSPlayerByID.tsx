@@ -134,6 +134,7 @@ export  const  QSPlayerByID = observer(({...props}: any) =>{
                         <Select
                             style={{marginTop: 12}}
                             defaultValue={"0"}
+                            label={""}
                             fullWidth
                             //Очень важно, меняем сложность в QS Store, оттуда уже передается в вопросы
                             onChange={(e) =>

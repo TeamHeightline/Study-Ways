@@ -9,7 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 
-import {StatisticChart} from "../../Statistic/#StatisticChart";
+import {StatisticChart} from "./#StatisticChart";
 import {StepByStepStatistic} from "./##StepByStepStatistic";
 import {DSSObjectType, rowType} from "../Store/DetailStatisticStoreByID";
 

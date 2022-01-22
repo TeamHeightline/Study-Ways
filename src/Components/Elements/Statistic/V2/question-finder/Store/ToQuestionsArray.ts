@@ -38,7 +38,6 @@ class ToQuestionsArray{
         }catch(e){
             console.log(e)
         }
-        // this.selectedQuestions = []
     }
 
 

@@ -14,7 +14,6 @@ const MainCourseEditor = React.lazy(() => import("./MainCourseEditor"))
 
 const QuestionEditor = React.lazy(() => import("./QuestionEditor").then(module => ({default: module.QuestionEditor})))
 const MainUserQuestionPage = React.lazy(() => import("./MainUserQuestionPage").then(module => ({default: module.MainUserQuestionPage})))
-const MainStatistic = React.lazy(() => import("./MainStatistic").then(module => ({default: module.MainStatistic})))
 const StatisticV2 = React.lazy(() =>import("../Elements/Statistic/V2/StatisticV2").then(module => ({default: module.StatisticV2})))
 const CardEditorV2 = React.lazy(() => import("../Elements/Cards/Editor/EditorPageV2/Page").then(module => ({default: module.EditorPage})))
 
@@ -205,7 +204,6 @@ export const EditorsRouter = observer(() =>{
                         <Route  path={`${path}/se`} component={SearchingElementsEditor}/>
                         <Route  path={`${path}/question`} component={QuestionEditor}/>
                         <Route  path={`${path}/qse`} component={QuestionSequenceMainEditor}/>
-                        <Route  path={`${path}/statistic`} component={MainStatistic}/>
                         <Route path={`${path}/allquestions`} component={MainUserQuestionPage}/>
                         <Route path={`${path}/statistic2`} component={StatisticV2}/>
                         <Route  path={`${path}/card2`} component={CardEditorV2}/>

@@ -10,7 +10,7 @@ import { Rating } from '@mui/material';
 import {useQuery} from "@apollo/client";
 import "../../../App.css"
 import CourseMicroView from "../Course/Editor/CourseMicroView";
-
+import EditIcon from '@mui/icons-material/Edit';
 
 import useWindowDimensions from "../../../CustomHooks/useWindowDimensions";
 import {CoursePageStorage} from "../../../Store/PublicStorage/CoursePage/CoursePageStorage";
@@ -31,6 +31,8 @@ import {SHOW_CARD_BY_ID, GET_ALL_COURSE} from "./CardView/Struct"
 import {ICourseLine} from "../Course/Editor/EditCourseByID";
 import {Alert, AlertTitle} from "@mui/lab";
 import {SERVER_BASE_URL} from "../../../settings";
+import IconButton from "@mui/material/IconButton";
+import {UserStorage} from "../../../Store/UserStore/UserStore";
 
 type CardTitleAuthorThemeAndCopyrightBlockProps = {
     id?: number,
@@ -245,20 +247,30 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
                                         />}
                             </Grid>
                         </Grid> :
-                        <ButtonGroup size="large" color="primary" aria-label="group" id={"btn-group-for-card-page"}>
-                            <Button onClick={ () =>{
-                                history.push("/card/" + (Number(id) - 1))
-                                // CardPageStorage.selectedCardID = CardPageStorage.selectedCardID - 1
-                            }}>
-                                <KeyboardArrowLeftOutlinedIcon/>
-                            </Button>
-                            <Button onClick={ () => {
-                                history.push("/card/" + (Number(id) + 1))
-                                // CardPageStorage.selectedCardID = Number(CardPageStorage.selectedCardID) + 1
-                            }}>
-                                <KeyboardArrowRightOutlinedIcon/>
-                            </Button>
-                        </ButtonGroup>
+                        <Stack direction={"row"} justifyContent="space-between">
+                            <ButtonGroup sx={{pt: 2}} size="large" color="primary" aria-label="group" id={"btn-group-for-card-page"}>
+                                <Button onClick={ () =>{
+                                    history.push("/card/" + (Number(id) - 1))
+                                    // CardPageStorage.selectedCardID = CardPageStorage.selectedCardID - 1
+                                }}>
+                                    <KeyboardArrowLeftOutlinedIcon/>
+                                </Button>
+                                <Button onClick={ () => {
+                                    history.push("/card/" + (Number(id) + 1))
+                                    // CardPageStorage.selectedCardID = Number(CardPageStorage.selectedCardID) + 1
+                                }}>
+                                    <KeyboardArrowRightOutlinedIcon/>
+                                </Button>
+                            </ButtonGroup>
+                            {UserStorage.userAccessLevel == "ADMIN" &&
+                                <div>
+                                    <IconButton size="large"
+                                                onClick={()=>{history.push("/editor/card2/card/" + id)}}>
+                                        <EditIcon fontSize="inherit"/>
+                                    </IconButton>
+                                </div>}
+                        </Stack>
+
                     }
                 </div>}
                 {!card_data ? <Spinner id={"simple-loading"} animation="border" variant="success" className=" offset-6 mt-5"/> :

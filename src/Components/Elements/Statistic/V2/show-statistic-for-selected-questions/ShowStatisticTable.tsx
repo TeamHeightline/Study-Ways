@@ -16,7 +16,7 @@ export const ShowStatisticTable = observer(({attempt_id_array, ...props}: IShowS
     return(
         <div {...props}>
             <TableContainer component={Paper}>
-                <Table aria-label="collapsible table">
+                <Table aria-label="collapsible table" stickyHeader>
                     <TableHead>
                         <TableRow>
                             <TableCell />

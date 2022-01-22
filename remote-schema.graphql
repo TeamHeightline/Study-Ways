@@ -512,6 +512,7 @@ type Query {
     questionSequence: [QuestionSequenceNode]
     questionSequenceById(id: ID): QuestionSequenceNode
     questionThemes: [QuestionThemesNode]
+    selfStatisticIdArray(page: Int): SelfStatisticIDArray
     unstructuredTheme: [UnstructuredThemesNode]
     usThemeSequence: USThemeSequenceNode
     "The ID of the object"
@@ -638,6 +639,12 @@ type RevokeToken {
     errors: ExpectedErrorType
     revoked: Int
     success: Boolean
+}
+
+type SelfStatisticIDArray {
+    IDs: [String]
+    activePage: Int
+    numPages: Int
 }
 
 """

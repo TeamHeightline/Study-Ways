@@ -777,6 +777,7 @@ export type Query = {
     questionSequence?: Maybe<Array<Maybe<QuestionSequenceNode>>>;
     questionSequenceById?: Maybe<QuestionSequenceNode>;
     questionThemes?: Maybe<Array<Maybe<QuestionThemesNode>>>;
+    selfStatisticIdArray?: Maybe<SelfStatisticIdArray>;
     unstructuredTheme?: Maybe<Array<Maybe<UnstructuredThemesNode>>>;
     usThemeSequence?: Maybe<UsThemeSequenceNode>;
     /** The ID of the object */
@@ -848,6 +849,11 @@ export type QueryQuestionByIdArgs = {
 
 export type QueryQuestionSequenceByIdArgs = {
     id?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type QuerySelfStatisticIdArrayArgs = {
+    page?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -1001,6 +1007,13 @@ export type RevokeToken = {
     errors?: Maybe<Scalars['ExpectedErrorType']>;
     revoked?: Maybe<Scalars['Int']>;
     success?: Maybe<Scalars['Boolean']>;
+};
+
+export type SelfStatisticIdArray = {
+    __typename?: 'SelfStatisticIDArray';
+    IDs?: Maybe<Array<Maybe<Scalars['String']>>>;
+    activePage?: Maybe<Scalars['Int']>;
+    numPages?: Maybe<Scalars['Int']>;
 };
 
 /**

@@ -12,12 +12,12 @@ export const OnlyForExam = observer(({answer, ...props}: IOnlyForExamProps) =>{
             <FormControlLabel
                 control={
                     <Checkbox
-                        checked={answer.onlyForExam}
+                        checked={!answer.onlyForExam}
                         onChange={() => answer.changeOnlyForExam()}
                         color="primary"
                     />
                 }
-                label="Отображать только в экзаменационном режиме"
+                label="Отображать в режиме подготовки"
             />
         </div>
     )

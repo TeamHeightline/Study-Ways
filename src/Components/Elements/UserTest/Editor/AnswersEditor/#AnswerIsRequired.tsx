@@ -1,5 +1,5 @@
 import {observer} from "mobx-react";
-import {Checkbox, FormControlLabel} from "@mui/material";
+import {Checkbox, FormControlLabel, FormHelperText} from "@mui/material";
 import React from "react";
 
 export const AnswerIsRequired = observer(({answer}) =>{
@@ -13,8 +13,11 @@ export const AnswerIsRequired = observer(({answer}) =>{
                         color="primary"
                     />
                 }
-                label="Отображать всегда"
+                label="Обязательный вариант"
             />
+            <FormHelperText>Случайные наборы ответов всегда будут содержать этот ответ</FormHelperText>
+
+
         </div>
     )
 })

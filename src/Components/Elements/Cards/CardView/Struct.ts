@@ -114,3 +114,11 @@ export const GET_ALL_COURSE = gql`
         }
     }
 `
+
+export const CARD_VIEW_REPORT = gql`
+    mutation CARD_VIEW_REPORT($card_id: Int){
+        cardDetailView(cardId: $card_id){
+            ok
+        }
+    }
+    `

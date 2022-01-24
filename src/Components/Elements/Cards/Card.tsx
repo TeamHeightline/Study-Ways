@@ -7,7 +7,7 @@ import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRig
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
 import { Rating } from '@mui/material';
-import {useQuery} from "@apollo/client";
+import {useMutation, useQuery} from "@apollo/client";
 import "../../../App.css"
 import CourseMicroView from "../Course/Editor/CourseMicroView";
 import EditIcon from '@mui/icons-material/Edit';
@@ -27,7 +27,7 @@ import {isMobileHook} from "../../../CustomHooks/isMobileHook";
 import {useHistory} from "react-router-dom";
 import {CardAuthorNode, CardSubThemeNode, Query} from "../../../SchemaTypes";
 import CssBaseline from "@mui/material/CssBaseline";
-import {SHOW_CARD_BY_ID, GET_ALL_COURSE} from "./CardView/Struct"
+import {SHOW_CARD_BY_ID, GET_ALL_COURSE, CARD_VIEW_REPORT} from "./CardView/Struct"
 import {ICourseLine} from "../Course/Editor/EditCourseByID";
 import {Alert, AlertTitle} from "@mui/lab";
 import {SERVER_BASE_URL} from "../../../settings";
@@ -120,6 +120,16 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
             }
         }
     })
+    const [detailViewReport] = useMutation(CARD_VIEW_REPORT, {
+        variables:{
+            card_id: id
+        }
+    })
+    useEffect(()=>{
+        if(id){
+            detailViewReport()
+        }
+    }, [id])
     const {data: all_courses_data} = useQuery<Query>(GET_ALL_COURSE, {
         fetchPolicy: "cache-only",
         skip: props?.openFromCourse,

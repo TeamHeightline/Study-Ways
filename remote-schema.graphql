@@ -64,6 +64,10 @@ type CardCourseNode {
     name: String
 }
 
+type CardDetailView {
+    ok: Boolean
+}
+
 type CardIDResolverForSelector {
     IDs: [String]
     activePage: Int
@@ -225,6 +229,7 @@ type Mutation {
     archiveAccount(password: String!): ArchiveAccount
     card(input: CardMutationInput!): CardMutationPayload
     cardAuthor(input: CardAuthorMutationInput!): CardAuthorMutationPayload
+    cardDetailView(cardId: Int): CardDetailView
     cardSubTheme(input: CardSubThemeMutationInput!): CardSubThemeMutationPayload
     cardTheme(input: CardThemeMutationInput!): CardThemeMutationPayload
     createAnswer(input: AnswerMutationInput!): AnswerMutationPayload

@@ -114,6 +114,11 @@ export type CardCourseNode = {
     name?: Maybe<Scalars['String']>;
 };
 
+export type CardDetailView = {
+    __typename?: 'CardDetailView';
+    ok?: Maybe<Scalars['Boolean']>;
+};
+
 export type CardIdResolverForSelector = {
     __typename?: 'CardIDResolverForSelector';
     IDs?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -293,6 +298,7 @@ export type Mutation = {
     archiveAccount?: Maybe<ArchiveAccount>;
     card?: Maybe<CardMutationPayload>;
     cardAuthor?: Maybe<CardAuthorMutationPayload>;
+    cardDetailView?: Maybe<CardDetailView>;
     cardSubTheme?: Maybe<CardSubThemeMutationPayload>;
     cardTheme?: Maybe<CardThemeMutationPayload>;
     createAnswer?: Maybe<AnswerMutationPayload>;
@@ -472,6 +478,11 @@ export type MutationCardArgs = {
 
 export type MutationCardAuthorArgs = {
     input: CardAuthorMutationInput;
+};
+
+
+export type MutationCardDetailViewArgs = {
+    cardId?: InputMaybe<Scalars['Int']>;
 };
 
 

@@ -36,7 +36,7 @@ import {ApolloProvider} from "@apollo/client";
 import {UnLogin} from "./Components/PublicPages/Login/UnLogin";
 import {Registration} from "./Components/PublicPages/Login/Registration";
 const EditorsRouter = React.lazy(() => import("./Components/PrivatePages/EditorsRouter").then(module => ({default: module.EditorsRouter})))
-const MainCardPublicView = React.lazy(() => import("./Components/PublicPages/MainCardPublicView").then(module => ({default: module.MainCardPublicView})))
+const MainCardPublicView = React.lazy(() => import("./Components/Elements/Cards/Page/MainCardPublicView").then(module => ({default: module.MainCardPublicView})))
 const QSPlayerByID = React.lazy(() => import("./Components/Elements/QuestionSequence/Public/QSPlayerByID").then(module => ({default: module.QSPlayerByID})))
 const ImageQuestion = React.lazy(() => import("./Components/Elements/UserTest/ImageQuestion/ImageQuestion").then(module => ({default: module.ImageQuestion})))
 const SelfStatistic = React.lazy(()=> import("./Components/Elements/SimpleSelfStatistic/UI/self-statistic-page").then(module => ({default: module.SelfStatisticPage})))
@@ -70,7 +70,7 @@ const  App = observer(() => {
                             <Route exact path="/iq/:id" component={ImageQuestion}/>
                             <Route exact path="/qs/:id" component={QSPlayerByID}/>
 
-                            <Route exact path="/cards" component={MainCardPublicView}/>
+                            <Route path="/cards" component={MainCardPublicView}/>
                             <Route exact path={"/card/:id"} component={CardByURL}/>
                             <Route exact path={"/selfstatistic"} component={SelfStatistic}/>
 

@@ -11,6 +11,10 @@ interface Node {
     id: ID!
 }
 
+type AISearchCardIDArray {
+    IDs: [String]
+}
+
 type AnswerMutationPayload {
     answer: AnswerNode
     clientMutationId: String
@@ -217,6 +221,10 @@ type GlobalCardThemeNode {
     cardthemeSet: [CardThemeNode!]!
     id: ID!
     name: String!
+}
+
+type HomePageCardIDArray {
+    IDs: [String]
 }
 
 type Mutation {
@@ -492,6 +500,7 @@ type PasswordSet {
 }
 
 type Query {
+    aiCardSearch(searchString: String): AISearchCardIDArray
     answer: [AnswerNode]
     answerById(id: ID): AnswerNode
     answersInRandomPositions: [AnswerNode]
@@ -512,6 +521,7 @@ type Query {
     eqbi(examMode: Boolean, id: ID): EQBIDNode
     ftSearchInCards(searchString: String): [CardNode]
     me: UserNode
+    personalCardHomePage: HomePageCardIDArray
     question: [QuestionNode]
     questionAuthor: [QuestionAuthorNode]
     questionById(id: ID): QuestionNode

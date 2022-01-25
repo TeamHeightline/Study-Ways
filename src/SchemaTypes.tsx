@@ -56,6 +56,11 @@ export type Node = {
     id: Scalars['ID'];
 };
 
+export type AiSearchCardIdArray = {
+    __typename?: 'AISearchCardIDArray';
+    IDs?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
 export type AnswerMutationPayload = {
     __typename?: 'AnswerMutationPayload';
     answer?: Maybe<AnswerNode>;
@@ -286,6 +291,11 @@ export type GlobalCardThemeNode = {
     cardthemeSet: Array<CardThemeNode>;
     id: Scalars['ID'];
     name: Scalars['String'];
+};
+
+export type HomePageCardIdArray = {
+    __typename?: 'HomePageCardIDArray';
+    IDs?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 export type Mutation = {
@@ -763,6 +773,7 @@ export type PasswordSet = {
 
 export type Query = {
     __typename?: 'Query';
+    aiCardSearch?: Maybe<AiSearchCardIdArray>;
     answer?: Maybe<Array<Maybe<AnswerNode>>>;
     answerById?: Maybe<AnswerNode>;
     answersInRandomPositions?: Maybe<Array<Maybe<AnswerNode>>>;
@@ -783,6 +794,7 @@ export type Query = {
     eqbi?: Maybe<EqbidNode>;
     ftSearchInCards?: Maybe<Array<Maybe<CardNode>>>;
     me?: Maybe<UserNode>;
+    personalCardHomePage?: Maybe<HomePageCardIdArray>;
     question?: Maybe<Array<Maybe<QuestionNode>>>;
     questionAuthor?: Maybe<Array<Maybe<QuestionAuthorNode>>>;
     questionById?: Maybe<QuestionNode>;
@@ -795,6 +807,11 @@ export type Query = {
     /** The ID of the object */
     user?: Maybe<UserNode>;
     users?: Maybe<UserNodeConnection>;
+};
+
+
+export type QueryAiCardSearchArgs = {
+    searchString?: InputMaybe<Scalars['String']>;
 };
 
 

@@ -9,7 +9,7 @@ interface ICleverSearchingProps extends React.HTMLAttributes<HTMLDivElement>{
 export const CleverSearching = observer(({...props}: ICleverSearchingProps) =>{
     return(
         <div {...props}>
-            <Grid container justifyContent="center" style={{marginTop:6}}>
+            <Grid container justifyContent="center">
                 <Grid item xs={12} md={8}>
                     <TextField
                         value={CSSObject.searching_string}

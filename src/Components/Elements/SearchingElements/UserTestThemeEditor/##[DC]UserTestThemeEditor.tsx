@@ -69,7 +69,7 @@ export default function DCUserTestThemeEditor({...props}: any){
                     <TextField
                         className="ml-2"
                         id="standard-multiline-flexible"
-                        label="Имя нового автора"
+                        label="Название новой темы"
                         fullWidth
                         value={props.nameOfNewUserTestTheme}
                         onChange={(e) =>{

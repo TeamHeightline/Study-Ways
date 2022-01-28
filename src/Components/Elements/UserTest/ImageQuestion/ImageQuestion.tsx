@@ -44,7 +44,7 @@ const useStyles = makeStyles(() =>
     }),
 );
 
-const processedStore = new SameQuestionPlayer(null, 85)
+const processedStore = new SameQuestionPlayer(null, undefined)
 
 export const ImageQuestion = observer((props: any) => {
         const slug = useLocation();

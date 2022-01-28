@@ -182,7 +182,7 @@ function ThemeEditor() {
         )
     }
     return (
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={8}>
             <ThemeTreeView {...{treeData, setTreeData, selectedThemeID, setSelectedThemeID, manualUpdate}}/>
             <Grid container justifyContent={"end"} spacing={2} style={{marginTop: 1}}>
                 <Grid item>

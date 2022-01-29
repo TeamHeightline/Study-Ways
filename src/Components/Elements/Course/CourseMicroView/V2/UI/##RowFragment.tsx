@@ -1,10 +1,16 @@
 import React, {useState} from 'react';
 import {IconButton, Popover} from "@mui/material";
-import './RowFragment.css'
 import StopSharpIcon from '@mui/icons-material/StopSharp';
-import CardMicroView from "../../Cards/CardView/#CardMicroView";
+import CardMicroView from "../../../../Cards/CardView/#CardMicroView";
+import {observer} from "mobx-react";
+import {CourseMicroStoreByID} from "../Store/CourseMicroStoreByID";
 
-export default function RowFragment({rowFragment, ...props}: any) {
+interface RowFragmentI{
+    CRI: number,
+    courseStore: CourseMicroStoreByID
+}
+
+const RowFragment = observer(({CRI, courseStore}: RowFragmentI) => {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
     const [hoveredItemID, setHoveredItemID] = useState<number | undefined>(undefined)
     const [hoverItemLevel, setHoveredItemLevel] = useState<number>(0)
@@ -20,7 +26,7 @@ export default function RowFragment({rowFragment, ...props}: any) {
     const open = Boolean(anchorEl);
 
     return (
-        <>
+        <div style={{width: 310}}>
             <Popover
                 id="mouse-over-popover"
                 sx={{
@@ -40,14 +46,16 @@ export default function RowFragment({rowFragment, ...props}: any) {
                 {hoveredItemID &&
                 <CardMicroView cardID={hoveredItemID}/>}
             </Popover>
-            {rowFragment?.CourseFragment?.map((element, eIndex) => {
+            {courseStore.courseData[CRI]
+                .SameLine[courseStore.position.activePage - 1]
+                ?.CourseFragment?.map((element, eIndex) => {
                 return (
                     <IconButton size="small"
 
                                 onMouseEnter={(e) => {
-                                    setHoveredItemID(element?.CourseElement?.id)
-                                    if(props.CRI){
-                                        setHoveredItemLevel(props.CRI)
+                                    setHoveredItemID(Number(element?.CourseElement?.id))
+                                    if(CRI){
+                                        setHoveredItemLevel(CRI)
                                     }else{
                                         setHoveredItemLevel(0)
                                     }
@@ -55,16 +63,23 @@ export default function RowFragment({rowFragment, ...props}: any) {
                                 }}
                                 onMouseLeave={handlePopoverClose}
                                 edge="start"
-                                key={eIndex + "CourseFragment" + props.rIndex + "RowFragment" + props.CRI + "NavigationRow"}
+                                key={eIndex + "CourseFragment" + "RowFragment" + CRI + "NavigationRow"}
                                 onClick={() => {
-                                    props.buttonClick(eIndex)
+                                    courseStore.positionData = {
+                                        activePage: courseStore.positionData.activePage,
+                                        selectedPage: courseStore.positionData.activePage,
+                                        selectedRow: CRI,
+                                        selectedIndex: eIndex
+                                    }
+                                    courseStore.isPositionChanged = true
                                 }}
                                 style={{color: !element?.CourseElement?.id ? "#0A1929" : ''}}
                                 disabled={!element?.CourseElement?.id}
                                 color={
-                                    // !element?.CourseElement?.id? "inherit" :
-                                    props.cardPositionData && props.cardPositionData.row === props.CRI && props.cardPositionData.fragment === props.rIndex
-                                    && eIndex === props.cardPositionData.buttonIndex ?
+                                    courseStore.position &&
+                                    courseStore.position.selectedRow === CRI &&
+                                    courseStore.position.selectedPage === courseStore.position.activePage &&
+                                    courseStore.position.selectedIndex === eIndex  ?
                                         "secondary" :
                                         "primary"}
                     >
@@ -72,6 +87,8 @@ export default function RowFragment({rowFragment, ...props}: any) {
                     </IconButton>
                 )
             })}
-        </>
+        </div>
     )
-}
+})
+
+export default RowFragment

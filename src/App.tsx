@@ -40,8 +40,9 @@ const MainCardPublicView = React.lazy(() => import("./Components/Elements/Cards/
 const QSPlayerByID = React.lazy(() => import("./Components/Elements/QuestionSequence/Public/QSPlayerByID").then(module => ({default: module.QSPlayerByID})))
 const ImageQuestion = React.lazy(() => import("./Components/Elements/UserTest/ImageQuestion/ImageQuestion").then(module => ({default: module.ImageQuestion})))
 const SelfStatistic = React.lazy(()=> import("./Components/Elements/SimpleSelfStatistic/UI/self-statistic-page").then(module => ({default: module.SelfStatisticPage})))
+const CoursePage = React.lazy(() => import("./Components/Elements/Course/Page/UI/CoursPage"))
+const CourseByURL = React.lazy(()=> import("./Components/Elements/Course/CourseByURL/UI/CourseByURL"))
 
-import {MainCoursePublicView} from "./Components/PublicPages/MainCoursePublicView";
 import { observer } from "mobx-react"
 import {ClientStorage} from "./Store/ApolloStorage/ClientStorage";
 import {LogInNotification} from "./Components/PublicPages/Login/#LogInNotification";
@@ -74,7 +75,8 @@ const  App = observer(() => {
                             <Route exact path={"/card/:id"} component={CardByURL}/>
                             <Route exact path={"/selfstatistic"} component={SelfStatistic}/>
 
-                            <Route exact path="/courses" component={MainCoursePublicView}/>
+                            <Route exact path="/courses" component={CoursePage}/>
+                            <Route path={"/course"} component={CourseByURL}/>
 
                             <Redirect to="/courses"/>
                         </Switch>

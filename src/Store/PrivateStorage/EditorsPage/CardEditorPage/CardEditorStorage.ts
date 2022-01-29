@@ -13,6 +13,10 @@ import { computedFn } from "mobx-utils"
 import {sort} from "fast-sort";
 import {SERVER_BASE_URL} from "../../../../settings";
 import message from "antd/es/message";
+import "js-video-url-parser/lib/provider/youtube";
+import urlParser from "js-video-url-parser";
+
+
 export type card_object_fields = keyof CardNode
 
 class CardEditorStorage{
@@ -86,7 +90,9 @@ class CardEditorStorage{
                             hardLevel: card_object?.hardLevel? String(card_object?.hardLevel).slice(2, 3): 0
 
                     }})
-                        .then((response) => console.log(response))
+                        .then((response) => {
+                            this.stateOfSave = true
+                            console.log(response)})
 
                     }catch(e){
                         console.log(e)
@@ -142,6 +148,26 @@ class CardEditorStorage{
             throw "pass unexpected field to changeFieldByValue"
         }
     }
+    //-----------------Работа с ссылкой на видео
+
+    changeYoutubeUrl = (e) =>{
+        if(this.card_object && 'videoUrl' in this.card_object){
+            const parsed_url = urlParser.parse(e.target.value)
+            const unified_url = urlParser.create({
+                videoInfo: {
+                    provider: parsed_url?.provider,
+                    id: String(parsed_url?.id),
+                    mediaType: parsed_url?.mediaType
+                },
+                params:{
+                    start: parsed_url?.params?.start,
+
+                }
+            })
+            this.card_object.videoUrl = unified_url
+        }
+    }
+
 
     //----------------------------------------------------------------
     urlValidation(arrow_url){

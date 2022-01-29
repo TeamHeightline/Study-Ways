@@ -9,11 +9,9 @@ import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutl
 import { Rating } from '@mui/material';
 import {useMutation, useQuery} from "@apollo/client";
 import "../../../App.css"
-import CourseMicroView from "../Course/Editor/CourseMicroView";
 import EditIcon from '@mui/icons-material/Edit';
 
 import useWindowDimensions from "../../../CustomHooks/useWindowDimensions";
-import {CoursePageStorage} from "../../../Store/PublicStorage/CoursePage/CoursePageStorage";
 import {observer} from "mobx-react";
 const RichTextPreview =  React.lazy(() =>import('./CardView/#RichTextPreview'));
 import CopyrightIcon from "@mui/icons-material/Copyright";
@@ -33,6 +31,7 @@ import {Alert, AlertTitle} from "@mui/lab";
 import {SERVER_BASE_URL} from "../../../settings";
 import IconButton from "@mui/material/IconButton";
 import {UserStorage} from "../../../Store/UserStore/UserStore";
+import {positionDataI} from "../Course/CourseMicroView/V2/Store/CourseMicroStoreByID";
 
 type CardTitleAuthorThemeAndCopyrightBlockProps = {
     id?: number,
@@ -91,14 +90,16 @@ function CardTitleAuthorThemeAndCopyrightBlock({id, title, copyright, subTheme, 
 }
 type IFindInCourseNotification = {
     course_name: string
-    position: typeof CoursePageStorage.positionData
+    course_id: string
+    position: positionDataI
 }[] | []
 type CardProps = {
     id?: number,
     openFromCourse?: boolean,
     disableAllButtons?: boolean,
+    courseBar?: any
 }
-export const CARD = observer(({id,  ...props}: CardProps) =>{
+export const CARD = observer(({id, courseBar,  ...props}: CardProps) =>{
     const [rating, setRating] = useState<number | null>(4);
     const [cardImage, setCardImage] = useState()
     const [openTestBeforeCardDialog, setOpenTestBeforeCardDialog] = useState(true)
@@ -110,7 +111,7 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
     const {data: card_data, refetch} = useQuery<Query>(SHOW_CARD_BY_ID, {
         fetchPolicy: "cache-and-network",
         variables:{
-            id: id? id : CoursePageStorage.selectedCardID ,
+            id: id,
         },
         onCompleted: data => {
             setOpenTestBeforeCardDialog(true)
@@ -132,37 +133,33 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
     }, [id])
     const {data: all_courses_data} = useQuery<Query>(GET_ALL_COURSE, {
         fetchPolicy: "cache-only",
-        skip: props?.openFromCourse,
     })
     useEffect(() =>{
         if(all_courses_data){
             const __findInCourseNotification: IFindInCourseNotification = [{
                 course_name: "_",
+                course_id: "0",
                 position: {
-                    courseIndex: 0,
-                    row: 0,
-                    fragment: 0,
-                    buttonIndex: 0,
-                    courseID: 0,
-                    openPage: 0
+                    activePage: 0,
+                    selectedRow: 0,
+                    selectedPage: 0,
+                    selectedIndex: 0,
                 }
             }]
             __findInCourseNotification.pop()
-            CoursePageStorage.get_course_data()
             all_courses_data?.cardCourse?.map((course, cIndex) => {
                 course?.courseData?.map((course_line: ICourseLine, lIndex) =>{
                     course_line.SameLine?.map((fragment, fIndex) =>{
                         fragment.CourseFragment?.map((element, bIndex) =>{
                             if (element?.CourseElement?.id == id){
                                 __findInCourseNotification?.push({
-                                    course_name: course?.name || "_",
+                                    course_name: String(course?.name || "_"),
+                                    course_id: String(course?.id),
                                     position: {
-                                        courseIndex: cIndex,
-                                        row: lIndex,
-                                        fragment: fIndex,
-                                        openPage: fIndex + 1,
-                                        buttonIndex: bIndex,
-                                        courseID: Number(course?.id),
+                                        activePage: fIndex + 1,
+                                        selectedRow: lIndex,
+                                        selectedPage: fIndex + 1,
+                                        selectedIndex: bIndex,
                                     }
                                 })
                             }
@@ -178,7 +175,7 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
     }, [id,])
     const get_card_image = (useCache=true) =>{
         fetch(SERVER_BASE_URL + "/cardfiles/card?id=" +
-            Number(id? id : CoursePageStorage.selectedCardID ), {cache: useCache? "force-cache": "default"})
+            Number(id), {cache: useCache? "force-cache": "default"})
             .then((response) => response.json())
             .then((data) =>{
                 try{
@@ -206,11 +203,11 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
                         className="pl-md-2 mt-4  col-12 col-lg-2 mr-2"
                         variant="outlined" color="primary"
                         onClick={ () => {
-                            if(props?.openFromCourse){
-                                CoursePageStorage.goBackButtonHandler()
-                            }else{
+                            // if(props?.openFromCourse){
+                            //     CoursePageStorage.goBackButtonHandler()
+                            // }else{
                                 history.goBack()
-                            }
+                            // }
                         }}>
                         Назад
                     </Button>}
@@ -222,28 +219,8 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
                         по id вперед и назад*/}
                     {props.openFromCourse  ?
                         <Grid container>
-                            <Grid item xs={"auto"}>
-                                <div className=" mt-4" style={{overflowX: "auto"}} id={"course-micro-view"}>
-                                    <CourseMicroView
-                                        course={CoursePageStorage.courseArr[CoursePageStorage.positionData.courseIndex]}
-                                        buttonClick={data=>CoursePageStorage.cardSelectInCourseByMouseClick(data,
-                                            CoursePageStorage.positionData.courseIndex, CoursePageStorage.positionData.courseID)}
-                                        cardPositionData={CoursePageStorage.positionData}/>
-                                </div>
-                                <ButtonGroup id={"course-btn-group"} size="large" color="primary" aria-label="group" className="mt-2">
-                                    <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Back")} disabled={CoursePageStorage.disabledBack}>
-                                        <KeyboardArrowLeftOutlinedIcon/>
-                                    </Button>
-                                    <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Down")} disabled={CoursePageStorage.disabledDown}>
-                                        <KeyboardArrowDownOutlinedIcon/>
-                                    </Button>
-                                    <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Up")} disabled={CoursePageStorage.disabledUp}>
-                                        <KeyboardArrowUpOutlinedIcon/>
-                                    </Button>
-                                    <Button onClick={ () => CoursePageStorage.inCardButtonClickedHandler("Next")} disabled={CoursePageStorage.disabledNext}>
-                                        <KeyboardArrowRightOutlinedIcon/>
-                                    </Button>
-                                </ButtonGroup>
+                            <Grid item xs={"auto"} sx={{pt:2}}>
+                                {courseBar}
                             </Grid>
                             <Grid item md={8} xs={12} style={{paddingLeft: isMobile? 0: 12}}>
                                 {!card_data ? <Spinner id={"course-only-loading"} animation="border" variant="success" className=" offset-6 mt-5"/> :
@@ -335,8 +312,13 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
 
                                                 color={"info"}
                                                 onClick={() =>{
-                                                    CoursePageStorage.changeCardPosition(course.position)
-                                                    history.push("/courses")
+                                                    // CoursePageStorage.changeCardPosition(course.position)
+                                                    history.push("/course?" + "id=" + course.course_id +
+                                                        "&activePage="+ course.position.activePage +
+                                                        "&selectedPage=" + course.position.selectedPage +
+                                                        "&selectedRow=" + course.position.selectedRow +
+                                                        "&selectedIndex=" + course.position.selectedIndex)
+                                                    // history.push("/courses")
                                                 }}>
                                             Перейти
                                         </Button>
@@ -474,8 +456,11 @@ export const CARD = observer(({id,  ...props}: CardProps) =>{
 
                                         color={"info"}
                                         onClick={() =>{
-                                            CoursePageStorage.changeCardPosition(course.position)
-                                            history.push("/courses")
+                                            history.push("/course?" + "id=" + course.course_id +
+                                                "&activePage="+ course.position.activePage +
+                                                "&selectedPage=" + course.position.selectedPage +
+                                                "&selectedRow=" + course.position.selectedRow +
+                                                "&selectedIndex=" + course.position.selectedIndex)
                                         }}>
                                     Перейти
                                 </Button>

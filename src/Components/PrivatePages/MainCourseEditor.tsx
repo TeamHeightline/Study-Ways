@@ -1,10 +1,9 @@
 import React, {useState} from 'react'
-import {Button,  Container} from "@mui/material";
+import {Button, Container, Grid} from "@mui/material";
 import {gql} from "graphql.macro";
 import {useMutation, useQuery} from "@apollo/client";
 import EditCourseByID, {CourseLines} from "../Elements/Course/Editor/EditCourseByID";
-import CourseMicroView from "../Elements/Course/Editor/CourseMicroView";
-import {Col, Row} from "react-bootstrap";
+import CourseMicroView from '../Elements/Course/CourseMicroView/V2/UI/CourseMicroView';
 
 
 const CREATE_COURSE_WITH_DEFAULT_VALUE = gql`
@@ -59,21 +58,21 @@ export default function MainCourseEditor() {
                 }}>
                     Создать новый курс
                 </Button>
-                <Row className="justify-content-around" style={{overflow: "auto"}}>
+                <Grid container justifyContent="space-evenly" sx={{pt: 2}} style={{overflow: "auto"}}>
                     {own_course_data?.me.cardcourseSet.map((course) =>{
                         return(
-                            <Col key={"CourseID" + course.id}>
-                                <CourseMicroView key={course.id} course={course} className="ml-1 mt-4" cIndex={course.id}
-                                                 buttonClick={data =>console.log(data)}
-                                                 onEdit={(data) =>{
-                                                     setSelectedCourseID(data)
-                                                     setIsEditCourseNow(true)
-                                                 }}/>
-                            </Col>
+                            <Grid item xs={"auto"} key={"CourseID" + course.id}>
+                                <CourseMicroView
+                                    onClick={()=>{
+                                        setSelectedCourseID(course.id)
+                                        setIsEditCourseNow(true)
+                                    }}
+                                    course_id={Number(course.id)}
+                                    key={"CourseID" + course.id}/>
+                            </Grid>
                         )
                     }) }
-
-                </Row>
+                </Grid>
             </Container>
         </div>
     )

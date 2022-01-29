@@ -15,7 +15,8 @@ export const RichTextEditor = observer(({...props}: IRichTextEditorProps) =>{
             <Card style={{borderColor: "#2296F3", color: "black"}} variant="outlined">
                 <CKEditor
                     editor={ Editor }
-                    data={CESObject.getField("text", "")}
+                    data={CESObject.getField("text", "") == "Описание карточки"? "" :
+                        CESObject.getField("text", "")}
                     style={{maxHeight: "440px",}}
                     onChange={ ( event, editor ) => {
                         CESObject.changeFieldByValue('text', editor.getData())

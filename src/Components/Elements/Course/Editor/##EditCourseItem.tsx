@@ -110,6 +110,7 @@ export default function EditCourseItem({item_id, item_position, ...props}: any) 
                 sx={{
                     pointerEvents: 'none',
                 }}
+                style={{marginTop: 100}}
                 open={open}
                 anchorEl={anchorEl}
                 anchorOrigin={{

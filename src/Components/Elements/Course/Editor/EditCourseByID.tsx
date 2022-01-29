@@ -316,6 +316,8 @@ export const CourseLines =
         ]
 
 export type ICourseLine = typeof CourseLines[0]
+
+export type CourseData = typeof CourseLines
 // console.log(CourseLines[0].SameLine[0].CourseFragment[0].CourseElement.id)
 
 // console.log(CourseLines)

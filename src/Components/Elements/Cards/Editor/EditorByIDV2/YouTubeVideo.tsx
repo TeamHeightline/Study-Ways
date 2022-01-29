@@ -25,7 +25,7 @@ export const YouTubeVideo = observer(({...props}: IYouTubeVideoProps) =>{
                 fullWidth
                 variant="filled"
                 value={CESObject.getField("videoUrl", "")}
-                onChange={CESObject.changeField("videoUrl")}
+                onChange={CESObject.changeYoutubeUrl}
                 error={CESObject.getField("videoUrl", "") !== "" &&
                 urlParser.parse(CESObject.getField("videoUrl", ""))?.provider == undefined}
                 helperText={CESObject.getField("videoUrl", "") !== "" &&

@@ -16,7 +16,9 @@ export const Title = observer(({...props}: ITitleProps) =>{
                     multiline
                     variant="filled"
                     maxRows={3}
-                    value={CESObject.getField("title", "")}
+                    value={CESObject.getField("title", "") == "Название карточки по умолчанию"?
+                        "" :
+                        CESObject.getField("title", "")}
                     onChange={CESObject.changeField("title")}
                 />
             </FormControl>

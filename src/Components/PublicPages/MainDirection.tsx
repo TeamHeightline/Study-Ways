@@ -5,9 +5,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import {CARD} from "../Elements/Cards/Card";
 import CardMicroView from "../Elements/Cards/CardView/#CardMicroView";
-import CourseMicroView from "../Elements/Course/Editor/CourseMicroView";
 import {DirectionStore} from "../../Store/InDevComponentsStorage/ComunityDirectionsStore/DirectionStore";
-import {toJS} from "mobx";
 import ArtTrackIcon from "@mui/icons-material/ArtTrack";
 import BlurLinearIcon from "@mui/icons-material/BlurLinear";
 import {ImageQuestion} from "../Elements/UserTest/ImageQuestion/ImageQuestion";
@@ -15,13 +13,14 @@ import {Card, CardActionArea, Typography} from "@mui/material";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import {QSPlayerByID} from "../Elements/QuestionSequence/Public/QSPlayerByID";
 import LinearScaleIcon from '@mui/icons-material/LinearScale';
+import CourseMicroView from "../Elements/Course/CourseMicroView/V2/UI/CourseMicroView";
 
 const maxWidthOfElement = 530
 type MainDirectionProps = {
     directionDataProps?: any
 }
 export const MainDirection = observer(({directionDataProps}: MainDirectionProps) =>{
-    const [directionStoreObject, setDirectionStoreObject] = useState<any>(new DirectionStore())
+    const [directionStoreObject] = useState<any>(new DirectionStore())
     useEffect(() =>{
         directionStoreObject.setDirectionData(directionDataProps)
     }, [directionDataProps])
@@ -53,14 +52,7 @@ export const MainDirection = observer(({directionDataProps}: MainDirectionProps)
                         {processed_object.type === "CourseElement" &&
                                 <StepLabel StepIconComponent={BlurLinearIcon} style={{width: maxWidthOfElement, textAlign: "center"}}>
                                     {directionStoreObject?.cardCourse &&
-                                        <CourseMicroView
-                                            onEdit={() => {
-                                                directionStoreObject.openCardID = Number(directionStoreObject.get_card_id_in_course_by_position(processed_object?.cardPositionData))
-                                                directionStoreObject.openCard()
-                                            }}
-                                            cardPositionData={toJS(processed_object?.cardPositionData)}
-                                            buttonClick={(e) => processed_object?.updateCardPositionData(e)}
-                                            course={directionStoreObject?.cardCourse.find( course => Number(course.id) === Number(processed_object?.cardPositionData?.courseID))}/>}
+                                        <CourseMicroView course_id={Number(processed_object?.cardPositionData?.courseID)}/>}
                                 </StepLabel>
                             }
                         {processed_object.type === "QuestionElement" &&

@@ -12,7 +12,8 @@ interface ICourseMicroViewProps extends React.HTMLAttributes<HTMLDivElement>{
     onPosition?: (selected_position: positionDataI) => void,
     onCardSelect?: (selected_card_id: number | undefined) => void,
     onCourseImageClick?: (clicked: string) => void,
-    showArrowNavigation?: boolean
+    showArrowNavigation?: boolean,
+    ignoreURLRedirectOnSelectCard?: boolean,
 }
 
 const CourseMicroView = observer(({
@@ -21,10 +22,14 @@ const CourseMicroView = observer(({
                                       onPosition,
                                       showArrowNavigation,
                                       onCardSelect,
+                                      ignoreURLRedirectOnSelectCard,
                                       ...props}: ICourseMicroViewProps) =>{
     const [courseStore] = useState(new CourseMicroStoreByID(course_id))
     const history = useHistory()
     useEffect(()=> courseStore.changeID(course_id), [course_id])
+
+    useEffect(() => courseStore.changeIsIgnoreRouteAfterSelect(ignoreURLRedirectOnSelectCard),
+        [ignoreURLRedirectOnSelectCard])
 
     useEffect(()=> {
         if(onPosition && courseStore.position && courseStore.isPositionChanged){

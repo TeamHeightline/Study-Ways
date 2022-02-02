@@ -83,10 +83,10 @@ export class CourseMicroStoreByID{
         return(this.get_card_id_by_position(scannedPosition))
     }
 
-    arrowClick(arrow: "Back" | "Down" | "Up" | "Next"){
-        this.isPositionChanged = true
-        this.positionData = this.getPositionByArrow(arrow)
-    }
+    // arrowClick(arrow: "Back" | "Down" | "Up" | "Next"){
+    //     this.isPositionChanged = true
+    //     this.positionData = this.getPositionByArrow(arrow)
+    // }
 
 
     //----------------------------------------------------------------
@@ -109,7 +109,9 @@ export class CourseMicroStoreByID{
     getCourseData(){
         if(this.id){
             try{
-                this.clientStorage.client.query({query: GET_COURSE_DATA_BY_ID, variables:{
+                this.clientStorage.client.query({query: GET_COURSE_DATA_BY_ID,
+                fetchPolicy:"network-only",
+                    variables:{
                     id: this.id
                 }})
                     .then((response) =>response.data.cardCourseById)
@@ -124,6 +126,13 @@ export class CourseMicroStoreByID{
                     console.log(e)
             }
         }
+    }
+
+    //Игнорирование URL роутинга, нужно для использования в качестве селектора
+
+    isIgnoreRouteAfterSelect?: boolean = false
+    changeIsIgnoreRouteAfterSelect = (ignore_or_not: boolean | undefined) =>{
+        this.isIgnoreRouteAfterSelect = ignore_or_not
     }
 
 

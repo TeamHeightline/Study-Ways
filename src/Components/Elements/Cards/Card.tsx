@@ -305,8 +305,8 @@ export const CARD = observer(({id, courseBar,  ...props}: CardProps) =>{
                         <Alert severity="success" sx={{ width: '100%' }} variant="outlined">
                             <AlertTitle>
                                 {findInCourseNotification?.length == 1 ?
-                                    "Эта карточка встречается в курсе:" :
-                                    "Эта карточка встречается в курсах:"}
+                                    "Этот ресурс встречается в курсе:" :
+                                    "Этот ресурс встречается в курсах:"}
                             </AlertTitle>
                             {findInCourseNotification?.map((course) =>{
                                 return(
@@ -454,8 +454,8 @@ export const CARD = observer(({id, courseBar,  ...props}: CardProps) =>{
                 <Alert severity="success" sx={{ width: '100%' }} variant="outlined">
                     <AlertTitle>
                         {findInCourseNotification?.length == 1 ?
-                        "Эта карточка встречается в курсе:" :
-                        "Эта карточка встречается в курсах:"}
+                        "Этот ресурс встречается в курсе:" :
+                        "Этот ресурс встречается в курсах:"}
                     </AlertTitle>
                     {findInCourseNotification?.map((course) =>{
                         return(

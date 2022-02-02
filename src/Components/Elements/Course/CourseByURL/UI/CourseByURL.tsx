@@ -1,9 +1,9 @@
 import {observer} from "mobx-react";
 import React, {useState} from 'react';
 import useQueryParams from "../../../../../CustomHooks/useQueryParams";
-import MicroCourseForPage from "../../Page/UI/MicroCourseForPage";
 import {positionDataI} from "../../CourseMicroView/V2/Store/CourseMicroStoreByID";
 import {CARD} from "../../../Cards/Card";
+import CourseMicroView from "../../CourseMicroView/V2/UI/CourseMicroView";
 
 interface ICourseByURLProps extends React.HTMLAttributes<HTMLDivElement>{
 
@@ -28,12 +28,13 @@ const CourseByURL = observer(({...props}: ICourseByURLProps) =>{
             <CARD id={activeCardID}
                   openFromCourse
                   courseBar={
-                      <MicroCourseForPage
+                      <CourseMicroView
                           onCardSelect={(card_id) => {changeSelectedCardID(card_id)}}
                           course_id={Number(queryParams.get("id"))}
                           position_data={position_data}
                           showArrowNavigation
-                      />}/>
+                      />}
+            />
 
         </div>
     )

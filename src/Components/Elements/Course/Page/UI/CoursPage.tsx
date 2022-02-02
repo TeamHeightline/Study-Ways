@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {CPSObject} from "../Store/CoursePageStore";
 import {Grid} from "@mui/material";
-import MicroCourseForPage from "./MicroCourseForPage";
+import CourseMicroView from "../../CourseMicroView/V2/UI/CourseMicroView";
 
 interface ICoursePageProps extends React.HTMLAttributes<HTMLDivElement>{
 
@@ -19,7 +19,7 @@ const CoursePage = observer(({...props}: ICoursePageProps) =>{
                 {CPSObject.courseArray?.map((course_id) =>{
                     return(
                         <Grid item>
-                            <MicroCourseForPage course_id={Number(course_id)}/>
+                            <CourseMicroView course_id={Number(course_id)}/>
                         </Grid>
                     )
                 })}

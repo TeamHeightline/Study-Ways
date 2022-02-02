@@ -22,7 +22,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
 import {isMobileHook} from "../../../CustomHooks/isMobileHook";
-import {useHistory} from "react-router-dom";
+import {useHistory, useRouteMatch} from "react-router-dom";
 import {CardAuthorNode, CardSubThemeNode, Query} from "../../../SchemaTypes";
 import CssBaseline from "@mui/material/CssBaseline";
 import {SHOW_CARD_BY_ID, GET_ALL_COURSE, CARD_VIEW_REPORT} from "./CardView/Struct"
@@ -108,6 +108,7 @@ export const CARD = observer(({id, courseBar,  ...props}: CardProps) =>{
     const history = useHistory();
     const {width, height} = useWindowDimensions()
     const [findInCourseNotification, setFindInCourseNotification] = useState<IFindInCourseNotification>([])
+    const { path } = useRouteMatch();
     const {data: card_data, refetch} = useQuery<Query>(SHOW_CARD_BY_ID, {
         fetchPolicy: "cache-and-network",
         variables:{
@@ -309,16 +310,21 @@ export const CARD = observer(({id, courseBar,  ...props}: CardProps) =>{
                                 return(
                                     <Stack direction={"row"} alignItems={"center"}>
                                         <Button title={"Перейти"}
-
                                                 color={"info"}
                                                 onClick={() =>{
-                                                    // CoursePageStorage.changeCardPosition(course.position)
-                                                    history.push("/course?" + "id=" + course.course_id +
-                                                        "&activePage="+ course.position.activePage +
-                                                        "&selectedPage=" + course.position.selectedPage +
-                                                        "&selectedRow=" + course.position.selectedRow +
-                                                        "&selectedIndex=" + course.position.selectedIndex)
-                                                    // history.push("/courses")
+                                                    if(path == "/course"){
+                                                        history.replace("/course?" + "id=" + course.course_id +
+                                                            "&activePage="+ course.position.activePage +
+                                                            "&selectedPage=" + course.position.selectedPage +
+                                                            "&selectedRow=" + course.position.selectedRow +
+                                                            "&selectedIndex=" + course.position.selectedIndex)
+                                                    } else {
+                                                        history.push("/course?" + "id=" + course.course_id +
+                                                            "&activePage="+ course.position.activePage +
+                                                            "&selectedPage=" + course.position.selectedPage +
+                                                            "&selectedRow=" + course.position.selectedRow +
+                                                            "&selectedIndex=" + course.position.selectedIndex)
+                                                    }
                                                 }}>
                                             Перейти
                                         </Button>
@@ -456,11 +462,19 @@ export const CARD = observer(({id, courseBar,  ...props}: CardProps) =>{
 
                                         color={"info"}
                                         onClick={() =>{
-                                            history.push("/course?" + "id=" + course.course_id +
-                                                "&activePage="+ course.position.activePage +
-                                                "&selectedPage=" + course.position.selectedPage +
-                                                "&selectedRow=" + course.position.selectedRow +
-                                                "&selectedIndex=" + course.position.selectedIndex)
+                                            if(path == "/course"){
+                                                history.replace("/course?" + "id=" + course.course_id +
+                                                    "&activePage="+ course.position.activePage +
+                                                    "&selectedPage=" + course.position.selectedPage +
+                                                    "&selectedRow=" + course.position.selectedRow +
+                                                    "&selectedIndex=" + course.position.selectedIndex)
+                                            } else {
+                                                history.push("/course?" + "id=" + course.course_id +
+                                                    "&activePage="+ course.position.activePage +
+                                                    "&selectedPage=" + course.position.selectedPage +
+                                                    "&selectedRow=" + course.position.selectedRow +
+                                                    "&selectedIndex=" + course.position.selectedIndex)
+                                            }
                                         }}>
                                     Перейти
                                 </Button>

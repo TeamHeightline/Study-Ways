@@ -1,4 +1,4 @@
-import {makeAutoObservable, toJS} from "mobx";
+import {autorun, makeAutoObservable, toJS} from "mobx";
 import {ClientStorage} from "../../../../Store/ApolloStorage/ClientStorage";
 import {Query} from "../../../../SchemaTypes";
 import {GET_SELF_STATISTIC_ID} from "./query";
@@ -7,13 +7,16 @@ import { UserStorage } from "../../../../Store/UserStore/UserStore";
 class SimpleSelfStatisticStorage{
     constructor() {
         makeAutoObservable(this)
+        autorun(()=> this.loadSelfStatistic())
     }
     clientStorage = ClientStorage
     userStorage = UserStorage
     loadSelfStatistic(){
         if (this.userStorage.isLogin){
             try{
-                this.clientStorage.client.query<Query>({query: GET_SELF_STATISTIC_ID, variables:{
+                this.clientStorage.client.query<Query>({query: GET_SELF_STATISTIC_ID,
+                fetchPolicy: "network-only",
+                    variables:{
                     page: this.activePage
                 }})
                     .then((response) =>response.data.selfStatisticIdArray)
@@ -33,6 +36,14 @@ class SimpleSelfStatisticStorage{
     maxPages = 1
     activePage = 1
     statistic_id_array: number[] = []
+
+    get activePageForTablePagination(){
+        return(this.activePage)
+    }
+
+    changeActivePage = (e, newPage) =>{
+        this.activePage = newPage
+    }
 
     get statisticIDForShow(){
         return(toJS(this.statistic_id_array))

@@ -8,16 +8,21 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableBody from "@mui/material/TableBody";
 import {DetailStatisticByID} from "../../../DetailStatistic/UI/DetailStatisticByID";
+import {PaperProps} from "@mui/material/Paper/Paper";
+import {Stack} from "@mui/material";
 
-interface IShowStatisticTableProps extends React.HTMLAttributes<HTMLDivElement>{
+interface IShowStatisticTableProps extends PaperProps{
     attempt_id_array: number[] | string[],
-    stickyHeader?: boolean
+    stickyHeader?: boolean,
+    pageChanger?: any
 }
-export const ShowStatisticTable = observer(({attempt_id_array, stickyHeader = false, ...props}: IShowStatisticTableProps) =>{
+export const ShowStatisticTable = observer(({attempt_id_array, stickyHeader = false, pageChanger}: IShowStatisticTableProps) =>{
     return(
-        <div {...props}>
-            <TableContainer component={Paper} sx={{ maxHeight: stickyHeader? 900: '', overflowX: "auto"}}>
-                <Table aria-label="collapsible table" stickyHeader={stickyHeader} sx={{ minWidth:1200,}}>
+        <Stack direction={"column"} sx={{ width: '100%', overflow: 'hidden'}}>
+            <TableContainer component={Paper} sx={{height: "auto", overflowY: "auto",
+                maxHeight: stickyHeader?  window.innerHeight - 100: ""}}>
+                <Table aria-label="collapsible table" stickyHeader={stickyHeader}
+                       sx={{ minWidth:1200}}>
                     <TableHead>
                         <TableRow>
                             <TableCell />
@@ -40,6 +45,7 @@ export const ShowStatisticTable = observer(({attempt_id_array, stickyHeader = fa
                     </TableBody>
                 </Table>
             </TableContainer>
-        </div>
+            {pageChanger}
+        </Stack>
     )
 })

@@ -148,26 +148,28 @@ export const CARD = observer(({id, courseBar,  ...props}: CardProps) =>{
                 }
             }]
             __findInCourseNotification.pop()
-            all_courses_data?.cardCourse?.map((course, cIndex) => {
-                course?.courseData?.map((course_line: ICourseLine, lIndex) =>{
-                    course_line.SameLine?.map((fragment, fIndex) =>{
-                        fragment.CourseFragment?.map((element, bIndex) =>{
-                            if (element?.CourseElement?.id == id){
-                                __findInCourseNotification?.push({
-                                    course_name: String(course?.name || "_"),
-                                    course_id: String(course?.id),
-                                    position: {
-                                        activePage: fIndex + 1,
-                                        selectedRow: lIndex,
-                                        selectedPage: fIndex + 1,
-                                        selectedIndex: bIndex,
-                                    }
-                                })
-                            }
+            if(id){
+                all_courses_data?.cardCourse?.map((course, cIndex) => {
+                    course?.courseData?.map((course_line: ICourseLine, lIndex) =>{
+                        course_line.SameLine?.map((fragment, fIndex) =>{
+                            fragment.CourseFragment?.map((element, bIndex) =>{
+                                if (element?.CourseElement?.id == id){
+                                    __findInCourseNotification?.push({
+                                        course_name: String(course?.name || "_"),
+                                        course_id: String(course?.id),
+                                        position: {
+                                            activePage: fIndex + 1,
+                                            selectedRow: lIndex,
+                                            selectedPage: fIndex + 1,
+                                            selectedIndex: bIndex,
+                                        }
+                                    })
+                                }
+                            })
                         })
                     })
                 })
-            })
+            }
             setFindInCourseNotification(__findInCourseNotification)
         }
     }, [id, all_courses_data])

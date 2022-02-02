@@ -16,7 +16,9 @@ class CoursePageStore{
 
     loadCoursesID(){
         try{
-            this.clientStorage.client.query({query: GET_COURSES_ID, variables:{
+            this.clientStorage.client.query({query: GET_COURSES_ID,
+            fetchPolicy: "network-only",
+                variables:{
 
             }})
                 .then((response) =>response.data.cardCourse)

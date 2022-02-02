@@ -332,6 +332,23 @@ class CardEditorStorage{
             }
         }
     }
+
+    //-------Работа с выбором карточки --------------------
+    arrowForCardIsSelecting: "" | "cardBefore"| "cardDown" | "cardNext" | "cardUp" = ""
+
+    onStartSelectCard = (card_direction: "cardBefore"| "cardDown" | "cardNext" | "cardUp") =>{
+        this.arrowForCardIsSelecting = card_direction
+    }
+    onCloseSelectCard = () =>{
+        this.arrowForCardIsSelecting = ""
+    }
+    onCardSelect = (card_id: number) =>{
+        if(this.arrowForCardIsSelecting !== ""){
+            this.changeFieldByValue(this.arrowForCardIsSelecting, card_id)
+        }
+        this.onCloseSelectCard()
+    }
+
 }
 //Мапер, который удаляет из типа __typename, для стрелок, которые являются массивами Card Node, делает тип string, для
 //объектов, которые являются темами, авторами и тд, делает массив строк, чтобы хранить ID[]

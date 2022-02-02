@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import {DetailStatisticStoreByID} from "../Store/DetailStatisticStoreByID";
-import {Skeleton} from "@mui/material";
+import {Skeleton, Tooltip} from "@mui/material";
 import {ChartAndStepByStepStatistic} from "./#ChartAndStepByStepStatistic";
 
 interface IDetailStatisticByIDProps extends React.HTMLAttributes<HTMLDivElement>{
@@ -49,9 +49,11 @@ export const DetailStatisticByID = observer(({attempt_id}: IDetailStatisticByIDP
                     {statisticByIDStore.dataForRow.isLogin}
                 </TableCell>
 
-                <TableCell align="right" style={{color: statisticByIDStore.dataForRow.questionHasBeenCompleted? "" :"rgb(245,0,87)"}}>
-                    {statisticByIDStore.dataForRow.questionID}
-                </TableCell>
+                <Tooltip disableInteractive title={statisticByIDStore.dataForRow.QuestionTextForStatistic}>
+                    <TableCell align="right" style={{color: statisticByIDStore.dataForRow.questionHasBeenCompleted? "" :"rgb(245,0,87)"}}>
+                        {statisticByIDStore.dataForRow.questionID}
+                    </TableCell>
+                </Tooltip>
 
                 <TableCell align="right"
                            style={{color: statisticByIDStore.dataForRow.questionHasBeenCompleted? "" :"rgb(245,0,87)"}}>

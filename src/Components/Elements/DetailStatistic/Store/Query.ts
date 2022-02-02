@@ -25,3 +25,12 @@ export const GET_WRONG_ANSWERS = gql`
         }
     }
     `
+
+export const GET_QUESTION_TEXT_BY_ID = gql`
+    query GET_QUESTION_TEXT_BY_ID($id: ID!){
+        questionText(id: $id){
+            id
+            text
+        }
+    }
+    `

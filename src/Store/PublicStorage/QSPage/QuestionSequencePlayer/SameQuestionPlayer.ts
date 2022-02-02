@@ -314,8 +314,10 @@ export class SameQuestionPlayer{
     isAcceptDefeat = false
 
     onAcceptDefeat(){
-        this.isAcceptDefeat = true
-        this.saveDetailStatistic()
+        if(!this.isAcceptDefeat){
+            this.isAcceptDefeat = true
+            this.saveDetailStatistic()
+        }
     }
 
     //Сохраняет детальную статистику по прохождению вопроса

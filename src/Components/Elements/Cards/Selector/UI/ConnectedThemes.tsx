@@ -7,10 +7,7 @@ import {Stack} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import ClearIcon from '@mui/icons-material/Clear';
 
-interface IConnectedThemesProps extends React.HTMLAttributes<HTMLDivElement>{
-
-}
-export const ConnectedThemes = observer(({...props}: IConnectedThemesProps) =>{
+export const ConnectedThemes = observer(() =>{
     const tProps = {
         treeDataSimpleMode: true,
         treeData: CSSObject.connectedThemesForSelector,
@@ -21,11 +18,11 @@ export const ConnectedThemes = observer(({...props}: IConnectedThemesProps) =>{
         disabled: !CSSObject.connectedThemesHasBeenLoaded,
         placeholder: 'Выбирите тему карточки',
         style: {
-            width: '100%', backgroundColor: "#0A1929"
+            width: '100%'
         },
     };
     return(
-        <Paper elevation={0} sx={{width: "100%"}}>
+        <Paper elevation={0} sx={{width: "100%", backgroundColor: "transparent"}}>
             <Stack direction={"row"}>
                 <TreeSelect  {...tProps} size={'large'}/>
                 <IconButton

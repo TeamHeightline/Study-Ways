@@ -49,7 +49,7 @@ export const DetailStatisticByID = observer(({attempt_id}: IDetailStatisticByIDP
                     {statisticByIDStore.dataForRow.isLogin}
                 </TableCell>
 
-                <Tooltip title={statisticByIDStore.dataForRow.QuestionTextForStatistic}>
+                <Tooltip disableInteractive title={statisticByIDStore.dataForRow.QuestionTextForStatistic}>
                     <TableCell align="right" style={{color: statisticByIDStore.dataForRow.questionHasBeenCompleted? "" :"rgb(245,0,87)"}}>
                         {statisticByIDStore.dataForRow.questionID}
                     </TableCell>

@@ -47,7 +47,7 @@ export class DetailStatisticStoreByID {
         if(this.userStorage.userAccessLevel === "ADMIN" || this.userStorage.userAccessLevel === "TEACHER"){
             return(this.questionText)
         } else {
-            return (this.questionText.slice(0, 100))
+            return (this.questionText.slice(0, 200))
         }
     }
 

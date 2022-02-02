@@ -527,6 +527,7 @@ type Query {
     questionById(id: ID): QuestionNode
     questionSequence: [QuestionSequenceNode]
     questionSequenceById(id: ID): QuestionSequenceNode
+    questionText(id: ID): QuestionText
     questionThemes: [QuestionThemesNode]
     selfStatisticIdArray(page: Int): SelfStatisticIDArray
     unstructuredTheme: [UnstructuredThemesNode]
@@ -582,6 +583,11 @@ type QuestionStatisticNode {
     numberOfPasses: Int!
     question: QuestionNode
     sumOfAllAttempts: Int!
+}
+
+type QuestionText {
+    id: ID
+    text: String
 }
 
 type QuestionThemesMutationPayload {

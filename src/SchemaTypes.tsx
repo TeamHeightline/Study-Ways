@@ -800,6 +800,7 @@ export type Query = {
     questionById?: Maybe<QuestionNode>;
     questionSequence?: Maybe<Array<Maybe<QuestionSequenceNode>>>;
     questionSequenceById?: Maybe<QuestionSequenceNode>;
+    questionText?: Maybe<QuestionText>;
     questionThemes?: Maybe<Array<Maybe<QuestionThemesNode>>>;
     selfStatisticIdArray?: Maybe<SelfStatisticIdArray>;
     unstructuredTheme?: Maybe<Array<Maybe<UnstructuredThemesNode>>>;
@@ -882,6 +883,11 @@ export type QueryQuestionSequenceByIdArgs = {
 };
 
 
+export type QueryQuestionTextArgs = {
+    id?: InputMaybe<Scalars['ID']>;
+};
+
+
 export type QuerySelfStatisticIdArrayArgs = {
     page?: InputMaybe<Scalars['Int']>;
 };
@@ -960,6 +966,12 @@ export type QuestionStatisticNode = {
     numberOfPasses: Scalars['Int'];
     question?: Maybe<QuestionNode>;
     sumOfAllAttempts: Scalars['Int'];
+};
+
+export type QuestionText = {
+    __typename?: 'QuestionText';
+    id?: Maybe<Scalars['ID']>;
+    text?: Maybe<Scalars['String']>;
 };
 
 export type QuestionThemesMutationPayload = {

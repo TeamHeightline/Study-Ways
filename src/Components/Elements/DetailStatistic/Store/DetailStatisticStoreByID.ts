@@ -1,12 +1,13 @@
-import {autorun, makeAutoObservable} from "mobx";
+import {autorun, makeAutoObservable, toJS} from "mobx";
 import {ClientStorage} from "../../../../Store/ApolloStorage/ClientStorage";
-import {LOAD_ATTEMPT_BY_ID} from "./Query";
+import {GET_QUESTION_TEXT_BY_ID, LOAD_ATTEMPT_BY_ID} from "./Query";
 import {UserStorage} from "../../../../Store/UserStore/UserStore";
 
 export class DetailStatisticStoreByID {
     constructor(id?: number){
         makeAutoObservable(this)
         autorun( () => this.loadAttemptFromServer())
+        autorun(()=> this.loadQuestionText())
         this.attempt_id = id
     }
     changeAttemptID(new_attempt_id: number){
@@ -36,6 +37,36 @@ export class DetailStatisticStoreByID {
                     })
             }catch (e) {
                 console.log(e)
+            }
+        }
+    }
+
+    questionText = ''
+
+    get QuestionTextForStatistic(){
+        if(this.userStorage.userAccessLevel === "ADMIN" || this.userStorage.userAccessLevel === "TEACHER"){
+            return(this.questionText)
+        } else {
+            return (this.questionText.slice(0, 100))
+        }
+    }
+
+    loadQuestionText(){
+        if(this?.attemptData?.question?.id){
+            try{
+                this.clientStorage.client.query({query: GET_QUESTION_TEXT_BY_ID,
+                    variables:{
+                        id: toJS(this?.attemptData)?.question?.id
+                }})
+                    .then((response) => response.data.questionText)
+                    .then((question_obj) => {
+                        if(question_obj && question_obj.text){
+                            this.questionText = question_obj.text
+                        }
+                    })
+
+                }catch(e){
+                    console.log(e)
             }
         }
     }
@@ -195,6 +226,7 @@ export class DetailStatisticStoreByID {
             questionHasBeenCompleted: this?.attemptData?.questionHasBeenCompleted,
             SumOFPointsWithNewMethod: this?.SumOFPointsWithNewMethod,
             FormattedCreatedAt: this?.FormattedCreatedAt,
+            QuestionTextForStatistic: this.QuestionTextForStatistic
         })
     }
 

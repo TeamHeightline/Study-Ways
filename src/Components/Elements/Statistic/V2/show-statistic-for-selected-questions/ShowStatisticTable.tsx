@@ -20,7 +20,7 @@ export const ShowStatisticTable = observer(({attempt_id_array, stickyHeader = fa
     return(
         <Stack direction={"column"} sx={{ width: '100%', overflow: 'hidden'}}>
             <TableContainer component={Paper} sx={{height: "auto", overflowY: "auto",
-                maxHeight: stickyHeader?  window.innerHeight - 100: ""}}>
+                maxHeight: stickyHeader?  window.innerHeight - 80: ""}}>
                 <Table aria-label="collapsible table" stickyHeader={stickyHeader}
                        sx={{ minWidth:1200}}>
                     <TableHead>

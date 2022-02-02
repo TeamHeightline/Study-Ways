@@ -1,7 +1,7 @@
 import React, {useEffect, useState, Suspense} from "react";
 import { Col, Row, Spinner} from "react-bootstrap";
 import ReactPlayer from "react-player";
-import {Button, ButtonGroup, Typography, Tooltip, Grid, Snackbar, Stack, CircularProgress} from "@mui/material";
+import {Button, ButtonGroup, Typography, Tooltip, Grid, Stack, CircularProgress} from "@mui/material";
 import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
@@ -88,6 +88,53 @@ function CardTitleAuthorThemeAndCopyrightBlock({id, title, copyright, subTheme, 
         </Col>
     </Row>;
 }
+
+function ShowFindInCourse({findInCourseNotification}){
+    const { path } = useRouteMatch();
+    const history = useHistory();
+
+    if(findInCourseNotification.length > 0){
+        return(
+            <Alert severity="success" variant="outlined" sx={{maxWidth: 550}}>
+                <AlertTitle>
+                    {findInCourseNotification?.length == 1 ?
+                        "Этот ресурс встречается в курсе:" :
+                        "Этот ресурс встречается в курсах:"}
+                </AlertTitle>
+                {findInCourseNotification?.map((course) =>{
+                    return(
+                        <Stack direction={"column"}>
+                            <Stack direction={"row"} alignItems={"center"} justifyContent={"start"}>
+                                <Button title={"Перейти"}
+                                        color={"info"}
+                                        onClick={() =>{
+                                            if(path == "/course"){
+                                                history.replace("/course?" + "id=" + course.course_id +
+                                                    "&activePage="+ course.position.activePage +
+                                                    "&selectedPage=" + course.position.selectedPage +
+                                                    "&selectedRow=" + course.position.selectedRow +
+                                                    "&selectedIndex=" + course.position.selectedIndex)
+                                            } else {
+                                                history.push("/course?" + "id=" + course.course_id +
+                                                    "&activePage="+ course.position.activePage +
+                                                    "&selectedPage=" + course.position.selectedPage +
+                                                    "&selectedRow=" + course.position.selectedRow +
+                                                    "&selectedIndex=" + course.position.selectedIndex)
+                                            }
+                                        }}>
+                                    Перейти
+                                </Button>
+                                <Typography variant={"body2"}>{course.course_name}</Typography>
+                            </Stack>
+                        </Stack>)
+                })}
+            </Alert>
+        )
+
+    } else {
+        return (<div/>)
+    }
+}
 type IFindInCourseNotification = {
     course_name: string
     course_id: string
@@ -108,7 +155,6 @@ export const CARD = observer(({id, courseBar,  ...props}: CardProps) =>{
     const history = useHistory();
     const {width, height} = useWindowDimensions()
     const [findInCourseNotification, setFindInCourseNotification] = useState<IFindInCourseNotification>([])
-    const { path } = useRouteMatch();
     const {data: card_data, refetch} = useQuery<Query>(SHOW_CARD_BY_ID, {
         fetchPolicy: "cache-and-network",
         variables:{
@@ -302,38 +348,7 @@ export const CARD = observer(({id, courseBar,  ...props}: CardProps) =>{
                             </div>}
                         </Col>
                         {isMobile && findInCourseNotification?.length > 0 &&
-                        <Alert severity="success" sx={{ width: '100%' }} variant="outlined">
-                            <AlertTitle>
-                                {findInCourseNotification?.length == 1 ?
-                                    "Этот ресурс встречается в курсе:" :
-                                    "Этот ресурс встречается в курсах:"}
-                            </AlertTitle>
-                            {findInCourseNotification?.map((course) =>{
-                                return(
-                                    <Stack direction={"row"} alignItems={"center"}>
-                                        <Button title={"Перейти"}
-                                                color={"info"}
-                                                onClick={() =>{
-                                                    if(path == "/course"){
-                                                        history.replace("/course?" + "id=" + course.course_id +
-                                                            "&activePage="+ course.position.activePage +
-                                                            "&selectedPage=" + course.position.selectedPage +
-                                                            "&selectedRow=" + course.position.selectedRow +
-                                                            "&selectedIndex=" + course.position.selectedIndex)
-                                                    } else {
-                                                        history.push("/course?" + "id=" + course.course_id +
-                                                            "&activePage="+ course.position.activePage +
-                                                            "&selectedPage=" + course.position.selectedPage +
-                                                            "&selectedRow=" + course.position.selectedRow +
-                                                            "&selectedIndex=" + course.position.selectedIndex)
-                                                    }
-                                                }}>
-                                            Перейти
-                                        </Button>
-                                        <Typography variant={"body2"} style={{paddingLeft: 12}}>{course.course_name}</Typography>
-                                    </Stack>)
-                            })}
-                        </Alert>}
+                            <ShowFindInCourse findInCourseNotification={findInCourseNotification}/>}
                         {!isMobile &&
                         <Col className="col-12 col-lg-6 mt-4">
                             <RichTextPreview text={card_data?.cardById?.text} onChange={() => void (0)}/>
@@ -346,6 +361,8 @@ export const CARD = observer(({id, courseBar,  ...props}: CardProps) =>{
                                     setRating(newValue);
                                 }}
                             />
+                            <ShowFindInCourse findInCourseNotification={findInCourseNotification}/>
+
                         </Col>}
 
                         {card_data?.cardById?.isCardUseArrowNavigation &&
@@ -446,45 +463,13 @@ export const CARD = observer(({id, courseBar,  ...props}: CardProps) =>{
                     </div>
                 </div>}
             </div>
-            {!isMobile &&
-            <Snackbar
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }}
-                open={findInCourseNotification?.length > 0}
-            >
-                <Alert severity="success" sx={{ width: '100%' }} variant="outlined">
-                    <AlertTitle>
-                        {findInCourseNotification?.length == 1 ?
-                        "Этот ресурс встречается в курсе:" :
-                        "Этот ресурс встречается в курсах:"}
-                    </AlertTitle>
-                    {findInCourseNotification?.map((course) =>{
-                        return(
-                            <Stack direction={"row"} alignItems={"center"}>
-                                <Button title={"Перейти"}
-
-                                        color={"info"}
-                                        onClick={() =>{
-                                            if(path == "/course"){
-                                                history.replace("/course?" + "id=" + course.course_id +
-                                                    "&activePage="+ course.position.activePage +
-                                                    "&selectedPage=" + course.position.selectedPage +
-                                                    "&selectedRow=" + course.position.selectedRow +
-                                                    "&selectedIndex=" + course.position.selectedIndex)
-                                            } else {
-                                                history.push("/course?" + "id=" + course.course_id +
-                                                    "&activePage="+ course.position.activePage +
-                                                    "&selectedPage=" + course.position.selectedPage +
-                                                    "&selectedRow=" + course.position.selectedRow +
-                                                    "&selectedIndex=" + course.position.selectedIndex)
-                                            }
-                                        }}>
-                                    Перейти
-                                </Button>
-                                <Typography variant={"body2"}>{course.course_name}</Typography>
-                            </Stack>)
-                    })}
-                </Alert>
-            </Snackbar>}
+            {/*{!isMobile &&*/}
+            {/*<Snackbar*/}
+            {/*    anchorOrigin={{ vertical: 'bottom', horizontal: 'right', }}*/}
+            {/*    open={findInCourseNotification?.length > 0}*/}
+            {/*>*/}
+            {/*    */}
+            {/*</Snackbar>}*/}
             </Suspense>
         </div>
     )

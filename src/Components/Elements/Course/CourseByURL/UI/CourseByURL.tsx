@@ -28,12 +28,14 @@ const CourseByURL = observer(({...props}: ICourseByURLProps) =>{
             <CARD id={activeCardID}
                   openFromCourse
                   courseBar={
-                      <CourseMicroView
-                          onCardSelect={(card_id) => {changeSelectedCardID(card_id)}}
-                          course_id={Number(queryParams.get("id"))}
-                          position_data={position_data}
-                          showArrowNavigation
-                      />}
+                      <div style={{overflowX: "auto", maxWidth: window.innerWidth - 40}}>
+                          <CourseMicroView
+                              onCardSelect={(card_id) => {changeSelectedCardID(card_id)}}
+                              course_id={Number(queryParams.get("id"))}
+                              position_data={position_data}
+                              showArrowNavigation
+                          />
+                      </div>}
             />
 
         </div>

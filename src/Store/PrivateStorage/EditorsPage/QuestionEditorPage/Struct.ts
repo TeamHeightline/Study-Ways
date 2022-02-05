@@ -1,5 +1,13 @@
 import {gql} from "@apollo/client";
 
+export const CREATE_DEEP_QUESTION_COPY = gql`
+    mutation CREATE_DEEP_QUESTION_COPY($questionId: Int!){
+        copyQuestionWithAnswers(questionId: $questionId){
+            newQuestionId
+            ok
+        }
+    }`
+
 export const THEMES_AND_AUTHORS_FOR_QUESTION = gql`
     query{
         me{

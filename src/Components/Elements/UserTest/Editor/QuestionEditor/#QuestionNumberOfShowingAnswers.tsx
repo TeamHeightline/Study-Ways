@@ -1,7 +1,6 @@
 import {observer} from "mobx-react";
 import React from 'react';
-import {FormControl, MenuItem, Select, Stack, TextField, Typography} from "@mui/material";
-import {Row} from "react-bootstrap";
+import {FormControl, MenuItem, Stack, TextField, Typography} from "@mui/material";
 import {QuestionEditorStorage} from "../../../../../Store/PrivateStorage/EditorsPage/QuestionEditorPage/QuestionEditorStorage";
 import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 
@@ -10,12 +9,13 @@ export const QuestionNumberOfShowingAnswers = observer(() =>{
     console.log(QuestionEditorStorage.selectedQuestionNumberOfShowingAnswers)
     return(
         <div>
-            <Stack direction={isMobile? "column": "row"}>
-                <Typography className="mt-3">
+            <Stack direction={isMobile? "column": "row"} alignItems={"center"}>
+                <Typography variant={"body1"}>
                     Количество отображаемых ответов
                 </Typography>
-                <FormControl  variant="outlined" className="col-md-2 pl-3 col-12 ">
+                <FormControl  variant="outlined">
                     <TextField
+                        sx={{minWidth: 100, pl: 1}}
                         select
                         label="От 2 до 12"
                         fullWidth

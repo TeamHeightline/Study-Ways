@@ -5,7 +5,7 @@ import {
     CREATE_NEW_ANSWER,
     CREATE_NEW_ANSWER_BASED_ON_DATA,
     CREATE_NEW_QUESTION, GET_QUESTION_DATA_BY_ID, MY_QUESTIONS_BASIC_DATA,
-    UPDATE_QUESTION
+    UPDATE_QUESTION, CREATE_DEEP_QUESTION_COPY
 } from "./Struct";
 import {
     AnswerNode,
@@ -264,6 +264,28 @@ class QuestionEditor{
             .then((response) => (response?.data?.updateQuestion?.question?.id))
             .then((id) => this.selectQuestionClickHandler(Number(id)))
             .then(() => this.loadBasicQuestionData())
+    }
+
+    //Создаем копию этого вопроса со всеми ответами и переходим в нее
+    createDeepCopyInProgress = false
+    deepQuestionCopyWithAnswers = () => {
+        this.createDeepCopyInProgress = true
+        try{
+            this.clientStorage.client.mutate<Mutation>({mutation: CREATE_DEEP_QUESTION_COPY,
+                variables:{
+                    questionId: this.selectedQuestionID
+            }})
+                .then((response) => response?.data?.copyQuestionWithAnswers)
+                .then((create_question_data) =>{
+                    if(create_question_data?.ok && create_question_data.newQuestionId){
+                        this.createDeepCopyInProgress = false
+                        this.selectQuestionClickHandler(Number(create_question_data.newQuestionId))
+                    }
+                })
+
+            }catch(e){
+                console.log(e)
+        }
     }
 
     addCreatedAnswerToAnswersObjectArray(answer: AnswerNode){

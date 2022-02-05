@@ -143,6 +143,11 @@ type CardThemeNode {
     name: String!
 }
 
+type CopyQuestionWithAnswers {
+    newQuestionId: ID
+    ok: Boolean
+}
+
 type CreateCardCoursePayload {
     clientMutationId: String
     course: CardCourseNode
@@ -240,6 +245,7 @@ type Mutation {
     cardDetailView(cardId: Int): CardDetailView
     cardSubTheme(input: CardSubThemeMutationInput!): CardSubThemeMutationPayload
     cardTheme(input: CardThemeMutationInput!): CardThemeMutationPayload
+    copyQuestionWithAnswers(questionId: Int): CopyQuestionWithAnswers
     createAnswer(input: AnswerMutationInput!): AnswerMutationPayload
     createCardCourse(input: CreateCardCourseInput!): CreateCardCoursePayload
     createDetailQuestionStatistic(input: CreateDetailQuestionStatisticInput!): CreateDetailQuestionStatisticPayload

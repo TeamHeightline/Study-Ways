@@ -22,7 +22,9 @@ export const EditQuestionByID = observer(() =>{
         <div style={{paddingLeft: isMobile? 0: 40, paddingRight: 10}}>
             <Button
                 className="col-12 col-md-2 mt-2"
-                variant="outlined" color="primary" onClick={() => {
+                variant="outlined" color="primary"
+                disabled={QuestionEditorStorage.unsavedFlag}
+                onClick={() => {
                 QuestionEditorStorage?.changeQuestionHasBeenSelected(false)
             }}>
                 Назад

@@ -36,6 +36,7 @@ const AdditionalActions = observer(({...props}: IAdditionalActionsProps) =>{
                 <CircularProgress color="primary" />
             </Backdrop>
             <SpeedDial
+                hidden={QuestionEditorStorage.unsavedFlag}
                 sx={{bgcolor: "secondary"}}
                 icon={<MoreHorizIcon/>}
                 direction={"right"}

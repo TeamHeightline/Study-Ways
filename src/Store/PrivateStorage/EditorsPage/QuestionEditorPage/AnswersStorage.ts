@@ -89,7 +89,7 @@ export class Answer{
         }
     }
 
-    //Функция для сохранения даных на сервере
+    //Функция для сохранения данных на сервере
     saveDataOnServer(){
         this.clientStorage.client.mutate({mutation: UPDATE_ANSWER, variables:{
                 question: this.questionID,
@@ -121,7 +121,7 @@ export class Answer{
     autoSave(){
         this.stateOfSave = false
         clearTimeout(this.savingTimer)
-        this.savingTimer = setTimeout(() =>{this.saveDataOnServer()}, 5000)
+        this.savingTimer = setTimeout(() =>{this.saveDataOnServer()}, 1500)
     }
 
     get imageName(){

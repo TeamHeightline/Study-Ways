@@ -202,7 +202,7 @@ class QuestionEditor{
     autoSave(){
         this.stateOfSave = variantsOfStateOfSave.SAVING
         clearTimeout(this.savingTimer)
-        this.savingTimer = setTimeout(() =>{this.saveDataOnServer()}, 5000)
+        this.savingTimer = setTimeout(() =>{this.saveDataOnServer()}, 1500)
     }
 
 
@@ -257,6 +257,16 @@ class QuestionEditor{
         this.simpleUpdateFlag = newFlag
     }
 
+    //флаг блокировки закрытия вопроса, если не сохранен вопрос или какой-лбо из его ответов
+    get unsavedFlag(){
+        let answersAreSaved = true
+        for (let answerStore of this.answers){
+            if (!answerStore.stateOfSave){
+                answersAreSaved = false
+            }
+        }
+        return !(this.stateOfSave === variantsOfStateOfSave.SAVED && answersAreSaved)
+    }
 
     //Создаем новый вопрос
     createNewQuestion(){

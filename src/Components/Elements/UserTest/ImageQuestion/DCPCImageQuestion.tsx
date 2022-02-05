@@ -11,7 +11,7 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    FormControlLabel, Stack
+    FormControlLabel, Grid, Stack
 } from "@mui/material";
 import React, {useState} from "react";
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
@@ -52,34 +52,38 @@ export default function DCPCImageQuestion(props: any) {
                 <Col
                     className={!props?.ignoreAspectRatio ? "col-6": isMobile ? "col-12" : "col-6"}
                     style={{height: isMobile ? window.innerWidth -100 : 500, width: "100%"}} >
-                    <CardContent>
-                        <Typography component="h5" variant="h5">
-                            Вопрос
-                        </Typography>
-                        <Typography variant="body1" color="textSecondary" component="p" style={{userSelect: "none", content: "Foobar"}}>
-                            {props.questionData?.questionById?.text ? props.questionData?.questionById?.text : props.questionText}
-                        </Typography>
-                        {props.id && props.onChange &&
-                            <Button
-                                className="col-12 mt-2" variant="outlined" color="primary" onClick={props.onClick}>
-                                Назад
-                            </Button>}
+                    <CardContent sx={{height: "100%"}}>
+                        <Grid sx={{height: "100%"}} container alignItems="center">
+                            <Grid item xs={12} spacing={2}>
+                                <Typography component="h5" variant="h5">
+                                    Вопрос
+                                </Typography>
+                                <Typography variant="body1" color="textSecondary" component="p" style={{userSelect: "none", content: "Foobar"}}>
+                                    {props.questionData?.questionById?.text ? props.questionData?.questionById?.text : props.questionText}
+                                </Typography>
+                                {props.id && props.onChange &&
+                                    <Button
+                                        className="col-12 mt-2" variant="outlined" color="primary" onClick={props.onClick}>
+                                        Назад
+                                    </Button>}
+                                <Stack direction={"row"} spacing={1}>
+                                    <Button
+                                        disabled={disableCheckButton}
+                                        variant="contained" color="primary"
+                                        onClick={(e) =>{
+                                            props.onClick1(e)
+                                            setDisableCheckButton(true)
+                                            setTimeout(setDisableCheckButton, 1000, false)
+                                    }} fullWidth>
+                                        Проверить
+                                    </Button>
+                                    <Button variant="outlined" color="secondary" onClick={() => setOpenAcceptDefeatDialog(true)} fullWidth>
+                                        Сдаться
+                                    </Button>
+                                </Stack>
+                            </Grid>
 
-                        <Stack direction={"row"} spacing={1}>
-                            <Button
-                                disabled={disableCheckButton}
-                                variant="contained" color="primary"
-                                onClick={(e) =>{
-                                    props.onClick1(e)
-                                    setDisableCheckButton(true)
-                                    setTimeout(setDisableCheckButton, 1000, false)
-                            }} fullWidth>
-                                Проверить
-                            </Button>
-                            <Button variant="outlined" color="secondary" onClick={() => setOpenAcceptDefeatDialog(true)} fullWidth>
-                                Сдаться
-                            </Button>
-                        </Stack>
+                        </Grid>
                     </CardContent>
                 </Col>
             </Row>

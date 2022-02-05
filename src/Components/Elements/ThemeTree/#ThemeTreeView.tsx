@@ -57,7 +57,7 @@ export const ThemeTreeView = memo(function ThemeTreeView({
         void (0)
     }, [manualUpdate])
     return (
-        <Card variant="outlined" style={{height: 850, overflow: "auto"}}>
+        <Card variant="outlined" style={{height: 650, overflow: "auto"}}>
             <Tree
                 tree={treeData || []}
                 rootId={0}

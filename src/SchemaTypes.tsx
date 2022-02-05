@@ -202,6 +202,12 @@ export type CardThemeNode = {
     name: Scalars['String'];
 };
 
+export type CopyQuestionWithAnswers = {
+    __typename?: 'CopyQuestionWithAnswers';
+    newQuestionId?: Maybe<Scalars['ID']>;
+    ok?: Maybe<Scalars['Boolean']>;
+};
+
 export type CreateCardCoursePayload = {
     __typename?: 'CreateCardCoursePayload';
     clientMutationId?: Maybe<Scalars['String']>;
@@ -311,6 +317,7 @@ export type Mutation = {
     cardDetailView?: Maybe<CardDetailView>;
     cardSubTheme?: Maybe<CardSubThemeMutationPayload>;
     cardTheme?: Maybe<CardThemeMutationPayload>;
+    copyQuestionWithAnswers?: Maybe<CopyQuestionWithAnswers>;
     createAnswer?: Maybe<AnswerMutationPayload>;
     createCardCourse?: Maybe<CreateCardCoursePayload>;
     createDetailQuestionStatistic?: Maybe<CreateDetailQuestionStatisticPayload>;
@@ -503,6 +510,11 @@ export type MutationCardSubThemeArgs = {
 
 export type MutationCardThemeArgs = {
     input: CardThemeMutationInput;
+};
+
+
+export type MutationCopyQuestionWithAnswersArgs = {
+    questionId?: InputMaybe<Scalars['Int']>;
 };
 
 

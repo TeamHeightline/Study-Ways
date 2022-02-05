@@ -14,6 +14,7 @@ import {AnswersEditor} from "../AnswersEditor/AnswersEditor";
 import {CreateNewAnswer} from "./#CreateNewAnswer";
 import React from "react";
 import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
+import AdditionalActions from "./AdditionalActions";
 
 export const EditQuestionByID = observer(() =>{
     const isMobile = isMobileHook()
@@ -32,13 +33,19 @@ export const EditQuestionByID = observer(() =>{
                     <Grid item xs={12} md={6}>
                         <QuestionText/>
                     </Grid>
-                    <Grid item xs={12} md={6}>
-                        {QuestionEditorStorage?.questionHasBeenSelected && <QuestionNumberOfShowingAnswers/>}
+                    <Grid item container xs={12} md={6}>
+                        <Stack direction={"row"}
+                               justifyContent={"start"}
+                               spacing={2}
+                               sx={{width: "100%"}}>
+                            <QuestionNumberOfShowingAnswers/>
+                            <AdditionalActions/>
+                        </Stack>
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <QuestionVideoURL/>
                     </Grid>
-                    {QuestionEditorStorage?.AuthorsAndThemesHasBeenLoaded && QuestionEditorStorage.questionHasBeenSelected &&
+                    {QuestionEditorStorage?.AuthorsAndThemesHasBeenLoaded  &&
                     <Grid item xs={12} md={6} container columnSpacing={6} rowSpacing={2}>
                         <Grid item xs={12} md={6}>
                             <ThemeSelector/>

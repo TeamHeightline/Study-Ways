@@ -9,6 +9,7 @@ import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 import AddIcon from '@mui/icons-material/Add';
 import {SERVER_BASE_URL} from "../../../../settings";
 import {EditorPage} from "../../Cards/Editor/EditorPageV2/Page";
+import {useHistory, useRouteMatch} from "react-router-dom";
 
 const GET_COURSE_BY_ID = gql`
     query GET_COURSE_BY_ID($id: ID!){
@@ -36,8 +37,10 @@ export default function EditCourseByID({course_id, ...props}: any){
     const [cardStateOfSave] = useState(2)
     const [stateOfSave, setStateOfSave] = useState(2) // 0- не сохранено 1- сохранение 2- сохранено
     const [rerender, setRerender] = useState(false)
-    const [activeEditCard, setActiveEditCard] = useState<number | undefined>()
     const isMobile = isMobileHook()
+    const history = useHistory()
+    const { path } = useRouteMatch();
+
 
     const [update_course] = useMutation(UPDATE_COURSE_DATA, {
         variables:{
@@ -130,9 +133,6 @@ export default function EditCourseByID({course_id, ...props}: any){
         setRerender(!rerender)
         autoSave()
     }
-    function setEditCard(card_id){
-        setActiveEditCard(card_id)
-    }
 
 
     if(!course_data){
@@ -195,7 +195,9 @@ export default function EditCourseByID({course_id, ...props}: any){
                 {CourseLinesData.length !== 0 && CourseLinesData.map((line, lIndex) =>{
                     return(
                         <CourseRow
-                            editCard={(item_id) => setEditCard(item_id)}
+                            editCard={(item_id) => {
+                                history.push(path + "/card/" + item_id)
+                            }}
                             key={lIndex + "course" + props.cIndex} row={line} lIndex={lIndex}
                                    cIndex={props.cIndex}
                                    openPageIndex={openPageIndex}

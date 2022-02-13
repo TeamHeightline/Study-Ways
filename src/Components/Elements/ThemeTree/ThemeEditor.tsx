@@ -1,11 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {NodeModel} from "@minoru/react-dnd-treeview";
-import {
-    CreateTheme,
-    GET_ALL_UNSTRUCTURED_THEME,
-    SAVE_NEW_THEMES_SEQUENCE,
-    UpdateTheme
-} from "./Struct";
+import {CreateTheme, GET_ALL_UNSTRUCTURED_THEME, SAVE_NEW_THEMES_SEQUENCE, UpdateTheme} from "./Struct";
 import {useMutation, useQuery} from "@apollo/client";
 import {CircularProgress, Collapse, Fab, Grid, TextField} from "@mui/material";
 import {Mutation, Query} from "../../../SchemaTypes";
@@ -32,25 +27,25 @@ function ThemeEditor() {
     //Переменная для предотвращения сохранения той последовательности, если она не изменилась
     const [lastSavedSequenceData, setLSSD] = useState<string>("")
 
-    function convertTreeDataForSave(tree_data: NodeModel[] | undefined = treeData): string{
+    function convertTreeDataForSave(tree_data: NodeModel[] | undefined = treeData): string {
         return String(tree_data?.map((theme) => theme.id).join(","))
     }
 
     const [updateTheme, {loading: update_theme_loading}] =
         useMutation<Mutation>(UpdateTheme, {
-            variables:{
+            variables: {
                 id: selectedThemeID,
                 parent: getParentIDByTargetID(selectedThemeID),
                 text: activeEditText
             }
         })
 
-    const [createTheme,  {loading: create_theme_loading}] =
+    const [createTheme, {loading: create_theme_loading}] =
         useMutation<Mutation>(CreateTheme, {
-            variables:{
+            variables: {
                 text: activeEditText,
-                parent: activeEditMode === editingModes.CreateThemeOnSameLevel?
-                    getParentIDByTargetID(selectedThemeID):
+                parent: activeEditMode === editingModes.CreateThemeOnSameLevel ?
+                    getParentIDByTargetID(selectedThemeID) :
                     selectedThemeID
             }
         })
@@ -68,15 +63,6 @@ function ThemeEditor() {
         //Если мы редактируем тему, то в поле ввода будет текст из выбранной темы
         if (buttonType === editingModes.EditTheme && selectedThemeID) {
             setActiveEditText(treeData?.find(theme => theme?.id === selectedThemeID)?.text || "")
-        }
-    }
-
-    function generateNewThemeID(): number {
-        //ID новой темы = самый большой id + 1
-        if (treeData) {
-            return Math.max.apply(Math, treeData.map((theme: NodeModel) => {return Number(theme?.id) || 0})) + 1
-        } else {
-            return 0
         }
     }
 
@@ -102,29 +88,42 @@ function ThemeEditor() {
             setTreeData(newTree)
             setManualUpdate(!manualUpdate)
         } else if (activeEditMode === editingModes.CreateSubTheme && activeEditText) {
-            const newTree: NodeModel[] | undefined = treeData
-            newTree?.push({
-                id: String(generateNewThemeID()),
-                parent: selectedThemeID || 0,
-                text: activeEditText,
-                droppable: true
-            })
             createTheme()
-            setTreeData(newTree)
-            setActiveEditText("")
-            setManualUpdate(!manualUpdate)
+                .then((data) => {
+                    console.log(data)
+                    if (data.data?.unstructuredTheme?.theme?.id) {
+                        const newTree: NodeModel[] | undefined = treeData
+                        newTree?.push({
+                            id: data.data?.unstructuredTheme?.theme?.id,
+                            parent: selectedThemeID || 0,
+                            text: activeEditText,
+                            droppable: true
+                        })
+                        setTreeData(newTree)
+                        setActiveEditText("")
+                        setManualUpdate(!manualUpdate)
+                    }
+                })
         } else if (activeEditMode === editingModes.CreateThemeOnSameLevel && activeEditText) {
-            const newTree: NodeModel[] | undefined = treeData
-            newTree?.push({
-                id: String(generateNewThemeID()),
-                parent: String(getParentIDByTargetID()) || 0,
-                text: activeEditText,
-                droppable: true
-            })
+
             createTheme()
-            setTreeData(newTree)
-            setActiveEditText("")
-            setManualUpdate(!manualUpdate)
+                .then((data) => {
+                    console.log(data)
+                    if (data.data?.unstructuredTheme?.theme?.id) {
+                        const newTree: NodeModel[] | undefined = treeData
+                        newTree?.push({
+                            id: data.data?.unstructuredTheme?.theme?.id,
+                            parent: String(getParentIDByTargetID()) || 0,
+                            text: activeEditText,
+                            droppable: true
+                        })
+                        setTreeData(newTree)
+                        setActiveEditText("")
+                        setManualUpdate(!manualUpdate)
+                    }
+
+                })
+
         }
     }
 
@@ -151,25 +150,25 @@ function ThemeEditor() {
         }
     })
     const [save_themes_sequence] = useMutation<Mutation>(SAVE_NEW_THEMES_SEQUENCE, {
-        variables:{
+        variables: {
             sequence: sequenceDataForSave
         },
-        onCompleted: (data) =>{
-            if(data?.usThemeSequence?.uSThemeSequence && data?.usThemeSequence?.uSThemeSequence?.sequence){
+        onCompleted: (data) => {
+            if (data?.usThemeSequence?.uSThemeSequence && data?.usThemeSequence?.uSThemeSequence?.sequence) {
                 setLSSD(String(data?.usThemeSequence?.uSThemeSequence?.sequence))
             }
         }
     })
 
 
-    useEffect(()=>{
-        if(treeData){
+    useEffect(() => {
+        if (treeData) {
             setSequenceDataForSave(convertTreeDataForSave())
         }
     }, [convertTreeDataForSave()])
 
-    useEffect(()=>{
-        if(sequenceDataForSave !== lastSavedSequenceData){
+    useEffect(() => {
+        if (sequenceDataForSave !== lastSavedSequenceData) {
             save_themes_sequence()
         }
     }, [sequenceDataForSave])

@@ -6,19 +6,19 @@ import {useHistory, useRouteMatch, Redirect} from "react-router-dom";
 import useQueryParams from "../../../../CustomHooks/useQueryParams";
 
 
-interface IAISwitchProps extends React.HTMLAttributes<HTMLDivElement>{
+interface IAISwitchProps extends React.HTMLAttributes<HTMLDivElement> {
 
 }
 
 
-export const AISwitch = observer(({...props}: IAISwitchProps) =>{
+export const AISwitch = observer(({...props}: IAISwitchProps) => {
     const history = useHistory()
-    const { path } = useRouteMatch();
+    const {path} = useRouteMatch();
     const queryParams = useQueryParams();
 
 
-    const handleOnChange = (e) =>{
-        if(!e.target.checked){
+    const handleOnChange = (e) => {
+        if (!e.target.checked) {
             history.push(path + "?searchType=AISearch")
         } else {
             history.push(path + "?searchType=DSearch")
@@ -26,17 +26,17 @@ export const AISwitch = observer(({...props}: IAISwitchProps) =>{
     }
     const searchType = queryParams.get("searchType")
 
-    if(!queryParams.get("searchType")){
+    if (!queryParams.get("searchType")) {
         return (<Redirect to={`${path}?searchType=AISearch`}/>)
     }
-    return(
+    return (
         <div {...props}>
-            <Stack  direction={"row"}  alignItems={"center"} justifyContent={"center"}>
+            <Stack direction={"row"} alignItems={"center"} justifyContent={"center"}>
                 <Typography>
                     Персонализированный поиск
                 </Typography>
-                <Switch  defaultChecked={!(searchType === "AISearch")}
-                         color="secondary" onChange={handleOnChange}/>
+                <Switch checked={!(searchType === "AISearch")}
+                        color="secondary" onChange={handleOnChange}/>
                 <Typography>
                     Алгоритмический поиск
                 </Typography>

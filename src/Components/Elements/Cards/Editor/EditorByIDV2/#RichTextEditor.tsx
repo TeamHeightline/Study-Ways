@@ -4,7 +4,7 @@ import {Card, Typography} from "@mui/material";
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
-import '../../CardView/RichTextPreviewStyle.css'
+import './RichTextEditStyle.css'
 
 interface IRichTextEditorProps extends React.HTMLAttributes<HTMLDivElement>{
     
@@ -17,7 +17,6 @@ export const RichTextEditor = observer(({...props}: IRichTextEditorProps) =>{
                     editor={ Editor }
                     data={CESObject.getField("text", "") == "Описание карточки"? "" :
                         CESObject.getField("text", "")}
-                    style={{maxHeight: "440px",}}
                     onChange={ ( event, editor ) => {
                         CESObject.changeFieldByValue('text', editor.getData())
                     } }

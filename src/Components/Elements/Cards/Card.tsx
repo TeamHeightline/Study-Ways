@@ -13,7 +13,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 import useWindowDimensions from "../../../CustomHooks/useWindowDimensions";
 import {observer} from "mobx-react";
-const RichTextPreview =  React.lazy(() =>import('./CardView/#RichTextPreview'));
+import RichTextPreview from './CardView/#RichTextPreview'
 import CopyrightIcon from "@mui/icons-material/Copyright";
 import {ImageQuestion} from "../UserTest/ImageQuestion/ImageQuestion";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -244,7 +244,6 @@ export const CARD = observer(({id, courseBar,  ...props}: CardProps) =>{
 
     return(
         <div  style={{padding: 0}}>
-            <Suspense fallback={<Grid container justifyContent={"center"}><CircularProgress /></Grid>}>
             <CssBaseline />
             <div className=" col-12 mr-md-2 pl-md-2">
                 {!props.disableAllButtons &&
@@ -470,7 +469,6 @@ export const CARD = observer(({id, courseBar,  ...props}: CardProps) =>{
             {/*>*/}
             {/*    */}
             {/*</Snackbar>}*/}
-            </Suspense>
         </div>
     )
 })

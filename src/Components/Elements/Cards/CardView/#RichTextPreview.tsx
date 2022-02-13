@@ -12,7 +12,7 @@ export default function RichTextPreview({text,}: any,){
                 className="ckeditor"
                 editor={ Editor }
                 data={text}
-                style={{maxHeight: "440px"}}
+                style={{height: 496}}
                 disabled={true}
                 config={ {
                     fontColor: "#ffffff",

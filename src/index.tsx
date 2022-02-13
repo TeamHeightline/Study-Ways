@@ -12,69 +12,8 @@ import "./Components/Elements/Cards/CardView/RichTextPreviewStyle.css"
 import DateAdapter from '@mui/lab/AdapterMoment';
 import {LocalizationProvider} from "@mui/lab";
 import 'antd/dist/antd.dark.min.css';
-
-export const theme = createTheme( {
-    palette: {
-        mode: 'dark',
-        background: {
-            default: '#0A1929',
-            paper: "#0A1929"
-        },
-        primary: {
-            main: "#2196f3",
-            contrastText: "#ffffff",
-        },
-        secondary: {
-            main: '#f50057',
-        },
-        text: {
-            primary: "#ffffff",
-            secondary: "#ffffff",
-            disabled: "#ffffff"
-        },
-
-    },
-    typography: {
-        allVariants: {
-            color: "white"
-        },
-    },
-    components: {
-        MuiCssBaseline: {
-            styleOverrides: {
-                // body:  darkScrollbar(),
-                body: {
-                    scrollbarColor: "#0A1929",
-                    "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
-                        backgroundColor: "#1A202C",
-                        width: "8px"
-                    },
-                    "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
-                        borderRadius: "10px",
-                        backgroundColor: "#1A202C",
-                        border: "1px solid #2296F3"
-                    },
-                    ".ck-editor": {
-                        "--ck-color-toolbar-background": "#0A1929",
-                        "--ck-color-toolbar-border": "#0A1929",
-                        "--ck-color-input-disabled-text": "#ffffff",
-                        "--ck-color-text": "#ffffff"
-                    },
-                    ".ck-content" : {
-                        color: "#ffffff"
-                    },
-                    ".ck-widget":{
-                        filter: "invert(1)"
-                    },
-                    //делает все подписи в статистике белыми
-                    ".Component-root-4":{
-                        filter: "invert(1)"
-                    }
-                }
-            },
-        },
-    },
-})
+import {theme} from "./global-theme";
+import { Auth0Provider } from "@auth0/auth0-react";
 
 configure({
     enforceActions: "never",
@@ -84,15 +23,23 @@ configure({
 //Для Material UI мы создаем ThemeProvider, для AntDesign - импортируем темную тему
 ReactDOM.render(
     <LocalizationProvider dateAdapter={DateAdapter}>
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <style>{'body {background-color: #0A1929}'}</style>
-            <div>
-                <DndProvider backend={HTML5Backend}>
-                    <App />
-                </DndProvider>
-            </div>
-        </ThemeProvider>
+        <Auth0Provider
+            domain="dev-29gfcwkx.us.auth0.com"
+            clientId="A0jSyVnfS1vB1KMmi0G8XsDRcyNYBXJS"
+            redirectUri={window.location.origin}
+            audience="https://dev-29gfcwkx.us.auth0.com/api/v2/"
+            scope="read:current_user update:current_user_metadata"
+        >
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <style>{'body {background-color: #0A1929}'}</style>
+                <div>
+                    <DndProvider backend={HTML5Backend}>
+                        <App />
+                    </DndProvider>
+                </div>
+            </ThemeProvider>
+        </Auth0Provider>
     </LocalizationProvider>,
   document.getElementById('root')
 );

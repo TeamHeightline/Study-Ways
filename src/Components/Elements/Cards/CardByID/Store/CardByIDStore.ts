@@ -1,7 +1,7 @@
 import {autorun, makeAutoObservable, toJS} from "mobx";
-import {CardCourseNode, CardNode, Query} from "../../../../../SchemaTypes";
+import {CardCourseNode, CardNode, Mutation, Query} from "../../../../../SchemaTypes";
 import {ClientStorage} from "../../../../../Store/ApolloStorage/ClientStorage";
-import {GET_ALL_COURSE, LOAD_CARD_DATA_BY_ID} from "./Query";
+import {ADD_TO_BOOKMARK, GET_ALL_COURSE, LOAD_CARD_DATA_BY_ID, REMOVE_CARD_FROM_BOOKMARK, SET_RATING} from "./Query";
 import {SERVER_BASE_URL} from "../../../../../settings";
 import {ICourseLine} from "../../../Course/Editor/EditCourseByID";
 import {positionDataI} from "../../../Course/CourseMicroView/V2/Store/CourseMicroStoreByID";
@@ -13,6 +13,7 @@ export class CardByIDStore {
         autorun(() => this.getCardImageURL())
         autorun(() => this.getAllCoursesData())
         autorun(() => this.collectFindInCourseNotification())
+        autorun(() => this.updateRatingAndISBookmarked())
         this.id = id
     }
 
@@ -148,6 +149,80 @@ export class CardByIDStore {
             })
             this.findInCourseArray = __findInCourseNotification
 
+        }
+    }
+
+    clickToBookmarkIcon = () => {
+        this.isBookmarked = !this.isBookmarked
+        if (this.card_data?.isBookmarked) {
+            this.removeCardFromBookmark()
+        } else {
+            this.addToBookmark()
+        }
+    }
+
+    removeCardFromBookmark = () => {
+        if (this.card_data?.id) {
+            this.clientStorage.client.mutate<Mutation>({
+                mutation: REMOVE_CARD_FROM_BOOKMARK, variables: {
+                    id: Number(this.card_data?.id)
+                }
+            })
+                .then((response) => response?.data?.removeCardFromBookmark)
+                .then(() => {
+                    this.loadCardData(false)
+                })
+                .catch((e) => console.log(e))
+
+        }
+    }
+
+    addToBookmark = () => {
+        if (this.card_data?.id) {
+            this.clientStorage.client.mutate<Mutation>({
+                mutation: ADD_TO_BOOKMARK, variables: {
+                    id: Number(this.card_data?.id)
+                }
+            })
+                .then((response) => response?.data?.addCardToBookmark)
+                .then((response) => {
+                    if (response?.ok) {
+                        this.loadCardData(false)
+                    }
+                })
+                .catch((e) => console.log(e))
+        }
+    }
+
+    setRating = (rating: number | null) => {
+        if (rating && this.card_data?.id) {
+            this.rating = rating
+            this.clientStorage.client.mutate<Mutation>({
+                mutation: SET_RATING, variables: {
+                    id: Number(this.card_data?.id),
+                    rating: rating
+                }
+            })
+                .then((response) => response?.data?.setCardRating)
+                .then((response) => {
+                    if (response?.ok) {
+                        this.loadCardData(false)
+                    }
+                })
+                .catch((e) => console.log(e))
+
+        }
+    }
+
+    rating?: number
+    isBookmarked = false
+
+    updateRatingAndISBookmarked() {
+        if (this.card_data) {
+            if (this.card_data.rating) {
+                this.rating = this.card_data.rating
+            }
+            this.isBookmarked = Boolean(this.card_data.isBookmarked)
         }
     }
 

@@ -48,7 +48,7 @@ export const UpdateTheme = gql`
             }
         }
     }
-    `
+`
 
 export const CreateTheme = gql`
     mutation CreateTheme(
@@ -57,13 +57,13 @@ export const CreateTheme = gql`
     ){
         unstructuredTheme(input: {
             text: $text,
-            createdBy: 0,
             parent: $parent,
         }){
             clientMutationId
-            unstructuredTheme{
+            theme {
                 id
+                text
             }
         }
     }
-    `
+`

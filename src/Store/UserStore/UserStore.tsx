@@ -2,6 +2,8 @@ import {autorun, makeAutoObservable, reaction} from "mobx"
 import {GET_USER_DATA, LOGIN_MUTATION} from "./Struct";
 import React from 'react';
 import {ClientStorage} from "../ApolloStorage/ClientStorage";
+import Auth0Context from "@auth0/auth0-react/dist/auth0-context";
+import {useAuth0} from "@auth0/auth0-react";
 
 class User{
     username = ''//Имя пользователя, отображается в навигационной панели
@@ -61,6 +63,7 @@ class User{
         this.doLoginReturnError = false //Обнуляем все переменные связанные с процессом логина
         ClientStorage.changeToken('')//Обновляем токен
     }
+
 
     UpdateUser() {
         if(this.clientStorage.client){

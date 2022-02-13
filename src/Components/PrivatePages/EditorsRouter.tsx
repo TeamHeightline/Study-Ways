@@ -41,6 +41,7 @@ import ListItemText from '@mui/material/ListItemText';
 import {Tooltip, Typography} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import {isMobileHook} from "../../CustomHooks/isMobileHook";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
 const drawerWidth = 70;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -144,9 +145,9 @@ export const EditorsRouter = observer(() =>{
                             history.push(`${path}/se`)}}>
                             <ListItemIcon>
                                 {/*<HubIcon/>*/}
-                                <RecentActorsIcon/>
+                                <AccountTreeIcon/>
                             </ListItemIcon>
-                            <ListItemText primary="Объединенные темы и авторы"/>
+                            <ListItemText primary="Объединенные темы"/>
                         </ListItem>
                     </Tooltip>
                     <Tooltip title={<Typography variant="body1">Редактор вопросов</Typography>}>

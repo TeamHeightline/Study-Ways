@@ -38,10 +38,18 @@ class Client{
      UpdatedApolloClient(){
         const authLink: any = setContext((_, { headers }) => {
             // процесс создания авторизационного заголовка
-            return {
-                headers: {
-                    ...headers,
-                    authorization: 'JWT '+ this.token,
+            if (this.token !== ""){
+                return {
+                    headers: {
+                        ...headers,
+                        authorization: 'Bearer '+ this.token,
+                    }
+                }
+            } else {
+                return {
+                    headers: {
+                        ...headers
+                    }
                 }
             }
         });

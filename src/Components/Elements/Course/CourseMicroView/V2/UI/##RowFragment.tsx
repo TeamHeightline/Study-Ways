@@ -5,6 +5,7 @@ import CardMicroView from "../../../../Cards/CardView/#CardMicroView";
 import {observer} from "mobx-react";
 import {CourseMicroStoreByID} from "../Store/CourseMicroStoreByID";
 import {useHistory, useRouteMatch} from "react-router-dom";
+import {backgroundColor} from "../../../../../../global-theme";
 
 interface RowFragmentI{
     CRI: number,
@@ -89,7 +90,7 @@ const RowFragment = observer(({CRI, courseStore}: RowFragmentI) => {
                                         }
                                     }
                                 }}
-                                style={{color: !element?.CourseElement?.id ? "#0A1929" : ''}}
+                                style={{color: !element?.CourseElement?.id ? backgroundColor : ''}}
                                 disabled={!element?.CourseElement?.id}
                                 color={
                                     courseStore.position &&

@@ -8,18 +8,19 @@ import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRig
 import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
 import {SelectCard} from "./##SelectCard";
 
-interface IArrowNavigationProps extends React.HTMLAttributes<HTMLDivElement>{
+interface IArrowNavigationProps extends React.HTMLAttributes<HTMLDivElement> {
 
 }
-export const ArrowNavigation = observer(({...props}: IArrowNavigationProps) =>{
-    return(
+
+export const ArrowNavigation = observer(({...props}: IArrowNavigationProps) => {
+    return (
         <div {...props}>
             <Collapse in={CESObject.getField("isCardUseArrowNavigation", false)}>
                 <Stack spacing={1}>
                     <Stack direction={"row"} spacing={1}>
                         <ButtonGroup size="medium" color="primary">
-                            <Button >
-                                <KeyboardArrowLeftOutlinedIcon />
+                            <Button>
+                                <KeyboardArrowLeftOutlinedIcon/>
                             </Button>
                         </ButtonGroup>
                         <SelectCard card_direction={"cardBefore"}/>

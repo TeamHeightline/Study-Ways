@@ -1,6 +1,6 @@
 
 .ck-editor {
-    height: 496px;
+    height: 386px;
     --ck-color-toolbar-background: #0A1929;
     --ck-color-base-background: #0A1929;
     --ck-color-base-border: #0A1929;
@@ -10,7 +10,7 @@
     background-color: #0A1929;
 }
 .ck-editor__editable_inline {
-    height: 496px;
+    height: 386px;
     --ck-color-toolbar-background: #0A1929;
     --ck-color-base-background: #0A1929;
     --ck-color-base-border: #0A1929;

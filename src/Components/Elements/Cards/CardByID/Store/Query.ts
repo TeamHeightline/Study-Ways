@@ -7,6 +7,9 @@ export const LOAD_CARD_DATA_BY_ID = gql`
             videoUrl
             title
             text
+            isBookmarked
+            isExistRating
+            rating
             connectedTheme {
                 id
                 text
@@ -61,3 +64,24 @@ export const GET_ALL_COURSE = gql`
         }
     }
 `
+
+export const ADD_TO_BOOKMARK = gql`
+    mutation ADD_TO_BOOKMARK($id: Int!){
+        addCardToBookmark(cardId: $id){
+            ok
+        }
+    }`
+
+export const REMOVE_CARD_FROM_BOOKMARK = gql`
+    mutation REMOVE_CARD_FROM_BOOKMARK($id: Int!){
+        removeCardFromBookmark(cardId: $id){
+            ok
+        }
+    }`
+
+export const SET_RATING = gql`
+    mutation SET_RATING($id: Int!, $rating: Float!){
+        setCardRating(cardId: $id, rating: $rating){
+            ok
+        }
+    }`

@@ -7,6 +7,7 @@ import CardAuthorNavigation from "./card-author-navigation";
 import CardRating from "./card-rating";
 import CardFindInCourse from "./card-find-in-course";
 import CardBookmark from "./card-bookmark";
+import {useAuth0} from "@auth0/auth0-react";
 
 
 interface ICardNavigationRatingFindProps extends PaperProps {
@@ -15,6 +16,7 @@ interface ICardNavigationRatingFindProps extends PaperProps {
 }
 
 const CardNavigationRatingFind = observer(({card_store, ...props}: ICardNavigationRatingFindProps) => {
+    const {isAuthenticated} = useAuth0();
     return (
         <Paper elevation={0} {...props}>
             <Grid container>
@@ -22,10 +24,11 @@ const CardNavigationRatingFind = observer(({card_store, ...props}: ICardNavigati
                     <CardAuthorNavigation card_store={card_store}/>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <Stack direction={"row"} alignItems={"center"}>
-                        <CardRating/>
-                        <CardBookmark/>
-                    </Stack>
+                    {isAuthenticated &&
+                        <Stack direction={"row"} alignItems={"center"}>
+                            <CardRating card_store={card_store}/>
+                            <CardBookmark card_store={card_store}/>
+                        </Stack>}
                     <CardFindInCourse card_store={card_store}/>
                 </Grid>
             </Grid>

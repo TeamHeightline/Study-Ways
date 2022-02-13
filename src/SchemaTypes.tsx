@@ -35,6 +35,11 @@ export type AiSearchCardIdArray = {
     IDs?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
+export type AddCardToBookmark = {
+    __typename?: 'AddCardToBookmark';
+    ok?: Maybe<Scalars['Boolean']>;
+};
+
 export type AnswerMutationPayload = {
     __typename?: 'AnswerMutationPayload';
     answer?: Maybe<AnswerNode>;
@@ -118,6 +123,7 @@ export type CardNode = {
     copyright?: Maybe<Scalars['String']>;
     hardLevel: CardHardLevel;
     id: Scalars['ID'];
+    isBookmarked?: Maybe<Scalars['Boolean']>;
     isCardUseAdditionalText: Scalars['Boolean'];
     isCardUseArrowNavigation: Scalars['Boolean'];
     isCardUseCopyright: Scalars['Boolean'];
@@ -125,6 +131,8 @@ export type CardNode = {
     isCardUseMainText: Scalars['Boolean'];
     isCardUseTestBeforeCard: Scalars['Boolean'];
     isCardUseTestInCard: Scalars['Boolean'];
+    isExistRating?: Maybe<Scalars['Boolean']>;
+    rating?: Maybe<Scalars['Float']>;
     siteUrl?: Maybe<Scalars['String']>;
     subTheme: Array<CardSubThemeNode>;
     tagField?: Maybe<Scalars['String']>;
@@ -255,6 +263,7 @@ export type HomePageCardIdArray = {
 
 export type Mutation = {
     __typename?: 'Mutation';
+    addCardToBookmark?: Maybe<AddCardToBookmark>;
     card?: Maybe<CardMutationPayload>;
     cardAuthor?: Maybe<CardAuthorMutationPayload>;
     cardDetailView?: Maybe<CardDetailView>;
@@ -269,6 +278,8 @@ export type Mutation = {
     createQuestionSequence?: Maybe<CreateQuestionSequencePayload>;
     createQuestionThemes?: Maybe<QuestionThemesMutationPayload>;
     globalCardTheme?: Maybe<GlobalCardThemeMutationPayload>;
+    removeCardFromBookmark?: Maybe<RemoveCardFromBookmark>;
+    setCardRating?: Maybe<SetCardRating>;
     statistic?: Maybe<StatisticMutationPayload>;
     unstructuredTheme?: Maybe<UnstructuredThemeMutationPayload>;
     updateAnswer?: Maybe<AnswerMutationPayload>;
@@ -279,6 +290,11 @@ export type Mutation = {
     updateQuestionThemes?: Maybe<QuestionThemesMutationPayload>;
     updateUnstructuredTheme?: Maybe<UpdateUnstructuredThemePayload>;
     usThemeSequence?: Maybe<CreateUsThemeSequencePayload>;
+};
+
+
+export type MutationAddCardToBookmarkArgs = {
+    cardId?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -349,6 +365,17 @@ export type MutationCreateQuestionThemesArgs = {
 
 export type MutationGlobalCardThemeArgs = {
     input: GlobalCardThemeMutationInput;
+};
+
+
+export type MutationRemoveCardFromBookmarkArgs = {
+    cardId?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type MutationSetCardRatingArgs = {
+    cardId?: InputMaybe<Scalars['Int']>;
+    rating?: InputMaybe<Scalars['Float']>;
 };
 
 
@@ -632,11 +659,21 @@ export type QuestionThemesNode = {
     questionThemes: Array<QuestionNode>;
 };
 
+export type RemoveCardFromBookmark = {
+    __typename?: 'RemoveCardFromBookmark';
+    ok?: Maybe<Scalars['Boolean']>;
+};
+
 export type SelfStatisticIdArray = {
     __typename?: 'SelfStatisticIDArray';
     IDs?: Maybe<Array<Maybe<Scalars['String']>>>;
     activePage?: Maybe<Scalars['Int']>;
     numPages?: Maybe<Scalars['Int']>;
+};
+
+export type SetCardRating = {
+    __typename?: 'SetCardRating';
+    ok?: Maybe<Scalars['Boolean']>;
 };
 
 export type StatisticMutationPayload = {

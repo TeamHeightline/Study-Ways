@@ -15,6 +15,10 @@ type AISearchCardIDArray {
     IDs: [String]
 }
 
+type AddCardToBookmark {
+    ok: Boolean
+}
+
 type AnswerMutationPayload {
     answer: AnswerNode
     clientMutationId: String
@@ -89,6 +93,7 @@ type CardNode {
     copyright: String
     hardLevel: CardHardLevel!
     id: ID!
+    isBookmarked: Boolean
     isCardUseAdditionalText: Boolean!
     isCardUseArrowNavigation: Boolean!
     isCardUseCopyright: Boolean!
@@ -96,6 +101,8 @@ type CardNode {
     isCardUseMainText: Boolean!
     isCardUseTestBeforeCard: Boolean!
     isCardUseTestInCard: Boolean!
+    isExistRating: Boolean
+    rating: Float
     siteUrl: String
     subTheme: [CardSubThemeNode!]!
     tagField: String
@@ -208,6 +215,7 @@ type HomePageCardIDArray {
 }
 
 type Mutation {
+    addCardToBookmark(cardId: Int): AddCardToBookmark
     card(input: CardMutationInput!): CardMutationPayload
     cardAuthor(input: CardAuthorMutationInput!): CardAuthorMutationPayload
     cardDetailView(cardId: Int): CardDetailView
@@ -222,6 +230,8 @@ type Mutation {
     createQuestionSequence(input: CreateQuestionSequenceInput!): CreateQuestionSequencePayload
     createQuestionThemes(input: QuestionThemesMutationInput!): QuestionThemesMutationPayload
     globalCardTheme(input: GlobalCardThemeMutationInput!): GlobalCardThemeMutationPayload
+    removeCardFromBookmark(cardId: Int): RemoveCardFromBookmark
+    setCardRating(cardId: Int, rating: Float): SetCardRating
     statistic(input: StatisticMutationInput!): StatisticMutationPayload
     unstructuredTheme(input: UnstructuredThemeMutationInput!): UnstructuredThemeMutationPayload
     updateAnswer(input: AnswerMutationInput!): AnswerMutationPayload
@@ -350,10 +360,18 @@ type QuestionThemesNode {
     questionThemes: [QuestionNode!]!
 }
 
+type RemoveCardFromBookmark {
+    ok: Boolean
+}
+
 type SelfStatisticIDArray {
     IDs: [String]
     activePage: Int
     numPages: Int
+}
+
+type SetCardRating {
+    ok: Boolean
 }
 
 type StatisticMutationPayload {

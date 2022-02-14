@@ -22,7 +22,8 @@ class ThemeStore {
 
     setModeToLocalStorage(mode: "dark" | "light") {
         localStorage.setItem("themeMode", mode)
-        window.location.reload();
+        this.mode = mode
+        // window.location.reload();
     }
 
     changeMode = () => {

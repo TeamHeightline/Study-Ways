@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import Popover from 'antd/es/popover';
-
-import {CardActionArea, Chip, Grid} from "@mui/material";
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import {CardActionArea, Chip, Grid, Stack, Tooltip} from "@mui/material";
 import 'fontsource-roboto';
 import {useQuery} from "@apollo/client";
 import {Row} from "react-bootstrap";
@@ -22,6 +20,7 @@ import {Skeleton} from '@mui/material';
 import urlParser from "js-video-url-parser";
 import "js-video-url-parser/lib/provider/youtube";
 import {SERVER_BASE_URL} from "../../../../settings";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
 
 interface ICardMicroViewProps extends React.HTMLAttributes<HTMLDivElement> {
     cardID: number,
@@ -75,6 +74,12 @@ export default function CardMicroView({
         }
     }, [isEditNow, isNowEditableCard])
 
+    const themesText = card_data?.cardById?.connectedTheme[0]?.text
+    const authorName = card_data?.cardById?.author[0]?.name
+
+    const showTheme = !!themesText
+    const showAuthor = !!authorName
+
     if (!card_data) {
         return (
             // <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
@@ -97,12 +102,12 @@ export default function CardMicroView({
                   onClick={() => {
                       onChange(cardID)
                   }}>
-                <Grid container>
+                <Grid container alignItems={"start"}>
                     <Grid item xs={4}>
                         {Number(card_data.cardById.cardContentType[2]) === 0 && card_data?.cardById?.videoUrl &&
                             <CardMedia
                                 style={{width: 132, height: 169}}
-                                onError={() => void(0)}
+                                onError={() => void (0)}
                                 image={
                                     "https://img.youtube.com/vi/" + urlParser.parse(card_data?.cardById.videoUrl)?.id + "/hqdefault.jpg"
                                 }
@@ -111,16 +116,18 @@ export default function CardMicroView({
                                 Number(card_data.cardById.cardContentType[2]) === 2) &&
                             <CardMedia
                                 style={{width: 132, height: 169}}
-                                onError={() => void(0)}
+                                onError={() => void (0)}
                                 image={cardImage ? cardImage : "https://storage.googleapis.com/sw-files/cards-images/card/" + cardID}
                             />
                         }
                     </Grid>
-                    <Grid item xs={8}>
-                        <CardActionArea>
-                            <CardContent style={{padding: 4, paddingLeft: 10, paddingRight: 10}}
-                                         className="justify-content-start">
-                                <Typography variant="h6" gutterBottom component={'span'}>
+                    <Grid item xs={8} sx={{height: "100%"}}>
+                        <CardActionArea sx={{height: "100%"}}>
+                            <Stack direction={"column"}
+                                   alignItems={"start"}
+                                   sx={{pl: 1, pr: 1}}
+                            >
+                                <Typography variant="h6" component={'span'}>
                                     ID: {card_data?.cardById.id}
                                     {Number(card_data.cardById.cardContentType[2]) === 0 &&
                                         <Chip id={"YouTube-icon"}
@@ -145,37 +152,46 @@ export default function CardMicroView({
                                         <BiotechIcon style={{marginLeft: 12}} fontSize="small"/>}
                                 </Typography>
 
-                                <Typography component={'span'} style={{maxHeight: 48, overflow: "hidden"}}>
-                                    {card_data?.cardById?.title.slice(0, 56)}
+                                <Typography component={'span'}
+                                            sx={{
+                                                display: '-webkit-box',
+                                                overflow: 'hidden',
+                                                WebkitBoxOrient: 'vertical',
+                                                WebkitLineClamp: 3
+                                            }}
+                                            style={{overflow: "hidden"}}>
+                                    {card_data?.cardById?.title.slice(0, 41)}
                                 </Typography>
 
-                                <Typography component={'span'}>
-                                    {card_data?.cardById?.subTheme.length !== 0 ?
-                                        <Popover trigger="hover" title="Темы карточки"
-                                                 content={card_data?.cardById?.subTheme
-                                                     .map((e, eIndex) => {
-                                                         return (
-                                                             <div key={eIndex + "Tooltip"}>
-                                                                 {e.theme?.globalTheme?.name.toString() + " / "
-                                                                     + e?.theme?.name.toString() + " / "
-                                                                     + e?.name.toString()}
-                                                             </div>
-                                                         )
-                                                     })}>
-                                            <Chip size="small" variant="outlined"
-                                                  label={card_data?.cardById?.subTheme[0]?.name.slice(0, 25)}/>
+                                {showTheme &&
+                                    <Typography variant="h6"
+                                                sx={{
+                                                    display: '-webkit-box',
+                                                    overflow: 'hidden',
+                                                    WebkitBoxOrient: 'vertical',
+                                                    WebkitLineClamp: 1
+                                                }}>
+                                        <Tooltip title={
+                                            <Typography>
+                                                {"Эту карточку можно найти в теме: " + themesText}
+                                            </Typography>}>
+                                            <AccountTreeIcon/>
+                                        </Tooltip>
+                                        {themesText}
+                                    </Typography>}
 
-                                        </Popover> : <div/>}
-                                    <br/>
-                                    {card_data?.cardById?.author.length !== 0 ?
-                                        <Chip className="mt-1" label={card_data?.cardById?.author[0]?.name.slice(0, 25)}
-                                              variant="outlined"/>
-                                        : <br/>}
-                                </Typography>
-                                <br/>
-                                <br/>
-
-                            </CardContent>
+                                {showAuthor &&
+                                    <Typography variant="h6"
+                                                sx={{
+                                                    display: '-webkit-box',
+                                                    overflow: 'hidden',
+                                                    WebkitBoxOrient: 'vertical',
+                                                    WebkitLineClamp: 1
+                                                }}>
+                                        <AccountBoxIcon/>
+                                        {authorName}
+                                    </Typography>}
+                            </Stack>
                         </CardActionArea>
                     </Grid>
                 </Grid>

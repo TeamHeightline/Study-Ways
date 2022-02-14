@@ -65,7 +65,7 @@ class ThemeStore {
         if (this.isLightTheme) {
             return "rgba(0, 0, 0, 0.6)"
         } else {
-            return this.backgroundColor
+            return this.textColor
         }
     }
 

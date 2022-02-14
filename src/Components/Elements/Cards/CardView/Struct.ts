@@ -38,17 +38,9 @@ export const GET_CARD_FOR_MICRO_VIEW_BY_ID = gql`
             cardContentType
             videoUrl
             hardLevel
-            subTheme{
+            connectedTheme {
                 id
-                name
-                theme{
-                    id
-                    name
-                    globalTheme{
-                        id
-                        name
-                    }
-                }
+                text
             }
             author{
                 id
@@ -121,4 +113,4 @@ export const CARD_VIEW_REPORT = gql`
             ok
         }
     }
-    `
+`

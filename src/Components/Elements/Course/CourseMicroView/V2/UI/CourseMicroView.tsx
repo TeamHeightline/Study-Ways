@@ -5,8 +5,9 @@ import {Card, CardActionArea, Stack, Tooltip, Typography} from "@mui/material";
 import CourseNavigation from "./CourseNavigation";
 import ArrowNavigation from "./ArrowNavigation";
 import {useHistory} from "react-router-dom";
+import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
 
-interface ICourseMicroViewProps extends React.HTMLAttributes<HTMLDivElement>{
+interface ICourseMicroViewProps extends React.HTMLAttributes<HTMLDivElement> {
     course_id: number,
     position_data?: positionDataI,
     onPosition?: (selected_position: positionDataI) => void,
@@ -23,39 +24,47 @@ const CourseMicroView = observer(({
                                       showArrowNavigation,
                                       onCardSelect,
                                       ignoreURLRedirectOnSelectCard,
-                                      ...props}: ICourseMicroViewProps) =>{
+                                      ...props
+                                  }: ICourseMicroViewProps) => {
     const [courseStore] = useState(new CourseMicroStoreByID(course_id))
     const history = useHistory()
-    useEffect(()=> courseStore.changeID(course_id), [course_id])
+    const isMobile = isMobileHook()
+    useEffect(() => courseStore.changeID(course_id), [course_id])
 
     useEffect(() => courseStore.changeIsIgnoreRouteAfterSelect(ignoreURLRedirectOnSelectCard),
         [ignoreURLRedirectOnSelectCard])
 
-    useEffect(()=> {
-        if(onPosition && courseStore.position && courseStore.isPositionChanged){
+    useEffect(() => {
+        if (onPosition && courseStore.position && courseStore.isPositionChanged) {
             onPosition(courseStore.position)
             courseStore.isPositionChanged = false
-        }}, [courseStore.position])
+        }
+    }, [courseStore.position])
 
-    useEffect(()=>{
-        if(onCardSelect){
+    useEffect(() => {
+        if (onCardSelect) {
             onCardSelect(Number(courseStore.get_card_id_by_position(courseStore.position)))
         }
     }, [Number(courseStore.get_card_id_by_position(courseStore.position))])
 
-    useEffect(()=> {
-        if(position_data){
+    useEffect(() => {
+        if (position_data) {
             courseStore.positionData = position_data
         }
     }, [position_data])
 
-    return(
-        <div {...props} style={{padding: 0, overflowX: "auto"}}>
-            <Card style={{padding: 0, width:530, height: 160}} variant="outlined">
+    return (
+        <div {...props}
+             style={{
+                 padding: 0,
+                 overflowX: isMobile ? "auto" : undefined,
+                 maxWidth: isMobile ? window.innerWidth - 40 : ""
+             }}>
+            <Card style={{padding: 0, width: 530, height: 160}} variant="outlined">
                 <Stack direction="row">
                     <Tooltip title={<div>{courseStore?.courseName?.toUpperCase()}</div>}>
                         <CardActionArea
-                            onClick={()=>{
+                            onClick={() => {
                                 history.push("./course?" + "id=" + course_id +
                                     "&activePage=1" +
                                     "&selectedPage=1" +
@@ -63,14 +72,15 @@ const CourseMicroView = observer(({
                                     "&selectedIndex=0")
                             }}
                             style={{
-                                width:200,
+                                width: 200,
                                 height: 164,
                                 backgroundSize: "cover",
                                 backgroundImage: courseStore.courseImage ?
-                                    "url(" + courseStore.courseImage + ")":
+                                    "url(" + courseStore.courseImage + ")" :
                                     "url('https://storage.googleapis.com/sw-files/cards-course-images/course/'" +
-                                courseStore.id + ")"}}
-                            >
+                                    courseStore.id + ")"
+                            }}
+                        >
                             <Typography
                                 style={{
                                     background: "rgba(10,33,49,0.73)",

@@ -1,22 +1,13 @@
-
 .ck-editor {
     height: 496px;
-    --ck-color-toolbar-background: #0A1929;
-    --ck-color-base-background: #0A1929;
-    --ck-color-base-border: #0A1929;
+    --ck-color-toolbar-background: "transparent";
+    --ck-color-base-background: "transparent";
+    --ck-color-base-border: "transparent";
+}
 
-}
-.ck.ck-button{
-    background-color: #0A1929;
-}
 .ck-editor__editable_inline {
     height: 496px;
-    --ck-color-toolbar-background: #0A1929;
-    --ck-color-base-background: #0A1929;
-    --ck-color-base-border: #0A1929;
-    --ck-color-text: #ffffff;
-    --ck-color-input-text: #ffffff;
-    --ck-color-input-disabled-text:  #ffffff;
+    /*--ck-color-base-border: #0A1929;*/
 }
 
 

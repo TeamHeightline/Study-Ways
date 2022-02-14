@@ -2,18 +2,18 @@ import {observer} from "mobx-react";
 import React, {useState} from 'react';
 import useQueryParams from "../../../../../CustomHooks/useQueryParams";
 import {positionDataI} from "../../CourseMicroView/V2/Store/CourseMicroStoreByID";
-import {CARD} from "../../../Cards/Card";
 import CourseMicroView from "../../CourseMicroView/V2/UI/CourseMicroView";
+import CardByID from "../../../Cards/CardByID/UI/card-by-id";
 
-interface ICourseByURLProps extends React.HTMLAttributes<HTMLDivElement>{
+interface ICourseByURLProps extends React.HTMLAttributes<HTMLDivElement> {
 
 }
 
-const CourseByURL = observer(({...props}: ICourseByURLProps) =>{
+const CourseByURL = observer(({...props}: ICourseByURLProps) => {
     const [activeCardID, setActiveCardID] = useState<undefined | number>()
     const queryParams = useQueryParams();
-    const changeSelectedCardID = (new_card_id) =>{
-        if(new_card_id){
+    const changeSelectedCardID = (new_card_id) => {
+        if (new_card_id) {
             setActiveCardID(new_card_id)
         }
     }
@@ -23,19 +23,19 @@ const CourseByURL = observer(({...props}: ICourseByURLProps) =>{
         selectedIndex: Number(queryParams.get("selectedIndex")),
         selectedRow: Number(queryParams.get("selectedRow"))
     }
-    return(
+    return (
         <div {...props}>
-            <CARD id={activeCardID}
-                  openFromCourse
-                  courseBar={
-                      <div style={{overflowX: "auto", maxWidth: window.innerWidth - 40}}>
+            <CardByID card_id={Number(activeCardID)}
+                      course_navigation={
                           <CourseMicroView
-                              onCardSelect={(card_id) => {changeSelectedCardID(card_id)}}
+                              onCardSelect={(card_id) => {
+                                  changeSelectedCardID(card_id)
+                              }}
                               course_id={Number(queryParams.get("id"))}
                               position_data={position_data}
                               showArrowNavigation
                           />
-                      </div>}
+                      }
             />
 
         </div>

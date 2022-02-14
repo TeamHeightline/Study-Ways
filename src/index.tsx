@@ -3,17 +3,17 @@ import ReactDOM from 'react-dom';
 // import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { HTML5Backend } from 'react-dnd-html5-backend'
-import { DndProvider } from 'react-dnd'
-import { configure } from "mobx"
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {HTML5Backend} from 'react-dnd-html5-backend'
+import {DndProvider} from 'react-dnd'
+import {configure} from "mobx"
+import {ThemeProvider} from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import "./Components/Elements/Cards/CardView/RichTextPreviewStyle.css"
 import DateAdapter from '@mui/lab/AdapterMoment';
 import {LocalizationProvider} from "@mui/lab";
 import 'antd/dist/antd.dark.min.css';
-import {theme} from "./global-theme";
-import { Auth0Provider } from "@auth0/auth0-react";
+import ThemeStoreObject from "./global-theme";
+import {Auth0Provider} from "@auth0/auth0-react";
 
 configure({
     enforceActions: "never",
@@ -30,18 +30,18 @@ ReactDOM.render(
             audience="https://dev-29gfcwkx.us.auth0.com/api/v2/"
             scope="read:current_user update:current_user_metadata"
         >
-            <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <style>{'body {background-color: #0A1929}'}</style>
+            <ThemeProvider theme={ThemeStoreObject.theme}>
+                <CssBaseline/>
+                {/*<style>{'body {background-color: #0A1929}'}</style>*/}
                 <div>
                     <DndProvider backend={HTML5Backend}>
-                        <App />
+                        <App/>
                     </DndProvider>
                 </div>
             </ThemeProvider>
         </Auth0Provider>
     </LocalizationProvider>,
-  document.getElementById('root')
+    document.getElementById('root')
 );
 
 

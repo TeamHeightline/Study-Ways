@@ -20,9 +20,13 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import {observer} from "mobx-react";
 import {AccountCircle} from "@mui/icons-material";
-import { Menu, MenuItem} from "@mui/material";
+import {Menu, MenuItem} from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import StackedLineChartIcon from '@mui/icons-material/StackedLineChart';
+import {isMobileHook} from "../../../CustomHooks/isMobileHook";
+import ThemeModeSwitch from "./ThemeModeSwitch";
+import ThemeStoreObject from "../../../global-theme";
+
 const useStyles = makeStyles(() =>
     createStyles({
         root: {
@@ -39,37 +43,39 @@ const useStyles = makeStyles(() =>
         },
     }),
 );
+
 function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
 
 export const Navibar = observer(() => {
     const classes = useStyles();
-    const{height, width} = useWindowDimensions();
+    const {width} = useWindowDimensions();
     const [value, setValue] = React.useState('0');//Здесь хронится значение на какой мы странице для
     // мобильных устройств
     const history = useHistory();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const query = useQuery();
+    const isMobile = isMobileHook()
 
     const mobileMunuClickHandleChange = (event, newValue) => {
-        if(newValue == 0){
+        if (newValue == 0) {
             history.push('/courses')
         }
-        if(newValue == 1){
+        if (newValue == 1) {
             history.push('/cards')
         }
-        if(newValue == 2){
+        if (newValue == 2) {
             history.push('/direction')
         }
-        if(newValue == 3){
+        if (newValue == 3) {
             history.push('/editor')
         }
-        if(newValue == 4){
+        if (newValue == 4) {
             history.push('/login')
         }
-        if(newValue == 5){
+        if (newValue == 5) {
             history.push("/selfstatistic")
         }
         setValue(newValue);
@@ -83,28 +89,46 @@ export const Navibar = observer(() => {
         setAnchorEl(null);
     };
     //Режим экзамена
-    if(query.get("exam") === "true"){
+    if (query.get("exam") === "true") {
         return (
             <div>
             </div>
         )
     }
 
-    if(height/width >= 1){
-    return (
-        <div >
-            <BottomNavigation  value={value} onChange={mobileMunuClickHandleChange} className="col-12">
-                <BottomNavigationAction label="Курсы" value="0" icon={<BlurLinearIcon />} />
-                <BottomNavigationAction label="Карточки" value="1" icon={<ArtTrackIcon />} />
-                {/*<BottomNavigationAction label="Direction (beta)" value="2" icon={<CategoryIcon />} />*/}
-                {UserStorage.isLogin ?
-                    UserStorage.userAccessLevel =="STUDENT"?
-                        <BottomNavigationAction label="Собственная статистика" value="5" icon={<StackedLineChartIcon />} />:
-                <BottomNavigationAction label="Редакторы" value="3" icon={<EditIcon />} />:
-                <BottomNavigationAction label="Войти" value="4" icon={<AccountCircleIcon/>} />}
-            </BottomNavigation>
-        </div>
-    )}
+    if (isMobile) {
+        return (
+            <div>
+                <BottomNavigation value={value} onChange={mobileMunuClickHandleChange} className="col-12">
+                    <BottomNavigationAction
+                        sx={{color: "white"}}
+                        label="Курсы"
+                        value="0"
+                        icon={<BlurLinearIcon/>}/>
+                    <BottomNavigationAction
+                        sx={{color: "white"}}
+                        label="Карточки"
+                        value="1"
+                        icon={<ArtTrackIcon/>}/>
+                    {UserStorage.isLogin ?
+                        UserStorage.userAccessLevel == "STUDENT" ?
+                            <BottomNavigationAction
+                                sx={{color: "white"}}
+                                label="Собственная статистика" value="5"
+                                icon={<StackedLineChartIcon/>}/> :
+                            <BottomNavigationAction
+                                sx={{color: "white"}}
+                                label="Редакторы" value="3"
+                                icon={<EditIcon/>}/> :
+                        <BottomNavigationAction
+                            sx={{color: "white"}}
+                            label="Войти"
+                            value="4"
+                            icon={<AccountCircleIcon/>}/>}
+                </BottomNavigation>
+            </div>
+        )
+    }
     return (
         <div className={classes.root}>
             <AppBar position="fixed" enableColorOnDark>
@@ -113,80 +137,100 @@ export const Navibar = observer(() => {
                     {/*<IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">*/}
                     {/*    <br/>*/}
                     {/*</IconButton>*/}
-                    <Typography variant="h6" className={classes.title}>
-                        { width >= 765 ? "Study Ways" : "SW"}
+                    <Typography variant="h6" className={classes.title} sx={{color: "white"}}>
+                        {width >= 765 ? "Study Ways" : "SW"}
                     </Typography>
-                     <Link style={{color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25,
-                     textDecoration: "none"}}
-                           to="/courses">Курсы </Link>
-                     <Link style={{color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25,
-                         textDecoration: "none"}}
-                           to="/cards">Карточки</Link>
-                     {/*<Link className={s.link} to="/test">Вопросы</Link>*/}
-                     <Typography className="ml-4"> | </Typography>
+                    <Link style={{
+                        color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25,
+                        textDecoration: "none"
+                    }}
+                          to="/courses">Курсы </Link>
+                    <Link style={{
+                        color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25,
+                        textDecoration: "none"
+                    }}
+                          to="/cards">Карточки</Link>
+                    {/*<Link className={s.link} to="/test">Вопросы</Link>*/}
+                    <Typography className="ml-4" sx={{color: "white"}}> | </Typography>
                     {UserStorage.userAccessLevel == "ADMIN" || UserStorage.userAccessLevel == "TEACHER" ?
-                        <Link style={{color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25,
-                            textDecoration: "none"}}
-                              to="/editor">Редакторы</Link>:
-                     <Link style={{color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25,
-                         textDecoration: "none"}}
-                           to="/selfstatistic">Собственная статистика</Link>}
+                        <Link style={{
+                            color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25,
+                            textDecoration: "none"
+                        }}
+                              to="/editor">Редакторы</Link> :
+                        <Link style={{
+                            color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25,
+                            textDecoration: "none"
+                        }}
+                              to="/selfstatistic">Статистика</Link>}
                     {UserStorage.isLogin ?
                         <>
-                        <Typography className="ml-5 mr-4">{UserStorage.username}</Typography>
-                        <IconButton
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleMenu}
-                            color="inherit"
-                            size="large">
-                            <AccountCircle />
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorEl}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={open}
-                            onClose={handleClose}
-                        >
-                                    <MenuItem
-                                        disabled={UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER"}
-                                        onClick={() => {
+                            <Typography className="ml-5 mr-4" sx={{color: "white"}}>
+                                {UserStorage.username}
+                            </Typography>
+                            <ThemeModeSwitch
+                                onClick={ThemeStoreObject.changeMode}
+                                checked={!ThemeStoreObject.isLightTheme}
+                            />
+                            <IconButton
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={handleMenu}
+                                sx={{color: "white"}}
+                                size="large">
+                                <AccountCircle/>
+                            </IconButton>
+                            <Menu
+                                id="menu-appbar"
+                                anchorEl={anchorEl}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={open}
+                                onClose={handleClose}
+                            >
+                                <MenuItem
+                                    disabled={UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER"}
+                                    onClick={() => {
                                         handleClose()
                                         history.push('/editor')
                                     }}>
-                                        Редакторы
-                                    </MenuItem>
-                                    <MenuItem
-                                        disabled={UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER"}
-                                        onClick={() => {
+                                    Редакторы
+                                </MenuItem>
+                                <MenuItem
+                                    disabled={UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER"}
+                                    onClick={() => {
                                         handleClose()
                                         history.push('/editor/allquestions')
                                     }}>
-                                        Вопросы
-                                    </MenuItem>
-                                    <MenuItem onClick={() => {
-                                        handleClose()
-                                        history.push('/unlogin')
-                                    }}>
-                                        Logout
-                                    </MenuItem>
+                                    Вопросы
+                                </MenuItem>
+                                <MenuItem onClick={() => {
+                                    handleClose()
+                                    history.push('/unlogin')
+                                }}>
+                                    Logout
+                                </MenuItem>
 
-                                </Menu>
+                            </Menu>
 
                         </> :
                         <>
+                            <ThemeModeSwitch
+                                checked={!ThemeStoreObject.isLightTheme}
+                                onClick={ThemeStoreObject.changeMode}
+                            />
                             <Button className="ml-5 mr-4" color="inherit" variant="outlined"
-                                    onClick={()=>{history.push('/login')}}>
+                                    onClick={() => {
+                                        history.push('/login')
+                                    }}>
                                 Login
                             </Button>
                         </>}

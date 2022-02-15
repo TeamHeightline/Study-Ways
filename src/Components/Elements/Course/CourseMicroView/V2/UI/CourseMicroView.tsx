@@ -1,11 +1,12 @@
 import {observer} from "mobx-react";
 import React, {useEffect, useState} from 'react';
 import {CourseMicroStoreByID, positionDataI} from "../Store/CourseMicroStoreByID";
-import {Card, CardActionArea, Stack, Tooltip, Typography} from "@mui/material";
+import {Card, CardActionArea, Divider, Stack, Tooltip, Typography} from "@mui/material";
 import CourseNavigation from "./CourseNavigation";
 import ArrowNavigation from "./ArrowNavigation";
 import {useHistory} from "react-router-dom";
 import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
+import Paper from "@mui/material/Paper";
 
 interface ICourseMicroViewProps extends React.HTMLAttributes<HTMLDivElement> {
     course_id: number,
@@ -60,10 +61,37 @@ const CourseMicroView = observer(({
                  overflowX: isMobile ? "auto" : undefined,
                  maxWidth: isMobile ? window.innerWidth - 40 : ""
              }}>
-            <Card style={{padding: 0, width: 530, height: 160}} variant="outlined">
-                <Stack direction="row">
-                    <Tooltip title={<div>{courseStore?.courseName?.toUpperCase()}</div>}>
+            <Card style={{padding: 0, width: 500}} variant="outlined">
+                <Paper elevation={24} square sx={{
+                    boxShadow: "none"
+                }}>
+                    <Stack alignItems={"center"}>
+                        <Typography
+                            sx={{
+                                fontFamily: "system-ui",
+                                fontSize: 15,
+                                // color: "white",
+                                userSelect: "none",
+                                pl: 2,
+                                pr: 2
+                            }}>
+                            {courseStore?.courseName}
+                        </Typography>
+                    </Stack>
+                </Paper>
+                <Divider/>
+                <Stack direction="row" alignItems="stretch">
+                    <Tooltip
+                        title={<div>{courseStore?.courseName?.toUpperCase()}</div>}>
                         <CardActionArea
+                            style={{
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                                backgroundImage: courseStore.courseImage ?
+                                    "url(" + courseStore.courseImage + ")" :
+                                    "url('https://storage.googleapis.com/sw-files/cards-course-images/course/'" +
+                                    courseStore.id + ")"
+                            }}
                             onClick={() => {
                                 history.push("./course?" + "id=" + course_id +
                                     "&activePage=1" +
@@ -71,27 +99,10 @@ const CourseMicroView = observer(({
                                     "&selectedRow=0" +
                                     "&selectedIndex=0")
                             }}
-                            style={{
-                                width: 200,
-                                height: 164,
-                                backgroundSize: "cover",
-                                backgroundImage: courseStore.courseImage ?
-                                    "url(" + courseStore.courseImage + ")" :
-                                    "url('https://storage.googleapis.com/sw-files/cards-course-images/course/'" +
-                                    courseStore.id + ")"
-                            }}
                         >
-                            <Typography
-                                style={{
-                                    background: "rgba(10,33,49,0.73)",
-                                    backdropFilter: "blur(5px)",
-                                    fontFamily: "system-ui",
-                                    fontSize: 15,
-                                    color: "white",
-                                    textAlign: "center",
-                                }}>
-                                {courseStore?.courseName?.toUpperCase()}
-                            </Typography>
+                            <div style={{
+                                width: 180,
+                            }}/>
                         </CardActionArea>
                     </Tooltip>
                     <CourseNavigation courseStore={courseStore}/>

@@ -96,36 +96,35 @@ export default function CardMicroView({
     }
     return (
         <div
-            // className="col-4"
             {...props}>
             <Card variant="outlined" className={classes.root}
                   onClick={() => {
                       onChange(cardID)
                   }}>
-                <Grid container alignItems={"start"}>
-                    <Grid item xs={4}>
-                        {Number(card_data.cardById.cardContentType[2]) === 0 && card_data?.cardById?.videoUrl &&
-                            <CardMedia
-                                style={{width: 132, height: 169}}
-                                onError={() => void (0)}
-                                image={
-                                    "https://img.youtube.com/vi/" + urlParser.parse(card_data?.cardById.videoUrl)?.id + "/hqdefault.jpg"
-                                }
-                            />}
-                        {(Number(card_data.cardById.cardContentType[2]) === 1 ||
-                                Number(card_data.cardById.cardContentType[2]) === 2) &&
-                            <CardMedia
-                                style={{width: 132, height: 169}}
-                                onError={() => void (0)}
-                                image={cardImage ? cardImage : "https://storage.googleapis.com/sw-files/cards-images/card/" + cardID}
-                            />
-                        }
-                    </Grid>
-                    <Grid item xs={8} sx={{height: "100%"}}>
-                        <CardActionArea sx={{height: "100%"}}>
+                <CardActionArea sx={{height: "100%"}}>
+                    <Grid container alignItems={"start"}>
+                        <Grid item xs={4}>
+                            {Number(card_data.cardById.cardContentType[2]) === 0 && card_data?.cardById?.videoUrl &&
+                                <CardMedia
+                                    style={{width: 132, height: 169}}
+                                    onError={() => void (0)}
+                                    image={
+                                        "https://img.youtube.com/vi/" + urlParser.parse(card_data?.cardById.videoUrl)?.id + "/hqdefault.jpg"
+                                    }
+                                />}
+                            {(Number(card_data.cardById.cardContentType[2]) === 1 ||
+                                    Number(card_data.cardById.cardContentType[2]) === 2) &&
+                                <CardMedia
+                                    style={{width: 132, height: 169}}
+                                    onError={() => void (0)}
+                                    image={cardImage ? cardImage : "https://storage.googleapis.com/sw-files/cards-images/card/" + cardID}
+                                />
+                            }
+                        </Grid>
+                        <Grid item xs={8}>
                             <Stack direction={"column"}
                                    alignItems={"start"}
-                                   sx={{pl: 1, pr: 1}}
+                                   sx={{pl: 1, pr: 1, height: "100%"}}
                             >
                                 <Typography variant="h6" component={'span'}>
                                     ID: {card_data?.cardById.id}
@@ -192,9 +191,10 @@ export default function CardMicroView({
                                         {authorName}
                                     </Typography>}
                             </Stack>
-                        </CardActionArea>
+
+                        </Grid>
                     </Grid>
-                </Grid>
+                </CardActionArea>
             </Card>
         </div>
     )

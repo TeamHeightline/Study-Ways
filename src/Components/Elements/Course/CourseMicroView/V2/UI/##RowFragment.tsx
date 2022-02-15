@@ -29,7 +29,7 @@ const RowFragment = observer(({CRI, courseStore}: RowFragmentI) => {
     const open = Boolean(anchorEl);
 
     return (
-        <div style={{width: 310}}>
+        <div style={{width: 610}}>
             <Popover
                 id="mouse-over-popover"
                 sx={{

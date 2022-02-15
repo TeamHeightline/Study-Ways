@@ -9,6 +9,7 @@ import CardTheme from "./card-theme";
 import CourseMicroView from "../../../Course/CourseMicroView/V2/UI/CourseMicroView";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import Paper from "@mui/material/Paper";
+import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 
 interface ITitleAndNavigationProps extends PaperProps {
     course_navigation?: ReturnType<typeof CourseMicroView>
@@ -20,11 +21,12 @@ const TitleAndNavigation = observer(({
                                          card_store,
                                          ...props
                                      }: ITitleAndNavigationProps) => {
+    const isMobile = isMobileHook()
     const openFromCourse = !!course_navigation
     return (
         <Paper elevation={0} {...props}>
             <Stack
-                direction={openFromCourse ? "row" : "column"} spacing={2}>
+                direction={openFromCourse && !isMobile ? "row" : "column"} spacing={2}>
                 {openFromCourse ?
                     course_navigation :
                     <DefaultCardNavigation card_store={card_store}/>}

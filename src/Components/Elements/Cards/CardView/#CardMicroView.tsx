@@ -121,12 +121,11 @@ export default function CardMicroView({
                                 />
                             }
                         </Grid>
-                        <Grid item xs={8}>
+                        <Grid item xs={8} sx={{height: "100%"}}>
                             <Stack direction={"column"}
-                                   alignItems={"start"}
                                    sx={{pl: 1, pr: 1, height: "100%"}}
                             >
-                                <Typography variant="h6" component={'span'}>
+                                <Typography variant="h5" component={'span'}>
                                     ID: {card_data?.cardById.id}
                                     {Number(card_data.cardById.cardContentType[2]) === 0 &&
                                         <Chip id={"YouTube-icon"}
@@ -152,6 +151,7 @@ export default function CardMicroView({
                                 </Typography>
 
                                 <Typography component={'span'}
+                                            variant={"body1"}
                                             sx={{
                                                 display: '-webkit-box',
                                                 overflow: 'hidden',
@@ -159,11 +159,10 @@ export default function CardMicroView({
                                                 WebkitLineClamp: 3
                                             }}
                                             style={{overflow: "hidden"}}>
-                                    {card_data?.cardById?.title.slice(0, 41)}
+                                    {card_data?.cardById?.title.toUpperCase()}
                                 </Typography>
-
                                 {showTheme &&
-                                    <Typography variant="h6"
+                                    <Typography variant="body2"
                                                 sx={{
                                                     display: '-webkit-box',
                                                     overflow: 'hidden',
@@ -180,7 +179,7 @@ export default function CardMicroView({
                                     </Typography>}
 
                                 {showAuthor &&
-                                    <Typography variant="h6"
+                                    <Typography variant="body2"
                                                 sx={{
                                                     display: '-webkit-box',
                                                     overflow: 'hidden',
@@ -190,6 +189,7 @@ export default function CardMicroView({
                                         <AccountBoxIcon/>
                                         {authorName}
                                     </Typography>}
+
                             </Stack>
 
                         </Grid>

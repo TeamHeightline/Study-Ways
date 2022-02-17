@@ -93,3 +93,11 @@ export const GET_THEME_ANCESTORS = gql`
             text
         }
     }`
+
+export const GET_SIMILAR_CARDS_ID_ARRAY = gql`
+    query GET_SIMILAR_CARDS($card_id: Int!){
+        similarCards(cardId: $card_id){
+            IDs
+        }
+    }
+`

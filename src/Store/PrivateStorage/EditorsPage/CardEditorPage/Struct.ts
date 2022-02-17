@@ -32,7 +32,7 @@ export const GET_CARD_DATA_BY_ID = gql`
             tagField
         }
     }
-    `
+`
 
 export const GET_MY_CARD_AUTHOR = gql`
     query GET_MY_CARD_AUTHOR{
@@ -43,7 +43,7 @@ export const GET_MY_CARD_AUTHOR = gql`
             }
         }
     }
-    `
+`
 
 export const GET_CONNECTED_THEMES = gql`
     query GET_CONNECTED_THEMES{
@@ -61,7 +61,16 @@ export const GET_QUESTION_TEXT_BY_ID = gql`
             text
         }
     }
-    `
+`
+
+
+export const GET_QUESTION_TEXT_BY_ID2 = gql`
+    query GET_QUESTION_TEXT_BY_ID2($id: ID!){
+        questionText(id: $id){
+            id
+            text
+        }
+    }`
 
 export const UPDATE_CARD = gql`
     mutation UPDATE_CARD($id: ID, $author: [ID], $additionalText:  String, $cardContentType: String!,
@@ -70,14 +79,14 @@ export const UPDATE_CARD = gql`
         $isCardUseTestBeforeCard: Boolean, $isCardUseTestInCard: Boolean, $isCardUseCopyright: Boolean,
         $copyright: String, $isCardUseArrowNavigation: Boolean,$hardLevel: String, $cardBefore: ID, $cardDown: ID,
         $cardNext: ID, $cardUp: ID, $tagField: String, $connectedTheme: [ID]
-        
+
     ){
         card(input: {id: $id, author: $author,  additionalText: $additionalText, cardContentType: $cardContentType,
             createdBy: 0, title: $title, text: $text, videoUrl: $videoUrl, testInCard: $testInCard, testBeforeCard: $testBeforeCard,
             siteUrl: $siteUrl, isCardUseAdditionalText: $isCardUseAdditionalText, isCardUseMainContent: $isCardUseMainContent,
             isCardUseMainText: $isCardUseMainText, isCardUseTestBeforeCard: $isCardUseTestBeforeCard, isCardUseTestInCard: $isCardUseTestInCard,
             isCardUseCopyright: $isCardUseCopyright, copyright: $copyright, isCardUseArrowNavigation: $isCardUseArrowNavigation,
-            hardLevel: $hardLevel, cardBefore: $cardBefore, cardDown: $cardDown, cardNext: $cardNext, cardUp: $cardUp, 
+            hardLevel: $hardLevel, cardBefore: $cardBefore, cardDown: $cardDown, cardNext: $cardNext, cardUp: $cardUp,
             tagField: $tagField, connectedTheme: $connectedTheme
         }){
             errors{

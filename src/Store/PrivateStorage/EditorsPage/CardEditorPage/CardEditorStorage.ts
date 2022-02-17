@@ -9,7 +9,7 @@ import {
     UPDATE_CARD
 } from "./Struct";
 import {CardAuthorNode, CardNode, Mutation, Query, QuestionNode, UnstructuredThemesNode} from "../../../../SchemaTypes";
-import { computedFn } from "mobx-utils"
+import {computedFn} from "mobx-utils"
 import {sort} from "fast-sort";
 import {SERVER_BASE_URL} from "../../../../settings";
 import message from "antd/es/message";
@@ -19,14 +19,15 @@ import urlParser from "js-video-url-parser";
 
 export type card_object_fields = keyof CardNode
 
-class CardEditorStorage{
+class CardEditorStorage {
     constructor() {
         makeAutoObservable(this)
-        reaction(()=> this.getField("testInCard", ''), ()=> this.loadTestInCardText())
-        reaction(()=> this.getField("testBeforeCard", ''), ()=> this.loadTestBeforeCardText())
-        reaction(()=> toJS(this.card_object), ()=> this.autoSave())
-        reaction(()=> toJS(this.TagArray), ()=> this.autoSave())
+        reaction(() => this.getField("testInCard", ''), () => this.loadTestInCardText())
+        reaction(() => this.getField("testBeforeCard", ''), () => this.loadTestBeforeCardText())
+        reaction(() => toJS(this.card_object), () => this.autoSave())
+        reaction(() => toJS(this.TagArray), () => this.autoSave())
     }
+
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
     clientStorage = ClientStorage
     //доступ к данным о пользователе, чтобы можно было проверять уровень доступа
@@ -34,18 +35,20 @@ class CardEditorStorage{
 
     cardDataLoaded = false
 
-    loadCardDataFromServer(id: string | number | undefined){
-        if(id){
-            if(this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN") {
+    loadCardDataFromServer(id: string | number | undefined) {
+        if (id) {
+            if (this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN") {
                 this.loadConnectedThemes()
-                this.clientStorage.client.query({query: GET_CARD_DATA_BY_ID, fetchPolicy: "network-only",
-                variables:{id: id}})
+                this.clientStorage.client.query({
+                    query: GET_CARD_DATA_BY_ID, fetchPolicy: "network-only",
+                    variables: {id: id}
+                })
                     .then((response) => (response.data.cardById))
                     .then((card_data) => {
 
                         //--------для полей, содержащих массивы, делаем дополнительную загрузку уже только айдишников
                         const author = card_data?.author?.map((author) => author.id)
-                        const connectedTheme = card_data?.connectedTheme?.map((theme:  UnstructuredThemesNode) => theme.id)
+                        const connectedTheme = card_data?.connectedTheme?.map((theme: UnstructuredThemesNode) => theme.id)
                         //----------------------------------------------------------------
 
                         //-для объектов-----------------------------------
@@ -57,45 +60,54 @@ class CardEditorStorage{
                         const testBeforeCard = card_data.testBeforeCard?.id
 
                         //----------------------------------------------------------------
-                        this.card_object = {...card_data, connectedTheme, author, cardBefore, cardDown, cardNext,
-                            cardUp, testInCard, testBeforeCard}
+                        this.card_object = {
+                            ...card_data, connectedTheme, author, cardBefore, cardDown, cardNext,
+                            cardUp, testInCard, testBeforeCard
+                        }
                         this.cardDataLoaded = true
                         this.get_card_image()
                     })
             }
         }
     }
+
     //Таймер для сохранения
     savingTimer: any
 
     stateOfSave = true
+
     //Функция для авто сохранений
-    autoSave(){
-        if(this.card_object && this.card_object.id){
+    autoSave() {
+        if (this.card_object && this.card_object.id) {
             this.stateOfSave = false
             clearTimeout(this.savingTimer)
-            this.savingTimer = setTimeout(() =>{this.saveDataOnServer()}, 2000)
+            this.savingTimer = setTimeout(() => {
+                this.saveDataOnServer()
+            }, 2000)
         }
     }
 
-    saveDataOnServer(editor_context = this, card_object = this.card_object){
+    saveDataOnServer(editor_context = this, card_object = this.card_object) {
         const data_object = toJS(card_object)
-        if(this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN") {
-            if(card_object){
-                try{
-                    this.clientStorage.client.mutate<Mutation>({mutation: UPDATE_CARD, variables:{
+        if (this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN") {
+            if (card_object) {
+                try {
+                    this.clientStorage.client.mutate<Mutation>({
+                        mutation: UPDATE_CARD, variables: {
                             ...data_object,
                             tagField: toJS(editor_context.TagArray)?.join(","),
-                            cardContentType: card_object?.cardContentType ? String(card_object?.cardContentType).slice(2, 3): 0,
-                            hardLevel: card_object?.hardLevel? String(card_object?.hardLevel).slice(2, 3): 0
+                            cardContentType: card_object?.cardContentType ? String(card_object?.cardContentType).slice(2, 3) : 0,
+                            hardLevel: card_object?.hardLevel ? String(card_object?.hardLevel).slice(2, 3) : 0
 
-                    }})
+                        }
+                    })
                         .then((response) => {
                             this.stateOfSave = true
-                            console.log(response)})
+                            console.log(response)
+                        })
 
-                    }catch(e){
-                        console.log(e)
+                } catch (e) {
+                    console.log(e)
                 }
             }
         }
@@ -105,8 +117,8 @@ class CardEditorStorage{
     all_my_card_authors: CardAuthorNode[] | undefined = undefined
     authorsDataLoaded = false
 
-    loadCardAuthorsFromServer(){
-        if(this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN") {
+    loadCardAuthorsFromServer() {
+        if (this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN") {
             this.clientStorage.client.query({query: GET_MY_CARD_AUTHOR, fetchPolicy: "network-only"})
                 .then((response) => (response.data.me.cardauthorSet))
                 .then((authors_data) => {
@@ -116,9 +128,9 @@ class CardEditorStorage{
         }
     }
 
-    get allMyCardAuthors(){
-        if(this.all_my_card_authors){
-        return(sort(toJS(this.all_my_card_authors? this.all_my_card_authors : [])).desc((author) => author.id))
+    get allMyCardAuthors() {
+        if (this.all_my_card_authors) {
+            return (sort(toJS(this.all_my_card_authors ? this.all_my_card_authors : [])).desc((author) => author.id))
         }
     }
 
@@ -127,31 +139,32 @@ class CardEditorStorage{
     card_object?: CardObjectForStore = undefined
 
     //Умный Getter позволяет получать кэшированные значения сразу для все полей объекта, принимает поле и дефолтное значение
-    getField = computedFn((field_name: card_object_fields, default_value: string | number| boolean | [] = "",
-                           card_object = this.card_object) =>{
-        return (card_object && card_object[field_name]) ? card_object[field_name]: default_value
+    getField = computedFn((field_name: card_object_fields, default_value: string | number | boolean | [] = "",
+                           card_object = this.card_object) => {
+        return (card_object && card_object[field_name]) ? card_object[field_name] : default_value
     })
     //number в field - это грязный хак, чтобы не было ошибки из строчки с присвоением, как только TS видит что используются
     //конкретные ключи, начинает сразу говорить, что это never тип
-    changeField = (field: card_object_fields | number, eventField: "value"| "checked" = "value",
-                   card_object = this.card_object) => ({target}) =>{
-        if(card_object && field in card_object){
+    changeField = (field: card_object_fields | number, eventField: "value" | "checked" = "value",
+                   card_object = this.card_object) => ({target}) => {
+        if (card_object && field in card_object) {
             card_object[field] = target[eventField]
         }
     }
 
     changeFieldByValue(field: card_object_fields | number, value: string | number | boolean | string[] | undefined,
-                       card_object = this.card_object){
-        if(card_object && field in card_object){
+                       card_object = this.card_object) {
+        if (card_object && field in card_object) {
             card_object[field] = value
-        }else{
+        } else {
             throw "pass unexpected field to changeFieldByValue"
         }
     }
+
     //-----------------Работа с ссылкой на видео
 
-    changeYoutubeUrl = (e) =>{
-        if(this.card_object && 'videoUrl' in this.card_object){
+    changeYoutubeUrl = (e) => {
+        if (this.card_object && 'videoUrl' in this.card_object) {
             const parsed_url = urlParser.parse(e.target.value)
             const unified_url = urlParser.create({
                 videoInfo: {
@@ -159,7 +172,7 @@ class CardEditorStorage{
                     id: String(parsed_url?.id),
                     mediaType: parsed_url?.mediaType
                 },
-                params:{
+                params: {
                     start: parsed_url?.params?.start,
 
                 }
@@ -170,8 +183,8 @@ class CardEditorStorage{
 
 
     //----------------------------------------------------------------
-    urlValidation(arrow_url){
-        if(!arrow_url){
+    urlValidation(arrow_url) {
+        if (!arrow_url) {
             return true
         }
         try {
@@ -181,11 +194,13 @@ class CardEditorStorage{
             return false;
         }
     }
-    validateUrlField = computedFn((fieldName: card_object_fields, card_object:  CardObjectForStore | undefined  = this.card_object) => {
-        if(card_object && fieldName in card_object){
-        return(
-            this.urlValidation(card_object[fieldName])
-        )}
+
+    validateUrlField = computedFn((fieldName: card_object_fields, card_object: CardObjectForStore | undefined = this.card_object) => {
+        if (card_object && fieldName in card_object) {
+            return (
+                this.urlValidation(card_object[fieldName])
+            )
+        }
     })
 
 
@@ -194,16 +209,18 @@ class CardEditorStorage{
     //Ссылка на изображение
     image_url = ''
     update_image_counter = 0
-    get fakeImageUrl(){
-        return(this.image_url + "?" + this.update_image_counter)
+
+    get fakeImageUrl() {
+        return (this.image_url + "?" + this.update_image_counter)
     }
+
     //Загрузка изображения для карточки
-    handleUploadImage(e, card_id){
+    handleUploadImage(e, card_id) {
         const formData = new FormData();
         formData.append('image', e.file);
         formData.append('card', String(card_id));
         fetch(
-            SERVER_BASE_URL+ '/cardfiles/card?update_id=' + String(card_id),
+            SERVER_BASE_URL + '/cardfiles/card?update_id=' + String(card_id),
             {
                 method: 'POST',
                 body: formData,
@@ -221,8 +238,9 @@ class CardEditorStorage{
                 message.error(`${e.file.name} не удалось загрузить`);
             });
     }
+
     //Получение с сервера изображения ------------------------------------------------
-    get_card_image(){
+    get_card_image() {
         fetch(SERVER_BASE_URL + "/cardfiles/card?id=" + String(this?.card_object?.id))
             .then((response) => response.json())
             .then((data) => {
@@ -235,29 +253,32 @@ class CardEditorStorage{
                 }
             })
     }
+
     //----------------------------------------------------------------
     //Теги
-    get CheckThatTagFieldNotEmpty(){
-        return (this.card_object?.tagField && this.card_object?.tagField?.length !==1
+    get CheckThatTagFieldNotEmpty() {
+        return (this.card_object?.tagField && this.card_object?.tagField?.length !== 1
             && this?.card_object?.tagField[0] !== "")
     }
-    get DefaultTagValue(): string[] | undefined{
+
+    get DefaultTagValue(): string[] | undefined {
         return this.CheckThatTagFieldNotEmpty ?
-            this.getField("tagField", []).split(","):
+            this.getField("tagField", []).split(",") :
             undefined
     }
-    updateTagField(newValue){
+
+    updateTagField(newValue) {
         this.TagArray = newValue
     }
 
-    TagArray?: string[]  = undefined
+    TagArray?: string[] = undefined
 
     //----------------------------------------------------------------
     //Валидация ссылки
-    get UrlValidation(){
-        if (this.getField("siteUrl", "").length == 0){
+    get UrlValidation() {
+        if (this.getField("siteUrl", "").length == 0) {
             return true
-        }else{
+        } else {
             let url;
 
             try {
@@ -274,22 +295,26 @@ class CardEditorStorage{
     //Работа с объединенными темами
     allConnectedThemes?: UnstructuredThemesNode[] = []
     isAllConnectedThemesLoaded = false
-    loadConnectedThemes(useCache=true){
-        this.clientStorage.client.query({query: GET_CONNECTED_THEMES,
-            fetchPolicy: useCache? "cache-first":"network-only"})
+
+    loadConnectedThemes(useCache = true) {
+        this.clientStorage.client.query({
+            query: GET_CONNECTED_THEMES,
+            fetchPolicy: useCache ? "cache-first" : "network-only"
+        })
             .then((response) => (response.data.unstructuredTheme))
-            .then((connectedThemes) =>{
+            .then((connectedThemes) => {
                 this.allConnectedThemes = connectedThemes
                 this.isAllConnectedThemesLoaded = true
-                if(useCache){
+                if (useCache) {
                     this.loadConnectedThemes(false)
                 }
             })
     }
-    get connectedThemesForSelector(){
+
+    get connectedThemesForSelector() {
         return toJS(this.allConnectedThemes)
-            ?.map((theme)=> {
-                return({
+            ?.map((theme) => {
+                return ({
                     id: theme.id,
                     value: theme.id,
                     title: theme.text,
@@ -301,62 +326,71 @@ class CardEditorStorage{
     //--------Работа с тестом перед и в карточки-----------------
     testInCardData?: QuestionNode | null = undefined
 
-    loadTestInCardText(){
-        if(this.getField("testInCard", '')){
-            try{
-                this.clientStorage.client.query<Query>({query: GET_QUESTION_TEXT_BY_ID, variables:{
-                    id: this.getField("testInCard", '')
-                }})
-                    .then((response) =>response.data.questionById)
-                    .then((question) => this.testInCardData = question)
+    loadTestInCardText() {
+        if (this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN") {
+            if (this.getField("testInCard", '')) {
+                try {
+                    this.clientStorage.client.query<Query>({
+                        query: GET_QUESTION_TEXT_BY_ID, variables: {
+                            id: this.getField("testInCard", '')
+                        }
+                    })
+                        .then((response) => response.data.questionById)
+                        .then((question) => this.testInCardData = question)
 
-                }catch(e){
+                } catch (e) {
                     console.log(e)
+                }
             }
         }
     }
 
     testBeforeCardData?: QuestionNode | null = undefined
 
-    loadTestBeforeCardText(){
-        if(this.getField("testBeforeCard", '')){
-            try{
-                this.clientStorage.client.query<Query>({query: GET_QUESTION_TEXT_BY_ID, variables:{
-                        id: this.getField("testBeforeCard", '')
-                    }})
-                    .then((response) =>response.data.questionById)
-                    .then((question) => this.testBeforeCardData = question)
+    loadTestBeforeCardText() {
+        if (this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN") {
+            if (this.getField("testBeforeCard", '')) {
+                try {
+                    this.clientStorage.client.query<Query>({
+                        query: GET_QUESTION_TEXT_BY_ID, variables: {
+                            id: this.getField("testBeforeCard", '')
+                        }
+                    })
+                        .then((response) => response.data.questionById)
+                        .then((question) => this.testBeforeCardData = question)
 
-            }catch(e){
-                console.log(e)
+                } catch (e) {
+                    console.log(e)
+                }
             }
         }
     }
 
     //-------Работа с выбором карточки --------------------
-    arrowForCardIsSelecting: "" | "cardBefore"| "cardDown" | "cardNext" | "cardUp" = ""
+    arrowForCardIsSelecting: "" | "cardBefore" | "cardDown" | "cardNext" | "cardUp" = ""
 
-    onStartSelectCard = (card_direction: "cardBefore"| "cardDown" | "cardNext" | "cardUp") =>{
+    onStartSelectCard = (card_direction: "cardBefore" | "cardDown" | "cardNext" | "cardUp") => {
         this.arrowForCardIsSelecting = card_direction
     }
-    onCloseSelectCard = () =>{
+    onCloseSelectCard = () => {
         this.arrowForCardIsSelecting = ""
     }
-    onCardSelect = (card_id: number) =>{
-        if(this.arrowForCardIsSelecting !== ""){
+    onCardSelect = (card_id: number) => {
+        if (this.arrowForCardIsSelecting !== "") {
             this.changeFieldByValue(this.arrowForCardIsSelecting, card_id)
         }
         this.onCloseSelectCard()
     }
 
 }
+
 //Мапер, который удаляет из типа __typename, для стрелок, которые являются массивами Card Node, делает тип string, для
 //объектов, которые являются темами, авторами и тд, делает массив строк, чтобы хранить ID[]
 type RemoveTypename<O> = Omit<O, "__typename">
 type object_properties_to_array_mapper<MainObject> = {
-    [Field in keyof MainObject]: MainObject[Field] extends object?
-        MainObject[Field] extends Array<MainObject>?
-            string:
+    [Field in keyof MainObject]: MainObject[Field] extends object ?
+        MainObject[Field] extends Array<MainObject> ?
+            string :
             string[]
         : MainObject[Field]
 }

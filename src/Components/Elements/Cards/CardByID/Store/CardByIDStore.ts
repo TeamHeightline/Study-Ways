@@ -3,7 +3,7 @@ import {CardCourseNode, CardNode, Mutation, Query, UnstructuredThemesNode} from 
 import {ClientStorage} from "../../../../../Store/ApolloStorage/ClientStorage";
 import {
     ADD_TO_BOOKMARK,
-    GET_ALL_COURSE,
+    GET_ALL_COURSE, GET_SIMILAR_CARDS_ID_ARRAY,
     GET_THEME_ANCESTORS,
     LOAD_CARD_DATA_BY_ID,
     REMOVE_CARD_FROM_BOOKMARK,
@@ -22,6 +22,7 @@ export class CardByIDStore {
         autorun(() => this.collectFindInCourseNotification())
         autorun(() => this.updateRatingAndISBookmarked())
         autorun(() => this.loadThemesAncestors())
+        autorun(() => this.loadSimilarCards())
         this.id = id
     }
 
@@ -59,6 +60,42 @@ export class CardByIDStore {
                 console.log(e)
             }
 
+        }
+    }
+
+    loadSimilarCards() {
+        if (this.card_data?.id) {
+            this.clientStorage.client.query({
+                query: GET_SIMILAR_CARDS_ID_ARRAY
+                , variables: {
+                    card_id: this.card_data?.id
+
+                }
+            })
+                .then((response) => response.data.similarCards)
+                .then((similar_cards_id_array) => {
+                    if (similar_cards_id_array && similar_cards_id_array.IDs) {
+                        this.similarCardsID = similar_cards_id_array.IDs
+                    }
+                })
+                .catch((e) => console.log(e))
+        }
+    }
+
+    similarCardsID: string[] = []
+
+    get dataForDirection(): similarCardsI[] | null {
+        if (toJS(this.similarCardsID).length > 0) {
+            const cardElementArray: similarCardsI[] = toJS(this.similarCardsID)
+                ?.map((card_id) => {
+                    return {
+                        type: "CardElement",
+                        id: Number(card_id)
+                    }
+                })
+            return cardElementArray
+        } else {
+            return null
         }
     }
 
@@ -279,5 +316,9 @@ type IFindInCourseNotification = {
     course_id: string
     position: positionDataI
 }[]
+type similarCardsI = {
+    type: "CardElement",
+    id: number
+}
 
 export const CardByIDStoreObject = new CardByIDStore()

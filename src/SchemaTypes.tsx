@@ -473,6 +473,7 @@ export type Query = {
     questionText?: Maybe<QuestionText>;
     questionThemes?: Maybe<Array<Maybe<QuestionThemesNode>>>;
     selfStatisticIdArray?: Maybe<SelfStatisticIdArray>;
+    similarCards?: Maybe<SimilarCards>;
     themeAncestors?: Maybe<Array<Maybe<UnstructuredThemesNode>>>;
     unstructuredTheme?: Maybe<Array<Maybe<UnstructuredThemesNode>>>;
     usThemeSequence?: Maybe<UsThemeSequenceNode>;
@@ -561,6 +562,11 @@ export type QueryQuestionTextArgs = {
 
 export type QuerySelfStatisticIdArrayArgs = {
     page?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QuerySimilarCardsArgs = {
+    cardId?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -680,6 +686,11 @@ export type SelfStatisticIdArray = {
 export type SetCardRating = {
     __typename?: 'SetCardRating';
     ok?: Maybe<Scalars['Boolean']>;
+};
+
+export type SimilarCards = {
+    __typename?: 'SimilarCards';
+    IDs?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 export type StatisticMutationPayload = {

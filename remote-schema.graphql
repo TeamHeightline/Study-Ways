@@ -287,6 +287,8 @@ type Query {
     questionText(id: ID): QuestionText
     questionThemes: [QuestionThemesNode]
     selfStatisticIdArray(page: Int): SelfStatisticIDArray
+    similarCards(cardId: Int): SimilarCards
+    themeAncestors(themeId: Int): [UnstructuredThemesNode]
     unstructuredTheme: [UnstructuredThemesNode]
     usThemeSequence: USThemeSequenceNode
     "The ID of the object"
@@ -372,6 +374,10 @@ type SelfStatisticIDArray {
 
 type SetCardRating {
     ok: Boolean
+}
+
+type SimilarCards {
+    IDs: [String]
 }
 
 type StatisticMutationPayload {

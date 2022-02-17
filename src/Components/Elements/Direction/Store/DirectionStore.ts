@@ -1,18 +1,23 @@
-import {makeAutoObservable, reaction, toJS} from "mobx";
-import {directionData, GET_ALL_COURSE, GET_QUESTION_TEXT_BY_ID} from "./Struct";
-import {ClientStorage} from "../../ApolloStorage/ClientStorage";
-import {CardCourseNode} from "../../../SchemaTypes";
-import {GET_QS_DATA_BY_ID} from "../../PublicStorage/QSPage/QuestionSequencePlayer/Struct";
+import {autorun, makeAutoObservable, reaction, toJS} from "mobx";
+import {
+    directionDataType,
+    GET_ALL_COURSE,
+    GET_QUESTION_TEXT_BY_ID2
+} from "./Struct";
+import {ClientStorage} from "../../../../Store/ApolloStorage/ClientStorage";
+import {CardCourseNode} from "../../../../SchemaTypes";
+import {GET_QS_DATA_BY_ID} from "../../../../Store/PublicStorage/QSPage/QuestionSequencePlayer/Struct";
 
-class CardProcessedClass{
+class CardProcessedClass {
     cardID = 1
     type = "CardElement"
-    constructor(id){
+
+    constructor(id) {
         this.cardID = id
     }
 }
 
-class QuestionProcessedClass{
+class QuestionProcessedClass {
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
     clientStorage = ClientStorage
     ownStore: any = null
@@ -21,36 +26,43 @@ class QuestionProcessedClass{
     type = "QuestionElement"
     questionText = ''
 
-    loadQuestionDataFromServer(){
-        this.clientStorage.client.query({query: GET_QUESTION_TEXT_BY_ID, variables: {id: this.id}})
-            .then(response => {
-                this.questionText = response.data.questionById.text
+    loadQuestionDataFromServer() {
+        if (this.id) {
+            this.clientStorage.client.query({
+                query: GET_QUESTION_TEXT_BY_ID2,
+                variables: {id: this.id}
             })
+                .then(response => {
+                    this.questionText = response.data.questionText.text
+                })
+        }
     }
 
-    handleClickOnQuestionCard(){
+    handleClickOnQuestionCard() {
         this.ownStore.openQuestionID = this.id
         this.ownStore.openQuestion()
     }
 
 
-    constructor(id, ownStore){
+    constructor(id, ownStore) {
         this.ownStore = ownStore
         this.id = id
-        this.loadQuestionDataFromServer()
+        autorun(() => this.loadQuestionDataFromServer())
     }
 
 }
 
-class CourseProcessedClass{
+class CourseProcessedClass {
     constructor(cardPositionData, ownStore) {
         this.cardPositionData = cardPositionData
         this.ownStore = ownStore
     }
+
     ownStore: any = null
     cardPositionData: any = {}
     type = "CourseElement"
-    updateCardPositionData(e){
+
+    updateCardPositionData(e) {
         this.ownStore.openCard()
         const cardPositionData = this.cardPositionData
         cardPositionData.buttonIndex = e.buttonIndex
@@ -62,12 +74,13 @@ class CourseProcessedClass{
     }
 }
 
-class QuestionSequenceProcessedClass{
+class QuestionSequenceProcessedClass {
     constructor(id, ownStore) {
         this.id = id
         this.ownStore = ownStore
         this.loadQSDataFromServer()
     }
+
     ownStore: any = null
     type = "QuestionSequenceElement"
     id = 0
@@ -76,15 +89,15 @@ class QuestionSequenceProcessedClass{
 
     qsName = ''
 
-    loadQSDataFromServer(){
+    loadQSDataFromServer() {
         this.clientStorage.client.query({query: GET_QS_DATA_BY_ID, variables: {id: this.id}})
             .then(response => {
                 this.qsName = response.data.questionSequenceById.name
             })
-            .catch(() => void(0))
+            .catch(() => void (0))
     }
 
-    handleClickOnQuestionSequnceCard(){
+    handleClickOnQuestionSequnceCard() {
         this.ownStore.openQuestionSequenceID = this.id
         this.ownStore.openQuestionSequence()
     }
@@ -95,12 +108,13 @@ export class DirectionStore {
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
     clientStorage = ClientStorage
 
-    directionData: any = directionData
-    setDirectionData(newData){
+    directionData?: directionDataType[]
+
+    setDirectionData(newData) {
         this.directionData = newData
     }
 
-    cardCourse:  CardCourseNode[]  = []
+    cardCourse: CardCourseNode[] = []
 
     //ID выбранной карточки, используется и для элемента курса
     openCardID = 1
@@ -116,19 +130,19 @@ export class DirectionStore {
 
     openQuestionSequenceID = 0
 
-    openCard(){
+    openCard() {
         this.isOpenCard = true
         this.isOpenQuestion = false
         this.isOpenQuestionSequence = false
     }
 
-    openQuestion(){
+    openQuestion() {
         this.isOpenCard = false
         this.isOpenQuestion = true
         this.isOpenQuestionSequence = false
     }
 
-    openQuestionSequence(){
+    openQuestionSequence() {
         this.isOpenCard = false
         this.isOpenQuestion = false
         this.isOpenQuestionSequence = true
@@ -139,38 +153,37 @@ export class DirectionStore {
     //сколько было попыток и тд.
     directionProcessedObject: any = []
 
-    get DirectionProcessedObjectsForRender(){
-        return(toJS(this.directionProcessedObject))
+    get ObjectsForRender() {
+        return (toJS(this.directionProcessedObject))
     }
 
-    get_card_id_in_course_by_position(cardPositionData){
-        return(this?.cardCourse?.find( course => Number(course.id) === Number(cardPositionData?.courseID))?.courseData[Number(cardPositionData.row)]
+    get_card_id_in_course_by_position(cardPositionData) {
+        return (this?.cardCourse?.find(course => Number(course.id) === Number(cardPositionData?.courseID))?.courseData[Number(cardPositionData.row)]
             .SameLine[cardPositionData.fragment].CourseFragment[Number(cardPositionData.buttonIndex)].CourseElement.id)
     }
 
     //Загружает всю информацию о курсах с сервера
-    loadCourseDataFromServer(){
+    loadCourseDataFromServer() {
         this.clientStorage.client.query({query: GET_ALL_COURSE})
-            .then((response) =>{
+            .then((response) => {
                 this.cardCourse = response.data.cardCourse
             })
     }
 
     //Превращает данные о пользовательской серии данных в массив наблюдаемых объектов определенных типов
-    directionDataParser(){
-        console.log("start parser")
+    directionDataParser() {
         const directionProcessedObject: any = []
-        this.directionData.map((element) =>{
-            if(element.type === "CardElement"){
+        this.directionData?.map((element) => {
+            if (element.type === "CardElement") {
                 directionProcessedObject.push(new CardProcessedClass(element.id))
             }
-            if(element.type === "CourseElement"){
+            if (element.type === "CourseElement") {
                 directionProcessedObject.push(new CourseProcessedClass(element.cardPositionData, this))
             }
-            if(element.type === "QuestionElement"){
+            if (element.type === "QuestionElement") {
                 directionProcessedObject.push(new QuestionProcessedClass(element.id, this))
             }
-            if(element.type === "QuestionSequenceElement"){
+            if (element.type === "QuestionSequenceElement") {
                 directionProcessedObject.push(new QuestionSequenceProcessedClass(element.id, this))
             }
 
@@ -178,10 +191,10 @@ export class DirectionStore {
         this.directionProcessedObject = directionProcessedObject
     }
 
-    constructor(){
+    constructor() {
         makeAutoObservable(this)
         this.loadCourseDataFromServer()
         this.directionDataParser()
-        reaction(()=> this.directionData, ()=> this.directionDataParser())
+        reaction(() => this.directionData, () => this.directionDataParser())
     }
 }

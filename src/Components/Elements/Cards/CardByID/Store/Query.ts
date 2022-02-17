@@ -85,3 +85,11 @@ export const SET_RATING = gql`
             ok
         }
     }`
+
+export const GET_THEME_ANCESTORS = gql`
+    query GET_THEME_ANCESTORS($theme_id: Int!){
+        themeAncestors(themeId: $theme_id){
+            id
+            text
+        }
+    }`

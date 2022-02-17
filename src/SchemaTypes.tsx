@@ -473,6 +473,7 @@ export type Query = {
     questionText?: Maybe<QuestionText>;
     questionThemes?: Maybe<Array<Maybe<QuestionThemesNode>>>;
     selfStatisticIdArray?: Maybe<SelfStatisticIdArray>;
+    themeAncestors?: Maybe<Array<Maybe<UnstructuredThemesNode>>>;
     unstructuredTheme?: Maybe<Array<Maybe<UnstructuredThemesNode>>>;
     usThemeSequence?: Maybe<UsThemeSequenceNode>;
     /** The ID of the object */
@@ -560,6 +561,11 @@ export type QueryQuestionTextArgs = {
 
 export type QuerySelfStatisticIdArrayArgs = {
     page?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QueryThemeAncestorsArgs = {
+    themeId?: InputMaybe<Scalars['Int']>;
 };
 
 

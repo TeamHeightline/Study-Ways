@@ -1,7 +1,14 @@
 import {autorun, makeAutoObservable, toJS} from "mobx";
-import {CardCourseNode, CardNode, Mutation, Query} from "../../../../../SchemaTypes";
+import {CardCourseNode, CardNode, Mutation, Query, UnstructuredThemesNode} from "../../../../../SchemaTypes";
 import {ClientStorage} from "../../../../../Store/ApolloStorage/ClientStorage";
-import {ADD_TO_BOOKMARK, GET_ALL_COURSE, LOAD_CARD_DATA_BY_ID, REMOVE_CARD_FROM_BOOKMARK, SET_RATING} from "./Query";
+import {
+    ADD_TO_BOOKMARK,
+    GET_ALL_COURSE,
+    GET_THEME_ANCESTORS,
+    LOAD_CARD_DATA_BY_ID,
+    REMOVE_CARD_FROM_BOOKMARK,
+    SET_RATING
+} from "./Query";
 import {SERVER_BASE_URL} from "../../../../../settings";
 import {ICourseLine} from "../../../Course/Editor/EditCourseByID";
 import {positionDataI} from "../../../Course/CourseMicroView/V2/Store/CourseMicroStoreByID";
@@ -14,6 +21,7 @@ export class CardByIDStore {
         autorun(() => this.getAllCoursesData())
         autorun(() => this.collectFindInCourseNotification())
         autorun(() => this.updateRatingAndISBookmarked())
+        autorun(() => this.loadThemesAncestors())
         this.id = id
     }
 
@@ -53,6 +61,39 @@ export class CardByIDStore {
 
         }
     }
+
+    getAncestorForTheme(theme_id: number) {
+        this.clientStorage.client.query({
+            query: GET_THEME_ANCESTORS,
+            variables: {
+                theme_id: theme_id
+            }
+        })
+            .then((response) => response.data?.themeAncestors)
+            .then((themes) => {
+                if (themes && themes.length > 0) {
+                    this.themesAncestorsMap.set(String(theme_id), themes)
+                }
+            })
+            .catch((e) => console.log(e))
+    }
+
+    themesAncestorsMap: ThemeAncestorMap = new Map()
+
+    loadThemesAncestors = () => {
+        this.card_data?.connectedTheme.map((theme) => {
+            this.getAncestorForTheme(Number(theme.id))
+        })
+    }
+
+    onThemeHover = (theme_id) => {
+        if (this.themesAncestorsMap.has(String(theme_id))) {
+            return toJS(this.themesAncestorsMap.get(String(theme_id)))
+        } else {
+            return []
+        }
+    }
+
 
     get defaultCardImageURL() {
         if (this?.card_data?.id) {
@@ -228,6 +269,10 @@ export class CardByIDStore {
 
 
 }
+
+
+type ThemeAncestorMap = Map<string, UnstructuredThemesNode[]>;
+
 
 type IFindInCourseNotification = {
     course_name: string

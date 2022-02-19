@@ -12,15 +12,15 @@ type AnswerImageProp = {
 }
 
 
-export const AnswerImage = observer(({answer}: AnswerImageProp) =>{
+export const AnswerImage = observer(({answer}: AnswerImageProp) => {
     const [isOpenDeleteDialog, setOpenDeleteDialog] = useState(false)
-    const closeDeleteDialog = () =>{
+    const closeDeleteDialog = () => {
         setOpenDeleteDialog(false)
     }
-    const openDeleteDialog = () =>{
+    const openDeleteDialog = () => {
         setOpenDeleteDialog(true)
     }
-    return(
+    return (
         <>
             <Stack direction={"row"} alignItems={"center"}>
                 <Button
@@ -28,10 +28,11 @@ export const AnswerImage = observer(({answer}: AnswerImageProp) =>{
                     variant="outlined"
                     component="label"
                 >
-                    <input type="file"  hidden name="file"
+                    <input type="file" hidden name="file"
                            onChange={(e: any) => {
                                answer.isImageDeleted = false
-                               answer.updateImage(e)}}/>
+                               answer.updateImage(e)
+                           }}/>
                     Изображение для ответа
                 </Button>
                 <IconButton onClick={openDeleteDialog}>
@@ -40,7 +41,7 @@ export const AnswerImage = observer(({answer}: AnswerImageProp) =>{
             </Stack>
 
             <div>
-                {!answer.isImageDeleted && (answer.imageName.length > 30 ? answer.imageName.slice(0, 27) + "..." : answer.imageName)}
+                {!answer.isImageDeleted && (answer?.imageName?.length > 30 ? answer.imageName.slice(0, 27) + "..." : answer.imageName)}
             </div>
 
             <Dialog
@@ -51,7 +52,7 @@ export const AnswerImage = observer(({answer}: AnswerImageProp) =>{
                     {"Удалить изображение для ответа?"}
                 </DialogTitle>
                 <DialogContent>
-                    <DialogContentText >
+                    <DialogContentText>
                         Это действие невозможно отменить, изображение останется в файловом хранилище, но ответ
                         потеряет на него ссылку, если вы случайно открыли эту страницу, просто нажмите "Закрыть"
                     </DialogContentText>

@@ -9,6 +9,7 @@ import CardContentAndDescription from "./card-content-and-description";
 import CardNavigationRatingFind from "./card-navigation-rating-find-in-course";
 import CourseMicroView from "../../../Course/CourseMicroView/V2/UI/CourseMicroView";
 import SimilarCards from "./similar-cards";
+import TestAfterCard from "./test-after-card";
 
 
 interface ICardByIDProps extends PaperProps {
@@ -31,6 +32,7 @@ const CardByID = observer(({card_id, course_navigation, ...props}: ICardByIDProp
             />
             <CardContentAndDescription card_store={cardStore} sx={{pt: 1}}/>
             <CardNavigationRatingFind card_store={cardStore} sx={{pt: 1}}/>
+            <TestAfterCard card_store={cardStore} sx={{pt: 1}}/>
             <SimilarCards card_store={cardStore} sx={{pt: 1}}/>
 
         </Paper>

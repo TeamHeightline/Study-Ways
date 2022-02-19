@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import {TextField} from "@mui/material";
 import React from "react";
 
-export const AnswerText = observer(({answer})=>{
+export const AnswerText = observer(({answer}) => {
     return <>
         <TextField
             variant={"filled"}
@@ -14,9 +14,7 @@ export const AnswerText = observer(({answer})=>{
             fullWidth
             maxRows={7}
             value={answer.text}
-            onChange={(e: any) =>{
-                answer.text = e.target.value
-            }}
+            onChange={answer.changeAnswerText}
         />
     </>;
 })

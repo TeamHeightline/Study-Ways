@@ -1,19 +1,20 @@
 import {action, autorun, makeObservable, observable} from "mobx";
 import {setContext} from "@apollo/client/link/context";
 import {ApolloClient, ApolloLink, HttpLink, InMemoryCache, NormalizedCacheObject} from "@apollo/client";
-import { persistCache, LocalStorageWrapper } from 'apollo3-cache-persist';
+import {persistCache, LocalStorageWrapper} from 'apollo3-cache-persist';
 
 import {onError} from "apollo-link-error";
 import {SERVER_BASE_URL} from "../../settings";
-class Client{
-    //Токен авторизации, самая важная вешь в проекте! При запуски он достается из локального хранилища
+
+class Client {
+    //Токен авторизации, самая важная вещь в проекте! При запуске он достается из локального хранилища
     token = localStorage.getItem('token');
 
     //Клиент аполло, обновляется автоматически
-    client:  ApolloClient<NormalizedCacheObject> = this.UpdatedApolloClient()
+    client: ApolloClient<NormalizedCacheObject> = this.UpdatedApolloClient()
 
     //Функция для того, чтобы при логировании можно было записать новый токен
-    changeToken(token){
+    changeToken(token) {
         this.token = token
         localStorage.setItem('token', token)
         this.UpdatedApolloClient()
@@ -27,7 +28,7 @@ class Client{
             changeToken: action,
             UpdatedApolloClient: action,
         })
-        autorun(()=>this.UpdatedApolloClient())
+        autorun(() => this.UpdatedApolloClient())
     }
 
     //Если токен обновился, то эта вычисляемая функция обновляется и
@@ -35,14 +36,14 @@ class Client{
     //все последующие запросы и мутации будут происходить от его лица(в частности запрос на
     // получение данных о пользователе), так же это позволит в будущем добавлять другие заголоки
     //для запросов, если это понадобится
-     UpdatedApolloClient(){
-        const authLink: any = setContext((_, { headers }) => {
+    UpdatedApolloClient() {
+        const authLink: any = setContext((_, {headers}) => {
             // процесс создания авторизационного заголовка
-            if (this.token !== ""){
+            if (this.token !== "") {
                 return {
                     headers: {
                         ...headers,
-                        authorization: 'Bearer '+ this.token,
+                        authorization: 'Bearer ' + this.token,
                     }
                 }
             } else {
@@ -58,8 +59,8 @@ class Client{
             uri: SERVER_BASE_URL + '/graphql/'
             // Additional options
         });
-        const errorLink: any = onError(({ graphQLErrors }) => {
-            if (graphQLErrors) graphQLErrors.map(({ message }) => console.log(message))
+        const errorLink: any = onError(({graphQLErrors}) => {
+            if (graphQLErrors) graphQLErrors.map(({message}) => console.log(message))
         })
         const cache = new InMemoryCache();
         persistCache({
@@ -73,9 +74,9 @@ class Client{
         });
         //Новый клиент собран и расшеривается между всеми, кто его использует
         this.client = client
-        return(client)
+        return (client)
     }
 
 }
 
-export const  ClientStorage =  new Client()
+export const ClientStorage = new Client()

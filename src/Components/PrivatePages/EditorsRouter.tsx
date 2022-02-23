@@ -1,32 +1,16 @@
 import React, {Suspense} from "react";
-import {Alert, Button, CircularProgress, Grid} from '@mui/material';
+import {Alert, Button, CircularProgress, Grid, Tooltip, Typography} from '@mui/material';
 import AlertTitle from '@mui/material/AlertTitle';
 import BlurLinearIcon from '@mui/icons-material/BlurLinear';
-import RecentActorsIcon from '@mui/icons-material/RecentActors';
 import LinearScaleIcon from '@mui/icons-material/LinearScale';
 import AddchartIcon from '@mui/icons-material/Addchart';
 import QuizIcon from '@mui/icons-material/Quiz';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 // import HubIcon from '@mui/icons-material/Hub';
 import SchoolIcon from '@mui/icons-material/School';
-
-const SearchingElementsEditor = React.lazy(() => import("./SearchingElementsEditor"))
-const QuestionSequenceMainEditor = React.lazy(() => import("./QuestionSequenceMainEditor"))
-const MainCourseEditor = React.lazy(() => import("./MainCourseEditor"))
-
-const QuestionEditor = React.lazy(() => import("./QuestionEditor").then(module => ({default: module.QuestionEditor})))
-const MainUserQuestionPage = React.lazy(() => import("./MainUserQuestionPage").then(module => ({default: module.MainUserQuestionPage})))
-const StatisticV2 = React.lazy(() => import("../Elements/Statistic/V2/StatisticV2").then(module => ({default: module.StatisticV2})))
-const CardEditorV2 = React.lazy(() => import("../Elements/Cards/Editor/EditorPageV2/Page").then(module => ({default: module.EditorPage})))
-const ExamPage = React.lazy(() => import("../Elements/Exam/EditorPage/Page/UI/page"))
-
 import {UserStorage} from '../../Store/UserStore/UserStore'
 import {observer} from "mobx-react";
-import {
-    Switch,
-    Route,
-    useRouteMatch, useHistory
-} from "react-router-dom";
+import {Route, Switch, useHistory, useRouteMatch} from "react-router-dom";
 
 import clsx from 'clsx';
 import {Theme} from '@mui/material/styles';
@@ -41,10 +25,19 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import {Tooltip, Typography} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import {isMobileHook} from "../../CustomHooks/isMobileHook";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
+
+const SearchingElementsEditor = React.lazy(() => import("./SearchingElementsEditor"))
+const QuestionSequenceMainEditor = React.lazy(() => import("./QuestionSequenceMainEditor"))
+const MainCourseEditor = React.lazy(() => import("./MainCourseEditor"))
+
+const QuestionEditor = React.lazy(() => import("../Elements/UserTest/Editor/QuestionEditor/UI/QuestionEditor").then(module => ({default: module.QuestionEditor})))
+const MainUserQuestionPage = React.lazy(() => import("./MainUserQuestionPage").then(module => ({default: module.MainUserQuestionPage})))
+const StatisticV2 = React.lazy(() => import("../Elements/Statistic/V2/StatisticV2").then(module => ({default: module.StatisticV2})))
+const CardEditorV2 = React.lazy(() => import("../Elements/Cards/Editor/EditorPageV2/Page").then(module => ({default: module.EditorPage})))
+const ExamPage = React.lazy(() => import("../Elements/Exam/EditorPage/Page/UI/page"))
 
 const drawerWidth = 70;
 
@@ -196,19 +189,19 @@ export const EditorsRouter = observer(() => {
                             <ListItemText primary="Статистика (второе поколение)"/>
                         </ListItem>
                     </Tooltip>
-                    {/*<Tooltip title={<Typography variant="body1">Экзамен</Typography>}>*/}
-                    {/*    <ListItem button onClick={() => {*/}
-                    {/*        if (isMobile) {*/}
-                    {/*            setOpen(false)*/}
-                    {/*        }*/}
-                    {/*        history.push(`${path}/exam`)*/}
-                    {/*    }}>*/}
-                    {/*        <ListItemIcon>*/}
-                    {/*            <SchoolIcon/>*/}
-                    {/*        </ListItemIcon>*/}
-                    {/*        <ListItemText primary="Экзамен)"/>*/}
-                    {/*    </ListItem>*/}
-                    {/*</Tooltip>*/}
+                    <Tooltip title={<Typography variant="body1">Экзамен</Typography>}>
+                        <ListItem button onClick={() => {
+                            if (isMobile) {
+                                setOpen(false)
+                            }
+                            history.push(`${path}/exam`)
+                        }}>
+                            <ListItemIcon>
+                                <SchoolIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="Экзамен)"/>
+                        </ListItem>
+                    </Tooltip>
                 </List>
             </Drawer>
             {isMobile &&

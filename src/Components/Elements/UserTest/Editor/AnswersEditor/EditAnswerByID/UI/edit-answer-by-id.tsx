@@ -1,18 +1,18 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {Paper} from "@mui/material";
-
+import {EditAnswerByIdStore} from "../Store/edit-answer-by-id-store";
+import EditAnswerUI from "./edit-answer-ui";
 
 interface IEditAnswerByIDProps extends PaperProps {
-    answer_id: number
+    answer_id: number,
+    answer_index?: number
 }
 
-const EditAnswerByID = observer(({answer_id, ...props}: IEditAnswerByIDProps) => {
+const EditAnswerByID = observer(({answer_id, answer_index, ...props}: IEditAnswerByIDProps) => {
+    const answerStore = new EditAnswerByIdStore(answer_id)
     return (
-        <Paper elevation={0} {...props}>
-            
-        </Paper>
+        <EditAnswerUI answerStore={answerStore} answer_index={answer_index}/>
     )
 })
 

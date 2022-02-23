@@ -386,8 +386,8 @@ class CardEditorStorage {
 
 //Мапер, который удаляет из типа __typename, для стрелок, которые являются массивами Card Node, делает тип string, для
 //объектов, которые являются темами, авторами и тд, делает массив строк, чтобы хранить ID[]
-type RemoveTypename<O> = Omit<O, "__typename">
-type object_properties_to_array_mapper<MainObject> = {
+export type RemoveTypename<O> = Omit<O, "__typename">
+export type object_properties_to_array_mapper<MainObject> = {
     [Field in keyof MainObject]: MainObject[Field] extends object ?
         MainObject[Field] extends Array<MainObject> ?
             string :

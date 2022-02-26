@@ -179,6 +179,8 @@ class QuestionEditor {
 
     selectQuestionClickHandler(id: number) {
         this.registeredAnswersID = new Set()
+        this.registeredRequireAnswersID = new Set()
+        this.registeredOnlyExamAnswersID = new Set()
         this.loadingQuestionData = true
         if (this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN") {
             this.clientStorage.client.query<Query>({

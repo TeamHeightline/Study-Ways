@@ -5,7 +5,7 @@ import {useQuery} from "@apollo/client";
 import makeStyles from '@mui/styles/makeStyles';
 import {SERVER_BASE_URL} from "../../../../settings";
 import urlParser from "js-video-url-parser";
-import CardMicroView from "../../Cards/CardView/#CardMicroView";
+import CardMicroView from "../../Cards/CardView/CardMicroView";
 
 const GET_CARD_DATA_BY_ID = gql`
     query GET_CARD_DATA_BY_ID($id: ID!){
@@ -133,10 +133,10 @@ export default function EditCourseItem({item_id, item_position, ...props}: any) 
                          onMouseLeave={handlePopoverClose}
                          onClick={() => props.editCard(itemID)}>
                         {Number(card_data?.cardById.cardContentType[2]) === 0 && card_data?.cardById?.videoUrl &&
-                        <>
-                            <img className={classes.cover}
-                                 src={"https://img.youtube.com/vi/" + urlParser.parse(card_data?.cardById?.videoUrl)?.id + "/hqdefault.jpg"}/>
-                        </>}
+                            <>
+                                <img className={classes.cover}
+                                     src={"https://img.youtube.com/vi/" + urlParser.parse(card_data?.cardById?.videoUrl)?.id + "/hqdefault.jpg"}/>
+                            </>}
                         {(Number(card_data?.cardById.cardContentType[2]) === 1 || Number(card_data?.cardById?.cardContentType[2]) === 2) && cardImage ?
                             <img className={classes.cover} src={cardImage}/> : null
                         }

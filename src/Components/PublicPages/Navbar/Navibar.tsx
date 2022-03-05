@@ -26,6 +26,7 @@ import StackedLineChartIcon from '@mui/icons-material/StackedLineChart';
 import {isMobileHook} from "../../../CustomHooks/isMobileHook";
 import ThemeModeSwitch from "./ThemeModeSwitch";
 import ThemeStoreObject from "../../../global-theme";
+import {useAuth0} from "@auth0/auth0-react";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -58,6 +59,7 @@ export const Navibar = observer(() => {
     const open = Boolean(anchorEl);
     const query = useQuery();
     const isMobile = isMobileHook()
+    const {logout, isAuthenticated, loginWithPopup} = useAuth0();
 
     const mobileMunuClickHandleChange = (event, newValue) => {
         if (newValue == 0) {
@@ -214,9 +216,11 @@ export const Navibar = observer(() => {
                                 </MenuItem>
                                 <MenuItem onClick={() => {
                                     handleClose()
-                                    history.push('/unlogin')
+                                    if (isAuthenticated) {
+                                        logout({returnTo: window.location.origin})
+                                    }
                                 }}>
-                                    Logout
+                                    Выйти
                                 </MenuItem>
 
                             </Menu>
@@ -229,9 +233,9 @@ export const Navibar = observer(() => {
                             />
                             <Button className="ml-5 mr-4" color="inherit" variant="outlined"
                                     onClick={() => {
-                                        history.push('/login')
+                                        loginWithPopup()
                                     }}>
-                                Login
+                                Войти
                             </Button>
                         </>}
                 </Toolbar>

@@ -2,7 +2,7 @@ import Grid from "@mui/material/Grid/Grid";
 import {observer} from "mobx-react";
 import React from 'react';
 import {CSSObject} from "../Store/CardSelectorStore";
-import CardMicroView from "../../CardView/#CardMicroView";
+import CardMicroView from "../../CardView/CardMicroView";
 import {CreateCard} from "./CreateCard";
 
 interface IMicroCardFieldProps extends React.HTMLAttributes<HTMLDivElement> {

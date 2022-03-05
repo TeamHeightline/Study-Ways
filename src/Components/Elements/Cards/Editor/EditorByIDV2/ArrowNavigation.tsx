@@ -6,7 +6,7 @@ import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDown
 import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
 import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
 import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
-import {SelectCard} from "./##SelectCard";
+import {SelectCard} from "./SelectCard";
 
 interface IArrowNavigationProps extends React.HTMLAttributes<HTMLDivElement> {
 

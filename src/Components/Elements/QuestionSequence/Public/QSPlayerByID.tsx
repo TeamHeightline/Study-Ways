@@ -67,6 +67,7 @@ import '../../../../index.css'
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 import {MainDirection} from "../../Direction/UI/MainDirection";
 import {toJS} from "mobx";
+import {LogInNotification} from "../../../PublicPages/Login/LogInNotification";
 
 export const QSPlayerByID = observer(({...props}: any) => {
 
@@ -98,6 +99,7 @@ export const QSPlayerByID = observer(({...props}: any) => {
 
     return (
         <div>
+            <LogInNotification requireShow/>
             <Typography align={"center"} variant={isMobile ? "h6" : "h4"}>{processedStore.name}</Typography>
             <div style={{overflowX: "auto"}}>
                 <Stepper nonLinear alternativeLabel activeStep={processedStore.selectedQuestionIndex} sx={{pb: 2}}>

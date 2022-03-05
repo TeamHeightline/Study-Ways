@@ -1,10 +1,10 @@
 import React from 'react'
-import LCUserTestThemeEditor from "../Elements/SearchingElements/UserTestThemeEditor/#[LC]UserTestThemeEditor";
+import LCUserTestThemeEditor from "../Elements/SearchingElements/UserTestThemeEditor/[LC]UserTestThemeEditor";
 import {Grid, Typography} from "@mui/material";
 import ThemeEditor from "../Elements/ThemeTree/ThemeEditor";
 
-export default function SearchingElementsEditor({...props}: any){
-    return(
+export default function SearchingElementsEditor({...props}: any) {
+    return (
         <div {...props}>
             {/*<Typography className="display-4 text-center mt-4"*/}
             {/*            style={{fontSize: window.innerHeight/window.innerWidth > 1? "25px": '33px'}}>*/}
@@ -19,18 +19,18 @@ export default function SearchingElementsEditor({...props}: any){
             {/*    </Grid>*/}
             {/*</Grid>*/}
             <Typography className="display-4 text-center mt-4"
-                        style={{fontSize: window.innerHeight/window.innerWidth > 1? "25px": '33px'}}>
+                        style={{fontSize: window.innerHeight / window.innerWidth > 1 ? "25px" : '33px'}}>
                 Редактор связанных тем
             </Typography>
             <Grid container justifyContent={"center"}>
                 <ThemeEditor/>
             </Grid>
             <Typography className="display-4 text-center mt-4"
-                        style={{fontSize: window.innerHeight/window.innerWidth > 1? "25px": '33px'}}>
+                        style={{fontSize: window.innerHeight / window.innerWidth > 1 ? "25px" : '33px'}}>
                 Темы для вопросов
             </Typography>
             <Grid container justifyContent={"center"}
-                  style={{paddingLeft: window.innerHeight/window.innerWidth > 1? 12 : 48}}>
+                  style={{paddingLeft: window.innerHeight / window.innerWidth > 1 ? 12 : 48}}>
                 <Grid item xs={12} md={6}>
                     <LCUserTestThemeEditor/>
                 </Grid>

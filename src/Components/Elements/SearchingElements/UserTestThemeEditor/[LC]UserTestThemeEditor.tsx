@@ -2,11 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {useMutation, useQuery} from "@apollo/client";
 import {sortBy} from 'lodash';
 
-import {GET_MY_USER_TEST_THEMES, CREATE_NEW_USER_TEST_THEME, UPDATE_USER_TEST_THEME,
-    columnsForAuthorsDataGrid } from "./Structs";
+import {
+    GET_MY_USER_TEST_THEMES, CREATE_NEW_USER_TEST_THEME, UPDATE_USER_TEST_THEME,
+    columnsForAuthorsDataGrid
+} from "./Structs";
 
-import DCUserTestThemeEditor from "./##[DC]UserTestThemeEditor";
-export default function LCUserTestThemeEditor(){
+import DCUserTestThemeEditor from "./[DC]UserTestThemeEditor";
+
+export default function LCUserTestThemeEditor() {
     const [rowsHasBeenCalculated, setRowsNasBeenCalculated] = useState(false) //Из-за того, что есть
     // возможноть, что у пользователя еще нет тем, то нужно завести отдельную переменную, чтобы понимать, что процесс
     // обработки данных с сервера уже прошел, иначе, если просто проверять rows, то если у пользователя нет тем, то он
@@ -19,18 +22,18 @@ export default function LCUserTestThemeEditor(){
 
     const [isEditNowUserTestTheme, setIsEditNowUserTestTheme] = useState(false) //если true -> активен режим редактирования темы
     const [isCreatingNowUserTestTheme, setIsCreatingNowUserTestTheme] = useState(false) // если true -> активер режим создания темы
-    const update_row_by_data = async(data) =>{
-        if(data){
+    const update_row_by_data = async (data) => {
+        if (data) {
             const _rows: any = []
             const sorted_questionthemesSet = sortBy(data.me.questionthemesSet, 'id');
-            sorted_questionthemesSet.map((sameTheme) =>{
+            sorted_questionthemesSet.map((sameTheme) => {
                 _rows.push({id: sameTheme.id, name: sameTheme.name})
             })
             setRows(_rows)
-            if(!selectedThemeRow){
+            if (!selectedThemeRow) {
                 await setSelectedThemeRow(_rows[0])
             }
-            if(!activeEditUserTestThemeName){
+            if (!activeEditUserTestThemeName) {
                 await setActiveEditUserTestThemeName(_rows[0]?.name)
             }
             await setRowsNasBeenCalculated(true)
@@ -42,7 +45,7 @@ export default function LCUserTestThemeEditor(){
     })
 
     const [update_theme, {loading: update_theme_loading}] = useMutation(UPDATE_USER_TEST_THEME, {
-        variables:{
+        variables: {
             id: selectedThemeRow?.id,
             name: activeEditUserTestThemeName
         },
@@ -52,19 +55,21 @@ export default function LCUserTestThemeEditor(){
         },
     })
     const [create_theme, {loading: create_theme_loading}] = useMutation(CREATE_NEW_USER_TEST_THEME, {
-        variables:{
+        variables: {
             name: nameOfNewUserTestTheme
         },
         onCompleted: () => refetch_user_test_themes()
     })
-    useEffect(() =>{
+    useEffect(() => {
         update_row_by_data(user_test_themes_data)
     }, [user_test_themes_data])
-    return(
-        <DCUserTestThemeEditor {...{rowsHasBeenCalculated, rows, columnsForAuthorsDataGrid,
+    return (
+        <DCUserTestThemeEditor {...{
+            rowsHasBeenCalculated, rows, columnsForAuthorsDataGrid,
             setSelectedThemeRow, setActiveEditUserTestThemeName, isCreatingNowUserTestTheme,
             setIsCreatingNowUserTestTheme, setIsEditNowUserTestTheme, isEditNowUserTestTheme,
             activeEditUserTestThemeName, update_theme, update_theme_loading, nameOfNewUserTestTheme,
-            setNameOfNewUserTestTheme, create_theme, create_theme_loading, }}/>
+            setNameOfNewUserTestTheme, create_theme, create_theme_loading,
+        }}/>
     )
 }

@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import ArtTrackIcon from "@mui/icons-material/ArtTrack";
-import CardMicroView from "../../Cards/CardView/#CardMicroView";
+import CardMicroView from "../../Cards/CardView/CardMicroView";
 import StepLabel from "@mui/material/StepLabel";
 
 
@@ -12,7 +12,7 @@ interface ICardElementProps extends PaperProps {
     maxWidthOfElement: number
 }
 
-const CardElement = observer(({DSObject, element, maxWidthOfElement, ...props}: ICardElementProps) => {
+const CardElement = observer(({DSObject, element, maxWidthOfElement,}: ICardElementProps) => {
     return (
         <StepLabel
             StepIconComponent={ArtTrackIcon}

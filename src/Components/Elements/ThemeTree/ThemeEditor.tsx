@@ -7,7 +7,7 @@ import {Mutation, Query} from "../../../SchemaTypes";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AddIcon from "@mui/icons-material/Add";
 import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
-import {ThemeTreeView} from "./#ThemeTreeView";
+import {ThemeTreeView} from "./ThemeTreeView";
 import {LoadingButton} from "@mui/lab";
 
 enum editingModes {

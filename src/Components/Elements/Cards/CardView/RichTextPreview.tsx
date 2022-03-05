@@ -1,7 +1,7 @@
 import React from 'react'
 import Editor from 'ckeditor5-custom-build/build/ckeditor'
 import {CKEditor} from '@ckeditor/ckeditor5-react'
-// import './RichTextPreviewStyle.css'
+import './RichTextPreviewStyle.css'
 import ThemeStoreObject from '../../../../global-theme'
 import {CssBaseline} from "@mui/material";
 

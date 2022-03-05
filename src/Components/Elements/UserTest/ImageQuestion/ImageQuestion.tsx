@@ -14,6 +14,7 @@ import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import {useLocation} from "react-router-dom";
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
+import {LogInNotification} from "../../../PublicPages/Login/LogInNotification";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -83,6 +84,7 @@ export const ImageQuestion = observer((props: any) => {
                 <Grid container justifyContent="center" alignItems="center"
                       style={{height: isMobile ? window.innerHeight - 100 : window.innerHeight - 300}}>
                     <Grid item xs={12} md={3}>
+                        <LogInNotification requireShow/>
                         <Card variant="outlined" style={{padding: 12}}>
                             <Typography align={"center"} variant="h5">
                                 Перед началом вопроса выберете уровень сложности:

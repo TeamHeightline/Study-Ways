@@ -17,9 +17,7 @@ import {
 } from "react-router-dom";
 
 
-import {Login} from "./Components/PublicPages/Login/Login"
 import {ApolloProvider} from "@apollo/client";
-import {Registration} from "./Components/PublicPages/Login/Registration";
 
 const EditorsRouter = React.lazy(() => import("./Components/PrivatePages/EditorsRouter").then(module => ({default: module.EditorsRouter})))
 const MainCardPublicView = React.lazy(() => import("./Components/Elements/Cards/Page/MainCardPublicView").then(module => ({default: module.MainCardPublicView})))
@@ -31,7 +29,7 @@ const CourseByURL = React.lazy(() => import("./Components/Elements/Course/Course
 
 import {observer} from "mobx-react"
 import {ClientStorage} from "./Store/ApolloStorage/ClientStorage";
-import {LogInNotification} from "./Components/PublicPages/Login/#LogInNotification";
+import {LogInNotification} from "./Components/PublicPages/Login/LogInNotification";
 import {isMobileHook} from "./CustomHooks/isMobileHook";
 import {CircularProgress, Grid} from "@mui/material";
 import Auth0Login from "./Components/Elements/Auth0/auth0-login";
@@ -43,7 +41,11 @@ import CardByURL from "./Components/Elements/Cards/CardByURL/UI/card-by-url";
 
 const App = observer(() => {
     const isMobile = isMobileHook()
-    const {getAccessTokenSilently, isAuthenticated} = useAuth0();
+    const {
+        isLoading,
+        isAuthenticated,
+        getAccessTokenSilently
+    } = useAuth0();
 
 
     useEffect(() => {
@@ -54,8 +56,16 @@ const App = observer(() => {
             }).then((user_token) => {
                 ClientStorage.changeToken(user_token)
             })
+        } else {
+            ClientStorage.changeToken("")
         }
-    }, [isAuthenticated])
+
+    }, [isLoading])
+
+    if (isLoading) {
+        return <Grid container justifyContent={"center"}
+                     sx={{pt: 4}}><CircularProgress/></Grid>;
+    }
 
     return (
         <>
@@ -70,8 +80,8 @@ const App = observer(() => {
                                 <Route exact path="/login" component={Auth0Login}/>
                                 <Route exact path={"/afterlogin"} component={Auth0AfterLogin}/>
                                 <Route exact path="/unlogin" component={Auth0Logout}/>
-                                <Route exact path="/registration" component={Registration}/>
-                                <Route path="/editor" component={UserStorage.isLogin !== null ? EditorsRouter : Login}/>
+                                <Route path="/editor"
+                                       component={UserStorage.isLogin !== null ? EditorsRouter : Auth0Login}/>
 
                                 <Route exact path="/iq/:id" component={ImageQuestion}/>
                                 <Route exact path="/qs/:id" component={QSPlayerByID}/>

@@ -1,5 +1,5 @@
 import React from "react";
-import CardMicroView from "../#CardMicroView"
+import CardMicroView from "../CardMicroView"
 import {MockedProvider} from "@apollo/client/testing";
 import { mount } from "enzyme";
 import { act } from 'react-dom/test-utils';

@@ -3,7 +3,7 @@ import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Paper} from "@mui/material";
 import {CardByIDStoreObject} from "../Store/CardByIDStore";
-import RichTextPreview from "../../CardView/#RichTextPreview";
+import RichTextPreview from "../../CardView/RichTextPreview";
 
 
 interface ICardDescriptionProps extends PaperProps {

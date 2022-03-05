@@ -3,9 +3,9 @@ import {Spinner} from "react-bootstrap";
 import {Card, CardActionArea, Grid, Typography} from "@mui/material";
 import {QuestionEditorStorage} from "../Store/QuestionEditorStorage";
 import {observer} from "mobx-react";
-import {CreateNewQuestion} from "./#CreateNewQuestion";
+import {CreateNewQuestion} from "./CreateNewQuestion";
 import {EditQuestionByID} from "./EditQuestionByID";
-import {QuestionFolders} from "./#QuestionFolders";
+import {QuestionFolders} from "./QuestionFolders";
 import Paper from "@mui/material/Paper";
 
 export const QuestionEditor = observer(() => {

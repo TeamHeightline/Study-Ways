@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {IconButton, Popover} from "@mui/material";
 import StopSharpIcon from '@mui/icons-material/StopSharp';
-import CardMicroView from "../../../../Cards/CardView/#CardMicroView";
+import CardMicroView from "../../../../Cards/CardView/CardMicroView";
 import {observer} from "mobx-react";
 import {CourseMicroStoreByID} from "../Store/CourseMicroStoreByID";
 import {useHistory, useRouteMatch} from "react-router-dom";

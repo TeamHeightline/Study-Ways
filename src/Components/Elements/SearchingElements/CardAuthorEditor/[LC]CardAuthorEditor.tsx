@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from 'react'
 import {useMutation, useQuery} from "@apollo/client";
 import {sortBy} from 'lodash'
-import  {GET_CARD_AUTHOR, CREATE_NEW_AUTHOR, UPDATE_CARD_AUTHOR} from './Structs'
-import DCCardAuthorEditor from "./##[DC]CardAuthorEditor";
+import {GET_CARD_AUTHOR, CREATE_NEW_AUTHOR, UPDATE_CARD_AUTHOR} from './Structs'
+import DCCardAuthorEditor from "./[DC]CardAuthorEditor";
 
 const columnsForAuthorsDataGrid = [
     {field: 'id', headerName: 'ID', width: 70},
     {field: 'name', headerName: 'Автор карточки', width: 300},
 ]
 //Вся документация в LCUserTestThemeEditor, он идентичен этому компоненту
-export default  function LCCardAuthorEditor(){
+export default function LCCardAuthorEditor() {
     const [rowsHasBeenCalculated, setRowsNasBeenCalculated] = useState(false)
     const [rows, setRows] = useState<any>()
     const [selectedAuthorRow, setSelectedAuthorRow] = useState<any>()
@@ -18,18 +18,18 @@ export default  function LCCardAuthorEditor(){
     const [isCreatingNowCardAuthor, setIsCreatingNowCardAuthor] = useState(false)
     const [nameOfNewAuthor, setNameOfNewAuthor] = useState<any>()
 
-    const update_row_by_data = async (data) =>{
-        if(data){
+    const update_row_by_data = async (data) => {
+        if (data) {
             const _rows: any = []
             const sorted_cardauthorSet = sortBy(data.me.cardauthorSet, 'id');
-            sorted_cardauthorSet.map((sameAuthor) =>{
+            sorted_cardauthorSet.map((sameAuthor) => {
                 _rows.push({id: sameAuthor.id, name: sameAuthor.name})
             })
             setRows(_rows)
-            if(!selectedAuthorRow){
+            if (!selectedAuthorRow) {
                 await setSelectedAuthorRow(_rows[0])
             }
-            if(!activeEditCardAuthorName){
+            if (!activeEditCardAuthorName) {
                 await setActiveEditCardAuthorName(_rows[0]?.name)
             }
             await setRowsNasBeenCalculated(true)
@@ -37,39 +37,40 @@ export default  function LCCardAuthorEditor(){
     }
 
     const {data: card_author_data, refetch: refetch_card_author} = useQuery(GET_CARD_AUTHOR, {
-        onCompleted: (data) =>{
-            if(data){
+        onCompleted: (data) => {
+            if (data) {
                 update_row_by_data(data)
             }
         },
     })
-    useEffect(() =>{
+    useEffect(() => {
         update_row_by_data(card_author_data)
     }, [card_author_data])
 
     const [update_author] = useMutation(UPDATE_CARD_AUTHOR, {
-        variables:{
+        variables: {
             id: selectedAuthorRow?.id,
             name: activeEditCardAuthorName
         },
-        onCompleted: async  () => {
+        onCompleted: async () => {
             await refetch_card_author()
             // setIsEditNowCardAuthor(false)
         },
     })
     const [create_author, {loading: create_author_loading}] = useMutation(CREATE_NEW_AUTHOR, {
-        variables:{
+        variables: {
             name: nameOfNewAuthor
         },
-        onCompleted: async  () => {
+        onCompleted: async () => {
             await refetch_card_author()
             // setIsCreatingNowCardAuthor(false)
         },
     })
-    return(
-        <DCCardAuthorEditor {...{rowsHasBeenCalculated, columnsForAuthorsDataGrid, setSelectedAuthorRow,
+    return (
+        <DCCardAuthorEditor {...{
+            rowsHasBeenCalculated, columnsForAuthorsDataGrid, setSelectedAuthorRow,
             setActiveEditCardAuthorName, isCreatingNowCardAuthor, setIsCreatingNowCardAuthor, setIsEditNowCardAuthor,
-            activeEditCardAuthorName, update_author, setNameOfNewAuthor, create_author, create_author_loading,rows,
+            activeEditCardAuthorName, update_author, setNameOfNewAuthor, create_author, create_author_loading, rows,
             isEditNowCardAuthor
         }}/>
     )

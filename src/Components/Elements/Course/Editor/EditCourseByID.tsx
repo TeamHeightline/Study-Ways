@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react'
-import CourseRow from "./#CourseRow";
+import CourseRow from "./CourseRow";
 import {gql} from "graphql.macro";
 import {useMutation, useQuery} from "@apollo/client";
 import {Spinner} from "react-bootstrap";
-import { Alert, Pagination } from '@mui/material';
+import {Alert, Pagination} from '@mui/material';
 import {Button, ButtonGroup, Grid, Snackbar, TextField, Typography} from "@mui/material";
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 import AddIcon from '@mui/icons-material/Add';
@@ -27,7 +27,7 @@ const UPDATE_COURSE_DATA = gql`
             }
         }
     }`
-export default function EditCourseByID({course_id, ...props}: any){
+export default function EditCourseByID({course_id, ...props}: any) {
     const [cardCourseImageName, setCardCourseImageName] = useState('');
     const [CourseLinesData, setCourseLineData] = useState<any>([])
     const [courseName, setCourseName] = useState('')
@@ -39,13 +39,13 @@ export default function EditCourseByID({course_id, ...props}: any){
     const [rerender, setRerender] = useState(false)
     const isMobile = isMobileHook()
     const history = useHistory()
-    const { path } = useRouteMatch();
+    const {path} = useRouteMatch();
 
 
     const [update_course] = useMutation(UPDATE_COURSE_DATA, {
-        variables:{
+        variables: {
             new_data: CourseLinesData,
-            course_id: props?.match?.params?.id? props?.match?.params?.id : course_id,
+            course_id: props?.match?.params?.id ? props?.match?.params?.id : course_id,
             name: courseName
         },
         onError: error => console.log("Save error - " + error),
@@ -55,8 +55,8 @@ export default function EditCourseByID({course_id, ...props}: any){
     })
 
     const {data: course_data} = useQuery(GET_COURSE_BY_ID, {
-        variables:{
-            id: props?.match?.params?.id? props?.match?.params?.id : course_id
+        variables: {
+            id: props?.match?.params?.id ? props?.match?.params?.id : course_id
         },
         onCompleted: data => {
             // console.log(data)
@@ -65,7 +65,7 @@ export default function EditCourseByID({course_id, ...props}: any){
         }
 
     })
-    const autoSave = async () =>{
+    const autoSave = async () => {
         clearTimeout(autoSaveTimer)
         setStateOfSave(0)
         changeAutoSaveTimer(setTimeout(() => {
@@ -95,7 +95,8 @@ export default function EditCourseByID({course_id, ...props}: any){
                 console.error('Error:', error);
             });
     };
-    async function getCourseImageData(){
+
+    async function getCourseImageData() {
         fetch(SERVER_BASE_URL + "/cardfiles/course?id=" + course_id)
             .then((response) => response.json())
             .then((result) => {
@@ -106,16 +107,18 @@ export default function EditCourseByID({course_id, ...props}: any){
                 console.error('Error:', error);
             });
     }
-    useEffect(()=>{
+
+    useEffect(() => {
         getCourseImageData();
     }, [course_id])
     const changeHandlerForCardCourseImage = async (event) => {
-        if (event.target.files[0]){
+        if (event.target.files[0]) {
 
             handleSubmissionCardCourseImage(event.target.files[0])
         }
     };
-    function addCourseFragment(){
+
+    function addCourseFragment() {
         const newCourseLinesData = CourseLinesData.slice()
 
         CourseLinesData.map((line, lIndex) => {
@@ -135,41 +138,42 @@ export default function EditCourseByID({course_id, ...props}: any){
     }
 
 
-    if(!course_data){
+    if (!course_data) {
         return (
             <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
-    return(
+    return (
         <div className="mt-4 pl-2">
             <div className="pl-md-5">
                 {course_id ?
                     <Button
                         className="col-md-2 col-12"
                         variant="outlined" color="primary" onClick={() => {
-                        props.onChange("goBack")}}>
+                        props.onChange("goBack")
+                    }}>
                         Назад
-                    </Button>: null}
+                    </Button> : null}
                 <br/>
                 <TextField className=" mt-2 col-md-4 col-12" value={courseName}
-                           onChange={(e) =>{
-                                setCourseName(e.target.value)
-                                autoSave()
+                           onChange={(e) => {
+                               setCourseName(e.target.value)
+                               autoSave()
                            }} label="Название курса" variant="filled" size="small" multiline/>
                 <div>
                     {course_id &&
-                    <Button
-                        color="primary"
-                        variant="outlined"
-                        component="label"
-                        size="small"
-                        className="col-12 col-md-2 mt-2"
-                    >
-                        <input type="file"  hidden name="file" onChange={changeHandlerForCardCourseImage} />
-                        Изображение для курса
-                    </Button>}
+                        <Button
+                            color="primary"
+                            variant="outlined"
+                            component="label"
+                            size="small"
+                            className="col-12 col-md-2 mt-2"
+                        >
+                            <input type="file" hidden name="file" onChange={changeHandlerForCardCourseImage}/>
+                            Изображение для курса
+                        </Button>}
                     <br/>
-                    <Typography >
+                    <Typography>
                         {course_id && cardCourseImageName && <div>{isMobile ? cardCourseImageName.slice(0, 25) + "..."
                             : cardCourseImageName}</div>}
                     </Typography>
@@ -179,7 +183,9 @@ export default function EditCourseByID({course_id, ...props}: any){
                         <Grid item xs={12} md={'auto'}>
                             <Pagination
                                 count={CourseLinesData[0].SameLine.length} shape="rounded"
-                                onChange={(e, value) =>{setOpenPageIndex(value)}}
+                                onChange={(e, value) => {
+                                    setOpenPageIndex(value)
+                                }}
                                 size={isMobile ? "small" : "large"} variant="outlined" color="secondary"/>
                         </Grid>
                         <Grid item xs={12} md={1} style={{paddingLeft: 12}}>
@@ -192,24 +198,24 @@ export default function EditCourseByID({course_id, ...props}: any){
                     </Grid>}
             </div>
             <div className="pl-md-5 pr-md-5" style={{overflow: "auto"}}>
-                {CourseLinesData.length !== 0 && CourseLinesData.map((line, lIndex) =>{
-                    return(
+                {CourseLinesData.length !== 0 && CourseLinesData.map((line, lIndex) => {
+                    return (
                         <CourseRow
                             editCard={(item_id) => {
                                 history.push(path + "/card/" + item_id)
                             }}
                             key={lIndex + "course" + props.cIndex} row={line} lIndex={lIndex}
-                                   cIndex={props.cIndex}
-                                   openPageIndex={openPageIndex}
-                                   updateCourseRow={new_row =>{
-                                       const newSameLine = {
-                                           SameLine: new_row
-                                       }
-                                       const newCourseLinesData = CourseLinesData.slice()
-                                       newCourseLinesData[lIndex] = newSameLine
-                                       setCourseLineData(newCourseLinesData)
-                                       autoSave()
-                        }}/>
+                            cIndex={props.cIndex}
+                            openPageIndex={openPageIndex}
+                            updateCourseRow={new_row => {
+                                const newSameLine = {
+                                    SameLine: new_row
+                                }
+                                const newCourseLinesData = CourseLinesData.slice()
+                                newCourseLinesData[lIndex] = newSameLine
+                                setCourseLineData(newCourseLinesData)
+                                autoSave()
+                            }}/>
                     )
                 })}
             </div>
@@ -226,25 +232,25 @@ export default function EditCourseByID({course_id, ...props}: any){
             {/*</div>*/}
             <EditorPage/>
             <Snackbar open={true}>
-                {isCardEditNow?
+                {isCardEditNow ?
                     <Alert severity="info">
                         {stateOfSave === 0 &&
-                        "Курс: не сохранен"}
+                            "Курс: не сохранен"}
                         {stateOfSave === 1 &&
-                        "Курс: сохранияется"}
+                            "Курс: сохранияется"}
                         {stateOfSave === 2 &&
-                        "Курс: сохранен"}
+                            "Курс: сохранен"}
                         {cardStateOfSave === 0 && " | Карточка: не сохранена"}
                         {cardStateOfSave === 1 && " | Карточка: сохранияется"}
                         {cardStateOfSave === 2 && " | Карточка: сохранена"}
-                    </Alert>:
+                    </Alert> :
                     <Alert severity="info">
                         {stateOfSave === 0 &&
-                        "Курс: не сохранен"}
+                            "Курс: не сохранен"}
                         {stateOfSave === 1 &&
-                        "Курс: сохранияется"}
+                            "Курс: сохранияется"}
                         {stateOfSave === 2 &&
-                        "Курс: сохранен"}
+                            "Курс: сохранен"}
                     </Alert>
                 }
             </Snackbar>
@@ -290,32 +296,32 @@ const fragment = {
 }
 
 export const CourseLines =
-     [
+    [
         {
             SameLine:
                 [
-                fragment
+                    fragment
                 ]
 
         },
-         {
-             SameLine: [
-                 fragment
-             ]
-         },
-         {
-             SameLine: [
-                 fragment
-             ]
+        {
+            SameLine: [
+                fragment
+            ]
+        },
+        {
+            SameLine: [
+                fragment
+            ]
 
-         },
-         {
-             SameLine: [
-                 fragment
-             ]
+        },
+        {
+            SameLine: [
+                fragment
+            ]
 
-         },
-        ]
+        },
+    ]
 
 export type ICourseLine = typeof CourseLines[0]
 

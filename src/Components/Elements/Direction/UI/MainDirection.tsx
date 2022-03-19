@@ -5,7 +5,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import {DirectionStore} from "../Store/DirectionStore";
 import BlurLinearIcon from "@mui/icons-material/BlurLinear";
-import {ImageQuestion} from "../../UserTest/ImageQuestion/ImageQuestion";
+import {QuestionByID} from "../../Question/QuestionByID/QuestionByID";
 import {Card, CardActionArea, Typography} from "@mui/material";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import {QSPlayerByID} from "../../QuestionSequence/Public/QSPlayerByID";
@@ -98,7 +98,7 @@ export const MainDirection = observer(({directionDataProps}: MainDirectionProps)
             </div>
             <div style={{overflowX: "hidden"}}>
                 {DSObject.isOpenCard && <CardByID card_id={DSObject.openCardID}/>}
-                {DSObject.isOpenQuestion && <ImageQuestion id={DSObject.openQuestionID}/>}
+                {DSObject.isOpenQuestion && <QuestionByID id={DSObject.openQuestionID}/>}
                 {DSObject.isOpenQuestionSequence &&
                     <QSPlayerByID notShowStepLabet={true} id={DSObject.openQuestionSequenceID}/>}
             </div>

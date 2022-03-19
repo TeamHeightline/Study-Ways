@@ -15,6 +15,7 @@ import 'antd/dist/antd.dark.min.css';
 import ThemeStoreObject from "./global-theme";
 import {Auth0Provider} from "@auth0/auth0-react";
 import {observer} from "mobx-react";
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 configure({
     enforceActions: "never",
@@ -52,5 +53,6 @@ ReactDOM.render(
     document.getElementById('root')
 );
 
+serviceWorkerRegistration.register();
 
 reportWebVitals();

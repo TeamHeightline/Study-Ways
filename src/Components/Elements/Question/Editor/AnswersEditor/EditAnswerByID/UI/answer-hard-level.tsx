@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {InputLabel, MenuItem, Paper, Select} from "@mui/material";
+import {InputLabel, MenuItem, Select} from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import {answer_object_type} from "../Store/edit-answer-by-id-store";
 

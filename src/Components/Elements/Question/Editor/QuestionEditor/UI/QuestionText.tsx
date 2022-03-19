@@ -12,7 +12,7 @@ export const QuestionText = observer(() => {
             label="Текст вопроса"
             multiline
             fullWidth
-            autoFocus
+            autoFocus={!QuestionEditorStorage.selectedQuestionText}
             variant="outlined"
             rows={3}
             // style={{width: "50vw"}}

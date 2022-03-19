@@ -8,6 +8,7 @@ import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import axios from "axios";
 import {SERVER_BASE_URL} from "../../../settings";
+
 const useStyles = makeStyles(() =>
     createStyles({
         root: {
@@ -43,43 +44,49 @@ const useStyles = makeStyles(() =>
     }),
 );
 
-export default function ImageAnswerNode(props: any){
+export default function ImageAnswerNode(props: any) {
     const [answerImgUrl, setAnswerImgUrl] = useState('')
     const [urlHasBeenPassed, setUrlHasBeenPassed] = useState(false)
     const [isSelected, changeIsSelected] = useState(false)
     const fetchData = async () => {
         const data = await axios(SERVER_BASE_URL + "/files/answer?id=" + props.answer.id)
         try {
-                setUrlHasBeenPassed(true)
-                setAnswerImgUrl(data.data[0].image)
-        }catch (e) {
+            setUrlHasBeenPassed(true)
+            setAnswerImgUrl(data.data[0].image)
+        } catch (e) {
             console.log(e)
         }
     }
-    useEffect( () => {
+    useEffect(() => {
         fetchData()
     }, [props.answerIndex]);
     const classes = useStyles();
-    return(
-        <div className=" mt-3"  >
+    let borderColor = props?.selected && props?.selected?.indexOf(props?.answer?.id) !== -1 ? "#71c3ef" : ""
+    if (props.borderIsTrueStrategy) {
+        borderColor = props.answer.isTrue ? "#2196f3" : "#f50057"
+    }
+
+    return (
+        <div className=" mt-3">
             {/*"#93cdf3"*/}
-            <Card variant="outlined"  className={classes.root}  style={{backgroundColor:  props.selected.indexOf(props?.answer?.id) !== -1? "#71c3ef" : ""}}
-                  onClick={() =>{
-                        props.onChange(props.answer.id)
-                        setTimeout(changeIsSelected, 150,  !isSelected)
-            }}>
+            <Card variant="outlined" className={classes.root}
+                  style={{backgroundColor: borderColor}}
+                  onClick={() => {
+                      props.onChange(props.answer.id)
+                      setTimeout(changeIsSelected, 150, !isSelected)
+                  }}>
                 <CardActionArea>
-                    {!props?.answer.isImageDeleted && answerImgUrl?
+                    {!props?.answer.isImageDeleted && answerImgUrl ?
                         <CardMedia
-                            style={{opacity: props.selected.indexOf(props.answer.id) !== -1? 0.5 : 1}}
-                            className={(props?.answer?.text || props?.answerText)? classes.media : classes.fullHeightMedia}
+                            style={{opacity: props.selected.indexOf(props.answer.id) !== -1 ? 0.5 : 1}}
+                            className={(props?.answer?.text || props?.answerText) ? classes.media : classes.fullHeightMedia}
                             image={answerImgUrl}
                             title="Contemplative Reptile"
-                        />: null}
+                        /> : null}
                     {props?.answer?.text &&
                         <CardContent className="mb-5">
                             <Typography variant="body1" color="textSecondary" component="p" className="mb-5 pb-5">
-                                {props?.answer?.text ? props?.answer?.text: props?.answerText}
+                                {props?.answer?.text ? props?.answer?.text : props?.answerText}
                             </Typography>
                         </CardContent>}
                 </CardActionArea>

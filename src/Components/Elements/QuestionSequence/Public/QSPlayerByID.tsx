@@ -14,7 +14,7 @@ import {
 import {observer} from "mobx-react";
 import {QSPlayerStore} from "../../../../Store/PublicStorage/QSPage/QuestionSequencePlayer/QSPlayerStore";
 import {Row, Spinner} from "react-bootstrap";
-import DCPCImageQuestion from "../../UserTest/ImageQuestion/DCPCImageQuestion";
+import DCPCImageQuestion from "../../Question/QuestionByID/DCPCImageQuestion";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import createStyles from '@mui/styles/createStyles';

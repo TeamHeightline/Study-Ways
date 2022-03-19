@@ -4,21 +4,21 @@ import {CPSObject} from "../Store/CoursePageStore";
 import {Grid} from "@mui/material";
 import CourseMicroView from "../../CourseMicroView/V2/UI/CourseMicroView";
 
-interface ICoursePageProps extends React.HTMLAttributes<HTMLDivElement>{
+interface ICoursePageProps extends React.HTMLAttributes<HTMLDivElement> {
 
 }
 
-const CoursePage = observer(({...props}: ICoursePageProps) =>{
-    return(
+const CoursePage = observer(({...props}: ICoursePageProps) => {
+    return (
         <div {...props}>
             <Grid container
-                  sx={{pt:2}}
+                  sx={{pt: 2}}
                   justifyContent={"space-evenly"}
                   spacing={4}
                   rowSpacing={2}>
-                {CPSObject.courseArray?.map((course_id) =>{
-                    return(
-                        <Grid item>
+                {CPSObject.courseArray?.map((course_id) => {
+                    return (
+                        <Grid item key={course_id + "Course"}>
                             <CourseMicroView course_id={Number(course_id)}/>
                         </Grid>
                     )

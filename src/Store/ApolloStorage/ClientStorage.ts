@@ -60,7 +60,8 @@ class Client {
         });
         //Ссылка на бэкенд
         const httpLink = new HttpLink({
-            uri: SERVER_BASE_URL + '/graphql/'
+            uri: SERVER_BASE_URL + '/graphql/',
+
             // Additional options
         });
         const errorLink: any = onError(({graphQLErrors, networkError}) => {
@@ -78,7 +79,9 @@ class Client {
             cache: cache,
             defaultOptions: {
                 mutate: {errorPolicy: 'ignore'},
+
             },
+
         });
         //Новый клиент собран и расшеривается между всеми, кто его использует
         this.client = client

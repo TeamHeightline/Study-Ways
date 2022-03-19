@@ -29,12 +29,12 @@ query GET_CARD_DATA_BY_ID($id: ID!){
 }
 
 mutation CREATE_COURSE_WITH_DEFAULT_VALUE($default_data: GenericScalar){
-     createCardCourse(input: {courseData: $default_data}){
-         course{
-             courseData
-             id
-         }
-     }
+    createCardCourse(input: {courseData: $default_data}){
+        course{
+            courseData
+            id
+        }
+    }
 }
 mutation UPDATE_COURSE_DATA($new_data: GenericScalar, $course_id: ID!){
     updateCardCourse(input: {courseData: $new_data, courseId: $course_id}){
@@ -43,12 +43,7 @@ mutation UPDATE_COURSE_DATA($new_data: GenericScalar, $course_id: ID!){
         }
     }
 }
-query GET_COURSE_BY_ID($id: ID!){
-    cardCourseById(id: $id){
-        courseData
-        id
-    }
-}
+
 query GET_OWN_COURSE{
     cardCourse{
         courseData

@@ -7,13 +7,13 @@ import Collapse from "@mui/material/Collapse";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {ImageQuestion} from "../Elements/UserTest/ImageQuestion/ImageQuestion";
+import {QuestionByID} from "../Elements/Question/QuestionByID/QuestionByID";
 import {observer} from "mobx-react";
 import {QuestionPageStorage} from "../../Store/PublicStorage/QuestionPage/QuestionPageStore";
 import {toJS} from "mobx";
 
-export const MainUserQuestionPage = observer(() =>{
-    useEffect(()=> QuestionPageStorage.getQuestionData(), [])
+export const MainUserQuestionPage = observer(() => {
+    useEffect(() => QuestionPageStorage.getQuestionData(), [])
 
     if (!QuestionPageStorage.questionsData) {
         return (
@@ -31,88 +31,96 @@ export const MainUserQuestionPage = observer(() =>{
                                 Выберите вопрос и уровень сложности
                             </div>
                             <FormControlLabel
-                            className="mt-3"
-                            control={
-                                <Switch
-                            checked={QuestionPageStorage.useSearchByThemeOrAuthor}
-                            onChange={(e) => {
-                                QuestionPageStorage.changeUseSearchByThemeOrAuthor(e.target.checked);
-                            }}
-                            name="checkedB"
-                            color="primary"
-                                />
-                        }
-                            label="Искать по темам или авторам"
+                                className="mt-3"
+                                control={
+                                    <Switch
+                                        checked={QuestionPageStorage.useSearchByThemeOrAuthor}
+                                        onChange={(e) => {
+                                            QuestionPageStorage.changeUseSearchByThemeOrAuthor(e.target.checked);
+                                        }}
+                                        name="checkedB"
+                                        color="primary"
+                                    />
+                                }
+                                label="Искать по темам или авторам"
                             />
                             <div className="mt-1">
-                            <Collapse in={QuestionPageStorage.useSearchByThemeOrAuthor}>
-                                <FormControl variant="outlined" className="mt-1 col-12" size="small" >
-                                    <InputLabel id="demo-simple-select-outlined-label">Автор</InputLabel>
-                                    <Select
-                                        value={QuestionPageStorage.selectedAuthorID}
-                                        onChange={(e) =>{
-                                            QuestionPageStorage.changeSelectedAuthorID(e.target.value)}}
-                                        label="Автор"
-                                    >
-                                        {toJS(QuestionPageStorage.authorsForSelect).map((author) =>{
-                                            return(<MenuItem key={author.id + "AuthorSelect"} value={author.id}>{author.name}</MenuItem>)
-                                        })}
-                                    </Select>
-                                </FormControl>
-                                <FormControl variant="outlined" className="mt-2 col-12" size="small" >
-                                    <InputLabel id="demo-simple-select-outlined-label">Тема</InputLabel>
-                                    <Select
-                                        value={QuestionPageStorage.selectedThemeID}
-                                        onChange={(e) =>{
-                                            QuestionPageStorage.changeSelectedTheme(e.target.value)}}
-                                        label="Тема"
-                                    >
-                                        {toJS(QuestionPageStorage.themesForSelect).map((theme) =>{
-                                            return(<MenuItem key={theme.id + "ThemesSelect"} value={theme.id}>{theme.name}</MenuItem>)
-                                        })}
-                                    </Select>
-                                </FormControl>
-                            </Collapse>
+                                <Collapse in={QuestionPageStorage.useSearchByThemeOrAuthor}>
+                                    <FormControl variant="outlined" className="mt-1 col-12" size="small">
+                                        <InputLabel id="demo-simple-select-outlined-label">Автор</InputLabel>
+                                        <Select
+                                            value={QuestionPageStorage.selectedAuthorID}
+                                            onChange={(e) => {
+                                                QuestionPageStorage.changeSelectedAuthorID(e.target.value)
+                                            }}
+                                            label="Автор"
+                                        >
+                                            {toJS(QuestionPageStorage.authorsForSelect).map((author) => {
+                                                return (<MenuItem key={author.id + "AuthorSelect"}
+                                                                  value={author.id}>{author.name}</MenuItem>)
+                                            })}
+                                        </Select>
+                                    </FormControl>
+                                    <FormControl variant="outlined" className="mt-2 col-12" size="small">
+                                        <InputLabel id="demo-simple-select-outlined-label">Тема</InputLabel>
+                                        <Select
+                                            value={QuestionPageStorage.selectedThemeID}
+                                            onChange={(e) => {
+                                                QuestionPageStorage.changeSelectedTheme(e.target.value)
+                                            }}
+                                            label="Тема"
+                                        >
+                                            {toJS(QuestionPageStorage.themesForSelect).map((theme) => {
+                                                return (<MenuItem key={theme.id + "ThemesSelect"}
+                                                                  value={theme.id}>{theme.name}</MenuItem>)
+                                            })}
+                                        </Select>
+                                    </FormControl>
+                                </Collapse>
                             </div>
                             <FormControl variant="outlined" className="mt-3 col-12">
                                 <InputLabel>Вопрос</InputLabel>
                                 <Select
                                     value={QuestionPageStorage.selectedQuestionID}
-                                    onChange={(e) =>{
-                                        QuestionPageStorage.changeSelectedQuestionID(e.target.value)}}
+                                    onChange={(e) => {
+                                        QuestionPageStorage.changeSelectedQuestionID(e.target.value)
+                                    }}
                                     label="Вопрос"
 
                                 >
-                                    {toJS(QuestionPageStorage.QuestionsAfterSelectTheme).map((question) =>{
-                                        return(<MenuItem key={question?.id + "questionSelect"} value={question?.id}>{"ID: " + question?.id + " " + question?.text}</MenuItem>)
+                                    {toJS(QuestionPageStorage.QuestionsAfterSelectTheme).map((question) => {
+                                        return (<MenuItem key={question?.id + "questionSelect"}
+                                                          value={question?.id}>{"ID: " + question?.id + " " + question?.text}</MenuItem>)
                                     })}
                                 </Select>
                             </FormControl>
-                                <Row className="mt-3">
-                            <Col>
-                                <Form.Control
-                                    className="mt-1"
-                                // size="lg"
-                                as="select"
-                                value={QuestionPageStorage.helpLevel}
-                                onChange={e => QuestionPageStorage.changeHelpLevel(e.target.value)}>
-                                <option value="0">Легкий</option>
-                                    <option value="1">Средний</option>
-                                <option value="2">Сложный</option>
-                                </Form.Control>
+                            <Row className="mt-3">
+                                <Col>
+                                    <Form.Control
+                                        className="mt-1"
+                                        // size="lg"
+                                        as="select"
+                                        value={QuestionPageStorage.helpLevel}
+                                        onChange={e => QuestionPageStorage.changeHelpLevel(e.target.value)}>
+                                        <option value="0">Легкий</option>
+                                        <option value="1">Средний</option>
+                                        <option value="2">Сложный</option>
+                                    </Form.Control>
                                 </Col>
                                 <Col className="offset-2">
-                            <Button className="mt-1" variant="contained" color="primary"
-                                    onClick={() => {QuestionPageStorage.startQuestion()}}>
-                                Начать тест
-                            </Button>
-                            </Col>
+                                    <Button className="mt-1" variant="contained" color="primary"
+                                            onClick={() => {
+                                                QuestionPageStorage.startQuestion()
+                                            }}>
+                                        Начать тест
+                                    </Button>
+                                </Col>
                             </Row>
                             <br/>
                         </div>
-                </Paper>
-            </Container>
-        </div>
+                    </Paper>
+                </Container>
+            </div>
         )
     }
     if (!QuestionPageStorage.dataHasBeenDelivered) {
@@ -125,12 +133,12 @@ export const MainUserQuestionPage = observer(() =>{
             <Button
                 className="ml-lg-2 mt-4  col-12 col-lg-2 mr-2 mb-2"
                 variant="outlined" color="primary"
-                onClick={ () => {
+                onClick={() => {
                     QuestionPageStorage.closeQuestion()
                 }}>
                 Назад
             </Button>
-            <ImageQuestion id={QuestionPageStorage.selectedQuestionID} helpLevel={QuestionPageStorage.helpLevel}/>
+            <QuestionByID id={QuestionPageStorage.selectedQuestionID} helpLevel={QuestionPageStorage.helpLevel}/>
         </div>)
 
 })

@@ -14,7 +14,7 @@ import useWindowDimensions from "../../../CustomHooks/useWindowDimensions";
 import {observer} from "mobx-react";
 import RichTextPreview from './CardView/RichTextPreview'
 import CopyrightIcon from "@mui/icons-material/Copyright";
-import {ImageQuestion} from "../UserTest/ImageQuestion/ImageQuestion";
+import {QuestionByID} from "../Question/QuestionByID/QuestionByID";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
@@ -206,7 +206,7 @@ export const CARD = observer(({id, courseBar, ...props}: CardProps) => {
             }]
             __findInCourseNotification.pop()
             if (id) {
-                all_courses_data?.cardCourse?.map((course, cIndex) => {
+                all_courses_data?.cardCourse?.map((course) => {
                     course?.courseData?.map((course_line: ICourseLine, lIndex) => {
                         course_line.SameLine?.map((fragment, fIndex) => {
                             fragment.CourseFragment?.map((element, bIndex) => {
@@ -325,8 +325,8 @@ export const CARD = observer(({id, courseBar, ...props}: CardProps) => {
                     </div>}
                 {!card_data ?
                     <Spinner id={"simple-loading"} animation="border" variant="success" className=" offset-6 mt-5"/> :
-                    openTestBeforeCard ? <ImageQuestion id={card_data?.cardById?.testBeforeCard?.id}
-                                                        questionHasBeenCompleted={() => setOpenTestBeforeCard(false)}/> :
+                    openTestBeforeCard ? <QuestionByID id={card_data?.cardById?.testBeforeCard?.id}
+                                                       questionHasBeenCompleted={() => setOpenTestBeforeCard(false)}/> :
                         <div>
                             {!props.openFromCourse &&
                                 <CardTitleAuthorThemeAndCopyrightBlock id={id}
@@ -478,7 +478,7 @@ export const CARD = observer(({id, courseBar, ...props}: CardProps) => {
                                     </Dialog>}
                                 {card_data?.cardById?.isCardUseTestInCard && card_data?.cardById?.testInCard?.id &&
                                     <div style={{marginTop: 12}}>
-                                        <ImageQuestion id={card_data?.cardById?.testInCard?.id}/>
+                                        <QuestionByID id={card_data?.cardById?.testInCard?.id}/>
                                     </div>}
                             </div>
                         </div>}

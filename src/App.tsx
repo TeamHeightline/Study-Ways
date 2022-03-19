@@ -19,10 +19,10 @@ import {
 
 import {ApolloProvider} from "@apollo/client";
 
-const EditorsRouter = React.lazy(() => import("./Components/PrivatePages/EditorsRouter").then(module => ({default: module.EditorsRouter})))
+const EditorsRouter = React.lazy(() => import("./Components/PrivatePages/EditorRouter/EditorsRouter").then(module => ({default: module.EditorsRouter})))
 const MainCardPublicView = React.lazy(() => import("./Components/Elements/Cards/Page/MainCardPublicView").then(module => ({default: module.MainCardPublicView})))
 const QSPlayerByID = React.lazy(() => import("./Components/Elements/QuestionSequence/Public/QSPlayerByID").then(module => ({default: module.QSPlayerByID})))
-const ImageQuestion = React.lazy(() => import("./Components/Elements/UserTest/ImageQuestion/ImageQuestion").then(module => ({default: module.ImageQuestion})))
+const ImageQuestion = React.lazy(() => import("./Components/Elements/Question/QuestionByID/QuestionByID").then(module => ({default: module.QuestionByID})))
 const SelfStatistic = React.lazy(() => import("./Components/Elements/SimpleSelfStatistic/UI/self-statistic-page").then(module => ({default: module.SelfStatisticPage})))
 const CoursePage = React.lazy(() => import("./Components/Elements/Course/Page/UI/CoursPage"))
 const CourseByURL = React.lazy(() => import("./Components/Elements/Course/CourseByURL/UI/CourseByURL"))

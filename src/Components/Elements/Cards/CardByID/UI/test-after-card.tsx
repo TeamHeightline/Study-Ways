@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Paper} from "@mui/material";
-import {ImageQuestion} from "../../../UserTest/ImageQuestion/ImageQuestion";
+import {QuestionByID} from "../../../Question/QuestionByID/QuestionByID";
 import {CardByIDStoreObject} from "../Store/CardByIDStore";
 
 
@@ -16,7 +16,7 @@ const TestAfterCard = observer(({card_store, ...props}: ITestAfterCardProps) => 
     return (
         <Paper elevation={0} {...props}>
             {test_after_card_id &&
-                <ImageQuestion id={test_after_card_id}/>}
+                <QuestionByID id={test_after_card_id}/>}
 
         </Paper>
     )

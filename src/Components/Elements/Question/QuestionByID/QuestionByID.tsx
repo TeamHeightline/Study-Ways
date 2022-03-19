@@ -45,7 +45,7 @@ const useStyles = makeStyles(() =>
     }),
 );
 
-export const ImageQuestion = observer((props: any) => {
+export const QuestionByID = observer((props: any) => {
     const slug = useLocation();
     const classes = useStyles();
     const isMobile = isMobileHook()

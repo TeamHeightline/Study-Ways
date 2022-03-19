@@ -2,7 +2,7 @@ import {QuestionEditorStorage} from "../Store/QuestionEditorStorage";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import {Collapse} from "@mui/material";
-import DCPCImageQuestion from "../../../ImageQuestion/DCPCImageQuestion";
+import DCPCImageQuestion from "../../../QuestionByID/DCPCImageQuestion";
 import React from "react";
 import {observer} from "mobx-react";
 

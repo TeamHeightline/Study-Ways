@@ -32,17 +32,14 @@ class User {
                     this.userAccessLevel = result.data.me.userAccessLevel
                     this.isLogin = true
                     localStorage.setItem("username", result.data.me.username)
-                    console.log("TRY TO UPDATE USER DATA")
                 })
-                .catch((e) => {
-                    console.log(e)
+                .catch(() => {
                     //На всякий случай при неудачном логирование обнуляем свойства пользователя
                     this.isLogin = false
                     this.username = ''
                     this.userAccessLevel = "STUDENT"
                 })
         }
-        console.log("UPDATE USER DATA")
     }
 }
 

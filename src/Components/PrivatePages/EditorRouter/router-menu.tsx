@@ -1,43 +1,34 @@
-import React, {Suspense} from "react";
-import {Alert, Button, CircularProgress, Grid, Tooltip, Typography} from '@mui/material';
-import AlertTitle from '@mui/material/AlertTitle';
-import BlurLinearIcon from '@mui/icons-material/BlurLinear';
-import LinearScaleIcon from '@mui/icons-material/LinearScale';
-import AddchartIcon from '@mui/icons-material/Addchart';
-import QuizIcon from '@mui/icons-material/Quiz';
-import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
-// import HubIcon from '@mui/icons-material/Hub';
-import SchoolIcon from '@mui/icons-material/School';
-import {UserStorage} from '../../Store/UserStore/UserStore'
 import {observer} from "mobx-react";
-import {Route, Switch, useHistory, useRouteMatch} from "react-router-dom";
-
-import clsx from 'clsx';
-import {Theme} from '@mui/material/styles';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MenuIcon from '@mui/icons-material/Menu';
-import {isMobileHook} from "../../CustomHooks/isMobileHook";
+import React from 'react';
+import {PaperProps} from "@mui/material/Paper/Paper";
+import {Button, Grid, Paper, Tooltip, Typography} from "@mui/material";
+import Drawer from "@mui/material/Drawer";
+import clsx from "clsx";
+import IconButton from "@mui/material/IconButton";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import Divider from "@mui/material/Divider";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import BlurLinearIcon from "@mui/icons-material/BlurLinear";
+import ListItemText from "@mui/material/ListItemText";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import QuizIcon from "@mui/icons-material/Quiz";
+import LinearScaleIcon from "@mui/icons-material/LinearScale";
+import AddchartIcon from "@mui/icons-material/Addchart";
+import MenuIcon from "@mui/icons-material/Menu";
+import {useHistory, useRouteMatch} from "react-router-dom";
+import {isMobileHook} from "../../../CustomHooks/isMobileHook";
+import makeStyles from "@mui/styles/makeStyles";
+import {Theme} from "@mui/material/styles";
+import createStyles from "@mui/styles/createStyles";
+import RuleIcon from '@mui/icons-material/Rule';
 
-const SearchingElementsEditor = React.lazy(() => import("./SearchingElementsEditor"))
-const QuestionSequenceMainEditor = React.lazy(() => import("./QuestionSequenceMainEditor"))
-const MainCourseEditor = React.lazy(() => import("./MainCourseEditor"))
+interface IRouterMenuProps extends PaperProps {
 
-const QuestionEditor = React.lazy(() => import("../Elements/UserTest/Editor/QuestionEditor/UI/QuestionEditor").then(module => ({default: module.QuestionEditor})))
-const MainUserQuestionPage = React.lazy(() => import("./MainUserQuestionPage").then(module => ({default: module.MainUserQuestionPage})))
-const StatisticV2 = React.lazy(() => import("../Elements/Statistic/V2/StatisticV2").then(module => ({default: module.StatisticV2})))
-const CardEditorV2 = React.lazy(() => import("../Elements/Cards/Editor/EditorPageV2/Page").then(module => ({default: module.EditorPage})))
-const ExamPage = React.lazy(() => import("../Elements/Exam/EditorPage/Page/UI/page"))
+}
 
 const drawerWidth = 70;
 
@@ -67,7 +58,8 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export const EditorsRouter = observer(() => {
+
+const RouterMenu = observer(({...props}: IRouterMenuProps) => {
     // const [value, setValue] = React.useState(0);
     const history = useHistory();
     const {path} = useRouteMatch();
@@ -80,17 +72,9 @@ export const EditorsRouter = observer(() => {
         setOpen(!open);
     };
 
-    if (UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER") {
-        return (
-            <Alert severity="error">
-                <AlertTitle>Доступ ограничен</AlertTitle>
-                Вы не обладаете достаточными правами, чтобы просматривать этот раздел, для дополнитльной информации
-                обратитесь к администрации
-            </Alert>
-        )
-    }
+
     return (
-        <div>
+        <Paper elevation={0} {...props}>
             <Drawer
                 variant={isMobile ? "temporary" : "permanent"}
                 open={open}
@@ -189,17 +173,30 @@ export const EditorsRouter = observer(() => {
                             <ListItemText primary="Статистика (второе поколение)"/>
                         </ListItem>
                     </Tooltip>
-                    <Tooltip title={<Typography variant="body1">Экзамен</Typography>}>
+                    {/*<Tooltip title={<Typography variant="body1">Экзамен</Typography>}>*/}
+                    {/*    <ListItem button onClick={() => {*/}
+                    {/*        if (isMobile) {*/}
+                    {/*            setOpen(false)*/}
+                    {/*        }*/}
+                    {/*        history.push(`${path}/exam`)*/}
+                    {/*    }}>*/}
+                    {/*        <ListItemIcon>*/}
+                    {/*            <SchoolIcon/>*/}
+                    {/*        </ListItemIcon>*/}
+                    {/*        <ListItemText primary="Экзамен)"/>*/}
+                    {/*    </ListItem>*/}
+                    {/*</Tooltip>*/}
+                    <Tooltip title={<Typography variant="body1">Проверка вопросов</Typography>}>
                         <ListItem button onClick={() => {
                             if (isMobile) {
                                 setOpen(false)
                             }
-                            history.push(`${path}/exam`)
+                            history.push(`${path}/checkquestion`)
                         }}>
                             <ListItemIcon>
-                                <SchoolIcon/>
+                                <RuleIcon/>
                             </ListItemIcon>
-                            <ListItemText primary="Экзамен)"/>
+                            <ListItemText primary="Проверка вопросов"/>
                         </ListItem>
                     </Tooltip>
                 </List>
@@ -216,26 +213,8 @@ export const EditorsRouter = observer(() => {
                         </Button>
                     </Grid>
                 </Grid>}
-            <Suspense fallback={<Grid container justifyContent={"center"} sx={{pt: 4}}><CircularProgress/></Grid>}>
-                <div className={isMobile ? "" : "pl-5"}>
-                    <Switch>
-                        <Route path={`${path}/course`} component={MainCourseEditor}/>
-                        <Route path={`${path}/se`} component={SearchingElementsEditor}/>
-                        <Route path={`${path}/question`} component={QuestionEditor}/>
-                        <Route path={`${path}/qse`} component={QuestionSequenceMainEditor}/>
-                        <Route path={`${path}/allquestions`} component={MainUserQuestionPage}/>
-                        <Route path={`${path}/statistic2`} component={StatisticV2}/>
-                        <Route path={`${path}/card2`} component={CardEditorV2}/>
-                        <Route path={`${path}/exam`} component={ExamPage}/>
-                        {/*Чтобы на основной странице отображался редактор курсов, в самом низу
-                        потому что иначе будет открываться только он, потому что это будет первым
-                        результатом switch*/}
-
-                        {/*<Redirect to={`${path}/course`}/>*/}
-                    </Switch>
-                </div>
-            </Suspense>
-
-        </div>
-    );
+        </Paper>
+    )
 })
+
+export default RouterMenu

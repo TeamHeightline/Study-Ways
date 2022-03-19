@@ -1,0 +1,761 @@
+type AISearchCardIDArray {
+  IDs: [String]
+}
+
+type AddCardToBookmark {
+  ok: Boolean
+}
+
+"""An enumeration."""
+enum AnswerHardLevelOfAnswer {
+  """Очевидный"""
+  EASY
+
+  """Каверзный"""
+  HARD
+
+  """Обычный"""
+  MEDIUM
+}
+
+input AnswerMutationInput {
+  checkQueue: Int!
+  clientMutationId: String
+  createdBy: ID!
+  hardLevelOfAnswer: String!
+  helpTextv1: String
+  helpTextv2: String
+  helpTextv3: String
+  id: ID
+  isDeleted: Boolean
+  isImageDeleted: Boolean
+  isInvisible: Boolean
+  isRequired: Boolean
+  isTrue: Boolean
+  onlyForExam: Boolean
+  question: ID!
+  text: String
+  videoUrl: String
+}
+
+type AnswerMutationPayload {
+  answer: AnswerNode
+  clientMutationId: String
+  errors: [ErrorType]
+}
+
+type AnswerNode {
+  checkQueue: Int!
+  hardLevelOfAnswer: AnswerHardLevelOfAnswer!
+  helpTextv1: String
+  helpTextv2: String
+  helpTextv3: String
+  id: ID!
+  isDeleted: Boolean!
+  isImageDeleted: Boolean!
+  isInvisible: Boolean!
+  isRequired: Boolean!
+  isTrue: Boolean!
+  onlyForExam: Boolean!
+  question: QuestionNode!
+  text: String!
+  videoUrl: String
+}
+
+type AnswersID {
+  IDs: [String]
+  ownerQuestionId: Int
+}
+
+input CardAuthorMutationInput {
+  clientMutationId: String
+  createdBy: ID!
+  id: ID
+  name: String!
+}
+
+type CardAuthorMutationPayload {
+  cardAuthor: CardAuthorNode
+  clientMutationId: String
+  errors: [ErrorType]
+}
+
+type CardAuthorNode {
+  cardSet: [CardNode!]!
+  id: ID!
+  name: String!
+}
+
+"""An enumeration."""
+enum CardCardContentType {
+  """youtube видео"""
+  A_0
+
+  """ссылка на внешний ресурс"""
+  A_1
+
+  """просто изображение"""
+  A_2
+}
+
+type CardCourseNode {
+  courseData: GenericScalar
+  id: ID!
+  name: String
+}
+
+type CardDetailView {
+  ok: Boolean
+}
+
+"""An enumeration."""
+enum CardHardLevel {
+  """Выпускникам школ"""
+  A_0
+
+  """Успешным лицеистам и гимназистам"""
+  A_1
+
+  """Рядовым студентам"""
+  A_2
+
+  """Будущим специалистам"""
+  A_3
+
+  """Специалистам (Real Science)"""
+  A_4
+}
+
+type CardIDResolverForSelector {
+  IDs: [String]
+  activePage: Int
+  numPages: Int
+}
+
+input CardMutationInput {
+  additionalText: String
+  arrowBefore: String
+  arrowDown: String
+  arrowNext: String
+  arrowUp: String
+  author: [ID]
+  cardBefore: ID
+  cardContentType: String!
+  cardDown: ID
+  cardNext: ID
+  cardUp: ID
+  clientMutationId: String
+  connectedTheme: [ID]
+  copyright: String
+  createdBy: ID!
+  hardLevel: String
+  id: ID
+  isCardUseAdditionalText: Boolean
+  isCardUseArrowNavigation: Boolean
+  isCardUseCopyright: Boolean
+  isCardUseMainContent: Boolean
+  isCardUseMainText: Boolean
+  isCardUseTestBeforeCard: Boolean
+  isCardUseTestInCard: Boolean
+  siteUrl: String
+  subTheme: [ID]
+  tagField: String
+  testBeforeCard: ID
+  testInCard: ID
+  text: String
+  title: String!
+  vectorColumn: String
+  videoUrl: String
+}
+
+type CardMutationPayload {
+  card: CardNode
+  clientMutationId: String
+  errors: [ErrorType]
+}
+
+type CardNode {
+  additionalText: String
+  arrowBefore: String
+  arrowDown: String
+  arrowNext: String
+  arrowUp: String
+  author: [CardAuthorNode!]!
+  cardBefore: CardNode
+  cardContentType: CardCardContentType!
+  cardDown: CardNode
+  cardNext: CardNode
+  cardUp: CardNode
+  connectedTheme: [UnstructuredThemesNode!]!
+  copyright: String
+  hardLevel: CardHardLevel!
+  id: ID!
+  isBookmarked: Boolean
+  isCardUseAdditionalText: Boolean!
+  isCardUseArrowNavigation: Boolean!
+  isCardUseCopyright: Boolean!
+  isCardUseMainContent: Boolean!
+  isCardUseMainText: Boolean!
+  isCardUseTestBeforeCard: Boolean!
+  isCardUseTestInCard: Boolean!
+  isExistRating: Boolean
+  rating: Float
+  siteUrl: String
+  subTheme: [CardSubThemeNode!]!
+  tagField: String
+  testBeforeCard: QuestionNode
+  testInCard: QuestionNode
+  text: String
+  title: String!
+  videoUrl: String
+}
+
+input CardSubThemeMutationInput {
+  clientMutationId: String
+  createdBy: ID!
+  id: ID
+  name: String!
+  theme: ID
+}
+
+type CardSubThemeMutationPayload {
+  cardSubTheme: CardSubThemeNode
+  clientMutationId: String
+  errors: [ErrorType]
+}
+
+type CardSubThemeNode {
+  cardSet: [CardNode!]!
+  id: ID!
+  name: String!
+  theme: CardThemeNode
+}
+
+input CardThemeMutationInput {
+  clientMutationId: String
+  createdBy: ID!
+  globalTheme: ID
+  id: ID
+  name: String!
+}
+
+type CardThemeMutationPayload {
+  cardTheme: CardThemeNode
+  clientMutationId: String
+  errors: [ErrorType]
+}
+
+type CardThemeNode {
+  cardsubthemeSet: [CardSubThemeNode!]!
+  globalTheme: GlobalCardThemeNode
+  id: ID!
+  name: String!
+}
+
+type CopyQuestionWithAnswers {
+  newQuestionId: ID
+  ok: Boolean
+}
+
+input CreateCardCourseInput {
+  clientMutationId: String
+  courseData: GenericScalar
+  createdBy: ID
+}
+
+type CreateCardCoursePayload {
+  clientMutationId: String
+  course: CardCourseNode
+}
+
+input CreateDetailQuestionStatisticInput {
+  clientMutationId: String
+  isLogin: Boolean
+  isUseexammode: Boolean
+  maxSumOfAnswersPoint: Int
+  question: ID!
+  questionHasBeenCompleted: Boolean
+  questionSequence: ID
+  statistic: GenericScalar
+  userName: String
+}
+
+type CreateDetailQuestionStatisticPayload {
+  clientMutationId: String
+  detailStatistic: DetailQuestionStatisticNode
+}
+
+input CreateQuestionSequenceInput {
+  clientMutationId: String
+  createdBy: ID
+  sequenceData: GenericScalar
+}
+
+type CreateQuestionSequencePayload {
+  clientMutationId: String
+  sequence: QuestionSequenceNode
+}
+
+input CreateUSThemeSequenceInput {
+  clientMutationId: String
+  createdBy: ID!
+  id: ID
+  sequence: String!
+}
+
+type CreateUSThemeSequencePayload {
+  clientMutationId: String
+  errors: [ErrorType]
+  uSThemeSequence: USThemeSequenceNode
+}
+
+"""An enumeration."""
+enum CustomUserUserAccessLevel {
+  """Admin"""
+  ADMIN
+
+  """Student"""
+  STUDENT
+
+  """Teacher"""
+  TEACHER
+}
+
+"""
+The `DateTime` scalar type represents a DateTime
+value as specified by
+[iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+"""
+scalar DateTime
+
+type DetailArrayNames {
+  names: String
+}
+
+type DetailQuestionStatisticNode {
+  createdAt: DateTime
+  id: ID!
+  isLogin: Boolean!
+  isUseexammode: Boolean!
+  maxSumOfAnswersPoint: Int
+  question: QuestionNode
+  questionHasBeenCompleted: Boolean!
+  questionSequence: QuestionSequenceNode
+  statistic: GenericScalar
+  userName: String
+}
+
+type DetailStatIDArray {
+  IDs: [String]
+  activePage: Int
+  numPages: Int
+}
+
+type EQBIDNode {
+  abs: String
+  qbs: String
+}
+
+type ErrorType {
+  field: String!
+  messages: [String!]!
+}
+
+"""
+The `GenericScalar` scalar type represents a generic
+GraphQL scalar value that could be:
+String, Boolean, Int, Float, List or Object.
+"""
+scalar GenericScalar
+
+input GlobalCardThemeMutationInput {
+  clientMutationId: String
+  createdBy: ID!
+  id: ID
+  name: String!
+}
+
+type GlobalCardThemeMutationPayload {
+  clientMutationId: String
+  errors: [ErrorType]
+  globalCardTheme: GlobalCardThemeNode
+}
+
+type GlobalCardThemeNode {
+  cardthemeSet: [CardThemeNode!]!
+  id: ID!
+  name: String!
+}
+
+type HomePageCardIDArray {
+  IDs: [String]
+}
+
+type Mutation {
+  addCardToBookmark(cardId: Int): AddCardToBookmark
+  card(input: CardMutationInput!): CardMutationPayload
+  cardAuthor(input: CardAuthorMutationInput!): CardAuthorMutationPayload
+  cardDetailView(cardId: Int): CardDetailView
+  cardSubTheme(input: CardSubThemeMutationInput!): CardSubThemeMutationPayload
+  cardTheme(input: CardThemeMutationInput!): CardThemeMutationPayload
+  copyQuestionWithAnswers(questionId: Int): CopyQuestionWithAnswers
+  createAnswer(input: AnswerMutationInput!): AnswerMutationPayload
+  createCardCourse(input: CreateCardCourseInput!): CreateCardCoursePayload
+  createDetailQuestionStatistic(input: CreateDetailQuestionStatisticInput!): CreateDetailQuestionStatisticPayload
+  createQuestion(input: QuestionMutationInput!): QuestionMutationPayload
+  createQuestionAuthor(input: QuestionAuthorMutationInput!): QuestionAuthorMutationPayload
+  createQuestionSequence(input: CreateQuestionSequenceInput!): CreateQuestionSequencePayload
+  createQuestionThemes(input: QuestionThemesMutationInput!): QuestionThemesMutationPayload
+  globalCardTheme(input: GlobalCardThemeMutationInput!): GlobalCardThemeMutationPayload
+  removeCardFromBookmark(cardId: Int): RemoveCardFromBookmark
+  setCardRating(cardId: Int, rating: Float): SetCardRating
+  statistic(input: StatisticMutationInput!): StatisticMutationPayload
+  unstructuredTheme(input: UnstructuredThemeMutationInput!): UnstructuredThemeMutationPayload
+  updateAnswer(input: AnswerMutationInput!): AnswerMutationPayload
+  updateCardCourse(input: UpdateCardCourseInput!): UpdateCardCoursePayload
+  updateQuestion(input: QuestionMutationInput!): QuestionMutationPayload
+  updateQuestionAuthor(input: QuestionAuthorMutationInput!): QuestionAuthorMutationPayload
+  updateQuestionSequence(input: UpdateQuestionSequenceInput!): UpdateQuestionSequencePayload
+  updateQuestionThemes(input: QuestionThemesMutationInput!): QuestionThemesMutationPayload
+  updateUnstructuredTheme(input: UpdateUnstructuredThemeInput!): UpdateUnstructuredThemePayload
+  usThemeSequence(input: CreateUSThemeSequenceInput!): CreateUSThemeSequencePayload
+}
+
+type MyQuestionsID {
+  IDs: [String]
+  activePage: Int
+  numPages: Int
+}
+
+"""An object with an ID"""
+interface Node {
+  """The ID of the object."""
+  id: ID!
+}
+
+"""
+The Relay compliant `PageInfo` type, containing data necessary to paginate this connection.
+"""
+type PageInfo {
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+}
+
+type Query {
+  aiCardSearch(searchString: String): AISearchCardIDArray
+  answer: [AnswerNode]
+  answerById(id: ID): AnswerNode
+  answersId(questionId: Int): AnswersID
+  answersInRandomPositions: [AnswerNode]
+  card: [CardNode]
+  cardAuthor: [CardAuthorNode]
+  cardById(id: ID): CardNode
+  cardCourse: [CardCourseNode]
+  cardCourseById(id: ID): CardCourseNode
+  cardGlobalTheme: [GlobalCardThemeNode]
+  cardIdResolverForSelector(activePage: Int, cardAuthor: ID, cardHardLevel: Int, cardType: Int, connectedTheme: String, createdByMe: Boolean, smartSearchString: String): CardIDResolverForSelector
+  cardSubTheme: [CardSubThemeNode]
+  cardTheme: [CardThemeNode]
+  detailArrayNames: DetailArrayNames
+  detailQuestionStatistic: [DetailQuestionStatisticNode]
+  detailQuestionStatisticByQuestionId(id: ID): [DetailQuestionStatisticNode]
+  detailStatIdArray(afterTime: DateTime, onlyInExam: Boolean, onlyInQs: Boolean, page: Int, questions: [String], userName: String): DetailStatIDArray
+  detailStatisticById(id: ID): DetailQuestionStatisticNode
+  eqbi(examMode: Boolean, id: ID): EQBIDNode
+  ftSearchInCards(searchString: String): [CardNode]
+  me: UserNode
+  myQuestionsId(page: Int): MyQuestionsID
+  personalCardHomePage: HomePageCardIDArray
+  question: [QuestionNode]
+  questionAuthor: [QuestionAuthorNode]
+  questionById(id: ID): QuestionNode
+  questionNanoViewById(id: Int): QuestionNanoView
+  questionSequence: [QuestionSequenceNode]
+  questionSequenceById(id: ID): QuestionSequenceNode
+  questionText(id: ID): QuestionText
+  questionThemes: [QuestionThemesNode]
+  questionsId(ownerUserId: Int, page: Int): QuestionsID
+  selfStatisticIdArray(page: Int): SelfStatisticIDArray
+  similarCards(cardId: Int): SimilarCards
+  themeAncestors(themeId: Int): [UnstructuredThemesNode]
+  unstructuredTheme: [UnstructuredThemesNode]
+  usThemeSequence: USThemeSequenceNode
+
+  """The ID of the object"""
+  user(id: ID!): UserNode
+  userWithQuestion: [UserWithQuestion]
+  users(after: String, before: String, email: String, first: Int, isActive: Boolean, last: Int, offset: Int, status_Archived: Boolean, status_SecondaryEmail: String, status_Verified: Boolean, username: String, username_Icontains: String, username_Istartswith: String): UserNodeConnection
+}
+
+input QuestionAuthorMutationInput {
+  clientMutationId: String
+  createdBy: ID!
+  id: ID
+  name: String!
+}
+
+type QuestionAuthorMutationPayload {
+  clientMutationId: String
+  errors: [ErrorType]
+  questionAuthor: QuestionAuthorNode
+}
+
+type QuestionAuthorNode {
+  id: ID!
+  name: String!
+  questionAuthors: [QuestionNode!]!
+}
+
+input QuestionMutationInput {
+  author: [ID]
+  clientMutationId: String
+  createdBy: ID!
+  id: ID
+  isImageQuestion: Boolean
+  numberOfShowingAnswers: Int
+  text: String!
+  theme: [ID]
+  videoUrl: String
+}
+
+type QuestionMutationPayload {
+  clientMutationId: String
+  errors: [ErrorType]
+  question: QuestionNode
+}
+
+type QuestionNanoView {
+  id: ID
+  ownerUsername: String
+  questionImage: String
+  text: String
+}
+
+type QuestionNode {
+  answers: [AnswerNode!]!
+  author: [QuestionAuthorNode!]!
+  cardTestBeforeCardSet: [CardNode!]!
+  cardTestInCardSet: [CardNode!]!
+  detailquestionstatisticSet: [DetailQuestionStatisticNode!]!
+  id: ID!
+  isImageQuestion: Boolean!
+  numberOfShowingAnswers: Int!
+  questionstatistic: QuestionStatisticNode
+  text: String!
+  theme: [QuestionThemesNode!]!
+  videoUrl: String
+}
+
+type QuestionSequenceNode {
+  description: String
+  detailquestionstatisticSet: [DetailQuestionStatisticNode!]!
+  id: ID!
+  name: String
+  sequenceData: GenericScalar
+}
+
+type QuestionStatisticNode {
+  id: ID!
+  numberOfPasses: Int!
+  question: QuestionNode
+  sumOfAllAttempts: Int!
+}
+
+type QuestionText {
+  id: ID
+  text: String
+}
+
+input QuestionThemesMutationInput {
+  clientMutationId: String
+  createdBy: ID!
+  description: String
+  id: ID
+  name: String!
+}
+
+type QuestionThemesMutationPayload {
+  clientMutationId: String
+  errors: [ErrorType]
+  questionThemes: QuestionThemesNode
+}
+
+type QuestionThemesNode {
+  description: String
+  id: ID!
+  name: String!
+  questionThemes: [QuestionNode!]!
+}
+
+type QuestionsID {
+  IDs: [String]
+  activePage: Int
+  numPages: Int
+  ownerUserId: Int
+}
+
+type RemoveCardFromBookmark {
+  ok: Boolean
+}
+
+type SelfStatisticIDArray {
+  IDs: [String]
+  activePage: Int
+  numPages: Int
+}
+
+type SetCardRating {
+  ok: Boolean
+}
+
+type SimilarCards {
+  IDs: [String]
+}
+
+input StatisticMutationInput {
+  clientMutationId: String
+  id: ID
+  numberOfPasses: Int!
+  question: ID!
+  sumOfAllAttempts: Int!
+}
+
+type StatisticMutationPayload {
+  clientMutationId: String
+  errors: [ErrorType]
+  questionStatistic: QuestionStatisticNode
+  statistic: QuestionStatisticNode
+}
+
+type USThemeSequenceNode {
+  id: ID!
+  sequence: String!
+}
+
+input UnstructuredThemeMutationInput {
+  clientMutationId: String
+  parent: ID
+  text: String!
+}
+
+type UnstructuredThemeMutationPayload {
+  clientMutationId: String
+  theme: UnstructuredThemesNode
+}
+
+type UnstructuredThemesNode {
+  cardSet: [CardNode!]!
+  childrenSet: [UnstructuredThemesNode!]!
+  id: ID!
+  parent: UnstructuredThemesNode
+  text: String!
+}
+
+input UpdateCardCourseInput {
+  clientMutationId: String
+  courseData: GenericScalar
+  courseId: ID!
+  name: String
+}
+
+type UpdateCardCoursePayload {
+  clientMutationId: String
+  course: CardCourseNode
+}
+
+input UpdateQuestionSequenceInput {
+  clientMutationId: String
+  description: String
+  name: String
+  sequenceData: GenericScalar
+  sequenceId: ID!
+}
+
+type UpdateQuestionSequencePayload {
+  clientMutationId: String
+  sequence: QuestionSequenceNode
+}
+
+input UpdateUnstructuredThemeInput {
+  clientMutationId: String
+  id: ID!
+  parent: ID
+  text: String!
+}
+
+type UpdateUnstructuredThemePayload {
+  clientMutationId: String
+  theme: UnstructuredThemesNode
+}
+
+type UserNode implements Node {
+  answerSet: [AnswerNode!]!
+  archived: Boolean
+  cardSet: [CardNode!]!
+  cardauthorSet: [CardAuthorNode!]!
+  cardcourseSet: [CardCourseNode!]!
+  cardsubthemeSet: [CardSubThemeNode!]!
+  cardthemeSet: [CardThemeNode!]!
+  dateJoined: DateTime!
+  detailquestionstatisticSet: [DetailQuestionStatisticNode!]!
+  email: String!
+  firstName: String!
+  globalcardthemeSet: [GlobalCardThemeNode!]!
+
+  """The ID of the object."""
+  id: ID!
+
+  """
+  Designates whether this user should be treated as active. Unselect this instead of deleting accounts.
+  """
+  isActive: Boolean!
+
+  """Designates whether the user can log into this admin site."""
+  isStaff: Boolean!
+  lastLogin: DateTime
+  lastName: String!
+  pk: Int
+  questionSet: [QuestionNode!]!
+  questionauthorSet: [QuestionAuthorNode!]!
+  questionsequenceSet: [QuestionSequenceNode!]!
+  questionthemesSet: [QuestionThemesNode!]!
+  secondaryEmail: String
+  unstructuredthemeSet: [UnstructuredThemesNode!]!
+  userAccessLevel: CustomUserUserAccessLevel!
+
+  """Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."""
+  username: String!
+  usthemesequenceSet: [USThemeSequenceNode!]!
+  verified: Boolean
+}
+
+type UserNodeConnection {
+  """Contains the nodes in this connection."""
+  edges: [UserNodeEdge]!
+
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+}
+
+"""A Relay edge containing a `UserNode` and its cursor."""
+type UserNodeEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: UserNode
+}
+
+type UserWithQuestion {
+  id: ID
+  username: String
+}

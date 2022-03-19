@@ -105,7 +105,7 @@ class ThemeStore {
                             backgroundColor: this.backgroundColor,
                             "--ck-color-base-border": this.backgroundColor,
                             ".ck.ck-editor__main>.ck-editor__editable:not(.ck-focused)": {
-                                "border-color": this.backgroundColor
+                                borderColor: this.backgroundColor
                             },
                             scrollbarColor: this.backgroundColor,
                             "&::-webkit-scrollbar, & *::-webkit-scrollbar": {

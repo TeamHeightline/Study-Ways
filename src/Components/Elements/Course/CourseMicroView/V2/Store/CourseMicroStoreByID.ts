@@ -99,6 +99,9 @@ export class CourseMicroStoreByID {
         this.isPositionChanged = true
         this.positionData.activePage = value
     }
+    setActivePage = (value: number) =>{
+        this.changeActivePage(null, value)
+    }
 
     changeCourseName = (course_name?: string) => {
         if (course_name) {

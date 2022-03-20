@@ -1,12 +1,11 @@
 import {observer} from "mobx-react";
 import React, {useEffect, useState} from 'react';
 import {CourseMicroStoreByID, positionDataI} from "../Store/CourseMicroStoreByID";
-import {Card, CardActionArea, Divider, Stack, Tooltip, Typography} from "@mui/material";
+import {Card, CardActionArea, Stack, Tooltip} from "@mui/material";
 import CourseNavigation from "./CourseNavigation";
 import ArrowNavigation from "./ArrowNavigation";
 import {useHistory} from "react-router-dom";
 import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
-import Paper from "@mui/material/Paper";
 
 interface ICourseMicroViewProps extends React.HTMLAttributes<HTMLDivElement> {
     course_id: number,
@@ -62,24 +61,7 @@ const CourseMicroView = observer(({
                  maxWidth: isMobile ? window.innerWidth - 40 : ""
              }}>
             <Card style={{padding: 0, width: 500}} variant="outlined">
-                <Paper elevation={24} square sx={{
-                    boxShadow: "none"
-                }}>
-                    <Stack alignItems={"center"}>
-                        <Typography
-                            sx={{
-                                fontFamily: "system-ui",
-                                fontSize: 15,
-                                // color: "white",
-                                userSelect: "none",
-                                pl: 2,
-                                pr: 2
-                            }}>
-                            {courseStore?.courseName}
-                        </Typography>
-                    </Stack>
-                </Paper>
-                <Divider/>
+
                 <Stack direction="row" alignItems="stretch">
                     <Tooltip
                         title={<div>{courseStore?.courseName?.toUpperCase()}</div>}>
@@ -101,7 +83,7 @@ const CourseMicroView = observer(({
                             }}
                         >
                             <div style={{
-                                width: 180,
+                                width: 150,
                             }}/>
                         </CardActionArea>
                     </Tooltip>

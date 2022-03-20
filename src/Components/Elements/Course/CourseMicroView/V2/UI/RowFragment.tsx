@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
 import {IconButton, Popover} from "@mui/material";
-import StopSharpIcon from '@mui/icons-material/StopSharp';
 import CardMicroView from "../../../../Cards/CardView/CardMicroView";
 import {observer} from "mobx-react";
 import {CourseMicroStoreByID} from "../Store/CourseMicroStoreByID";
 import {useHistory, useRouteMatch} from "react-router-dom";
 import ThemeStoreObject from "../../../../../../global-theme";
+
+import NoiseControlOffIcon from '@mui/icons-material/NoiseControlOff';
+
 
 interface RowFragmentI {
     CRI: number,
@@ -100,7 +102,9 @@ const RowFragment = observer(({CRI, courseStore}: RowFragmentI) => {
                                             "secondary" :
                                             "primary"}
                         >
-                            <StopSharpIcon/>
+                            {/*<StopSharpIcon/>*/}
+                            {/*<CircleIcon fontSize={"small"}/>*/}
+                            <NoiseControlOffIcon/>
                         </IconButton>
                     )
                 })}

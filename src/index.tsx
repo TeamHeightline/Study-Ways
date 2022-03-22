@@ -27,10 +27,10 @@ const AppWithAllProviders = observer(() => {
     return (
         <LocalizationProvider dateAdapter={DateAdapter}>
             <Auth0Provider
-                domain="dev-29gfcwkx.us.auth0.com"
-                clientId="A0jSyVnfS1vB1KMmi0G8XsDRcyNYBXJS"
+                domain="dev-xjng6xd9.us.auth0.com"
+                clientId="SJ055fS1pu4cnBi8zmWkUpu3LTolh2Oj"
                 redirectUri={window.location.origin}
-                audience="https://dev-29gfcwkx.us.auth0.com/api/v2/"
+                audience="sw-backend-identifier"
                 scope="read:current_user update:current_user_metadata"
             >
                 <ThemeProvider theme={ThemeStoreObject.theme}>

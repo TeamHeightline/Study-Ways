@@ -153,7 +153,7 @@ export const Navibar = observer(() => {
                     }}
                           to="/cards">Карточки</Link>
                     {/*<Link className={s.link} to="/test">Вопросы</Link>*/}
-                    <Typography className="ml-4" sx={{color: "white"}}> | </Typography>
+                    <Typography sx={{color: "white", pl: 2,}}> | </Typography>
                     {UserStorage.userAccessLevel == "ADMIN" || UserStorage.userAccessLevel == "TEACHER" ?
                         <Link style={{
                             color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25,
@@ -167,7 +167,7 @@ export const Navibar = observer(() => {
                               to="/selfstatistic">Статистика</Link>}
                     {UserStorage.isLogin ?
                         <>
-                            <Typography className="ml-5 mr-4" sx={{color: "white"}}>
+                            <Typography sx={{color: "white", pl: 4, pr: 2}}>
                                 {UserStorage.username}
                             </Typography>
                             <ThemeModeSwitch
@@ -231,7 +231,7 @@ export const Navibar = observer(() => {
                                 checked={!ThemeStoreObject.isLightTheme}
                                 onClick={ThemeStoreObject.changeMode}
                             />
-                            <Button className="ml-5 mr-4" color="inherit" variant="outlined"
+                            <Button sx={{pl: 2, pr: 2}} color="inherit" variant="outlined"
                                     onClick={() => {
                                         loginWithPopup()
                                     }}>

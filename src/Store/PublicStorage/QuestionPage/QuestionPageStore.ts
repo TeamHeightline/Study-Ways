@@ -1,11 +1,11 @@
-import {action, computed, makeObservable, observable,  toJS} from "mobx";
+import {action, computed, makeObservable, observable, toJS} from "mobx";
 import {ClientStorage} from "../../ApolloStorage/ClientStorage";
 import {GET_ALL_QUESTIONS} from "./Struct";
 import {some} from "lodash";
 import {Maybe, QuestionNode, QuestionThemesNode} from "../../../SchemaTypes";
 import {sort} from "fast-sort";
 
-class QuestionPage{
+class QuestionPage {
     constructor() {
         makeObservable(this, {
             questionsData: observable,
@@ -34,6 +34,7 @@ class QuestionPage{
             QuestionsAfterSelectTheme: computed({keepAlive: true}),
         })
     }
+
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
     clientStorage = ClientStorage
 
@@ -53,41 +54,41 @@ class QuestionPage{
     helpLevel = "0"
 
     //Функция для изменения ID вопроса
-    changeSelectedQuestionID(newID){
-        this.selectedQuestionID = newID
+    changeSelectedQuestionID = (e) => {
+        this.selectedQuestionID = e.target.value
     }
 
     //
-    changeHelpLevel(newLevel){
+    changeHelpLevel(newLevel) {
         this.helpLevel = newLevel
     }
 
     //Функция, чтобы вернуться в меню выбора вопроса
-    closeQuestion(){
+    closeQuestion() {
         this.isOpenQuestionPlayer = false
     }
 
     //Функция, чтобы начать выполнять вопрос
-    startQuestion(){
+    startQuestion = () => {
         this.isOpenQuestionPlayer = true
     }
 
     //функция для получения всех данных о вопросе
-    getQuestionData(){
+    getQuestionData() {
 
         //Функция для удаления вопросов, которые называются "Новый вопрос"
-        function removeQuestionsTatNotFilled(questions: Maybe<QuestionNode>[]){
+        function removeQuestionsTatNotFilled(questions: Maybe<QuestionNode>[]) {
             const questionsCopyWitchoutUnfilledQuestions: Maybe<QuestionNode>[] = []
-            questions?.map((question) =>{
-                if(question?.text !== "Новый вопрос"){
+            questions?.map((question) => {
+                if (question?.text !== "Новый вопрос") {
                     questionsCopyWitchoutUnfilledQuestions.push(question)
                 }
             })
-            return(questionsCopyWitchoutUnfilledQuestions)
+            return (questionsCopyWitchoutUnfilledQuestions)
         }
 
         this.clientStorage.client.query({query: GET_ALL_QUESTIONS, fetchPolicy: "network-only"})
-            .then((response) =>{
+            .then((response) => {
                 this.questionsData = removeQuestionsTatNotFilled(response.data.question)
                 this.dataHasBeenDelivered = true
             })
@@ -97,13 +98,13 @@ class QuestionPage{
     useSearchByThemeOrAuthor = false
 
     //Handle функция для useSearchByThemeOrAuthor
-    changeUseSearchByThemeOrAuthor(isUse){
-        this.useSearchByThemeOrAuthor = isUse
+    changeUseSearchByThemeOrAuthor = (e) => {
+        this.useSearchByThemeOrAuthor = e.target.checked
     }
 
     //Вычисляет авторов для фильтрации
-    get authorsForSelect(){
-        if(!this.dataHasBeenDelivered){
+    get authorsForSelect() {
+        if (!this.dataHasBeenDelivered) {
             return []
         }
         const authors: any = []
@@ -115,20 +116,21 @@ class QuestionPage{
             })
         })
         this.selectedAuthorID = authors[0].id
-        return(authors)
+        return (authors)
     }
 
     //ID выбранного автора
     selectedAuthorID = 0
 
     //Handle функция для изменения ID автора
-    changeSelectedAuthorID(newAuthorID) {
-        this.selectedAuthorID = newAuthorID
+    changeSelectedAuthorID = (e) => {
+        this.selectedAuthorID = e.target.value
+        console.log(this.selectedAuthorID)
     }
 
     //Карточки, оставшиеся после первого уровня фильтрации
-    get QuestionsAfterAuthorSelection(){
-        if(!this.dataHasBeenDelivered){
+    get QuestionsAfterAuthorSelection() {
+        if (!this.dataHasBeenDelivered) {
             return []
         }
         const questionsAfterSelectedAuthor: any = []
@@ -136,23 +138,24 @@ class QuestionPage{
             let newQuestionHasBeenAddedToArray = false
             sameQuestion?.author?.forEach((sameAuthor) => {
                 if (!newQuestionHasBeenAddedToArray && Number(sameAuthor?.id) === Number(this.selectedAuthorID)) {
-                        questionsAfterSelectedAuthor.push(sameQuestion)
-                        newQuestionHasBeenAddedToArray = true
+                    questionsAfterSelectedAuthor.push(sameQuestion)
+                    newQuestionHasBeenAddedToArray = true
                 }
             })
         })
-        return(questionsAfterSelectedAuthor)
+        return (questionsAfterSelectedAuthor)
     }
-    get themesForSelect(){
-        if(!this.dataHasBeenDelivered){
+
+    get themesForSelect() {
+        if (!this.dataHasBeenDelivered) {
             return []
         }
 
         const themesArray: Array<QuestionThemesNode> = []
         const themesIDArray = new Set()
-        toJS(this.QuestionsAfterAuthorSelection)?.map((question) =>{
-            question.theme.map((sameTheme) =>{
-                if(!themesIDArray.has(sameTheme.id)){
+        toJS(this.QuestionsAfterAuthorSelection)?.map((question) => {
+            question.theme.map((sameTheme) => {
+                if (!themesIDArray.has(sameTheme.id)) {
                     themesArray.push(sameTheme)
                     themesIDArray.add(sameTheme.id)
                 }
@@ -166,25 +169,25 @@ class QuestionPage{
     selectedThemeID = 0
 
     //Функция для изменения выбранной темы
-    changeSelectedTheme(newThemeID){
-        this.selectedThemeID = newThemeID
+    changeSelectedTheme = (e) => {
+        this.selectedThemeID = e.target.value
     }
 
     //Вопросы после выборе темы (вопросы оставшиеся после всех фильтраций)
-    get QuestionsAfterSelectTheme(){
-        if(!this.dataHasBeenDelivered){
+    get QuestionsAfterSelectTheme() {
+        if (!this.dataHasBeenDelivered) {
             return []
         }
-        if(!this.useSearchByThemeOrAuthor){
+        if (!this.useSearchByThemeOrAuthor) {
             this.selectedQuestionID = Number(toJS(this.questionsData)[0]?.id)
             return toJS(this.questionsData)
         }
         const QuestionAfterThemeSelectIDArray = new Set()
         const QuestionAfterThemeSelect: Array<QuestionNode> = []
         this.QuestionsAfterAuthorSelection.map((sameQuestion) => {
-            sameQuestion.theme.map((sameTheme) =>{
-                if(Number(sameTheme.id) === Number(this.selectedThemeID) &&
-                    !QuestionAfterThemeSelectIDArray.has(sameQuestion.id)){
+            sameQuestion.theme.map((sameTheme) => {
+                if (Number(sameTheme.id) === Number(this.selectedThemeID) &&
+                    !QuestionAfterThemeSelectIDArray.has(sameQuestion.id)) {
                     QuestionAfterThemeSelect.push(sameQuestion)
                 }
             })
@@ -192,8 +195,6 @@ class QuestionPage{
         this.selectedQuestionID = Number(QuestionAfterThemeSelect[0].id)
         return QuestionAfterThemeSelect
     }
-
-
-
 }
-export const  QuestionPageStorage =  new QuestionPage()
+
+export const QuestionPageStorage = new QuestionPage()

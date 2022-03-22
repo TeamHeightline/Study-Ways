@@ -51,7 +51,7 @@ const App = observer(() => {
     useEffect(() => {
         if (isAuthenticated) {
             getAccessTokenSilently({
-                audience: `https://dev-29gfcwkx.us.auth0.com/api/v2/`,
+                audience: `sw-backend-identifier`,
                 scope: "read:current_user",
             }).then((user_token) => {
                 ClientStorage.changeToken(user_token)

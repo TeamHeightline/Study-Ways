@@ -1,55 +1,33 @@
 import React from 'react'
 import LCUserTestThemeEditor from "../Elements/SearchingElements/UserTestThemeEditor/[LC]UserTestThemeEditor";
-import {Grid, Typography} from "@mui/material";
+import {Grid, Stack, Typography} from "@mui/material";
 import ThemeEditor from "../Elements/ThemeTree/ThemeEditor";
+import {isMobileHook} from "../../CustomHooks/isMobileHook";
 
 export default function SearchingElementsEditor({...props}: any) {
+    const isMobile = isMobileHook()
     return (
         <div {...props}>
-            {/*<Typography className="display-4 text-center mt-4"*/}
-            {/*            style={{fontSize: window.innerHeight/window.innerWidth > 1? "25px": '33px'}}>*/}
-            {/*    Темы и виртуальные авторы для карточек*/}
-            {/*</Typography>*/}
-            {/*<Grid container style={{paddingLeft: window.innerHeight/window.innerWidth > 1? 12 : 48}}>*/}
-            {/*    <Grid item xs={12} md={6}>*/}
-            {/*        <LCCardThemeEditor/>*/}
-            {/*    </Grid>*/}
-            {/*    <Grid item xs={12} md={6}>*/}
-            {/*        <LCCardAuthorEditor/>*/}
-            {/*    </Grid>*/}
-            {/*</Grid>*/}
-            <Typography className="display-4 text-center mt-4"
-                        style={{fontSize: window.innerHeight / window.innerWidth > 1 ? "25px" : '33px'}}>
-                Редактор связанных тем
-            </Typography>
-            <Grid container justifyContent={"center"}>
+            <Stack direction={"column"} alignItems={"center"}>
+                <Typography variant={"h3"} sx={{pt: 4, pb: 2}}>
+                    Редактор связанных тем
+                </Typography>
+            </Stack>
+            <Grid container justifyContent={"center"}
+                  style={{paddingLeft: isMobile ? 12 : 48}}>
                 <ThemeEditor/>
             </Grid>
-            <Typography className="display-4 text-center mt-4"
-                        style={{fontSize: window.innerHeight / window.innerWidth > 1 ? "25px" : '33px'}}>
-                Темы для вопросов
-            </Typography>
+            <Stack direction={"column"} alignItems={"center"} sx={{pb: 4}}>
+                <Typography variant={"h3"}>
+                    Темы для вопросов
+                </Typography>
+            </Stack>
             <Grid container justifyContent={"center"}
-                  style={{paddingLeft: window.innerHeight / window.innerWidth > 1 ? 12 : 48}}>
+                  style={{paddingLeft: isMobile ? 12 : 48}}>
                 <Grid item xs={12} md={6}>
                     <LCUserTestThemeEditor/>
                 </Grid>
-                {/*<Grid item xs={12} md={6}>*/}
-                {/*    <LCUserTestAuthorEditor/>*/}
-                {/*</Grid>*/}
             </Grid>
-            <br/>
-            {/*Для того, чтобы можно было скроллить страницу вниз, ну и для того, чтобы поместилось
-            текстовое поле для редактирования*/}
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
         </div>
     )
 }

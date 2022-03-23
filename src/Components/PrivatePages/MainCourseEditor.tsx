@@ -32,16 +32,16 @@ export default function MainCourseEditor() {
     const [selectedCourseID, setSelectedCourseID] = useState<any>()
     const [create_course] = useMutation(CREATE_COURSE_WITH_DEFAULT_VALUE,
         {
-            variables:{
+            variables: {
                 default_data: CourseLines
             }
         })
     const {data: own_course_data, refetch} = useQuery(GET_OWN_COURSE)
     // console.log(own_course_data)
-    if(isEditCourseNow){
+    if (isEditCourseNow) {
         return (
-            <EditCourseByID course_id={selectedCourseID} onChange={(data) =>{
-                if(data === "goBack"){
+            <EditCourseByID course_id={selectedCourseID} onChange={(data) => {
+                if (data === "goBack") {
                     setIsEditCourseNow(false)
                     refetch()
                 }
@@ -49,21 +49,21 @@ export default function MainCourseEditor() {
         )
     }
 
-    return(
+    return (
         <div>
             <Container>
-                <Button variant="outlined" color="primary" className="col-12 mt-3 justify-content-center"
-                        size="large"  onClick={() => {
+                <Button variant="outlined" color="primary" fullWidth sx={{mt: 2}}
+                        size="large" onClick={() => {
                     create_course().then(() => refetch())
                 }}>
                     Создать новый курс
                 </Button>
                 <Grid container justifyContent="space-evenly" sx={{pt: 2}} style={{overflow: "auto"}}>
-                    {own_course_data?.me.cardcourseSet.map((course) =>{
-                        return(
+                    {own_course_data?.me.cardcourseSet.map((course) => {
+                        return (
                             <Grid item xs={"auto"} key={"CourseID" + course.id}>
                                 <CourseMicroView
-                                    onClick={()=>{
+                                    onClick={() => {
                                         setSelectedCourseID(course.id)
                                         setIsEditCourseNow(true)
                                     }}
@@ -71,7 +71,7 @@ export default function MainCourseEditor() {
                                     key={"CourseID" + course.id}/>
                             </Grid>
                         )
-                    }) }
+                    })}
                 </Grid>
             </Container>
         </div>

@@ -1,98 +1,107 @@
 import React, {useState} from 'react'
 import {useMutation, useQuery} from "@apollo/client";
-import { Mutation, Query} from "../../SchemaTypes";
-import {CREATE_QUESTION_SEQUENCE, GET_MY_QUESTION_SEQUENCE, question_sequence_struct} from "../Elements/QuestionSequence/Editor/Struct"
-import {Button, Typography, Card, CardActionArea} from "@mui/material";
-import {Row, Spinner} from "react-bootstrap";
+import {Mutation, QuestionSequenceNode} from "../../SchemaTypes";
+import {
+    CREATE_QUESTION_SEQUENCE,
+    GET_MY_QUESTION_SEQUENCE,
+    question_sequence_struct
+} from "../Elements/QuestionSequence/Editor/Struct"
+import {Button, Card, CardActionArea, Chip, CircularProgress, Grid, Paper, Stack, Typography} from "@mui/material";
 import QuestionSequenceEditByID from "../Elements/QuestionSequence/Editor/EditByID/QuestionSequenceEditByID";
-import {GET_ALL_CARD_SUB_THEMES} from "../Elements/Direction/Store/Struct";
 import {sort} from "fast-sort";
 
-export default function QuestionSequenceMainEditor(){
-    const {data: question_sequence_data, refetch: refetch_question_sequence_data} = useQuery<any, null>(GET_MY_QUESTION_SEQUENCE)
-    const {data: card_themes_data} = useQuery<Query, null>(GET_ALL_CARD_SUB_THEMES)
+export default function QuestionSequenceMainEditor() {
+    const {
+        data: question_sequence_data,
+        refetch: refetch_question_sequence_data
+    } = useQuery<any, null>(GET_MY_QUESTION_SEQUENCE)
     const [isEditNow, setIsEditNow] = useState(false)
     const [activeEditSequenceID, setActiveEditSequenceID] = useState<number>(0)
-    const [createQuestionSequence] = useMutation<Mutation,{sequenceData : any}>(CREATE_QUESTION_SEQUENCE, {
-        variables:{
+    const [createQuestionSequence] = useMutation<Mutation, { sequenceData: any }>(CREATE_QUESTION_SEQUENCE, {
+        variables: {
             sequenceData: question_sequence_struct
         },
-        onCompleted: () => {refetch_question_sequence_data()}
+        onCompleted: () => {
+            refetch_question_sequence_data()
+        }
     })
-    if(!question_sequence_data){
+    const sequenceArray: QuestionSequenceNode[] = sort<QuestionSequenceNode>(question_sequence_data?.me?.questionsequenceSet)
+        .desc((sequence) => sequence?.id)
+
+    if (!question_sequence_data) {
         return (
-            <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
+            <Stack alignItems={"center"}>
+                <CircularProgress/>
+            </Stack>
         )
     }
-    if(isEditNow){
+    if (isEditNow) {
         return (
             <QuestionSequenceEditByID
-                sequence = {question_sequence_data?.me?.questionsequenceSet
-                    ?.find((sequence) => sequence.id === activeEditSequenceID)}
-                onChange={(data) =>{
-                if(data === "goBack"){
-                    refetch_question_sequence_data()
-                    setIsEditNow(false)
-                }
-            }}/>
+                sequence={question_sequence_data?.me?.questionsequenceSet
+                    ?.find((sequence) => Number(sequence.id) === Number(activeEditSequenceID))}
+                onChange={(data) => {
+                    if (data === "goBack") {
+                        refetch_question_sequence_data()
+                        setIsEditNow(false)
+                    }
+                }}/>
         )
     }
-    return(
-        <div className="mr-5 ml-5">
-            <Button variant="outlined" color="primary" className="col-12 mt-3 justify-content-center"
-                    size="large"  onClick={() => {
+    return (
+        <Paper elevation={0}>
+            <Grid container justifyContent="center">
+                <Grid item xs={12} md={8}>
+                    <Button variant="outlined" color="primary" fullWidth sx={{mt: 2}}
+                            size="large" onClick={() => {
                         createQuestionSequence()
                         setTimeout(refetch_question_sequence_data, 2000)
-            }}
-                >
-                Создать новую серию вопросов
-            </Button>
-            <Row className="justify-content-around">
-                {sort(question_sequence_data?.me?.questionsequenceSet).desc((sequence: any) => sequence?.id)
-                    ?.map((sequence: any, ) => {
-                    return(
-                        <Card variant="outlined" key={sequence?.id + "SequenceKey"} className="mt-3 col-md-5 col-12" style={{padding: 0}}
-                        onClick={ async() => {
-                            await setActiveEditSequenceID(sequence.id)
-                            await setTimeout( setIsEditNow, 500, true)
-                        }
-                        }>
-                            <CardActionArea className="col-12" style={{flex: "auto"}}>
-                                <div className="ml-4">
-                                    <Typography variant="h6" color="textSecondary" className="ml-2 mt-2">
-                                        <strong>
-                                            {"ID: " + sequence?.id}
-                                        </strong>
-                                    </Typography>
-                                    <Typography className="ml-2">
-                                        {"Название: " + sequence?.name}
-                                    </Typography>
-
-                                    <Typography className="ml-2">
-                                        {"Описание: " + sequence?.description}
-                                    </Typography>
-
-                                    <Row className="mr-3 ml-2" style={{overflowY: "auto"}}>
-                                        {sequence?.sequenceData?.sequence?.map( (question, qIndex) =>{
-                                            return(
-                                                <Card
-                                                    style={{borderColor: "#2296F3"}}
-                                                    variant="outlined" className="col-2 mr-2 ml-2 mt-2" key={sequence?.id + "SequenceKey"+ qIndex + "QuestionKey"}>
-                                                    {question}
-                                                    <br/>
-                                                </Card>
-                                            )
-                                        })}
-                                        <br/>
-                                    </Row>
-                                    <br/>
-                                </div>
-                            </CardActionArea>
-                        </Card>
-                    )
-                })}
-
-            </Row>
-        </div>
+                    }}
+                    >
+                        Создать новую серию вопросов
+                    </Button>
+                    <Grid container spacing={4} sx={{pt: 2}}>
+                        {sequenceArray?.map((sequence) => {
+                            return (
+                                <Grid item xs={12} md={6}>
+                                    <Card variant="outlined" key={sequence?.id + "SequenceKey"}
+                                          onClick={async () => {
+                                              await setActiveEditSequenceID(Number(sequence.id))
+                                              await setTimeout(setIsEditNow, 500, true)
+                                          }
+                                          }>
+                                        <CardActionArea>
+                                            <Stack direction={"column"} spacing={0.5} sx={{p: 2}}>
+                                                <Typography variant="h6" color="textSecondary">
+                                                    <strong>
+                                                        {"ID: " + sequence?.id}
+                                                    </strong>
+                                                </Typography>
+                                                <Typography variant={"body1"}>
+                                                    {"Название: " + sequence?.name}
+                                                </Typography>
+                                                <Typography variant={"body1"}>
+                                                    {"Описание: " + sequence?.description}
+                                                </Typography>
+                                                <Grid container spacing={1}>
+                                                    {sequence?.sequenceData?.sequence?.map((question, qIndex) => {
+                                                        return (
+                                                            <Grid item xs={"auto"}
+                                                                  key={sequence?.id + "SequenceKey" + qIndex + "QuestionKey"}>
+                                                                <Chip label={question} variant={"outlined"}/>
+                                                            </Grid>
+                                                        )
+                                                    })}
+                                                </Grid>
+                                            </Stack>
+                                        </CardActionArea>
+                                    </Card>
+                                </Grid>
+                            )
+                        })}
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Paper>
     )
 }

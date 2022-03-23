@@ -100,35 +100,33 @@ export const Navibar = observer(() => {
 
     if (isMobile) {
         return (
-            <div>
-                <BottomNavigation value={value} onChange={mobileMunuClickHandleChange} className="col-12">
-                    <BottomNavigationAction
-                        sx={{color: "white"}}
-                        label="Курсы"
-                        value="0"
-                        icon={<BlurLinearIcon/>}/>
-                    <BottomNavigationAction
-                        sx={{color: "white"}}
-                        label="Карточки"
-                        value="1"
-                        icon={<ArtTrackIcon/>}/>
-                    {UserStorage.isLogin ?
-                        UserStorage.userAccessLevel == "STUDENT" ?
-                            <BottomNavigationAction
-                                sx={{color: "white"}}
-                                label="Собственная статистика" value="5"
-                                icon={<StackedLineChartIcon/>}/> :
-                            <BottomNavigationAction
-                                sx={{color: "white"}}
-                                label="Редакторы" value="3"
-                                icon={<EditIcon/>}/> :
+            <BottomNavigation value={value} onChange={mobileMunuClickHandleChange}>
+                <BottomNavigationAction
+                    sx={{color: "white"}}
+                    label="Курсы"
+                    value="0"
+                    icon={<BlurLinearIcon/>}/>
+                <BottomNavigationAction
+                    sx={{color: "white"}}
+                    label="Карточки"
+                    value="1"
+                    icon={<ArtTrackIcon/>}/>
+                {UserStorage.isLogin ?
+                    UserStorage.userAccessLevel == "STUDENT" ?
                         <BottomNavigationAction
                             sx={{color: "white"}}
-                            label="Войти"
-                            value="4"
-                            icon={<AccountCircleIcon/>}/>}
-                </BottomNavigation>
-            </div>
+                            label="Собственная статистика" value="5"
+                            icon={<StackedLineChartIcon/>}/> :
+                        <BottomNavigationAction
+                            sx={{color: "white"}}
+                            label="Редакторы" value="3"
+                            icon={<EditIcon/>}/> :
+                    <BottomNavigationAction
+                        sx={{color: "white"}}
+                        label="Войти"
+                        value="4"
+                        icon={<AccountCircleIcon/>}/>}
+            </BottomNavigation>
         )
     }
     return (

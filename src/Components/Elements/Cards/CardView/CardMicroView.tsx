@@ -6,7 +6,6 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import {CardActionArea, Chip, Grid, Stack, Tooltip} from "@mui/material";
 import 'fontsource-roboto';
 import {useQuery} from "@apollo/client";
-import {Row} from "react-bootstrap";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import HttpIcon from '@mui/icons-material/Http';
 import ImageIcon from '@mui/icons-material/Image';
@@ -87,9 +86,7 @@ export default function CardMicroView({
                 <Card variant="outlined" className={classes.root} onClick={() => {
                     onChange(cardID)
                 }}>
-                    <Row>
-                        <Skeleton variant="rectangular" width={130} height={170}/>
-                    </Row>
+                    <Skeleton variant="rectangular" width={130} height={170}/>
                 </Card>
             </div>
         );

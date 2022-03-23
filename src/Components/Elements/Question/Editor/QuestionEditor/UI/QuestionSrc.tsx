@@ -1,14 +1,13 @@
 import {observer} from "mobx-react";
 import {QuestionEditorStorage} from "../Store/QuestionEditorStorage";
-import {Col} from "react-bootstrap";
-import {Typography} from "@mui/material";
+import {Stack, Typography} from "@mui/material";
 import React from "react";
 
 export const QuestionSrc = observer(() => {
     return (
         <>
             {QuestionEditorStorage.questionHasBeenSelected &&
-                <Col className="text-center mt-2 col-md-6 col-12">
+                <Stack alignItems={"center"}>
                     <Typography variant="body2" color="textSecondary" component="p">
                         {"Режим обучения  - "}
                         <strong>https://www.sw-university.com/iq/{QuestionEditorStorage.selectedQuestionID}</strong>
@@ -17,7 +16,7 @@ export const QuestionSrc = observer(() => {
                         {"Режим экзамена  - "}
                         <strong>https://www.sw-university.com/iq/{QuestionEditorStorage.selectedQuestionID}?exam=true</strong>
                     </Typography>
-                </Col>}
+                </Stack>}
         </>
     )
 })

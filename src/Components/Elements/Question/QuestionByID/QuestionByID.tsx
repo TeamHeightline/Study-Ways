@@ -1,9 +1,6 @@
-// https://image-store-iot-experemental.s3.amazonaws.com/question-images/2021/04/11/img020.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA5QESEDVQVQN6BL4P%2F20210411%2Feu-north-1%2Fs3%2Faws4_request&X-Amz-Date=20210411T134742Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=25b7888a08c977a1b910e1feced0f9996ee5863d7b20686a4106c02580e4a777
-
 import React, {useEffect, useState} from 'react';
 import {observer} from "mobx-react";
 import {SameQuestionPlayer} from "../../../../Store/PublicStorage/QSPage/QuestionSequencePlayer/SameQuestionPlayer";
-import {Row} from "react-bootstrap";
 import DCPCImageQuestion from "./DCPCImageQuestion";
 import {
     Alert,

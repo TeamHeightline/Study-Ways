@@ -1,10 +1,9 @@
 import React, {useState} from 'react'
 import {UPDATE_QUESTION_SEQUENCE, useStyles} from "./Struct";
 import {useMutation} from "@apollo/client";
-import {Row, Spinner} from "react-bootstrap";
 import {
-    Button, Card, CardActionArea,
-    Snackbar,
+    Button, Card, CardActionArea, CircularProgress, Grid, Paper,
+    Snackbar, Stack,
     TextField, Typography
 } from "@mui/material";
 import QuestionCard from "./QuestionCard";
@@ -12,8 +11,10 @@ import QuestionCard from "./QuestionCard";
 import {Mutation} from "../../../../../SchemaTypes";
 import {Alert} from '@mui/material';
 import CardMedia from "@mui/material/CardMedia";
+import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 
 export default function QuestionSequenceEditByID({...props}: any) {
+    const isMobile = isMobileHook()
     const [questionsIDArray, setQuestionsIDArray] = useState<any[]>(props?.sequence?.sequenceData?.sequence ? props?.sequence?.sequenceData?.sequence : [])//Нужно для хранения массива айдишников вопросов
     const [sequenceName, setSequenceName] = useState<string>(props?.sequence?.name)//Название последовательности вопросов
     const [sequenceDescription, setSequenceDescription] = useState<string>(props?.sequence?.description)
@@ -65,61 +66,60 @@ export default function QuestionSequenceEditByID({...props}: any) {
 
     if (!props.sequence) {
         return (
-            <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
+            <Stack alignItems={"center"}>
+                <CircularProgress/>
+            </Stack>
         )
     }
     return (
-        <div className="col-12" style={{paddingLeft: 48}}>
-            <Typography variant="h4" className="text-center">Редактировать серию вопросов</Typography>
-            <div className="ml-4">
-                <Button
-                    className="ml-md-5 col-12 col-md-2"
-                    variant="outlined" color="primary" onClick={() => {
-                    props.onChange("goBack")
-                }}>
-                    Назад
-                </Button>
-            </div>
-            <br/>
-            <Row className="justify-content-around">
-                <TextField value={sequenceName}
-                           onChange={(e) => {
-                               autoSave()
-                               setSequenceName(e.target.value)
-                           }}
-                           size="small"
-                           label="Название серии вопросов"
-                           variant="outlined" className="ml-md-5 col-md-5 col-12"
-                />
-                <TextField value={sequenceDescription}
-                           onChange={(e) => {
-                               autoSave()
-                               setSequenceDescription(e.target.value)
-                           }}
-                           size="small"
-                           label="Описание серии вопросов"
-                           variant="outlined" className="ml-md-5 col-md-5 col-12"
-                />
-            </Row>
-            <Row className="justify-content-around">
-                <Row className="justify-content-center">
-                    <Typography className="mt-2">
-                        <pre style={{color: "white"}}>{"Режим обучения - "}</pre>
-                    </Typography>
-                    <Typography
-                        className="mt-2">{" "} https://www.sw-university.com/qs/{props?.sequence?.id}</Typography>
-                </Row>
-                <Row className="justify-content-center">
-                    <Typography className="mt-2">
-                        <pre style={{color: "white"}}>{"Режим экзамена - "}</pre>
-                    </Typography>
-                    <Typography
-                        className="mt-2">{"https://www.sw-university.com/qs/" + props?.sequence?.id + "?exam=true"}</Typography>
-                </Row>
-            </Row>
+        <Paper elevation={0} sx={{pl: 8}}>
+            <Stack alignItems={"center"}>
+                <Typography variant="h4">Редактировать серию вопросов</Typography>
+            </Stack>
+            <Button
+                sx={{p: 1, minWidth: isMobile ? undefined : 300}}
+                variant="outlined" color="primary" onClick={() => {
+                props.onChange("goBack")
+            }}>
+                Назад
+            </Button>
 
-            <Row className="justify-content-around">
-                <div className="col-md-3 col-12 ml-md-5 mt-3">
+            <Stack direction={isMobile ? "column" : "row"} spacing={4} sx={{pt: 2, width: "100%"}}>
+                <Stack direction={"column"} spacing={2} sx={{minWidth: isMobile ? undefined : 400}}>
+                    <TextField value={sequenceName}
+                               onChange={(e) => {
+                                   autoSave()
+                                   setSequenceName(e.target.value)
+                               }}
+                               size="small"
+                               label="Название серии вопросов"
+                               variant="outlined"
+                               multiline
+                               fullWidth
+                    />
+                    <TextField value={sequenceDescription}
+                               onChange={(e) => {
+                                   autoSave()
+                                   setSequenceDescription(e.target.value)
+                               }}
+                               size="small"
+                               label="Описание серии вопросов"
+                               variant="outlined"
+                               fullWidth
+                    />
+                </Stack>
+                <Stack direction={"column"} spacing={2}>
+                    <Typography variant={"body2"} sx={{color: "white"}}>
+                        {"Режим обучения - https://www.sw-university.com/qs/" + props?.sequence?.id}
+                    </Typography>
+                    <Typography variant="body2" sx={{color: "white"}}>
+                        {"Режим экзамена - https://www.sw-university.com/qs/" + props?.sequence?.id + "?exam=true"}
+                    </Typography>
+                </Stack>
+            </Stack>
+
+            <Grid container spacing={4} sx={{pt: 4}}>
+                <Grid item xs={12} md={3}>
                     <Card variant="outlined" className={classes.root} style={{padding: 0}}>
                         <CardMedia
                             className={classes.cover}
@@ -129,30 +129,36 @@ export default function QuestionSequenceEditByID({...props}: any) {
                         <CardActionArea onClick={() => {
                             addQuestion()
                         }}>
-                            <div className="display-4 text-center" style={{fontSize: '33px'}}>Добавить вопрос</div>
+                            <Stack alignItems={"center"} justifyContent={"center"} sx={{p: 4}}>
+                                <Typography variant={"h4"}>
+                                    Добавить вопрос
+                                </Typography>
+                            </Stack>
                         </CardActionArea>
                     </Card>
-                </div>
+                </Grid>
                 {questionsIDArray && questionsIDArray?.map((question, qIndex) => {
                     return (
-                        <QuestionCard className="col-md-3 col-12 ml-md-5 mt-3" key={question + "Key" + qIndex}
-                                      questionID={question}
-                                      onDeleteClick={() => {
-                                          const __questionIDArray = questionsIDArray
-                                          __questionIDArray.splice(qIndex, 1)
-                                          setQuestionsIDArray(__questionIDArray)
-                                          setManualReload(!manualReload)
-                                      }}
-                                      onChange={(data) => {
-                                          autoSave()
-                                          const newQuestionsIDArray = [...questionsIDArray]
-                                          newQuestionsIDArray[qIndex] = data
-                                          setQuestionsIDArray(newQuestionsIDArray)
-                                      }}/>
+                        <Grid item xs={12} md={3}>
+                            <QuestionCard key={question + "Key" + qIndex}
+                                          questionID={question}
+                                          onDeleteClick={() => {
+                                              const __questionIDArray = questionsIDArray
+                                              __questionIDArray.splice(qIndex, 1)
+                                              setQuestionsIDArray(__questionIDArray)
+                                              setManualReload(!manualReload)
+                                          }}
+                                          onChange={(data) => {
+                                              autoSave()
+                                              const newQuestionsIDArray = [...questionsIDArray]
+                                              newQuestionsIDArray[qIndex] = data
+                                              setQuestionsIDArray(newQuestionsIDArray)
+                                          }}/>
+                        </Grid>
                     )
                 })}
-            </Row>
-            <Snackbar open={true}>
+            </Grid>
+            <Snackbar open={true} anchorOrigin={{vertical: "bottom", horizontal: "center"}}>
                 <Alert severity="info">
                     {stateOfSave === 0 &&
                         "Изменения не сохранены"}
@@ -162,6 +168,6 @@ export default function QuestionSequenceEditByID({...props}: any) {
                         "Сохранено"}
                 </Alert>
             </Snackbar>
-        </div>
+        </Paper>
     )
 }

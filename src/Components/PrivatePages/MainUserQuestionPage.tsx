@@ -35,7 +35,7 @@ export const MainUserQuestionPage = observer(() => {
                     <Paper
                         sx={{p: 2, pr: 3, pl: 3}}
                         variant="outlined"
-                        style={{maxWidth: "500px"}}>
+                        style={{maxWidth: 400}}>
                         <Stack direction={"column"} alignItems={"center"}>
                             <Typography variant={"h4"}>
                                 Выберите вопрос и уровень сложности

@@ -1,4 +1,4 @@
-import {action, computed, makeObservable, observable, toJS} from "mobx";
+import {makeAutoObservable, toJS} from "mobx";
 import {ClientStorage} from "../../ApolloStorage/ClientStorage";
 import {GET_ALL_QUESTIONS} from "./Struct";
 import {some} from "lodash";
@@ -7,32 +7,7 @@ import {sort} from "fast-sort";
 
 class QuestionPage {
     constructor() {
-        makeObservable(this, {
-            questionsData: observable,
-            clientStorage: observable,
-            useSearchByThemeOrAuthor: observable,
-            selectedAuthorID: observable,
-            dataHasBeenDelivered: observable,
-            selectedThemeID: observable,
-            selectedQuestionID: observable,
-            helpLevel: observable,
-            isOpenQuestionPlayer: observable,
-
-            changeSelectedTheme: action,
-            closeQuestion: action,
-            startQuestion: action,
-            changeHelpLevel: action,
-            getQuestionData: action,
-            changeSelectedAuthorID: action,
-            changeUseSearchByThemeOrAuthor: action,
-
-            //включаем keepAlive, чтобы при переключение на другие страницы или запуске вопроса,
-            //настройки не слетали
-            authorsForSelect: computed({keepAlive: true}),
-            QuestionsAfterAuthorSelection: computed({keepAlive: true}),
-            themesForSelect: computed({keepAlive: true}),
-            QuestionsAfterSelectTheme: computed({keepAlive: true}),
-        })
+        makeAutoObservable(this)
     }
 
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)

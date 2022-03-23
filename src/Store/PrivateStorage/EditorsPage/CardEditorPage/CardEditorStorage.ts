@@ -12,7 +12,7 @@ import {CardAuthorNode, CardNode, Mutation, Query, QuestionNode, UnstructuredThe
 import {computedFn} from "mobx-utils"
 import {sort} from "fast-sort";
 import {SERVER_BASE_URL} from "../../../../settings";
-import {message} from "antd";
+import message from "antd/es/message";
 import "js-video-url-parser/lib/provider/youtube";
 import urlParser from "js-video-url-parser";
 

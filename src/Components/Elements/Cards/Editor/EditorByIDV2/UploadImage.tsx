@@ -1,6 +1,6 @@
 import {observer} from "mobx-react";
 import React from 'react';
-import {Upload} from 'antd';
+import Upload from 'antd/es/upload';
 
 import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
 import {Collapse, Stack, TextField, Typography} from "@mui/material";

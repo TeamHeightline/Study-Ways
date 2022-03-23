@@ -16,7 +16,6 @@ import {
 } from "@mui/material";
 import {observer} from "mobx-react";
 import {QSPlayerStore} from "../../../../Store/PublicStorage/QSPage/QuestionSequencePlayer/QSPlayerStore";
-import {Row} from "react-bootstrap";
 import DCPCImageQuestion from "../../Question/QuestionByID/DCPCImageQuestion";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -158,27 +157,28 @@ export const QSPlayerByID = observer(({...props}: any) => {
                 !processedStore?.activeQuestionStoreInstance?.isAcceptDefeat) ?
                 processedStore?.activeQuestionStoreInstance?.questionHasBeenStarted &&
                 <div>
-                    <div>
+                    <Grid container justifyContent={"center"}>
                         {processedStore.selectedQuestionIndex !== null &&
-                            <DCPCImageQuestion
-                                ignoreAspectRatio={true}
-                                onChange1={(e) => {
-                                    processedStore.activeQuestionStoreInstance?.changeHardLevelOfHelpText(e.target.value)
-                                }}
-                                onClick1={() => processedStore.activeQuestionStoreInstance?.checkErrors()}
-                                className="col-11 justify-content-center"
-                                height={window.innerHeight}
-                                width={window.innerWidth - 100}
-                                urlHasBeenPassed={true}
-                                questionText={processedStore.activeQuestionStoreInstance?.questionText}
-                                questionImgUrl={processedStore.activeQuestionStoreInstance?.questionImageUrl}
-                                onAcceptDefeat={() => processedStore.activeQuestionStoreInstance.onAcceptDefeat()}
-                            />}
-                    </div>
+                            <Grid item xs={11}>
+                                <DCPCImageQuestion
+                                    ignoreAspectRatio={true}
+                                    onChange1={(e) => {
+                                        processedStore.activeQuestionStoreInstance?.changeHardLevelOfHelpText(e.target.value)
+                                    }}
+                                    onClick1={() => processedStore.activeQuestionStoreInstance?.checkErrors()}
+                                    height={window.innerHeight}
+                                    width={window.innerWidth - 100}
+                                    urlHasBeenPassed={true}
+                                    questionText={processedStore.activeQuestionStoreInstance?.questionText}
+                                    questionImgUrl={processedStore.activeQuestionStoreInstance?.questionImageUrl}
+                                    onAcceptDefeat={() => processedStore.activeQuestionStoreInstance.onAcceptDefeat()}
+                                />
+                            </Grid>}
+                    </Grid>
                     {processedStore.activeQuestionStoreInstance?.oneTimeCheckError &&
                         processedStore.activeQuestionStoreInstance?.IndexOfMostWantedError !== -1 &&
                         <div>
-                            <Alert severity="error" variant="filled" className="mt-2">
+                            <Alert severity="error" variant="filled" sx={{mt: 2}}>
                                 {processedStore.activeQuestionStoreInstance?.HelpTextForShow}
                             </Alert>
                         </div>
@@ -211,9 +211,9 @@ export const QSPlayerByID = observer(({...props}: any) => {
                                                             image={answer?.answerImageUrl}
                                                         /> : null}
                                                     {answer?.answerText &&
-                                                        <CardContent className="mb-5">
+                                                        <CardContent sx={{mb: 5}}>
                                                             <Typography variant="body1" color="textSecondary"
-                                                                        component="p" className="mb-5 pb-5">
+                                                                        component="p" sx={{pb: 5}}>
                                                                 {answer?.answerText}
                                                             </Typography>
                                                         </CardContent>}
@@ -228,12 +228,12 @@ export const QSPlayerByID = observer(({...props}: any) => {
                 processedStore?.activeQuestionStoreInstance?.questionHasBeenStarted &&
                 <div>
                     <Alert severity={processedStore?.activeQuestionStoreInstance?.isAcceptDefeat ? "error" : "info"}
-                           variant="filled" className="mt-2">
+                           variant="filled" sx={{mt: 2}}>
                         {processedStore?.activeQuestionStoreInstance?.isAcceptDefeat ?
                             "Вы сдались. " + "Количество попыток - " + processedStore?.activeQuestionStoreInstance?.numberOfPasses :
                             "Вы прошли этот вопрос. " + "Количество попыток - " + processedStore?.activeQuestionStoreInstance?.numberOfPasses}
                     </Alert>
-                    <Row className="justify-content-around mt-2">
+                    <Stack direction={"row"} sx={{mt: 1}}>
                         <Chart data={processedStore.activeQuestionStoreInstance?.ArrayForShowNumberOfWrongAnswers}>
                             <Title text="Количество ошибок на каждой из попыток"/>
                             <ArgumentAxis showGrid={true}/>
@@ -260,7 +260,7 @@ export const QSPlayerByID = observer(({...props}: any) => {
                             <ValueAxis/>
                             <Title text="Количество баллов на каждой из попыток"/>
                         </Chart>
-                    </Row>
+                    </Stack>
                     {toJS(processedStore.activeQuestionStoreInstance?.dataForDirection).length &&
                         <div style={{minHeight: 250}}>
                             <MainDirection

@@ -141,7 +141,7 @@ export const QuestionByID = observer((props: any) => {
                     {processedStore?.oneTimeCheckError &&
                         processedStore?.IndexOfMostWantedError !== -1 &&
                         <div>
-                            <Alert severity="error" variant="filled" className="mt-2">
+                            <Alert severity="error" variant="filled" sx={{mt: 1}}>
                                 {processedStore?.HelpTextForShow}
                             </Alert>
                         </div>
@@ -169,9 +169,9 @@ export const QuestionByID = observer((props: any) => {
                                                             image={answer?.answerImageUrl}
                                                         /> : null}
                                                     {answer?.answerText &&
-                                                        <CardContent className="mb-5">
+                                                        <CardContent sx={{mb: 2}}>
                                                             <Typography variant="body1" color="textSecondary"
-                                                                        component="p" className="mb-5 pb-5">
+                                                                        component="p" sx={{pb: 2}}>
                                                                 {answer?.answerText}
                                                             </Typography>
                                                         </CardContent>}
@@ -186,7 +186,7 @@ export const QuestionByID = observer((props: any) => {
                 : processedStore?.questionHasBeenStarted &&
                 <div>
                     <Alert severity={processedStore?.isAcceptDefeat ? "error" : "info"} variant="filled"
-                           className="mt-2">
+                           sx={{mt: 2}}>
                         {processedStore?.isAcceptDefeat ? "Вы сдались.     " +
                             "Количество попыток - " + processedStore?.numberOfPasses :
                             "Вы прошли этот вопрос.     " +
@@ -197,7 +197,7 @@ export const QuestionByID = observer((props: any) => {
                             Пройти тест заново
                         </Button>
                     </Stack>
-                    <Row className="justify-content-around mt-2">
+                    <Stack direction={"row"} sx={{pt: 2}}>
                         <Chart data={processedStore?.ArrayForShowNumberOfWrongAnswers}>
                             <Title text="Количество ошибок на каждой из попыток"/>
                             <ArgumentAxis showGrid={true}/>
@@ -224,9 +224,8 @@ export const QuestionByID = observer((props: any) => {
                             <ValueAxis/>
                             <Title text="Количество баллов на каждой из попыток"/>
                         </Chart>
-                    </Row>
+                    </Stack>
                 </div>}
-
         </Stack>
     );
 })

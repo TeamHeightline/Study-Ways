@@ -1,11 +1,14 @@
 import React, {useEffect} from 'react';
 import {
+    Alert,
     Button,
     Card,
     CardActionArea,
+    CircularProgress,
     Grid,
     MenuItem,
-    Select, Stack,
+    Select,
+    Stack,
     Step,
     StepLabel,
     Stepper,
@@ -13,24 +16,21 @@ import {
 } from "@mui/material";
 import {observer} from "mobx-react";
 import {QSPlayerStore} from "../../../../Store/PublicStorage/QSPage/QuestionSequencePlayer/QSPlayerStore";
-import {Row, Spinner} from "react-bootstrap";
+import {Row} from "react-bootstrap";
 import DCPCImageQuestion from "../../Question/QuestionByID/DCPCImageQuestion";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
-import {Alert} from '@mui/material';
 import {usePageVisibility} from 'react-page-visibility';
 
-import {
-    Chart,
-    Title,
-    ArgumentAxis,
-    ValueAxis,
-    BarSeries,
-    SplineSeries
-} from '@devexpress/dx-react-chart-material-ui';
+import {ArgumentAxis, BarSeries, Chart, SplineSeries, Title, ValueAxis} from '@devexpress/dx-react-chart-material-ui';
 import {useLocation} from "react-router-dom";
+import '../../../../index.css'
+import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
+import {MainDirection} from "../../Direction/UI/MainDirection";
+import {toJS} from "mobx";
+import {LogInNotification} from "../../../PublicPages/Login/LogInNotification";
 
 
 const processedStore = new QSPlayerStore()
@@ -63,11 +63,6 @@ const useStyles = makeStyles(() =>
 
     }),
 );
-import '../../../../index.css'
-import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
-import {MainDirection} from "../../Direction/UI/MainDirection";
-import {toJS} from "mobx";
-import {LogInNotification} from "../../../PublicPages/Login/LogInNotification";
 
 export const QSPlayerByID = observer(({...props}: any) => {
 
@@ -92,7 +87,9 @@ export const QSPlayerByID = observer(({...props}: any) => {
 
     if (!processedStore.allDataNasBeenLoaded) {
         return (
-            <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
+            <Stack alignItems={"center"}>
+                <CircularProgress/>
+            </Stack>
         )
     }
     // console.log(isVisible)

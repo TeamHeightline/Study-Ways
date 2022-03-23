@@ -3,10 +3,20 @@
 import React, {useEffect, useState} from 'react';
 import {observer} from "mobx-react";
 import {SameQuestionPlayer} from "../../../../Store/PublicStorage/QSPage/QuestionSequencePlayer/SameQuestionPlayer";
-import {Row, Spinner} from "react-bootstrap";
+import {Row} from "react-bootstrap";
 import DCPCImageQuestion from "./DCPCImageQuestion";
-import {Alert, Stack} from '@mui/material';
-import {Button, Card, CardActionArea, Grid, MenuItem, Select, Typography} from "@mui/material";
+import {
+    Alert,
+    Button,
+    Card,
+    CardActionArea,
+    CircularProgress,
+    Grid,
+    MenuItem,
+    Select,
+    Stack,
+    Typography
+} from '@mui/material';
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import {ArgumentAxis, BarSeries, Chart, SplineSeries, Title, ValueAxis} from "@devexpress/dx-react-chart-material-ui";
@@ -75,7 +85,9 @@ export const QuestionByID = observer((props: any) => {
 
     if (!processedStore?.answersArray?.length) {
         return (
-            <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
+            <Stack alignItems={"center"}>
+                <CircularProgress/>
+            </Stack>
         )
     }
     return (

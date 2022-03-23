@@ -1,17 +1,19 @@
 import Card from "@mui/material/Card";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import {
     Button,
     Checkbox,
-    Dialog, DialogActions,
+    Dialog,
+    DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
-    FormControlLabel, Grid, Stack
+    FormControlLabel,
+    Grid,
+    Paper,
+    Stack
 } from "@mui/material";
 import React, {useState} from "react";
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
@@ -20,96 +22,95 @@ export default function DCPCImageQuestion(props: any) {
     const [openAcceptDefeatDialog, setOpenAcceptDefeatDialog] = useState(false)
     const [disableCheckButton, setDisableCheckButton] = useState(false)
     const isMobile = isMobileHook()
-    window.addEventListener("keydown",function (e) {
+    window.addEventListener("keydown", function (e) {
         if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) {
             e.preventDefault();
         }
     })
 
-    return <div className="col-12">
+    return <Paper elevation={0}>
         {(!isMobile || props.ignoreAspectRatio) &&
-        <Card variant="outlined"
-              style={{ padding: 0,
-                  maxHeight: isMobile ? window.innerWidth * 2: 510,
-                  overflowY: "auto",}}
-              className="col-12 ">
-            <Row className="justify-content-center">
-                {props.questionImgUrl ?
-                    <Col className={!props?.ignoreAspectRatio ? "col-6 justify-content-start":
-                        isMobile ? "col-12 justify-content-start" : "col-6 justify-content-start"}>
-                    <CardMedia
-                        className="col-12 mr-auto"
-                        style={{
-                            height: isMobile ?  window.innerWidth -100 : 500,
-                            backgroundSize: "contain",
-                            maxHeight: isMobile ? window.innerWidth : 500,
-                            overflowY: "auto",
-                            width: "100%"
-                        }}
-                        image={props.questionImgUrl}
-                    />
-                </Col> : null}
-                <Col
-                    className={!props?.ignoreAspectRatio ? "col-6": isMobile ? "col-12" : "col-6"}
-                    style={{height: isMobile ? window.innerWidth -100 : 500, width: "100%"}} >
-                    <CardContent sx={{height: "100%"}}>
-                        <Grid sx={{height: "100%"}} container alignItems="center">
-                            <Grid item xs={12} spacing={2}>
-                                <Typography component="h5" variant="h5">
-                                    Вопрос
-                                </Typography>
-                                <Typography variant="body1" color="textSecondary" component="p" style={{userSelect: "none", content: "Foobar"}}>
-                                    {props.questionData?.questionById?.text ? props.questionData?.questionById?.text : props.questionText}
-                                </Typography>
-                                {props.id && props.onChange &&
-                                    <Button
-                                        className="col-12 mt-2" variant="outlined" color="primary" onClick={props.onClick}>
-                                        Назад
-                                    </Button>}
-                                <Stack direction={"row"} spacing={1}>
-                                    <Button
-                                        disabled={disableCheckButton}
-                                        variant="contained" color="primary"
-                                        onClick={(e) =>{
-                                            props.onClick1(e)
-                                            setDisableCheckButton(true)
-                                            setTimeout(setDisableCheckButton, 1000, false)
-                                    }} fullWidth>
-                                        Проверить
-                                    </Button>
-                                    <Button variant="outlined" color="secondary" onClick={() => setOpenAcceptDefeatDialog(true)} fullWidth>
-                                        Сдаться
-                                    </Button>
-                                </Stack>
+            <Card variant="outlined"
+                  sx={{
+                      padding: 0,
+                      maxHeight: isMobile ? window.innerWidth * 2 : 510,
+                      overflowY: "auto",
+                      width: "100%"
+                  }}>
+                <Grid container justifyContent={"center"}>
+                    {props.questionImgUrl &&
+                        <Grid item xs={12} md={6}>
+                            <CardMedia
+                                style={{
+                                    height: isMobile ? window.innerWidth - 100 : 500,
+                                    backgroundSize: "contain",
+                                    maxHeight: isMobile ? window.innerWidth : 500,
+                                    overflowY: "auto",
+                                    width: "100%"
+                                }}
+                                image={props.questionImgUrl}
+                            />
+                        </Grid>}
+                    <Grid item xs={12} md={6}
+                          style={{height: isMobile ? window.innerWidth - 100 : 500, width: "100%"}}>
+                        <CardContent sx={{height: "100%"}}>
+                            <Grid sx={{height: "100%"}} container alignItems="center">
+                                <Grid item xs={12} spacing={2}>
+                                    <Typography component="h5" variant="h5">
+                                        Вопрос
+                                    </Typography>
+                                    <Typography variant="body1" color="textSecondary" component="p"
+                                                style={{userSelect: "none", content: "Foobar"}}>
+                                        {props.questionData?.questionById?.text ? props.questionData?.questionById?.text : props.questionText}
+                                    </Typography>
+                                    {props.id && props.onChange &&
+                                        <Button
+                                            fullWidth sx={{mt: 1}} variant="outlined" color="primary"
+                                            onClick={props.onClick}>
+                                            Назад
+                                        </Button>}
+                                    <Stack direction={"row"} spacing={1}>
+                                        <Button
+                                            disabled={disableCheckButton}
+                                            variant="contained" color="primary"
+                                            onClick={(e) => {
+                                                props.onClick1(e)
+                                                setDisableCheckButton(true)
+                                                setTimeout(setDisableCheckButton, 1000, false)
+                                            }} fullWidth>
+                                            Проверить
+                                        </Button>
+                                        <Button variant="outlined" color="secondary"
+                                                onClick={() => setOpenAcceptDefeatDialog(true)} fullWidth>
+                                            Сдаться
+                                        </Button>
+                                    </Stack>
+                                </Grid>
                             </Grid>
-
-                        </Grid>
-                    </CardContent>
-                </Col>
-            </Row>
-        </Card>}
+                        </CardContent>
+                    </Grid>
+                </Grid>
+            </Card>}
         {props.showNotUseScrollbarCheckbox &&
-        <FormControlLabel
-            control={
-                <Checkbox
-                    checked={props.isNotUseScrollbar}
-                    onChange={(e) => props.setIsNotUseScrollbar(e.target.checked)}
-                    color="primary"
-                />
-            }
-            label="Использовать ScrollBar"
-        />}
+            <FormControlLabel
+                control={
+                    <Checkbox
+                        checked={props.isNotUseScrollbar}
+                        onChange={(e) => props.setIsNotUseScrollbar(e.target.checked)}
+                        color="primary"
+                    />
+                }
+                label="Использовать ScrollBar"
+            />}
         <Dialog
             onClose={() => setOpenAcceptDefeatDialog(false)}
             open={openAcceptDefeatDialog}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
         >
-            <DialogTitle id="alert-dialog-title">
+            <DialogTitle>
                 {"Вы уверены, что хотите сдаться?"}
             </DialogTitle>
             <DialogContent>
-                <DialogContentText id="alert-dialog-description">
+                <DialogContentText>
                     Если этот вопрос является частью серии вопросов, мы советуем Вам заняться другими вопросами и
                     вернуться к этому позже
                 </DialogContentText>
@@ -120,5 +121,5 @@ export default function DCPCImageQuestion(props: any) {
                 </Button>
             </DialogActions>
         </Dialog>
-    </div>;
+    </Paper>;
 }

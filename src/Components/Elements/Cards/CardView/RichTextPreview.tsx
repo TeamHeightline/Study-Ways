@@ -7,15 +7,12 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 
 export default function RichTextPreview({text,}: any,) {
-
     return (
-        <>
+        <>{text && <>
             <CssBaseline/>
             <CKEditor
-                // className="ckeditor"
                 editor={ClassicEditor}
                 data={text}
-                // style={{height: 496}}
                 disabled={true}
                 config={{
                     fontColor: ThemeStoreObject.textColor,
@@ -25,6 +22,7 @@ export default function RichTextPreview({text,}: any,) {
 
                 }}
             />
+        </>}
         </>
     )
 }

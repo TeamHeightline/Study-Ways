@@ -1,5 +1,7 @@
 import React from 'react'
 
+import {Helmet} from "react-helmet";
+
 import {observer} from "mobx-react";
 import {CardSelector} from "../Selector/UI/CardSelector";
 import {useHistory} from "react-router-dom";
@@ -13,7 +15,12 @@ export const MainCardPublicView = observer(() => {
 
 
     return (
-        <div >
+        <div>
+            <Helmet>
+                <title>
+                    Ресурсы
+                </title>
+            </Helmet>
             <AISwitch/>
             {queryParams.get("searchType") == "AISearch" &&
                 <AICardSelector onCardSelect={(card_id) => {

@@ -3,6 +3,7 @@ import React from 'react';
 import {CPSObject} from "../Store/CoursePageStore";
 import {Grid} from "@mui/material";
 import CourseMicroView from "../../CourseMicroView/V2/UI/CourseMicroView";
+import {Helmet} from "react-helmet";
 
 interface ICoursePageProps extends React.HTMLAttributes<HTMLDivElement> {
 
@@ -11,6 +12,10 @@ interface ICoursePageProps extends React.HTMLAttributes<HTMLDivElement> {
 const CoursePage = observer(({...props}: ICoursePageProps) => {
     return (
         <div {...props}>
+            <Helmet>
+                <title>Курсы</title>
+            </Helmet>
+
             <Grid container
                   sx={{pt: 2}}
                   justifyContent={"space-evenly"}

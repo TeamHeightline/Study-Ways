@@ -10,6 +10,7 @@ import CardNavigationRatingFind from "./card-navigation-rating-find-in-course";
 import CourseMicroView from "../../../Course/CourseMicroView/V2/UI/CourseMicroView";
 import SimilarCards from "./similar-cards";
 import TestAfterCard from "./test-after-card";
+import CardBrowserIndexing from "./card-browser-indexing";
 
 
 interface ICardByIDProps extends PaperProps {
@@ -24,6 +25,7 @@ const CardByID = observer(({card_id, course_navigation, ...props}: ICardByIDProp
     }, [card_id])
     return (
         <Paper elevation={0} sx={{pt: 2, pl: 2, pr: 2}} {...props}>
+            <CardBrowserIndexing card_store={cardStore}/>
             <GoBackButton sx={{pb: 1}}/>
             <TitleAndNavigation
                 sx={{pt: 1}}

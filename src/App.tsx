@@ -37,6 +37,7 @@ import Auth0AfterLogin from "./Components/Elements/Auth0/auth0-after-login";
 import {useAuth0} from "@auth0/auth0-react";
 import Auth0Logout from "./Components/Elements/Auth0/auth0-logout";
 import CardByURL from "./Components/Elements/Cards/CardByURL/UI/card-by-url";
+import SeoData from "./seo-data";
 
 
 const App = observer(() => {
@@ -72,6 +73,7 @@ const App = observer(() => {
             <ApolloProvider client={ClientStorage.client}>
                 <Router>
                     <Navibar/>
+                    <SeoData/>
                     <div style={{paddingTop: isMobile ? 0 : 48}}>
                         <Suspense fallback={<Grid container justifyContent={"center"}
                                                   sx={{pt: 4}}><CircularProgress/></Grid>}>

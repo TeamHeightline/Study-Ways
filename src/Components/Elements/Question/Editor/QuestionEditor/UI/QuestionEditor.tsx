@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react'
-import {Spinner} from "react-bootstrap";
-import {Card, CardActionArea, Grid, Typography} from "@mui/material";
+import {Card, CardActionArea, CircularProgress, Grid, Stack, Typography} from "@mui/material";
 import {QuestionEditorStorage} from "../Store/QuestionEditorStorage";
 import {observer} from "mobx-react";
 import {CreateNewQuestion} from "./CreateNewQuestion";
@@ -15,7 +14,7 @@ export const QuestionEditor = observer(() => {
     }, [])
 
     if (QuestionEditorStorage.loadingQuestionData || (!QuestionEditorStorage.questionHasBeenSelected && QuestionEditorStorage.loadingBasicQuestionData)) {
-        return (<Spinner animation="border" variant="success" className=" offset-6 mt-5"/>)
+        return (<Stack alignItems={"center"}><CircularProgress/></Stack>)
     }
     if (QuestionEditorStorage.questionHasBeenSelected) {
         return (

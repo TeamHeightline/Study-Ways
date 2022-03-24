@@ -39,12 +39,6 @@ export const EditQuestionByID = observer(() => {
                             <Grid item xs={12} md={6}>
                                 <QuestionText/>
                             </Grid>
-                            {/*<Grid item container xs={12} md={6}>*/}
-                            {/*    */}
-                            {/*</Grid>*/}
-                            {/*<Grid item xs={12} md={6}>*/}
-                            {/*    <QuestionVideoURL/>*/}
-                            {/*</Grid>*/}
                             {QuestionEditorStorage?.AuthorsAndThemesHasBeenLoaded &&
                                 <Grid item xs={12} md={6} container columnSpacing={6} rowSpacing={2}>
                                     <Stack direction={isMobile ? "column" : "row"}

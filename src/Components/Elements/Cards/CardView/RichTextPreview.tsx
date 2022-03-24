@@ -1,9 +1,9 @@
 import React from 'react'
+import Editor from 'ckeditor5-custom-build/build/ckeditor'
 import {CKEditor} from '@ckeditor/ckeditor5-react'
 import './RichTextPreviewStyle.css'
 import ThemeStoreObject from '../../../../global-theme'
 import {CssBaseline} from "@mui/material";
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 
 export default function RichTextPreview({text,}: any,) {
@@ -13,7 +13,7 @@ export default function RichTextPreview({text,}: any,) {
             <CssBaseline/>
             <CKEditor
                 // className="ckeditor"
-                editor={ClassicEditor}
+                editor={Editor}
                 data={text}
                 // style={{height: 496}}
                 disabled={true}

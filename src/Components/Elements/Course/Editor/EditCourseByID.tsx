@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react'
 import CourseRow from "./CourseRow";
 import {gql} from "graphql.macro";
 import {useMutation, useQuery} from "@apollo/client";
-import {Alert, CircularProgress, Pagination, Stack} from '@mui/material';
+import {Spinner} from "react-bootstrap";
+import {Alert, Pagination} from '@mui/material';
 import {Button, ButtonGroup, Grid, Snackbar, TextField, Typography} from "@mui/material";
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 import AddIcon from '@mui/icons-material/Add';
@@ -139,9 +140,7 @@ export default function EditCourseByID({course_id, ...props}: any) {
 
     if (!course_data) {
         return (
-            <Stack alignItems={"center"}>
-                <CircularProgress/>
-            </Stack>
+            <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
         )
     }
     return (

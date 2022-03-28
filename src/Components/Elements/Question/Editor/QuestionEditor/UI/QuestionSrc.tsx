@@ -10,11 +10,11 @@ export const QuestionSrc = observer(() => {
                 <Stack alignItems={"center"}>
                     <Typography variant="body2" color="textSecondary" component="p">
                         {"Режим обучения  - "}
-                        <strong>https://www.sw-university.com/iq/{QuestionEditorStorage.selectedQuestionID}</strong>
+                        <strong>https://sw-university.com/iq/{QuestionEditorStorage.selectedQuestionID}</strong>
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
                         {"Режим экзамена  - "}
-                        <strong>https://www.sw-university.com/iq/{QuestionEditorStorage.selectedQuestionID}?exam=true</strong>
+                        <strong>https://sw-university.com/iq/{QuestionEditorStorage.selectedQuestionID}?exam=true</strong>
                     </Typography>
                 </Stack>}
         </>

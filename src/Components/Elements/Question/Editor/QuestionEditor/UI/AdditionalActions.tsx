@@ -16,11 +16,11 @@ interface IAdditionalActionsProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 function openQuestionInStudyMode() {
-    window.open("https://www.sw-university.com/iq/" + QuestionEditorStorage.selectedQuestionID)
+    window.open("https://sw-university.com/iq/" + QuestionEditorStorage.selectedQuestionID)
 }
 
 function openQuestionInExamMode() {
-    window.open("https://www.sw-university.com/iq/" + QuestionEditorStorage.selectedQuestionID
+    window.open("https://sw-university.com/iq/" + QuestionEditorStorage.selectedQuestionID
         + "?exam=true")
 }
 

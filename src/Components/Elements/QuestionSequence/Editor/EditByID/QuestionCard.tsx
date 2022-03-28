@@ -174,7 +174,7 @@ export default function QuestionCard({...props}: any) {
                             </MenuItem>
                         </Menu>
                         <IconButton
-                            onClick={() => window.open("https://www.sw-university.com/iq/" + selectedQuestion?.id,
+                            onClick={() => window.open("https://sw-university.com/iq/" + selectedQuestion?.id,
                                 "_blank")}
                             disabled={!selectedQuestion?.id}
                             size="large">

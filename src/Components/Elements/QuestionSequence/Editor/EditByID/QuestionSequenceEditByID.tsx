@@ -110,10 +110,10 @@ export default function QuestionSequenceEditByID({...props}: any) {
                 </Stack>
                 <Stack direction={"column"} spacing={2}>
                     <Typography variant={"body2"} sx={{color: "white"}}>
-                        {"Режим обучения - https://www.sw-university.com/qs/" + props?.sequence?.id}
+                        {"Режим обучения - https://sw-university.com/qs/" + props?.sequence?.id}
                     </Typography>
                     <Typography variant="body2" sx={{color: "white"}}>
-                        {"Режим экзамена - https://www.sw-university.com/qs/" + props?.sequence?.id + "?exam=true"}
+                        {"Режим экзамена - https://sw-university.com/qs/" + props?.sequence?.id + "?exam=true"}
                     </Typography>
                 </Stack>
             </Stack>

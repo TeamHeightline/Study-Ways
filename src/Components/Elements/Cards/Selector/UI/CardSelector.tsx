@@ -9,25 +9,34 @@ import {ContentType} from "./ContentType";
 import {ConnectedThemes} from "./ConnectedThemes";
 import {Pages} from "./Pages";
 
-interface ICardSelectorProps extends React.HTMLAttributes<HTMLDivElement>{
+interface ICardSelectorProps extends React.HTMLAttributes<HTMLDivElement> {
     mode?: "onlyCreatedByMe" | "standard";
     onCardSelect: (card_id: number) => void;
     showCreateNewCard?: boolean
 }
-export const CardSelector = observer(({onCardSelect, mode="standard", showCreateNewCard, ...props}: ICardSelectorProps) =>{
-    useEffect(()=>CSSObject.setMode(mode), [mode])
-    useEffect(()=> {
-        if(CSSObject.selectedCardID){
+
+export const CardSelector = observer(({
+                                          onCardSelect,
+                                          mode = "standard",
+                                          showCreateNewCard,
+                                          ...props
+                                      }: ICardSelectorProps) => {
+    useEffect(() => CSSObject.setMode(mode), [mode])
+    useEffect(() => {
+        if (CSSObject.selectedCardID) {
             onCardSelect(Number(CSSObject.selectedCardID))
-            CSSObject.selectedCardID=undefined
+            CSSObject.selectedCardID = undefined
         }
     }, [CSSObject.selectedCardID])
-    return(
+    useEffect(() => {
+        CSSObject.loadCardConnectedThemes()
+    }, [])
+    return (
         <div {...props}>
             <CleverSearching/>
-            <Stack sx={{pt: 2, pr: 4, pl:4, pb:1}}
-                   direction={{ xs: 'column', md: 'row' }}
-                   spacing={{ xs: 1, md: 4 }}>
+            <Stack sx={{pt: 2, pr: 4, pl: 4, pb: 1}}
+                   direction={{xs: 'column', md: 'row'}}
+                   spacing={{xs: 1, md: 4}}>
                 <ConnectedThemes/>
                 <HardLevel/>
                 <ContentType/>

@@ -99,7 +99,7 @@ export class CourseMicroStoreByID {
         this.isPositionChanged = true
         this.positionData.activePage = value
     }
-    setActivePage = (value: number) =>{
+    setActivePage = (value: number) => {
         this.changeActivePage(null, value)
     }
 
@@ -155,7 +155,7 @@ export class CourseMicroStoreByID {
     getCourseImage(useCache = true) {
         if (this.id) {
             fetch(SERVER_BASE_URL + "/cardfiles/course?id=" + this.id,
-                {cache: useCache ? "force-cache" : "default"})
+                {cache: useCache ? "force-cache" : "default", mode: 'no-cors'})
                 .then((response) => response.json())
                 .then((result) => {
                     // console.log('Success:', result);

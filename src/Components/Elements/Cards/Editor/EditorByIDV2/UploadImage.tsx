@@ -13,7 +13,7 @@ interface IUploadImageProps extends React.HTMLAttributes<HTMLDivElement> {
 
 }
 
-const upload_props = {
+const upload_props: any = {
     name: 'file',
     multiple: false,
     maxCount: 1,

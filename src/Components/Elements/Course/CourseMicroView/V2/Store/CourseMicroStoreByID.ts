@@ -154,8 +154,7 @@ export class CourseMicroStoreByID {
 
     getCourseImage(useCache = true) {
         if (this.id) {
-            fetch(SERVER_BASE_URL + "/cardfiles/course?id=" + this.id,
-                {cache: useCache ? "force-cache" : "default", mode: 'no-cors'})
+            fetch(SERVER_BASE_URL + "/cardfiles/course?id=" + this.id)
                 .then((response) => response.json())
                 .then((result) => {
                     // console.log('Success:', result);

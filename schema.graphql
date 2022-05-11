@@ -181,6 +181,8 @@ type CardNode {
   arrowNext: String
   arrowUp: String
   author: [CardAuthorNode!]!
+  cCardAuthor: [CardAuthorNode]
+  cCardTheme: [UnstructuredThemesNode]
   cardBefore: CardNode
   cardContentType: CardCardContentType!
   cardDown: CardNode
@@ -190,6 +192,7 @@ type CardNode {
   copyright: String
   hardLevel: CardHardLevel!
   id: ID!
+  imageUrl: String
   isBookmarked: Boolean
   isCardUseAdditionalText: Boolean!
   isCardUseArrowNavigation: Boolean!

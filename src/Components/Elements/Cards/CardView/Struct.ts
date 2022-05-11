@@ -38,11 +38,12 @@ export const GET_CARD_FOR_MICRO_VIEW_BY_ID = gql`
             cardContentType
             videoUrl
             hardLevel
-            connectedTheme {
+            imageUrl
+            cCardTheme {
                 id
                 text
             }
-            author{
+            cCardAuthor {
                 id
                 name
             }

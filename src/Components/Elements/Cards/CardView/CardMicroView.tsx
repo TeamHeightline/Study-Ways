@@ -36,45 +36,21 @@ export default function CardMicroView({
                                           ...props
                                       }: ICardMicroViewProps) {
     const classes = useStyles();
-    const [cardImage, setCardImage] = useState()
-    const get_card_image = () => {
-        // SERVER_BASE_URL/cardfiles/card?
-        if (card_data?.cardById?.cardContentType != "A_0" && cardID != 1) {
-            fetch(SERVER_BASE_URL + "/cardfiles/card?id=" + cardID)
-                .then((response) => response.json())
-                .then((data) => {
-                    // console.log(data)
-                    try {
-                        setCardImage(data[0].image)
-                    } catch (e) {
-                        void (0)
-                    }
-                })
-        }
-    }
 
     const {data: card_data, refetch} = useQuery(GET_CARD_FOR_MICRO_VIEW_BY_ID, {
         variables: {
             id: cardID
         },
-        fetchPolicy: "cache-first",
-        onCompleted: () => {
-            get_card_image()
-
-        },
-
+        onCompleted: () => refetch()
     })
-    useEffect(() => {
-        get_card_image()
-    }, [card_data?.cardById?.cardContentType])
     useEffect(() => {
         if (isNowEditableCard) {
             refetch()
         }
     }, [isEditNow, isNowEditableCard])
 
-    const themesText = card_data?.cardById?.connectedTheme[0]?.text
-    const authorName = card_data?.cardById?.author[0]?.name
+    const themesText = card_data?.cardById?.cCardTheme[0]?.text
+    const authorName = card_data?.cardById?.cCardAuthor[0]?.name
 
     const showTheme = !!themesText
     const showAuthor = !!authorName
@@ -114,7 +90,7 @@ export default function CardMicroView({
                                 <CardMedia
                                     style={{width: 132, height: 169}}
                                     onError={() => void (0)}
-                                    image={cardImage ? cardImage : "https://storage.googleapis.com/sw-files/cards-images/card/" + cardID}
+                                    image={card_data?.cardById?.imageUrl}
                                 />
                             }
                         </Grid>

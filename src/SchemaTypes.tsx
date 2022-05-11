@@ -211,6 +211,8 @@ export type CardNode = {
   arrowNext?: Maybe<Scalars['String']>;
   arrowUp?: Maybe<Scalars['String']>;
   author: Array<CardAuthorNode>;
+  cCardAuthor?: Maybe<Array<Maybe<CardAuthorNode>>>;
+  cCardTheme?: Maybe<Array<Maybe<UnstructuredThemesNode>>>;
   cardBefore?: Maybe<CardNode>;
   cardContentType: CardCardContentType;
   cardDown?: Maybe<CardNode>;
@@ -220,6 +222,7 @@ export type CardNode = {
   copyright?: Maybe<Scalars['String']>;
   hardLevel: CardHardLevel;
   id: Scalars['ID'];
+  imageUrl?: Maybe<Scalars['String']>;
   isBookmarked?: Maybe<Scalars['Boolean']>;
   isCardUseAdditionalText: Scalars['Boolean'];
   isCardUseArrowNavigation: Scalars['Boolean'];

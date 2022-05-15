@@ -325,6 +325,15 @@ export type CreateDetailQuestionStatisticPayload = {
   detailStatistic?: Maybe<DetailQuestionStatisticNode>;
 };
 
+export type CreateOrUpdateUserProfile = {
+  __typename?: 'CreateOrUpdateUserProfile';
+  avatarSrc?: Maybe<Scalars['String']>;
+  firstname?: Maybe<Scalars['String']>;
+  lastname?: Maybe<Scalars['String']>;
+  studyIn?: Maybe<EducationOrganizationNode>;
+  user?: Maybe<Scalars['Int']>;
+};
+
 export type CreateQuestionSequenceInput = {
   clientMutationId?: InputMaybe<Scalars['String']>;
   createdBy?: InputMaybe<Scalars['ID']>;
@@ -393,6 +402,13 @@ export type EqbidNode = {
   qbs?: Maybe<Scalars['String']>;
 };
 
+export type EducationOrganizationNode = {
+  __typename?: 'EducationOrganizationNode';
+  id: Scalars['ID'];
+  organizationName: Scalars['String'];
+  organizationUsers: Array<UserProfileNode>;
+};
+
 export type ErrorType = {
   __typename?: 'ErrorType';
   field: Scalars['String'];
@@ -437,6 +453,7 @@ export type Mutation = {
   createAnswer?: Maybe<AnswerMutationPayload>;
   createCardCourse?: Maybe<CreateCardCoursePayload>;
   createDetailQuestionStatistic?: Maybe<CreateDetailQuestionStatisticPayload>;
+  createOrUpdateUserProfile?: Maybe<CreateOrUpdateUserProfile>;
   createQuestion?: Maybe<QuestionMutationPayload>;
   createQuestionAuthor?: Maybe<QuestionAuthorMutationPayload>;
   createQuestionSequence?: Maybe<CreateQuestionSequencePayload>;
@@ -504,6 +521,14 @@ export type MutationCreateCardCourseArgs = {
 
 export type MutationCreateDetailQuestionStatisticArgs = {
   input: CreateDetailQuestionStatisticInput;
+};
+
+
+export type MutationCreateOrUpdateUserProfileArgs = {
+  avatarSrc?: InputMaybe<Scalars['String']>;
+  firstname?: InputMaybe<Scalars['String']>;
+  lastname?: InputMaybe<Scalars['String']>;
+  studyIn?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -642,6 +667,7 @@ export type Query = {
   eqbi?: Maybe<EqbidNode>;
   ftSearchInCards?: Maybe<Array<Maybe<CardNode>>>;
   me?: Maybe<UserNode>;
+  myProfile?: Maybe<UserProfileNode>;
   myQuestionsId?: Maybe<MyQuestionsId>;
   personalCardHomePage?: Maybe<HomePageCardIdArray>;
   question?: Maybe<Array<Maybe<QuestionNode>>>;
@@ -1054,6 +1080,7 @@ export type UserNode = Node & {
   userAccessLevel: CustomUserUserAccessLevel;
   /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
   username: Scalars['String'];
+  userprofile?: Maybe<UserProfileNode>;
   usthemesequenceSet: Array<UsThemeSequenceNode>;
   verified?: Maybe<Scalars['Boolean']>;
 };
@@ -1073,6 +1100,14 @@ export type UserNodeEdge = {
   cursor: Scalars['String'];
   /** The item at the end of the edge */
   node?: Maybe<UserNode>;
+};
+
+export type UserProfileNode = {
+  __typename?: 'UserProfileNode';
+  avatarSrc?: Maybe<Scalars['String']>;
+  firstname: Scalars['String'];
+  lastname: Scalars['String'];
+  studyIn?: Maybe<EducationOrganizationNode>;
 };
 
 export type UserWithQuestion = {

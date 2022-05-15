@@ -288,6 +288,14 @@ type CreateDetailQuestionStatisticPayload {
   detailStatistic: DetailQuestionStatisticNode
 }
 
+type CreateOrUpdateUserProfile {
+  avatarSrc: String
+  firstname: String
+  lastname: String
+  studyIn: EducationOrganizationNode
+  user: Int
+}
+
 input CreateQuestionSequenceInput {
   clientMutationId: String
   createdBy: ID
@@ -359,6 +367,12 @@ type EQBIDNode {
   qbs: String
 }
 
+type EducationOrganizationNode {
+  id: ID!
+  organizationName: String!
+  organizationUsers: [UserProfileNode!]!
+}
+
 type ErrorType {
   field: String!
   messages: [String!]!
@@ -405,6 +419,7 @@ type Mutation {
   createAnswer(input: AnswerMutationInput!): AnswerMutationPayload
   createCardCourse(input: CreateCardCourseInput!): CreateCardCoursePayload
   createDetailQuestionStatistic(input: CreateDetailQuestionStatisticInput!): CreateDetailQuestionStatisticPayload
+  createOrUpdateUserProfile(avatarSrc: String, firstname: String, lastname: String, studyIn: Int): CreateOrUpdateUserProfile
   createQuestion(input: QuestionMutationInput!): QuestionMutationPayload
   createQuestionAuthor(input: QuestionAuthorMutationInput!): QuestionAuthorMutationPayload
   createQuestionSequence(input: CreateQuestionSequenceInput!): CreateQuestionSequencePayload
@@ -476,6 +491,7 @@ type Query {
   eqbi(examMode: Boolean, id: ID): EQBIDNode
   ftSearchInCards(searchString: String): [CardNode]
   me: UserNode
+  myProfile: UserProfileNode
   myQuestionsId(page: Int): MyQuestionsID
   personalCardHomePage: HomePageCardIDArray
   question: [QuestionNode]
@@ -737,6 +753,7 @@ type UserNode implements Node {
 
   """Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."""
   username: String!
+  userprofile: UserProfileNode
   usthemesequenceSet: [USThemeSequenceNode!]!
   verified: Boolean
 }
@@ -756,6 +773,13 @@ type UserNodeEdge {
 
   """The item at the end of the edge"""
   node: UserNode
+}
+
+type UserProfileNode {
+  avatarSrc: String
+  firstname: String!
+  lastname: String!
+  studyIn: EducationOrganizationNode
 }
 
 type UserWithQuestion {

@@ -38,6 +38,7 @@ import {useAuth0} from "@auth0/auth0-react";
 import Auth0Logout from "./Components/Elements/Auth0/auth0-logout";
 import CardByURL from "./Components/Elements/Cards/CardByURL/UI/card-by-url";
 import SeoData from "./seo-data";
+import ProfilePage from "./Components/Elements/Profile/UI/ProfilePage";
 
 
 const App = observer(() => {
@@ -94,6 +95,8 @@ const App = observer(() => {
 
                                 <Route exact path="/courses" component={CoursePage}/>
                                 <Route path={"/course"} component={CourseByURL}/>
+                                <Route exact path={"/profile"} component={ProfilePage}/>
+
 
                                 <Route path={"/"} component={CoursePage}/>
                             </Switch>

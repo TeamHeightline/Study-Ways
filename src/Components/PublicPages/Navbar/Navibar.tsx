@@ -197,6 +197,14 @@ export const Navibar = observer(() => {
                                 onClose={handleClose}
                             >
                                 <MenuItem
+                                    disabled={!UserStorage.isLogin}
+                                    onClick={() => {
+                                        handleClose()
+                                        history.push('/profile')
+                                    }}>
+                                    Профиль
+                                </MenuItem>
+                                <MenuItem
                                     disabled={UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER"}
                                     onClick={() => {
                                         handleClose()

@@ -53,7 +53,7 @@ export default function CardMicroView({
     const authorName =  card_data?.cardById?.authorProfile?.firstname + " " + card_data?.cardById?.authorProfile.lastname
 
     const showTheme = !!themesText
-    const showAuthor = !!authorName
+    const showAuthor = !!authorName.split(" ").join("")
 
     if (!card_data) {
         return (

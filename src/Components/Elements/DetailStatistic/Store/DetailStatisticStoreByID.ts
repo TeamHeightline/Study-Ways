@@ -212,6 +212,7 @@ export class DetailStatisticStoreByID {
         return({
             username: this?.attemptData?.userName,
             lastname: this?.attemptData?.authorizedUser?.userprofile?.lastname,
+            avatarSrc: this?.attemptData?.authorizedUser?.userprofile?.avatarSrc,
             isLogin: this?.attemptData?.isLogin ? "да" : "нет",
             numberOfPasses: this?.attemptData?.statistic?.numberOfPasses,
             arithmeticMeanNumberOfWrongAnswer: this?.arithmeticMeanNumberOfWrongAnswer,

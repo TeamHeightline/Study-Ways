@@ -16,6 +16,7 @@ export const LOAD_ATTEMPT_BY_ID = gql`
             authorizedUser{
                 userprofile{
                     lastname
+                    avatarSrc
                 }
             }
         }

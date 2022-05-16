@@ -54,9 +54,9 @@ const EditCardUI = observer(({...props}: IEditCardUIProps) => {
                 </Grid>
                 <Grid item xs={12} md={6} container
                       spacing={4}>
-                    <Grid item xs={12} md={6}>
-                        <AuthorSelector/>
-                    </Grid>
+                    {/*<Grid item xs={12} md={6}>*/}
+                    {/*    <AuthorSelector/>*/}
+                    {/*</Grid>*/}
                     <Grid item xs={12} md={6}>
                         <CopyRight/>
                     </Grid>

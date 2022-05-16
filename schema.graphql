@@ -184,6 +184,7 @@ type CardNode {
   arrowNext: String
   arrowUp: String
   author: [CardAuthorNode!]!
+  authorProfile: UserProfileNode
   cCardAuthor: [CardAuthorNode]
   cCardTheme: [UnstructuredThemesNode]
   cardBefore: CardNode

@@ -43,9 +43,9 @@ export const GET_CARD_FOR_MICRO_VIEW_BY_ID = gql`
                 id
                 text
             }
-            cCardAuthor {
-                id
-                name
+            authorProfile {
+                firstname
+                lastname
             }
 
         }

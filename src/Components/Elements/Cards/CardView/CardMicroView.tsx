@@ -50,7 +50,7 @@ export default function CardMicroView({
     }, [isEditNow, isNowEditableCard])
 
     const themesText = card_data?.cardById?.cCardTheme[0]?.text
-    const authorName = card_data?.cardById?.cCardAuthor[0]?.name
+    const authorName =  card_data?.cardById?.authorProfile?.firstname + " " + card_data?.cardById?.authorProfile.lastname
 
     const showTheme = !!themesText
     const showAuthor = !!authorName

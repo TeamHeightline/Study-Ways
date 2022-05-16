@@ -214,6 +214,7 @@ export type CardNode = {
   arrowNext?: Maybe<Scalars['String']>;
   arrowUp?: Maybe<Scalars['String']>;
   author: Array<CardAuthorNode>;
+  authorProfile?: Maybe<UserProfileNode>;
   cCardAuthor?: Maybe<Array<Maybe<CardAuthorNode>>>;
   cCardTheme?: Maybe<Array<Maybe<UnstructuredThemesNode>>>;
   cardBefore?: Maybe<CardNode>;

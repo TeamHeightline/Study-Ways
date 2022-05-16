@@ -26,8 +26,8 @@ export const ShowStatisticTable = observer(({attempt_id_array, stickyHeader = fa
                     <TableHead>
                         <TableRow>
                             <TableCell />
-                            <TableCell>Имя пользователя</TableCell>
-                            <TableCell align="right">Вошел/не вошел в систему</TableCell>
+                            <TableCell>Email пользователя</TableCell>
+                            <TableCell align="right">Фамилия (если указана в профиле)</TableCell>
                             <TableCell align="right">ID вопроса </TableCell>
                             <TableCell align="right">Количество попыток</TableCell>
                             <TableCell align="right">Среднее количество ошибок</TableCell>

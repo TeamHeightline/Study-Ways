@@ -13,6 +13,11 @@ export const LOAD_ATTEMPT_BY_ID = gql`
             questionSequence{id}
             statistic
             createdAt
+            authorizedUser{
+                userprofile{
+                    lastname
+                }
+            }
         }
     }
     `

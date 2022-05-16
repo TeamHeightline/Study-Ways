@@ -163,10 +163,10 @@ export class DetailStatisticStoreByID {
     }
 
     get FormattedCreatedAt(){
-        if(!this.attemptData.createdAt){
+        if(!this?.attemptData?.createdAt){
             return ("Дата не сохранена")
         }
-        const createdAtDate = new Date(Date.parse(this.attemptData.createdAt))
+        const createdAtDate = new Date(Date.parse(this.attemptData?.createdAt))
             .toLocaleString('ru', {
                 year: 'numeric',
                 month: 'long',
@@ -211,6 +211,7 @@ export class DetailStatisticStoreByID {
     get dataForRow(){
         return({
             username: this?.attemptData?.userName,
+            lastname: this?.attemptData?.authorizedUser?.userprofile?.lastname,
             isLogin: this?.attemptData?.isLogin ? "да" : "нет",
             numberOfPasses: this?.attemptData?.statistic?.numberOfPasses,
             arithmeticMeanNumberOfWrongAnswer: this?.arithmeticMeanNumberOfWrongAnswer,

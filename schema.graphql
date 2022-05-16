@@ -46,6 +46,7 @@ type AnswerMutationPayload {
 
 type AnswerNode {
   checkQueue: Int!
+  createdBy: CustomUserNode
   hardLevelOfAnswer: AnswerHardLevelOfAnswer!
   helpTextv1: String
   helpTextv2: String
@@ -82,6 +83,7 @@ type CardAuthorMutationPayload {
 
 type CardAuthorNode {
   cardSet: [CardNode!]!
+  createdBy: CustomUserNode
   id: ID!
   name: String!
 }
@@ -100,6 +102,7 @@ enum CardCardContentType {
 
 type CardCourseNode {
   courseData: GenericScalar
+  createdBy: CustomUserNode
   id: ID!
   name: String
 }
@@ -190,6 +193,7 @@ type CardNode {
   cardUp: CardNode
   connectedTheme: [UnstructuredThemesNode!]!
   copyright: String
+  createdBy: CustomUserNode
   hardLevel: CardHardLevel!
   id: ID!
   imageUrl: String
@@ -229,6 +233,7 @@ type CardSubThemeMutationPayload {
 
 type CardSubThemeNode {
   cardSet: [CardNode!]!
+  createdBy: CustomUserNode
   id: ID!
   name: String!
   theme: CardThemeNode
@@ -250,6 +255,7 @@ type CardThemeMutationPayload {
 
 type CardThemeNode {
   cardsubthemeSet: [CardSubThemeNode!]!
+  createdBy: CustomUserNode
   globalTheme: GlobalCardThemeNode
   id: ID!
   name: String!
@@ -320,6 +326,48 @@ type CreateUSThemeSequencePayload {
   uSThemeSequence: USThemeSequenceNode
 }
 
+type CustomUserNode {
+  answerSet: [AnswerNode!]!
+  cardSet: [CardNode!]!
+  cardauthorSet: [CardAuthorNode!]!
+  cardcourseSet: [CardCourseNode!]!
+  cardsubthemeSet: [CardSubThemeNode!]!
+  cardthemeSet: [CardThemeNode!]!
+  dateJoined: DateTime!
+  detailquestionstatisticSet: [DetailQuestionStatisticNode!]!
+  email: String!
+  firstName: String!
+  globalcardthemeSet: [GlobalCardThemeNode!]!
+  id: ID!
+
+  """
+  Designates whether this user should be treated as active. Unselect this instead of deleting accounts.
+  """
+  isActive: Boolean!
+
+  """Designates whether the user can log into this admin site."""
+  isStaff: Boolean!
+
+  """
+  Designates that this user has all permissions without explicitly assigning them.
+  """
+  isSuperuser: Boolean!
+  lastLogin: DateTime
+  lastName: String!
+  password: String!
+  questionSet: [QuestionNode!]!
+  questionauthorSet: [QuestionAuthorNode!]!
+  questionsequenceSet: [QuestionSequenceNode!]!
+  questionthemesSet: [QuestionThemesNode!]!
+  unstructuredthemeSet: [UnstructuredThemesNode!]!
+  userAccessLevel: CustomUserUserAccessLevel!
+
+  """Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."""
+  username: String!
+  userprofile: UserProfileNode
+  usthemesequenceSet: [USThemeSequenceNode!]!
+}
+
 """An enumeration."""
 enum CustomUserUserAccessLevel {
   """Admin"""
@@ -344,6 +392,7 @@ type DetailArrayNames {
 }
 
 type DetailQuestionStatisticNode {
+  authorizedUser: CustomUserNode
   createdAt: DateTime
   id: ID!
   isLogin: Boolean!
@@ -400,6 +449,7 @@ type GlobalCardThemeMutationPayload {
 
 type GlobalCardThemeNode {
   cardthemeSet: [CardThemeNode!]!
+  createdBy: CustomUserNode
   id: ID!
   name: String!
 }
@@ -529,6 +579,7 @@ type QuestionAuthorMutationPayload {
 }
 
 type QuestionAuthorNode {
+  createdBy: CustomUserNode
   id: ID!
   name: String!
   questionAuthors: [QuestionNode!]!
@@ -564,6 +615,7 @@ type QuestionNode {
   author: [QuestionAuthorNode!]!
   cardTestBeforeCardSet: [CardNode!]!
   cardTestInCardSet: [CardNode!]!
+  createdBy: CustomUserNode
   detailquestionstatisticSet: [DetailQuestionStatisticNode!]!
   id: ID!
   isImageQuestion: Boolean!
@@ -575,6 +627,7 @@ type QuestionNode {
 }
 
 type QuestionSequenceNode {
+  createdBy: CustomUserNode
   description: String
   detailquestionstatisticSet: [DetailQuestionStatisticNode!]!
   id: ID!
@@ -609,6 +662,7 @@ type QuestionThemesMutationPayload {
 }
 
 type QuestionThemesNode {
+  createdBy: CustomUserNode
   description: String
   id: ID!
   name: String!
@@ -656,6 +710,7 @@ type StatisticMutationPayload {
 }
 
 type USThemeSequenceNode {
+  createdBy: CustomUserNode
   id: ID!
   sequence: String!
 }
@@ -674,6 +729,7 @@ type UnstructuredThemeMutationPayload {
 type UnstructuredThemesNode {
   cardSet: [CardNode!]!
   childrenSet: [UnstructuredThemesNode!]!
+  createdBy: CustomUserNode
   id: ID!
   parent: UnstructuredThemesNode
   text: String!
@@ -780,6 +836,7 @@ type UserProfileNode {
   firstname: String!
   lastname: String!
   studyIn: EducationOrganizationNode
+  user: CustomUserNode!
 }
 
 type UserWithQuestion {

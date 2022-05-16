@@ -18,6 +18,7 @@ export const DetailStatisticByID = observer(({attempt_id}: IDetailStatisticByIDP
     useEffect(() => {
         statisticByIDStore.changeAttemptID(attempt_id)
     }, [attempt_id])
+    const textColor = statisticByIDStore.dataForRow.questionHasBeenCompleted ? "" : "rgb(245,0,87)"
     if (statisticByIDStore.loadingData) {
         return (
             <TableRow>
@@ -31,6 +32,7 @@ export const DetailStatisticByID = observer(({attempt_id}: IDetailStatisticByIDP
             </TableRow>
         )
     }
+
     return (
         <Fragment>
             <TableRow>
@@ -43,43 +45,43 @@ export const DetailStatisticByID = observer(({attempt_id}: IDetailStatisticByIDP
                     </IconButton>
                 </TableCell>
                 <TableCell component="th" scope="statisticByIDStore.dataForRow"
-                           style={{color: statisticByIDStore.dataForRow.questionHasBeenCompleted ? "" : "rgb(245,0,87)"}}>
+                           style={{color: textColor}}>
                     {statisticByIDStore.dataForRow.username}
                 </TableCell>
                 <TableCell align="right"
-                           style={{color: statisticByIDStore.dataForRow.questionHasBeenCompleted ? "" : "rgb(245,0,87)"}}>
-                    {statisticByIDStore.dataForRow.isLogin}
+                           style={{color: textColor}}>
+                    {statisticByIDStore.dataForRow?.lastname || ""}
                 </TableCell>
 
                 <Tooltip disableInteractive title={statisticByIDStore.dataForRow.QuestionTextForStatistic}>
                     <TableCell align="right"
-                               style={{color: statisticByIDStore.dataForRow.questionHasBeenCompleted ? "" : "rgb(245,0,87)"}}>
+                               style={{color: textColor}}>
                         {statisticByIDStore.dataForRow.questionID}
                     </TableCell>
                 </Tooltip>
 
                 <TableCell align="right"
-                           style={{color: statisticByIDStore.dataForRow.questionHasBeenCompleted ? "" : "rgb(245,0,87)"}}>
+                           style={{color: textColor}}>
                     {statisticByIDStore.dataForRow.numberOfPasses}
                 </TableCell>
                 <TableCell align="right"
-                           style={{color: statisticByIDStore.dataForRow.questionHasBeenCompleted ? "" : "rgb(245,0,87)"}}>
+                           style={{color: textColor}}>
                     {statisticByIDStore.dataForRow.arithmeticMeanNumberOfWrongAnswer}
                 </TableCell>
                 <TableCell align="right"
-                           style={{color: statisticByIDStore.dataForRow.questionHasBeenCompleted ? "" : "rgb(245,0,87)"}}>
+                           style={{color: textColor}}>
                     {statisticByIDStore.dataForRow.numberOfWrongAnswers}
                 </TableCell>
                 <TableCell align="right"
-                           style={{color: statisticByIDStore.dataForRow.questionHasBeenCompleted ? "" : "rgb(245,0,87)"}}>
+                           style={{color: textColor}}>
                     {statisticByIDStore.dataForRow.arithmeticMeanNumberOfAnswersPointsDivideToMaxPoints}
                 </TableCell>
                 <TableCell align="right"
-                           style={{color: statisticByIDStore.dataForRow.questionHasBeenCompleted ? "" : "rgb(245,0,87)"}}>
+                           style={{color: textColor}}>
                     {statisticByIDStore.dataForRow.SumOFPointsWithNewMethod}
                 </TableCell>
                 <TableCell align="right"
-                           style={{color: statisticByIDStore.dataForRow.questionHasBeenCompleted ? "" : "rgb(245,0,87)"}}>
+                           style={{color: textColor}}>
                     {statisticByIDStore.dataForRow.FormattedCreatedAt}
                 </TableCell>
             </TableRow>

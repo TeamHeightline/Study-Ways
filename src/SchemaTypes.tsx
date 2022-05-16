@@ -74,6 +74,7 @@ export type AnswerMutationPayload = {
 export type AnswerNode = {
   __typename?: 'AnswerNode';
   checkQueue: Scalars['Int'];
+  createdBy?: Maybe<CustomUserNode>;
   hardLevelOfAnswer: AnswerHardLevelOfAnswer;
   helpTextv1?: Maybe<Scalars['String']>;
   helpTextv2?: Maybe<Scalars['String']>;
@@ -113,6 +114,7 @@ export type CardAuthorMutationPayload = {
 export type CardAuthorNode = {
   __typename?: 'CardAuthorNode';
   cardSet: Array<CardNode>;
+  createdBy?: Maybe<CustomUserNode>;
   id: Scalars['ID'];
   name: Scalars['String'];
 };
@@ -130,6 +132,7 @@ export enum CardCardContentType {
 export type CardCourseNode = {
   __typename?: 'CardCourseNode';
   courseData?: Maybe<Scalars['GenericScalar']>;
+  createdBy?: Maybe<CustomUserNode>;
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
 };
@@ -220,6 +223,7 @@ export type CardNode = {
   cardUp?: Maybe<CardNode>;
   connectedTheme: Array<UnstructuredThemesNode>;
   copyright?: Maybe<Scalars['String']>;
+  createdBy?: Maybe<CustomUserNode>;
   hardLevel: CardHardLevel;
   id: Scalars['ID'];
   imageUrl?: Maybe<Scalars['String']>;
@@ -261,6 +265,7 @@ export type CardSubThemeMutationPayload = {
 export type CardSubThemeNode = {
   __typename?: 'CardSubThemeNode';
   cardSet: Array<CardNode>;
+  createdBy?: Maybe<CustomUserNode>;
   id: Scalars['ID'];
   name: Scalars['String'];
   theme?: Maybe<CardThemeNode>;
@@ -284,6 +289,7 @@ export type CardThemeMutationPayload = {
 export type CardThemeNode = {
   __typename?: 'CardThemeNode';
   cardsubthemeSet: Array<CardSubThemeNode>;
+  createdBy?: Maybe<CustomUserNode>;
   globalTheme?: Maybe<GlobalCardThemeNode>;
   id: Scalars['ID'];
   name: Scalars['String'];
@@ -360,6 +366,41 @@ export type CreateUsThemeSequencePayload = {
   uSThemeSequence?: Maybe<UsThemeSequenceNode>;
 };
 
+export type CustomUserNode = {
+  __typename?: 'CustomUserNode';
+  answerSet: Array<AnswerNode>;
+  cardSet: Array<CardNode>;
+  cardauthorSet: Array<CardAuthorNode>;
+  cardcourseSet: Array<CardCourseNode>;
+  cardsubthemeSet: Array<CardSubThemeNode>;
+  cardthemeSet: Array<CardThemeNode>;
+  dateJoined: Scalars['DateTime'];
+  detailquestionstatisticSet: Array<DetailQuestionStatisticNode>;
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  globalcardthemeSet: Array<GlobalCardThemeNode>;
+  id: Scalars['ID'];
+  /** Designates whether this user should be treated as active. Unselect this instead of deleting accounts. */
+  isActive: Scalars['Boolean'];
+  /** Designates whether the user can log into this admin site. */
+  isStaff: Scalars['Boolean'];
+  /** Designates that this user has all permissions without explicitly assigning them. */
+  isSuperuser: Scalars['Boolean'];
+  lastLogin?: Maybe<Scalars['DateTime']>;
+  lastName: Scalars['String'];
+  password: Scalars['String'];
+  questionSet: Array<QuestionNode>;
+  questionauthorSet: Array<QuestionAuthorNode>;
+  questionsequenceSet: Array<QuestionSequenceNode>;
+  questionthemesSet: Array<QuestionThemesNode>;
+  unstructuredthemeSet: Array<UnstructuredThemesNode>;
+  userAccessLevel: CustomUserUserAccessLevel;
+  /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
+  username: Scalars['String'];
+  userprofile?: Maybe<UserProfileNode>;
+  usthemesequenceSet: Array<UsThemeSequenceNode>;
+};
+
 /** An enumeration. */
 export enum CustomUserUserAccessLevel {
   /** Admin */
@@ -377,6 +418,7 @@ export type DetailArrayNames = {
 
 export type DetailQuestionStatisticNode = {
   __typename?: 'DetailQuestionStatisticNode';
+  authorizedUser?: Maybe<CustomUserNode>;
   createdAt?: Maybe<Scalars['DateTime']>;
   id: Scalars['ID'];
   isLogin: Scalars['Boolean'];
@@ -432,6 +474,7 @@ export type GlobalCardThemeMutationPayload = {
 export type GlobalCardThemeNode = {
   __typename?: 'GlobalCardThemeNode';
   cardthemeSet: Array<CardThemeNode>;
+  createdBy?: Maybe<CustomUserNode>;
   id: Scalars['ID'];
   name: Scalars['String'];
 };
@@ -841,6 +884,7 @@ export type QuestionAuthorMutationPayload = {
 
 export type QuestionAuthorNode = {
   __typename?: 'QuestionAuthorNode';
+  createdBy?: Maybe<CustomUserNode>;
   id: Scalars['ID'];
   name: Scalars['String'];
   questionAuthors: Array<QuestionNode>;
@@ -879,6 +923,7 @@ export type QuestionNode = {
   author: Array<QuestionAuthorNode>;
   cardTestBeforeCardSet: Array<CardNode>;
   cardTestInCardSet: Array<CardNode>;
+  createdBy?: Maybe<CustomUserNode>;
   detailquestionstatisticSet: Array<DetailQuestionStatisticNode>;
   id: Scalars['ID'];
   isImageQuestion: Scalars['Boolean'];
@@ -891,6 +936,7 @@ export type QuestionNode = {
 
 export type QuestionSequenceNode = {
   __typename?: 'QuestionSequenceNode';
+  createdBy?: Maybe<CustomUserNode>;
   description?: Maybe<Scalars['String']>;
   detailquestionstatisticSet: Array<DetailQuestionStatisticNode>;
   id: Scalars['ID'];
@@ -929,6 +975,7 @@ export type QuestionThemesMutationPayload = {
 
 export type QuestionThemesNode = {
   __typename?: 'QuestionThemesNode';
+  createdBy?: Maybe<CustomUserNode>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   name: Scalars['String'];
@@ -983,6 +1030,7 @@ export type StatisticMutationPayload = {
 
 export type UsThemeSequenceNode = {
   __typename?: 'USThemeSequenceNode';
+  createdBy?: Maybe<CustomUserNode>;
   id: Scalars['ID'];
   sequence: Scalars['String'];
 };
@@ -1003,6 +1051,7 @@ export type UnstructuredThemesNode = {
   __typename?: 'UnstructuredThemesNode';
   cardSet: Array<CardNode>;
   childrenSet: Array<UnstructuredThemesNode>;
+  createdBy?: Maybe<CustomUserNode>;
   id: Scalars['ID'];
   parent?: Maybe<UnstructuredThemesNode>;
   text: Scalars['String'];
@@ -1108,6 +1157,7 @@ export type UserProfileNode = {
   firstname: Scalars['String'];
   lastname: Scalars['String'];
   studyIn?: Maybe<EducationOrganizationNode>;
+  user: CustomUserNode;
 };
 
 export type UserWithQuestion = {

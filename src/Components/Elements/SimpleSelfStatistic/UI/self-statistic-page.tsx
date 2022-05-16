@@ -4,7 +4,7 @@ import {SSSSObject} from "../Store/SimpleSelfStatisticStorage";
 import {ShowStatisticTable} from "../../Statistic/V2/show-statistic-for-selected-questions/ShowStatisticTable";
 import {UserStorage} from "../../../../Store/UserStore/UserStore";
 import {Pagination, Stack} from "@mui/material";
-import {LogInNotification} from "../../../PublicPages/Login/LogInNotification";
+import {LogInNotification} from "../../../PublicPages/Notifications/LogInNotification";
 
 interface ISelfStatisticPageProps extends React.HTMLAttributes<HTMLDivElement> {
 

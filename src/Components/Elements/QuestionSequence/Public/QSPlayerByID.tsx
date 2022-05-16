@@ -29,7 +29,7 @@ import '../../../../index.css'
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 import {MainDirection} from "../../Direction/UI/MainDirection";
 import {toJS} from "mobx";
-import {LogInNotification} from "../../../PublicPages/Login/LogInNotification";
+import {LogInNotification} from "../../../PublicPages/Notifications/LogInNotification";
 
 
 const processedStore = new QSPlayerStore()

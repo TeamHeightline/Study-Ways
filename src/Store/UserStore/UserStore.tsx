@@ -4,6 +4,8 @@ import {
 } from "./Struct";
 import React from 'react';
 import {ClientStorage} from "../ApolloStorage/ClientStorage";
+import {Query, UserProfileNode} from "../../SchemaTypes";
+import {LoadUserProfile} from "../../Components/Elements/Profile/Store/query";
 
 class User {
     username = ''//Имя пользователя, отображается в навигационной панели
@@ -11,11 +13,14 @@ class User {
     userAccessLevel = "STUDENT"//Уровень доступа, если он будет ADMIN или TEACHER, то откроется редактор
     clientStorage = ClientStorage//Получаем прямой доступ и подписку на изменение в хранилище @client
     //для Apollo (для Query и Mutation)
+    profile?: UserProfileNode
+    profileLoaded = false
 
     constructor() {
         makeAutoObservable(this)
         autorun(() => this.UpdateUser())
         reaction(() => this.clientStorage.client, () => this.UpdateUser())
+        reaction(() => this.isLogin, () => this.loadUserProfile())
     }
 
 
@@ -38,6 +43,23 @@ class User {
                     this.isLogin = false
                     this.username = ''
                     this.userAccessLevel = "STUDENT"
+                })
+        }
+    }
+
+    loadUserProfile = () => {
+        if (this.isLogin) {
+            this.clientStorage.client
+                .query<Query>({
+                    query: LoadUserProfile,
+                    fetchPolicy: "network-only"
+                })
+                .then(res => res.data.myProfile)
+                .then(profileData => {
+                    if (profileData) {
+                        this.profile = profileData
+                    }
+                    this.profileLoaded = true
                 })
         }
     }

@@ -29,7 +29,7 @@ const CourseByURL = React.lazy(() => import("./Components/Elements/Course/Course
 
 import {observer} from "mobx-react"
 import {ClientStorage} from "./Store/ApolloStorage/ClientStorage";
-import {LogInNotification} from "./Components/PublicPages/Login/LogInNotification";
+import {LogInNotification} from "./Components/PublicPages/Notifications/LogInNotification";
 import {isMobileHook} from "./CustomHooks/isMobileHook";
 import {CircularProgress, Grid} from "@mui/material";
 import Auth0Login from "./Components/Elements/Auth0/auth0-login";
@@ -39,6 +39,7 @@ import Auth0Logout from "./Components/Elements/Auth0/auth0-logout";
 import CardByURL from "./Components/Elements/Cards/CardByURL/UI/card-by-url";
 import SeoData from "./seo-data";
 import ProfilePage from "./Components/Elements/Profile/UI/ProfilePage";
+import {ProfileNotification} from "./Components/PublicPages/Notifications/ProfileNotification";
 
 
 const App = observer(() => {
@@ -79,6 +80,7 @@ const App = observer(() => {
                         <Suspense fallback={<Grid container justifyContent={"center"}
                                                   sx={{pt: 4}}><CircularProgress/></Grid>}>
                             <LogInNotification/>
+                            <ProfileNotification/>
                             <Switch>
                                 <Route exact path="/login" component={Auth0Login}/>
                                 <Route exact path={"/afterlogin"} component={Auth0AfterLogin}/>

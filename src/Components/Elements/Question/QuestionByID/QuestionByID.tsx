@@ -21,7 +21,7 @@ import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import {useLocation} from "react-router-dom";
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
-import {LogInNotification} from "../../../PublicPages/Login/LogInNotification";
+import {LogInNotification} from "../../../PublicPages/Notifications/LogInNotification";
 
 const useStyles = makeStyles(() =>
     createStyles({

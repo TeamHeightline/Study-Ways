@@ -14,6 +14,7 @@ import {CreateNewAnswer} from "./CreateNewAnswer";
 import React from "react";
 import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
 import AdditionalActions from "./AdditionalActions";
+import ConnectedThemeSelector from "./ConnectedThemeSelector";
 
 export const EditQuestionByID = observer(() => {
     const isMobile = isMobileHook()
@@ -40,7 +41,7 @@ export const EditQuestionByID = observer(() => {
                                 <QuestionText/>
                             </Grid>
                             {QuestionEditorStorage?.AuthorsAndThemesHasBeenLoaded &&
-                                <Grid item xs={12} md={6} container columnSpacing={6} rowSpacing={2}>
+                                <Grid alignItems={"start"} item xs={12} md={6} container rowSpacing={2}>
                                     <Stack direction={isMobile ? "column" : "row"}
                                            justifyContent={isMobile ? undefined : "start"}
                                            alignItems={"center"}
@@ -50,11 +51,12 @@ export const EditQuestionByID = observer(() => {
                                         <AdditionalActions/>
                                     </Stack>
 
-                                    <Grid item xs={12} md={6}>
-                                        <ThemeSelector/>
+                                    <Grid item xs={12} md={6} sx={{p: 0}}>
+                                        <ConnectedThemeSelector/>
                                     </Grid>
                                     <Grid item xs={12} md={6}>
-                                        <AuthorSelector/>
+                                        <div/>
+                                        {/*<AuthorSelector/>*/}
                                     </Grid>
                                 </Grid>}
                         </Grid>

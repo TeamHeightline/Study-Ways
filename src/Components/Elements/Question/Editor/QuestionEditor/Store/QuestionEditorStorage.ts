@@ -3,7 +3,7 @@ import {ClientStorage} from "../../../../../../Store/ApolloStorage/ClientStorage
 import {
     CREATE_DEEP_QUESTION_COPY,
     CREATE_NEW_ANSWER,
-    CREATE_NEW_QUESTION,
+    CREATE_NEW_QUESTION, GET_CONNECTED_THEMES,
     GET_QUESTION_DATA_BY_ID,
     MY_QUESTIONS_BASIC_DATA,
     THEMES_AND_AUTHORS_FOR_QUESTION,
@@ -16,7 +16,7 @@ import {
     Query,
     QuestionAuthorNode,
     QuestionNode,
-    QuestionThemesNode
+    QuestionThemesNode, UnstructuredThemesNode
 } from "../../../../../../SchemaTypes";
 import {sort} from "fast-sort";
 import {Answer, answerStoreType} from "./AnswersStorage";
@@ -38,6 +38,7 @@ class QuestionEditor {
         reaction(() => this.selectedQuestionThemesArray, () => this.autoSave())
         reaction(() => this.selectedQuestionAuthorsArray, () => this.autoSave())
         reaction(() => this.selectedQuestionNumberOfShowingAnswers, () => this.autoSave())
+        reaction(() => this.selectedConnectedTheme, () => this.autoSave())
     }
 
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
@@ -60,6 +61,36 @@ class QuestionEditor {
 
     //Флаг, указывающий на то, был ли выбран вопрос в селекторе
     questionHasBeenSelected = false
+
+
+    allConnectedThemes: UnstructuredThemesNode[] = []
+    isAllConnectedThemesLoaded = false
+
+    selectedConnectedTheme?: string
+
+    loadAllConnectedThemes = () =>{
+        this.clientStorage.client.query<Query>({query: GET_CONNECTED_THEMES, fetchPolicy: "network-only"})
+            .then(res => res.data.unstructuredTheme)
+            .then(themes => {
+                if(themes) {
+                    this.allConnectedThemes = themes
+                }
+                this.isAllConnectedThemesLoaded = true
+            })
+    }
+
+    get connectedThemesForSelector() {
+        return toJS(this.allConnectedThemes)
+            ?.map((theme) => {
+                return ({
+                    id: theme.id,
+                    value: theme.id,
+                    key: theme.id,
+                    title: theme.text,
+                    pId: theme?.parent?.id || 0
+                })
+            })
+    }
 
     registeredAnswersID = new Set()
 
@@ -198,6 +229,9 @@ class QuestionEditor {
                         if (question_data.numberOfShowingAnswers) {
                             this.selectedQuestionNumberOfShowingAnswers = String(question_data.numberOfShowingAnswers)
                         }
+                        if (question_data?.connectedTheme?.id){
+                            this.selectedConnectedTheme = question_data?.connectedTheme?.id
+                        }
                         if (question_data) {
                             this.answers_id_array = question_data.answers.map((answer) => answer.id)
                         }
@@ -277,6 +311,7 @@ class QuestionEditor {
         this.clientStorage.client.mutate({
             mutation: UPDATE_QUESTION, variables: {
                 id: this.selectedQuestionID,
+                connectedTheme: this.selectedConnectedTheme,
                 createdBy: 0,
                 theme: this.selectedQuestionThemesArray,
                 author: this.selectedQuestionAuthorsArray,

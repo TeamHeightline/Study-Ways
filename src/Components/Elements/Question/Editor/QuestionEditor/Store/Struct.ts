@@ -49,6 +49,9 @@ export const GET_QUESTION_DATA_BY_ID = gql`
                 id
                 isDeleted
             }
+            connectedTheme {
+                id
+            }
         }
     }
 `
@@ -74,8 +77,30 @@ export const CREATE_NEW_ANSWER = gql`mutation CREATE_ANSWER($question: ID!){
 }`
 
 
-export const UPDATE_QUESTION = gql`mutation UPDATE_QUESTION($createdBy: ID!, $theme: [ID]!, $author: [ID]!, $text: String!, $videoUrl: String, $id: ID!, $isImageQuestion: Boolean, $numberOfShowingAnswers: Int){
-    updateQuestion(input: {createdBy:$createdBy, theme: $theme, author: $author, text: $text, videoUrl: $videoUrl, id: $id, isImageQuestion: $isImageQuestion, numberOfShowingAnswers: $numberOfShowingAnswers}){
+export const UPDATE_QUESTION = gql`
+    mutation UPDATE_QUESTION(
+        $createdBy: ID!, 
+        $theme: [ID]!, 
+        $author: [ID]!, 
+        $text: String!, 
+        $videoUrl: String, 
+        $id: ID!, 
+        $isImageQuestion: Boolean, 
+        $numberOfShowingAnswers: Int,
+        $connectedTheme: ID
+    ){
+    updateQuestion(input: 
+    {
+        createdBy:$createdBy, 
+        theme: $theme, 
+        author: $author, 
+        text: $text, 
+        videoUrl: $videoUrl, 
+        id: $id, 
+        isImageQuestion: $isImageQuestion, 
+        numberOfShowingAnswers: $numberOfShowingAnswers,
+        connectedTheme: $connectedTheme
+    }){
         errors{
             field
             messages
@@ -154,3 +179,12 @@ export const UPDATE_ANSWER = gql`mutation UPDATE_ANSWER(
         }
     }
 }`
+
+export const GET_CONNECTED_THEMES = gql`
+    query GET_CONNECTED_THEMES{
+        unstructuredTheme {
+            id
+            text
+            parent{id}
+        }
+    }`

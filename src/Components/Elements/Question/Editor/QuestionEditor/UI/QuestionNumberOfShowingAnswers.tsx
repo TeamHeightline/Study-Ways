@@ -6,7 +6,6 @@ import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
 
 export const QuestionNumberOfShowingAnswers = observer(() => {
     const isMobile = isMobileHook()
-    console.log(QuestionEditorStorage.selectedQuestionNumberOfShowingAnswers)
     return (
         <div>
             <Stack direction={isMobile ? "column" : "row"} alignItems={"center"}>

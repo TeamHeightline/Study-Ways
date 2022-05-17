@@ -589,6 +589,7 @@ type QuestionAuthorNode {
 input QuestionMutationInput {
   author: [ID]
   clientMutationId: String
+  connectedTheme: ID
   createdBy: ID!
   id: ID
   isImageQuestion: Boolean
@@ -616,6 +617,7 @@ type QuestionNode {
   author: [QuestionAuthorNode!]!
   cardTestBeforeCardSet: [CardNode!]!
   cardTestInCardSet: [CardNode!]!
+  connectedTheme: UnstructuredThemesNode
   createdBy: CustomUserNode
   detailquestionstatisticSet: [DetailQuestionStatisticNode!]!
   id: ID!
@@ -733,6 +735,7 @@ type UnstructuredThemesNode {
   createdBy: CustomUserNode
   id: ID!
   parent: UnstructuredThemesNode
+  questionSet: [QuestionNode!]!
   text: String!
 }
 

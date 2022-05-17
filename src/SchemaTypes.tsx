@@ -894,6 +894,7 @@ export type QuestionAuthorNode = {
 export type QuestionMutationInput = {
   author?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   clientMutationId?: InputMaybe<Scalars['String']>;
+  connectedTheme?: InputMaybe<Scalars['ID']>;
   createdBy: Scalars['ID'];
   id?: InputMaybe<Scalars['ID']>;
   isImageQuestion?: InputMaybe<Scalars['Boolean']>;
@@ -924,6 +925,7 @@ export type QuestionNode = {
   author: Array<QuestionAuthorNode>;
   cardTestBeforeCardSet: Array<CardNode>;
   cardTestInCardSet: Array<CardNode>;
+  connectedTheme?: Maybe<UnstructuredThemesNode>;
   createdBy?: Maybe<CustomUserNode>;
   detailquestionstatisticSet: Array<DetailQuestionStatisticNode>;
   id: Scalars['ID'];
@@ -1055,6 +1057,7 @@ export type UnstructuredThemesNode = {
   createdBy?: Maybe<CustomUserNode>;
   id: Scalars['ID'];
   parent?: Maybe<UnstructuredThemesNode>;
+  questionSet: Array<QuestionNode>;
   text: Scalars['String'];
 };
 

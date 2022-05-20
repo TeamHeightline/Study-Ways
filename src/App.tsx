@@ -40,6 +40,7 @@ import CardByURL from "./Components/Elements/Cards/CardByURL/UI/card-by-url";
 import SeoData from "./seo-data";
 import ProfilePage from "./Components/Elements/Profile/UI/ProfilePage";
 import {ProfileNotification} from "./Components/PublicPages/Notifications/ProfileNotification";
+import axiosClient from "./ServerLayer/QueryLayer/config";
 
 
 const App = observer(() => {
@@ -58,6 +59,11 @@ const App = observer(() => {
                 scope: "read:current_user",
             }).then((user_token) => {
                 ClientStorage.changeToken(user_token)
+                axiosClient.interceptors.request.use((config: any) => {
+                    config.headers.common["authorization"] = "Bearer " + user_token;
+                    config.headers.post["authorization"] = "Bearer " + user_token;
+                    return config;
+                });
             })
         } else {
             ClientStorage.changeToken("")

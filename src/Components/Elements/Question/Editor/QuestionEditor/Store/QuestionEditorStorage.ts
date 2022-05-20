@@ -229,9 +229,9 @@ class QuestionEditor {
                         if (question_data.numberOfShowingAnswers) {
                             this.selectedQuestionNumberOfShowingAnswers = String(question_data.numberOfShowingAnswers)
                         }
-                        if (question_data?.connectedTheme?.id){
-                            this.selectedConnectedTheme = question_data?.connectedTheme?.id
-                        }
+
+                        this.selectedConnectedTheme = question_data?.connectedTheme?.id
+
                         if (question_data) {
                             this.answers_id_array = question_data.answers.map((answer) => answer.id)
                         }

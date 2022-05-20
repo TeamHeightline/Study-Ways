@@ -9,6 +9,7 @@ import {
 import {Button, Card, CardActionArea, Chip, CircularProgress, Grid, Paper, Stack, Typography} from "@mui/material";
 import QuestionSequenceEditByID from "../Elements/QuestionSequence/Editor/EditByID/QuestionSequenceEditByID";
 import {sort} from "fast-sort";
+import EditQuestionSequenceUI from "../Elements/QuestionSequence/Editor/EditByID/UI/edit-question-sequence-ui";
 
 export default function QuestionSequenceMainEditor() {
     const {
@@ -37,15 +38,24 @@ export default function QuestionSequenceMainEditor() {
     }
     if (isEditNow) {
         return (
-            <QuestionSequenceEditByID
-                sequence={question_sequence_data?.me?.questionsequenceSet
-                    ?.find((sequence) => Number(sequence.id) === Number(activeEditSequenceID))}
+            <EditQuestionSequenceUI
+                qsID={String(activeEditSequenceID)}
                 onChange={(data) => {
                     if (data === "goBack") {
                         refetch_question_sequence_data()
                         setIsEditNow(false)
                     }
-                }}/>
+                }}
+            />
+            // <QuestionSequenceEditByID
+            //     sequence={question_sequence_data?.me?.questionsequenceSet
+            //         ?.find((sequence) => Number(sequence.id) === Number(activeEditSequenceID))}
+            //     onChange={(data) => {
+            //         if (data === "goBack") {
+            //             refetch_question_sequence_data()
+            //             setIsEditNow(false)
+            //         }
+            //     }}/>
         )
     }
     return (

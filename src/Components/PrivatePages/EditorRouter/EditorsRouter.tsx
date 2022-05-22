@@ -7,6 +7,8 @@ import {Route, Switch, useRouteMatch} from "react-router-dom";
 import {isMobileHook} from "../../../CustomHooks/isMobileHook";
 import RouterMenu from "./router-menu";
 
+
+const StatusEditorPage = React.lazy(() => import("../../Elements/StatusEditor/StatusEditorPage"));
 const SearchingElementsEditor = React.lazy(() => import("../SearchingElementsEditor"))
 const QuestionSequenceMainEditor = React.lazy(() => import("../QuestionSequenceMainEditor"))
 const MainCourseEditor = React.lazy(() => import("../MainCourseEditor"))
@@ -47,6 +49,7 @@ export const EditorsRouter = observer(() => {
                         <Route path={`${path}/card2`} component={CardEditorV2}/>
                         <Route path={`${path}/exam`} component={ExamPage}/>
                         <Route path={`${path}/checkquestion`} component={CheckQuestion}/>
+                        <Route path={`${path}/status-editor`} component={StatusEditorPage}/>
                         <Route path={`${path}/`} component={MainCourseEditor}/>
                     </Switch>
                 </div>

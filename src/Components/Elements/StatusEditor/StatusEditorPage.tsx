@@ -1,4 +1,4 @@
-import {Paper, Stack, Typography} from "@mui/material";
+import {Grid, Paper} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {useEffect} from "react";
 import {useDispatch} from 'react-redux'
@@ -19,7 +19,11 @@ export default function StatusEditorPage({...props}: IStatusEditorPageProps) {
         <Paper elevation={0} {...props}>
             <Paper elevation={0} sx={{pl: 4}}>
                 <UITitle/>
-                <UIAllUsers/>
+                <Grid container justifyContent={"center"}>
+                    <Grid item xs={12} md={8}>
+                        <UIAllUsers/>
+                    </Grid>
+                </Grid>
             </Paper>
         </Paper>
     )

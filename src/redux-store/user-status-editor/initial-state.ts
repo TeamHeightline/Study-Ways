@@ -1,5 +1,7 @@
 export const initialState = {
     users: [],
     loading: false,
-    error: null
+    error: null,
+    activeEditUserID: null,
+    activeEditUserStatus: null
 }

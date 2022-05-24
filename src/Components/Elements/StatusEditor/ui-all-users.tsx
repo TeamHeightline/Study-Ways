@@ -1,10 +1,10 @@
-import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import {Paper, Table, TableBody, TableCell, TableContainer, TableRow} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {useSelector} from "react-redux";
-import {statusEditorReducer} from "../../../redux-store/user-status-editor/reducer";
 import {RootState} from "../../../redux-store/RootReducer";
 import {IBasicUserInformation} from "../../../ServerLayer/Types/user.types";
 import UIUserProfileHead from "./ui-user-tablse-head";
+import UIUserStatusCell from "./ui-user-status-cell";
 
 interface IUIAllUsersProps extends PaperProps {
 
@@ -26,7 +26,8 @@ export default function UIAllUsers({...props}: IUIAllUsersProps) {
                                 <TableCell>{user?.username}</TableCell>
                                 <TableCell>{user?.users_userprofile?.users_educationorganization?.organization_name
                                     || "Не указано"}</TableCell>
-                                <TableCell>{user.user_access_level}</TableCell>
+                                <UIUserStatusCell user={user}/>
+
                             </TableRow>
                         ))}
                     </TableBody>

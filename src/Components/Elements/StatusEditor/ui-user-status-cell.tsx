@@ -6,17 +6,20 @@ import EditIcon from "@mui/icons-material/Edit";
 import {useDispatch, useSelector} from "react-redux";
 import {changeEditUserID, changeEditUserStatus} from "../../../redux-store/user-status-editor/actions";
 import {RootState} from "../../../redux-store/RootReducer";
-import SaveIcon from '@mui/icons-material/Save';
-
+import {LoadingButton} from "@mui/lab";
+import {statusEditorUpdateUserStatus} from "../../../redux-store/user-status-editor/async-actions";
+import CheckIcon from '@mui/icons-material/Check';
 
 interface IUIUserStatusCellProps extends PaperProps {
     user: IBasicUserInformation
 }
 
 export default function UIUserStatusCell({user, ...props}: IUIUserStatusCellProps) {
-    const dispatch = useDispatch()
+    const dispatch: any = useDispatch()
     const activeEditUserID = useSelector((state: RootState) => state.statusEditorReducer.activeEditUserID)
     const aciveEditUserStatus = useSelector((state: RootState) => state.statusEditorReducer.activeEditUserStatus)
+    const loadingUpdateStatus = useSelector((state: RootState) => state.statusEditorReducer.loading_update_status)
+
 
     function editThisUser() {
         dispatch(changeEditUserStatus(user.user_access_level))
@@ -25,15 +28,21 @@ export default function UIUserStatusCell({user, ...props}: IUIUserStatusCellProp
 
     function changeUserStatus(event) {
         dispatch(changeEditUserStatus(event.target.value))
+        dispatch(statusEditorUpdateUserStatus(activeEditUserID, event.target.value))
+    }
+
+    function closeEditMenu() {
+        dispatch(changeEditUserID(null))
     }
 
     if (activeEditUserID == user.id) {
         return (
             <TableCell>
-                <Stack direction={"row"} alignItems={"center"}>
+                <Stack direction={"row"} alignItems={"center"} spacing={2}>
                     <FormControl>
                         <InputLabel>Статус</InputLabel>
                         <Select
+                            size={"small"}
                             value={aciveEditUserStatus}
                             onChange={changeUserStatus}
                             label="Статус"
@@ -43,9 +52,14 @@ export default function UIUserStatusCell({user, ...props}: IUIUserStatusCellProp
                             <MenuItem value={"ADMIN"}>Администратор</MenuItem>
                         </Select>
                     </FormControl>
-                    <IconButton>
-                        <SaveIcon/>
-                    </IconButton>
+                    <LoadingButton
+                        onClick={closeEditMenu}
+                        loading={loadingUpdateStatus}
+                        loadingPosition="start"
+                        startIcon={<CheckIcon/>}
+                        variant="outlined"
+                    />
+
                 </Stack>
             </TableCell>
         )

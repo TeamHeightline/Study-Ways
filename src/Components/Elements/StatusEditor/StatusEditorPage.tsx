@@ -5,6 +5,7 @@ import {useDispatch} from 'react-redux'
 import {loadUsersAsync} from "../../../redux-store/user-status-editor/async-actions";
 import UITitle from "./ui-title";
 import UIAllUsers from "./ui-all-users";
+import UIUserSearch from "./ui-user-search";
 
 interface IStatusEditorPageProps extends PaperProps {
 
@@ -21,6 +22,7 @@ export default function StatusEditorPage({...props}: IStatusEditorPageProps) {
                 <UITitle/>
                 <Grid container justifyContent={"center"}>
                     <Grid item xs={12} md={8}>
+                        <UIUserSearch/>
                         <UIAllUsers/>
                     </Grid>
                 </Grid>

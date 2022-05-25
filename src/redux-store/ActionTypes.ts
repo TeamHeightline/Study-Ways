@@ -6,5 +6,7 @@ export const ST_EDITOR_CHANGE_ACTIVE_EDIT_USER_STATUS = 'user-status-editor/ST_E
 export const ST_EDITOR_START_UPDATE_STATUS = 'user-status-editor/ST_EDITOR_START_UPDATE_STATUS'
 export const ST_EDITOR_UPDATE_STATUS_SUCCESS = 'user-status-editor/ST_EDITOR_UPDATE_STATUS_SUCCESS'
 export const ST_EDITOR_UPDATE_STATUS_ERROR = 'user-status-editor/ST_EDITOR_UPDATE_STATUS_ERROR'
+export const ST_EDITOR_CHANGE_SEARCH_TEXT = 'user-status-editor/ST_EDITOR_CHANGE_SEARCH_TEXT'
+export const ST_EDITOR_SEARCH_USERS = 'user-status-editor/ST_EDITOR_SEARCH_USERS'
 
 

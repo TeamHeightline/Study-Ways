@@ -11,7 +11,7 @@ interface IUIAllUsersProps extends PaperProps {
 }
 
 export default function UIAllUsers({...props}: IUIAllUsersProps) {
-    const users = useSelector((state: RootState) => state.statusEditorReducer.users)
+    const users = useSelector((state: RootState) => state.statusEditorReducer.selected_users)
     return (
         <Paper elevation={0} {...props}>
             <TableContainer component={Paper}>
@@ -19,19 +19,18 @@ export default function UIAllUsers({...props}: IUIAllUsersProps) {
                     <UIUserProfileHead/>
                     <TableBody>
                         {users.map((user: IBasicUserInformation, userIndex) => {
-                            if (userIndex < 100)
-                                return (
-                                    <TableRow key={user.id}>
-                                        <TableCell>{user.id}</TableCell>
-                                        <TableCell>{user?.users_userprofile?.firstname || "Не указано"}</TableCell>
-                                        <TableCell>{user?.users_userprofile?.lastname || "Не указано"}</TableCell>
-                                        <TableCell>{user?.username}</TableCell>
-                                        <TableCell>{user?.users_userprofile?.users_educationorganization?.organization_name
-                                            || "Не указано"}</TableCell>
-                                        <UIUserStatusCell user={user}/>
+                            return (
+                                <TableRow key={user.id}>
+                                    <TableCell>{user.id}</TableCell>
+                                    <TableCell>{user?.users_userprofile?.firstname || "Не указано"}</TableCell>
+                                    <TableCell>{user?.users_userprofile?.lastname || "Не указано"}</TableCell>
+                                    <TableCell>{user?.username}</TableCell>
+                                    <TableCell>{user?.users_userprofile?.users_educationorganization?.organization_name
+                                        || "Не указано"}</TableCell>
+                                    <UIUserStatusCell user={user}/>
 
-                                    </TableRow>
-                                )
+                                </TableRow>
+                            )
                         })}
                     </TableBody>
                 </Table>

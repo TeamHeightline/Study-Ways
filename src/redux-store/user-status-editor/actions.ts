@@ -1,8 +1,10 @@
 import {
     ST_EDITOR_CHANGE_ACTIVE_EDIT_USER_ID,
     ST_EDITOR_CHANGE_ACTIVE_EDIT_USER_STATUS,
+    ST_EDITOR_CHANGE_SEARCH_TEXT,
     ST_EDITOR_LOAD_USER_ERROR,
     ST_EDITOR_LOAD_USER_SUCCESS,
+    ST_EDITOR_SEARCH_USERS,
     ST_EDITOR_START_LOADING_USERS,
     ST_EDITOR_START_UPDATE_STATUS,
     ST_EDITOR_UPDATE_STATUS_ERROR,
@@ -61,6 +63,19 @@ export function updateStatusError(error) {
     return {
         type: ST_EDITOR_UPDATE_STATUS_ERROR,
         error
+    }
+}
+
+export function changeSearchText(text) {
+    return {
+        type: ST_EDITOR_CHANGE_SEARCH_TEXT,
+        text
+    }
+}
+
+export function searchUsers() {
+    return {
+        type: ST_EDITOR_SEARCH_USERS
     }
 }
 

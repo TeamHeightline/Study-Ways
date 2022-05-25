@@ -25,6 +25,8 @@ import makeStyles from "@mui/styles/makeStyles";
 import {Theme} from "@mui/material/styles";
 import createStyles from "@mui/styles/createStyles";
 import RuleIcon from '@mui/icons-material/Rule';
+import GroupIcon from '@mui/icons-material/Group';
+
 
 interface IRouterMenuProps extends PaperProps {
 
@@ -197,6 +199,19 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                                 <RuleIcon/>
                             </ListItemIcon>
                             <ListItemText primary="Проверка вопросов"/>
+                        </ListItem>
+                    </Tooltip>
+                    <Tooltip title={<Typography variant="body1">Редактор статусов</Typography>}>
+                        <ListItem button onClick={() => {
+                            if (isMobile) {
+                                setOpen(false)
+                            }
+                            history.push(`${path}/status-editor`)
+                        }}>
+                            <ListItemIcon>
+                                <GroupIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="Редактор статусов"/>
                         </ListItem>
                     </Tooltip>
                 </List>

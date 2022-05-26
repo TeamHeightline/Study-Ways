@@ -11,7 +11,6 @@ import {
     ST_EDITOR_UPDATE_STATUS_SUCCESS
 } from "../ActionTypes";
 import {initialState} from "./initial-state";
-import produce from "immer";
 import {IBasicUserInformation} from "../../ServerLayer/Types/user.types";
 
 
@@ -60,15 +59,30 @@ export const statusEditorReducer = (state = initialState, action) => {
             }
 
         case ST_EDITOR_UPDATE_STATUS_SUCCESS:
-            console.log(action.userData)
-            return produce(state, draft => {
-                draft.loading_update_status = false
-                // @ts-ignore
-                let editedUser: any = draft.users.find((user) => user.id = action.userData.id)
-                if (editedUser) {
-                    editedUser.user_access_level = action.userData.user_access_level
-                }
-            })
+            //return state with new user array with user with new user_access_level from action
+            return {
+                ...state,
+                users: state.users.map((user: IBasicUserInformation) => {
+                    if (user.id == action.userData.id) {
+                        return {...user, user_access_level: action.userData.user_access_level}
+                    } else {
+                        return user
+                    }
+                }),
+                loading_update_status: false
+            }
+
+
+        // case ST_EDITOR_UPDATE_STATUS_SUCCESS:
+        //     console.log(action.userData)
+        //     return produce(state, draft => {
+        //         draft.loading_update_status = false
+        //         // @ts-ignore
+        //         let editedUser: any = draft.users.find((user) => user.id = action.userData.id)
+        //         if (editedUser) {
+        //             editedUser.user_access_level = action.userData.user_access_level
+        //         }
+        //     })
 
         case ST_EDITOR_UPDATE_STATUS_ERROR:
             return {

@@ -4,7 +4,7 @@ import {IBasicUserInformation} from "../../../ServerLayer/Types/user.types";
 import {UserStorage} from "../../../Store/UserStore/UserStore";
 import EditIcon from "@mui/icons-material/Edit";
 import {useDispatch, useSelector} from "react-redux";
-import {changeEditUserID, changeEditUserStatus} from "../../../redux-store/user-status-editor/actions";
+import {changeEditUserID, changeEditUserStatus, searchUsers} from "../../../redux-store/user-status-editor/actions";
 import {RootState} from "../../../redux-store/RootReducer";
 import {LoadingButton} from "@mui/lab";
 import {statusEditorUpdateUserStatus} from "../../../redux-store/user-status-editor/async-actions";
@@ -33,6 +33,7 @@ export default function UIUserStatusCell({user, ...props}: IUIUserStatusCellProp
 
     function closeEditMenu() {
         dispatch(changeEditUserID(null))
+        dispatch(searchUsers())
     }
 
     if (activeEditUserID == user.id) {

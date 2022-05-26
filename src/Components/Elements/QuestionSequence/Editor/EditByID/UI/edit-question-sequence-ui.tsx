@@ -11,6 +11,7 @@ import UiSelectedQuestions from "./ui-selected-questions";
 import UIAllQuestions from "./ui-all-questions";
 import UIAuthorSelector from "./ui-author-selector";
 import UIThemeSearch from "./ui-theme-search";
+import UICheckQuestion from "./ui-check-question";
 
 
 interface IEditQuestionSequenceUIProps extends PaperProps {
@@ -52,6 +53,8 @@ const EditQuestionSequenceUI = observer(({qsID, ...props}: IEditQuestionSequence
                 }}>
                     Назад
                 </Button>
+
+                <UICheckQuestion/>
 
                 <Stack direction={isMobile ? "column" : "row"} spacing={4} sx={{pt: 2, width: "100%"}}>
                     <Stack direction={"column"} spacing={2} sx={{minWidth: isMobile ? undefined : 400}}>

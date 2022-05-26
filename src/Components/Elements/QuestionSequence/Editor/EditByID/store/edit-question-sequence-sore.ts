@@ -19,6 +19,7 @@ class EditQuestionSequenceSoreClass {
     allQuestions: IQuestionPreviewData[] = []
     selectedAuthorID = "-1"
     searchThemeString = ""
+    checkQuestionID: string | null = null
 
     get QuestionsAfterSelectAuthor() {
         if (this.selectedAuthorID == "-1") {

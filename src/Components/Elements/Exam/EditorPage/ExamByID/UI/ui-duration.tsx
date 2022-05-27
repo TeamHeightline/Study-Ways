@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {FormControl, InputLabel, MenuItem, Paper, Select, Stack} from "@mui/material";
+import {FormControl, InputLabel, MenuItem, Paper, Select, Stack, Typography} from "@mui/material";
 
 
 interface IUIDurationProps extends PaperProps {
@@ -11,7 +11,12 @@ interface IUIDurationProps extends PaperProps {
 const UIDuration = observer(({...props}: IUIDurationProps) => {
     return (
         <Paper elevation={0} {...props}>
-            <Stack direction={"row"} spacing={1} maxWidth={300}>
+            <Stack direction={"row"} spacing={1}>
+                <Stack alignItems={"center"}>
+                    <Typography textAlign={"center"}>
+                        Длительность экзамена
+                    </Typography>
+                </Stack>
                 <FormControl fullWidth>
                     <InputLabel>Часы</InputLabel>
                     <Select

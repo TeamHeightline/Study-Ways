@@ -11,6 +11,7 @@ import SelectedQSByData from "./ui-seleced-qs-by-data";
 import UIAccessTypeToggle from "./ui-access-type-togle";
 import UIAccessTypeVariants from "./ui-access-type-variants";
 import UIStudentsAccessType from "./ui-students-access-type";
+import {Typography} from "antd";
 
 
 interface IExamByIDProps extends PaperProps {
@@ -37,9 +38,9 @@ const ExamByID = observer(({...props}: IExamByIDProps) => {
                     <Divider orientation={"vertical"}/>
                 </div>
 
-                <Stack direction={"column"} spacing={1} maxWidth={400}>
+                <Stack direction={"column"} spacing={1} width={400}>
                     <div>
-                        <Divider>Временной диапазон</Divider>
+                        <Divider>Проводится в </Divider>
                     </div>
                     <UIAccessTypeToggle/>
                     <UIAccessTypeVariants/>
@@ -54,6 +55,25 @@ const ExamByID = observer(({...props}: IExamByIDProps) => {
                         <Divider>Допуск к экзамену</Divider>
                     </div>
                     <UIStudentsAccessType/>
+                </Stack>
+
+                <div>
+                    <Divider orientation={"vertical"}/>
+                </div>
+
+                <Stack direction={'column'} spacing={1} maxWidth={400}>
+                    <div>
+                        <Divider>Ссылки</Divider>
+                    </div>
+                    <Typography>
+                        Ссылка для студентов: https://www.sw-university.com/exam/meemiljxl123
+                    </Typography>
+                    <Typography>
+                        Ссылка для проверки: https://www.sw-university.com/exam/meemiljxl123/check
+                    </Typography>
+                    <Typography>
+                        Тренировочный вариант серии вопросов: https://www.sw-university.com/qs/40
+                    </Typography>
                 </Stack>
 
             </Stack>

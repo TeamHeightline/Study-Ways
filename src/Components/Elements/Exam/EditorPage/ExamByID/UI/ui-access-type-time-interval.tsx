@@ -11,7 +11,7 @@ export default function UITimeInterval({...props}: IUITimeIntervalProps) {
     const [time, setTime] = useState<Date | null>(null);
     return (
         <Paper elevation={0} {...props}>
-            <Stack direction={"column"} spacing={1}>
+            <Stack direction={"row"} spacing={1}>
                 <DateTimePicker
                     label="C"
                     value={time}

@@ -8,58 +8,14 @@ import {
     START_LOADING_EXAM_DATA,
     START_LOADING_QS
 } from "./action-types";
+import {action} from "typesafe-actions";
 
+export const changeExamEditorSelectedQsId = (qs_id: string) => action(CHANGE_SELECTED_QS_ID, {qs_id});
+export const startLoadingExamEditorSelectedQsData = () => action(START_LOADING_QS);
+export const loadExamEditorSelectedQsDataSuccess = (qs_data) => action(LOAD_QS_SUCCESS, {qs_data});
+export const loadExamEditorSelectedQsDataError = (error) => action(LOAD_QS_ERROR, {error});
+export const changeAccessType = (access_type: "manual" | "timeInterval") => action(CHANGE_ACCESS_TYPE, {access_type});
+export const changeExamID = (exam_id: string) => action(CHANGE_EXAM_ID, {exam_id});
+export const successLoadExamData = (exam_data) => action(LOAD_EXAM_DATA_SUCCESS, {exam_data});
+export const startLoadingExamData = () => action(START_LOADING_EXAM_DATA);
 
-export function changeExamEditorSelectedQsId(qs_id) {
-    return {
-        type: CHANGE_SELECTED_QS_ID,
-        qs_id
-    }
-}
-
-export function startLoadingExamEditorSelectedQsData() {
-    return {
-        type: START_LOADING_QS,
-    }
-}
-
-export function loadExamEditorSelectedQsDataSuccess(qs_data) {
-    return {
-        type: LOAD_QS_SUCCESS,
-        qs_data,
-    }
-}
-
-export function loadExamEditorSelectedQsDataError(error) {
-    return {
-        type: LOAD_QS_ERROR,
-        error
-    }
-}
-
-export function changeAccessType(access_type: "manual" | "timeInterval") {
-    return {
-        type: CHANGE_ACCESS_TYPE,
-        access_type
-    }
-}
-
-export function successLoadExamData(exam_data) {
-    return {
-        type: LOAD_EXAM_DATA_SUCCESS,
-        exam_data
-    }
-}
-
-export function startLoadingExamData() {
-    return {
-        type: START_LOADING_EXAM_DATA,
-    }
-}
-
-export function changeExamID(exam_id) {
-    return {
-        type: CHANGE_EXAM_ID,
-        exam_id
-    }
-}

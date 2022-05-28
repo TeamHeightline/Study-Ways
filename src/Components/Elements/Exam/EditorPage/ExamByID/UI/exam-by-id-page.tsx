@@ -28,7 +28,7 @@ const ExamByID = observer(({exam_id = 1, ...props}: IExamByIDProps) => {
     const dispatch: any = useDispatch()
 
     useEffect(() => {
-        dispatch(changeExamID(exam_id))
+        dispatch(changeExamID(String(exam_id)))
     }, [exam_id])
 
     useEffect(() => {

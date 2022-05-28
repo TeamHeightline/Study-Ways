@@ -36,7 +36,7 @@ const UIQuestionSequenceSelector = observer(({...props}: IUIQuestionSequenceSele
     }
     //function for update selected question sequence ID in store and close dialog
     const updateSelectedQuestionSequenceID = (id: number) => {
-        dispatch(changeExamEditorSelectedQsId(id))
+        dispatch(changeExamEditorSelectedQsId(String(id)))
         handleClose()
     }
 

@@ -23,11 +23,11 @@ export default function UIAccessTypeToggle({...props}: IUIAccessTypeTogleProps) 
                 color="primary"
                 exclusive
                 value={accessType}
-                onChange={changeAccessTypeHandle}
+                // onChange={changeAccessTypeHandle}
                 // size={"small"}
             >
                 <ToggleButton value="manual">Вручную</ToggleButton>
-                <ToggleButton value="timeInterval">Промежуток времени</ToggleButton>
+                <ToggleButton value="timeInterval" disabled>Промежуток времени</ToggleButton>
             </ToggleButtonGroup>
         </Paper>
     )

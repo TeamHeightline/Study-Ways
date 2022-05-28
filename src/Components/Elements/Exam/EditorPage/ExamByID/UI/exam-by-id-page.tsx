@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
-import React from 'react';
+import React, {useEffect} from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {Divider, Paper, Stack} from "@mui/material";
+import {CircularProgress, Divider, Paper, Stack} from "@mui/material";
 import GoBackButton from "./go-back";
 import ExamName from "./exam-name";
 import UIPageTitle from "./ui-page-title";
@@ -11,14 +11,40 @@ import SelectedQSByData from "./ui-seleced-qs-by-data";
 import UIAccessTypeToggle from "./ui-access-type-togle";
 import UIAccessTypeVariants from "./ui-access-type-variants";
 import UIStudentsAccessType from "./ui-students-access-type";
-import {Typography} from "antd";
+import UIExamUrls from "./ui-exam-urls";
+import {RootState} from "../../../../../../redux-store/RootReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {loadExamData} from "../../../../../../redux-store/exam-editor/async-actions";
+import {changeExamID} from "../../../../../../redux-store/exam-editor/actions";
 
 
 interface IExamByIDProps extends PaperProps {
-
+    exam_id?: number;
 }
 
-const ExamByID = observer(({...props}: IExamByIDProps) => {
+const ExamByID = observer(({exam_id = 1, ...props}: IExamByIDProps) => {
+    const storeExamID = useSelector((state: RootState) => state.examEditorReducer.exam_id)
+    const isLoadingEdamData = useSelector((state: RootState) => state.examEditorReducer.exam_data_loading)
+    const dispatch: any = useDispatch()
+
+    useEffect(() => {
+        dispatch(changeExamID(exam_id))
+    }, [exam_id])
+
+    useEffect(() => {
+        if (storeExamID) {
+            dispatch(loadExamData(storeExamID))
+        }
+    }, [storeExamID])
+
+
+    if (isLoadingEdamData) {
+        return (
+            <Stack alignItems={"center"}>
+                <CircularProgress/>
+            </Stack>
+        )
+    }
     return (
         <Paper elevation={0} {...props} sx={{pt: 2}}>
             <UIPageTitle/>
@@ -65,15 +91,7 @@ const ExamByID = observer(({...props}: IExamByIDProps) => {
                     <div>
                         <Divider>Ссылки</Divider>
                     </div>
-                    <Typography>
-                        Ссылка для студентов: https://www.sw-university.com/exam/meemiljxl123
-                    </Typography>
-                    <Typography>
-                        Ссылка для проверки: https://www.sw-university.com/exam/meemiljxl123/check
-                    </Typography>
-                    <Typography>
-                        Тренировочный вариант серии вопросов: https://www.sw-university.com/qs/40
-                    </Typography>
+                    <UIExamUrls/>
                 </Stack>
 
             </Stack>

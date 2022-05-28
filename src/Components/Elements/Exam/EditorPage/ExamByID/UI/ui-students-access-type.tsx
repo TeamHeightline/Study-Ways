@@ -11,10 +11,11 @@ export default function UIStudentsAccessType({...props}: IUIStudentsAccessTypePr
             <ToggleButtonGroup
                 color="primary"
                 exclusive
+                value={"all"}
             >
                 <ToggleButton value="all">Все</ToggleButton>
-                <ToggleButton value="selectedGroup">Группа</ToggleButton>
-                <ToggleButton value="selectedUsers">Выбранные пользователи</ToggleButton>
+                <ToggleButton value="selectedGroup" disabled>Группа</ToggleButton>
+                <ToggleButton value="selectedUsers" disabled>Выбранные пользователи</ToggleButton>
             </ToggleButtonGroup>
         </Paper>
     )

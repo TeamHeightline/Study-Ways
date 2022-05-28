@@ -2,6 +2,8 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {FormControl, InputLabel, MenuItem, Paper, Select, Stack, Typography} from "@mui/material";
+import {RootState} from "../../../../../../redux-store/RootReducer";
+import {useSelector} from "react-redux";
 
 
 interface IUIDurationProps extends PaperProps {
@@ -9,6 +11,9 @@ interface IUIDurationProps extends PaperProps {
 }
 
 const UIDuration = observer(({...props}: IUIDurationProps) => {
+    const examDuration = useSelector((state: RootState) => state.examEditorReducer.exam_data.minutes)
+    const minutes = Math.floor(examDuration % 60)
+    const hours = Math.floor(examDuration / 60)
     return (
         <Paper elevation={0} {...props}>
             <Stack direction={"row"} spacing={1}>
@@ -20,6 +25,7 @@ const UIDuration = observer(({...props}: IUIDurationProps) => {
                 <FormControl fullWidth>
                     <InputLabel>Часы</InputLabel>
                     <Select
+                        value={hours}
                         id="select-exam-hours"
                         label="Часы"
                     >
@@ -29,6 +35,7 @@ const UIDuration = observer(({...props}: IUIDurationProps) => {
                 <FormControl fullWidth>
                     <InputLabel>Минуты</InputLabel>
                     <Select
+                        value={minutes}
                         id="select-exam-minutes"
                         label="Минуты"
                     >

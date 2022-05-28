@@ -1,41 +1,65 @@
 import {
-    EXAM_EDITOR_CHANGE_ACCESS_TYPE,
-    EXAM_EDITOR_CHANGE_SELECTED_QS_ID,
-    EXAM_EDITOR_LOAD_QS_ERROR,
-    EXAM_EDITOR_LOAD_QS_SUCCESS,
-    EXAM_EDITOR_START_LOADING_QS
-} from "../ActionTypes";
+    CHANGE_ACCESS_TYPE,
+    CHANGE_EXAM_ID,
+    CHANGE_SELECTED_QS_ID,
+    LOAD_EXAM_DATA_SUCCESS,
+    LOAD_QS_ERROR,
+    LOAD_QS_SUCCESS,
+    START_LOADING_EXAM_DATA,
+    START_LOADING_QS
+} from "./action-types";
+
 
 export function changeExamEditorSelectedQsId(qs_id) {
     return {
-        type: EXAM_EDITOR_CHANGE_SELECTED_QS_ID,
+        type: CHANGE_SELECTED_QS_ID,
         qs_id
     }
 }
 
 export function startLoadingExamEditorSelectedQsData() {
     return {
-        type: EXAM_EDITOR_START_LOADING_QS,
+        type: START_LOADING_QS,
     }
 }
 
 export function loadExamEditorSelectedQsDataSuccess(qs_data) {
     return {
-        type: EXAM_EDITOR_LOAD_QS_SUCCESS,
+        type: LOAD_QS_SUCCESS,
         qs_data,
     }
 }
 
 export function loadExamEditorSelectedQsDataError(error) {
     return {
-        type: EXAM_EDITOR_LOAD_QS_ERROR,
+        type: LOAD_QS_ERROR,
         error
     }
 }
 
 export function changeAccessType(access_type: "manual" | "timeInterval") {
     return {
-        type: EXAM_EDITOR_CHANGE_ACCESS_TYPE,
+        type: CHANGE_ACCESS_TYPE,
         access_type
+    }
+}
+
+export function successLoadExamData(exam_data) {
+    return {
+        type: LOAD_EXAM_DATA_SUCCESS,
+        exam_data
+    }
+}
+
+export function startLoadingExamData() {
+    return {
+        type: START_LOADING_EXAM_DATA,
+    }
+}
+
+export function changeExamID(exam_id) {
+    return {
+        type: CHANGE_EXAM_ID,
+        exam_id
     }
 }

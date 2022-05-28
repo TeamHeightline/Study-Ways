@@ -1,11 +1,12 @@
 import {observer} from "mobx-react";
-import React from 'react';
+import React, {useEffect} from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Button, Dialog, Paper} from "@mui/material";
 import {Sequences} from "../../../../QuestionSequence/Selector/UI/Sequences";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {changeExamEditorSelectedQsId} from "../../../../../../redux-store/exam-editor/actions";
 import {loadQSData} from "../../../../../../redux-store/exam-editor/async-actions";
+import {RootState} from "../../../../../../redux-store/RootReducer";
 
 
 interface IUIQuestionSequenceSelectorProps extends PaperProps {
@@ -14,9 +15,16 @@ interface IUIQuestionSequenceSelectorProps extends PaperProps {
 
 const UIQuestionSequenceSelector = observer(({...props}: IUIQuestionSequenceSelectorProps) => {
     //переменная для хранения ID выбранной серии вопросов
+    const selectedQSID = useSelector((state: RootState) => state.examEditorReducer.exam_data.question_sequence_id)
 
     const [open, setOpen] = React.useState(false);
     const dispatch: any = useDispatch()
+
+    useEffect(() => {
+        if (selectedQSID) {
+            dispatch(loadQSData(String(selectedQSID)))
+        }
+    }, [selectedQSID])
 
     //функция для закрытия диалогового окна
     const handleClose = () => {
@@ -30,7 +38,6 @@ const UIQuestionSequenceSelector = observer(({...props}: IUIQuestionSequenceSele
     const updateSelectedQuestionSequenceID = (id: number) => {
         dispatch(changeExamEditorSelectedQsId(id))
         handleClose()
-        dispatch(loadQSData(String(id)))
     }
 
     return (

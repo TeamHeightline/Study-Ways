@@ -1,3 +1,5 @@
+import {IExamData} from "../../ServerLayer/Types/exam.types";
+
 export const initialState = {
     selected_qs_id: null,
 
@@ -7,5 +9,8 @@ export const initialState = {
 
     name: "",
     duration: new Date(),
-    access_type: "manual",
+    access_type: "manual" as "manual" | "timeInterval",
+    exam_data: null as null | IExamData,
+    exam_data_loading: true,
+    exam_id: null as null | string,
 }

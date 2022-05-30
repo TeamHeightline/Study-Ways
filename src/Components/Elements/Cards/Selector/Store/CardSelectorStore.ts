@@ -129,6 +129,7 @@ export class CardSelectorStore {
                 filters['connectedTheme'] = this.cardConnectedTheme
             }
 
+
             try {
                 this.clientStorage.client.query({
                     query: GET_CARD_ID_BY_SEARCHING_PARAMS,
@@ -142,6 +143,11 @@ export class CardSelectorStore {
                     .then((searching_data) => {
                         if (searching_data) {
                             if (searching_data?.IDs) {
+                                if (this.mode == "onlyCreatedByMe") {
+                                    this.my_cards_activePage = Number(searching_data.activePage)
+                                    this.my_cards_maxPages = Number(searching_data.numPages)
+                                    this.my_cards_cards_id_array = searching_data?.IDs
+                                }
                                 this.activePage = Number(searching_data.activePage)
                                 this.maxPages = Number(searching_data.numPages)
                                 this.cards_id_array = searching_data?.IDs
@@ -155,9 +161,38 @@ export class CardSelectorStore {
         }
     }
 
+    my_cards_activePage = 0
+    my_cards_maxPages = 1
+    my_cards_cards_id_array: string[] = []
+
+
+    get cards_id_array_for_selector() {
+        if (this.mode == "onlyCreatedByMe") {
+            return toJS(this.my_cards_cards_id_array)
+        } else {
+            return toJS(this.cards_id_array)
+        }
+    }
+
+    get activePage_for_selector() {
+        if (this.mode == "onlyCreatedByMe") {
+            return this.my_cards_activePage
+        } else {
+            return this.activePage
+        }
+    }
+
+    get maxPages_for_selector() {
+        if (this.mode == "onlyCreatedByMe") {
+            return this.my_cards_maxPages
+        } else {
+            return this.maxPages
+        }
+    }
 }
 
 type hardLevelTypes = CardHardLevel | "undefined"
 type cardContentType = CardCardContentType | "undefined"
 
-export const CSSObject = new CardSelectorStore()
+export const
+    CSSObject = new CardSelectorStore()

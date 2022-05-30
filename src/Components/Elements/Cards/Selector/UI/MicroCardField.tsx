@@ -16,7 +16,7 @@ export const MicroCardField = observer(({showCreateNewCard, ...props}: IMicroCar
                 <Grid item xs={12} md={"auto"}>
                     <CreateCard/>
                 </Grid>}
-            {CSSObject.cards_id_array?.map((card_id) => {
+            {CSSObject.cards_id_array_for_selector?.map((card_id) => {
                 return (
                     <Grid
                         key={card_id + "CardMicroView"}

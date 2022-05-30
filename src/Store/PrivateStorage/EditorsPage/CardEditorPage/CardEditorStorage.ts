@@ -37,6 +37,7 @@ class CardEditorStorage {
 
     loadCardDataFromServer(id: string | number | undefined) {
         if (id) {
+            this.cardDataLoaded = false
             if (this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN") {
                 this.loadConnectedThemes()
                 this.clientStorage.client.query({
@@ -263,8 +264,7 @@ class CardEditorStorage {
 
     get DefaultTagValue(): string[] | undefined {
         return this.CheckThatTagFieldNotEmpty ?
-            this.getField("tagField", []).split(",") :
-            undefined
+            this.getField("tagField", []).split(",") : []
     }
 
     updateTagField(newValue) {

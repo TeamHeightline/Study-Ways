@@ -1,13 +1,12 @@
 import {observer} from "mobx-react";
 import React from 'react';
-import {Collapse, Grid} from "@mui/material";
+import {CircularProgress, Collapse, Grid, Stack} from "@mui/material";
 import {CloseButton} from "./CloseButton";
 import {ID} from "./ID";
 import {CMenu} from "./CMenu";
 import {Title} from "./Title";
 import {HardLevel} from "./HardLeve";
 import {ConnectedThemeSelector} from "./ConnectedThemeSelector";
-import {AuthorSelector} from "./AuthorSelector";
 import {CopyRight} from "./CopyRight";
 import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
 import {YouTubeVideo} from "./YouTubeVideo";
@@ -25,6 +24,13 @@ interface IEditCardUIProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const EditCardUI = observer(({...props}: IEditCardUIProps) => {
     const isMobile = isMobileHook()
+    if (!CESObject.cardDataLoaded) {
+        return (
+            <Stack alignItems={"center"}>
+                <CircularProgress/>
+            </Stack>
+        )
+    }
     return (
         <div {...props}>
             <Grid container item sx={{pl: isMobile ? 0 : 8, pr: isMobile ? 0 : 8, pt: isMobile ? 0 : 1}}

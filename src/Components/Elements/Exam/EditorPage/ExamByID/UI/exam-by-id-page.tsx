@@ -16,6 +16,7 @@ import {RootState} from "../../../../../../redux-store/RootReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {loadExamData} from "../../../../../../redux-store/exam-editor/async-actions";
 import {changeExamID} from "../../../../../../redux-store/exam-editor/actions";
+import AutoSaveModule from "./auto-save-module";
 
 
 interface IExamByIDProps extends PaperProps {
@@ -47,6 +48,7 @@ const ExamByID = observer(({exam_id = 1, ...props}: IExamByIDProps) => {
     }
     return (
         <Paper elevation={0} {...props} sx={{pt: 2}}>
+            <AutoSaveModule/>
             <UIPageTitle/>
             <GoBackButton/>
             <Stack direction={"row"} spacing={1} sx={{pb: 2}}>

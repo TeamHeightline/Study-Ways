@@ -2,11 +2,15 @@ import {initialState} from "./initial-state";
 import {
     CHANGE_ACCESS_TYPE,
     CHANGE_EXAM_ID,
+    CHANGE_EXAM_NAME,
     CHANGE_SELECTED_QS_ID,
     LOAD_EXAM_DATA_SUCCESS,
     LOAD_QS_SUCCESS,
     START_LOADING_EXAM_DATA,
-    START_LOADING_QS
+    START_LOADING_QS,
+    START_UPDATE_EXAM,
+    UPDATE_EXAM_ERROR,
+    UPDATE_EXAM_SUCCESS
 } from "./action-types";
 import {ActionType} from "typesafe-actions";
 import * as Actions from './actions';
@@ -59,6 +63,34 @@ export const examEditorReducer = (state = initialState, action: ExamEditorAction
             return {
                 ...state,
                 exam_data_loading: true
+            }
+
+        case START_UPDATE_EXAM:
+            return {
+                ...state,
+                update_exam_loading: true
+            }
+
+        case UPDATE_EXAM_SUCCESS:
+            return {
+                ...state,
+                update_exam_loading: false
+            }
+
+        case UPDATE_EXAM_ERROR:
+            return {
+                ...state,
+                update_exam_loading: false,
+                update_exam_error: action.payload.error
+            }
+
+        case CHANGE_EXAM_NAME:
+            return {
+                ...state,
+                exam_data: {
+                    ...state.exam_data,
+                    name: action.payload.name
+                }
             }
 
 

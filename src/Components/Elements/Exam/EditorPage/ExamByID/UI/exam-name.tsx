@@ -3,7 +3,8 @@ import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Paper, TextField} from "@mui/material";
 import {RootState} from "../../../../../../redux-store/RootReducer";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {changeExamName} from "../../../../../../redux-store/exam-editor/actions";
 
 
 interface IExamNameProps extends PaperProps {
@@ -12,10 +13,13 @@ interface IExamNameProps extends PaperProps {
 
 const ExamName = observer(({...props}: IExamNameProps) => {
     const examName = useSelector((state: RootState) => state.examEditorReducer.exam_data.name)
+    const dispatch: any = useDispatch()
     return (
         <Paper elevation={0} {...props}>
             <TextField
                 value={examName}
+                onChange={(e) =>
+                    dispatch(changeExamName(e.target.value))}
                 fullWidth
                 variant="filled"
                 multiline

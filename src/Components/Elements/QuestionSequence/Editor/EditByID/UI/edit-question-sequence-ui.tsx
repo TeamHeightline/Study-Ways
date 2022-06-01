@@ -12,6 +12,7 @@ import UIAllQuestions from "./ui-all-questions";
 import UIAuthorSelector from "./ui-author-selector";
 import UIThemeSearch from "./ui-theme-search";
 import UICheckQuestion from "./ui-check-question";
+import UIDownloadExcelButton from "./ui-download-excel-button";
 
 
 interface IEditQuestionSequenceUIProps extends PaperProps {
@@ -63,6 +64,8 @@ const EditQuestionSequenceUI = observer(({qsID, ...props}: IEditQuestionSequence
                     </Stack>
                     <UILinks/>
                 </Stack>
+
+                <UIDownloadExcelButton/>
 
                 <UiSelectedQuestions/>
 

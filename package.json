@@ -58,6 +58,7 @@
     "graphql-config": "^3.2.0",
     "graphql.macro": "^1.4.2",
     "immer": "^9.0.14",
+    "js-file-download": "^0.4.12",
     "js-video-url-parser": "^0.5.0",
     "lodash": "^4.17.21",
     "mobx": "^6.3.2",

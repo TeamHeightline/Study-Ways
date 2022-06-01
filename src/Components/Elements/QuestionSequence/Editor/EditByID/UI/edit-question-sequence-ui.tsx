@@ -63,9 +63,9 @@ const EditQuestionSequenceUI = observer(({qsID, ...props}: IEditQuestionSequence
                         <UIQSDescription/>
                     </Stack>
                     <UILinks/>
+                    <UIDownloadExcelButton/>
                 </Stack>
 
-                <UIDownloadExcelButton/>
 
                 <UiSelectedQuestions/>
 

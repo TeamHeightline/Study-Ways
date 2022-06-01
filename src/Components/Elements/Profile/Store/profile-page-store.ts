@@ -33,9 +33,10 @@ class ProfilePageStoreClass {
                         this.lastname = profileData.lastname
                         this.imageSrc = profileData.avatarSrc || ""
                         this.studyIn = profileData.studyIn?.id
-                        this.allDataLoaded = true
                     }
                 })
+                .then(() => this.allDataLoaded = true)
+                .catch(() => this.allDataLoaded = true)
         }
     }
 

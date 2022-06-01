@@ -1,17 +1,16 @@
 import {observer} from "mobx-react";
-import React from 'react';
+import React, {useEffect} from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {
     Avatar,
-    Button, CircularProgress,
+    CircularProgress,
     FormControl,
     InputLabel,
     MenuItem,
     Paper,
     Select,
     Stack,
-    TextField,
-    Typography
+    TextField
 } from "@mui/material";
 import ProfilePageStore from "../Store/profile-page-store";
 import {UserStorage} from "../../../../Store/UserStore/UserStore";
@@ -24,6 +23,7 @@ interface IProfilePageProps extends PaperProps {
 }
 
 const ProfilePage = observer(({...props}: IProfilePageProps) => {
+    useEffect(() => UserStorage.loadUserProfile(), [])
     if (!ProfilePageStore.allDataLoaded) {
         return (
             <Stack alignItems={"center"}>

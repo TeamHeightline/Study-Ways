@@ -11,14 +11,12 @@ interface IUIExamUrlsProps extends PaperProps {
 
 export default function UIExamUrls({...props}: IUIExamUrlsProps) {
     const selectedQSID = useSelector((state: RootState) => state?.examEditorReducer?.exam_data?.question_sequence_id)
+    const examUid = useSelector((state: RootState) => state?.examEditorReducer?.exam_data?.uid)
     return (
         <Paper elevation={0} {...props}>
             <Stack direction={"column"} spacing={2}>
                 <Typography>
-                    Ссылка для студентов: <br/> https://www.sw-university.com/exam/meemiljxl123
-                </Typography>
-                <Typography>
-                    Ссылка для проверки: <br/> https://www.sw-university.com/exam/meemiljxl123/check
+                    Ссылка для студентов: <br/> https://www.sw-university.com/exam/{examUid}
                 </Typography>
                 {selectedQSID &&
                     <Typography>

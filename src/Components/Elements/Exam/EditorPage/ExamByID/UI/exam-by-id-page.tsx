@@ -24,8 +24,8 @@ interface IExamByIDProps extends PaperProps {
 }
 
 const ExamByID = observer(({exam_id = 1, ...props}: IExamByIDProps) => {
-    const storeExamID = useSelector((state: RootState) => state.examEditorReducer.exam_id)
-    const isLoadingEdamData = useSelector((state: RootState) => state.examEditorReducer.exam_data_loading)
+    const storeExamID = useSelector((state: RootState) => state?.examEditorReducer?.exam_id)
+    const isLoadingEdamData = useSelector((state: RootState) => state?.examEditorReducer?.exam_data_loading)
     const dispatch: any = useDispatch()
 
     useEffect(() => {

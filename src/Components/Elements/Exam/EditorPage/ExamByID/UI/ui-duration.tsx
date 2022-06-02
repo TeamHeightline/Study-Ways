@@ -3,7 +3,8 @@ import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {FormControl, InputLabel, MenuItem, Paper, Select, Stack, Typography} from "@mui/material";
 import {RootState} from "../../../../../../redux-store/RootReducer";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {changeExamMinutes} from "../../../../../../redux-store/exam-editor/actions";
 
 
 interface IUIDurationProps extends PaperProps {
@@ -11,9 +12,10 @@ interface IUIDurationProps extends PaperProps {
 }
 
 const UIDuration = observer(({...props}: IUIDurationProps) => {
-    const examDuration = useSelector((state: RootState) => state.examEditorReducer.exam_data.minutes)
-    const minutes = Math.floor(examDuration % 60)
-    const hours = Math.floor(examDuration / 60)
+    const examDuration = useSelector((state: RootState) => state?.examEditorReducer?.exam_data?.minutes)
+    const dispatch: any = useDispatch()
+    const minutes = Math.floor((Number(examDuration) || 0) % 60)
+    const hours = Math.floor((Number(examDuration) || 0) / 60)
     return (
         <Paper elevation={0} {...props}>
             <Stack direction={"row"} spacing={1}>
@@ -26,6 +28,9 @@ const UIDuration = observer(({...props}: IUIDurationProps) => {
                     <InputLabel>Часы</InputLabel>
                     <Select
                         value={hours}
+                        onChange={(e) => {
+                            dispatch(changeExamMinutes(Number(e.target.value) * 60 + minutes))
+                        }}
                         id="select-exam-hours"
                         label="Часы"
                     >
@@ -38,6 +43,9 @@ const UIDuration = observer(({...props}: IUIDurationProps) => {
                         value={minutes}
                         id="select-exam-minutes"
                         label="Минуты"
+                        onChange={(e) => {
+                            dispatch(changeExamMinutes(Number(e.target.value) + hours * 60))
+                        }}
                     >
                         {[...Array(60).keys()].map(i => <MenuItem value={i} key={i}>{i}</MenuItem>)}
                     </Select>

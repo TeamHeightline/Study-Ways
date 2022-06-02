@@ -10,8 +10,8 @@ interface ISelectedQSByDataProps extends PaperProps {
 }
 
 export default function SelectedQSByData({...props}: ISelectedQSByDataProps) {
-    const sequenceData: sequenceDataI = useSelector((state: RootState) => state.examEditorReducer.selected_qs_data)
-    const selectedQSID = useSelector((state: RootState) => state.examEditorReducer.exam_data.question_sequence_id)
+    const sequenceData: sequenceDataI | null | undefined = useSelector((state: RootState) => state?.examEditorReducer?.selected_qs_data)
+    const selectedQSID = useSelector((state: RootState) => state?.examEditorReducer?.exam_data?.question_sequence_id)
 
     if (sequenceData?.id != selectedQSID || selectedQSID == undefined) {
         return <div/>

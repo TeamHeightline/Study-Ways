@@ -2,6 +2,7 @@ import {initialState} from "./initial-state";
 import {
     CHANGE_ACCESS_TYPE,
     CHANGE_EXAM_ID,
+    CHANGE_EXAM_MINUTES,
     CHANGE_EXAM_NAME,
     CHANGE_SELECTED_QS_ID,
     LOAD_EXAM_DATA_SUCCESS,
@@ -12,90 +13,78 @@ import {
     UPDATE_EXAM_ERROR,
     UPDATE_EXAM_SUCCESS
 } from "./action-types";
+import produce from "immer";
 import {ActionType} from "typesafe-actions";
 import * as Actions from './actions';
 
 export type ExamEditorAction = ActionType<typeof Actions>;
 
 
-export const examEditorReducer = (state = initialState, action: ExamEditorAction) => {
+export const examEditorReducer = produce((state: typeof initialState = initialState, action
+    :
+    ExamEditorAction
+) => {
     switch (action.type) {
         case CHANGE_SELECTED_QS_ID:
-            return {
-                ...state,
-                exam_data: {
-                    ...state.exam_data,
-                    question_sequence_id: action.payload.qs_id
-                }
+            if (state.exam_data) {
+                state.exam_data.question_sequence_id = Number(action.payload.qs_id)
             }
+            break;
 
         case START_LOADING_QS:
-            return {
-                ...state,
-                selected_qs_data_loading: true
-            }
+            state.selected_qs_data_loading = true;
+            break;
+
         case LOAD_QS_SUCCESS:
-            return {
-                ...state,
-                selected_qs_data: action.payload.qs_data,
-                selected_qs_data_loading: false
-            }
+            state.selected_qs_data_loading = false;
+            state.selected_qs_data = action.payload.qs_data;
+            break;
 
         case CHANGE_ACCESS_TYPE:
-            return {
-                ...state,
-                access_type: action.payload.access_type
-            }
+            state.access_type = action.payload.access_type;
+            break;
 
         case CHANGE_EXAM_ID:
-            return {
-                ...state,
-                exam_id: action.payload.exam_id
-            }
+            state.exam_id = action.payload.exam_id;
+            break;
 
         case LOAD_EXAM_DATA_SUCCESS:
-            return {
-                ...state,
-                exam_data: action.payload.exam_data,
-                exam_data_loading: false
-            }
+            state.exam_data_loading = false;
+            state.exam_data = action.payload.exam_data;
+            break;
+
         case START_LOADING_EXAM_DATA:
-            return {
-                ...state,
-                exam_data_loading: true
-            }
+            state.exam_data_loading = true
+            break
 
         case START_UPDATE_EXAM:
-            return {
-                ...state,
-                update_exam_loading: true
-            }
+            state.update_exam_loading = true;
+            break;
 
         case UPDATE_EXAM_SUCCESS:
-            return {
-                ...state,
-                update_exam_loading: false
-            }
+            state.update_exam_loading = false;
+            break
+
 
         case UPDATE_EXAM_ERROR:
-            return {
-                ...state,
-                update_exam_loading: false,
-                update_exam_error: action.payload.error
-            }
+            state.update_exam_loading = false;
+            state.update_exam_error = action.payload.error;
+            break
 
         case CHANGE_EXAM_NAME:
-            return {
-                ...state,
-                exam_data: {
-                    ...state.exam_data,
-                    name: action.payload.name
-                }
+            if (state.exam_data) {
+                state.exam_data.name = action.payload.name;
             }
+            break
 
+        case CHANGE_EXAM_MINUTES:
+            if (state.exam_data) {
+                state.exam_data.minutes = action.payload.minutes;
+            }
+            break
 
         default:
             return state;
     }
 
-}
+})

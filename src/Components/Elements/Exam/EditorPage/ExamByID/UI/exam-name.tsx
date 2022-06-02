@@ -12,7 +12,7 @@ interface IExamNameProps extends PaperProps {
 }
 
 const ExamName = observer(({...props}: IExamNameProps) => {
-    const examName = useSelector((state: RootState) => state.examEditorReducer.exam_data.name)
+    const examName = useSelector((state: RootState) => state?.examEditorReducer?.exam_data?.name)
     const dispatch: any = useDispatch()
     return (
         <Paper elevation={0} {...props}>

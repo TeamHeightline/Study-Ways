@@ -1,6 +1,7 @@
 import {
     CHANGE_ACCESS_TYPE,
     CHANGE_EXAM_ID,
+    CHANGE_EXAM_MINUTES,
     CHANGE_EXAM_NAME,
     CHANGE_SELECTED_QS_ID,
     LOAD_EXAM_DATA_SUCCESS,
@@ -26,4 +27,7 @@ export const startLoadingExamData = () => action(START_LOADING_EXAM_DATA);
 export const startUpdateExam = () => action(START_UPDATE_EXAM);
 export const successUpdateExam = () => action(UPDATE_EXAM_SUCCESS);
 export const errorUpdateExam = (error) => action(UPDATE_EXAM_ERROR, {error});
+
 export const changeExamName = (name: string) => action(CHANGE_EXAM_NAME, {name});
+export const changeExamMinutes = (minutes: number) => action(CHANGE_EXAM_MINUTES, {minutes});
+

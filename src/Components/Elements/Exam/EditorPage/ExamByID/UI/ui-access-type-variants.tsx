@@ -10,7 +10,7 @@ interface IUIAccessTypeVariantsProps extends PaperProps {
 }
 
 export default function UIAccessTypeVariants({...props}: IUIAccessTypeVariantsProps) {
-    const accessType = useSelector((state: RootState) => state.examEditorReducer.access_type)
+    const accessType = useSelector((state: RootState) => state?.examEditorReducer?.access_type)
 
     return (
         <Paper elevation={0} {...props}>

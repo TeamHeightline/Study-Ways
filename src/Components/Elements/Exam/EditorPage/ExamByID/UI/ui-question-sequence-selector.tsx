@@ -15,7 +15,7 @@ interface IUIQuestionSequenceSelectorProps extends PaperProps {
 
 const UIQuestionSequenceSelector = observer(({...props}: IUIQuestionSequenceSelectorProps) => {
     //переменная для хранения ID выбранной серии вопросов
-    const selectedQSID = useSelector((state: RootState) => state.examEditorReducer.exam_data.question_sequence_id)
+    const selectedQSID = useSelector((state: RootState) => state?.examEditorReducer?.exam_data?.question_sequence_id)
 
     const [open, setOpen] = React.useState(false);
     const dispatch: any = useDispatch()

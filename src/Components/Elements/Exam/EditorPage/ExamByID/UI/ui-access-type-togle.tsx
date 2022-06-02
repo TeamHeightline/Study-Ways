@@ -10,7 +10,7 @@ interface IUIAccessTypeTogleProps extends PaperProps {
 
 export default function UIAccessTypeToggle({...props}: IUIAccessTypeTogleProps) {
     const dispath = useDispatch()
-    const accessType = useSelector((state: RootState) => state.examEditorReducer.access_type)
+    const accessType = useSelector((state: RootState) => state?.examEditorReducer?.access_type)
 
     function changeAccessTypeHandle(e, newAccessType) {
         dispath(changeAccessType(newAccessType))

@@ -6,6 +6,6 @@ export interface IExamData {
     "access_mode": string,
     "uid": string,
     "created_by_id": string,
-    "minutes": string,
-    question_sequence_id: string
+    "minutes": number,
+    question_sequence_id: number
 }

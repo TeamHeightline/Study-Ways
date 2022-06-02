@@ -17,7 +17,7 @@ const QuestionEditor = React.lazy(() => import("../../Elements/Question/Editor/Q
 const MainUserQuestionPage = React.lazy(() => import("../MainUserQuestionPage").then(module => ({default: module.MainUserQuestionPage})))
 const StatisticV2 = React.lazy(() => import("../../Elements/Statistic/V2/StatisticV2").then(module => ({default: module.StatisticV2})))
 const CardEditorV2 = React.lazy(() => import("../../Elements/Cards/Editor/EditorPageV2/Page").then(module => ({default: module.EditorPage})))
-const ExamPage = React.lazy(() => import("../../Elements/Exam/EditorPage/Page/UI/page"))
+const ExamPage = React.lazy(() => import("../../Elements/Exam/EditorPage/ExamByID/Page/UI/page"))
 const CheckQuestion = React.lazy(() => import("../../Elements/CheckQuestion/Page/UI/check-question-page"))
 
 

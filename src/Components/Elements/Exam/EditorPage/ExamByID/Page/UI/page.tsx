@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Paper} from "@mui/material";
-import ExamByID from "../../ExamByID/UI/exam-by-id-page";
+import ExamByID from "../../UI/exam-by-id-page";
 
 
 interface IExamEditorPageProps extends PaperProps {

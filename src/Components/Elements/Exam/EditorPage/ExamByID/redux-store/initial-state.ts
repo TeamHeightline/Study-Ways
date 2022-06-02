@@ -1,5 +1,5 @@
-import {IExamData} from "../../ServerLayer/Types/exam.types";
-import {sequenceDataI} from "../../ServerLayer/Types/question-sequence.type";
+import {IExamData} from "../../../../../../ServerLayer/Types/exam.types";
+import {sequenceDataI} from "../../../../../../ServerLayer/Types/question-sequence.type";
 
 export const initialState = {
     selected_qs_id: null,

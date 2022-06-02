@@ -1,8 +1,8 @@
 import {Paper, Table, TableBody, TableCell, TableContainer, TableRow} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {useSelector} from "react-redux";
-import {RootState} from "../../../redux-store/RootReducer";
-import {IBasicUserInformation} from "../../../ServerLayer/Types/user.types";
+import {RootState} from "../../../../root-redux-store/RootReducer";
+import {IBasicUserInformation} from "../../../../ServerLayer/Types/user.types";
 import UIUserProfileHead from "./ui-user-tablse-head";
 import UIUserStatusCell from "./ui-user-status-cell";
 

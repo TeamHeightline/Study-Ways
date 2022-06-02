@@ -2,9 +2,9 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Paper, TextField} from "@mui/material";
-import {RootState} from "../../../../../../redux-store/RootReducer";
+import {RootState} from "../../../../../../root-redux-store/RootReducer";
 import {useDispatch, useSelector} from "react-redux";
-import {changeExamName} from "../../../../../../redux-store/exam-editor/actions";
+import {changeExamName} from "../redux-store/actions";
 
 
 interface IExamNameProps extends PaperProps {

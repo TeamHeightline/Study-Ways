@@ -1,13 +1,13 @@
 import {FormControl, IconButton, InputLabel, MenuItem, Select, Stack, TableCell} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {IBasicUserInformation} from "../../../ServerLayer/Types/user.types";
-import {UserStorage} from "../../../Store/UserStore/UserStore";
+import {IBasicUserInformation} from "../../../../ServerLayer/Types/user.types";
+import {UserStorage} from "../../../../Store/UserStore/UserStore";
 import EditIcon from "@mui/icons-material/Edit";
 import {useDispatch, useSelector} from "react-redux";
-import {changeEditUserID, changeEditUserStatus, searchUsers} from "../../../redux-store/user-status-editor/actions";
-import {RootState} from "../../../redux-store/RootReducer";
+import {changeEditUserID, changeEditUserStatus, searchUsers} from "../redux-store/actions";
+import {RootState} from "../../../../root-redux-store/RootReducer";
 import {LoadingButton} from "@mui/lab";
-import {statusEditorUpdateUserStatus} from "../../../redux-store/user-status-editor/async-actions";
+import {statusEditorUpdateUserStatus} from "../redux-store/async-actions";
 import CheckIcon from '@mui/icons-material/Check';
 
 interface IUIUserStatusCellProps extends PaperProps {

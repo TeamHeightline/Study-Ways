@@ -7,8 +7,8 @@ import {
     successLoadExamData,
     successUpdateExam
 } from "./actions";
-import {getQSByID} from "../../ServerLayer/QueryLayer/question-sequence.query";
-import {loadExamByID, updateExam} from "../../ServerLayer/QueryLayer/exam.query";
+import {getQSByID} from "../../../../../../ServerLayer/QueryLayer/question-sequence.query";
+import {loadExamByID, updateExam} from "../../../../../../ServerLayer/QueryLayer/exam.query";
 
 export const loadQSData = (qsID) => (dispatch) => {
     if (qsID) {

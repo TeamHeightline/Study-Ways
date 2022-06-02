@@ -1,8 +1,8 @@
 import {Button, Grid, Paper, Stack, TextField} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {changeSearchText, searchUsers} from "../../../redux-store/user-status-editor/actions";
+import {changeSearchText, searchUsers} from "../redux-store/actions";
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../../redux-store/RootReducer";
+import {RootState} from "../../../../root-redux-store/RootReducer";
 
 interface IUIUserSearchProps extends PaperProps {
 

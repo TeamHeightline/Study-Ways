@@ -8,7 +8,7 @@ import {isMobileHook} from "../../../CustomHooks/isMobileHook";
 import RouterMenu from "./router-menu";
 
 
-const StatusEditorPage = React.lazy(() => import("../../Elements/StatusEditor/StatusEditorPage"));
+const StatusEditorPage = React.lazy(() => import("../../Elements/StatusEditor/UI/StatusEditorPage"));
 const SearchingElementsEditor = React.lazy(() => import("../SearchingElementsEditor"))
 const QuestionSequenceMainEditor = React.lazy(() => import("../QuestionSequenceMainEditor"))
 const MainCourseEditor = React.lazy(() => import("../MainCourseEditor"))

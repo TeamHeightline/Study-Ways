@@ -1,4 +1,4 @@
-import {loadAllUsers, updateUserStatus} from "../../ServerLayer/QueryLayer/user.query";
+import {loadAllUsers, updateUserStatus} from "../../../../ServerLayer/QueryLayer/user.query";
 import {
     loadingUsersError,
     startLoadingUsers,

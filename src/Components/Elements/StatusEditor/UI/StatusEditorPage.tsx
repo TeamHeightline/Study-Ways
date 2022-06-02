@@ -2,7 +2,7 @@ import {Grid, Paper} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {useEffect} from "react";
 import {useDispatch} from 'react-redux'
-import {loadUsersAsync} from "../../../redux-store/user-status-editor/async-actions";
+import {loadUsersAsync} from "../redux-store/async-actions";
 import UITitle from "./ui-title";
 import UIAllUsers from "./ui-all-users";
 import UIUserSearch from "./ui-user-search";

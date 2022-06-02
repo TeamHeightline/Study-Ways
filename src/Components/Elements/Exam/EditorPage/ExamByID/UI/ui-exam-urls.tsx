@@ -2,7 +2,7 @@ import {Paper, Stack} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Typography} from "antd";
 import React from "react";
-import {RootState} from "../../../../../../redux-store/RootReducer";
+import {RootState} from "../../../../../../root-redux-store/RootReducer";
 import {useSelector} from "react-redux";
 
 interface IUIExamUrlsProps extends PaperProps {

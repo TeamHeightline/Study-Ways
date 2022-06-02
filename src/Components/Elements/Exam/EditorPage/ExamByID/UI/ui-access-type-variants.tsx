@@ -1,7 +1,7 @@
 import {Paper} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {useSelector} from "react-redux";
-import {RootState} from "../../../../../../redux-store/RootReducer";
+import {RootState} from "../../../../../../root-redux-store/RootReducer";
 import UIAccessTypeManual from "./ui-access-type-manual";
 import UITimeInterval from "./ui-access-type-time-interval";
 

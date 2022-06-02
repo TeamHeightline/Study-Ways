@@ -12,10 +12,10 @@ import UIAccessTypeToggle from "./ui-access-type-togle";
 import UIAccessTypeVariants from "./ui-access-type-variants";
 import UIStudentsAccessType from "./ui-students-access-type";
 import UIExamUrls from "./ui-exam-urls";
-import {RootState} from "../../../../../../redux-store/RootReducer";
+import {RootState} from "../../../../../../root-redux-store/RootReducer";
 import {useDispatch, useSelector} from "react-redux";
-import {loadExamData} from "../../../../../../redux-store/exam-editor/async-actions";
-import {changeExamID} from "../../../../../../redux-store/exam-editor/actions";
+import {loadExamData} from "../redux-store/async-actions";
+import {changeExamID} from "../redux-store/actions";
 import AutoSaveModule from "./auto-save-module";
 
 

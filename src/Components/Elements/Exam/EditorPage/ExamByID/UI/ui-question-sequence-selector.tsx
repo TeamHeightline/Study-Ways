@@ -4,9 +4,9 @@ import {PaperProps} from "@mui/material/Paper/Paper";
 import {Button, Dialog, Paper} from "@mui/material";
 import {Sequences} from "../../../../QuestionSequence/Selector/UI/Sequences";
 import {useDispatch, useSelector} from "react-redux";
-import {changeExamEditorSelectedQsId} from "../../../../../../redux-store/exam-editor/actions";
-import {loadQSData} from "../../../../../../redux-store/exam-editor/async-actions";
-import {RootState} from "../../../../../../redux-store/RootReducer";
+import {changeExamEditorSelectedQsId} from "../redux-store/actions";
+import {loadQSData} from "../redux-store/async-actions";
+import {RootState} from "../../../../../../root-redux-store/RootReducer";
 
 
 interface IUIQuestionSequenceSelectorProps extends PaperProps {

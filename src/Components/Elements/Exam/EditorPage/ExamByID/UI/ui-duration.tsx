@@ -2,9 +2,9 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {FormControl, InputLabel, MenuItem, Paper, Select, Stack, Typography} from "@mui/material";
-import {RootState} from "../../../../../../redux-store/RootReducer";
+import {RootState} from "../../../../../../root-redux-store/RootReducer";
 import {useDispatch, useSelector} from "react-redux";
-import {changeExamMinutes} from "../../../../../../redux-store/exam-editor/actions";
+import {changeExamMinutes} from "../redux-store/actions";
 
 
 interface IUIDurationProps extends PaperProps {

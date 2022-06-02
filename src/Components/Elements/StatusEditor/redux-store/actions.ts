@@ -10,7 +10,7 @@ import {
     UPDATE_STATUS_ERROR,
     UPDATE_STATUS_SUCCESS
 } from "./action-types";
-import {IBasicUserInformation} from "../../ServerLayer/Types/user.types";
+import {IBasicUserInformation} from "../../../../ServerLayer/Types/user.types";
 
 export function successLoadUsers(users: IBasicUserInformation[]) {
     return {

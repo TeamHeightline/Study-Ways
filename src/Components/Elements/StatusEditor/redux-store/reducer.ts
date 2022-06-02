@@ -11,7 +11,7 @@ import {
     UPDATE_STATUS_SUCCESS
 } from "./action-types";
 import {initialState} from "./initial-state";
-import {IBasicUserInformation} from "../../ServerLayer/Types/user.types";
+import {IBasicUserInformation} from "../../../../ServerLayer/Types/user.types";
 
 
 export const statusEditorReducer = (state = initialState, action) => {

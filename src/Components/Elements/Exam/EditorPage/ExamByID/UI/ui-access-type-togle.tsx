@@ -1,8 +1,8 @@
 import {Paper, ToggleButton, ToggleButtonGroup} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../../../../../redux-store/RootReducer";
-import {changeAccessType} from "../../../../../../redux-store/exam-editor/actions";
+import {RootState} from "../../../../../../root-redux-store/RootReducer";
+import {changeAccessType} from "../redux-store/actions";
 
 interface IUIAccessTypeTogleProps extends PaperProps {
 

@@ -17,7 +17,7 @@ import {Auth0Provider} from "@auth0/auth0-react";
 import {observer} from "mobx-react";
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import {Provider} from "react-redux";
-import reduxStore from "./redux-store/RootStore";
+import reduxStore from "./root-redux-store/RootStore";
 
 configure({
     enforceActions: "never",

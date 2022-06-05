@@ -10,23 +10,10 @@ import {UserStorage} from './Store/UserStore/UserStore'
 import '@fontsource/roboto/300.css';
 
 
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch,} from "react-router-dom";
 
 
 import {ApolloProvider} from "@apollo/client";
-
-const EditorsRouter = React.lazy(() => import("./Components/PrivatePages/EditorRouter/EditorsRouter").then(module => ({default: module.EditorsRouter})))
-const MainCardPublicView = React.lazy(() => import("./Components/Elements/Cards/Page/MainCardPublicView").then(module => ({default: module.MainCardPublicView})))
-const QSPlayerByID = React.lazy(() => import("./Components/Elements/QuestionSequence/Public/QSPlayerByID").then(module => ({default: module.QSPlayerByID})))
-const ImageQuestion = React.lazy(() => import("./Components/Elements/Question/QuestionByID/QuestionByID").then(module => ({default: module.QuestionByID})))
-const SelfStatistic = React.lazy(() => import("./Components/Elements/SimpleSelfStatistic/UI/self-statistic-page").then(module => ({default: module.SelfStatisticPage})))
-const CoursePage = React.lazy(() => import("./Components/Elements/Course/Page/UI/CoursPage"))
-const CourseByURL = React.lazy(() => import("./Components/Elements/Course/CourseByURL/UI/CourseByURL"))
-
 import {observer} from "mobx-react"
 import {ClientStorage} from "./Store/ApolloStorage/ClientStorage";
 import {LogInNotification} from "./Components/PublicPages/Notifications/LogInNotification";
@@ -41,6 +28,15 @@ import SeoData from "./seo-data";
 import ProfilePage from "./Components/Elements/Profile/UI/ProfilePage";
 import {ProfileNotification} from "./Components/PublicPages/Notifications/ProfileNotification";
 import axiosClient from "./ServerLayer/QueryLayer/config";
+
+const EditorsRouter = React.lazy(() => import("./Components/PrivatePages/EditorRouter/EditorsRouter").then(module => ({default: module.EditorsRouter})))
+const MainCardPublicView = React.lazy(() => import("./Components/Elements/Cards/Page/MainCardPublicView").then(module => ({default: module.MainCardPublicView})))
+const QSPlayerByID = React.lazy(() => import("./Components/Elements/QuestionSequence/Public/QSPlayerByID").then(module => ({default: module.QSPlayerByID})))
+const ImageQuestion = React.lazy(() => import("./Components/Elements/Question/QuestionByID/QuestionByID").then(module => ({default: module.QuestionByID})))
+const SelfStatistic = React.lazy(() => import("./Components/Elements/SimpleSelfStatistic/UI/self-statistic-page").then(module => ({default: module.SelfStatisticPage})))
+const CoursePage = React.lazy(() => import("./Components/Elements/Course/Page/UI/CoursPage"))
+const CourseByURL = React.lazy(() => import("./Components/Elements/Course/CourseByURL/UI/CourseByURL"))
+const ExamByUID = React.lazy(() => import("./Components/Elements/Exam/ExamByUid/UI/exam-by-uid-page"))
 
 
 const App = observer(() => {
@@ -96,6 +92,7 @@ const App = observer(() => {
 
                                 <Route exact path="/iq/:id" component={ImageQuestion}/>
                                 <Route exact path="/qs/:id" component={QSPlayerByID}/>
+                                <Route exact path={"/exam/:uid"} component={ExamByUID}/>
 
                                 <Route path="/cards" component={MainCardPublicView}/>
                                 <Route exact path={"/card/:id"} component={CardByURL}/>

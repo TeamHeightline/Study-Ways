@@ -3,7 +3,7 @@ import {useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {loadExamNameAsync, openExamPageAsync} from "../redux-store/async-actions";
 import UIExamName from "./ui-exam-name";
-import UIExamQuestionProgress from "./ui-exam-questions-progress";
+import UIExamQuestionProgress from "./mini-question-selector/ui-exam-questions-progress";
 
 
 export default function ExamByUIDPge({...props}) {

@@ -1,7 +1,6 @@
 import {action, autorun, makeObservable, observable} from "mobx";
 import {setContext} from "@apollo/client/link/context";
 import {ApolloClient, ApolloLink, HttpLink, InMemoryCache, NormalizedCacheObject} from "@apollo/client";
-import {persistCache, LocalStorageWrapper} from 'apollo3-cache-persist';
 
 import {onError} from "apollo-link-error";
 import {SERVER_BASE_URL} from "../../settings";
@@ -69,10 +68,6 @@ class Client {
             if (networkError) console.log(networkError)
         })
         const cache = new InMemoryCache();
-        persistCache({
-            cache,
-            storage: new LocalStorageWrapper(window.localStorage),
-        });
         //Конечная сборка @client
         const client = new ApolloClient({
             link: ApolloLink.from([errorLink, authLink, httpLink]),

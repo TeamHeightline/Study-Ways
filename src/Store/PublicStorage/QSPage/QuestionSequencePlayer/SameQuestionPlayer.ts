@@ -372,7 +372,29 @@ export class SameQuestionPlayer {
                     question: this.questionID,
                     isLogin: this.userStore.isLogin,
                     userName: this.userStore.isLogin ? this.userStore.username : localStorage?.getItem('username')?.length !== 0 ? localStorage?.getItem('username') : "Анонимный пользователь",
-                    isUseexammode: this.isUseExamMode || this?.ownStore?.isUseExamMode,
+
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //isUseexammode: this.isUseExamMode || this?.ownStore?.isUseExamMode
+                    isUseexammode: (this.isUseExamMode || this?.ownStore?.isUseExamMode) && (UserStorage.userAccessLevel === "ADMIN"),
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    // /
+                    //
+                    //
                     questionSequence: this?.ownStore?.questionSequenceID,
                     questionHasBeenCompleted: this?.questionHasBeenCompleted,
                     maxSumOfAnswersPoint: this.maxSumOfPoints,

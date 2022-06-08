@@ -12,18 +12,18 @@ import {UserStorage} from "../../../UserStore/UserStore";
 import CryptoJS from 'crypto-js'
 import {SERVER_BASE_URL} from "../../../../settings";
 
-export class SameQuestionPlayer{
-    constructor(ownStore, questionID){
+export class SameQuestionPlayer {
+    constructor(ownStore, questionID) {
         makeAutoObservable(this)
         reaction(() => this.questionID, () => this.loadQuestionDataFromServer())
         reaction(() => this.questionID, () => this.deliverFromServerImageURL())
         reaction(() => this.questionHasBeenCompleted, () => this.saveDetailStatistic())
-        reaction(()=> this.isAcceptDefeat, () => this.loadRecommendedCardsForThisQuestion())
-        reaction(()=> this.questionHasBeenCompleted, () => this.loadRecommendedCardsForThisQuestion())
+        reaction(() => this.isAcceptDefeat, () => this.loadRecommendedCardsForThisQuestion())
+        reaction(() => this.questionHasBeenCompleted, () => this.loadRecommendedCardsForThisQuestion())
 
         this.ownStore = ownStore
         this.questionID = questionID
-        if(ownStore){
+        if (ownStore) {
             reaction(() => this.ownStore.hardLevelOfHelpText,
                 () => this.changeHardLevelOfHelpText(this.ownStore.hardLevelOfHelpText))
             reaction(() => this.ownStore.HardLevelHasBeenSelected,
@@ -37,7 +37,7 @@ export class SameQuestionPlayer{
     questionID: any
 
     //Функция для обновления ID вопроса
-    changeQuestionId(newId){
+    changeQuestionId(newId) {
         this.questionID = newId
         this.oneTimeCheckError = false
         this.numberOfPasses = 0
@@ -66,10 +66,10 @@ export class SameQuestionPlayer{
     selectedAnswers = new Set()
 
     //Обработчик выбора карточки
-    selectAnswerHandleChange(answerID){
-        if(this.selectedAnswers.has(answerID)){
+    selectAnswerHandleChange(answerID) {
+        if (this.selectedAnswers.has(answerID)) {
             this.selectedAnswers.delete(answerID)
-        }else{
+        } else {
             this.selectedAnswers.add(answerID)
         }
 
@@ -79,11 +79,11 @@ export class SameQuestionPlayer{
     hardLevelOfHelpText = '0'
 
     //обработчик изменений сложности подсказки
-    changeHardLevelOfHelpText(newHardLevelOfHelpText){
+    changeHardLevelOfHelpText(newHardLevelOfHelpText) {
         this.hardLevelOfHelpText = newHardLevelOfHelpText
     }
 
-    startQuestion(){
+    startQuestion() {
         this.questionHasBeenStarted = true
     }
 
@@ -117,7 +117,7 @@ export class SameQuestionPlayer{
     numberOfSelectAnswersOnThisPass = 0
 
     //Проверка ошибок
-    checkErrors(){
+    checkErrors() {
         //Говорим что теперь мы точно совершили первую проверку на ошибку и теперь можно или показывать
         //подсказку или сообщать, что все верно
         this.oneTimeCheckError = true
@@ -134,30 +134,29 @@ export class SameQuestionPlayer{
         let __sumOfGotAnswerPoints = 0
         this.numberOfSelectAnswersOnThisPass = this.selectedAnswers?.size
         this.answersArray.map((answer, aIndex) => {
-            if((answer.isTrue && !this.selectedAnswers.has(answer.id)) || (!answer.isTrue && this.selectedAnswers.has(answer.id))){
+            if ((answer.isTrue && !this.selectedAnswers.has(answer.id)) || (!answer.isTrue && this.selectedAnswers.has(answer.id))) {
                 __errorArray.push(answer.id)
 
 
-                if(answer.hardLevelOfAnswer == "EASY"){
+                if (answer.hardLevelOfAnswer == "EASY") {
                     __sumOfLoosedAnswerPoints += 15
-                }else if(answer.hardLevelOfAnswer == "MEDIUM"){
+                } else if (answer.hardLevelOfAnswer == "MEDIUM") {
                     __sumOfLoosedAnswerPoints += 10
-                }else{
+                } else {
                     __sumOfLoosedAnswerPoints += 5
                 }
 
 
-                if(Number(answer.checkQueue) < Number(minCheckQueue)){
+                if (Number(answer.checkQueue) < Number(minCheckQueue)) {
                     minCheckQueue = answer.checkQueue
                     indexOfMostWantedError = aIndex
                 }
-            }
-            else{
-                if(answer.hardLevelOfAnswer == "EASY"){
+            } else {
+                if (answer.hardLevelOfAnswer == "EASY") {
                     __sumOfGotAnswerPoints += 5
-                }else if(answer.hardLevelOfAnswer == "MEDIUM"){
+                } else if (answer.hardLevelOfAnswer == "MEDIUM") {
                     __sumOfGotAnswerPoints += 10
-                }else{
+                } else {
                     __sumOfGotAnswerPoints += 15
                 }
             }
@@ -170,84 +169,88 @@ export class SameQuestionPlayer{
         this.historyOfWrongSelectedAnswers.set(this.numberOfPasses, __errorArray)
 
         this.IndexOfMostWantedError = indexOfMostWantedError
-        if(__errorArray.length == 0){
+        if (__errorArray.length == 0) {
             this.questionHasBeenCompleted = true
         }
     }
 
     //Массив данные из которого будут использованы чтобы отобразить график количества неправильных ответов на каждой из поыпыток
-    get ArrayForShowNumberOfWrongAnswers(){
+    get ArrayForShowNumberOfWrongAnswers() {
         const showArray: any = []
-       toJS(this.historyOfWrongSelectedAnswers)?.forEach((attempt, aIndex: any) =>{
+        toJS(this.historyOfWrongSelectedAnswers)?.forEach((attempt, aIndex: any) => {
             showArray.push({numberOfPasses: aIndex, numberOfWrongAnswers: attempt.length})
         })
-        return(
+        return (
             showArray
         )
     }
 
-    get ArrayForShowWrongAnswers(){
+    get ArrayForShowWrongAnswers() {
         const showArray: any = []
-        toJS(this.historyOfWrongSelectedAnswers)?.forEach((attempt, aIndex: any) =>{
+        toJS(this.historyOfWrongSelectedAnswers)?.forEach((attempt, aIndex: any) => {
             showArray.push({numberOfPasses: aIndex, numberOfWrongAnswers: attempt})
         })
-        return(
+        return (
             showArray
         )
     }
 
     //Массив для отображения графика баллов на каждой из попыток
-    get ArrayForShowAnswerPoints(){
+    get ArrayForShowAnswerPoints() {
         const showArray: any = []
-        toJS(this.historyOfAnswerPoints)?.forEach((attempt, aIndex: any) =>{
+        toJS(this.historyOfAnswerPoints)?.forEach((attempt, aIndex: any) => {
             showArray.push({numberOfPasses: aIndex, answerPoints: attempt})
         })
-        return(showArray)
+        return (showArray)
     }
+
     //Флаг экзаменационного режима
     isUseExamMode = false
 
     //Функция для изменения (включения) экзаменационного режима
-    changeIsUseExamMode(newExamState){
+    changeIsUseExamMode(newExamState) {
         this.isUseExamMode = newExamState
     }
+
     //Выводит подсказку
-    get HelpTextForShow(){
-        if(Number(this.numberOfSelectAnswersOnThisPass) == 0 && this.numberOfPasses == 1){
+    get HelpTextForShow() {
+        if (Number(this.numberOfSelectAnswersOnThisPass) == 0 && this.numberOfPasses == 1) {
             return ("Среди предложенных вариантов ответа есть хотя бы один правильный, проверьте еще раз")
         }
         // if(this.ownStore?.isUseExamMode || this.isUseExamMode){
         //     return ("Вы допустили одну или более ошибок")
         // }
-        if(this.hardLevelOfHelpText == "0"){
+        if (this.hardLevelOfHelpText == "0") {
             return (this.answersArray[this.IndexOfMostWantedError].helpTextv1)
         }
-        if(this.hardLevelOfHelpText == "1"){
+        if (this.hardLevelOfHelpText == "1") {
             return (this.answersArray[this.IndexOfMostWantedError].helpTextv2)
         }
-        if(this.hardLevelOfHelpText == "2"){
+        if (this.hardLevelOfHelpText == "2") {
             return (this.answersArray[this.IndexOfMostWantedError].helpTextv3)
         }
 
     }
 
     //Доставка изображения для вопроса с сервера
-    deliverFromServerImageURL(){
-        fetch(SERVER_BASE_URL+ "/files/question?id="+ this.questionID)
+    deliverFromServerImageURL() {
+        fetch(SERVER_BASE_URL + "/files/question?id=" + this.questionID)
             .then(response => response.json())
-            .then(jResponse =>{
+            .then(jResponse => {
                 this.questionImageUrl = jResponse[0].image
             })
             .catch(() => this.questionImageUrl = '')
     }
 
-    loadRecommendedCardsForThisQuestion(){
-        if(this.isAcceptDefeat || this.questionHasBeenCompleted){
-            this.clientStorage.client.query({query: GET_CARDS_ID_BY_SEARCH_STRING,
-                variables: {searchString: toJS(this.questionText).replace('/физик/g','')}})
-                .then(response =>{
+    loadRecommendedCardsForThisQuestion() {
+        if (this.isAcceptDefeat || this.questionHasBeenCompleted) {
+            this.clientStorage.client.query({
+                query: GET_CARDS_ID_BY_SEARCH_STRING,
+                variables: {searchString: toJS(this.questionText).replace('/физик/g', '')}
+            })
+                .then(response => {
                     const __directionData: any = []
-                    response?.data?.ftSearchInCards?.slice(0,5).map((card)=>{
+                    response?.data?.ftSearchInCards?.slice(0, 5).map((card) => {
                         __directionData.push({type: "CardElement", id: card.id})
                     })
                     console.log(toJS(__directionData))
@@ -259,22 +262,63 @@ export class SameQuestionPlayer{
     dataForDirection: any = []
 
     //Функция для загрузки данных о вопросе с сервера
-    loadQuestionDataFromServer(){
-        if(this.questionID){
-            this.clientStorage.client.query({query: GET_ENCRYPT_QUESTION_DATA_BY_ID,
-                variables:{
+    loadQuestionDataFromServer() {
+        if (this.questionID) {
+            this.clientStorage.client.query({
+                query: GET_ENCRYPT_QUESTION_DATA_BY_ID,
+                variables: {
                     id: this.questionID,
-                    examMode: this.isUseExamMode || this?.ownStore?.isUseExamMode
-            }, fetchPolicy: "network-only"})
+                    //
+                    //
+                    //
+                    //
+                    //
+                    examMode: (this.isUseExamMode || this?.ownStore?.isUseExamMode) && (UserStorage.userAccessLevel === "ADMIN")
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+
+                    // examMode: this.isUseExamMode || this?.ownStore?.isUseExamMode
+
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+                    //
+
+                }, fetchPolicy: "network-only"
+            })
                 .then((data) => {
                     let __decrypt_question: any = {}
                     let __decrypt_answers: any = [{}]
-                    if(data?.data?.eqbi) {
-                        const _question_string =  CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(data?.data?.eqbi?.qbs.slice(2)))
-                        __decrypt_question =  JSON.parse(_question_string)[0]?.fields
-                        const _answer_string =  CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(data?.data?.eqbi?.abs.slice(2)))
-                        __decrypt_answers =   JSON.parse(_answer_string)
-                        __decrypt_answers.map((answer, aIndex) =>{
+                    if (data?.data?.eqbi) {
+                        const _question_string = CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(data?.data?.eqbi?.qbs.slice(2)))
+                        __decrypt_question = JSON.parse(_question_string)[0]?.fields
+                        const _answer_string = CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(data?.data?.eqbi?.abs.slice(2)))
+                        __decrypt_answers = JSON.parse(_answer_string)
+                        __decrypt_answers.map((answer, aIndex) => {
                             const ___fields_to_pass = answer?.fields
                             ___fields_to_pass.id = answer.pk
                             __decrypt_answers[aIndex] = ___fields_to_pass
@@ -290,16 +334,16 @@ export class SameQuestionPlayer{
                     const __notRequiredAnswersForDisplay = shuffle(__decrypt_answers?.filter((answer) => answer.is_deleted === false)?.filter((answer) => answer.is_required === false))?.slice(0, __decrypt_question?.number_of_showing_answers - __requiredAnswersForDisplay.length)
                     let __answersForDisplay = __requiredAnswersForDisplay.length > 0 ? __requiredAnswersForDisplay.concat(__notRequiredAnswersForDisplay) : __notRequiredAnswersForDisplay;
                     __answersForDisplay = shuffle(__answersForDisplay)
-                    __answersForDisplay.map((answer) =>{
-                        if(answer.hard_level_of_answer == "EASY"){
+                    __answersForDisplay.map((answer) => {
+                        if (answer.hard_level_of_answer == "EASY") {
                             __maxSumOfAnswerPoints += 5
-                        }else if(answer.hard_level_of_answer == "MEDIUM"){
+                        } else if (answer.hard_level_of_answer == "MEDIUM") {
                             __maxSumOfAnswerPoints += 10
-                        }else{
+                        } else {
                             __maxSumOfAnswerPoints += 15
                         }
                         this.maxSumOfPoints = __maxSumOfAnswerPoints
-                        __AnswersArray.push(new SameAnswerNode(answer.id,  answer.text, answer.is_true, answer.check_queue,
+                        __AnswersArray.push(new SameAnswerNode(answer.id, answer.text, answer.is_true, answer.check_queue,
                             answer.help_textV1, answer.help_textV2, answer.help_textV3, answer.hard_level_of_answer, answer.is_image_deleted))
                     })
 
@@ -313,46 +357,50 @@ export class SameQuestionPlayer{
     //Сдался ли пользователь при попытке пройти вопрос
     isAcceptDefeat = false
 
-    onAcceptDefeat(){
-        if(!this.isAcceptDefeat){
+    onAcceptDefeat() {
+        if (!this.isAcceptDefeat) {
             this.isAcceptDefeat = true
             this.saveDetailStatistic()
         }
     }
 
     //Сохраняет детальную статистику по прохождению вопроса
-    saveDetailStatistic(){
-        if(this?.ownStore && this?.ownStore?.questionSequenceID){
-            this.clientStorage.client.mutate({mutation: SAVE_DETAIL_STATISTIC_WITH_QS, variables:{
+    saveDetailStatistic() {
+        if (this?.ownStore && this?.ownStore?.questionSequenceID) {
+            this.clientStorage.client.mutate({
+                mutation: SAVE_DETAIL_STATISTIC_WITH_QS, variables: {
                     question: this.questionID,
                     isLogin: this.userStore.isLogin,
-                    userName: this.userStore.isLogin? this.userStore.username : localStorage?.getItem('username')?.length !== 0 ? localStorage?.getItem('username') : "Анонимный пользователь",
+                    userName: this.userStore.isLogin ? this.userStore.username : localStorage?.getItem('username')?.length !== 0 ? localStorage?.getItem('username') : "Анонимный пользователь",
                     isUseexammode: this.isUseExamMode || this?.ownStore?.isUseExamMode,
                     questionSequence: this?.ownStore?.questionSequenceID,
                     questionHasBeenCompleted: this?.questionHasBeenCompleted,
                     maxSumOfAnswersPoint: this.maxSumOfPoints,
-                    statistic:{
+                    statistic: {
                         numberOfPasses: this.numberOfPasses,
-                        ArrayForShowAnswerPoints : this.ArrayForShowAnswerPoints,
+                        ArrayForShowAnswerPoints: this.ArrayForShowAnswerPoints,
                         ArrayForShowWrongAnswers: this.ArrayForShowWrongAnswers,
                     }
-                }})
-                .catch(() => void(0))
-        }else{
-            this.clientStorage.client.mutate({mutation: SAVE_DETAIL_STATISTIC, variables:{
+                }
+            })
+                .catch(() => void (0))
+        } else {
+            this.clientStorage.client.mutate({
+                mutation: SAVE_DETAIL_STATISTIC, variables: {
                     question: this.questionID,
                     isLogin: this.userStore.isLogin,
-                    userName: this.userStore.isLogin? this.userStore.username : localStorage?.getItem('username')?.length !== 0 ? localStorage?.getItem('username') : "Анонимный пользователь",
+                    userName: this.userStore.isLogin ? this.userStore.username : localStorage?.getItem('username')?.length !== 0 ? localStorage?.getItem('username') : "Анонимный пользователь",
                     isUseexammode: this.isUseExamMode || this?.ownStore?.isUseExamMode,
                     questionHasBeenCompleted: this?.questionHasBeenCompleted,
                     maxSumOfAnswersPoint: this.maxSumOfPoints,
-                    statistic:{
+                    statistic: {
                         numberOfPasses: this.numberOfPasses,
-                        ArrayForShowAnswerPoints : this.ArrayForShowAnswerPoints,
+                        ArrayForShowAnswerPoints: this.ArrayForShowAnswerPoints,
                         ArrayForShowWrongAnswers: this.ArrayForShowWrongAnswers,
                     }
-                }})
-                .catch(() => void(0))
+                }
+            })
+                .catch(() => void (0))
         }
     }
 

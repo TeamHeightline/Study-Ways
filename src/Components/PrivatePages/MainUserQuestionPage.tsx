@@ -108,7 +108,7 @@ export const MainUserQuestionPage = observer(() => {
         )
     }
     return (
-        <Stack direction={"column"}>
+        <Stack direction={"column"} sx={{pl: 4}}>
             <Button
                 fullWidth
                 sx={{maxWidth: 300}}

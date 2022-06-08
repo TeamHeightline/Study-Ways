@@ -58,6 +58,20 @@ export const ExamByUIDReducer = produce((state: typeof initialState = initialSta
             break
 
         case QUESTION_DATA_LOAD_SUCCESS:
+            //Обязательно вычисляется максимальная сумма баллов за вопрос
+            let max_sum_of_points = 0
+            for (let i of action.payload.questionData?.usertests_answer) {
+                if (i.hard_level_of_answer == "EASY") {
+                    max_sum_of_points += 5
+                } else if (i.hard_level_of_answer == "MEDIUM") {
+                    max_sum_of_points += 10
+                } else {
+                    max_sum_of_points += 15
+                }
+            }
+
+            state.max_sum_of_points = max_sum_of_points
+
             state.selected_question_data = action.payload.questionData
             state.loading_selected_question_data = false
             break

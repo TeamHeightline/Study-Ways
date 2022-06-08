@@ -2,7 +2,7 @@ import {Button, Grid, Stack} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import React from "react";
+import React, {useState} from "react";
 import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../../../root-redux-store/RootReducer";
@@ -13,6 +13,8 @@ interface IUIQuestionTextProps extends PaperProps {
 
 export default function UIQuestionText({...props}: IUIQuestionTextProps) {
     const isMobile = isMobileHook()
+    const [disableCheckButton, setDisableCheckButton] = useState(false)
+
     const questionText = useSelector((state: RootState) => state?.ExamByUIDReducer?.selected_question_data?.text)
 
     return (
@@ -30,13 +32,13 @@ export default function UIQuestionText({...props}: IUIQuestionTextProps) {
                         </Typography>
                         <Stack direction={"row"} spacing={1}>
                             <Button
-                                // disabled={disableCheckButton}
+                                disabled={disableCheckButton}
                                 variant="contained" color="primary"
-                                // onClick={(e) => {
-                                //     props.onClick1(e)
-                                //     setDisableCheckButton(true)
-                                //     setTimeout(setDisableCheckButton, 1000, false)
-                                // }}
+                                onClick={(e) => {
+                                    // props.onClick1(e)
+                                    setDisableCheckButton(true)
+                                    setTimeout(setDisableCheckButton, 1000, false)
+                                }}
                                 fullWidth>
                                 Проверить
                             </Button>

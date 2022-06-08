@@ -11,6 +11,8 @@ interface IUIQuestionProps extends PaperProps {
 }
 
 export default function UIQuestion({...props}: IUIQuestionProps) {
+
+
     const isMobile = isMobileHook()
     window.addEventListener("keydown", function (e) {
         if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) {

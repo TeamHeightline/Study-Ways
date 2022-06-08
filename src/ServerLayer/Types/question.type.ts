@@ -16,6 +16,11 @@ export interface IQuestionPreviewData {
     }
 }
 
+export interface IAnswerImage {
+    owner_answer_id: number,
+    image: string
+}
+
 export interface IAnswer {
     id: number,
     is_true: boolean,
@@ -32,7 +37,13 @@ export interface IAnswer {
     is_invisible: boolean,
     is_required: boolean,
     is_image_deleted: boolean,
-    only_for_exam: boolean
+    only_for_exam: boolean,
+    usertests_answerimage?: IAnswerImage
+}
+
+export interface IQuestionImage {
+    owner_question_id: number,
+    image: string
 }
 
 export interface IQuestionWithAnswers {
@@ -43,6 +54,7 @@ export interface IQuestionWithAnswers {
     isImageQuestion: boolean,
     number_of_showing_answers: number,
     connected_theme_id: number | null,
+    usertests_questionimage?: IQuestionImage,
     usertests_answer: IAnswer[]
 }
 

@@ -12,7 +12,7 @@ export default function UIExamQuestionProgress({...props}: IUIExamQuestionProgre
     const questionStatuses = useSelector((state: RootState) => state?.ExamByUIDReducer?.question_statuses)
     return (
         <Paper elevation={0} {...props}>
-            <Card variant={"outlined"} sx={{p: 2, maxWidth: 440, mt: 2, ml: 2, zoom: "115%"}}>
+            <Card variant={"outlined"} sx={{p: 2, maxWidth: 440, mt: 2, zoom: "115%"}}>
                 <Grid container spacing={2} justifyContent={"evenly"}>
                     {questionStatuses?.map((questionStatus, index) => {
                         return (<UIQuestionButtonFactory questionIndex={index} questionStatus={questionStatus}/>)

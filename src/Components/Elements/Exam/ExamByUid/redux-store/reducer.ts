@@ -3,10 +3,14 @@ import {initialState, IQuestionStatus} from "./initial-state";
 import {ActionType} from "typesafe-actions";
 import {
     CHANGE_EXAM_NAME,
+    CHANGE_HELP_TEXT,
+    CHANGE_SELECTED_ANSWERS_ID,
     CHANGE_SELECTED_QUESTION_ID,
     EXAM_BY_UID_LOAD_ERROR,
     EXAM_BY_UID_LOAD_SUCCESS,
-    START_LOADING_EXAM_BY_UID
+    QUESTION_DATA_LOAD_SUCCESS,
+    START_LOADING_EXAM_BY_UID,
+    START_LOADING_QUESTION_DATA
 } from "./action-types";
 import produce from "immer";
 
@@ -42,10 +46,33 @@ export const ExamByUIDReducer = produce((state: typeof initialState = initialSta
 
         case CHANGE_SELECTED_QUESTION_ID:
             state.selected_question_id = action.payload.selectedQuestionId;
+            state.help_text = ''
             break
 
         case CHANGE_EXAM_NAME:
             state.exam_name = action.payload.examName;
+            break
+
+        case START_LOADING_QUESTION_DATA:
+            state.loading_selected_question_data = true
+            break
+
+        case QUESTION_DATA_LOAD_SUCCESS:
+            state.selected_question_data = action.payload.questionData
+            state.loading_selected_question_data = false
+            break
+
+        case CHANGE_HELP_TEXT:
+            state.help_text = action.payload.helpText
+            break
+
+        case CHANGE_SELECTED_ANSWERS_ID:
+            const answersId = action.payload.answerId
+            if (state.selected_answers_id.has(answersId)) {
+                state.selected_answers_id.delete(answersId)
+            } else {
+                state.selected_answers_id.add(answersId)
+            }
             break
 
         default:

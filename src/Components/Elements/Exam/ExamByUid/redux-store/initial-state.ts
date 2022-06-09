@@ -14,6 +14,8 @@ export const initialState = {
     max_sum_of_points: 0,
     statistic: null as IStatistic | null,
     is_question_completed: false,
+
+    await_statistic_save: false,
 }
 
 

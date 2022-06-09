@@ -7,6 +7,7 @@ import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../../root-redux-store/RootReducer";
 import {checkAnswers} from "../../redux-store/actions";
+import UiComebackLaterDialog from "./ui-come-back-later-dialog";
 
 interface IUIQuestionTextProps extends PaperProps {
 
@@ -16,6 +17,7 @@ export default function UIQuestionText({...props}: IUIQuestionTextProps) {
     const isMobile = isMobileHook()
     const dispatch = useDispatch();
     const [disableCheckButton, setDisableCheckButton] = useState(false)
+    const [isOpenComeBackLaterDialog, setIsOpenComeBackLaterDialog] = useState(false)
     const questionText = useSelector((state: RootState) => state?.ExamByUIDReducer?.selected_question_data?.text)
 
     function checkError() {
@@ -25,6 +27,8 @@ export default function UIQuestionText({...props}: IUIQuestionTextProps) {
     return (
         <Grid item xs={12} md={6}
               style={{height: isMobile ? window.innerWidth - 100 : 500, width: "100%"}}>
+            <UiComebackLaterDialog isOpenComeBackLaterDialog={isOpenComeBackLaterDialog}
+                                   setIsOpenComeBackLaterDialog={setIsOpenComeBackLaterDialog}/>
             <CardContent sx={{height: "100%"}}>
                 <Grid sx={{height: "100%"}} container alignItems="center">
                     <Grid item xs={12} spacing={2}>
@@ -49,7 +53,7 @@ export default function UIQuestionText({...props}: IUIQuestionTextProps) {
                                 Проверить
                             </Button>
                             <Button variant="outlined" color="secondary"
-                                // onClick={() => setOpenAcceptDefeatDialog(true)}
+                                    onClick={() => setIsOpenComeBackLaterDialog(true)}
                                     fullWidth>
                                 Сдаться
                             </Button>

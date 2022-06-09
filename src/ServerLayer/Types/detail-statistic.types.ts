@@ -16,6 +16,7 @@ export interface IStatistic {
 
 
 export interface IDetailStatistic {
+    id?: number,
     user_name: string,
     is_login: boolean,
     statistic: IStatistic,

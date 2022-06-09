@@ -10,8 +10,10 @@ import {
     EXAM_BY_UID_LOAD_ERROR,
     EXAM_BY_UID_LOAD_SUCCESS,
     QUESTION_DATA_LOAD_SUCCESS,
+    SAVE_DETAIL_STATISTIC_SUCCESS,
     START_LOADING_EXAM_BY_UID,
-    START_LOADING_QUESTION_DATA
+    START_LOADING_QUESTION_DATA,
+    START_SAVING_DETAIL_STATISTIC
 } from "./action-types";
 import produce from "immer";
 import {shuffle} from "lodash"
@@ -49,6 +51,10 @@ export const ExamByUIDReducer = produce((state: typeof initialState = initialSta
         case CHANGE_SELECTED_QUESTION_ID:
             state.selected_question_id = action.payload.selectedQuestionId;
             state.help_text = ''
+            state.statistic = null
+            state.is_question_completed = false
+            state.max_sum_of_points = 0
+            state.selected_answers_id = new Set()
             break
 
         case CHANGE_EXAM_NAME:
@@ -178,6 +184,19 @@ export const ExamByUIDReducer = produce((state: typeof initialState = initialSta
                 || ""
 
             break
+
+        case START_SAVING_DETAIL_STATISTIC:
+            state.await_statistic_save = true
+            break
+
+        case SAVE_DETAIL_STATISTIC_SUCCESS:
+            const newQuestionStatus = state.question_statuses.find((questionStatus) => questionStatus.question_id == action.payload.statistic.question_id)
+            if (newQuestionStatus) {
+                newQuestionStatus.statistic_id = action.payload.statistic.id
+            }
+            state.await_statistic_save = false
+            break
+
 
         default:
             return state

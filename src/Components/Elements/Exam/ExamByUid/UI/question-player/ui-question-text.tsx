@@ -4,8 +4,9 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import React, {useState} from "react";
 import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../../root-redux-store/RootReducer";
+import {checkAnswers} from "../../redux-store/actions";
 
 interface IUIQuestionTextProps extends PaperProps {
 
@@ -13,9 +14,13 @@ interface IUIQuestionTextProps extends PaperProps {
 
 export default function UIQuestionText({...props}: IUIQuestionTextProps) {
     const isMobile = isMobileHook()
+    const dispatch = useDispatch();
     const [disableCheckButton, setDisableCheckButton] = useState(false)
-
     const questionText = useSelector((state: RootState) => state?.ExamByUIDReducer?.selected_question_data?.text)
+
+    function checkError() {
+        dispatch(checkAnswers())
+    }
 
     return (
         <Grid item xs={12} md={6}
@@ -36,6 +41,7 @@ export default function UIQuestionText({...props}: IUIQuestionTextProps) {
                                 variant="contained" color="primary"
                                 onClick={(e) => {
                                     // props.onClick1(e)
+                                    checkError()
                                     setDisableCheckButton(true)
                                     setTimeout(setDisableCheckButton, 1000, false)
                                 }}

@@ -4,6 +4,7 @@ import {
     CHANGE_HELP_TEXT,
     CHANGE_SELECTED_ANSWERS_ID,
     CHANGE_SELECTED_QUESTION_ID,
+    CHECK_ANSWERS,
     EXAM_BY_UID_LOAD_ERROR,
     EXAM_BY_UID_LOAD_SUCCESS,
     QUESTION_DATA_LOAD_SUCCESS,
@@ -21,3 +22,4 @@ export const startLoadingQuestionData = (selectedQuestionID: number) => action(S
 export const questionDataLoadSuccess = (questionData: IQuestionWithAnswers) => action(QUESTION_DATA_LOAD_SUCCESS, {questionData})
 export const changeHelpText = (helpText: string) => action(CHANGE_HELP_TEXT, {helpText})
 export const changeSelectedAnswersId = (answerId: number) => action(CHANGE_SELECTED_ANSWERS_ID, {answerId})
+export const checkAnswers = () => action(CHECK_ANSWERS)

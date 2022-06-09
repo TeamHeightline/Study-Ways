@@ -7,4 +7,5 @@ export const START_LOADING_QUESTION_DATA = 'exam-by-uid/START_LOADING_QUESTION_D
 export const QUESTION_DATA_LOAD_SUCCESS = 'exam-by-uid/QUESTION_DATA_LOAD_SUCCESS'
 export const CHANGE_HELP_TEXT = 'exam-by-uid/CHANGE_HELP_TEXT'
 export const CHANGE_SELECTED_ANSWERS_ID = 'exam-by-uid/CHANGE_SELECTED_ANSWERS_ID'
+export const CHECK_ANSWERS = 'exam-by-uid/CHECK_ANSWERS'
 

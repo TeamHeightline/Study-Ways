@@ -1,4 +1,5 @@
 import {IQuestionWithAnswers} from "../../../../../ServerLayer/Types/question.type";
+import {IStatistic} from "../../../../../ServerLayer/Types/detail-statistic.types";
 
 export const initialState = {
     loading_question_statuses: true,
@@ -11,6 +12,8 @@ export const initialState = {
     loading_selected_question_data: true,
     selected_answers_id: new Set(),
     max_sum_of_points: 0,
+    statistic: null as IStatistic | null,
+    is_question_completed: false,
 }
 
 

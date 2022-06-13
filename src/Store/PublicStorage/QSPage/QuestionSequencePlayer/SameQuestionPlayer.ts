@@ -273,7 +273,7 @@ export class SameQuestionPlayer {
                     //
                     //
                     //
-                    // examMode: (this.isUseExamMode || this?.ownStore?.isUseExamMode) && (UserStorage.userAccessLevel === "ADMIN")
+                    examMode: (this.isUseExamMode || this?.ownStore?.isUseExamMode) && (UserStorage.userAccessLevel === "ADMIN")
                     //
                     //
                     //
@@ -281,7 +281,7 @@ export class SameQuestionPlayer {
                     //
                     //
 
-                    examMode: this.isUseExamMode || this?.ownStore?.isUseExamMode
+                    // examMode: this.isUseExamMode || this?.ownStore?.isUseExamMode
 
                     //
                     //
@@ -384,8 +384,8 @@ export class SameQuestionPlayer {
                     //
                     //
                     //
-                    isUseexammode: this.isUseExamMode || this?.ownStore?.isUseExamMode,
-                    // isUseexammode: (this.isUseExamMode || this?.ownStore?.isUseExamMode) && (UserStorage.userAccessLevel === "ADMIN"),
+                    // isUseexammode: this.isUseExamMode || this?.ownStore?.isUseExamMode,
+                    isUseexammode: (this.isUseExamMode || this?.ownStore?.isUseExamMode) && (UserStorage.userAccessLevel === "ADMIN"),
                     //
                     //
                     //

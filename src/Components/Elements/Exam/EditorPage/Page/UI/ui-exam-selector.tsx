@@ -1,38 +1,31 @@
-import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import {Paper, Table, TableBody, TableContainer} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
+import {useEffect} from "react";
+import {loadMyExamsAsync} from "../redux-store/async-actions";
+import {useDispatch, useSelector} from "react-redux";
+import UIExamSelectorTableHead from "./ui-exam-selector-table-head";
+import {RootState} from "../../../../../../root-redux-store/RootReducer";
+import UIExamSelectorRow from "./ui-exam-selector-row";
 
 interface IUIExamSelectorProps extends PaperProps {
 
 }
 
 export default function UIExamSelector({...props}: IUIExamSelectorProps) {
+    const dispatch: any = useDispatch();
+    const myExams = useSelector((state: RootState) => state?.examEditorPageReducer?.exams)
+    useEffect(() => {
+        dispatch(loadMyExamsAsync())
+    }, [])
     return (
         <Paper elevation={0} {...props}>
             <TableContainer component={Paper}>
                 <Table sx={{minWidth: 650}}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>№ экзамена</TableCell>
-                            <TableCell>Название</TableCell>
-                            <TableCell>Серия вопросов</TableCell>
-                            <TableCell>Дата создания</TableCell>
-                        </TableRow>
-                    </TableHead>
+                    <UIExamSelectorTableHead/>
                     <TableBody>
-                        {/*{rows.map((row) => (*/}
-                        {/*    <TableRow*/}
-                        {/*        key={row.name}*/}
-                        {/*        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}*/}
-                        {/*    >*/}
-                        {/*        <TableCell component="th" scope="row">*/}
-                        {/*            {row.name}*/}
-                        {/*        </TableCell>*/}
-                        {/*        <TableCell >{row.calories}</TableCell>*/}
-                        {/*        <TableCell >{row.fat}</TableCell>*/}
-                        {/*        <TableCell >{row.carbs}</TableCell>*/}
-                        {/*        <TableCell >{row.protein}</TableCell>*/}
-                        {/*    </TableRow>*/}
-                        {/*))}*/}
+                        {myExams?.map((exam) => {
+                            return (<UIExamSelectorRow exam={exam} key={exam.id}/>)
+                        })}
                     </TableBody>
                 </Table>
             </TableContainer>

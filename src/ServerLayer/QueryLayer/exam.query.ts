@@ -1,5 +1,6 @@
 import axiosClient from "./config";
 import {IQuestionStatus} from "../../Components/Elements/Exam/ExamByUid/redux-store/initial-state";
+import {IExamDataWithQSData} from "../Types/exam.types";
 
 export async function loadExamByID(examID: string) {
     return axiosClient.get(`/exam/data/${examID}`)
@@ -24,4 +25,9 @@ export async function examNameByUID(examUID: string) {
 export async function updateQuestionProgress(questionProgressData: IQuestionStatus): Promise<IQuestionStatus> {
     return axiosClient.post(`/exam/question-progress/update`, {questionProgressData})
         .then((res) => res.data.updatedQuestionStatus)
+}
+
+export async function loadMyExams(): Promise<IExamDataWithQSData[]> {
+    return axiosClient.get(`/exam/my-exams`)
+        .then((res) => res.data.exams)
 }

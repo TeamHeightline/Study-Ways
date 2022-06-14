@@ -7,6 +7,8 @@ import {Route, Switch, useRouteMatch} from "react-router-dom";
 import {isMobileHook} from "../../../CustomHooks/isMobileHook";
 import RouterMenu from "./router-menu";
 
+const ExamEditorPage = React.lazy(() => import("../../Elements/Exam/EditorPage/Page/UI/exam-editor-page"))
+
 
 const StatusEditorPage = React.lazy(() => import("../../Elements/StatusEditor/UI/StatusEditorPage"));
 const SearchingElementsEditor = React.lazy(() => import("../SearchingElementsEditor"))
@@ -17,7 +19,6 @@ const QuestionEditor = React.lazy(() => import("../../Elements/Question/Editor/Q
 const MainUserQuestionPage = React.lazy(() => import("../MainUserQuestionPage").then(module => ({default: module.MainUserQuestionPage})))
 const StatisticV2 = React.lazy(() => import("../../Elements/Statistic/V2/StatisticV2").then(module => ({default: module.StatisticV2})))
 const CardEditorV2 = React.lazy(() => import("../../Elements/Cards/Editor/EditorPageV2/Page").then(module => ({default: module.EditorPage})))
-const ExamPage = React.lazy(() => import("../../Elements/Exam/EditorPage/Page/UI/exam-editor-page"))
 const CheckQuestion = React.lazy(() => import("../../Elements/CheckQuestion/Page/UI/check-question-page"))
 
 
@@ -47,7 +48,7 @@ export const EditorsRouter = observer(() => {
                         <Route path={`${path}/allquestions`} component={MainUserQuestionPage}/>
                         <Route path={`${path}/statistic2`} component={StatisticV2}/>
                         <Route path={`${path}/card2`} component={CardEditorV2}/>
-                        <Route path={`${path}/exam`} component={ExamPage}/>
+                        <Route path={`${path}/exam`} component={ExamEditorPage}/>
                         <Route path={`${path}/checkquestion`} component={CheckQuestion}/>
                         <Route path={`${path}/status-editor`} component={StatusEditorPage}/>
                         <Route path={`${path}/`} component={MainCourseEditor}/>

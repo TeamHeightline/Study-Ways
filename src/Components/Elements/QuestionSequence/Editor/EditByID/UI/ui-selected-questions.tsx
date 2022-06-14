@@ -13,13 +13,13 @@ interface IUiSelectedQuestionsProps extends PaperProps {
 const UiSelectedQuestions = observer(({...props}: IUiSelectedQuestionsProps) => {
     return (
         <Grid container spacing={10} sx={{mt: 2, pb: 4}} alignItems="stretch">
-            {editQSStore?.qsData?.sequence_data?.sequence?.map((questionID: string, questionIndex) => {
+            {editQSStore?.qsData?.sequence_data?.sequence?.map((questionID, questionIndex) => {
                     const questionData = editQSStore?.allQuestions
-                        .find((questionObj) => questionObj.id == questionID)
+                        .find((questionObj) => questionObj.id == String(questionID))
                     if (questionData) {
                         return (
                             <UIQuestionMiniViewByData
-                                onClickOnCard={() => editQSStore.checkQuestionID = questionID}
+                                onClickOnCard={() => editQSStore.checkQuestionID = String(questionID)}
                                 questionData={questionData}
                                 key={questionData.id}
                                 actionButton={

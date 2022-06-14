@@ -22,7 +22,7 @@ const UIAllQuestions = observer(({...props}: IUIAllQuestionsProps) => {
                             questionData={questionData}
                             actionButton={
                                 <Button
-                                    onClick={() => editQSStore.addSelectedQuestion(questionData.id)}
+                                    onClick={() => editQSStore.addSelectedQuestion(Number(questionData.id))}
                                     sx={{mt: 1}}
                                     variant={"outlined"}
                                     color={"primary"}

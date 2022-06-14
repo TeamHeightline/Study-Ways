@@ -1,3 +1,5 @@
+import {sequenceDataI} from "./question-sequence.type";
+
 export interface IExamData {
     "id": string,
     "name": string,
@@ -8,4 +10,8 @@ export interface IExamData {
     "created_by_id": string,
     "minutes": number,
     question_sequence_id: number
+}
+
+export interface IExamDataWithQSData extends IExamData {
+    question_sequence: sequenceDataI
 }

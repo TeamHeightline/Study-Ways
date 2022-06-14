@@ -99,13 +99,13 @@ class EditQuestionSequenceSoreClass {
         this.searchThemeString = value
     }
 
-    addSelectedQuestion = (questionID: string) => {
+    addSelectedQuestion = (questionID: number) => {
         if (this.qsData && this.qsData.sequence_data.sequence.indexOf(questionID) == -1) {
             this.qsData.sequence_data.sequence = [...this.qsData?.sequence_data?.sequence, questionID]
         }
     }
 
-    removeSelectedQuestion = (questionIndex: string) => {
+    removeSelectedQuestion = (questionIndex: number) => {
         if (this.qsData) {
             this.qsData?.sequence_data?.sequence.splice(questionIndex, 1)
         }

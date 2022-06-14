@@ -25,6 +25,7 @@ interface IExamByIDProps extends PaperProps {
 
 const ExamByID = observer(({exam_id, ...props}: IExamByIDProps) => {
     const storeExamID = useSelector((state: RootState) => state?.examEditorReducer?.exam_id)
+    const loadedExamDataID = useSelector((state: RootState) => state?.examEditorReducer?.exam_data?.id)
     const isLoadingEdamData = useSelector((state: RootState) => state?.examEditorReducer?.exam_data_loading)
     const dispatch: any = useDispatch()
 
@@ -39,7 +40,7 @@ const ExamByID = observer(({exam_id, ...props}: IExamByIDProps) => {
     }, [storeExamID])
 
 
-    if (isLoadingEdamData) {
+    if (isLoadingEdamData || Number(loadedExamDataID) !== Number(exam_id)) {
         return (
             <Stack alignItems={"center"}>
                 <CircularProgress/>
@@ -47,18 +48,18 @@ const ExamByID = observer(({exam_id, ...props}: IExamByIDProps) => {
         )
     }
     return (
-        <Paper elevation={0} {...props} sx={{pt: 2}}>
+        <Paper elevation={0} {...props} sx={{pt: 2, pl: 2}}>
             <AutoSaveModule/>
             <UIPageTitle/>
             <GoBackButton/>
             <Stack direction={"row"} spacing={1} sx={{pb: 2}}>
-                <Stack direction={"column"} spacing={1} maxWidth={400}>
+                <Stack direction={"column"} spacing={1} width={400}>
                     <div>
                         <Divider>Настройки</Divider>
                     </div>
                     <ExamName sx={{pt: 1}}/>
-                    <UIDuration/>
-                    <UIQuestionSequenceSelector/>
+                    <UIDuration sx={{pt: 2}}/>
+                    <UIQuestionSequenceSelector sx={{pt: 2}}/>
                     <SelectedQSByData/>
                 </Stack>
 
@@ -78,7 +79,7 @@ const ExamByID = observer(({exam_id, ...props}: IExamByIDProps) => {
                     <Divider orientation={"vertical"}/>
                 </div>
 
-                <Stack direction={'column'} spacing={1} maxWidth={400}>
+                <Stack direction={'column'} spacing={1} width={400}>
                     <div>
                         <Divider>Допуск к экзамену</Divider>
                     </div>
@@ -89,7 +90,7 @@ const ExamByID = observer(({exam_id, ...props}: IExamByIDProps) => {
                     <Divider orientation={"vertical"}/>
                 </div>
 
-                <Stack direction={'column'} spacing={1} maxWidth={400}>
+                <Stack direction={'column'} spacing={1} width={400}>
                     <div>
                         <Divider>Ссылки</Divider>
                     </div>

@@ -12,7 +12,7 @@ interface IExamEditorPageProps extends PaperProps {
 const ExamEditorPage = observer(({...props}: IExamEditorPageProps) => {
     return (
         <Paper elevation={0} {...props} sx={{pl: 4}}>
-            <ExamByID/>
+            <ExamByID exam_id={5}/>
         </Paper>
     )
 })

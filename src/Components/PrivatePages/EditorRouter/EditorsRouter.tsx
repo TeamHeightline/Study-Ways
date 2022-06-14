@@ -1,5 +1,5 @@
 import React, {Suspense} from "react";
-import {Alert, CircularProgress, Grid} from '@mui/material';
+import {Alert, CircularProgress, Grid, Paper} from '@mui/material';
 import AlertTitle from '@mui/material/AlertTitle';
 import {UserStorage} from '../../../Store/UserStore/UserStore'
 import {observer} from "mobx-react";
@@ -17,7 +17,7 @@ const QuestionEditor = React.lazy(() => import("../../Elements/Question/Editor/Q
 const MainUserQuestionPage = React.lazy(() => import("../MainUserQuestionPage").then(module => ({default: module.MainUserQuestionPage})))
 const StatisticV2 = React.lazy(() => import("../../Elements/Statistic/V2/StatisticV2").then(module => ({default: module.StatisticV2})))
 const CardEditorV2 = React.lazy(() => import("../../Elements/Cards/Editor/EditorPageV2/Page").then(module => ({default: module.EditorPage})))
-const ExamPage = React.lazy(() => import("../../Elements/Exam/EditorPage/ExamByID/Page/UI/page"))
+const ExamPage = React.lazy(() => import("../../Elements/Exam/EditorPage/Page/UI/exam-editor-page"))
 const CheckQuestion = React.lazy(() => import("../../Elements/CheckQuestion/Page/UI/check-question-page"))
 
 
@@ -35,10 +35,10 @@ export const EditorsRouter = observer(() => {
         )
     }
     return (
-        <div>
+        <Paper elevation={0}>
             <RouterMenu/>
             <Suspense fallback={<Grid container justifyContent={"center"} sx={{pt: 4}}><CircularProgress/></Grid>}>
-                <div className={isMobile ? "" : "pl-5"}>
+                <Paper elevation={0} sx={{pl: isMobile ? 0 : 4, ml: 4}}>
                     <Switch>
                         <Route path={`${path}/course`} component={MainCourseEditor}/>
                         <Route path={`${path}/se`} component={SearchingElementsEditor}/>
@@ -52,9 +52,10 @@ export const EditorsRouter = observer(() => {
                         <Route path={`${path}/status-editor`} component={StatusEditorPage}/>
                         <Route path={`${path}/`} component={MainCourseEditor}/>
                     </Switch>
-                </div>
+                </Paper>
             </Suspense>
 
-        </div>
-    );
+        </Paper>
+    )
+        ;
 })

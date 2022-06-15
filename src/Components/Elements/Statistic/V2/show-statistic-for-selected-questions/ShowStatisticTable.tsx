@@ -11,23 +11,30 @@ import {DetailStatisticByID} from "../../../DetailStatistic/UI/DetailStatisticBy
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Stack} from "@mui/material";
 
-interface IShowStatisticTableProps extends PaperProps{
+interface IShowStatisticTableProps extends PaperProps {
     attempt_id_array: number[] | string[],
     stickyHeader?: boolean,
     pageChanger?: any
 }
-export const ShowStatisticTable = observer(({attempt_id_array, stickyHeader = false, pageChanger}: IShowStatisticTableProps) =>{
-    return(
-        <Stack direction={"column"} sx={{ width: '100%', overflow: 'hidden'}}>
-            <TableContainer component={Paper} sx={{height: "auto", overflowY: "auto",
-                maxHeight: stickyHeader?  window.innerHeight - 80: ""}}>
+
+export const ShowStatisticTable = observer(({
+                                                attempt_id_array,
+                                                stickyHeader = false,
+                                                pageChanger
+                                            }: IShowStatisticTableProps) => {
+    return (
+        <Stack direction={"column"} sx={{width: '100%', overflow: 'hidden'}}>
+            <TableContainer component={Paper} sx={{
+                height: "auto", overflowY: "auto",
+                maxHeight: stickyHeader ? window.innerHeight - 80 : ""
+            }}>
                 <Table aria-label="collapsible table" stickyHeader={stickyHeader}
-                       sx={{ minWidth:1200}}>
+                       sx={{minWidth: 1200}}>
                     <TableHead>
                         <TableRow>
-                            <TableCell />
+                            <TableCell/>
                             <TableCell>Email пользователя</TableCell>
-                            <TableCell align="right">Фамилия (если указана в профиле)</TableCell>
+                            <TableCell align="right">{"Имя и фамилия \n (из профиля)"}</TableCell>
                             <TableCell align="right">ID вопроса </TableCell>
                             <TableCell align="right">Количество попыток</TableCell>
                             <TableCell align="right">Среднее количество ошибок</TableCell>
@@ -38,9 +45,9 @@ export const ShowStatisticTable = observer(({attempt_id_array, stickyHeader = fa
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {attempt_id_array.map((attempt_id) =>{
-                                return(<DetailStatisticByID attempt_id={attempt_id} key={"attempt_by_id: " + attempt_id}/>)
-                            })}
+                        {attempt_id_array.map((attempt_id) => {
+                            return (<DetailStatisticByID attempt_id={attempt_id} key={"attempt_by_id: " + attempt_id}/>)
+                        })}
 
                     </TableBody>
                 </Table>

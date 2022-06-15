@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import {DetailStatisticStoreByID} from "../Store/DetailStatisticStoreByID";
-import {Avatar, Skeleton, Stack, Tooltip, Typography} from "@mui/material";
+import {Avatar, Skeleton, Stack, Tooltip} from "@mui/material";
 import {ChartAndStepByStepStatistic} from "./ChartAndStepByStepStatistic";
 
 interface IDetailStatisticByIDProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -52,11 +52,13 @@ export const DetailStatisticByID = observer(({attempt_id}: IDetailStatisticByIDP
                            style={{color: textColor}}>
                     <Stack direction={"row"} justifyContent={"end"} spacing={2}>
                         <div>
+                            {statisticByIDStore.dataForRow?.firstname || ""}
+                            {" "}
                             {statisticByIDStore.dataForRow?.lastname || ""}
                         </div>
                         {statisticByIDStore.dataForRow.avatarSrc &&
-                        <Avatar src={statisticByIDStore.dataForRow.avatarSrc}
-                                sx={{width: 24, height: 24}}/>}
+                            <Avatar src={statisticByIDStore.dataForRow.avatarSrc}
+                                    sx={{width: 24, height: 24}}/>}
 
 
                     </Stack>

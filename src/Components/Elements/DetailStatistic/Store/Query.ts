@@ -17,11 +17,12 @@ export const LOAD_ATTEMPT_BY_ID = gql`
                 userprofile{
                     lastname
                     avatarSrc
+                    firstname
                 }
             }
         }
     }
-    `
+`
 
 export const GET_WRONG_ANSWERS = gql`
     query GET_WRONG_ANSWERS($id: ID!){
@@ -30,7 +31,7 @@ export const GET_WRONG_ANSWERS = gql`
             isTrue
         }
     }
-    `
+`
 
 export const GET_QUESTION_TEXT_BY_ID = gql`
     query GET_QUESTION_TEXT_BY_ID($id: ID!){
@@ -39,4 +40,4 @@ export const GET_QUESTION_TEXT_BY_ID = gql`
             text
         }
     }
-    `
+`

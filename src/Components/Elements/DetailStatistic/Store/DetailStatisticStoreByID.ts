@@ -4,13 +4,14 @@ import {GET_QUESTION_TEXT_BY_ID, LOAD_ATTEMPT_BY_ID} from "./Query";
 import {UserStorage} from "../../../../Store/UserStore/UserStore";
 
 export class DetailStatisticStoreByID {
-    constructor(id?: number){
+    constructor(id?: number) {
         makeAutoObservable(this)
-        autorun( () => this.loadAttemptFromServer())
-        autorun(()=> this.loadQuestionText())
+        autorun(() => this.loadAttemptFromServer())
+        autorun(() => this.loadQuestionText())
         this.attempt_id = id
     }
-    changeAttemptID(new_attempt_id: number){
+
+    changeAttemptID(new_attempt_id: number) {
         this.attempt_id = new_attempt_id
     }
 
@@ -20,22 +21,24 @@ export class DetailStatisticStoreByID {
     //доступ к данным о пользователе, чтобы можно было проверять уровень доступа
     userStorage = UserStorage
 
-    loadAttemptFromServer(){
-        if(this.attempt_id){
-            try{
-                this.clientStorage.client.query({query: LOAD_ATTEMPT_BY_ID, variables:{
+    loadAttemptFromServer() {
+        if (this.attempt_id) {
+            try {
+                this.clientStorage.client.query({
+                    query: LOAD_ATTEMPT_BY_ID, variables: {
                         ID: this.attempt_id
-                    }})
+                    }
+                })
                     .then((request) => request.data.detailStatisticById)
                     .then((attemptData) => {
                         this.attemptData = attemptData
 
-                        if(attemptData.userName === null){
+                        if (attemptData.userName === null) {
                             this.attemptData.userName = "Анонимный пользователь"
                         }
 
                     })
-            }catch (e) {
+            } catch (e) {
                 console.log(e)
             }
         }
@@ -43,30 +46,32 @@ export class DetailStatisticStoreByID {
 
     questionText = ''
 
-    get QuestionTextForStatistic(){
-        if(this.userStorage.userAccessLevel === "ADMIN" || this.userStorage.userAccessLevel === "TEACHER"){
-            return(this.questionText)
+    get QuestionTextForStatistic() {
+        if (this.userStorage.userAccessLevel === "ADMIN" || this.userStorage.userAccessLevel === "TEACHER") {
+            return (this.questionText)
         } else {
             return (this.questionText.slice(0, 200))
         }
     }
 
-    loadQuestionText(){
-        if(this?.attemptData?.question?.id){
-            try{
-                this.clientStorage.client.query({query: GET_QUESTION_TEXT_BY_ID,
-                    variables:{
+    loadQuestionText() {
+        if (this?.attemptData?.question?.id) {
+            try {
+                this.clientStorage.client.query({
+                    query: GET_QUESTION_TEXT_BY_ID,
+                    variables: {
                         id: toJS(this?.attemptData)?.question?.id
-                }})
+                    }
+                })
                     .then((response) => response.data.questionText)
                     .then((question_obj) => {
-                        if(question_obj && question_obj.text){
+                        if (question_obj && question_obj.text) {
                             this.questionText = question_obj.text
                         }
                     })
 
-                }catch(e){
-                    console.log(e)
+            } catch (e) {
+                console.log(e)
             }
         }
     }
@@ -76,69 +81,73 @@ export class DetailStatisticStoreByID {
     openAttemptForDetailStatistic = new Set()
 
     //Функция обработчик для того, чтобы открывать на редактирование конкретную попытку
-    changeOpenAttemptForDetailStatistic(attemptIndex){
-        if(this.openAttemptForDetailStatistic.has(attemptIndex)){
+    changeOpenAttemptForDetailStatistic(attemptIndex) {
+        if (this.openAttemptForDetailStatistic.has(attemptIndex)) {
             this.openAttemptForDetailStatistic.delete(attemptIndex)
-        }else{
+        } else {
             this.openAttemptForDetailStatistic.add(attemptIndex)
         }
     }
+
     attemptData: any = undefined;
 
     isOpenDetailStatistic = false
-    changeIsOpenDetailStatistic(){
+
+    changeIsOpenDetailStatistic() {
         this.isOpenDetailStatistic = !this.isOpenDetailStatistic
     }
 
     //Вычисляемое значение среднего балла за попытку
-    get arithmeticMeanNumberOfAnswersPointsDivideToMaxPoints(){
+    get arithmeticMeanNumberOfAnswersPointsDivideToMaxPoints() {
         let __sumOfAnswerPoints = 0
         let __minAnswerPoint = 100000
         this.attemptData?.statistic?.ArrayForShowAnswerPoints?.map((attempt) => {
             __sumOfAnswerPoints += Number(attempt.answerPoints)
-            if(attempt.answerPoints < __minAnswerPoint){
+            if (attempt.answerPoints < __minAnswerPoint) {
                 __minAnswerPoint = attempt.answerPoints
             }
         })
         this.minAnswerPoint = __minAnswerPoint
         const arithmeticMeanNumberOfAnswersPoints = Math.ceil(__sumOfAnswerPoints / Math.ceil(Number(this.attemptData?.statistic?.numberOfPasses)))
         const dividePercent = Math.ceil(arithmeticMeanNumberOfAnswersPoints / this.maxSumOfAnswersPoint * 100)
-        return (arithmeticMeanNumberOfAnswersPoints + "/" + this.maxSumOfAnswersPoint + " (" + dividePercent+ "%)" )
+        return (arithmeticMeanNumberOfAnswersPoints + "/" + this.maxSumOfAnswersPoint + " (" + dividePercent + "%)")
     }
 
     //Минимальны балл за попытку
     minAnswerPoint = 0
 
-    get arithmeticMeanNumberOfWrongAnswer(){
+    get arithmeticMeanNumberOfWrongAnswer() {
         let __sumOfWrongAnswers = 0
         let __maxNumberOfWrongAnswers = 0
         this.attemptData?.statistic?.ArrayForShowWrongAnswers?.map((attempt) => {
             __sumOfWrongAnswers += Number(attempt?.numberOfWrongAnswers?.length)
-            if(attempt?.numberOfWrongAnswers?.length > __maxNumberOfWrongAnswers){
+            if (attempt?.numberOfWrongAnswers?.length > __maxNumberOfWrongAnswers) {
                 __maxNumberOfWrongAnswers = attempt?.numberOfWrongAnswers?.length
             }
         })
         this.numberOfWrongAnswers = __sumOfWrongAnswers
         this.maxNumberOfWrongAnswers = __maxNumberOfWrongAnswers
-        return (__sumOfWrongAnswers > 0?
-            ( __sumOfWrongAnswers / (Number(this.attemptData?.statistic?.numberOfPasses) - 1)).toFixed(1):
+        return (__sumOfWrongAnswers > 0 ?
+            (__sumOfWrongAnswers / (Number(this.attemptData?.statistic?.numberOfPasses) - 1)).toFixed(1) :
             "Ошибок нет")
     }
 
     //Максимальное число баллов для того набора ответов, который попался ученику
-    get maxSumOfAnswersPoint(){
-        return(this?.attemptData?.maxSumOfAnswersPoint ?
-            this?.attemptData?.maxSumOfAnswersPoint:
-            this.attemptData?.questionHasBeenCompleted?
-                this.attemptData?.statistic?.ArrayForShowAnswerPoints[this.attemptData?.statistic?.ArrayForShowAnswerPoints.length - 1].answerPoints:
+    get maxSumOfAnswersPoint() {
+        return (this?.attemptData?.maxSumOfAnswersPoint ?
+            this?.attemptData?.maxSumOfAnswersPoint :
+            this.attemptData?.questionHasBeenCompleted ?
+                this.attemptData?.statistic?.ArrayForShowAnswerPoints[this.attemptData?.statistic?.ArrayForShowAnswerPoints.length - 1].answerPoints :
                 0)
     }
 
     divideValueForCalculations = 0.7
-    changeDivideValue(){
+
+    changeDivideValue() {
 
     }
-    get SumOFPointsWithNewMethod(){
+
+    get SumOFPointsWithNewMethod() {
         const divideValue = this.divideValueForCalculations
         let sumOfAnswerPoints = 0
         let sumOfAnswerPointsNewMethod = 0
@@ -154,16 +163,16 @@ export class DetailStatisticStoreByID {
         //     result = 0
         // }
 
-        if(!this?.attemptData?.maxSumOfAnswersPoint &&  !this.attemptData?.questionHasBeenCompleted){
+        if (!this?.attemptData?.maxSumOfAnswersPoint && !this.attemptData?.questionHasBeenCompleted) {
             return ("Невозможно рассчитать")
-        }else{
+        } else {
             return (result)
         }
         // return(sumOfAnswerPointsNewMethod + "/" + sumOfAnswerPoints)
     }
 
-    get FormattedCreatedAt(){
-        if(!this?.attemptData?.createdAt){
+    get FormattedCreatedAt() {
+        if (!this?.attemptData?.createdAt) {
             return ("Дата не сохранена")
         }
         const createdAtDate = new Date(Date.parse(this.attemptData?.createdAt))
@@ -174,7 +183,7 @@ export class DetailStatisticStoreByID {
                 hour: 'numeric',
                 minute: 'numeric'
             })
-        return(String(createdAtDate))
+        return (String(createdAtDate))
 
     }
 
@@ -182,36 +191,40 @@ export class DetailStatisticStoreByID {
 
     maxNumberOfWrongAnswers = 0
 
-    get ArrayOfNumberOfWrongAnswers(){
+    get ArrayOfNumberOfWrongAnswers() {
         const ArrayOfNumberOfWrongAnswers: any[] = []
-        this?.attemptData?.statistic?.ArrayForShowWrongAnswers.map((attempt) =>{
-            ArrayOfNumberOfWrongAnswers.push({numberOfPasses: attempt?.numberOfPasses,
-                numberOfWrongAnswers: attempt?.numberOfWrongAnswers?.length})
+        this?.attemptData?.statistic?.ArrayForShowWrongAnswers.map((attempt) => {
+            ArrayOfNumberOfWrongAnswers.push({
+                numberOfPasses: attempt?.numberOfPasses,
+                numberOfWrongAnswers: attempt?.numberOfWrongAnswers?.length
+            })
         })
-        return(ArrayOfNumberOfWrongAnswers)
+        return (ArrayOfNumberOfWrongAnswers)
     }
 
-    get loadingData(){
-        return(!this?.attemptData?.id)
+    get loadingData() {
+        return (!this?.attemptData?.id)
     }
 
-    get ShowStepByStepStatistic(){
-        return(this.userStorage.userAccessLevel == "ADMIN" || this.userStorage.userAccessLevel == "TEACHER")
+    get ShowStepByStepStatistic() {
+        return (this.userStorage.userAccessLevel == "ADMIN" || this.userStorage.userAccessLevel == "TEACHER")
     }
 
     openedSteps = new Set()
-    addOrRemoveOpenedSteps(index){
-        if(this.openedSteps.has(index)){
+
+    addOrRemoveOpenedSteps(index) {
+        if (this.openedSteps.has(index)) {
             this.openedSteps.delete(index)
-        }else{
+        } else {
             this.openedSteps.add(index)
         }
     }
 
-    get dataForRow(){
-        return({
+    get dataForRow() {
+        return ({
             username: this?.attemptData?.userName,
             lastname: this?.attemptData?.authorizedUser?.userprofile?.lastname,
+            firstname: this?.attemptData?.authorizedUser?.userprofile?.firstname,
             avatarSrc: this?.attemptData?.authorizedUser?.userprofile?.avatarSrc,
             isLogin: this?.attemptData?.isLogin ? "да" : "нет",
             numberOfPasses: this?.attemptData?.statistic?.numberOfPasses,

@@ -34,14 +34,14 @@ export const ShowStatisticTable = observer(({
                         <TableRow>
                             <TableCell/>
                             <TableCell>Email пользователя</TableCell>
-                            <TableCell align="right">{"Имя и фамилия \n (из профиля)"}</TableCell>
-                            <TableCell align="right">ID вопроса </TableCell>
-                            <TableCell align="right">Количество попыток</TableCell>
-                            <TableCell align="right">Среднее количество ошибок</TableCell>
-                            <TableCell align="right">Всего ошибок</TableCell>
-                            <TableCell align="right">Среднее/максимальное количество баллов</TableCell>
-                            <TableCell align="right">% выполнения (в зависимости от коэффициента)</TableCell>
-                            <TableCell align="right">Дата и время окончания попытки</TableCell>
+                            <TableCell>{"Имя и фамилия \n (из профиля)"}</TableCell>
+                            <TableCell>ID вопроса </TableCell>
+                            <TableCell>Количество попыток</TableCell>
+                            <TableCell>Среднее количество ошибок</TableCell>
+                            <TableCell>Всего ошибок</TableCell>
+                            <TableCell>Среднее/максимальное количество баллов</TableCell>
+                            <TableCell>% выполнения (в зависимости от коэффициента)</TableCell>
+                            <TableCell>Дата и время окончания попытки</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

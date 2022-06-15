@@ -48,8 +48,7 @@ export const DetailStatisticByID = observer(({attempt_id}: IDetailStatisticByIDP
                            style={{color: textColor}}>
                     {statisticByIDStore.dataForRow.username}
                 </TableCell>
-                <TableCell align="right"
-                           style={{color: textColor}}>
+                <TableCell style={{color: textColor}}>
                     <Stack direction={"row"} justifyContent={"end"} spacing={2}>
                         <div>
                             {statisticByIDStore.dataForRow?.firstname || ""}
@@ -65,34 +64,34 @@ export const DetailStatisticByID = observer(({attempt_id}: IDetailStatisticByIDP
                 </TableCell>
 
                 <Tooltip disableInteractive title={statisticByIDStore.dataForRow.QuestionTextForStatistic}>
-                    <TableCell align="right"
-                               style={{color: textColor}}>
+                    <TableCell
+                        style={{color: textColor}}>
                         {statisticByIDStore.dataForRow.questionID}
                     </TableCell>
                 </Tooltip>
 
-                <TableCell align="right"
-                           style={{color: textColor}}>
+                <TableCell
+                    style={{color: textColor}}>
                     {statisticByIDStore.dataForRow.numberOfPasses}
                 </TableCell>
-                <TableCell align="right"
-                           style={{color: textColor}}>
+                <TableCell
+                    style={{color: textColor}}>
                     {statisticByIDStore.dataForRow.arithmeticMeanNumberOfWrongAnswer}
                 </TableCell>
-                <TableCell align="right"
-                           style={{color: textColor}}>
+                <TableCell
+                    style={{color: textColor}}>
                     {statisticByIDStore.dataForRow.numberOfWrongAnswers}
                 </TableCell>
-                <TableCell align="right"
-                           style={{color: textColor}}>
+                <TableCell
+                    style={{color: textColor}}>
                     {statisticByIDStore.dataForRow.arithmeticMeanNumberOfAnswersPointsDivideToMaxPoints}
                 </TableCell>
-                <TableCell align="right"
-                           style={{color: textColor}}>
+                <TableCell
+                    style={{color: textColor}}>
                     {statisticByIDStore.dataForRow.SumOFPointsWithNewMethod}
                 </TableCell>
-                <TableCell align="right"
-                           style={{color: textColor}}>
+                <TableCell
+                    style={{color: textColor}}>
                     {statisticByIDStore.dataForRow.FormattedCreatedAt}
                 </TableCell>
             </TableRow>

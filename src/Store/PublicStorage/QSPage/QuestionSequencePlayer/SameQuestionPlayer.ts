@@ -1,11 +1,6 @@
 import {makeAutoObservable, reaction, toJS} from "mobx";
 import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
-import {
-    GET_CARDS_ID_BY_SEARCH_STRING,
-    GET_ENCRYPT_QUESTION_DATA_BY_ID,
-    SAVE_DETAIL_STATISTIC,
-    SAVE_DETAIL_STATISTIC_WITH_QS
-} from "./Struct";
+import {GET_ENCRYPT_QUESTION_DATA_BY_ID, SAVE_DETAIL_STATISTIC, SAVE_DETAIL_STATISTIC_WITH_QS} from "./Struct";
 import {SameAnswerNode} from "./SameAnswerNode";
 import {shuffle} from "lodash"
 import {UserStorage} from "../../../UserStore/UserStore";
@@ -244,18 +239,18 @@ export class SameQuestionPlayer {
 
     loadRecommendedCardsForThisQuestion() {
         if (this.isAcceptDefeat || this.questionHasBeenCompleted) {
-            this.clientStorage.client.query({
-                query: GET_CARDS_ID_BY_SEARCH_STRING,
-                variables: {searchString: toJS(this.questionText).replace('/физик/g', '')}
-            })
-                .then(response => {
-                    const __directionData: any = []
-                    response?.data?.ftSearchInCards?.slice(0, 5).map((card) => {
-                        __directionData.push({type: "CardElement", id: card.id})
-                    })
-                    console.log(toJS(__directionData))
-                    this.dataForDirection = __directionData
-                })
+            // this.clientStorage.client.query({
+            //     query: GET_CARDS_ID_BY_SEARCH_STRING,
+            //     variables: {searchString: toJS(this.questionText).replace('/физик/g', '')}
+            // })
+            //     .then(response => {
+            //         const __directionData: any = []
+            //         response?.data?.ftSearchInCards?.slice(0, 5).map((card) => {
+            //             __directionData.push({type: "CardElement", id: card.id})
+            //         })
+            //         console.log(toJS(__directionData))
+            //         this.dataForDirection = __directionData
+            //     })
         }
     }
 

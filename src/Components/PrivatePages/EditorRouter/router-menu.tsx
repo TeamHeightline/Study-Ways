@@ -17,6 +17,7 @@ import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import QuizIcon from "@mui/icons-material/Quiz";
 import LinearScaleIcon from "@mui/icons-material/LinearScale";
+import SchoolIcon from '@mui/icons-material/School';
 import AddchartIcon from "@mui/icons-material/Addchart";
 import MenuIcon from "@mui/icons-material/Menu";
 import {useHistory, useRouteMatch} from "react-router-dom";
@@ -96,7 +97,7 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                 </div>
                 <Divider/>
                 <List>
-                    <Tooltip title={<Typography variant="body1">Редактор курсов</Typography>}>
+                    <Tooltip title={<Typography variant="body1">Курсов</Typography>}>
                         <ListItem button onClick={() => {
                             if (isMobile) {
                                 setOpen(false)
@@ -109,7 +110,7 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                             <ListItemText primary="Редактор курсов"/>
                         </ListItem>
                     </Tooltip>
-                    <Tooltip title={<Typography variant="body1">Редактор карточек (второе поколение)</Typography>}>
+                    <Tooltip title={<Typography variant="body1">Карточки</Typography>}>
                         <ListItem button onClick={() => {
                             if (isMobile) {
                                 setOpen(false)
@@ -122,7 +123,7 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                             <ListItemText primary="Редактор карточек"/>
                         </ListItem>
                     </Tooltip>
-                    <Tooltip title={<Typography variant="body1">Объединенные темы и авторы</Typography>}>
+                    <Tooltip title={<Typography variant="body1">Темы</Typography>}>
                         <ListItem button onClick={() => {
                             if (isMobile) {
                                 setOpen(false)
@@ -133,10 +134,10 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                                 {/*<HubIcon/>*/}
                                 <AccountTreeIcon/>
                             </ListItemIcon>
-                            <ListItemText primary="Объединенные темы"/>
+                            <ListItemText primary="Редактор тем"/>
                         </ListItem>
                     </Tooltip>
-                    <Tooltip title={<Typography variant="body1">Редактор вопросов</Typography>}>
+                    <Tooltip title={<Typography variant="body1">Вопросы</Typography>}>
                         <ListItem button onClick={() => {
                             if (isMobile) {
                                 setOpen(false)
@@ -149,7 +150,7 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                             <ListItemText primary="Редактор вопросов"/>
                         </ListItem>
                     </Tooltip>
-                    <Tooltip title={<Typography variant="body1">Редактор серии вопросов</Typography>}>
+                    <Tooltip title={<Typography variant="body1">Серии вопросов</Typography>}>
                         <ListItem button onClick={() => {
                             if (isMobile) {
                                 setOpen(false)
@@ -162,7 +163,7 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                             <ListItemText primary="Редактор серии вопросов"/>
                         </ListItem>
                     </Tooltip>
-                    <Tooltip title={<Typography variant="body1">Статистика (второе поколение)</Typography>}>
+                    <Tooltip title={<Typography variant="body1">Статистика</Typography>}>
                         <ListItem button onClick={() => {
                             if (isMobile) {
                                 setOpen(false)
@@ -175,19 +176,19 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                             <ListItemText primary="Статистика (второе поколение)"/>
                         </ListItem>
                     </Tooltip>
-                    {/*<Tooltip title={<Typography variant="body1">Экзамен</Typography>}>*/}
-                    {/*    <ListItem button onClick={() => {*/}
-                    {/*        if (isMobile) {*/}
-                    {/*            setOpen(false)*/}
-                    {/*        }*/}
-                    {/*        history.push(`${path}/exam`)*/}
-                    {/*    }}>*/}
-                    {/*        <ListItemIcon>*/}
-                    {/*            <SchoolIcon/>*/}
-                    {/*        </ListItemIcon>*/}
-                    {/*        <ListItemText primary="Экзамен)"/>*/}
-                    {/*    </ListItem>*/}
-                    {/*</Tooltip>*/}
+                    <Tooltip title={<Typography variant="body1">Экзамены</Typography>}>
+                        <ListItem button onClick={() => {
+                            if (isMobile) {
+                                setOpen(false)
+                            }
+                            history.push(`${path}/exam`)
+                        }}>
+                            <ListItemIcon>
+                                <SchoolIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="Экзамен"/>
+                        </ListItem>
+                    </Tooltip>
                     <Tooltip title={<Typography variant="body1">Проверка вопросов</Typography>}>
                         <ListItem button onClick={() => {
                             if (isMobile) {
@@ -201,7 +202,7 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                             <ListItemText primary="Проверка вопросов"/>
                         </ListItem>
                     </Tooltip>
-                    <Tooltip title={<Typography variant="body1">Редактор статусов</Typography>}>
+                    <Tooltip title={<Typography variant="body1">Уровень доступа</Typography>}>
                         <ListItem button onClick={() => {
                             if (isMobile) {
                                 setOpen(false)
@@ -211,7 +212,7 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                             <ListItemIcon>
                                 <GroupIcon/>
                             </ListItemIcon>
-                            <ListItemText primary="Редактор статусов"/>
+                            <ListItemText primary="Редактор уровней доступа"/>
                         </ListItem>
                     </Tooltip>
                 </List>

@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import UIExamSelectorTableHead from "./ui-exam-selector-table-head";
 import {RootState} from "../../../../../../root-redux-store/RootReducer";
 import UIExamSelectorRow from "./ui-exam-selector-row";
+import UICreateExam from "./ui-create-exam";
 
 interface IUIExamSelectorProps extends PaperProps {
 
@@ -19,6 +20,7 @@ export default function UIExamSelector({...props}: IUIExamSelectorProps) {
     }, [])
     return (
         <Paper elevation={0} {...props}>
+            <UICreateExam/>
             <TableContainer component={Paper}>
                 <Table sx={{minWidth: 650}}>
                     <UIExamSelectorTableHead/>

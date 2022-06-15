@@ -31,3 +31,8 @@ export async function loadMyExams(): Promise<IExamDataWithQSData[]> {
     return axiosClient.get(`/exam/my-exams`)
         .then((res) => res.data.exams)
 }
+
+export async function createExam(question_sequence_id: number, name: string) {
+    return axiosClient.post(`/exam/create`, {examData: {question_sequence_id: question_sequence_id, name: name}})
+        .then((res) => res.data.createdExam)
+}

@@ -29,7 +29,8 @@ export interface IExamQuestionStatus {
 export interface IExamResult {
     "question_statuses": IExamQuestionStatus[],
     "users_customuser": {
-        "users_userprofile": IUserprofile
+        "users_userprofile": IUserprofile,
+        username: string
     },
     "sumOfAllPasses": number,
     exam_id: number

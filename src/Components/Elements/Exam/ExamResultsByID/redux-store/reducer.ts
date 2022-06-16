@@ -7,12 +7,9 @@ import * as ActionTypes from "./action-types";
 
 export type ExamResultsByIDAction = ActionType<typeof Actions>;
 
-export const examResultsByIDReducer = produce((state = initialState, action: ExamResultsByIDAction) => {
+export const examResultsByIDReducer = produce((state: typeof initialState = initialState, action: ExamResultsByIDAction) => {
     switch (action.type) {
 
-        case ActionTypes.CHANGE_EXAM_ID:
-            state.exam_id = action.payload;
-            break;
 
         case ActionTypes.START_LOADING_EXAM_RESULTS:
             state.loading_exam_results = true;

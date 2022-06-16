@@ -37,7 +37,7 @@ export async function createExam(question_sequence_id: number, name: string): Pr
         .then((res) => res.data.createdExam)
 }
 
-export async function getExamResults(examID: string): Promise<IExamResult> {
+export async function getExamResults(examID: number): Promise<IExamResult[]> {
     return axiosClient.get(`/exam/results/${examID}`)
         .then((res) => res.data)
 }

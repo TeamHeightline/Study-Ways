@@ -16,6 +16,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {loadExamData} from "../redux-store/async-actions";
 import {changeExamID} from "../redux-store/actions";
 import AutoSaveModule from "./auto-save-module";
+import ExamResultsByID from "../../../ExamResultsByID/UI/exam-results-by-id";
 
 
 interface IExamByIDProps extends PaperProps {
@@ -98,6 +99,8 @@ const ExamByID = observer(({exam_id, ...props}: IExamByIDProps) => {
 
             </Stack>
             <Divider>Статистика</Divider>
+            {loadedExamDataID &&
+                <ExamResultsByID exam_id={Number(loadedExamDataID)}/>}
         </Paper>
     )
 })

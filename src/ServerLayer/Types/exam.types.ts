@@ -1,4 +1,5 @@
 import {sequenceDataI} from "./question-sequence.type";
+import {IUserprofile} from "./user.types";
 
 export interface IExamData {
     "id": string,
@@ -14,4 +15,21 @@ export interface IExamData {
 
 export interface IExamDataWithQSData extends IExamData {
     question_sequence: sequenceDataI
+}
+
+export interface IExamQuestionStatus {
+    "question_id": number,
+    "usertests_question": {
+        "text": string
+    },
+    "statistic_id"?: number,
+    "percent"?: number
+}
+
+export interface IExamResult {
+    "question_statuses": IExamQuestionStatus[],
+    "users_customuser": {
+        "users_userprofile": IUserprofile
+    },
+    "sumOfAllPasses": number
 }

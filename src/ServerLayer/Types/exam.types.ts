@@ -31,5 +31,6 @@ export interface IExamResult {
     "users_customuser": {
         "users_userprofile": IUserprofile
     },
-    "sumOfAllPasses": number
+    "sumOfAllPasses": number,
+    exam_id: number
 }

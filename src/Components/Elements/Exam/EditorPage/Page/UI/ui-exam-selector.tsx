@@ -1,4 +1,4 @@
-import {Paper, Table, TableBody, TableContainer} from "@mui/material";
+import {CircularProgress, Paper, Stack, Table, TableBody, TableContainer} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {useEffect} from "react";
 import {loadMyExamsAsync} from "../redux-store/async-actions";
@@ -15,9 +15,17 @@ interface IUIExamSelectorProps extends PaperProps {
 export default function UIExamSelector({...props}: IUIExamSelectorProps) {
     const dispatch: any = useDispatch();
     const myExams = useSelector((state: RootState) => state?.examEditorPageReducer?.exams)
+    const loading_exams = useSelector((state: RootState) => state?.examEditorPageReducer?.loading_exams)
     useEffect(() => {
         dispatch(loadMyExamsAsync())
     }, [])
+    if (loading_exams) {
+        return (
+            <Stack alignItems={"center"}>
+                <CircularProgress/>
+            </Stack>
+        )
+    }
     return (
         <Paper elevation={0} {...props}>
             <UICreateExam/>

@@ -4,6 +4,7 @@ import {
     Button,
     Card,
     CardActionArea,
+    Chip,
     CircularProgress,
     Grid,
     MenuItem,
@@ -30,7 +31,7 @@ import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 import {MainDirection} from "../../Direction/UI/MainDirection";
 import {toJS} from "mobx";
 import {LogInNotification} from "../../../PublicPages/Notifications/LogInNotification";
-
+import SchoolIcon from '@mui/icons-material/School';
 
 const processedStore = new QSPlayerStore()
 
@@ -96,7 +97,14 @@ export const QSPlayerByID = observer(({...props}: any) => {
     return (
         <div>
             <LogInNotification requireShow/>
-            <Typography align={"center"} variant={isMobile ? "h6" : "h4"}>{processedStore.name}</Typography>
+            <Typography align={"center"} variant={isMobile ? "h6" : "h4"}>{processedStore.name}
+                {processedStore.isUseExamMode &&
+                    <Chip sx={{ml: 1}}
+                          color={"secondary"}
+                          icon={<SchoolIcon/>}
+                          variant={"outlined"}
+                          label={"Экзаменационный режим"}/>}
+            </Typography>
             <div style={{overflowX: "auto"}}>
                 <Stepper nonLinear alternativeLabel activeStep={processedStore.selectedQuestionIndex} sx={{pb: 2}}>
                     {processedStore?.questionsStoreArray?.map((question, qIndex) => (

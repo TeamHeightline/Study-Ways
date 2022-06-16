@@ -90,13 +90,6 @@ export const Navibar = observer(() => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    //Режим экзамена
-    if (query.get("exam") === "true") {
-        return (
-            <div>
-            </div>
-        )
-    }
 
     if (isMobile) {
         return (

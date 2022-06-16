@@ -6,7 +6,6 @@ import GoBackButton from "./go-back";
 import ExamName from "./exam-name";
 import UIPageTitle from "./ui-page-title";
 import UIDuration from "./ui-duration";
-import UIQuestionSequenceSelector from "./ui-question-sequence-selector";
 import SelectedQSByData from "./ui-seleced-qs-by-data";
 import UIAccessTypeToggle from "./ui-access-type-togle";
 import UIAccessTypeVariants from "./ui-access-type-variants";
@@ -59,7 +58,7 @@ const ExamByID = observer(({exam_id, ...props}: IExamByIDProps) => {
                     </div>
                     <ExamName sx={{pt: 1}}/>
                     <UIDuration sx={{pt: 2}}/>
-                    <UIQuestionSequenceSelector sx={{pt: 2}}/>
+                    {/*<UIQuestionSequenceSelector sx={{pt: 2}}/>*/}
                     <SelectedQSByData/>
                 </Stack>
 

@@ -78,11 +78,11 @@ export const QSPlayerByID = observer(({...props}: any) => {
 
     const classes = useStyles();
 
-    useEffect(() => {
-        if (processedStore.isUseExamMode && !isVisible) {
-            processedStore.activeQuestionStoreInstance.onAcceptDefeat()
-        }
-    }, [isVisible])
+    // useEffect(() => {
+    //     if (processedStore.isUseExamMode && !isVisible) {
+    //         processedStore.activeQuestionStoreInstance.onAcceptDefeat()
+    //     }
+    // }, [isVisible])
 
     if (!processedStore.allDataNasBeenLoaded) {
         return (

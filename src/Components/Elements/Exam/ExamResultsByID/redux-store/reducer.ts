@@ -25,6 +25,10 @@ export const examResultsByIDReducer = produce((state: typeof initialState = init
             state.exam_results_load_error = action.payload;
             break;
 
+        case ActionTypes.CHANGE_EXAM_ID:
+            state.exam_id = action.payload;
+            break;
+
         default:
             return state;
     }

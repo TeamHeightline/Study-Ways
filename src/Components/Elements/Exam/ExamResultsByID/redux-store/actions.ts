@@ -7,3 +7,5 @@ export const examResultsLoadSuccess = (users_results: IExamResult[]) => action(A
 export const examResultsLoadFail = (error: any) => action(ActionTypes.EXAM_RESULTS_LOAD_FAIL, error);
 
 export const changeExamID = (exam_id: number) => action(ActionTypes.CHANGE_EXAM_ID, exam_id);
+
+export const createArrayForChart = () => action(ActionTypes.CREATE_ARRAY_FOR_CHART);

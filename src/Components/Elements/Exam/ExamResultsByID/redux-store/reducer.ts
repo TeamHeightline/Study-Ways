@@ -29,6 +29,16 @@ export const examResultsByIDReducer = produce((state: typeof initialState = init
             state.exam_id = action.payload;
             break;
 
+        case ActionTypes.CREATE_ARRAY_FOR_CHART:
+            state.result_array_for_chart =
+                state.exam_results
+                    .map((result) => result.sumOfAllPasses)
+                    .sort()
+                    .map((result, index) => {
+                        return ({index, result})
+                    });
+            break;
+
         default:
             return state;
     }

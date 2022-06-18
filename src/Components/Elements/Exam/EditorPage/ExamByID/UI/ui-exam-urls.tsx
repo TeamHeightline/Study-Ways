@@ -16,7 +16,7 @@ export default function UIExamUrls({...props}: IUIExamUrlsProps) {
         <Paper elevation={0} {...props}>
             <Stack direction={"column"} spacing={2}>
                 <Typography>
-                    Ссылка для студентов: <br/> https://www.sw-university.com/exam/{examUid}
+                    Ссылка на экзамен: <br/> https://www.sw-university.com/exam/{examUid}
                 </Typography>
                 {selectedQSID &&
                     <Typography>

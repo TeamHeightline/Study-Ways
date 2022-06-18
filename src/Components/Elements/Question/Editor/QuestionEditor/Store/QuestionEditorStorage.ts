@@ -3,7 +3,8 @@ import {ClientStorage} from "../../../../../../Store/ApolloStorage/ClientStorage
 import {
     CREATE_DEEP_QUESTION_COPY,
     CREATE_NEW_ANSWER,
-    CREATE_NEW_QUESTION, GET_CONNECTED_THEMES,
+    CREATE_NEW_QUESTION,
+    GET_CONNECTED_THEMES,
     GET_QUESTION_DATA_BY_ID,
     MY_QUESTIONS_BASIC_DATA,
     THEMES_AND_AUTHORS_FOR_QUESTION,
@@ -16,7 +17,8 @@ import {
     Query,
     QuestionAuthorNode,
     QuestionNode,
-    QuestionThemesNode, UnstructuredThemesNode
+    QuestionThemesNode,
+    UnstructuredThemesNode
 } from "../../../../../../SchemaTypes";
 import {sort} from "fast-sort";
 import {Answer, answerStoreType} from "./AnswersStorage";
@@ -68,11 +70,11 @@ class QuestionEditor {
 
     selectedConnectedTheme?: string
 
-    loadAllConnectedThemes = () =>{
+    loadAllConnectedThemes = () => {
         this.clientStorage.client.query<Query>({query: GET_CONNECTED_THEMES, fetchPolicy: "network-only"})
             .then(res => res.data.unstructuredTheme)
             .then(themes => {
-                if(themes) {
+                if (themes) {
                     this.allConnectedThemes = themes
                 }
                 this.isAllConnectedThemesLoaded = true
@@ -263,7 +265,7 @@ class QuestionEditor {
     answers_id_array: string[] = []
 
     get answersIDForUI() {
-        return toJS(this.answers_id_array)
+        return toJS(this.answers_id_array).sort()
     }
 
     //Геттер, нужен чтобы можно было без преобразований использовать allQuestionsData

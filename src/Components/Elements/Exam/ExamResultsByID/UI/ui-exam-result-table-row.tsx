@@ -25,7 +25,7 @@ export default function UIExamResultTableRow({exam_result, ...props}: IUIExamRes
                             <KeyboardArrowDownIcon/>}
                     </IconButton>
                 </TableCell>
-                <TableCell>{exam_result?.users_customuse?.username}</TableCell>
+                <TableCell>{exam_result?.users_customuser?.username}</TableCell>
                 <TableCell>
                     {exam_result?.users_customuser?.users_userprofile?.firstname + " "}
                     {exam_result?.users_customuser?.users_userprofile?.lastname}

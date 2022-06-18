@@ -45,12 +45,13 @@ export const examEditorReducer = produce((state: typeof initialState = initialSt
             break;
 
         case CHANGE_EXAM_ID:
-            state.exam_id = action.payload.exam_id;
-            break;
+            return {...initialState, exam_id: action.payload.exam_id};
 
         case LOAD_EXAM_DATA_SUCCESS:
-            state.exam_data_loading = false;
-            state.exam_data = action.payload.exam_data;
+            if (Number(action.payload.exam_data.id) == Number(state.exam_id)) {
+                state.exam_data_loading = false;
+                state.exam_data = action.payload.exam_data;
+            }
             break;
 
         case START_LOADING_EXAM_DATA:

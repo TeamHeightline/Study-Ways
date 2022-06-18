@@ -25,17 +25,17 @@ export default function UIExamResultTableRow({exam_result, ...props}: IUIExamRes
                             <KeyboardArrowDownIcon/>}
                     </IconButton>
                 </TableCell>
-                <TableCell>{exam_result.users_customuser.username}</TableCell>
+                <TableCell>{exam_result?.users_customuse?.username}</TableCell>
                 <TableCell>
-                    {exam_result.users_customuser.users_userprofile.firstname + " "}
-                    {exam_result.users_customuser.users_userprofile.lastname}
+                    {exam_result?.users_customuser?.users_userprofile?.firstname + " "}
+                    {exam_result?.users_customuser?.users_userprofile?.lastname}
                 </TableCell>
                 {exam_result?.question_statuses?.map((question_status) => {
                     return (
-                        <TableCell key={question_status.question_id}>{question_status.percent}</TableCell>
+                        <TableCell key={question_status.question_id}>{question_status?.percent}</TableCell>
                     )
                 })}
-                <TableCell>{exam_result.sumOfAllPasses}</TableCell>
+                <TableCell>{exam_result?.sumOfAllPasses}</TableCell>
             </TableRow>
 
             <UIExamEachAttemptTable exam_result={exam_result} isOpen={isOpen}/>

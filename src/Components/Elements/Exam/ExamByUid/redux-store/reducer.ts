@@ -165,7 +165,7 @@ export const ExamByUIDReducer = produce((state: typeof initialState = initialSta
             //Добавляем в историю сколько баллов было получено за эту попытку
             state.statistic.ArrayForShowAnswerPoints.push({
                 numberOfPasses: attemptIndex,
-                answerPoints: __sumOfGotAnswerPoints
+                answerPoints: __sumOfGotAnswerPoints - __sumOfLoosedAnswerPoints
             })
             //Добавляем в историю выбора эти неправильные ответы
             state.statistic.ArrayForShowWrongAnswers.push({

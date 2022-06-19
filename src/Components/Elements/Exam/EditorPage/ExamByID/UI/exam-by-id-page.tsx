@@ -50,7 +50,7 @@ const ExamByID = observer(({exam_id, ...props}: IExamByIDProps) => {
         )
     }
     return (
-        <Paper elevation={0} {...props} sx={{pt: 2, pl: 2}}>
+        <Paper elevation={0} {...props} sx={{pt: 2, pl: isMobile ? 0 : 2}}>
             <AutoSaveModule/>
             <UIPageTitle/>
             <GoBackButton/>

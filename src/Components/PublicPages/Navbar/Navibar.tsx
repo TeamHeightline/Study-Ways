@@ -80,6 +80,9 @@ export const Navibar = observer(() => {
         if (newValue == 5) {
             history.push("/selfstatistic")
         }
+        if (newValue == 6) {
+            history.push("/profile")
+        }
         setValue(newValue);
     };
 
@@ -119,6 +122,14 @@ export const Navibar = observer(() => {
                         label="Войти"
                         value="4"
                         icon={<AccountCircleIcon/>}/>}
+
+                {UserStorage.isLogin &&
+                    <BottomNavigationAction
+                        sx={{color: "white"}}
+                        label="Профиль"
+                        value="6"
+                        icon={<AccountCircleIcon/>}/>}
+
             </BottomNavigation>
         )
     }

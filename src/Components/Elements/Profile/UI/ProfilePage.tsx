@@ -16,6 +16,7 @@ import ProfilePageStore from "../Store/profile-page-store";
 import {UserStorage} from "../../../../Store/UserStore/UserStore";
 import {LoadingButton} from "@mui/lab";
 import SaveIcon from '@mui/icons-material/Save';
+import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 
 
 interface IProfilePageProps extends PaperProps {
@@ -23,6 +24,7 @@ interface IProfilePageProps extends PaperProps {
 }
 
 const ProfilePage = observer(({...props}: IProfilePageProps) => {
+    const isMobile = isMobileHook()
     useEffect(() => UserStorage.loadUserProfile(), [])
     if (!ProfilePageStore.allDataLoaded) {
         return (
@@ -34,7 +36,7 @@ const ProfilePage = observer(({...props}: IProfilePageProps) => {
         <Paper elevation={0} {...props}>
             <Stack justifyContent={"center"} alignItems={"center"}>
                 <Stack direction={"column"} spacing={2} alignItems={"center"}>
-                    <Stack direction={"row"} spacing={8} sx={{pt: 8}} alignItems={"center"}>
+                    <Stack direction={isMobile ? "column" : "row"} spacing={8} sx={{pt: 8}} alignItems={"center"}>
                         <Avatar
                             sx={{width: 200, height: 200}}
                             src={ProfilePageStore.imageSrc}

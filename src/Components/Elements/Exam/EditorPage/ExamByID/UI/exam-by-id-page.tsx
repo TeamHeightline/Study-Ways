@@ -55,7 +55,7 @@ const ExamByID = observer(({exam_id, ...props}: IExamByIDProps) => {
             <UIPageTitle/>
             <GoBackButton/>
             <Stack direction={isMobile ? "column" : "row"} spacing={1} sx={{pb: 2}}>
-                <Stack direction={"column"} spacing={1} width={400}>
+                <Stack direction={"column"} spacing={1} width={isMobile ? "100%" : 400}>
                     <div>
                         <Divider>Настройки</Divider>
                     </div>
@@ -69,7 +69,7 @@ const ExamByID = observer(({exam_id, ...props}: IExamByIDProps) => {
                     <Divider orientation={"vertical"}/>
                 </div>
 
-                <Stack direction={"column"} spacing={1} width={400}>
+                <Stack direction={"column"} spacing={1} width={isMobile ? "100%" : 400}>
                     <div>
                         <Divider>Проводится в </Divider>
                     </div>
@@ -81,7 +81,7 @@ const ExamByID = observer(({exam_id, ...props}: IExamByIDProps) => {
                     <Divider orientation={"vertical"}/>
                 </div>
 
-                <Stack direction={'column'} spacing={1} width={400}>
+                <Stack direction={'column'} spacing={1} width={isMobile ? "100%" : 400}>
                     <div>
                         <Divider>Допуск к экзамену</Divider>
                     </div>
@@ -92,7 +92,7 @@ const ExamByID = observer(({exam_id, ...props}: IExamByIDProps) => {
                     <Divider orientation={"vertical"}/>
                 </div>
 
-                <Stack direction={'column'} spacing={1} width={400}>
+                <Stack direction={'column'} spacing={1} width={isMobile ? "100%" : 400}>
                     <div>
                         <Divider>Ссылки</Divider>
                     </div>

@@ -17,6 +17,7 @@ import {loadExamData} from "../redux-store/async-actions";
 import {changeExamID} from "../redux-store/actions";
 import AutoSaveModule from "./auto-save-module";
 import ExamResultsByID from "../../../ExamResultsByID/UI/exam-results-by-id";
+import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
 
 
 interface IExamByIDProps extends PaperProps {
@@ -28,6 +29,7 @@ const ExamByID = observer(({exam_id, ...props}: IExamByIDProps) => {
     const loadedExamDataID = useSelector((state: RootState) => state?.examEditorReducer?.exam_data?.id)
     const isLoadingEdamData = useSelector((state: RootState) => state?.examEditorReducer?.exam_data_loading)
     const dispatch: any = useDispatch()
+    const isMobile = isMobileHook()
 
     useEffect(() => {
         dispatch(changeExamID(String(exam_id)))
@@ -52,7 +54,7 @@ const ExamByID = observer(({exam_id, ...props}: IExamByIDProps) => {
             <AutoSaveModule/>
             <UIPageTitle/>
             <GoBackButton/>
-            <Stack direction={"row"} spacing={1} sx={{pb: 2}}>
+            <Stack direction={isMobile ? "column" : "row"} spacing={1} sx={{pb: 2}}>
                 <Stack direction={"column"} spacing={1} width={400}>
                     <div>
                         <Divider>Настройки</Divider>

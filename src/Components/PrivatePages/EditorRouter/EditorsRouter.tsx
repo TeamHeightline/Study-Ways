@@ -39,7 +39,7 @@ export const EditorsRouter = observer(() => {
         <Paper elevation={0}>
             <RouterMenu/>
             <Suspense fallback={<Grid container justifyContent={"center"} sx={{pt: 4}}><CircularProgress/></Grid>}>
-                <Paper elevation={0} sx={{pl: isMobile ? 0 : 4, ml: 4}}>
+                <Paper elevation={0} sx={{ml: isMobile ? 0 : 8}}>
                     <Switch>
                         <Route path={`${path}/course`} component={MainCourseEditor}/>
                         <Route path={`${path}/se`} component={SearchingElementsEditor}/>

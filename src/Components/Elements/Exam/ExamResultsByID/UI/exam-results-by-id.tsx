@@ -1,4 +1,4 @@
-import {Paper, Stack, Table} from "@mui/material";
+import {Paper, Stack, Table, TableContainer} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
@@ -45,10 +45,12 @@ export default function ExamResultsByID({exam_id, ...props}: IExamResultsByIDPro
                     <ShowResultsBySumFlag/>
                 </Stack>
             </Stack>
-            <Table>
-                <UiExamTableHead/>
-                <UIExamsResultsTableBody/>
-            </Table>
+            <TableContainer component={Paper}>
+                <Table>
+                    <UiExamTableHead/>
+                    <UIExamsResultsTableBody/>
+                </Table>
+            </TableContainer>
         </Paper>
     )
 }

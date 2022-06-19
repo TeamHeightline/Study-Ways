@@ -5,3 +5,6 @@ export const EXAM_RESULTS_LOAD_FAIL = 'exam-results/EXAM_RESULTS_LOAD_FAIL';
 export const CHANGE_EXAM_ID = 'exam-results/CHANGE_EXAM_ID';
 
 export const CREATE_ARRAY_FOR_CHART = 'exam-results/CREATE_ARRAY_FOR_CHART';
+export const CREATE_EXAM_RESULTS_ORDER_BY_SUM = 'exam-results/CREATE_EXAM_RESULTS_ORDER_BY_SUM';
+
+export const CHANGE_SHOW_RESULTS_BY_SUM = 'exam-results/CHANGE_SHOW_RESULTS_BY_SUM';

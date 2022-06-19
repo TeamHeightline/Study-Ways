@@ -1,4 +1,4 @@
-import {Paper, Table} from "@mui/material";
+import {Paper, Stack, Table} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
@@ -7,8 +7,9 @@ import UiExamTableHead from "./ui-exam-table-head";
 import UIExamsResultsTableBody from "./ui-exam-resuls-table-body";
 import UIAutoUpdateFlag from "./ui-auto-update-flag";
 import {RootState} from "../../../../../root-redux-store/RootReducer";
-import {changeExamID, createArrayForChart} from "../redux-store/actions";
+import {changeExamID, createArrayForChart, createExamResultsOrderBySum} from "../redux-store/actions";
 import UIExamFinalResultChart from "./ui-exam-final-result-chart";
+import ShowResultsBySumFlag from "./ui-show-results-by-sum-flag";
 
 interface IExamResultsByIDProps extends PaperProps {
     exam_id: number;
@@ -33,11 +34,17 @@ export default function ExamResultsByID({exam_id, ...props}: IExamResultsByIDPro
 
     useEffect(() => {
         dispatch(createArrayForChart())
+        dispatch(createExamResultsOrderBySum())
     }, [examResults])
     return (
         <Paper elevation={0} {...props}>
             <UIExamFinalResultChart/>
-            <UIAutoUpdateFlag/>
+            <Stack alignItems="end">
+                <Stack alignItems="start">
+                    <UIAutoUpdateFlag/>
+                    <ShowResultsBySumFlag/>
+                </Stack>
+            </Stack>
             <Table>
                 <UiExamTableHead/>
                 <UIExamsResultsTableBody/>

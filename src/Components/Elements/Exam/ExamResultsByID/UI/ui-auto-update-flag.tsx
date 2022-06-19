@@ -1,4 +1,4 @@
-import {FormControlLabel, Paper, Stack, Switch} from "@mui/material";
+import {FormControlLabel, Paper, Switch} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {useState} from "react";
 import {useInterval} from "./use-interval";
@@ -26,13 +26,13 @@ export default function UIAutoUpdateFlag({...props}: IUIAutoUpdateFlagProps) {
 
     return (
         <Paper elevation={0} {...props}>
-            <Stack alignItems={"end"}>
-                <FormControlLabel control={
-                    <Switch
-                        checked={isAutoUpdate}
-                        onChange={() => setIsAutoUpdate(!isAutoUpdate)}/>
-                } label="Автоматическое обновление"/>
-            </Stack>
+
+            <FormControlLabel control={
+                <Switch
+                    checked={isAutoUpdate}
+                    onChange={() => setIsAutoUpdate(!isAutoUpdate)}/>
+            } label="Автоматическое обновление"/>
+            
         </Paper>
     )
 }

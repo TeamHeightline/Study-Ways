@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import {CardActionArea, Chip, Grid, Stack, Tooltip} from "@mui/material";
+import {CardActionArea, Chip, Grid, Skeleton, Stack, Tooltip} from "@mui/material";
 import 'fontsource-roboto';
 import {useQuery} from "@apollo/client";
 import YouTubeIcon from "@mui/icons-material/YouTube";
@@ -15,11 +15,10 @@ import BiotechIcon from '@mui/icons-material/Biotech';
 import ArchitectureIcon from '@mui/icons-material/Architecture';
 import FunctionsIcon from '@mui/icons-material/Functions';
 import {GET_CARD_FOR_MICRO_VIEW_BY_ID, useStyles} from "./Struct"
-import {Skeleton} from '@mui/material';
 import urlParser from "js-video-url-parser";
 import "js-video-url-parser/lib/provider/youtube";
-import {SERVER_BASE_URL} from "../../../../settings";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import ThemeStoreObject from "../../../../global-theme";
 
 interface ICardMicroViewProps extends React.HTMLAttributes<HTMLDivElement> {
     cardID: number,
@@ -36,6 +35,7 @@ export default function CardMicroView({
                                           ...props
                                       }: ICardMicroViewProps) {
     const classes = useStyles();
+    const isDarkTheme = ThemeStoreObject.mode === "dark";
 
     const {data: card_data, refetch} = useQuery(GET_CARD_FOR_MICRO_VIEW_BY_ID, {
         variables: {
@@ -50,7 +50,7 @@ export default function CardMicroView({
     }, [isEditNow, isNowEditableCard])
 
     const themesText = card_data?.cardById?.cCardTheme[0]?.text
-    const authorName =  card_data?.cardById?.authorProfile?.firstname + " " + card_data?.cardById?.authorProfile.lastname
+    const authorName = card_data?.cardById?.authorProfile?.firstname + " " + card_data?.cardById?.authorProfile.lastname
 
     const showTheme = !!themesText
     const showAuthor = !!authorName.split(" ").join("")
@@ -70,7 +70,7 @@ export default function CardMicroView({
     return (
         <div
             {...props}>
-            <Card variant="outlined" className={classes.root}
+            <Card variant={isDarkTheme ? "outlined" : "elevation"} elevation={3} className={classes.root}
                   onClick={() => {
                       onChange(cardID)
                   }}>

@@ -17,12 +17,14 @@ const CardTitleWithId = observer(({card_store, ...props}: ICardTitleProps) => {
     return (
         <Stack direction={"row"}>
             <Typography
-                id={"card-title"}
+                component={'span'}
+                // id={"card-title"}
                 variant={isMobile ? "h6" : "h4"}>
                 {title}
             </Typography>
             <Typography
-                id={"card-id"}
+                component={'span'}
+                // id={"card-id"}
                 variant={isMobile ? "subtitle2" : "subtitle1"}>
                 {card_id}
             </Typography>

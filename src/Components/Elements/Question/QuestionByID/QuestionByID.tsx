@@ -95,14 +95,14 @@ export const QuestionByID = observer((props: any) => {
                     <Grid item xs={12} md={3}>
                         <LogInNotification requireShow/>
                         <Card variant="outlined" style={{padding: 12}}>
-                            <Typography align={"center"} variant="h5">
+                            <Typography align={"center"} variant="h5" component={'span'}>
                                 Перед началом вопроса выберете уровень сложности:
                             </Typography>
                             <Select
                                 style={{marginTop: 12}}
                                 defaultValue={"0"}
                                 fullWidth
-                                label={""}
+                                label={"_"}
                                 onChange={(e) => processedStore?.changeHardLevelOfHelpText(e.target.value)}
                                 variant="outlined">
                                 <MenuItem value={"0"}>Легкий</MenuItem>

@@ -80,23 +80,12 @@ class ThemeStore {
                 },
                 primary: {
                     main: "#2196f3",
-                    contrastText: this.textColor,
+                    // contrastText: this.textColor,
                 },
                 secondary: {
                     main: '#f50057',
                 },
-                text: {
-                    primary: this.textColor,
-                    secondary: this.secondaryColor,
 
-                    disabled: this.textColor
-                },
-
-            },
-            typography: {
-                allVariants: {
-                    color: this.textColor
-                },
             },
             components: {
                 MuiCssBaseline: {
@@ -145,9 +134,9 @@ class ThemeStore {
                                 filter: "invert(1)"
                             },
                             //делает все подписи в статистике белыми
-                            ".Component-root-4": {
-                                filter: "invert(1)"
-                            }
+                            // ".Component-root-4": {
+                            //     filter: "invert(1)"
+                            // }
                         }
                     },
                 },

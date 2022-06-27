@@ -4,7 +4,6 @@ import CardMicroView from "../../../../Cards/CardView/CardMicroView";
 import {observer} from "mobx-react";
 import {CourseMicroStoreByID} from "../Store/CourseMicroStoreByID";
 import {useHistory, useRouteMatch} from "react-router-dom";
-import ThemeStoreObject from "../../../../../../global-theme";
 
 import NoiseControlOffIcon from '@mui/icons-material/NoiseControlOff';
 
@@ -92,7 +91,7 @@ const RowFragment = observer(({CRI, courseStore}: RowFragmentI) => {
                                             }
                                         }
                                     }}
-                                    style={{color: !element?.CourseElement?.id ? ThemeStoreObject.backgroundColor : ''}}
+                                    style={{opacity: !!element?.CourseElement?.id ? "100%" : "0%"}}
                                     disabled={!element?.CourseElement?.id}
                                     color={
                                         courseStore.position &&

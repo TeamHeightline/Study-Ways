@@ -17,6 +17,7 @@ import {UserStorage} from "../../../../Store/UserStore/UserStore";
 import {LoadingButton} from "@mui/lab";
 import SaveIcon from '@mui/icons-material/Save';
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
+import Typography from "@mui/material/Typography";
 
 
 interface IProfilePageProps extends PaperProps {
@@ -37,12 +38,17 @@ const ProfilePage = observer(({...props}: IProfilePageProps) => {
             <Stack justifyContent={"center"} alignItems={"center"}>
                 <Stack direction={"column"} spacing={2} alignItems={"center"}>
                     <Stack direction={isMobile ? "column" : "row"} spacing={8} sx={{pt: 8}} alignItems={"center"}>
-                        <Avatar
-                            sx={{width: 200, height: 200}}
-                            src={ProfilePageStore.imageSrc}
-                        >
-                            {ProfilePageStore.avatarText}
-                        </Avatar>
+                        <Stack direction={"column"} justifyContent={"center"}>
+                            <Avatar
+                                sx={{width: 200, height: 200}}
+                                src={ProfilePageStore.imageSrc}
+                            >
+                                {ProfilePageStore.avatarText}
+                            </Avatar>
+                            <Typography variant={"subtitle1"} align={"center"}>
+                                {UserStorage.username}
+                            </Typography>
+                        </Stack>
                         <Stack direction={"column"} spacing={2}>
                             <Stack direction={"row"} spacing={2}>
                                 <TextField

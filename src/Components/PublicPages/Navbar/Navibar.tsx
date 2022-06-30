@@ -1,7 +1,7 @@
 // Мы в панели навигации, ВСЕ ПЕРЕХОДЫ СДЕЛАНЫ ЧЕРЕЗ LINK, никаких href, иначе все приложение
 // будет перегружаться
 
-import {Link, useHistory, useLocation} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import useWindowDimensions from "../../../CustomHooks/useWindowDimensions";
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
@@ -17,16 +17,14 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
 import {observer} from "mobx-react";
-import {AccountCircle} from "@mui/icons-material";
-import {Menu, MenuItem} from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import StackedLineChartIcon from '@mui/icons-material/StackedLineChart';
 import {isMobileHook} from "../../../CustomHooks/isMobileHook";
 import ThemeModeSwitch from "./ThemeModeSwitch";
 import ThemeStoreObject from "../../../global-theme";
 import {useAuth0} from "@auth0/auth0-react";
+import NavbarMenu from "./NavbarMenu";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -45,9 +43,6 @@ const useStyles = makeStyles(() =>
     }),
 );
 
-function useQuery() {
-    return new URLSearchParams(useLocation().search);
-}
 
 export const Navibar = observer(() => {
     const classes = useStyles();
@@ -55,11 +50,8 @@ export const Navibar = observer(() => {
     const [value, setValue] = React.useState('0');//Здесь хронится значение на какой мы странице для
     // мобильных устройств
     const history = useHistory();
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const query = useQuery();
     const isMobile = isMobileHook()
-    const {logout, isAuthenticated, loginWithPopup} = useAuth0();
+    const {loginWithPopup} = useAuth0();
 
     const mobileMunuClickHandleChange = (event, newValue) => {
         if (newValue == 0) {
@@ -86,13 +78,6 @@ export const Navibar = observer(() => {
         setValue(newValue);
     };
 
-    const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
 
     if (isMobile) {
         return (
@@ -169,71 +154,11 @@ export const Navibar = observer(() => {
                               to="/selfstatistic">Статистика</Link>}
                     {UserStorage.isLogin ?
                         <>
-                            <Typography sx={{color: "white", pl: 4, pr: 2}}>
-                                {UserStorage.username}
-                            </Typography>
                             <ThemeModeSwitch
                                 onClick={ThemeStoreObject.changeMode}
                                 checked={!ThemeStoreObject.isLightTheme}
                             />
-                            <IconButton
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleMenu}
-                                sx={{color: "white"}}
-                                size="large">
-                                <AccountCircle/>
-                            </IconButton>
-                            <Menu
-                                id="menu-appbar"
-                                anchorEl={anchorEl}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={open}
-                                onClose={handleClose}
-                            >
-                                <MenuItem
-                                    disabled={!UserStorage.isLogin}
-                                    onClick={() => {
-                                        handleClose()
-                                        history.push('/profile')
-                                    }}>
-                                    Профиль
-                                </MenuItem>
-                                <MenuItem
-                                    disabled={UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER"}
-                                    onClick={() => {
-                                        handleClose()
-                                        history.push('/editor')
-                                    }}>
-                                    Редакторы
-                                </MenuItem>
-                                <MenuItem
-                                    disabled={UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER"}
-                                    onClick={() => {
-                                        handleClose()
-                                        history.push('/editor/allquestions')
-                                    }}>
-                                    Вопросы
-                                </MenuItem>
-                                <MenuItem onClick={() => {
-                                    handleClose()
-                                    if (isAuthenticated) {
-                                        logout({returnTo: window.location.origin})
-                                    }
-                                }}>
-                                    Выйти
-                                </MenuItem>
-
-                            </Menu>
+                            <NavbarMenu/>
 
                         </> :
                         <>

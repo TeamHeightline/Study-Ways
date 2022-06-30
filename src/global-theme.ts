@@ -88,9 +88,17 @@ class ThemeStore {
 
             },
             components: {
+                MuiTypography: {
+                    styleOverrides: {
+                        root: {
+                            fontFamily: "Nunito, sans-serif"
+                        }
+                    }
+                },
                 MuiCssBaseline: {
                     styleOverrides: {
                         body: {
+                            fontFamily: "Nunito, sans-serif",
                             backgroundColor: this.backgroundColor,
                             "--ck-color-base-border": this.backgroundColor,
                             ".ck.ck-editor__main>.ck-editor__editable:not(.ck-focused)": {

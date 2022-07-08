@@ -1,60 +1,89 @@
-import {autorun, makeAutoObservable, toJS} from "mobx";
+import {makeAutoObservable, toJS} from "mobx";
 import {ClientStorage} from "../../../../../../Store/ApolloStorage/ClientStorage";
-import {GET_AI_SEARCH_CARDS, GET_PERSONAL_HOME_PAGE} from "./Query";
+import {GET_AI_SEARCH_CARDS, GET_PERSONAL_HOME_PAGE, getAutocompleteCardDataAsync} from "./Query";
 
-class AISearch{
+class AISearch {
     constructor() {
         makeAutoObservable(this)
-        autorun(()=> this.getAISearchResult())
+        getAutocompleteCardDataAsync("физика")
     }
-    clientStorage = ClientStorage
-    loadPersonalHomePage(){
-        try{
-            this.clientStorage.client.query({query: GET_PERSONAL_HOME_PAGE,
-                fetchPolicy: "network-only",
-                variables:{
 
-            }})
-                .then((response) =>response.data.personalCardHomePage)
-                .then((recommendations) =>{
-                    if(recommendations?.IDs){
+    clientStorage = ClientStorage
+
+    loadPersonalHomePage() {
+        try {
+            this.clientStorage.client.query({
+                query: GET_PERSONAL_HOME_PAGE,
+                fetchPolicy: "network-only",
+                variables: {}
+            })
+                .then((response) => response.data.personalCardHomePage)
+                .then((recommendations) => {
+                    if (recommendations?.IDs) {
                         this.cardsIDArrayFromHomePage = recommendations.IDs
                     }
                 })
 
-            }catch(e){
-                console.log(e)
+        } catch (e) {
+            console.log(e)
         }
     }
-    changeAISearchString = async (e) =>{
-        this.AISearchString = e.target.value
-    }
-    AISearchString?: string
 
-    get AISearchStringForSearch(){
-        if(this.AISearchString && String(this?.AISearchString).length > 2){
-            return(this.AISearchString)
-        }
-        else{
+    changeAISearchString = async (value) => {
+        this.AISearchString = value
+        this.getAutocompleteCardsData()
+    }
+    AISearchString: string = ''
+
+    get AISearchStringForSearch() {
+        if (this.AISearchString && String(this?.AISearchString).length > 2) {
+            return (this.AISearchString)
+        } else {
             return undefined
         }
     }
 
-    getAISearchResult(){
-        if(this.AISearchStringForSearch){
-            try{
-                this.clientStorage.client.query({query: GET_AI_SEARCH_CARDS, variables:{
+    async getAutocompleteCardsData() {
+        const searchString = this.AISearchStringForSearch
+        if (searchString) {
+            clearTimeout(this.debounceTimer);
+            this.debounceTimer = setTimeout(() => {
+                getAutocompleteCardDataAsync(searchString)
+            }, 500)
+        }
+    }
+
+    convertMatchToCardData(recommendation) {
+        console.log(recommendation)
+        const cardData = recommendation.recomms.map((recommItem) => recommItem?.values?.title)
+        this.changeCardDataForAutocomplete(cardData)
+    }
+
+    changeCardDataForAutocomplete(cardData) {
+        this.cardDataForAutocomplete = cardData
+    }
+
+    debounceTimer: any = null
+
+    cardDataForAutocomplete: any[] = []
+
+    getAISearchResult() {
+        if (this.AISearchStringForSearch) {
+            try {
+                this.clientStorage.client.query({
+                    query: GET_AI_SEARCH_CARDS, variables: {
                         searchString: this.AISearchStringForSearch
-                }})
-                    .then((response) =>response.data.aiCardSearch)
-                    .then((recommendations)  => {
-                        if(recommendations?.IDs){
+                    }
+                })
+                    .then((response) => response.data.aiCardSearch)
+                    .then((recommendations) => {
+                        if (recommendations?.IDs) {
                             this.cardsIDArrayFromSearch = recommendations.IDs
                         }
                     })
 
-                }catch(e){
-                    console.log(e)
+            } catch (e) {
+                console.log(e)
             }
         }
     }
@@ -62,11 +91,10 @@ class AISearch{
     cardsIDArrayFromSearch: string[] = []
     cardsIDArrayFromHomePage: string[] = []
 
-    get cardsIDArray(){
-        if(this.AISearchStringForSearch){
-            return(toJS(this.cardsIDArrayFromSearch))
-        }
-        else{
+    get cardsIDArray() {
+        if (toJS(this.cardsIDArrayFromSearch).length > 0) {
+            return (toJS(this.cardsIDArrayFromSearch))
+        } else {
             return (toJS(this.cardsIDArrayFromHomePage))
         }
     }

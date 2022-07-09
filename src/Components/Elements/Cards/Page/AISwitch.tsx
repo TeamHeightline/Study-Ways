@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React from 'react';
 import Switch from '@mui/material/Switch';
 import {Stack, Typography} from "@mui/material";
-import {useHistory, useRouteMatch, Redirect} from "react-router-dom";
+import {Redirect, useHistory, useRouteMatch} from "react-router-dom";
 import useQueryParams from "../../../../CustomHooks/useQueryParams";
 
 
@@ -33,12 +33,12 @@ export const AISwitch = observer(({...props}: IAISwitchProps) => {
         <div {...props}>
             <Stack direction={"row"} alignItems={"center"} justifyContent={"center"}>
                 <Typography>
-                    Персонализированный поиск
+                    AI поиск
                 </Typography>
                 <Switch checked={!(searchType === "AISearch")}
                         color="secondary" onChange={handleOnChange}/>
                 <Typography>
-                    Алгоритмический поиск
+                    Обычный поиск
                 </Typography>
             </Stack>
         </div>

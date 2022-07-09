@@ -109,7 +109,7 @@ export default function CardMicroView({
                                               icon={<HttpIcon/>} label="Ресурс"/>}
                                     {Number(card_data.cardById.cardContentType[2]) === 2 &&
                                         <Chip style={{marginLeft: 12}} size="small" variant="outlined" color="default"
-                                              icon={<ImageIcon/>} label="Изображение"/>}
+                                              icon={<ImageIcon/>} label="Изобра..."/>}
 
                                     {Number(card_data.cardById.hardLevel.slice(2.3)) == 0 &&
                                         <ArchitectureIcon style={{marginLeft: 12}} fontSize="small"/>}

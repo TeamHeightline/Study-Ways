@@ -1,13 +1,18 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {Menu, MenuItem} from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import {AccountCircle} from "@mui/icons-material";
+import {Button, Divider, ListItemIcon, Menu, MenuItem} from "@mui/material";
+import {DarkMode} from "@mui/icons-material";
 import {UserStorage} from "../../../Store/UserStore/UserStore";
 import {useAuth0} from "@auth0/auth0-react";
 import {useHistory} from "react-router-dom";
-
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import EditIcon from '@mui/icons-material/Edit';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import LogoutIcon from '@mui/icons-material/Logout';
+import MenuIcon from '@mui/icons-material/Menu';
+import ThemeStoreObject from "../../../global-theme";
+import LightModeIcon from '@mui/icons-material/LightMode';
 
 interface INavbarMenuProps extends PaperProps {
 
@@ -31,15 +36,12 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
 
     return (
         <>
-            <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
+            <Button
                 onClick={handleMenu}
-                sx={{color: "white"}}
-                size="large">
-                <AccountCircle/>
-            </IconButton>
+                sx={{color: "white", mx: 2}}
+                endIcon={<MenuIcon/>}>
+                Меню
+            </Button>
             <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
@@ -61,6 +63,9 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
                         handleClose()
                         history.push('/profile')
                     }}>
+                    <ListItemIcon>
+                        <AccountBoxIcon fontSize="small"/>
+                    </ListItemIcon>
                     Профиль
                 </MenuItem>
                 <MenuItem
@@ -69,6 +74,9 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
                         handleClose()
                         history.push('/editor')
                     }}>
+                    <ListItemIcon>
+                        <EditIcon fontSize="small"/>
+                    </ListItemIcon>
                     Редакторы
                 </MenuItem>
                 <MenuItem
@@ -77,7 +85,22 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
                         handleClose()
                         history.push('/editor/allquestions')
                     }}>
+                    <ListItemIcon>
+                        <QuestionMarkIcon fontSize="small"/>
+                    </ListItemIcon>
                     Вопросы
+                </MenuItem>
+                <Divider/>
+                <MenuItem
+                    onClick={ThemeStoreObject.changeMode}
+                >
+                    <ListItemIcon>
+                        {ThemeStoreObject.mode === "dark" ?
+                            <LightModeIcon fontSize="small"/> :
+                            <DarkMode fontSize="small"/>}
+
+                    </ListItemIcon>
+                    Сменить тему
                 </MenuItem>
                 <MenuItem onClick={() => {
                     handleClose()
@@ -85,6 +108,9 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
                         logout({returnTo: window.location.origin})
                     }
                 }}>
+                    <ListItemIcon>
+                        <LogoutIcon/>
+                    </ListItemIcon>
                     Выйти
                 </MenuItem>
 

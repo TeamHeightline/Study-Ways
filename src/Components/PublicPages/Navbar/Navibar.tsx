@@ -21,8 +21,6 @@ import {observer} from "mobx-react";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import StackedLineChartIcon from '@mui/icons-material/StackedLineChart';
 import {isMobileHook} from "../../../CustomHooks/isMobileHook";
-import ThemeModeSwitch from "./ThemeModeSwitch";
-import ThemeStoreObject from "../../../global-theme";
 import {useAuth0} from "@auth0/auth0-react";
 import NavbarMenu from "./NavbarMenu";
 
@@ -109,11 +107,8 @@ export const Navibar = observer(() => {
                         icon={<AccountCircleIcon/>}/>}
 
                 {UserStorage.isLogin &&
-                    <BottomNavigationAction
-                        sx={{color: "white"}}
-                        label="Профиль"
-                        value="6"
-                        icon={<AccountCircleIcon/>}/>}
+                    <NavbarMenu/>
+                }
 
             </BottomNavigation>
         )
@@ -152,27 +147,15 @@ export const Navibar = observer(() => {
                             textDecoration: "none"
                         }}
                               to="/selfstatistic">Статистика</Link>}
-                    {UserStorage.isLogin ?
-                        <>
-                            <ThemeModeSwitch
-                                onClick={ThemeStoreObject.changeMode}
-                                checked={!ThemeStoreObject.isLightTheme}
-                            />
-                            <NavbarMenu/>
 
-                        </> :
-                        <>
-                            <ThemeModeSwitch
-                                checked={!ThemeStoreObject.isLightTheme}
-                                onClick={ThemeStoreObject.changeMode}
-                            />
-                            <Button sx={{pl: 2, pr: 2}} color="inherit" variant="outlined"
-                                    onClick={() => {
-                                        loginWithPopup()
-                                    }}>
-                                Войти
-                            </Button>
-                        </>}
+                    {UserStorage.isLogin ?
+                        <NavbarMenu/> :
+                        <Button sx={{pl: 2, pr: 2}} color="inherit" variant="outlined"
+                                onClick={() => {
+                                    loginWithPopup()
+                                }}>
+                            Войти
+                        </Button>}
                 </Toolbar>
             </AppBar>
         </div>

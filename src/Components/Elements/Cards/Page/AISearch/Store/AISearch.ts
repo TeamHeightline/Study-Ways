@@ -35,26 +35,21 @@ class AISearch {
     }
 
     changeAISearchString = async (value) => {
-        this.AISearchObject = value
+        this.AISearchString = value
         this.getAutocompleteCardsData()
     }
-    AISearchObject: { label: string, id: number } | null = null
+    AISearchString = ''
 
-    get AISearchStringForSearch() {
-        if (this.AISearchObject && String(this?.AISearchObject.label).length > 2) {
-            return (this.AISearchObject)
-        } else {
-            return undefined
-        }
-    }
 
     async getAutocompleteCardsData() {
-        const searchString = this.AISearchStringForSearch
-        if (searchString) {
-            clearTimeout(this.debounceTimer);
-            this.debounceTimer = setTimeout(() => {
-                getAutocompleteCardDataAsync(searchString.label)
-            }, 500)
+        if (this?.AISearchString) {
+            const searchString = this?.AISearchString
+            if (searchString) {
+                clearTimeout(this.debounceTimer);
+                this.debounceTimer = setTimeout(() => {
+                    getAutocompleteCardDataAsync(searchString)
+                }, 500)
+            }
         }
     }
 
@@ -77,9 +72,9 @@ class AISearch {
 
     onSelectCardInAutocomplete = (event, value) => {
         console.log(toJS(value))
-        this.changeAISearchString(value)
+        this.changeAISearchString(value.label)
         this.getAISearchResult()
-        selectRecommendedCardReport(this.autocompleteRecommendationID, this?.AISearchObject?.id)
+        selectRecommendedCardReport(this.autocompleteRecommendationID, value?.id)
     }
 
     changeCardDataForAutocomplete(cardData) {
@@ -96,11 +91,11 @@ class AISearch {
     autocompleteRecommendationID = ''
 
     getAISearchResult() {
-        if (this.AISearchStringForSearch) {
+        if (this.AISearchString) {
             try {
                 this.clientStorage.client.query({
                     query: GET_AI_SEARCH_CARDS, variables: {
-                        searchString: this.AISearchStringForSearch
+                        searchString: this.AISearchString
                     }
                 })
                     .then((response) => response.data.aiCardSearch)

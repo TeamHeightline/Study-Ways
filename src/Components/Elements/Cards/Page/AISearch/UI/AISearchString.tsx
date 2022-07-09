@@ -23,8 +23,8 @@ export const AISearchString = observer(() => {
                         filterOptions={(x) => x}
                         // autoComplete
                         onChange={AISObject.onSelectCardInAutocomplete}
-                        value={AISObject.AISearchObject || ""}
-                        // inputValue={AISObject.AISearchString || ""}
+                        // value={AISObject.AISearchString || ""}
+                        inputValue={AISObject.AISearchString || ""}
                         onInputChange={changeHandler}
                         fullWidth
                         renderInput={(params) =>

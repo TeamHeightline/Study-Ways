@@ -21,19 +21,22 @@ export const GET_AI_SEARCH_CARDS = gql`
     }`
 
 export async function getAutocompleteCardDataAsync(searchString: string) {
-    recombeeClient.send(new recombee.SearchItems('-1', searchString, 10,
-            {
-                'scenario': 'Search-Card',
-                'returnProperties': true,
-                'cascadeCreate': true,
-                includedProperties: ['title']
+    console.log(searchString)
+    if (searchString) {
+        recombeeClient.send(new recombee.SearchItems('-1', searchString, 10,
+                {
+                    'scenario': 'Search-Card',
+                    'returnProperties': true,
+                    'cascadeCreate': true,
+                    includedProperties: ['title']
+                }
+            ),
+            (err, matches) => {
+                // callback(matches)
+                AISObject.convertMatchToCardData(matches)
             }
-        ),
-        (err, matches) => {
-            // callback(matches)
-            AISObject.convertMatchToCardData(matches)
-        }
-    );
+        );
+    }
 }
 
 export async function selectRecommendedCardReport(recommendationID: string, itemId) {

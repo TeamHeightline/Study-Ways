@@ -22,6 +22,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import {useLocation} from "react-router-dom";
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 import {LogInNotification} from "../../../PublicPages/Notifications/LogInNotification";
+import {UserStorage} from "../../../../Store/UserStore/UserStore";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -80,6 +81,10 @@ export const QuestionByID = observer((props: any) => {
         setProcessedStore(new SameQuestionPlayer(null, questionID))
     }
 
+    if (!UserStorage.isLogin) {
+        return <LogInNotification requireShow/>
+    }
+
     if (!processedStore?.answersArray?.length) {
         return (
             <Stack alignItems={"center"}>
@@ -93,7 +98,6 @@ export const QuestionByID = observer((props: any) => {
                 <Grid container justifyContent="center" alignItems="center"
                       style={{height: isMobile ? window.innerHeight - 100 : window.innerHeight - 300}}>
                     <Grid item xs={12} md={3}>
-                        <LogInNotification requireShow/>
                         <Card variant="outlined" style={{padding: 12}}>
                             <Typography align={"center"} variant="h5" component={'span'}>
                                 Перед началом вопроса выберете уровень сложности:

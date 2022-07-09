@@ -1,13 +1,8 @@
 import {observer} from "mobx-react";
 import React, {useState} from 'react';
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
 import {useAuth0} from "@auth0/auth0-react";
-import {Alert, Snackbar} from "@mui/material";
+import {Alert, AlertTitle, Snackbar, Stack} from "@mui/material";
 
 type LogInNotificationProps = {
     requireShow?: boolean
@@ -53,31 +48,23 @@ export const LogInNotification = observer(({requireShow = false}: LogInNotificat
 
     return (
         <div>
-            <Dialog
-                open={isOpen || requireShow}
-            >
-                <DialogTitle>{"Пожалуйста, войдите в аккаунт"}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Мы будем благодарны, если Вы войдете в аккаунт,
-                        это позволит сохранять вашу статистику по тестам и
-                        рекомендовать вам ресурсы на основе ваших интересов.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => {
-                        loginWithPopup()
-                            .then(handleClose)
-                    }} color="primary">
-                        Войти
-                    </Button>
-                    <Button
-                        disabled={requireShow}
-                        onClick={handleClose} color="primary">
-                        Закрыть
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            {(isOpen || requireShow) && (
+                <Stack alignItems={"center"} sx={{width: "100%"}}>
+                    <Alert onClose={handleClose} severity="error"
+                           sx={{maxWidth: 500, my: 8}}
+                           variant="filled"
+                           action={
+                               <Button onClick={loginWithPopup} variant={"outlined"} color={"inherit"}>
+                                   Войти
+                               </Button>
+                           }
+                    >
+                        <AlertTitle>Войдите в аккаунт</AlertTitle>
+                        Элементы, связанные с тестированием (вопросы/серии вопросов/экзамены) обязательно требуют
+                        авторизации
+                    </Alert>
+                </Stack>
+            )}
         </div>
     )
 

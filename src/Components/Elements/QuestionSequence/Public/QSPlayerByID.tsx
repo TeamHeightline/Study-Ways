@@ -32,6 +32,7 @@ import {MainDirection} from "../../Direction/UI/MainDirection";
 import {toJS} from "mobx";
 import {LogInNotification} from "../../../PublicPages/Notifications/LogInNotification";
 import SchoolIcon from '@mui/icons-material/School';
+import {UserStorage} from "../../../../Store/UserStore/UserStore";
 
 const processedStore = new QSPlayerStore()
 
@@ -85,6 +86,12 @@ export const QSPlayerByID = observer(({...props}: any) => {
     //     }
     // }, [isVisible])
 
+    if (!UserStorage.isLogin) {
+        return (
+            <LogInNotification requireShow/>
+        )
+    }
+
     if (!processedStore.allDataNasBeenLoaded) {
         return (
             <Stack alignItems={"center"}>
@@ -96,7 +103,6 @@ export const QSPlayerByID = observer(({...props}: any) => {
 
     return (
         <div>
-            <LogInNotification requireShow/>
             <Typography align={"center"} variant={isMobile ? "h6" : "h4"}>{processedStore.name}
                 {processedStore.isUseExamMode &&
                     <Chip sx={{ml: 1}}

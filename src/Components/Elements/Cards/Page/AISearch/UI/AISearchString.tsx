@@ -11,10 +11,6 @@ export const AISearchString = observer(() => {
         AISObject.changeAISearchString(value)
     }
 
-    function onSelectCard(event, value) {
-        AISObject.changeAISearchString(value)
-        AISObject.getAISearchResult()
-    }
 
     return (
         <Grid container justifyContent={"center"}>
@@ -25,10 +21,10 @@ export const AISearchString = observer(() => {
                         freeSolo
                         options={AISObject.cardDataForAutocomplete}
                         filterOptions={(x) => x}
-                        autoComplete
-                        onChange={onSelectCard}
-                        value={null}
-                        inputValue={AISObject.AISearchString || ""}
+                        // autoComplete
+                        onChange={AISObject.onSelectCardInAutocomplete}
+                        value={AISObject.AISearchObject || ""}
+                        // inputValue={AISObject.AISearchString || ""}
                         onInputChange={changeHandler}
                         fullWidth
                         renderInput={(params) =>

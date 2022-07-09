@@ -1,6 +1,11 @@
 import {makeAutoObservable, toJS} from "mobx";
 import {ClientStorage} from "../../../../../../Store/ApolloStorage/ClientStorage";
-import {GET_AI_SEARCH_CARDS, GET_PERSONAL_HOME_PAGE, getAutocompleteCardDataAsync} from "./Query";
+import {
+    GET_AI_SEARCH_CARDS,
+    GET_PERSONAL_HOME_PAGE,
+    getAutocompleteCardDataAsync,
+    selectRecommendedCardReport
+} from "./Query";
 
 class AISearch {
     constructor() {
@@ -30,14 +35,14 @@ class AISearch {
     }
 
     changeAISearchString = async (value) => {
-        this.AISearchString = value
+        this.AISearchObject = value
         this.getAutocompleteCardsData()
     }
-    AISearchString: string = ''
+    AISearchObject: { label: string, id: number } | null = null
 
     get AISearchStringForSearch() {
-        if (this.AISearchString && String(this?.AISearchString).length > 2) {
-            return (this.AISearchString)
+        if (this.AISearchObject && String(this?.AISearchObject.label).length > 2) {
+            return (this.AISearchObject)
         } else {
             return undefined
         }
@@ -48,24 +53,47 @@ class AISearch {
         if (searchString) {
             clearTimeout(this.debounceTimer);
             this.debounceTimer = setTimeout(() => {
-                getAutocompleteCardDataAsync(searchString)
+                getAutocompleteCardDataAsync(searchString.label)
             }, 500)
         }
     }
 
-    convertMatchToCardData(recommendation) {
+    convertMatchToCardData = (recommendation) => {
         console.log(recommendation)
-        const cardData = recommendation.recomms.map((recommItem) => recommItem?.values?.title)
-        this.changeCardDataForAutocomplete(cardData)
+        if (recommendation?.recomms) {
+            const cardData = recommendation?.recomms?.map((recommItem) => {
+                return (
+                    {
+                        label: recommItem?.values?.title,
+                        id: recommItem?.id
+                    }
+                )
+            })
+            this.changeCardDataForAutocomplete(cardData)
+            this.changeAutocompleteRecommendationID(recommendation?.recommId)
+
+        }
+    }
+
+    onSelectCardInAutocomplete = (event, value) => {
+        console.log(toJS(value))
+        this.changeAISearchString(value)
+        this.getAISearchResult()
+        selectRecommendedCardReport(this.autocompleteRecommendationID, this?.AISearchObject?.id)
     }
 
     changeCardDataForAutocomplete(cardData) {
         this.cardDataForAutocomplete = cardData
     }
 
+    changeAutocompleteRecommendationID(id) {
+        this.autocompleteRecommendationID = id
+    }
+
     debounceTimer: any = null
 
-    cardDataForAutocomplete: any[] = []
+    cardDataForAutocomplete: { label: string, id: number }[] = []
+    autocompleteRecommendationID = ''
 
     getAISearchResult() {
         if (this.AISearchStringForSearch) {

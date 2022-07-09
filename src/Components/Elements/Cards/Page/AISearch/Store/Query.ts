@@ -36,6 +36,14 @@ export async function getAutocompleteCardDataAsync(searchString: string) {
     );
 }
 
+export async function selectRecommendedCardReport(recommendationID: string, itemId) {
+    if (recommendationID && itemId) {
+        recombeeClient.send(new recombee.AddDetailView("-1", itemId, {
+            'recommId': recommendationID
+        }));
+    }
+}
+
 
 export function useDebounce<T>(value: T, delay?: number): T {
     const [debouncedValue, setDebouncedValue] = useState<T>(value)

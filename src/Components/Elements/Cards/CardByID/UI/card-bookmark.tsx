@@ -5,10 +5,10 @@ import {Paper, Tooltip} from "@mui/material";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import IconButton from "@mui/material/IconButton";
-import {CardByIDStoreObject} from "../Store/CardByIDStore";
+import {CardByIDStore} from "../Store/CardByIDStore";
 
 interface ICardBookmarkProps extends PaperProps {
-    card_store: typeof CardByIDStoreObject
+    card_store: CardByIDStore
 }
 
 const CardBookmark = observer(({card_store, ...props}: ICardBookmarkProps) => {

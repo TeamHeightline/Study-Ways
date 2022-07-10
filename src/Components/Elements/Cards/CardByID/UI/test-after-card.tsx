@@ -3,11 +3,10 @@ import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Paper} from "@mui/material";
 import {QuestionByID} from "../../../Question/QuestionByID/QuestionByID";
-import {CardByIDStoreObject} from "../Store/CardByIDStore";
-
+import {CardByIDStore} from "../Store/CardByIDStore";
 
 interface ITestAfterCardProps extends PaperProps {
-    card_store: typeof CardByIDStoreObject
+    card_store: CardByIDStore
 
 }
 

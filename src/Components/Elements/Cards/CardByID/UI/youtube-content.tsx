@@ -2,21 +2,21 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Paper} from "@mui/material";
-import {CardByIDStoreObject} from "../Store/CardByIDStore";
+import {CardByIDStore} from "../Store/CardByIDStore";
 import ReactPlayer from "react-player";
 import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 
 
-interface IYoutubeContentProps extends PaperProps{
-    card_store: typeof CardByIDStoreObject
+interface IYoutubeContentProps extends PaperProps {
+    card_store: CardByIDStore
 
 }
 
-const YoutubeContent = observer(({card_store, ...props}: IYoutubeContentProps) =>{
+const YoutubeContent = observer(({card_store, ...props}: IYoutubeContentProps) => {
     const youtubeVideoURL = String(card_store?.card_data?.videoUrl)
     const showVideo = youtubeVideoURL !== "null"
     const isMobile = isMobileHook()
-    return(
+    return (
         <Paper elevation={0} {...props}>
             {showVideo &&
                 <ReactPlayer width="auto"

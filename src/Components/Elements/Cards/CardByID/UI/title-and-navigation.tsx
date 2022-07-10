@@ -1,6 +1,6 @@
 import {observer} from "mobx-react";
 import React from 'react';
-import {CardByIDStoreObject} from "../Store/CardByIDStore";
+import {CardByIDStore} from "../Store/CardByIDStore";
 import DefaultCardNavigation from "./default-card-navigation";
 import {Stack} from "@mui/material";
 import CardTitleWithId from "./card-title-with-id";
@@ -13,7 +13,7 @@ import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 
 interface ITitleAndNavigationProps extends PaperProps {
     course_navigation?: ReturnType<typeof CourseMicroView>
-    card_store: typeof CardByIDStoreObject
+    card_store: CardByIDStore
 }
 
 const TitleAndNavigation = observer(({

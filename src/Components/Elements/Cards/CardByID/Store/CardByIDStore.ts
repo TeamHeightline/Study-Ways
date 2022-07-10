@@ -3,7 +3,8 @@ import {CardCourseNode, CardNode, Mutation, Query, UnstructuredThemesNode} from 
 import {ClientStorage} from "../../../../../Store/ApolloStorage/ClientStorage";
 import {
     ADD_TO_BOOKMARK,
-    GET_ALL_COURSE, GET_SIMILAR_CARDS_ID_ARRAY,
+    GET_ALL_COURSE,
+    GET_SIMILAR_CARDS_ID_ARRAY,
     GET_THEME_ANCESTORS,
     LOAD_CARD_DATA_BY_ID,
     REMOVE_CARD_FROM_BOOKMARK,
@@ -320,5 +321,3 @@ type similarCardsI = {
     type: "CardElement",
     id: number
 }
-
-export const CardByIDStoreObject = new CardByIDStore()

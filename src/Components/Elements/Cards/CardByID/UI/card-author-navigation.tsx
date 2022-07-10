@@ -6,12 +6,12 @@ import KeyboardArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardArrowLeft
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
 import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
-import {CardByIDStoreObject} from "../Store/CardByIDStore";
+import {CardByIDStore} from "../Store/CardByIDStore";
 import {useHistory} from "react-router-dom";
 
 
 interface ICardAuthorNavigationProps extends PaperProps {
-    card_store: typeof CardByIDStoreObject
+    card_store: CardByIDStore
 
 }
 
@@ -31,7 +31,7 @@ const CardAuthorNavigation = observer(({card_store, ...props}: ICardAuthorNaviga
     const goToCard = (cardID) => {
         history.push("/card/" + cardID)
     }
-    if(!isShowNavigation){
+    if (!isShowNavigation) {
         return <div/>
     }
 

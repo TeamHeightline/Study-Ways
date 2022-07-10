@@ -3,12 +3,12 @@ import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Button, Paper, Stack, Typography} from "@mui/material";
 import {Alert, AlertTitle} from "@mui/lab";
-import {CardByIDStoreObject} from "../Store/CardByIDStore";
+import {CardByIDStore} from "../Store/CardByIDStore";
 import {useHistory, useRouteMatch} from "react-router-dom";
 
 
 interface ICardFindInCourseProps extends PaperProps {
-    card_store: typeof CardByIDStoreObject
+    card_store: CardByIDStore
 }
 
 const CardFindInCourse = observer(({card_store, ...props}: ICardFindInCourseProps) => {

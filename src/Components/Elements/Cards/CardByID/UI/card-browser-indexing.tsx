@@ -2,11 +2,10 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Helmet} from "react-helmet";
-import {CardByIDStoreObject} from "../Store/CardByIDStore";
-
+import {CardByIDStore} from "../Store/CardByIDStore";
 
 interface ICardBrowserIndexingProps extends PaperProps {
-    card_store: typeof CardByIDStoreObject
+    card_store: CardByIDStore
 }
 
 const CardBrowserIndexing = observer(({card_store, ...props}: ICardBrowserIndexingProps) => {

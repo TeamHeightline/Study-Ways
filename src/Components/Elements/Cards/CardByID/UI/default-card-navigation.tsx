@@ -7,51 +7,51 @@ import {UserStorage} from "../../../../../Store/UserStore/UserStore";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import {useHistory} from "react-router-dom";
-import {CardByIDStoreObject} from "../Store/CardByIDStore";
+import {CardByIDStore} from "../Store/CardByIDStore";
 
-interface IDefaultCardNavigationProps extends React.HTMLAttributes<HTMLDivElement>{
-    card_store: typeof CardByIDStoreObject
+interface IDefaultCardNavigationProps extends React.HTMLAttributes<HTMLDivElement> {
+    card_store: CardByIDStore
 }
 
-const DefaultCardNavigation = observer(({card_store, ...props}: IDefaultCardNavigationProps) =>{
+const DefaultCardNavigation = observer(({card_store, ...props}: IDefaultCardNavigationProps) => {
     const history = useHistory()
     const card_id = Number(card_store?.card_data?.id)
     const isAdmin = UserStorage.userAccessLevel == "ADMIN"
-    const goToCard = (stepUpID: number) =>{
+    const goToCard = (stepUpID: number) => {
         history.push("/card/" + (card_id + stepUpID))
     }
-    const openCardForEdit = () =>{
+    const openCardForEdit = () => {
         history.push("/editor/card2/card/" + card_id)
     }
-    return(
+    return (
         <div {...props}>
             <Stack
                 direction={"row"}
                 justifyContent="space-between"
                 alignItems={"center"}>
-                    <ButtonGroup
-                        size="large"
-                        color="primary"
-                        aria-label="group"
-                        id={"btn-group-for-card-page"}>
-                            <Button onClick={ () =>{
-                                goToCard(- 1)
-                            }}>
-                                <KeyboardArrowLeftOutlinedIcon/>
-                            </Button>
-                            <Button onClick={ () => {
-                                goToCard( 1)
-                            }}>
-                                <KeyboardArrowRightOutlinedIcon/>
-                            </Button>
-                    </ButtonGroup>
-                    {isAdmin &&
-                        <IconButton size="large"
-                                    onClick={openCardForEdit}>
-                            <EditIcon fontSize="inherit"/>
-                        </IconButton>
-                        }
-                </Stack>
+                <ButtonGroup
+                    size="large"
+                    color="primary"
+                    aria-label="group"
+                    id={"btn-group-for-card-page"}>
+                    <Button onClick={() => {
+                        goToCard(-1)
+                    }}>
+                        <KeyboardArrowLeftOutlinedIcon/>
+                    </Button>
+                    <Button onClick={() => {
+                        goToCard(1)
+                    }}>
+                        <KeyboardArrowRightOutlinedIcon/>
+                    </Button>
+                </ButtonGroup>
+                {isAdmin &&
+                    <IconButton size="large"
+                                onClick={openCardForEdit}>
+                        <EditIcon fontSize="inherit"/>
+                    </IconButton>
+                }
+            </Stack>
         </div>
     )
 })

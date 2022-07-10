@@ -11,6 +11,7 @@ import CourseMicroView from "../../../Course/CourseMicroView/V2/UI/CourseMicroVi
 import SimilarCards from "./similar-cards";
 import TestAfterCard from "./test-after-card";
 import CardBrowserIndexing from "./card-browser-indexing";
+import CardResourceIframe from "./card-resourse-iframe";
 
 
 interface ICardByIDProps extends PaperProps {
@@ -35,6 +36,8 @@ const CardByID = observer(({card_id, course_navigation, ...props}: ICardByIDProp
             <CardContentAndDescription card_store={cardStore} sx={{pt: 1}}/>
             <CardNavigationRatingFind card_store={cardStore} sx={{pt: 1}}/>
             <TestAfterCard card_store={cardStore} sx={{pt: 1}}/>
+            <CardResourceIframe card_store={cardStore}/>
+
             <SimilarCards card_store={cardStore} sx={{pt: 1}}/>
 
         </Paper>

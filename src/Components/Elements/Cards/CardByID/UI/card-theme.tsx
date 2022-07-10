@@ -2,12 +2,12 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Paper, Stack,} from "@mui/material";
-import {CardByIDStoreObject} from "../Store/CardByIDStore";
+import {CardByIDStore} from "../Store/CardByIDStore";
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import ThemeWithAncestor from "./theme-with-ancestor";
 
 interface ICardThemeProps extends PaperProps {
-    card_store: typeof CardByIDStoreObject
+    card_store: CardByIDStore
 }
 
 const CardTheme = observer(({card_store, ...props}: ICardThemeProps) => {

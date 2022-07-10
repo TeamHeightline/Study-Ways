@@ -1,38 +1,25 @@
-import {makeAutoObservable, toJS} from "mobx";
+import {makeAutoObservable, reaction, toJS} from "mobx";
 import {ClientStorage} from "../../../../../../Store/ApolloStorage/ClientStorage";
-import {
-    GET_AI_SEARCH_CARDS,
-    GET_PERSONAL_HOME_PAGE,
-    getAutocompleteCardDataAsync,
-    selectRecommendedCardReport
-} from "./Query";
+import {getAutocompleteCardDataAsync, selectRecommendedCardReport} from "./Query";
+import {UnstructuredThemesNode} from "../../../../../../SchemaTypes";
+import {GET_CONNECTED_THEME} from "../../../Selector/Store/Query";
 
 class AISearch {
     constructor() {
         makeAutoObservable(this)
-        getAutocompleteCardDataAsync("физика")
+
+        reaction(() => this.AIQueryFilterString, () => this.getAutocompleteCardsData())
+        reaction(() => this.AIQueryFilterString, () => this.getAISearchResult())
+        reaction(() => this.cardConnectedTheme, () => this.calculateThemeWithParent())
     }
+
 
     clientStorage = ClientStorage
 
-    loadPersonalHomePage() {
-        try {
-            this.clientStorage.client.query({
-                query: GET_PERSONAL_HOME_PAGE,
-                fetchPolicy: "network-only",
-                variables: {}
-            })
-                .then((response) => response.data.personalCardHomePage)
-                .then((recommendations) => {
-                    if (recommendations?.IDs) {
-                        this.cardsIDArrayFromHomePage = recommendations.IDs
-                    }
-                })
-
-        } catch (e) {
-            console.log(e)
-        }
+    loadAutocompleteDefaultData() {
+        getAutocompleteCardDataAsync("", undefined, this.convertMatchToCardData)
     }
+
 
     changeAISearchString = async (value) => {
         this.AISearchString = value
@@ -40,17 +27,107 @@ class AISearch {
     }
     AISearchString = ''
 
+    //Фильтры ------------------------------------------------------
+    //function for build RrQL filter string
+    get AIQueryFilterString() {
+        let queryString = ""
+        if (this.hardLevel != "-1") {
+            queryString += `'hard_level' == ${this.hardLevel}`
+        }
+        if (this.themeWithPatentIDArray.length > 0) {
+            if (queryString.length > 0) {
+                queryString += " and "
+            }
+            const itemInRecombeeStyleString = this.themeWithPatentIDArray.map((item) => {
+                return ('"' + item + '"')
+            }).join(", ")
 
-    async getAutocompleteCardsData() {
-        if (this?.AISearchString) {
-            const searchString = this?.AISearchString
-            if (searchString) {
-                clearTimeout(this.debounceTimer);
-                this.debounceTimer = setTimeout(() => {
-                    getAutocompleteCardDataAsync(searchString)
-                }, 500)
+            queryString += `({${itemInRecombeeStyleString}} & 'connected_theme') != {}`
+        }
+        return queryString
+    }
+
+    hardLevel: "-1" | "0" | "1" | "2" | "3" = "-1"
+
+    changeHardLevel = (e) => {
+        this.hardLevel = e.target.value
+    }
+
+
+    allConnectedThemes: UnstructuredThemesNode[] = []
+    connectedThemesHasBeenLoaded = false
+
+    get connectedThemesForSelector() {
+        return toJS(this.allConnectedThemes)
+            ?.map((theme) => {
+                return ({
+                    id: theme.id,
+                    value: theme.id,
+                    title: theme.text,
+                    pId: theme?.parent?.id || 0
+                })
+            })
+    }
+
+    loadCardConnectedThemes() {
+        try {
+            this.clientStorage.client.query({
+                query: GET_CONNECTED_THEME,
+                fetchPolicy: "network-only",
+                variables: {}
+            })
+                .then((response) => response.data.unstructuredTheme)
+                .then((connected_themes) => {
+                    this.allConnectedThemes = connected_themes
+                    for (let theme of connected_themes) {
+                        if (this.themeParentToThemeMap.has(theme.parent?.id)) {
+                            const themesArray = this.themeParentToThemeMap.get(theme.parent?.id) || []
+                            this.themeParentToThemeMap.set(theme?.parent?.id, [...themesArray, theme?.id])
+                        } else {
+                            this.themeParentToThemeMap.set(theme?.parent?.id, [theme?.id])
+                        }
+                    }
+                    this.connectedThemesHasBeenLoaded = true
+                })
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    calculateThemeWithParent() {
+        this.themeWithPatentIDArray = []
+        if (this.cardConnectedTheme) {
+            this.themeWithPatentIDArray.push(String(this.cardConnectedTheme))
+            this.recursiveThemeCollector(this.cardConnectedTheme)
+            console.log(toJS(this.themeWithPatentIDArray))
+        }
+    }
+
+    recursiveThemeCollector(themeID) {
+        if (this.themeParentToThemeMap.has(themeID)) {
+            const themesArray = this.themeParentToThemeMap.get(themeID) || []
+            for (let theme of themesArray) {
+                this.themeWithPatentIDArray.push(theme)
+                this.recursiveThemeCollector(theme)
             }
         }
+    }
+
+
+    themeWithPatentIDArray: string[] = []
+
+    cardConnectedTheme?: number
+    themeParentToThemeMap: Map<string, string[]> = new Map()
+
+    //
+
+
+    async getAutocompleteCardsData() {
+        const searchString = this?.AISearchString
+        clearTimeout(this.debounceTimer);
+        this.debounceTimer = setTimeout(() => {
+            getAutocompleteCardDataAsync(searchString || undefined, this.AIQueryFilterString, this.convertMatchToCardData)
+        }, 500)
     }
 
     convertMatchToCardData = (recommendation) => {
@@ -91,35 +168,19 @@ class AISearch {
     autocompleteRecommendationID = ''
 
     getAISearchResult() {
-        if (this.AISearchString) {
-            try {
-                this.clientStorage.client.query({
-                    query: GET_AI_SEARCH_CARDS, variables: {
-                        searchString: this.AISearchString
-                    }
-                })
-                    .then((response) => response.data.aiCardSearch)
-                    .then((recommendations) => {
-                        if (recommendations?.IDs) {
-                            this.cardsIDArrayFromSearch = recommendations.IDs
-                        }
-                    })
+        getAutocompleteCardDataAsync(this.AISearchString, this.AIQueryFilterString, this.changeCardIDArrayFromSearch, 50)
+    }
 
-            } catch (e) {
-                console.log(e)
-            }
+    changeCardIDArrayFromSearch = (recommendation) => {
+        if (recommendation?.recomms) {
+            this.cardsIDArrayFromSearch = recommendation?.recomms?.map((recommItem) => recommItem?.id)
         }
     }
 
     cardsIDArrayFromSearch: string[] = []
-    cardsIDArrayFromHomePage: string[] = []
 
     get cardsIDArray() {
-        if (toJS(this.cardsIDArrayFromSearch).length > 0) {
-            return (toJS(this.cardsIDArrayFromSearch))
-        } else {
-            return (toJS(this.cardsIDArrayFromHomePage))
-        }
+        return (toJS(this.cardsIDArrayFromSearch))
     }
 }
 

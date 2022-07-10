@@ -1,11 +1,19 @@
 import {observer} from "mobx-react";
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Autocomplete, Grid, IconButton, Stack, TextField} from "@mui/material";
 import {AISObject} from "../Store/AISearch";
 import SearchIcon from '@mui/icons-material/Search';
+import AIHardLevelFilter from "./AIHardLevelFilter";
+import AIThemeFilter from "./AIThemeFilter";
 
 
 export const AISearchString = observer(() => {
+
+    useEffect(() => {
+        AISObject.loadCardConnectedThemes()
+        AISObject.getAISearchResult()
+        AISObject.loadAutocompleteDefaultData()
+    }, [])
 
     function changeHandler(event, value) {
         AISObject.changeAISearchString(value)
@@ -43,6 +51,10 @@ export const AISearchString = observer(() => {
                             <SearchIcon/>
                         </IconButton>
                     </div>
+                </Stack>
+                <Stack direction={"row"} sx={{mt: 2, width: "100%"}} spacing={4}>
+                    <AIHardLevelFilter/>
+                    <AIThemeFilter/>
                 </Stack>
             </Grid>
         </Grid>

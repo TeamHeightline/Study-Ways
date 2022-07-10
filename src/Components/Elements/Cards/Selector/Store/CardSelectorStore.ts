@@ -192,7 +192,7 @@ export class CardSelectorStore {
 }
 
 type hardLevelTypes = CardHardLevel | "undefined"
-type cardContentType = CardCardContentType | "undefined"
+export type cardContentType = CardCardContentType | "undefined"
 
 export const
     CSSObject = new CardSelectorStore()

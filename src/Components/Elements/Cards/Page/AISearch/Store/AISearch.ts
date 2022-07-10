@@ -3,6 +3,7 @@ import {ClientStorage} from "../../../../../../Store/ApolloStorage/ClientStorage
 import {getAutocompleteCardDataAsync, selectRecommendedCardReport} from "./Query";
 import {UnstructuredThemesNode} from "../../../../../../SchemaTypes";
 import {GET_CONNECTED_THEME} from "../../../Selector/Store/Query";
+import {cardContentType} from "../../../Selector/Store/CardSelectorStore";
 
 class AISearch {
     constructor() {
@@ -43,6 +44,13 @@ class AISearch {
             }).join(", ")
 
             queryString += `({${itemInRecombeeStyleString}} & 'connected_theme') != {}`
+        }
+
+        if (this.contentType !== "undefined") {
+            if (queryString.length > 0) {
+                queryString += " and "
+            }
+            queryString += `'card_content_type' == ${Number(this.contentType)}`
         }
         return queryString
     }
@@ -118,6 +126,12 @@ class AISearch {
 
     cardConnectedTheme?: number
     themeParentToThemeMap: Map<string, string[]> = new Map()
+
+
+    contentType: cardContentType = "undefined"
+    changeContentType = (e) => {
+        this.contentType = e.target.value
+    }
 
     //
 

@@ -5,6 +5,7 @@ import {AISObject} from "../Store/AISearch";
 import SearchIcon from '@mui/icons-material/Search';
 import AIHardLevelFilter from "./AIHardLevelFilter";
 import AIThemeFilter from "./AIThemeFilter";
+import {ContentType} from "./AIContentTypeFilter";
 
 
 export const AISearchString = observer(() => {
@@ -55,6 +56,7 @@ export const AISearchString = observer(() => {
                 <Stack direction={"row"} sx={{mt: 2, width: "100%"}} spacing={4}>
                     <AIHardLevelFilter/>
                     <AIThemeFilter/>
+                    <ContentType/>
                 </Stack>
             </Grid>
         </Grid>

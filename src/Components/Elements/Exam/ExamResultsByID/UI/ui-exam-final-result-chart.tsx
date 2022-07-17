@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {Paper} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {ArgumentAxis, BarSeries, Chart, SplineSeries, Title, ValueAxis} from "@devexpress/dx-react-chart-material-ui";

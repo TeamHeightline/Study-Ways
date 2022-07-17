@@ -1,6 +1,7 @@
+// @ts-nocheck
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {HTML5Backend} from 'react-dnd-html5-backend'
@@ -24,9 +25,10 @@ configure({
 })
 
 
-//Этот файл полностью посвящен тму, чтобы создать темную тему во все проекте
+//Этот файл полностью посвящен тому, чтобы создать темную тему во все проекте.
 //Для Material UI мы создаем ThemeProvider, для AntDesign - импортируем темную тему
 const AppWithAllProviders = observer(() => {
+
     return (
         <LocalizationProvider dateAdapter={DateAdapter}>
             <Provider store={reduxStore}>
@@ -40,11 +42,12 @@ const AppWithAllProviders = observer(() => {
                     <ThemeProvider theme={ThemeStoreObject.theme}>
                         <CssBaseline/>
                         {/*<style>{'body {background-color: #0A1929}'}</style>*/}
-                        <div>
-                            <DndProvider backend={HTML5Backend}>
+                        <DndProvider backend={HTML5Backend}>
+                            <div>
                                 <App/>
-                            </DndProvider>
-                        </div>
+                            </div>
+                        </DndProvider>
+
                     </ThemeProvider>
                 </Auth0Provider>
             </Provider>

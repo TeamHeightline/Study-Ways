@@ -53,7 +53,7 @@ export const AISearchString = observer(() => {
                         </IconButton>
                     </div>
                 </Stack>
-                <Stack direction={"row"} sx={{mt: 2, width: "100%"}} spacing={4}>
+                <Stack direction={{xs: "column", md: "row"}} sx={{mt: 2, width: "100%"}} spacing={{xs: 2, md: 4}}>
                     <AIHardLevelFilter/>
                     <AIThemeFilter/>
                     <ContentType/>

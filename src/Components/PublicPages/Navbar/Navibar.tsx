@@ -150,7 +150,7 @@ export const Navibar = observer(() => {
 
                     {UserStorage.isLogin ?
                         <NavbarMenu/> :
-                        <Button sx={{pl: 2, pr: 2}} color="inherit" variant="outlined"
+                        <Button sx={{pl: 2, pr: 2, mx: 2}} color="inherit" variant="outlined"
                                 onClick={() => {
                                     loginWithPopup()
                                 }}>

@@ -107,7 +107,6 @@ class AISearch {
         if (this.cardConnectedTheme) {
             this.themeWithPatentIDArray.push(String(this.cardConnectedTheme))
             this.recursiveThemeCollector(this.cardConnectedTheme)
-            console.log(toJS(this.themeWithPatentIDArray))
         }
     }
 
@@ -145,7 +144,6 @@ class AISearch {
     }
 
     convertMatchToCardData = (recommendation) => {
-        console.log(recommendation)
         if (recommendation?.recomms) {
             const cardData = recommendation?.recomms?.map((recommItem) => {
                 return (
@@ -162,7 +160,6 @@ class AISearch {
     }
 
     onSelectCardInAutocomplete = (event, value) => {
-        console.log(toJS(value))
         this.changeAISearchString(value.label)
         this.getAISearchResult()
         selectRecommendedCardReport(this.autocompleteRecommendationID, value?.id)

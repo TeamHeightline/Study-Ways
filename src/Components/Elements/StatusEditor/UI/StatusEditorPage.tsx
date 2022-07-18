@@ -6,6 +6,7 @@ import {loadUsersAsync} from "../redux-store/async-actions";
 import UITitle from "./ui-title";
 import UIAllUsers from "./ui-all-users";
 import UIUserSearch from "./ui-user-search";
+import {loadAllUsersAsync} from "../redux-store/AsyncActions";
 
 interface IStatusEditorPageProps extends PaperProps {
 
@@ -15,6 +16,7 @@ export default function StatusEditorPage({...props}: IStatusEditorPageProps) {
     const dispatch: any = useDispatch()
     useEffect(() => {
         dispatch(loadUsersAsync())
+        dispatch(loadAllUsersAsync())
     }, [])
     return (
         <Paper elevation={0} {...props}>

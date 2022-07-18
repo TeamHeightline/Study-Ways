@@ -3,9 +3,9 @@ import {PaperProps} from "@mui/material/Paper/Paper";
 import CardMedia from "@mui/material/CardMedia";
 import React from "react";
 import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
-import {RootState} from "../../../../../../root-redux-store/RootReducer";
 import {useSelector} from "react-redux";
 import {FILE_URL} from "../../../../../../settings";
+import {RootState} from "../../../../../../root-redux-store/RootStore";
 
 interface IUIQuestionImageProps extends PaperProps {
 }

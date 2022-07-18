@@ -1,30 +1,36 @@
 import {Button, Grid, Paper, Stack, TextField} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {changeSearchText, searchUsers} from "../redux-store/actions";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../../../root-redux-store/RootReducer";
+import {useSelector} from "react-redux";
+import {changeSearchString} from "../redux-store/StatusEditorSlice";
+import {loadAllUsersAsync, searchUserAsync} from "../redux-store/AsyncActions";
+import {RootState, useAppDispatch} from "../../../../root-redux-store/RootStore";
+import SearchIcon from '@mui/icons-material/Search';
 
 interface IUIUserSearchProps extends PaperProps {
 
 }
 
 export default function UIUserSearch({...props}: IUIUserSearchProps) {
-    const searchText = useSelector((state: RootState) => state.statusEditorReducer.search_text)
-    const dispatch = useDispatch()
+    const searchText = useSelector((state: RootState) => state.statusEditor.searchString);
+    const dispatch = useAppDispatch()
 
     function changeSearchTextHandle(event) {
-        dispatch(changeSearchText(event.target.value))
+        dispatch(changeSearchString(event.target.value))
     }
 
     function searchUsersHandle() {
-        dispatch(searchUsers())
+        if (searchText.length > 0) {
+            dispatch(searchUserAsync(searchText))
+        } else {
+            dispatch(loadAllUsersAsync())
+        }
     }
 
     return (
         <Paper elevation={0} {...props}>
             <Grid container>
                 <Grid item xs={12} md={6}>
-                    <Stack direction={"row"} spacing={2}>
+                    <Stack direction={"row"} spacing={1}>
                         <TextField
                             value={searchText}
                             onChange={changeSearchTextHandle}
@@ -34,7 +40,9 @@ export default function UIUserSearch({...props}: IUIUserSearchProps) {
                             variant="outlined"/>
                         <Button
                             onClick={searchUsersHandle}
-                            variant={"outlined"}>
+                            variant={"outlined"}
+                            startIcon={<SearchIcon/>}
+                        >
                             Поиск
                         </Button>
                     </Stack>

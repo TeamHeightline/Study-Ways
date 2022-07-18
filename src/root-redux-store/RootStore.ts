@@ -1,13 +1,7 @@
 import {configureStore} from '@reduxjs/toolkit'
 import {RootReducer} from "./RootReducer";
-import {composeWithDevTools} from "redux-devtools-extension";
+import {useDispatch} from 'react-redux'
 
-const composeEnhancers = composeWithDevTools({
-    serialize: {
-        map: true,
-        set: true,
-    }
-})
 
 const reduxStore = configureStore({
     reducer: RootReducer,
@@ -19,3 +13,7 @@ const reduxStore = configureStore({
 });
 
 export default reduxStore
+export type AppDispatch = typeof reduxStore.dispatch
+export const useAppDispatch: () => AppDispatch = useDispatch
+
+export type RootState = ReturnType<typeof reduxStore.getState>

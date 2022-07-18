@@ -6,7 +6,7 @@ import {Sequences} from "../../../../QuestionSequence/Selector/UI/Sequences";
 import {useDispatch, useSelector} from "react-redux";
 import {changeExamEditorSelectedQsId} from "../redux-store/actions";
 import {loadQSData} from "../redux-store/async-actions";
-import {RootState} from "../../../../../../root-redux-store/RootReducer";
+import {RootState} from "../../../../../../root-redux-store/RootStore";
 
 
 interface IUIQuestionSequenceSelectorProps extends PaperProps {

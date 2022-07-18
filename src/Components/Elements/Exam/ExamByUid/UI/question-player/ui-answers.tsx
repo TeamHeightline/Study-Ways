@@ -5,9 +5,9 @@ import CardContent from "@mui/material/CardContent";
 import React from "react";
 import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../../../../../root-redux-store/RootReducer";
 import {FILE_URL} from "../../../../../../settings";
 import {changeSelectedAnswersId} from "../../redux-store/actions";
+import {RootState} from "../../../../../../root-redux-store/RootStore";
 
 interface IUIAnswersProps extends PaperProps {
 

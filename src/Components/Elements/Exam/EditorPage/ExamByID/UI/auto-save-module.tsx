@@ -1,10 +1,10 @@
 import {Paper} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../../../../../root-redux-store/RootReducer";
 import {useEffect} from "react";
 import {updateExamAsync} from "../redux-store/async-actions";
 import {startUpdateExam} from "../redux-store/actions";
+import {RootState} from "../../../../../../root-redux-store/RootStore";
 
 interface IAutoSaveModuleProps extends PaperProps {
 

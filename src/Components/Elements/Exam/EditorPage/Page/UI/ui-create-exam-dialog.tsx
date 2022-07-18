@@ -1,7 +1,6 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../../../../../root-redux-store/RootReducer";
 import {changeExamNameForCreate, closeDialogAndClearCreateData} from "../redux-store/actions";
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
@@ -9,6 +8,7 @@ import UIQuestionSequenceSelector from "./ui-question-sequence-selector";
 import {createExamAsync} from "../redux-store/async-actions";
 import {useHistory} from "react-router-dom";
 import {LoadingButton} from "@mui/lab";
+import {RootState} from "../../../../../../root-redux-store/RootStore";
 
 interface IUICreateExamDialogProps extends PaperProps {
 

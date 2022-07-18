@@ -3,8 +3,8 @@ import {PaperProps} from "@mui/material/Paper/Paper";
 import {useState} from "react";
 import {useInterval} from "./use-interval";
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../../../../root-redux-store/RootReducer";
 import {loadExamResultsAsync} from "../redux-store/async-actions";
+import {RootState} from "../../../../../root-redux-store/RootStore";
 
 interface IUIAutoUpdateFlagProps extends PaperProps {
 
@@ -32,7 +32,7 @@ export default function UIAutoUpdateFlag({...props}: IUIAutoUpdateFlagProps) {
                     checked={isAutoUpdate}
                     onChange={() => setIsAutoUpdate(!isAutoUpdate)}/>
             } label="Автоматическое обновление"/>
-            
+
         </Paper>
     )
 }

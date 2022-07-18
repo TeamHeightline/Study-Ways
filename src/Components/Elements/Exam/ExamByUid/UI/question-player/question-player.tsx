@@ -1,6 +1,5 @@
 import {Alert, CircularProgress, Paper, Stack} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {RootState} from "../../../../../../root-redux-store/RootReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {loadQuestionDataAsync, saveDetailStatisticAsync} from "../../redux-store/async-actions";
@@ -8,6 +7,7 @@ import UIQuestion from "./ui-question";
 import UIAnswers from "./ui-answers";
 import UIHelpText from "./ui-help-text";
 import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
+import {RootState} from "../../../../../../root-redux-store/RootStore";
 
 interface IQuestionPlayerProps extends PaperProps {
 

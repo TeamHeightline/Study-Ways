@@ -1,8 +1,8 @@
 import {TableCell, TableHead, TableRow, Tooltip, Typography} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {useSelector} from "react-redux";
-import {RootState} from "../../../../../root-redux-store/RootReducer";
 import React from "react";
+import {RootState} from "../../../../../root-redux-store/RootStore";
 
 interface IUIExamsTableHeadProps extends PaperProps {
 

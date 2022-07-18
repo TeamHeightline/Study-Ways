@@ -25,7 +25,7 @@ export default function StatusEditorPage({...props}: IStatusEditorPageProps) {
                 <Grid container justifyContent={"center"}>
                     <Grid item xs={12} md={8}>
                         <UIUserSearch/>
-                        <UIAllUsers/>
+                        <UIAllUsers sx={{mt: 2}}/>
                     </Grid>
                 </Grid>
             </Paper>

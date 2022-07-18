@@ -17,4 +17,4 @@ export const RootReducer = combineReducers({
     statusEditor: StatusEditorSlice,
 });
 
-export type RootState = ReturnType<typeof RootReducer>
+

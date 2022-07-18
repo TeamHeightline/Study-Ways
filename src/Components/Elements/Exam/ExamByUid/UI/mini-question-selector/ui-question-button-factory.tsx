@@ -1,10 +1,10 @@
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {RootState} from "../../../../../../root-redux-store/RootReducer";
 import {useSelector} from "react-redux";
 import UIMiniSelectedQuestion from "./ui-mini-selected-question";
 import {IQuestionStatus} from "../../redux-store/initial-state";
 import UIMiniPassedQuestionButton from "./ui-mini-passed-question-button";
 import UIMiniUnselectedQuestion from "./ui-mini-unselected-question";
+import {RootState} from "../../../../../../root-redux-store/RootStore";
 
 interface IUIQuestionButtonFactoryProps extends PaperProps {
     questionIndex: number,

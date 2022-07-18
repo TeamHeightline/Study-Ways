@@ -5,9 +5,9 @@ import Typography from "@mui/material/Typography";
 import React, {useState} from "react";
 import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../../../../../root-redux-store/RootReducer";
 import {checkAnswers} from "../../redux-store/actions";
 import UiComebackLaterDialog from "./ui-come-back-later-dialog";
+import {RootState} from "../../../../../../root-redux-store/RootStore";
 
 interface IUIQuestionTextProps extends PaperProps {
 

@@ -1,12 +1,12 @@
 import {Card, Grid, Paper} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {RootState} from "../../../../../../root-redux-store/RootReducer";
 import {useDispatch, useSelector} from "react-redux";
 import UIQuestionButtonFactory from "./ui-question-button-factory";
 import {changeSelectedQuestionId} from "../../redux-store/actions";
 import {useEffect} from "react";
 import {IQuestionStatus} from "../../redux-store/initial-state";
 import {updateQuestionProgress} from "../../../../../../ServerLayer/QueryLayer/exam.query";
+import {RootState} from "../../../../../../root-redux-store/RootStore";
 
 interface IUIExamQuestionProgressProps extends PaperProps {
 

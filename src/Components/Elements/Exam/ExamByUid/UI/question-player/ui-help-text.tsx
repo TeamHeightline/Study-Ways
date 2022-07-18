@@ -1,8 +1,8 @@
 import {Alert} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import React from "react";
-import {RootState} from "../../../../../../root-redux-store/RootReducer";
 import {useSelector} from "react-redux";
+import {RootState} from "../../../../../../root-redux-store/RootStore";
 
 interface IUIHelpTextProps extends PaperProps {
 

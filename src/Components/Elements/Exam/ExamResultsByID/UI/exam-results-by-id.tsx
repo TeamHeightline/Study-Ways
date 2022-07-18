@@ -6,10 +6,10 @@ import {loadExamResultsAsync} from "../redux-store/async-actions";
 import UiExamTableHead from "./ui-exam-table-head";
 import UIExamsResultsTableBody from "./ui-exam-resuls-table-body";
 import UIAutoUpdateFlag from "./ui-auto-update-flag";
-import {RootState} from "../../../../../root-redux-store/RootReducer";
 import {changeExamID, createArrayForChart, createExamResultsOrderBySum} from "../redux-store/actions";
 import UIExamFinalResultChart from "./ui-exam-final-result-chart";
 import ShowResultsBySumFlag from "./ui-show-results-by-sum-flag";
+import {RootState} from "../../../../../root-redux-store/RootStore";
 
 interface IExamResultsByIDProps extends PaperProps {
     exam_id: number;

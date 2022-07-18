@@ -6,7 +6,7 @@ import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {ButtonProps} from "@mui/material/Button/Button";
 import {useSelector} from "react-redux";
-import {RootState} from "../../../../../../root-redux-store/RootReducer";
+import {RootState} from "../../../../../../root-redux-store/RootStore";
 
 
 interface IGoBackButtonProps extends ButtonProps {

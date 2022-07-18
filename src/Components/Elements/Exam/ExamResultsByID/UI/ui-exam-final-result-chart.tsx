@@ -4,7 +4,7 @@ import {PaperProps} from "@mui/material/Paper/Paper";
 import {ArgumentAxis, BarSeries, Chart, SplineSeries, Title, ValueAxis} from "@devexpress/dx-react-chart-material-ui";
 import React from "react";
 import {useSelector} from "react-redux";
-import {RootState} from "../../../../../root-redux-store/RootReducer";
+import {RootState} from "../../../../../root-redux-store/RootStore";
 
 interface IUIExamFinalResultChartProps extends PaperProps {
 

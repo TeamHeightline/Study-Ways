@@ -1,8 +1,8 @@
 import {FormControlLabel, Paper, Switch} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {RootState} from "../../../../../root-redux-store/RootReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {changeShowResultsBySum} from "../redux-store/actions";
+import {RootState} from "../../../../../root-redux-store/RootStore";
 
 interface IShowResultsBySumFlagProps extends PaperProps {
 
@@ -24,7 +24,7 @@ export default function ShowResultsBySumFlag({...props}: IShowResultsBySumFlagPr
                     checked={showResultsBySum}
                     onChange={changeShowResultsBySumHandle}/>
             } label="Упорядочить результаты по сумме балов"/>
-            
+
         </Paper>
     )
 }

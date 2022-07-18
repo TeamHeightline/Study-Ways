@@ -1,4 +1,3 @@
-import {statusEditorReducer} from "../Components/Elements/StatusEditor/redux-store/reducer";
 import {examEditorReducer} from "../Components/Elements/Exam/EditorPage/ExamByID/redux-store/reducer";
 import {ExamByUIDReducer} from "../Components/Elements/Exam/ExamByUid/redux-store/reducer";
 import {enableMapSet} from 'immer'
@@ -10,7 +9,6 @@ import StatusEditorSlice from "../Components/Elements/StatusEditor/redux-store/S
 enableMapSet()
 export const RootReducer = combineReducers({
     examEditorPageReducer,
-    statusEditorReducer,
     examEditorReducer,
     ExamByUIDReducer,
     examResultsByIDReducer,

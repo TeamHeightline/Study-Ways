@@ -1,7 +1,7 @@
 import type {PayloadAction} from '@reduxjs/toolkit'
 import {createSlice} from '@reduxjs/toolkit'
 import {IBasicUserInformation} from "../../../../ServerLayer/Types/user.types";
-import {loadAllUsersAsync, searchUserAsync} from './AsyncActions';
+import {loadAllUsersAsync, searchUserAsync, updateUserStatusAsync} from './AsyncActions';
 
 const initialState = {
     is_users_loading: true,
@@ -9,6 +9,8 @@ const initialState = {
     users: [] as IBasicUserInformation[],
     searchString: '',
     selectedUser: null as IBasicUserInformation | null,
+    pending_update_user_status: false,
+    update_user_status_error: false,
 }
 
 const statusEditorSlice = createSlice({
@@ -26,6 +28,11 @@ const statusEditorSlice = createSlice({
         },
         cancelUserEdit: (state) => {
             state.selectedUser = null;
+        },
+        changeSelectedUserStatus: (state, action: PayloadAction<"STUDENT" | "ADMIN" | "TEACHER">) => {
+            if (state.selectedUser) {
+                state.selectedUser.user_access_level = action.payload;
+            }
         }
     },
     extraReducers: {
@@ -53,9 +60,33 @@ const statusEditorSlice = createSlice({
             state.is_users_loading_error = true
             state.users = []
         },
+        [updateUserStatusAsync.pending.type]: (state) => {
+            state.pending_update_user_status = true
+            state.update_user_status_error = false
+        },
+        [updateUserStatusAsync.fulfilled.type]: (state, action: PayloadAction<IBasicUserInformation>) => {
+            state.pending_update_user_status = false
+            state.update_user_status_error = false
+            state.users = state.users.map(user => {
+                    if (user.id === action.payload.id) {
+                        return action.payload
+                    }
+                    return user
+                }
+            )
+        },
+        [updateUserStatusAsync.rejected.type]: (state, action: PayloadAction<string>) => {
+            state.pending_update_user_status = false
+            state.update_user_status_error = true
+        }
 
     }
 })
 
-export const {changeSearchString, changeSelectedUser, cancelUserEdit} = statusEditorSlice.actions;
+export const {
+    changeSearchString,
+    changeSelectedUser,
+    cancelUserEdit,
+    changeSelectedUserStatus
+} = statusEditorSlice.actions;
 export default statusEditorSlice.reducer

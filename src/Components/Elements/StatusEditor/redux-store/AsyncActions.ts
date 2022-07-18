@@ -27,3 +27,10 @@ export const searchUserAsync = createAsyncThunk(
         return res.data;
     }
 )
+export const updateUserStatusAsync = createAsyncThunk(
+    'statusEditor/updateUserStatus',
+    async ({user_id, user_access_level}: { user_id: number, user_access_level: string }) => {
+        const res = await axiosClient.post<{ updatedUser: User }>(`/user/status/update`, {user_id, user_access_level})
+        return res.data.updatedUser;
+    }
+)

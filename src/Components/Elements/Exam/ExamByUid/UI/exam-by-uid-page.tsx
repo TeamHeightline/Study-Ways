@@ -1,6 +1,6 @@
 import {CircularProgress, Paper, Stack} from "@mui/material";
 import {useEffect} from "react";
-import {loadExamNameThunk, openExamPageThunk} from "../redux-store/AsyncActions";
+import {loadExamDataThunk, openExamPageThunk} from "../redux-store/AsyncActions";
 import UIExamName from "./ui-exam-name";
 import UIExamQuestionProgress from "./mini-question-selector/ui-exam-questions-progress";
 import QuestionPlayer from "./question-player/question-player";
@@ -16,7 +16,7 @@ export default function ExamByUIDPge({...props}) {
     useEffect(() => {
         if (UserStorage.isLogin) {
             dispatch(openExamPageThunk(props.match.params.uid))
-            dispatch(loadExamNameThunk(props.match.params.uid))
+            dispatch(loadExamDataThunk(props.match.params.uid))
         }
     }, [props.match.params.uid, UserStorage.isLogin])
     if (!UserStorage.isLogin) {

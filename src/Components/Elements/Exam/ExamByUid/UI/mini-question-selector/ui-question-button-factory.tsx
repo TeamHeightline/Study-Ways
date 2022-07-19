@@ -1,7 +1,7 @@
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {useSelector} from "react-redux";
 import UIMiniSelectedQuestion from "./ui-mini-selected-question";
-import {IQuestionStatus} from "../../redux-store/initial-state";
+import {IQuestionStatus} from "../../redux-store/InitialState";
 import UIMiniPassedQuestionButton from "./ui-mini-passed-question-button";
 import UIMiniUnselectedQuestion from "./ui-mini-unselected-question";
 import {RootState} from "../../../../../../root-redux-store/RootStore";
@@ -16,7 +16,7 @@ export default function UIQuestionButtonFactory({
                                                     questionStatus,
                                                     ...props
                                                 }: IUIQuestionButtonFactoryProps) {
-    const selectedQuestionID = useSelector((state: RootState) => state?.ExamByUIDReducer?.selected_question_id)
+    const selectedQuestionID = useSelector((state: RootState) => state?.examPlayer?.selected_question_id)
     const isSelected = selectedQuestionID === questionStatus.question_id
     const isPassed = !!questionStatus.statistic_id
 

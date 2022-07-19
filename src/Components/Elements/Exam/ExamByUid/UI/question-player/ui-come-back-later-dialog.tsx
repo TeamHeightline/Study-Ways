@@ -2,7 +2,7 @@ import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogT
 import {PaperProps} from "@mui/material/Paper/Paper";
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {saveDetailStatisticAsync} from "../../redux-store/async-actions";
+import {saveDetailStatisticThunk} from "../../redux-store/AsyncActions";
 import {RootState} from "../../../../../../root-redux-store/RootStore";
 
 interface IUiComebackLaterDialogProps extends PaperProps {
@@ -15,11 +15,11 @@ export default function UiComebackLaterDialog({
                                                   setIsOpenComeBackLaterDialog,
                                                   ...props
                                               }: IUiComebackLaterDialogProps) {
-    const store = useSelector((state: RootState) => state?.ExamByUIDReducer)
+    const store = useSelector((state: RootState) => state?.examPlayer)
     const dispatch: any = useDispatch();
 
     function saveProgress() {
-        dispatch(saveDetailStatisticAsync(store))
+        dispatch(saveDetailStatisticThunk(store))
     }
 
     return (

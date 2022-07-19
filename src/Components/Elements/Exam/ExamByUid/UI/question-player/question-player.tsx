@@ -2,7 +2,7 @@ import {Alert, CircularProgress, Paper, Stack} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
-import {loadQuestionDataAsync, saveDetailStatisticAsync} from "../../redux-store/async-actions";
+import {loadQuestionDataThunk, saveDetailStatisticThunk} from "../../redux-store/AsyncActions";
 import UIQuestion from "./ui-question";
 import UIAnswers from "./ui-answers";
 import UIHelpText from "./ui-help-text";
@@ -14,23 +14,23 @@ interface IQuestionPlayerProps extends PaperProps {
 }
 
 export default function QuestionPlayer({...props}: IQuestionPlayerProps) {
-    const selectedQuestionID = useSelector((state: RootState) => state?.ExamByUIDReducer?.selected_question_id)
-    const loading_question_data = useSelector((state: RootState) => state?.ExamByUIDReducer?.loading_selected_question_data)
-    const await_statistic_save = useSelector((state: RootState) => state?.ExamByUIDReducer?.await_statistic_save)
-    const isQuestionPassed = useSelector((state: RootState) => state?.ExamByUIDReducer?.is_question_completed)
-    const store = useSelector((state: RootState) => state?.ExamByUIDReducer)
+    const selectedQuestionID = useSelector((state: RootState) => state?.examPlayer?.selected_question_id)
+    const loading_question_data = useSelector((state: RootState) => state?.examPlayer?.loading_selected_question_data)
+    const await_statistic_save = useSelector((state: RootState) => state?.examPlayer?.await_statistic_save)
+    const isQuestionPassed = useSelector((state: RootState) => state?.examPlayer?.is_question_completed)
+    const store = useSelector((state: RootState) => state?.examPlayer)
     const dispatch: any = useDispatch();
     const isMobile = isMobileHook()
 
     useEffect(() => {
         if (selectedQuestionID) {
-            dispatch(loadQuestionDataAsync(selectedQuestionID))
+            dispatch(loadQuestionDataThunk(selectedQuestionID))
         }
     }, [selectedQuestionID])
 
     useEffect(() => {
         if (isQuestionPassed) {
-            dispatch(saveDetailStatisticAsync(store))
+            dispatch(saveDetailStatisticThunk(store))
         }
     }, [isQuestionPassed])
 
@@ -50,9 +50,8 @@ export default function QuestionPlayer({...props}: IQuestionPlayerProps) {
     }
     return (
         <Paper elevation={0} {...props} sx={{mt: 2}}>
-            {!isMobile && <UIHelpText/>}
             <UIQuestion/>
-            {isMobile && <UIHelpText/>}
+            <UIHelpText/>
             <UIAnswers/>
         </Paper>
     )

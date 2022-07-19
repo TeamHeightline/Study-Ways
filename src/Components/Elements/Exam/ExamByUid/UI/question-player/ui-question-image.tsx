@@ -12,7 +12,7 @@ interface IUIQuestionImageProps extends PaperProps {
 
 export default function UIQuestionImage({...props}: IUIQuestionImageProps) {
     const isMobile = isMobileHook()
-    const questionImageURL = useSelector((state: RootState) => state?.ExamByUIDReducer?.selected_question_data?.usertests_questionimage?.image)
+    const questionImageURL = useSelector((state: RootState) => state?.examPlayer?.selected_question_data?.usertests_questionimage?.image)
 
     if (!questionImageURL) {
         return <div/>

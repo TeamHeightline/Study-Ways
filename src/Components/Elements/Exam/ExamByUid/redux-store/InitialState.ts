@@ -1,6 +1,14 @@
 import {IQuestionWithAnswers} from "../../../../../ServerLayer/Types/question.type";
 import {IStatistic} from "../../../../../ServerLayer/Types/detail-statistic.types";
 
+export interface IQuestionStatus {
+    "id": number,
+    "passing_the_exam_id": number,
+    "question_id": number,
+    "status": number,
+    "statistic_id"?: number,
+}
+
 export const initialState = {
     loading_question_statuses: true,
     question_statuses_load_error: null,
@@ -14,15 +22,6 @@ export const initialState = {
     max_sum_of_points: 0,
     statistic: null as IStatistic | null,
     is_question_completed: false,
-
     await_statistic_save: false,
-}
-
-
-export interface IQuestionStatus {
-    "id": number,
-    "passing_the_exam_id": number,
-    "question_id": number,
-    "status": number,
-    "statistic_id"?: number,
+    is_statistic_save_error: false,
 }

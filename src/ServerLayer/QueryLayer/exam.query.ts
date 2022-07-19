@@ -1,5 +1,5 @@
 import axiosClient from "./config";
-import {IQuestionStatus} from "../../Components/Elements/Exam/ExamByUid/redux-store/initial-state";
+import {IQuestionStatus} from "../../Components/Elements/Exam/ExamByUid/redux-store/InitialState";
 import {IExamData, IExamDataWithQSData, IExamResult} from "../Types/exam.types";
 
 export async function loadExamByID(examID: string) {

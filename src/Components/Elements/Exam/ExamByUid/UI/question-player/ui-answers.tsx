@@ -6,7 +6,7 @@ import React from "react";
 import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
 import {useDispatch, useSelector} from "react-redux";
 import {FILE_URL} from "../../../../../../settings";
-import {changeSelectedAnswersId} from "../../redux-store/actions";
+import {changeSelectedAnswersId} from "../../redux-store/ExamPlayerSlice";
 import {RootState} from "../../../../../../root-redux-store/RootStore";
 
 interface IUIAnswersProps extends PaperProps {
@@ -16,8 +16,8 @@ interface IUIAnswersProps extends PaperProps {
 export default function UIAnswers({...props}: IUIAnswersProps) {
     const isMobile = isMobileHook()
     const dispatch = useDispatch();
-    const answersArray = useSelector((state: RootState) => state?.ExamByUIDReducer?.selected_question_data?.usertests_answer)
-    const selectedAnswersID = useSelector((state: RootState) => state?.ExamByUIDReducer?.selected_answers_id)
+    const answersArray = useSelector((state: RootState) => state?.examPlayer?.selected_question_data?.usertests_answer)
+    const selectedAnswersID = useSelector((state: RootState) => state?.examPlayer?.selected_answers_id)
 
     const selectOrDeselectAnswer = (id: number) => {
         dispatch(changeSelectedAnswersId(id))

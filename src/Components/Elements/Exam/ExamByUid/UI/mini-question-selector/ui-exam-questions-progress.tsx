@@ -2,9 +2,9 @@ import {Card, Grid, Paper} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {useDispatch, useSelector} from "react-redux";
 import UIQuestionButtonFactory from "./ui-question-button-factory";
-import {changeSelectedQuestionId} from "../../redux-store/actions";
+import {changeSelectedQuestionId} from "../../redux-store/ExamPlayerSlice";
 import {useEffect} from "react";
-import {IQuestionStatus} from "../../redux-store/initial-state";
+import {IQuestionStatus} from "../../redux-store/InitialState";
 import {updateQuestionProgress} from "../../../../../../ServerLayer/QueryLayer/exam.query";
 import {RootState} from "../../../../../../root-redux-store/RootStore";
 
@@ -13,8 +13,8 @@ interface IUIExamQuestionProgressProps extends PaperProps {
 }
 
 export default function UIExamQuestionProgress({...props}: IUIExamQuestionProgressProps) {
-    const questionStatuses = useSelector((state: RootState) => state?.ExamByUIDReducer?.question_statuses)
-    const selectedQuestionID = useSelector((state: RootState) => state?.ExamByUIDReducer?.selected_question_id)
+    const questionStatuses = useSelector((state: RootState) => state?.examPlayer?.question_statuses)
+    const selectedQuestionID = useSelector((state: RootState) => state?.examPlayer?.selected_question_id)
     const dispatch = useDispatch();
     useEffect(() => {
         if (questionStatuses) {

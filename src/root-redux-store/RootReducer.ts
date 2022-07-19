@@ -1,5 +1,5 @@
 import {examEditorReducer} from "../Components/Elements/Exam/EditorPage/ExamByID/redux-store/reducer";
-import {ExamByUIDReducer} from "../Components/Elements/Exam/ExamByUid/redux-store/reducer";
+import ExamPlayerReducer from "../Components/Elements/Exam/ExamByUid/redux-store/ExamPlayerSlice";
 import {enableMapSet} from 'immer'
 import {examEditorPageReducer} from "../Components/Elements/Exam/EditorPage/Page/redux-store/reducer";
 import {examResultsByIDReducer} from "../Components/Elements/Exam/ExamResultsByID/redux-store/reducer";
@@ -10,8 +10,8 @@ enableMapSet()
 export const RootReducer = combineReducers({
     examEditorPageReducer,
     examEditorReducer,
-    ExamByUIDReducer,
     examResultsByIDReducer,
+    examPlayer: ExamPlayerReducer,
     statusEditor: StatusEditorSlice,
 });
 

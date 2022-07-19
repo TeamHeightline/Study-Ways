@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import React, {useState} from "react";
 import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
 import {useDispatch, useSelector} from "react-redux";
-import {checkAnswers} from "../../redux-store/actions";
+import {checkAnswers} from "../../redux-store/ExamPlayerSlice";
 import UiComebackLaterDialog from "./ui-come-back-later-dialog";
 import {RootState} from "../../../../../../root-redux-store/RootStore";
 
@@ -18,7 +18,7 @@ export default function UIQuestionText({...props}: IUIQuestionTextProps) {
     const dispatch = useDispatch();
     const [disableCheckButton, setDisableCheckButton] = useState(false)
     const [isOpenComeBackLaterDialog, setIsOpenComeBackLaterDialog] = useState(false)
-    const questionText = useSelector((state: RootState) => state?.ExamByUIDReducer?.selected_question_data?.text)
+    const questionText = useSelector((state: RootState) => state?.examPlayer?.selected_question_data?.text)
 
     function checkError() {
         dispatch(checkAnswers())

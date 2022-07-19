@@ -9,7 +9,7 @@ interface IUIHelpTextProps extends PaperProps {
 }
 
 export default function UIHelpText({...props}: IUIHelpTextProps) {
-    const helpText = useSelector((state: RootState) => state?.ExamByUIDReducer?.help_text)
+    const helpText = useSelector((state: RootState) => state?.examPlayer?.help_text)
     if (!helpText) {
         return <div/>
     }

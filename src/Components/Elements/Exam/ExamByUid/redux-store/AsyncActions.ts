@@ -1,9 +1,10 @@
-import {examNameByUID, loadExamOnOpenData} from "../../../../../ServerLayer/QueryLayer/exam.query";
+import {loadExamOnOpenData} from "../../../../../ServerLayer/QueryLayer/exam.query";
 import {loadQuestionByID} from "../../../../../ServerLayer/QueryLayer/question.query";
 import {createDetailStatistic} from "../../../../../ServerLayer/QueryLayer/detail-statistic.query";
 import {UserStorage} from "../../../../../Store/UserStore/UserStore";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {initialState} from "./InitialState";
+import axiosClient from "../../../../../ServerLayer/QueryLayer/config";
 
 
 const emptyStatistic = {
@@ -13,10 +14,10 @@ const emptyStatistic = {
 }
 
 
-export const loadExamNameThunk = createAsyncThunk(
+export const loadExamDataThunk = createAsyncThunk(
     'examPlayer/loadExamName',
     async (examUID: string) => {
-        return examNameByUID(examUID)
+        return axiosClient.get(`page/exam-player/exam-data/uid/${examUID}`)
     })
 
 

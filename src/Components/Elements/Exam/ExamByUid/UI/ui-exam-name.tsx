@@ -8,7 +8,7 @@ interface IUIExamNameProps extends PaperProps {
 }
 
 export default function UIExamName({...props}: IUIExamNameProps) {
-    const examName = useSelector((state: RootState) => state?.examPlayer?.exam_name)
+    const examName = useSelector((state: RootState) => state?.examPlayer?.exam_data?.name)
 
     return (
         <Paper elevation={0} {...props}>

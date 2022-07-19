@@ -1,10 +1,11 @@
 import {shuffle} from "lodash"
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {loadExamNameThunk, loadQuestionDataThunk, openExamPageThunk, saveDetailStatisticThunk} from "./AsyncActions";
+import {loadExamDataThunk, loadQuestionDataThunk, openExamPageThunk, saveDetailStatisticThunk} from "./AsyncActions";
 import {IQuestionWithAnswers} from "../../../../../ServerLayer/Types/question.type";
 import {IDetailStatistic} from "../../../../../ServerLayer/Types/detail-statistic.types";
 
 import {initialState, IQuestionStatus} from "./InitialState";
+import {IExamData} from "../../../../../ServerLayer/Types/exam.types";
 
 
 const examPlayerSlicer = createSlice({
@@ -102,19 +103,12 @@ const examPlayerSlicer = createSlice({
 
     },
     extraReducers: {
-        [loadExamNameThunk.fulfilled.type]: (state, action: PayloadAction<string>) => {
-            state.exam_name = action.payload
+        [loadExamDataThunk.fulfilled.type]: (state, action: PayloadAction<IExamData>) => {
+            // @ts-ignore
+            state.exam_data = action.payload
         },
         [saveDetailStatisticThunk.pending.type]: (state) => {
             state.await_statistic_save = true
-            state.is_statistic_save_error = false
-        },
-        [saveDetailStatisticThunk.fulfilled.type]: (state, action: PayloadAction<IDetailStatistic>) => {
-            const newQuestionStatus = state.question_statuses.find((questionStatus) => questionStatus.question_id == action.payload.question_id)
-            if (newQuestionStatus) {
-                newQuestionStatus.statistic_id = action.payload.id
-            }
-            state.await_statistic_save = false
             state.is_statistic_save_error = false
         },
         [saveDetailStatisticThunk.fulfilled.type]: (state, action: PayloadAction<IDetailStatistic>) => {

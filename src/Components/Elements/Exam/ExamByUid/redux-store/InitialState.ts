@@ -9,12 +9,21 @@ export interface IQuestionStatus {
     "statistic_id"?: number,
 }
 
+interface IExamData {
+    id: number,
+    name: string
+    start_at: Date | null
+    end_at: Date | null
+    uid: string
+    minutes: number | null
+}
+
 export const initialState = {
     loading_question_statuses: true,
     question_statuses_load_error: null,
     question_statuses: [] as IQuestionStatus[],
     selected_question_id: null as number | null,
-    exam_name: "",
+    exam_data: null as IExamData | null,
     selected_question_data: null as IQuestionWithAnswers | null,
     help_text: '',
     loading_selected_question_data: true,

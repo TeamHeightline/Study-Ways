@@ -8,10 +8,8 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import {UserStorage} from '../../../Store/UserStore/UserStore'
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import StackedLineChartIcon from '@mui/icons-material/StackedLineChart';
 import BlurLinearIcon from "@mui/icons-material/BlurLinear";
 import ArtTrackIcon from "@mui/icons-material/ArtTrack";
-import EditIcon from '@mui/icons-material/Edit';
 import React from 'react';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
@@ -93,21 +91,11 @@ export const Navibar = observer(() => {
                     label="Карточки"
                     value="1"
                     icon={<ArtTrackIcon/>}/>
-                {UserStorage.isLogin ?
-                    UserStorage.userAccessLevel == "STUDENT" ?
-                        <BottomNavigationAction
-                            sx={{color: "white"}}
-                            label="Собственная статистика" value="5"
-                            icon={<StackedLineChartIcon/>}/> :
-                        <BottomNavigationAction
-                            sx={{color: "white"}}
-                            label="Редакторы" value="3"
-                            icon={<EditIcon/>}/> :
-                    <BottomNavigationAction
-                        sx={{color: "white"}}
-                        label="Войти"
-                        value="4"
-                        icon={<AccountCircleIcon/>}/>}
+                <BottomNavigationAction
+                    sx={{color: "white"}}
+                    label="Войти"
+                    value="4"
+                    icon={<AccountCircleIcon/>}/>}
 
                 {UserStorage.isLogin &&
                     <NavbarMenu/>

@@ -7,6 +7,8 @@ import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import {UserStorage} from '../../../Store/UserStore/UserStore'
 
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import StackedLineChartIcon from '@mui/icons-material/StackedLineChart';
 import BlurLinearIcon from "@mui/icons-material/BlurLinear";
 import ArtTrackIcon from "@mui/icons-material/ArtTrack";
 import EditIcon from '@mui/icons-material/Edit';
@@ -18,12 +20,12 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import {observer} from "mobx-react";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import StackedLineChartIcon from '@mui/icons-material/StackedLineChart';
+
 import {isMobileHook} from "../../../CustomHooks/isMobileHook";
 import {useAuth0} from "@auth0/auth0-react";
 import NavbarMenu from "./NavbarMenu";
 import ThemeStoreObject from "../../../global-theme";
+import NotificationButtonForNavbar from "./Notification/UI/notification-button-for-nav-bar";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -137,22 +139,12 @@ export const Navibar = observer(() => {
                         textDecoration: "none"
                     }}
                           to="/cards">Карточки</Link>
-                    {/*<Link className={s.link} to="/test">Вопросы</Link>*/}
-                    <Typography sx={{color: "white", pl: 2,}}> | </Typography>
-                    {UserStorage.userAccessLevel == "ADMIN" || UserStorage.userAccessLevel == "TEACHER" ?
-                        <Link style={{
-                            color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25,
-                            textDecoration: "none"
-                        }}
-                              to="/editor">Редакторы</Link> :
-                        <Link style={{
-                            color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25,
-                            textDecoration: "none"
-                        }}
-                              to="/selfstatistic">Статистика</Link>}
-
                     {UserStorage.isLogin ?
-                        <NavbarMenu/> :
+                        <>
+                            <NavbarMenu/>
+                            <NotificationButtonForNavbar/>
+                        </>
+                        :
                         <Button sx={{pl: 2, pr: 2, mx: 2}} color="inherit" variant="outlined"
                                 onClick={() => {
                                     loginWithPopup()

@@ -6,8 +6,6 @@ import useWindowDimensions from "../../../CustomHooks/useWindowDimensions";
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import {UserStorage} from '../../../Store/UserStore/UserStore'
-
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import BlurLinearIcon from "@mui/icons-material/BlurLinear";
 import ArtTrackIcon from "@mui/icons-material/ArtTrack";
 import React from 'react';
@@ -24,6 +22,7 @@ import {useAuth0} from "@auth0/auth0-react";
 import NavbarMenu from "./NavbarMenu";
 import ThemeStoreObject from "../../../global-theme";
 import NotificationButtonForNavbar from "./Notification/UI/notification-button-for-nav-bar";
+import LoginIcon from '@mui/icons-material/Login';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -52,53 +51,41 @@ export const Navibar = observer(() => {
     const isMobile = isMobileHook()
     const {loginWithPopup} = useAuth0();
 
-    const mobileMunuClickHandleChange = (event, newValue) => {
-        if (newValue == 0) {
-            history.push('/courses')
-        }
-        if (newValue == 1) {
-            history.push('/cards')
-        }
-        if (newValue == 2) {
-            history.push('/direction')
-        }
-        if (newValue == 3) {
-            history.push('/editor')
-        }
-        if (newValue == 4) {
-            history.push('/login')
-        }
-        if (newValue == 5) {
-            history.push("/selfstatistic")
-        }
-        if (newValue == 6) {
-            history.push("/profile")
-        }
+    const mobileMenuClickHandleChange = (event, newValue) => {
         setValue(newValue);
     };
 
 
     if (isMobile) {
         return (
-            <BottomNavigation value={value} onChange={mobileMunuClickHandleChange}>
+            <BottomNavigation value={value} onChange={mobileMenuClickHandleChange}>
                 <BottomNavigationAction
                     sx={{color: "white"}}
+                    onClick={() => {
+                        history.push('/courses')
+                    }}
                     label="Курсы"
                     value="0"
                     icon={<BlurLinearIcon/>}/>
                 <BottomNavigationAction
                     sx={{color: "white"}}
+                    onClick={() => {
+                        history.push('/cards')
+                    }}
                     label="Карточки"
                     value="1"
                     icon={<ArtTrackIcon/>}/>
-                <BottomNavigationAction
-                    sx={{color: "white"}}
-                    label="Войти"
-                    value="4"
-                    icon={<AccountCircleIcon/>}/>}
 
-                {UserStorage.isLogin &&
-                    <NavbarMenu/>
+                {UserStorage.isLogin ?
+                    <NavbarMenu/> :
+                    <BottomNavigationAction
+                        onClick={() => {
+                            loginWithPopup()
+                        }}
+                        sx={{color: "white"}}
+                        label="Войти"
+                        value="4"
+                        icon={<LoginIcon/>}/>
                 }
 
             </BottomNavigation>

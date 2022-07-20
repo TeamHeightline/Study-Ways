@@ -47,15 +47,7 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
             <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
-                anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
                 keepMounted
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
                 open={open}
                 onClose={handleClose}
             >

@@ -5,6 +5,7 @@ import {examEditorPageReducer} from "../Components/Elements/Exam/EditorPage/Page
 import {examResultsByIDReducer} from "../Components/Elements/Exam/ExamResultsByID/redux-store/reducer";
 import {combineReducers} from '@reduxjs/toolkit'
 import StatusEditorSlice from "../Components/Elements/StatusEditor/redux-store/StatusEditorSlice";
+import NotificationSlice from "../Components/PublicPages/Navbar/Notification/redux-store/NotificationSlice";
 
 enableMapSet()
 export const RootReducer = combineReducers({
@@ -13,6 +14,7 @@ export const RootReducer = combineReducers({
     examResultsByIDReducer,
     examPlayer: ExamPlayerReducer,
     statusEditor: StatusEditorSlice,
+    notification: NotificationSlice
 });
 
 

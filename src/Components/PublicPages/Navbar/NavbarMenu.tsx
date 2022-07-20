@@ -13,6 +13,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
 import ThemeStoreObject from "../../../global-theme";
 import LightModeIcon from '@mui/icons-material/LightMode';
+import NightlightIcon from '@mui/icons-material/Nightlight';
 
 interface INavbarMenuProps extends PaperProps {
 
@@ -95,9 +96,13 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
                     onClick={ThemeStoreObject.changeMode}
                 >
                     <ListItemIcon>
-                        {ThemeStoreObject.mode === "dark" ?
-                            <LightModeIcon fontSize="small"/> :
+                        {ThemeStoreObject.mode === "light" &&
+                            <NightlightIcon fontSize="small"/>
+                        }
+                        {ThemeStoreObject.mode === "dark" &&
                             <DarkMode fontSize="small"/>}
+                        {ThemeStoreObject.mode === "dark2" &&
+                            <LightModeIcon fontSize="small"/>}
 
                     </ListItemIcon>
                     Сменить тему

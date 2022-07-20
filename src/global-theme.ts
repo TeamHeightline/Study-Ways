@@ -9,27 +9,33 @@ class ThemeStore {
         // autorun(() => this.setModeToLocalStorage())
     }
 
-    mode: "dark" | "light" = this.getMode
+    mode: "dark" | "light" | "dark2" = this.getMode
 
-    get getMode(): "dark" | "light" {
+    get getMode(): "dark" | "light" | "dark2" {
         const mode = localStorage.getItem("themeMode")
-        if (mode == "dark" || mode == "light") {
+        if (mode == "dark" || mode == "light" || mode == "dark2") {
             return mode
         } else {
             return "dark"
         }
     }
 
-    setModeToLocalStorage(mode: "dark" | "light") {
+    get isNavbarColored() {
+        return !(this.mode === "dark2")
+    }
+
+    setModeToLocalStorage(mode: "dark" | "light" | "dark2") {
         localStorage.setItem("themeMode", mode)
         this.mode = mode
         // window.location.reload();
     }
 
     changeMode = () => {
-        if (this.isLightTheme) {
+        if (this.mode == "light") {
             this.setModeToLocalStorage("dark")
-        } else {
+        } else if (this.mode == "dark") {
+            this.setModeToLocalStorage("dark2")
+        } else if (this.mode == "dark2") {
             this.setModeToLocalStorage("light")
         }
     }
@@ -38,17 +44,12 @@ class ThemeStore {
         return this.mode === "light"
     }
 
-    get lightBackgroundColor() {
-        if (this.isLightTheme) {
-            return "#fff"
-        } else {
-            return "#0A1929"
-        }
-    }
 
     get backgroundColor(): Property.BackgroundColor | undefined {
-        if (this.isLightTheme) {
+        if (this.mode === "light") {
             return "#fff"
+        } else if (this.mode === "dark2") {
+            return "#222226"
         } else {
             return "#0A1929"
         }
@@ -73,14 +74,13 @@ class ThemeStore {
     get theme() {
         const theme = createTheme({
             palette: {
-                mode: this.mode,
+                mode: this.isLightTheme ? "light" : "dark",
                 background: {
                     default: this.backgroundColor,
                     paper: this.backgroundColor
                 },
                 primary: {
                     main: "#2196f3",
-                    // contrastText: this.textColor,
                 },
                 secondary: {
                     main: '#f50057',

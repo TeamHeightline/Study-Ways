@@ -23,6 +23,7 @@ import StackedLineChartIcon from '@mui/icons-material/StackedLineChart';
 import {isMobileHook} from "../../../CustomHooks/isMobileHook";
 import {useAuth0} from "@auth0/auth0-react";
 import NavbarMenu from "./NavbarMenu";
+import ThemeStoreObject from "../../../global-theme";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -115,7 +116,9 @@ export const Navibar = observer(() => {
     }
     return (
         <div className={classes.root}>
-            <AppBar position="fixed" enableColorOnDark>
+            <AppBar position="fixed"
+                    enableColorOnDark={ThemeStoreObject.isNavbarColored}
+            >
 
                 <Toolbar variant="dense">
                     {/*<IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">*/}

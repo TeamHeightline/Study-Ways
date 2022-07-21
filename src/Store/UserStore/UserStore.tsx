@@ -1,67 +1,41 @@
-import {autorun, makeAutoObservable, reaction} from "mobx"
-import {
-    GET_USER_DATA,
-} from "./Struct";
+import {makeAutoObservable} from "mobx"
 import React from 'react';
 import {ClientStorage} from "../ApolloStorage/ClientStorage";
-import {Query, UserProfileNode} from "../../SchemaTypes";
-import {LoadUserProfile} from "../../Components/Elements/Profile/Store/query";
+import axiosClient from "../../ServerLayer/QueryLayer/config";
+
+interface IBasicUserData {
+    id: number,
+    username: string,
+    user_access_level: "STUDENT" | "TEACHER" | "ADMIN"
+}
 
 class User {
-    username = ''//Имя пользователя, отображается в навигационной панели
-    isLogin = false //Вошел ли пользователь в систему или нет
-    userAccessLevel = "STUDENT"//Уровень доступа, если он будет ADMIN или TEACHER, то откроется редактор
     clientStorage = ClientStorage//Получаем прямой доступ и подписку на изменение в хранилище @client
-    //для Apollo (для Query и Mutation)
-    profile?: UserProfileNode
-    profileLoaded = false
+    user_data: IBasicUserData | null = null
 
     constructor() {
         makeAutoObservable(this)
-        autorun(() => this.UpdateUser())
-        reaction(() => this.clientStorage.client, () => this.UpdateUser())
-        reaction(() => this.isLogin, () => this.loadUserProfile())
+    }
+
+    get isLogin() {
+        return !!this?.user_data?.id
+    }
+
+    get userAccessLevel() {
+        return this.user_data?.user_access_level ?? "STUDENT"
+    }
+
+    get username() {
+        return this.user_data?.username ?? ''
     }
 
 
-    UpdateUser() {
-        if (this.clientStorage.client) {
-            //Функция, которая получает всю информацию о пользователе
-            this.clientStorage.client
-                .query({
-                    query: GET_USER_DATA,
-                    errorPolicy: "all"
-                })
-                .then(result => {
-                    this.username = result.data.me.username
-                    this.userAccessLevel = result.data.me.userAccessLevel
-                    this.isLogin = true
-                    localStorage.setItem("username", result.data.me.username)
-                })
-                .catch(() => {
-                    //На всякий случай при неудачном логирование обнуляем свойства пользователя
-                    this.isLogin = false
-                    this.username = ''
-                    this.userAccessLevel = "STUDENT"
-                })
-        }
-    }
-
-    loadUserProfile = () => {
-        if (this.isLogin) {
-            this.clientStorage.client
-                .query<Query>({
-                    query: LoadUserProfile,
-                    fetchPolicy: "network-only"
-                })
-                .then(res => res.data.myProfile)
-                .then(profileData => {
-                    if (profileData) {
-                        this.profile = profileData
-                    }
-                    this.profileLoaded = true
-                })
-        }
+    reloadUser() {
+        axiosClient
+            .get<IBasicUserData>("/page/me/basic-data")
+            .then((res) => {
+                this.user_data = res.data
+            })
     }
 }
 

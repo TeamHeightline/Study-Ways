@@ -22,7 +22,7 @@ import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import {useLocation} from "react-router-dom";
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
-import {LogInNotification} from "../../../PublicPages/Notifications/LogInNotification";
+import {RequireLogInAlert} from "../../../PublicPages/Notifications/RequireLogInAlert";
 import {UserStorage} from "../../../../Store/UserStore/UserStore";
 
 const useStyles = makeStyles(() =>
@@ -83,7 +83,7 @@ export const QuestionByID = observer((props: any) => {
     }
 
     if (!UserStorage.isLogin) {
-        return <LogInNotification requireShow/>
+        return <RequireLogInAlert requireShow/>
     }
 
     if (!processedStore?.answersArray?.length) {

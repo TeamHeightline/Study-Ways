@@ -8,7 +8,7 @@ type LogInNotificationProps = {
     requireShow?: boolean
 }
 
-export const LogInNotification = observer(({requireShow = false}: LogInNotificationProps) => {
+export const RequireLogInAlert = observer(({requireShow = false}: LogInNotificationProps) => {
     const [isOpen, setIsOpen] = useState<boolean>(true)
     const handleClose = () => setIsOpen(false)
     const {

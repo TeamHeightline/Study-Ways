@@ -31,7 +31,7 @@ import '../../../../index.css'
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 import {MainDirection} from "../../Direction/UI/MainDirection";
 import {toJS} from "mobx";
-import {LogInNotification} from "../../../PublicPages/Notifications/LogInNotification";
+import {RequireLogInAlert} from "../../../PublicPages/Notifications/RequireLogInAlert";
 import SchoolIcon from '@mui/icons-material/School';
 import {UserStorage} from "../../../../Store/UserStore/UserStore";
 
@@ -89,7 +89,7 @@ export const QSPlayerByID = observer(({...props}: any) => {
 
     if (!UserStorage.isLogin) {
         return (
-            <LogInNotification requireShow/>
+            <RequireLogInAlert requireShow/>
         )
     }
 

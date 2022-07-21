@@ -26,7 +26,7 @@ interface IProfilePageProps extends PaperProps {
 
 const ProfilePage = observer(({...props}: IProfilePageProps) => {
     const isMobile = isMobileHook()
-    useEffect(() => UserStorage.loadUserProfile(), [])
+    useEffect(() => ProfilePageStore.loadUserProfile(), [])
     if (!ProfilePageStore.allDataLoaded) {
         return (
             <Stack alignItems={"center"}>

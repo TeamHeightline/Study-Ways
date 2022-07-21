@@ -4,7 +4,7 @@ import {SSSSObject} from "../Store/SimpleSelfStatisticStorage";
 import {ShowStatisticTable} from "../../Statistic/V2/show-statistic-for-selected-questions/ShowStatisticTable";
 import {UserStorage} from "../../../../Store/UserStore/UserStore";
 import {Pagination, Stack} from "@mui/material";
-import {LogInNotification} from "../../../PublicPages/Notifications/LogInNotification";
+import {RequireLogInAlert} from "../../../PublicPages/Notifications/RequireLogInAlert";
 
 interface ISelfStatisticPageProps extends React.HTMLAttributes<HTMLDivElement> {
 
@@ -14,7 +14,7 @@ export const SelfStatisticPage = observer(({...props}: ISelfStatisticPageProps) 
     useEffect(() => SSSSObject.loadSelfStatistic(), [UserStorage.isLogin])
     return (
         <div {...props}>
-            <LogInNotification/>
+            <RequireLogInAlert/>
             <ShowStatisticTable stickyHeader={true}
                                 pageChanger={
                                     <Stack alignItems={"center"}>

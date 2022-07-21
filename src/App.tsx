@@ -17,7 +17,7 @@ import {BrowserRouter as Router, Route, Switch,} from "react-router-dom";
 import {ApolloProvider} from "@apollo/client";
 import {observer} from "mobx-react"
 import {ClientStorage} from "./Store/ApolloStorage/ClientStorage";
-import {LogInNotification} from "./Components/PublicPages/Notifications/LogInNotification";
+import {RequireLogInAlert} from "./Components/PublicPages/Notifications/RequireLogInAlert";
 import {isMobileHook} from "./CustomHooks/isMobileHook";
 import {CircularProgress, Grid} from "@mui/material";
 import Auth0Login from "./Components/Elements/Auth0/auth0-login";
@@ -27,7 +27,6 @@ import Auth0Logout from "./Components/Elements/Auth0/auth0-logout";
 import CardByURL from "./Components/Elements/Cards/CardByURL/UI/card-by-url";
 import SeoData from "./seo-data";
 import ProfilePage from "./Components/Elements/Profile/UI/ProfilePage";
-import {ProfileNotification} from "./Components/PublicPages/Notifications/ProfileNotification";
 import axiosClient from "./ServerLayer/QueryLayer/config";
 
 const EditorsRouter = React.lazy(() => import("./Components/PrivatePages/EditorRouter/EditorsRouter").then(module => ({default: module.EditorsRouter})))
@@ -56,11 +55,14 @@ const App = observer(() => {
                 scope: "read:current_user",
             }).then((user_token) => {
                 ClientStorage.changeToken(user_token)
+
                 axiosClient.interceptors.request.use((config: any) => {
                     config.headers.common["authorization"] = "Bearer " + user_token;
                     config.headers.post["authorization"] = "Bearer " + user_token;
                     return config;
-                });
+                })
+
+                UserStorage.reloadUser()
             })
         } else {
             ClientStorage.changeToken("")
@@ -85,8 +87,8 @@ const App = observer(() => {
                     <div style={{paddingTop: isMobile ? 0 : 48}}>
                         <Suspense fallback={<Grid container justifyContent={"center"}
                                                   sx={{pt: 4}}><CircularProgress/></Grid>}>
-                            <LogInNotification/>
-                            <ProfileNotification/>
+                            <RequireLogInAlert/>
+                            {/*<ProfileNotification/>*/}
                             <Switch>
                                 <Route exact path="/login" component={Auth0Login}/>
                                 <Route exact path={"/afterlogin"} component={Auth0AfterLogin}/>

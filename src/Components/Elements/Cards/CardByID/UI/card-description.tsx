@@ -3,7 +3,6 @@ import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Paper} from "@mui/material";
 import {CardByIDStore} from "../Store/CardByIDStore";
-import RichTextPreview from "../../CardView/RichTextPreview";
 
 
 interface ICardDescriptionProps extends PaperProps {
@@ -15,7 +14,8 @@ const CardDescription = observer(({card_store, ...props}: ICardDescriptionProps)
     const description = card_store?.card_data?.text
     return (
         <Paper elevation={0} {...props}>
-            <RichTextPreview text={description} onChange={() => void (0)}/>
+            {description &&
+                <div dangerouslySetInnerHTML={{__html: description}}/>}
         </Paper>
     )
 })

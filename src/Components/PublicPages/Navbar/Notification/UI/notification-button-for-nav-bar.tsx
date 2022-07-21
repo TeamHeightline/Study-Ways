@@ -14,6 +14,7 @@ import {
 } from "../redux-store/NotificationSlice";
 import {useSelector} from "react-redux";
 import NotificationContent from "./notification-content";
+import {UserStorage} from "../../../../../Store/UserStore/UserStore";
 
 interface INotificationButtonForNavbarProps extends BoxProps {
 
@@ -31,7 +32,7 @@ export default function NotificationButtonForNavbar({...props}: INotificationBut
 
 
     useEffect(() => {
-        recombeeClient.send(new recombee.RecommendItemsToUser("-1", 5,
+        recombeeClient.send(new recombee.RecommendItemsToUser(UserStorage.userIDForRecombee, 5,
                 {'scenario': 'On-open-suggestion'}),
             (err, matches) => {
                 const cardsID = matches?.recomms?.map((recomm) => recomm.id)

@@ -29,6 +29,10 @@ class User {
         return this.user_data?.username ?? ''
     }
 
+    get userIDForRecombee() {
+        return this.user_data?.id ?? "-1"
+    }
+
 
     reloadUser() {
         axiosClient

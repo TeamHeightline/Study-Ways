@@ -3,6 +3,7 @@ import {gql} from "@apollo/client";
 import recombee from 'recombee-js-api-client';
 import recombeeClient from "../../../../../../Store/RecombeeClient/recombee-client";
 import {useEffect, useState} from 'react'
+import {UserStorage} from "../../../../../../Store/UserStore/UserStore";
 
 export const GET_PERSONAL_HOME_PAGE = gql`
     query GET_PERSONAL_HOME_PAGE{
@@ -22,7 +23,8 @@ export const GET_AI_SEARCH_CARDS = gql`
 export async function getAutocompleteCardDataAsync(searchString: string | undefined, filterString: string | undefined = undefined, callBackFn?: (data: any) => void, numberOfCards: number = 10) {
     console.log(searchString)
     if (searchString) {
-        recombeeClient.send(new recombee.SearchItems('-1',
+        recombeeClient.send(new recombee.SearchItems(
+                UserStorage.userIDForRecombee,
                 searchString || undefined,
                 numberOfCards,
                 {
@@ -73,7 +75,7 @@ export async function getRecommendedItemToUser(
 
 export async function selectRecommendedCardReport(recommendationID: string, itemId) {
     if (recommendationID && itemId) {
-        recombeeClient.send(new recombee.AddDetailView("-1", itemId, {
+        recombeeClient.send(new recombee.AddDetailView(UserStorage.userIDForRecombee, itemId, {
             'recommId': recommendationID
         }));
     }

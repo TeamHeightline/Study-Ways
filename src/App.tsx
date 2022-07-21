@@ -34,7 +34,7 @@ const MainCardPublicView = React.lazy(() => import("./Components/Elements/Cards/
 const QSPlayerByID = React.lazy(() => import("./Components/Elements/QuestionSequence/Public/QSPlayerByID").then(module => ({default: module.QSPlayerByID})))
 const ImageQuestion = React.lazy(() => import("./Components/Elements/Question/QuestionByID/QuestionByID").then(module => ({default: module.QuestionByID})))
 const SelfStatistic = React.lazy(() => import("./Components/Elements/SimpleSelfStatistic/UI/self-statistic-page").then(module => ({default: module.SelfStatisticPage})))
-const CoursePage = React.lazy(() => import("./Components/Elements/Course/Page/UI/CoursPage"))
+const CoursePage = React.lazy(() => import("./Components/Elements/Course/Page/UI/course-page"))
 const CourseByURL = React.lazy(() => import("./Components/Elements/Course/CourseByURL/UI/CourseByURL"))
 const ExamByUID = React.lazy(() => import("./Components/Elements/Exam/ExamByUid/UI/exam-by-uid-page"))
 

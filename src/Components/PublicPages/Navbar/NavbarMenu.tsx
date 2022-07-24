@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {Button, Divider, ListItemIcon, Menu, MenuItem,  IconButton} from "@mui/material";
+import {Button, Divider, ListItemIcon, Menu, MenuItem, IconButton, Tooltip} from "@mui/material";
 import {DarkMode} from "@mui/icons-material";
 import {UserStorage} from "../../../Store/UserStore/UserStore";
 import {useAuth0} from "@auth0/auth0-react";
@@ -38,9 +38,12 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
 
     return (
         <>
-            <IconButton onClick={handleMenu} sx={{mx: 2}}>
-                <MenuIcon/>
-            </IconButton>
+            <Tooltip title={"Меню"}>
+                <IconButton onClick={handleMenu} sx={{mx: 2}}>
+                    <MenuIcon/>
+                </IconButton>
+            </Tooltip>
+
             <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}

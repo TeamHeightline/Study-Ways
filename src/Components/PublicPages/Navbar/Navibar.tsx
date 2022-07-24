@@ -23,6 +23,9 @@ import NavbarMenu from "./NavbarMenu";
 import ThemeStoreObject from "../../../global-theme";
 import NotificationButtonForNavbar from "./Notification/UI/notification-button-for-nav-bar";
 import LoginIcon from '@mui/icons-material/Login';
+import HomeIcon from '@mui/icons-material/Home';
+import AppsIcon from '@mui/icons-material/Apps';
+import {IconButton, Tooltip} from "@mui/material";
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -101,19 +104,35 @@ export const Navibar = observer(() => {
                     {/*<IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">*/}
                     {/*    <br/>*/}
                     {/*</IconButton>*/}
-                    <Typography variant="h6" className={classes.title} sx={{color: "white"}}>
+                    <Typography variant="h6"
+                                className={classes.title}
+                                sx={{color: "white"}}
+                                onClick={() => {
+                                    history.push("/courses")
+                                }}>
                         {width >= 765 ? "Study Ways" : "SW"}
                     </Typography>
-                    <Link style={{
-                        color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25,
-                        textDecoration: "none"
-                    }}
-                          to="/courses">Курсы </Link>
-                    <Link style={{
-                        color: "#ffffff", textDecorationColor: "#2D3A4A", marginLeft: 25,
-                        textDecoration: "none"
-                    }}
-                          to="/cards">Карточки</Link>
+
+                    <Tooltip title={"Курсы"}>
+                        <IconButton
+                            sx={{mx: 1}}
+                            onClick={() => {
+                                history.push("/courses")
+                            }}>
+                            <HomeIcon/>
+                        </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title={"Карточки"}>
+                        <IconButton
+                            sx={{mx: 1}}
+                            onClick={() => {
+                                history.push("/cards")
+                            }}>
+                            <AppsIcon/>
+                        </IconButton>
+                    </Tooltip>
+
                     {UserStorage.isLogin ?
                         <>
                             <NavbarMenu/>

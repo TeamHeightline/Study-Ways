@@ -1,4 +1,4 @@
-import {Badge, Box, IconButton, Paper, Popover} from "@mui/material";
+import {Badge, Box, IconButton, Paper, Popover, Tooltip} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import {RootState, useAppDispatch} from "../../../../../root-redux-store/RootStore";
@@ -49,15 +49,16 @@ export default function NotificationButtonForNavbar({...props}: INotificationBut
     }, [])
     return (
         <Box {...props}>
-
-            <IconButton onClick={(event) => {
-                setAnchorElement(event.currentTarget)
-                dispatch(openNotificationWindow())
-            }}>
-                <Badge color="secondary" badgeContent={number_of_not_viewed_notifications}>
-                    <NotificationsNoneIcon/>
-                </Badge>
-            </IconButton>
+            <Tooltip title={"Уведомления"}>
+                <IconButton onClick={(event) => {
+                    setAnchorElement(event.currentTarget)
+                    dispatch(openNotificationWindow())
+                }}>
+                    <Badge color="secondary" badgeContent={number_of_not_viewed_notifications}>
+                        <NotificationsNoneIcon/>
+                    </Badge>
+                </IconButton>
+            </Tooltip>
 
 
             {!!anchorElement &&

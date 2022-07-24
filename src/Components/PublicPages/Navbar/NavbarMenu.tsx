@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {Button, Divider, ListItemIcon, Menu, MenuItem} from "@mui/material";
+import {Button, Divider, ListItemIcon, Menu, MenuItem,  IconButton} from "@mui/material";
 import {DarkMode} from "@mui/icons-material";
 import {UserStorage} from "../../../Store/UserStore/UserStore";
 import {useAuth0} from "@auth0/auth0-react";
@@ -38,18 +38,21 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
 
     return (
         <>
-            <Button
-                onClick={handleMenu}
-                sx={{color: "white", mx: 2}}
-                endIcon={<MenuIcon/>}>
-                Меню
-            </Button>
+            <IconButton onClick={handleMenu} sx={{mx: 2}}>
+                <MenuIcon/>
+            </IconButton>
             <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
                 keepMounted
                 open={open}
                 onClose={handleClose}
+                disablePortal
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}
+
             >
                 <MenuItem
                     disabled={!UserStorage.isLogin}

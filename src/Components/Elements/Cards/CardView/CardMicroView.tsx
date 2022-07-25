@@ -98,7 +98,7 @@ export default function CardMicroView({
                             <Stack direction={"column"}
                                    sx={{pl: 1, pr: 1, height: "100%"}}
                             >
-                                <Typography variant="h5" component={'span'}>
+                                <Typography variant="h6" component={'span'}>
                                     ID: {card_data?.cardById.id}
                                     {Number(card_data.cardById.cardContentType[2]) === 0 &&
                                         <Chip id={"YouTube-icon"}
@@ -132,7 +132,7 @@ export default function CardMicroView({
                                                 WebkitLineClamp: 3
                                             }}
                                             style={{overflow: "hidden"}}>
-                                    {card_data?.cardById?.title.toUpperCase()}
+                                    {card_data?.cardById?.title}
                                 </Typography>
                                 {showTheme &&
                                     <Typography variant="body2"

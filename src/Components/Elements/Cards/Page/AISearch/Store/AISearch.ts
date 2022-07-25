@@ -4,6 +4,7 @@ import {getAutocompleteCardDataAsync, selectRecommendedCardReport} from "./Query
 import {UnstructuredThemesNode} from "../../../../../../SchemaTypes";
 import {GET_CONNECTED_THEME} from "../../../Selector/Store/Query";
 import {cardContentType} from "../../../Selector/Store/CardSelectorStore";
+import axiosClient from "../../../../../../ServerLayer/QueryLayer/config";
 
 class AISearch {
     constructor() {
@@ -52,6 +53,14 @@ class AISearch {
             }
             queryString += `'card_content_type' == ${Number(this.contentType)}`
         }
+
+        if (this.selectedCardAuthor !== undefined) {
+            if (queryString.length > 0) {
+                queryString += " and "
+            }
+            queryString += `'created_by_id' == ${this.selectedCardAuthor}`
+        }
+
         return queryString
     }
 
@@ -193,6 +202,46 @@ class AISearch {
     get cardsIDArray() {
         return (toJS(this.cardsIDArrayFromSearch))
     }
+
+
+    cardAuthors: Author[] = []
+
+    loadCardAuthors() {
+        axiosClient.get<Author[]>('/page/card-page/authors')
+            .then((res) => {
+                this.cardAuthors = res.data
+            })
+    }
+
+    get cardAuthorsForSelector() {
+        return [...new Set(toJS(this.cardAuthors)
+            ?.map((author) => {
+                return ({
+                    id: author.id,
+                    label: author?.users_userprofile?.firstname || author?.users_userprofile?.lastname ?
+                        author?.users_userprofile?.firstname + " " + author?.users_userprofile?.lastname
+                        : author?.username
+                })
+            }))]
+    }
+
+    selectedCardAuthor: number | undefined = undefined
+
+    changeCardAuthor = (value) => {
+        this.selectedCardAuthor = value?.id
+        console.log(this.selectedCardAuthor)
+    }
 }
 
 export const AISObject = new AISearch()
+
+export interface UsersUserprofile {
+    firstname: string;
+    lastname: string;
+}
+
+export interface Author {
+    id: number;
+    username: string;
+    users_userprofile: UsersUserprofile;
+}

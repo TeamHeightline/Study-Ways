@@ -4,6 +4,7 @@ import recombee from 'recombee-js-api-client';
 import recombeeClient from "../../../../../../Store/RecombeeClient/recombee-client";
 import {useEffect, useState} from 'react'
 import {UserStorage} from "../../../../../../Store/UserStore/UserStore";
+import axiosClient from "../../../../../../ServerLayer/QueryLayer/config";
 
 export const GET_PERSONAL_HOME_PAGE = gql`
     query GET_PERSONAL_HOME_PAGE{
@@ -82,16 +83,6 @@ export async function selectRecommendedCardReport(recommendationID: string, item
 }
 
 
-export function useDebounce<T>(value: T, delay?: number): T {
-    const [debouncedValue, setDebouncedValue] = useState<T>(value)
 
-    useEffect(() => {
-        const timer = setTimeout(() => setDebouncedValue(value), delay || 500)
 
-        return () => {
-            clearTimeout(timer)
-        }
-    }, [value, delay])
 
-    return debouncedValue
-}

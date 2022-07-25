@@ -11,13 +11,13 @@ import UIAccessTypeToggle from "./ui-access-type-togle";
 import UIAccessTypeVariants from "./ui-access-type-variants";
 import UIStudentsAccessType from "./ui-students-access-type";
 import UIExamUrls from "./ui-exam-urls";
-import {useDispatch, useSelector} from "react-redux";
-import {loadExamData} from "../redux-store/async-actions";
-import {changeExamID} from "../redux-store/actions";
+import {useSelector} from "react-redux";
+import {loadExamDataThunk} from "../redux-store/async-actions";
 import AutoSaveModule from "./auto-save-module";
 import ExamResultsByID from "../../../ExamResultsByID/UI/exam-results-by-id";
 import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
-import {RootState} from "../../../../../../root-redux-store/RootStore";
+import {RootState, useAppDispatch} from "../../../../../../root-redux-store/RootStore";
+import {changeExamId} from "../redux-store/examEditorSlice";
 
 
 interface IExamByIDProps extends PaperProps {
@@ -25,19 +25,19 @@ interface IExamByIDProps extends PaperProps {
 }
 
 const ExamByID = observer(({exam_id, ...props}: IExamByIDProps) => {
-    const storeExamID = useSelector((state: RootState) => state?.examEditorReducer?.exam_id)
-    const loadedExamDataID = useSelector((state: RootState) => state?.examEditorReducer?.exam_data?.id)
-    const isLoadingEdamData = useSelector((state: RootState) => state?.examEditorReducer?.exam_data_loading)
-    const dispatch: any = useDispatch()
+    const storeExamID = useSelector((state: RootState) => state?.examEditor?.exam_id)
+    const loadedExamDataID = useSelector((state: RootState) => state?.examEditor?.exam_data?.id)
+    const isLoadingEdamData = useSelector((state: RootState) => state?.examEditor?.exam_data_loading)
+    const dispatch = useAppDispatch()
     const isMobile = isMobileHook()
 
     useEffect(() => {
-        dispatch(changeExamID(String(exam_id)))
+        dispatch(changeExamId(String(exam_id)))
     }, [exam_id])
 
     useEffect(() => {
         if (storeExamID) {
-            dispatch(loadExamData(storeExamID))
+            dispatch(loadExamDataThunk(storeExamID))
         }
     }, [storeExamID])
 

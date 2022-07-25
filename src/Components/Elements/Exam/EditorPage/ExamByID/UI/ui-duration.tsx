@@ -3,8 +3,8 @@ import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {FormControl, InputLabel, MenuItem, Paper, Select, Stack, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
-import {changeExamMinutes} from "../redux-store/actions";
-import {RootState} from "../../../../../../root-redux-store/RootStore";
+import {RootState, useAppDispatch} from "../../../../../../root-redux-store/RootStore";
+import {changeExamMinutes} from "../redux-store/examEditorSlice";
 
 
 interface IUIDurationProps extends PaperProps {
@@ -12,8 +12,8 @@ interface IUIDurationProps extends PaperProps {
 }
 
 const UIDuration = observer(({...props}: IUIDurationProps) => {
-    const examDuration = useSelector((state: RootState) => state?.examEditorReducer?.exam_data?.minutes)
-    const dispatch: any = useDispatch()
+    const examDuration = useSelector((state: RootState) => state?.examEditor?.exam_data?.minutes)
+    const dispatch = useAppDispatch()
     const minutes = Math.floor((Number(examDuration) || 0) % 60)
     const hours = Math.floor((Number(examDuration) || 0) / 60)
     return (

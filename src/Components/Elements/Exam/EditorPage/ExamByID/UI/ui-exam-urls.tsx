@@ -10,8 +10,8 @@ interface IUIExamUrlsProps extends PaperProps {
 }
 
 export default function UIExamUrls({...props}: IUIExamUrlsProps) {
-    const selectedQSID = useSelector((state: RootState) => state?.examEditorReducer?.exam_data?.question_sequence_id)
-    const examUid = useSelector((state: RootState) => state?.examEditorReducer?.exam_data?.uid)
+    const selectedQSID = useSelector((state: RootState) => state?.examEditor?.exam_data?.question_sequence_id)
+    const examUid = useSelector((state: RootState) => state?.examEditor?.exam_data?.uid)
     return (
         <Paper elevation={0} {...props}>
             <Stack direction={"column"} spacing={2}>

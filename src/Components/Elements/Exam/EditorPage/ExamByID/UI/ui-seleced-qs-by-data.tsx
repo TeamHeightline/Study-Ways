@@ -1,17 +1,26 @@
 import {Card, Chip, Paper, Stack, Typography} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
-import React from "react";
+import React, {useEffect} from "react";
 import {useSelector} from "react-redux";
 import {sequenceDataI} from "../../../../../../ServerLayer/Types/question-sequence.type";
-import {RootState} from "../../../../../../root-redux-store/RootStore";
+import {RootState, useAppDispatch} from "../../../../../../root-redux-store/RootStore";
+import {loadQSDataThunk} from "../redux-store/async-actions";
 
 interface ISelectedQSByDataProps extends PaperProps {
 
 }
 
 export default function SelectedQSByData({...props}: ISelectedQSByDataProps) {
-    const sequenceData: sequenceDataI | null | undefined = useSelector((state: RootState) => state?.examEditorReducer?.selected_qs_data)
-    const selectedQSID = useSelector((state: RootState) => state?.examEditorReducer?.exam_data?.question_sequence_id)
+
+    const sequenceData: sequenceDataI | null | undefined = useSelector((state: RootState) => state?.examEditor?.selected_qs_data)
+    const selectedQSID = useSelector((state: RootState) => state?.examEditor?.exam_data?.question_sequence_id)
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        if (selectedQSID) {
+            dispatch(loadQSDataThunk(String(selectedQSID)))
+        }
+    }, [selectedQSID])
 
     if (sequenceData?.id != selectedQSID || selectedQSID == undefined) {
         return <div/>

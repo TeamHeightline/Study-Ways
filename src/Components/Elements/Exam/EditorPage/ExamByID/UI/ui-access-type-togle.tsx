@@ -1,7 +1,7 @@
 import {Paper, ToggleButton, ToggleButtonGroup} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {useDispatch, useSelector} from "react-redux";
-import {changeAccessType} from "../redux-store/actions";
+import {changeAccessMode} from "../redux-store/examEditorSlice";
 import {RootState} from "../../../../../../root-redux-store/RootStore";
 
 interface IUIAccessTypeTogleProps extends PaperProps {
@@ -10,10 +10,10 @@ interface IUIAccessTypeTogleProps extends PaperProps {
 
 export default function UIAccessTypeToggle({...props}: IUIAccessTypeTogleProps) {
     const dispath = useDispatch()
-    const accessType = useSelector((state: RootState) => state?.examEditorReducer?.access_type)
+    const accessMode = useSelector((state: RootState) => state?.examEditor?.exam_data?.access_mode)
 
     function changeAccessTypeHandle(e, newAccessType) {
-        dispath(changeAccessType(newAccessType))
+        dispath(changeAccessMode(newAccessType))
     }
 
     return (
@@ -22,7 +22,7 @@ export default function UIAccessTypeToggle({...props}: IUIAccessTypeTogleProps) 
             <ToggleButtonGroup
                 color="primary"
                 exclusive
-                value={accessType}
+                value={accessMode}
                 // onChange={changeAccessTypeHandle}
                 // size={"small"}
             >

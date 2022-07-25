@@ -1,10 +1,10 @@
 import {Paper} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {useEffect} from "react";
-import {updateExamAsync} from "../redux-store/async-actions";
-import {startUpdateExam} from "../redux-store/actions";
-import {RootState} from "../../../../../../root-redux-store/RootStore";
+import {updateExamThunk} from "../redux-store/async-actions";
+import {RootState, useAppDispatch} from "../../../../../../root-redux-store/RootStore";
+import {prepareForUpdateExamData} from "../redux-store/examEditorSlice";
 
 interface IAutoSaveModuleProps extends PaperProps {
 
@@ -12,17 +12,17 @@ interface IAutoSaveModuleProps extends PaperProps {
 
 let updateTimer: any = null
 export default function AutoSaveModule({...props}: IAutoSaveModuleProps) {
-    const dispatch: any = useDispatch()
-    const examData = useSelector((state: RootState) => state?.examEditorReducer?.exam_data)
+    const examData = useSelector((state: RootState) => state?.examEditor?.exam_data)
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         clearTimeout(updateTimer)
-        dispatch(startUpdateExam())
+        dispatch(prepareForUpdateExamData())
         updateTimer = setTimeout(() => updateExam(), 2000)
     }, [examData])
 
     function updateExam() {
-        dispatch(updateExamAsync(examData))
+        dispatch(updateExamThunk(examData))
     }
 
     return (

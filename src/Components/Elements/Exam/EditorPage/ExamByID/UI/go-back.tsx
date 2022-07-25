@@ -14,7 +14,7 @@ interface IGoBackButtonProps extends ButtonProps {
 }
 
 const GoBackButton = observer(({...props}: IGoBackButtonProps) => {
-    const updateExamLoading = useSelector((state: RootState) => state?.examEditorReducer?.update_exam_loading)
+    const updateExamLoading = useSelector((state: RootState) => state?.examEditor?.update_exam_loading)
     const history = useHistory()
     const isMobile = isMobileHook()
     return (

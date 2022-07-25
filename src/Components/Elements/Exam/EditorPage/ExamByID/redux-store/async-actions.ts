@@ -1,35 +1,26 @@
-import {
-    errorUpdateExam,
-    loadExamEditorSelectedQsDataError,
-    loadExamEditorSelectedQsDataSuccess,
-    startLoadingExamData,
-    startLoadingExamEditorSelectedQsData,
-    successLoadExamData,
-    successUpdateExam
-} from "./actions";
 import {getQSByID} from "../../../../../../ServerLayer/QueryLayer/question-sequence.query";
 import {loadExamByID, updateExam} from "../../../../../../ServerLayer/QueryLayer/exam.query";
+import {createAsyncThunk} from "@reduxjs/toolkit";
 
-export const loadQSData = (qsID) => (dispatch) => {
-    if (qsID) {
-        dispatch(startLoadingExamEditorSelectedQsData());
 
+export const loadQSDataThunk = createAsyncThunk(
+    'examEditor/loadQSData',
+    async (qsID: string) => {
         return getQSByID(qsID)
-            .then((data) => dispatch(loadExamEditorSelectedQsDataSuccess(data)))
-            .catch((error) => dispatch(loadExamEditorSelectedQsDataError(error.message)));
     }
-}
+)
 
-export const loadExamData = (examID) => (dispatch) => {
-    dispatch(startLoadingExamData());
+export const loadExamDataThunk = createAsyncThunk(
+    'examEditor/loadExamData',
+    async (examID: string) => {
+        return loadExamByID(examID)
+    }
+)
 
-    return loadExamByID(examID)
-        .then((data) => dispatch(successLoadExamData(data)))
-}
-
-export const updateExamAsync = (examData) => (dispatch) => {
-    const {id, ...examDataWithoutID} = examData;
-    return updateExam(id, examDataWithoutID)
-        .then(() => dispatch(successUpdateExam()))
-        .catch((e) => dispatch(errorUpdateExam(e)))
-}
+export const updateExamThunk = createAsyncThunk(
+    'examEditor/updateExam',
+    async (examData: any) => {
+        const {id, ...examDataWithoutID} = examData;
+        return updateExam(id, examDataWithoutID)
+    }
+)

@@ -1,6 +1,6 @@
 import {observer} from "mobx-react";
 import React from 'react';
-import {Grid} from "@mui/material";
+import {Box, Grid} from "@mui/material";
 import CardMicroView from "../../../CardView/CardMicroView";
 
 interface IMicoCardsFieldProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -10,22 +10,24 @@ interface IMicoCardsFieldProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const MicoCardsField = observer(({cards_id, onCardSelect, ...props}: IMicoCardsFieldProps) => {
     return (
-        <Grid container {...props} spacing={2} justifyContent="space-evenly">
-            {cards_id?.map((card_id) => {
-                return (
-                    <Grid item
-                          key={card_id + "CardKey"}
-                          xs={12}
-                          md={"auto"}
-                          onClick={() => {
-                              onCardSelect(card_id)
-                          }}>
-                        <CardMicroView
-                            cardID={Number(card_id)}
-                            onChange={() => void (0)}/>
-                    </Grid>
-                )
-            })}
-        </Grid>
+        <Box {...props} sx={{overflow: "auto"}}>
+            <Grid container spacing={2} justifyContent="space-evenly">
+                {cards_id?.map((card_id) => {
+                    return (
+                        <Grid item
+                              key={card_id + "CardKey"}
+                              xs={12}
+                              md={"auto"}
+                              onClick={() => {
+                                  onCardSelect(card_id)
+                              }}>
+                            <CardMicroView
+                                cardID={Number(card_id)}
+                                onChange={() => void (0)}/>
+                        </Grid>
+                    )
+                })}
+            </Grid>
+        </Box>
     )
 })

@@ -51,6 +51,7 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
                 open={open}
                 onClose={handleClose}
                 disablePortal
+                disableScrollLock={false}
                 anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'left',

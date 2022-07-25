@@ -21,12 +21,12 @@ export default function CoursePage({...props}: ICoursePageProps) {
         dispatch(loadCourseDataThunk())
     }, [])
     return (
-        <Box {...props}>
+        <Box {...props} sx={{overflow: "auto"}}>
             <Helmet>
                 <title>Курсы</title>
             </Helmet>
             <Grid container
-                  sx={{pt: 2}}
+                  sx={{pt: 2, minWidth: "500px"}}
                   justifyContent={"space-evenly"}
                   spacing={4}
                   rowSpacing={2}>

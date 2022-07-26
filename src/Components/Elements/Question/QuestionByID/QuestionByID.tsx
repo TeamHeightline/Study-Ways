@@ -4,12 +4,12 @@ import {observer} from "mobx-react";
 import {SameQuestionPlayer} from "../../../../Store/PublicStorage/QSPage/QuestionSequencePlayer/SameQuestionPlayer";
 import DCPCImageQuestion from "./DCPCImageQuestion";
 import {
-    Alert,
+    Alert, Box,
     Button,
     Card,
     CardActionArea,
     CircularProgress,
-    Grid,
+    Grid, IconButton, LinearProgress,
     MenuItem,
     Select,
     Stack,
@@ -24,6 +24,8 @@ import {useLocation} from "react-router-dom";
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 import {RequireLogInAlert} from "../../../PublicPages/Notifications/RequireLogInAlert";
 import {UserStorage} from "../../../../Store/UserStore/UserStore";
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -158,27 +160,58 @@ export const QuestionByID = observer((props: any) => {
                                        sx={{height: isMobile ? processedStore?.answersArray * 410 : "", pt: 2}}>
                                     {processedStore?.answersArray.map((answer, aIndex) => {
                                         return (
-                                            <Card key={aIndex} variant="outlined" className={classes.root}
-                                                  style={{backgroundColor: processedStore?.selectedAnswers?.has(answer?.id) ? "#2296F3" : "",}}
-                                                  onClick={() => {
-                                                      processedStore.selectAnswerHandleChange(answer.id)
-                                                  }}>
-                                                <CardActionArea>
-                                                    {!answer.isImageDeleted && answer.answerImageUrl ?
-                                                        <CardMedia
-                                                            style={{opacity: processedStore?.selectedAnswers?.has(answer?.id) ? 0.5 : 1}}
-                                                            className={answer?.answerText ? classes.media : classes.fullHeightMedia}
-                                                            image={answer?.answerImageUrl}
-                                                        /> : null}
-                                                    {answer?.answerText &&
-                                                        <CardContent sx={{mb: 2}}>
-                                                            <Typography variant="body1" color="textSecondary"
-                                                                        component="p" sx={{pb: 2}}>
-                                                                {answer?.answerText}
-                                                            </Typography>
-                                                        </CardContent>}
-                                                </CardActionArea>
-                                            </Card>)
+                                            <Box sx={{mb: 2}}>
+                                                <Card key={aIndex} variant="outlined" className={classes.root}
+                                                      style={{backgroundColor: processedStore?.selectedAnswers?.has(answer?.id) ? "#2296F3" : "",}}
+                                                      onClick={() => {
+                                                          processedStore.selectAnswerHandleChange(answer.id)
+                                                      }}>
+                                                    <CardActionArea>
+                                                        {!answer.isImageDeleted && answer.answerImageUrl ?
+                                                            <CardMedia
+                                                                style={{opacity: processedStore?.selectedAnswers?.has(answer?.id) ? 0.5 : 1}}
+                                                                className={answer?.answerText ? classes.media : classes.fullHeightMedia}
+                                                                image={answer?.answerImageUrl}
+                                                            /> : null}
+                                                        {answer?.answerText &&
+                                                            <CardContent sx={{mb: 2}}>
+                                                                <Typography variant="body1" color="textSecondary"
+                                                                            component="p" sx={{pb: 2}}>
+                                                                    {answer?.answerText}
+                                                                </Typography>
+                                                            </CardContent>}
+                                                    </CardActionArea>
+                                                </Card>
+
+                                                <LinearProgress
+                                                    color={
+                                                        processedStore?.selectedAnswers?.has(answer?.id) ? "primary" :
+                                                            processedStore.userMarks[aIndex] === "none" ? "inherit" :
+                                                                processedStore.userMarks[aIndex] === "false" ? "secondary" :
+                                                                    processedStore.userMarks[aIndex] === "unknown" && "warning"
+                                                    }
+                                                    variant="determinate"
+                                                    value={100}
+                                                    sx={{mt: 1}}/>
+                                                <Typography variant="caption" color="textSecondary">
+                                                    Пометки для себя (не учитываются при проверке ответа)
+                                                </Typography>
+                                                <Stack direction={"row"}>
+
+                                                    <IconButton
+                                                        onClick={() => processedStore.onUnknownButtonClick(aIndex)}>
+                                                        <QuestionMarkIcon fontSize={"small"}/>
+                                                    </IconButton>
+
+                                                    <IconButton
+                                                        onClick={() => processedStore.onQuestionButtonClick(aIndex)}>
+                                                        <RemoveIcon fontSize={"small"}/>
+                                                    </IconButton>
+
+
+                                                </Stack>
+
+                                            </Box>)
                                     })}
 
                                 </Stack>}

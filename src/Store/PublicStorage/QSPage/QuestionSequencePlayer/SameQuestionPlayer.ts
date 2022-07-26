@@ -263,46 +263,7 @@ export class SameQuestionPlayer {
                 query: GET_ENCRYPT_QUESTION_DATA_BY_ID,
                 variables: {
                     id: this.questionID,
-                    //
-                    //
-                    //
-                    //
-                    //
-                    // examMode: (this.isUseExamMode || this?.ownStore?.isUseExamMode) && (UserStorage.userAccessLevel === "ADMIN")
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-
                     examMode: this.isUseExamMode || this?.ownStore?.isUseExamMode
-
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-
                 }, fetchPolicy: "network-only"
             })
                 .then((data) => {
@@ -344,6 +305,7 @@ export class SameQuestionPlayer {
 
 
                     this.answersArray = __AnswersArray
+                    this.userMarks = Array(__AnswersArray.length).fill('none')
                 })
 
         }
@@ -368,28 +330,8 @@ export class SameQuestionPlayer {
                     isLogin: this.userStore.isLogin,
                     userName: this.userStore.isLogin ? this.userStore.username : localStorage?.getItem('username')?.length !== 0 ? localStorage?.getItem('username') : "Анонимный пользователь",
 
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
                     isUseexammode: this.isUseExamMode || this?.ownStore?.isUseExamMode,
-                    // isUseexammode: (this.isUseExamMode || this?.ownStore?.isUseExamMode) && (UserStorage.userAccessLevel === "ADMIN"),
-                    //
-                    //
-                    //
-                    //
-                    //
-                    //
-                    // /
-                    //
-                    //
+
                     questionSequence: this?.ownStore?.questionSequenceID,
                     questionHasBeenCompleted: this?.questionHasBeenCompleted,
                     maxSumOfAnswersPoint: this.maxSumOfPoints,
@@ -421,5 +363,31 @@ export class SameQuestionPlayer {
         }
     }
 
+    //------------------------------------------------------------------------------------------------------------------
+
+    //Пользовательские пометки
+
+    userMarks: IUserMark[] = []
+
+    onQuestionButtonClick = (index: number) => {
+        if (this.userMarks[index] == 'unknown' || this.userMarks[index] == 'none') {
+            this.userMarks[index] = 'false'
+        } else {
+            this.userMarks[index] = 'none'
+        }
+    }
+
+    onUnknownButtonClick = (index: number) => {
+        if (this.userMarks[index] == 'false' || this.userMarks[index] == 'none') {
+            this.userMarks[index] = 'unknown'
+        } else {
+            this.userMarks[index] = 'none'
+        }
+    }
+
 
 }
+
+type  IUserMark = "false" | "none" | "unknown" //false - неверно, none - не отвечено, unknown - неуверен
+
+

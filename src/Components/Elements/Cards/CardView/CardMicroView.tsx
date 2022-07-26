@@ -70,7 +70,7 @@ export default function CardMicroView({
     return (
         <div
             {...props}>
-            <Card variant={isDarkTheme ? "outlined" : "elevation"} elevation={3} className={classes.root}
+            <Card variant={isDarkTheme ? "outlined" : "elevation"} className={classes.root}
                   onClick={() => {
                       onChange(cardID)
                   }}>

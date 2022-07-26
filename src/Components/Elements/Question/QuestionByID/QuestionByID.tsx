@@ -194,7 +194,7 @@ export const QuestionByID = observer((props: any) => {
                                                     value={100}
                                                     sx={{mt: 1}}/>
                                                 <Typography variant="caption" color="textSecondary">
-                                                    Пометки для себя (не учитываются при проверке ответа)
+                                                    Пометки для себя (не учитываются при проверке)
                                                 </Typography>
                                                 <Stack direction={"row"}>
 

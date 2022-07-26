@@ -18,6 +18,7 @@ import ExamResultsByID from "../../../ExamResultsByID/UI/exam-results-by-id";
 import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
 import {RootState, useAppDispatch} from "../../../../../../root-redux-store/RootStore";
 import {changeExamId} from "../redux-store/examEditorSlice";
+import UIAccessModeSelector from "./ui-access-mode-selector";
 
 
 interface IExamByIDProps extends PaperProps {
@@ -73,8 +74,9 @@ const ExamByID = observer(({exam_id, ...props}: IExamByIDProps) => {
                     <div>
                         <Divider>Проводится в </Divider>
                     </div>
-                    <UIAccessTypeToggle/>
-                    <UIAccessTypeVariants/>
+                    <UIAccessModeSelector/>
+                    {/*<UIAccessTypeToggle/>*/}
+                    {/*<UIAccessTypeVariants/>*/}
                 </Stack>
 
                 <div>

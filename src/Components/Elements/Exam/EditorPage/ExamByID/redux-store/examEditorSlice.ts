@@ -21,7 +21,7 @@ const examEditorSlice = createSlice({
         changeExamId: (state, action: PayloadAction<string>) => {
             state.exam_id = action.payload;
         },
-        changeAccessMode: (state, action: PayloadAction<"manual" | "timeInterval">) => {
+        changeAccessMode: (state, action: PayloadAction<IExamData['access_mode']>) => {
             if (state.exam_data) {
                 state.exam_data.access_mode = action.payload;
             }
@@ -31,7 +31,7 @@ const examEditorSlice = createSlice({
                 state.exam_data.name = action.payload;
             }
         },
-        changeExamMinutes: (state, action: PayloadAction<number>) => {
+        changeExamMinutes: (state, action: PayloadAction<IExamData['minutes']>) => {
             if (state.exam_data) {
                 state.exam_data.minutes = action.payload;
             }
@@ -95,7 +95,7 @@ export interface IExamData {
     "name": string,
     "start_at": string,
     "end_at": string,
-    "access_mode": "manual" | "timeInterval",
+    "access_mode": "manual" | "timeInterval" | "open" | "closed" | "password",
     "uid": string,
     "created_by_id": string,
     "minutes": number,

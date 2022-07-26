@@ -96,72 +96,80 @@ export default function CardMicroView({
                         </Grid>
                         <Grid item xs={8} sx={{height: "100%"}}>
                             <Stack direction={"column"}
-                                   sx={{pl: 1, pr: 1, height: "100%"}}
+                                   justifyContent={"space-between"}
+                                   sx={{pl: 1, pr: 1, pb: 1, height: "170px"}}
                             >
-                                <Typography variant="h6">
-                                    ID: {card_data?.cardById.id}
-                                    {Number(card_data.cardById.cardContentType[2]) === 0 &&
-                                        <Chip id={"YouTube-icon"}
-                                              style={{marginLeft: 12}} size="small" variant="outlined" color="secondary"
-                                              icon={<YouTubeIcon/>} label="YouTube"/>}
-                                    {Number(card_data.cardById.cardContentType[2]) === 1 &&
-                                        <Chip style={{marginLeft: 12}} size="small" variant="outlined" color="primary"
-                                              icon={<HttpIcon/>} label="Ресурс"/>}
-                                    {Number(card_data.cardById.cardContentType[2]) === 2 &&
-                                        <Chip style={{marginLeft: 12}} size="small" variant="outlined" color="default"
-                                              icon={<ImageIcon/>} label="Изобра..."/>}
+                                <div>
+                                    <Typography variant="h6">
+                                        ID: {card_data?.cardById.id}
+                                        {Number(card_data.cardById.cardContentType[2]) === 0 &&
+                                            <Chip id={"YouTube-icon"}
+                                                  style={{marginLeft: 12}} size="small" variant="outlined"
+                                                  color="secondary"
+                                                  icon={<YouTubeIcon/>} label="YouTube"/>}
+                                        {Number(card_data.cardById.cardContentType[2]) === 1 &&
+                                            <Chip style={{marginLeft: 12}} size="small" variant="outlined"
+                                                  color="primary"
+                                                  icon={<HttpIcon/>} label="Ресурс"/>}
+                                        {Number(card_data.cardById.cardContentType[2]) === 2 &&
+                                            <Chip style={{marginLeft: 12}} size="small" variant="outlined"
+                                                  color="default"
+                                                  icon={<ImageIcon/>} label="Изобра..."/>}
 
-                                    {Number(card_data.cardById.hardLevel.slice(2.3)) == 0 &&
-                                        <ArchitectureIcon style={{marginLeft: 12}} fontSize="small"/>}
-                                    {Number(card_data.cardById.hardLevel.slice(2.3)) == 1 &&
-                                        <FunctionsIcon style={{marginLeft: 12}} fontSize="small"/>}
-                                    {Number(card_data.cardById.hardLevel.slice(2.3)) == 2 &&
-                                        <SchoolIcon style={{marginLeft: 12}} fontSize="small"/>}
-                                    {Number(card_data.cardById.hardLevel.slice(2.3)) == 3 &&
-                                        <ScienceIcon style={{marginLeft: 12}} fontSize="small"/>}
-                                    {Number(card_data.cardById.hardLevel.slice(2.3)) == 4 &&
-                                        <BiotechIcon style={{marginLeft: 12}} fontSize="small"/>}
-                                </Typography>
+                                        {Number(card_data.cardById.hardLevel.slice(2.3)) == 0 &&
+                                            <ArchitectureIcon style={{marginLeft: 12}} fontSize="small"/>}
+                                        {Number(card_data.cardById.hardLevel.slice(2.3)) == 1 &&
+                                            <FunctionsIcon style={{marginLeft: 12}} fontSize="small"/>}
+                                        {Number(card_data.cardById.hardLevel.slice(2.3)) == 2 &&
+                                            <SchoolIcon style={{marginLeft: 12}} fontSize="small"/>}
+                                        {Number(card_data.cardById.hardLevel.slice(2.3)) == 3 &&
+                                            <ScienceIcon style={{marginLeft: 12}} fontSize="small"/>}
+                                        {Number(card_data.cardById.hardLevel.slice(2.3)) == 4 &&
+                                            <BiotechIcon style={{marginLeft: 12}} fontSize="small"/>}
+                                    </Typography>
 
-                                <Typography
-                                    variant={"body2"}
-                                    sx={{
-                                        display: '-webkit-box',
-                                        overflow: 'hidden',
-                                        WebkitBoxOrient: 'vertical',
-                                        WebkitLineClamp: 3
-                                    }}
-                                    style={{overflow: "hidden"}}>
-                                    {card_data?.cardById?.title}
-                                </Typography>
-                                {showTheme &&
-                                    <Typography variant="caption"
-                                                sx={{
-                                                    display: '-webkit-box',
-                                                    overflow: 'hidden',
-                                                    WebkitBoxOrient: 'vertical',
-                                                    WebkitLineClamp: 1
-                                                }}>
-                                        <Tooltip title={
-                                            <Typography>
-                                                {"Эту карточку можно найти в теме: " + themesText}
-                                            </Typography>}>
-                                            <AccountTreeIcon fontSize={"small"}/>
-                                        </Tooltip>
-                                        {themesText}
-                                    </Typography>}
+                                    <Typography
+                                        variant={"body2"}
+                                        sx={{
+                                            display: '-webkit-box',
+                                            overflow: 'hidden',
+                                            WebkitBoxOrient: 'vertical',
+                                            WebkitLineClamp: 4
+                                        }}
+                                        style={{overflow: "hidden"}}>
+                                        {card_data?.cardById?.title}
+                                    </Typography>
+                                </div>
+                                <div>
+                                    {showTheme &&
+                                        <Typography variant="caption"
+                                                    sx={{
+                                                        display: '-webkit-box',
+                                                        overflow: 'hidden',
+                                                        WebkitBoxOrient: 'vertical',
+                                                        WebkitLineClamp: 1
+                                                    }}>
+                                            <Tooltip title={
+                                                <Typography>
+                                                    {"Эту карточку можно найти в теме: " + themesText}
+                                                </Typography>}>
+                                                <AccountTreeIcon fontSize={"small"}/>
+                                            </Tooltip>
+                                            {themesText}
+                                        </Typography>}
 
-                                {showAuthor &&
-                                    <Typography variant="caption"
-                                                sx={{
-                                                    display: '-webkit-box',
-                                                    overflow: 'hidden',
-                                                    WebkitBoxOrient: 'vertical',
-                                                    WebkitLineClamp: 1
-                                                }}>
-                                        <AccountBoxIcon fontSize={"small"}/>
-                                        {authorName}
-                                    </Typography>}
+                                    {showAuthor &&
+                                        <Typography variant="caption"
+                                                    sx={{
+                                                        display: '-webkit-box',
+                                                        overflow: 'hidden',
+                                                        WebkitBoxOrient: 'vertical',
+                                                        WebkitLineClamp: 1
+                                                    }}>
+                                            <AccountBoxIcon fontSize={"small"}/>
+                                            {authorName}
+                                        </Typography>}
+                                </div>
 
                             </Stack>
 

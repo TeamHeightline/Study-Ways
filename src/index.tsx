@@ -1,7 +1,6 @@
 // @ts-nocheck
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {HTML5Backend} from 'react-dnd-html5-backend'
@@ -10,8 +9,6 @@ import {configure} from "mobx"
 import {ThemeProvider} from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import "./Components/Elements/Cards/CardView/RichTextPreviewStyle.css"
-import DateAdapter from '@mui/lab/AdapterMoment';
-import {LocalizationProvider} from "@mui/lab";
 import 'antd/dist/antd.dark.min.css';
 import ThemeStoreObject from "./global-theme";
 import {Auth0Provider} from "@auth0/auth0-react";
@@ -19,6 +16,10 @@ import {observer} from "mobx-react";
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import {Provider} from "react-redux";
 import reduxStore from "./root-redux-store/RootStore";
+import {createRoot} from "react-dom/client";
+import {LocalizationProvider} from '@mui/x-date-pickers'
+import {AdapterMoment} from '@mui/x-date-pickers/AdapterMoment';
+
 
 configure({
     enforceActions: "never",
@@ -30,7 +31,7 @@ configure({
 const AppWithAllProviders = observer(() => {
 
     return (
-        <LocalizationProvider dateAdapter={DateAdapter}>
+        <LocalizationProvider dateAdapter={AdapterMoment}>
             <Provider store={reduxStore}>
                 <Auth0Provider
                     domain="dev-xjng6xd9.us.auth0.com"
@@ -55,11 +56,9 @@ const AppWithAllProviders = observer(() => {
     )
 })
 
-ReactDOM.render(
-    <AppWithAllProviders/>
-    ,
-    document.getElementById('root')
-);
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(<AppWithAllProviders/>);
 
 serviceWorkerRegistration.unregister();
 

@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import {Button} from "@mui/material";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {ButtonProps} from "@mui/material/Button/Button";
@@ -11,7 +11,7 @@ interface IGoBackButtonProps extends ButtonProps {
 }
 
 const GoBackButton = observer(({...props}: IGoBackButtonProps) => {
-    const history = useHistory()
+    const navigate = useNavigate();
     const isMobile = isMobileHook()
     return (
         <Button
@@ -22,7 +22,7 @@ const GoBackButton = observer(({...props}: IGoBackButtonProps) => {
             variant="outlined"
             color="primary"
             onClick={() => {
-                history.goBack()
+                navigate(-1)
             }}>
             Назад
         </Button>

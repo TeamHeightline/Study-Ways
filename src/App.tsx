@@ -6,12 +6,10 @@
 import React, {Suspense, useEffect} from 'react';
 import './App.css';
 import {Navibar} from './Components/PublicPages/Navbar/Navibar';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import {UserStorage} from './Store/UserStore/UserStore'
-import '@fontsource/roboto/300.css';
 
 
-import {BrowserRouter as Router, Route, Switch,} from "react-router-dom";
+import {BrowserRouter as Router, Route, Routes,} from "react-router-dom";
 
 
 import {ApolloProvider} from "@apollo/client";
@@ -23,7 +21,6 @@ import {CircularProgress, Grid} from "@mui/material";
 import Auth0Login from "./Components/Elements/Auth0/auth0-login";
 import Auth0AfterLogin from "./Components/Elements/Auth0/auth0-after-login";
 import {useAuth0} from "@auth0/auth0-react";
-import Auth0Logout from "./Components/Elements/Auth0/auth0-logout";
 import CardByURL from "./Components/Elements/Cards/CardByURL/UI/card-by-url";
 import SeoData from "./seo-data";
 import ProfilePage from "./Components/Elements/Profile/UI/ProfilePage";
@@ -32,7 +29,7 @@ import axiosClient from "./ServerLayer/QueryLayer/config";
 const EditorsRouter = React.lazy(() => import("./Components/PrivatePages/EditorRouter/EditorsRouter").then(module => ({default: module.EditorsRouter})))
 const MainCardPublicView = React.lazy(() => import("./Components/Elements/Cards/Page/MainCardPublicView").then(module => ({default: module.MainCardPublicView})))
 const QSPlayerByID = React.lazy(() => import("./Components/Elements/QuestionSequence/Public/QSPlayerByID").then(module => ({default: module.QSPlayerByID})))
-const ImageQuestion = React.lazy(() => import("./Components/Elements/Question/QuestionByID/QuestionByID").then(module => ({default: module.QuestionByID})))
+const ImageQuestion = React.lazy(() => import("./Components/Elements/Question/QuestionByID/UI/QuestionByID").then(module => ({default: module.QuestionByID})))
 const SelfStatistic = React.lazy(() => import("./Components/Elements/SimpleSelfStatistic/UI/self-statistic-page").then(module => ({default: module.SelfStatisticPage})))
 const CoursePage = React.lazy(() => import("./Components/Elements/Course/Page/UI/course-page"))
 const CourseByURL = React.lazy(() => import("./Components/Elements/Course/CourseByURL/UI/CourseByURL"))
@@ -68,7 +65,7 @@ const App = observer(() => {
             ClientStorage.changeToken("")
         }
 
-    }, [isLoading])
+    }, [isAuthenticated, isLoading])
 
     if (isLoading) {
         return <Grid container justifyContent={"center"}
@@ -89,28 +86,38 @@ const App = observer(() => {
                                                   sx={{pt: 4}}><CircularProgress/></Grid>}>
                             <RequireLogInAlert/>
                             {/*<ProfileNotification/>*/}
-                            <Switch>
-                                <Route exact path="/login" component={Auth0Login}/>
-                                <Route exact path={"/afterlogin"} component={Auth0AfterLogin}/>
-                                <Route exact path="/unlogin" component={Auth0Logout}/>
-                                <Route path="/editor"
-                                       component={UserStorage.isLogin !== null ? EditorsRouter : Auth0Login}/>
+                            <Routes>
+                                <Route path="/login" element={<div><Auth0Login/></div>}/>
+                                <Route path={"/afterlogin"} element={<div><Auth0AfterLogin/></div>}/>
+                                <Route path="/unlogin" element={<div>Auth0Logout</div>}/>
+                                <Route path="/editor/*" element={<div><EditorsRouter/></div>}/>
 
-                                <Route exact path="/iq/:id" component={ImageQuestion}/>
-                                <Route exact path="/qs/:id" component={QSPlayerByID}/>
-                                <Route exact path={"/exam/:uid"} component={ExamByUID}/>
+                                <Route path="/iq/:id"
+                                       element={<Suspense fallback={<div/>}><ImageQuestion/></Suspense>}/>
 
-                                <Route path="/cards" component={MainCardPublicView}/>
-                                <Route exact path={"/card/:id"} component={CardByURL}/>
-                                <Route exact path={"/selfstatistic"} component={SelfStatistic}/>
+                                <Route path="/qs/:id"
+                                       element={<Suspense fallback={<div/>}><QSPlayerByID/></Suspense>}/>
+                                <Route path={"/exam/:uid"}
+                                       element={<Suspense fallback={<div/>}><ExamByUID/></Suspense>}/>
 
-                                <Route exact path="/courses" component={CoursePage}/>
-                                <Route path={"/course"} component={CourseByURL}/>
-                                <Route exact path={"/profile"} component={ProfilePage}/>
+                                <Route path="/cards"
+                                       element={<Suspense fallback={<div/>}><MainCardPublicView/></Suspense>}/>
+                                <Route path={"/card/:id"}
+                                       element={<Suspense fallback={<div/>}><CardByURL/></Suspense>}/>
+                                <Route path={"/selfstatistic"}
+                                       element={<Suspense fallback={<div/>}><SelfStatistic/></Suspense>}/>
+
+                                <Route path="/courses"
+                                       element={<Suspense fallback={<div/>}><CoursePage/></Suspense>}/>
+                                <Route path={"/course"}
+                                       element={<Suspense fallback={<div/>}><CourseByURL/></Suspense>}/>
+                                <Route path={"/profile"}
+                                       element={<Suspense fallback={<div/>}><ProfilePage/></Suspense>}/>
 
 
-                                <Route path={"/"} component={CoursePage}/>
-                            </Switch>
+                                <Route path={"/"}
+                                       element={<Suspense fallback={<div/>}><CoursePage/></Suspense>}/>
+                            </Routes>
                         </Suspense>
                     </div>
                 </Router>

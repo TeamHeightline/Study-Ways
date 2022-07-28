@@ -1,19 +1,22 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import {Button} from "@mui/material";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
-interface ICloseButtonProps extends React.HTMLAttributes<HTMLDivElement>{
+interface ICloseButtonProps extends React.HTMLAttributes<HTMLDivElement> {
 
 }
-export const CloseButton = observer(({...props}: ICloseButtonProps) =>{
-    const history = useHistory();
-    return(
+
+export const CloseButton = observer(({...props}: ICloseButtonProps) => {
+    const navigate = useNavigate();
+    return (
         <div {...props}>
             <Button
                 fullWidth
                 variant="outlined" color="primary"
-                onClick={() => {history.push(".")}}>
+                onClick={() => {
+                    navigate(-1)
+                }}>
                 Вернуться к выбору серии вопросов
             </Button>
         </div>

@@ -6,7 +6,7 @@ import React from "react";
 export const CreateNewQuestion = observer(() => {
     return (
         <>
-            <Button variant="outlined" color="primary" className="col-12 mt-3 justify-content-center"
+            <Button variant="outlined" color="primary" fullWidth
                     size="large" onClick={() => {
                 QuestionEditorStorage.createNewQuestion()
             }}>

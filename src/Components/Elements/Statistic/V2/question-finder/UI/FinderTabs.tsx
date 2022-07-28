@@ -3,15 +3,15 @@ import React from 'react';
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
-import {useHistory, useRouteMatch} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
-interface IFinderTabsProps extends React.HTMLAttributes<HTMLDivElement>{
+interface IFinderTabsProps extends React.HTMLAttributes<HTMLDivElement> {
 }
-export const FinderTabs = observer(({...props}: IFinderTabsProps) =>{
+
+export const FinderTabs = observer(({...props}: IFinderTabsProps) => {
     const isMobile = isMobileHook()
-    const history = useHistory();
-    const { path } = useRouteMatch();
-    return(
+    const navigate = useNavigate();
+    return (
         <div {...props}>
             <Tabs
                 indicatorColor="primary"
@@ -20,8 +20,8 @@ export const FinderTabs = observer(({...props}: IFinderTabsProps) =>{
                 variant={!isMobile ? "standard" : "scrollable"}
                 scrollButtons={isMobile}
             >
-                <Tab label="Серии вопросов" onClick={()=> history.push(path + "/qs")}/>
-                <Tab label="Все попытки" onClick={()=> history.push(path + "/all")}/>
+                <Tab label="Серии вопросов" onClick={() => navigate("qs")}/>
+                <Tab label="Все попытки" onClick={() => navigate("all")}/>
             </Tabs>
 
         </div>

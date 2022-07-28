@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Paper} from "@mui/material";
-import {QuestionByID} from "../../../Question/QuestionByID/QuestionByID";
+import {QuestionByID} from "../../../Question/QuestionByID/UI/QuestionByID";
 import {CardByIDStore} from "../Store/CardByIDStore";
 
 interface ITestAfterCardProps extends PaperProps {

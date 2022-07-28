@@ -4,7 +4,6 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import {CardActionArea, Chip, Grid, Skeleton, Stack, Tooltip} from "@mui/material";
-import 'fontsource-roboto';
 import {useQuery} from "@apollo/client";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import HttpIcon from '@mui/icons-material/Http';
@@ -14,7 +13,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import BiotechIcon from '@mui/icons-material/Biotech';
 import ArchitectureIcon from '@mui/icons-material/Architecture';
 import FunctionsIcon from '@mui/icons-material/Functions';
-import {GET_CARD_FOR_MICRO_VIEW_BY_ID, useStyles} from "./Struct"
+import {GET_CARD_FOR_MICRO_VIEW_BY_ID} from "./Struct"
 import urlParser from "js-video-url-parser";
 import "js-video-url-parser/lib/provider/youtube";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
@@ -34,18 +33,19 @@ export default function CardMicroView({
                                           onChange,
                                           ...props
                                       }: ICardMicroViewProps) {
-    const classes = useStyles();
     const isDarkTheme = ThemeStoreObject.mode === "dark";
 
     const {data: card_data, refetch} = useQuery(GET_CARD_FOR_MICRO_VIEW_BY_ID, {
         variables: {
             id: cardID
-        },
-        onCompleted: () => refetch()
+        }
     })
     useEffect(() => {
         if (isNowEditableCard) {
-            refetch()
+            if (refetch) {
+                refetch()
+
+            }
         }
     }, [isEditNow, isNowEditableCard])
 
@@ -59,9 +59,15 @@ export default function CardMicroView({
         return (
             // <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
             <div {...props} id={"CMV-loading-skeleton"}>
-                <Card variant="outlined" className={classes.root} onClick={() => {
-                    onChange(cardID)
-                }}>
+                <Card variant="outlined"
+                      sx={{
+                          display: 'flex',
+                          width: "400px",
+                          height: "170px"
+                      }}
+                      onClick={() => {
+                          onChange(cardID)
+                      }}>
                     <Skeleton variant="rectangular" width={130} height={170}/>
                 </Card>
             </div>
@@ -70,7 +76,12 @@ export default function CardMicroView({
     return (
         <div
             {...props}>
-            <Card variant={isDarkTheme ? "outlined" : "elevation"} className={classes.root}
+            <Card variant={isDarkTheme ? "outlined" : "elevation"}
+                  sx={{
+                      display: 'flex',
+                      width: "400px",
+                      height: "170px"
+                  }}
                   onClick={() => {
                       onChange(cardID)
                   }}>

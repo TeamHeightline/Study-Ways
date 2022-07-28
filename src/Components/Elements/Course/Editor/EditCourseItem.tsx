@@ -1,8 +1,7 @@
 import React, {useState} from 'react'
-import {Card, Popover, TextField} from "@mui/material";
+import {Box, Card, Popover, TextField} from "@mui/material";
 import {gql} from "graphql.macro";
 import {useQuery} from "@apollo/client";
-import makeStyles from '@mui/styles/makeStyles';
 import {SERVER_BASE_URL} from "../../../../settings";
 import urlParser from "js-video-url-parser";
 import CardMicroView from "../../Cards/CardView/CardMicroView";
@@ -37,32 +36,9 @@ const GET_CARD_DATA_BY_ID = gql`
 
         }
     }`
-const useStyles = makeStyles(() => ({
-    root: {
-        display: 'flex',
-        width: "550px",
-        height: "170px"
-    },
-    details: {
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    content: {
-        flex: '1 0 auto',
-    },
-    cover: {
-        width: 135,
-        height: 50,
-        objectFit: 'cover'
-    },
-    playIcon: {
-        height: 38,
-        width: 38,
-    },
-}));
+
 
 export default function EditCourseItem({item_id, item_position, ...props}: any) {
-    const classes = useStyles();
     const [itemID, setItemID] = useState(item_id)
     const [cardImage, setCardImage] = useState()
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -128,19 +104,37 @@ export default function EditCourseItem({item_id, item_position, ...props}: any) 
             </Popover>
             <div>
                 {itemID ?
-                    <div className={classes.cover}
-                         onMouseEnter={handlePopoverOpen}
-                         onMouseLeave={handlePopoverClose}
-                         onClick={() => props.editCard(itemID)}>
+                    <Box
+                        sx={{
+                            width: 135,
+                            height: 50,
+                            objectFit: 'cover'
+                        }}
+                        onMouseEnter={handlePopoverOpen}
+                        onMouseLeave={handlePopoverClose}
+                        onClick={() => props.editCard(itemID)}>
                         {Number(card_data?.cardById.cardContentType[2]) === 0 && card_data?.cardById?.videoUrl &&
                             <>
-                                <img className={classes.cover}
-                                     src={"https://img.youtube.com/vi/" + urlParser.parse(card_data?.cardById?.videoUrl)?.id + "/hqdefault.jpg"}/>
+                                <img
+                                    style={{
+                                        width: 135,
+                                        height: 50,
+                                        objectFit: 'cover'
+                                    }}
+                                    src={"https://img.youtube.com/vi/" + urlParser.parse(card_data?.cardById?.videoUrl)?.id + "/hqdefault.jpg"}/>
                             </>}
-                        {(Number(card_data?.cardById.cardContentType[2]) === 1 || Number(card_data?.cardById?.cardContentType[2]) === 2) && cardImage ?
-                            <img className={classes.cover} src={cardImage}/> : null
+                        {(Number(card_data?.cardById.cardContentType[2]) === 1 || Number(card_data?.cardById?.cardContentType[2]) === 2) && cardImage &&
+                            <img style={{
+                                width: 135,
+                                height: 50,
+                                objectFit: 'cover'
+                            }} src={cardImage}/>
                         }
-                    </div> : <div className={classes.cover}/>}
+                    </Box> : <div style={{
+                        width: 135,
+                        height: 50,
+                        objectFit: 'cover'
+                    }}/>}
 
 
                 <TextField

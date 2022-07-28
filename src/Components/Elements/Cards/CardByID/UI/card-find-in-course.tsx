@@ -4,7 +4,7 @@ import {PaperProps} from "@mui/material/Paper/Paper";
 import {Button, Paper, Stack, Typography} from "@mui/material";
 import {Alert, AlertTitle} from "@mui/lab";
 import {CardByIDStore} from "../Store/CardByIDStore";
-import {useHistory, useRouteMatch} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 
 interface ICardFindInCourseProps extends PaperProps {
@@ -12,8 +12,8 @@ interface ICardFindInCourseProps extends PaperProps {
 }
 
 const CardFindInCourse = observer(({card_store, ...props}: ICardFindInCourseProps) => {
-    const history = useHistory()
-    const {path} = useRouteMatch();
+    const navigate = useNavigate()
+    const {pathname} = useLocation();
     const cardNOTFindInCourses = card_store.findInCourseArrayForUI?.length == 0
 
     if (cardNOTFindInCourses) {
@@ -35,14 +35,14 @@ const CardFindInCourse = observer(({card_store, ...props}: ICardFindInCourseProp
                                 <Button title={"Перейти"}
                                         color={"info"}
                                         onClick={() => {
-                                            if (path == "/course") {
-                                                history.replace("/course?" + "id=" + course.course_id +
+                                            if (pathname == "/course") {
+                                                navigate("/course?" + "id=" + course.course_id +
                                                     "&activePage=" + course.position.activePage +
                                                     "&selectedPage=" + course.position.selectedPage +
                                                     "&selectedRow=" + course.position.selectedRow +
                                                     "&selectedIndex=" + course.position.selectedIndex)
                                             } else {
-                                                history.push("/course?" + "id=" + course.course_id +
+                                                navigate("/course?" + "id=" + course.course_id +
                                                     "&activePage=" + course.position.activePage +
                                                     "&selectedPage=" + course.position.selectedPage +
                                                     "&selectedRow=" + course.position.selectedRow +

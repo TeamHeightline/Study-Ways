@@ -7,7 +7,7 @@ import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDown
 import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
 import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
 import {CardByIDStore} from "../Store/CardByIDStore";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 
 interface ICardAuthorNavigationProps extends PaperProps {
@@ -26,10 +26,10 @@ const CardAuthorNavigation = observer(({card_store, ...props}: ICardAuthorNaviga
     const isShowNavigation = isNavigationEnabled &&
         (cardNextID || cardNextID || cardDownID || cardBeforeID)
 
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const goToCard = (cardID) => {
-        history.push("/card/" + cardID)
+        navigate("/card/" + cardID)
     }
     if (!isShowNavigation) {
         return <div/>

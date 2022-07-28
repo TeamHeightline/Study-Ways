@@ -6,7 +6,7 @@ import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRig
 import {UserStorage} from "../../../../../Store/UserStore/UserStore";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {CardByIDStore} from "../Store/CardByIDStore";
 
 interface IDefaultCardNavigationProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -14,14 +14,14 @@ interface IDefaultCardNavigationProps extends React.HTMLAttributes<HTMLDivElemen
 }
 
 const DefaultCardNavigation = observer(({card_store, ...props}: IDefaultCardNavigationProps) => {
-    const history = useHistory()
+    const navigate = useNavigate()
     const card_id = Number(card_store?.card_data?.id)
     const isAdmin = UserStorage.userAccessLevel == "ADMIN"
     const goToCard = (stepUpID: number) => {
-        history.push("/card/" + (card_id + stepUpID))
+        navigate("/card/" + (card_id + stepUpID))
     }
     const openCardForEdit = () => {
-        history.push("/editor/card2/card/" + card_id)
+        navigate("/editor/card2/card/" + card_id)
     }
     return (
         <div {...props}>

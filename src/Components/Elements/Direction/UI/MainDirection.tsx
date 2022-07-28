@@ -5,7 +5,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import {DirectionStore} from "../Store/DirectionStore";
 import BlurLinearIcon from "@mui/icons-material/BlurLinear";
-import {QuestionByID} from "../../Question/QuestionByID/QuestionByID";
+import {QuestionByID} from "../../Question/QuestionByID/UI/QuestionByID";
 import {Card, CardActionArea, Typography} from "@mui/material";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import {QSPlayerByID} from "../../QuestionSequence/Public/QSPlayerByID";

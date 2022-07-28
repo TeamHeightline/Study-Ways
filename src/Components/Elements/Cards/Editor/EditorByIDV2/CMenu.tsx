@@ -2,16 +2,14 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {Button, Divider, FormControl, InputLabel, ListItemIcon, Menu, MenuItem, Select} from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
-import Switch from "@mui/material/Switch";
+import Routes from "@mui/material/Switch";
 import CopyrightIcon from "@mui/icons-material/Copyright";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import HttpIcon from "@mui/icons-material/Http";
 import ImageIcon from "@mui/icons-material/Image";
 import CodeIcon from "@mui/icons-material/Code";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
-import {
-    CESObject,
-} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
+import {CESObject,} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
 
 export const CMenu = observer(({...props}) => {
     const [anchorEl, setAnchorEl] = React.useState<any>(null);
@@ -27,7 +25,7 @@ export const CMenu = observer(({...props}) => {
         <div {...props}>
             <div>
                 <Button
-                    
+
                     variant="outlined"
                     color="primary"
                     onClick={handleClick}
@@ -62,7 +60,7 @@ export const CMenu = observer(({...props}) => {
                     <Divider/>
 
                     <MenuItem onClick={CESObject.changeField("isCardUseCopyright", "checked")}>
-                        <Switch
+                        <Routes
                             checked={CESObject.getField("isCardUseCopyright", false)}
                             onChange={CESObject.changeField("isCardUseCopyright", "checked")}
                             color="secondary"
@@ -74,7 +72,7 @@ export const CMenu = observer(({...props}) => {
                     </MenuItem>
 
                     <MenuItem onClick={CESObject.changeField("isCardUseArrowNavigation", "checked")}>
-                        <Switch
+                        <Routes
                             checked={CESObject.getField("isCardUseArrowNavigation", false)}
                             onChange={CESObject.changeField("isCardUseArrowNavigation", "checked")}
                             color="secondary"
@@ -87,7 +85,7 @@ export const CMenu = observer(({...props}) => {
 
                     {/*<Divider/>*/}
                     {/*<MenuItem onClick={CESObject.changeField("isCardUseAdditionalText", "checked")}>*/}
-                    {/*    <Switch*/}
+                    {/*    <Routes*/}
                     {/*        checked={CESObject.getField("isCardUseAdditionalText", false)}*/}
                     {/*        onChange={CESObject.changeField("isCardUseAdditionalText", "checked")}*/}
                     {/*        name="checkedB"*/}
@@ -100,7 +98,7 @@ export const CMenu = observer(({...props}) => {
                     {/*</MenuItem>*/}
                     <Divider/>
                     <MenuItem onClick={CESObject.changeField("isCardUseTestInCard", "checked")}>
-                        <Switch
+                        <Routes
                             checked={CESObject.getField("isCardUseTestInCard", false)}
                             onChange={CESObject.changeField("isCardUseTestInCard", "checked")}
                             name="checkedB"
@@ -112,7 +110,7 @@ export const CMenu = observer(({...props}) => {
                         Тест в карточке
                     </MenuItem>
                     <MenuItem onClick={CESObject.changeField("isCardUseTestBeforeCard", "checked")}>
-                        <Switch
+                        <Routes
                             checked={CESObject.getField("isCardUseTestBeforeCard", false)}
                             onChange={CESObject.changeField("isCardUseTestBeforeCard", "checked")}
                             name="checkedB"

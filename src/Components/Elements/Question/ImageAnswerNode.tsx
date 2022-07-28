@@ -4,45 +4,9 @@ import {CardActionArea} from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
 import axios from "axios";
 import {SERVER_BASE_URL} from "../../../settings";
 
-const useStyles = makeStyles(() =>
-    createStyles({
-        root: {
-            display: 'flex',
-            width: 385,
-            height: 400,
-            // paddingBottom: '200px'
-
-        },
-        media: {
-            height: 240,
-        },
-        fullHeightMedia: {
-            height: 400
-        },
-
-        details: {
-            display: 'flex',
-            flexDirection: 'column',
-        },
-        content: {
-            flex: '1 0 auto',
-        },
-        cover: {
-            width: 151,
-        },
-
-        playIcon: {
-            height: 38,
-            width: 38,
-        },
-
-    }),
-);
 
 export default function ImageAnswerNode(props: any) {
     const [answerImgUrl, setAnswerImgUrl] = useState('')
@@ -60,7 +24,6 @@ export default function ImageAnswerNode(props: any) {
     useEffect(() => {
         fetchData()
     }, [props.answerIndex]);
-    const classes = useStyles();
     let borderColor = props?.selected && props?.selected?.indexOf(props?.answer?.id) !== -1 ? "#71c3ef" : ""
     if (props.borderIsTrueStrategy) {
         borderColor = props.answer.isTrue ? "#2196f3" : "#f50057"
@@ -69,8 +32,13 @@ export default function ImageAnswerNode(props: any) {
     return (
         <div className=" mt-3">
             {/*"#93cdf3"*/}
-            <Card variant="outlined" className={classes.root}
-                  style={{backgroundColor: borderColor}}
+            <Card variant="outlined"
+                  sx={{
+                      display: 'flex',
+                      width: 385,
+                      height: 400, backgroundColor: borderColor
+                  }}
+
                   onClick={() => {
                       props.onChange(props.answer.id)
                       setTimeout(changeIsSelected, 150, !isSelected)
@@ -79,7 +47,7 @@ export default function ImageAnswerNode(props: any) {
                     {!props?.answer.isImageDeleted && answerImgUrl ?
                         <CardMedia
                             style={{opacity: props.selected.indexOf(props.answer.id) !== -1 ? 0.5 : 1}}
-                            className={(props?.answer?.text || props?.answerText) ? classes.media : classes.fullHeightMedia}
+                            sx={{height: (props?.answer?.text || props?.answerText) ? 240 : 400}}
                             image={answerImgUrl}
                             title="Contemplative Reptile"
                         /> : null}

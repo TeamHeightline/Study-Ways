@@ -4,7 +4,7 @@ import {CourseMicroStoreByID, positionDataI} from "../Store/CourseMicroStoreByID
 import {Card, CardActionArea, Stack, Tooltip} from "@mui/material";
 import CourseNavigation from "./CourseNavigation";
 import ArrowNavigation from "./ArrowNavigation";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
 
 interface ICourseMicroViewProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -27,7 +27,7 @@ const CourseMicroView = observer(({
                                       ...props
                                   }: ICourseMicroViewProps) => {
     const [courseStore] = useState(new CourseMicroStoreByID(course_id))
-    const history = useHistory()
+    const navigate = useNavigate();
     const isMobile = isMobileHook()
     useEffect(() => courseStore.changeID(course_id), [course_id])
 
@@ -75,7 +75,7 @@ const CourseMicroView = observer(({
                                     courseStore.id + ")"
                             }}
                             onClick={() => {
-                                history.push("./course?" + "id=" + course_id +
+                                navigate("./course?" + "id=" + course_id +
                                     "&activePage=1" +
                                     "&selectedPage=1" +
                                     "&selectedRow=0" +

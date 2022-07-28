@@ -6,7 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import UIQuestionSequenceSelector from "./ui-question-sequence-selector";
 import {createExamAsync} from "../redux-store/async-actions";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {LoadingButton} from "@mui/lab";
 import {RootState} from "../../../../../../root-redux-store/RootStore";
 
@@ -20,14 +20,15 @@ export default function UICreateExamDialog({...props}: IUICreateExamDialogProps)
     const examQSID = useSelector((state: RootState) => state?.examEditorPageReducer?.exam_qs_id_for_create)
     const pendingExamCreation = useSelector((state: RootState) => state?.examEditorPageReducer?.create_exam_pending)
     const dispatch: any = useDispatch();
-    const history = useHistory();
+    const navigate = useNavigate();
+    ;
 
     function examNameHandler(event: React.ChangeEvent<HTMLInputElement>) {
         dispatch(changeExamNameForCreate(event.target.value))
     }
 
     function redirectCallBackFn(examID: number) {
-        history.push("/editor/exam/select/" + examID)
+        navigate("/editor/exam/select/" + examID)
     }
 
     function createExamHandler() {

@@ -1,22 +1,19 @@
 import {observer} from "mobx-react";
 import React from 'react';
-import {RouteComponentProps} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import CardByID from "../../CardByID/UI/card-by-id";
 
-interface RouteProps {
-    id?: string
-}
 
-interface ICardByURLProps extends RouteComponentProps<RouteProps> {
+interface ICardByURLProps {
 
 }
 
 const CardByURL = observer(({...props}: ICardByURLProps) => {
-    const id_from_url = props.match.params.id;
+    const {id} = useParams();
 
     return (
         <div>
-            <CardByID card_id={Number(id_from_url)}/>
+            <CardByID card_id={Number(id)}/>
         </div>
     )
 })

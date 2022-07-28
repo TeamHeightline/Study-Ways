@@ -1,13 +1,17 @@
 import {makeAutoObservable, reaction, toJS} from "mobx";
-import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
-import {GET_ENCRYPT_QUESTION_DATA_BY_ID, SAVE_DETAIL_STATISTIC, SAVE_DETAIL_STATISTIC_WITH_QS} from "./Struct";
-import {SameAnswerNode} from "./SameAnswerNode";
+import {ClientStorage} from "../../../../../Store/ApolloStorage/ClientStorage";
+import {
+    GET_ENCRYPT_QUESTION_DATA_BY_ID,
+    SAVE_DETAIL_STATISTIC,
+    SAVE_DETAIL_STATISTIC_WITH_QS
+} from "../../../../../Store/PublicStorage/QSPage/QuestionSequencePlayer/Struct";
+import {SameAnswerNode} from "../../../../../Store/PublicStorage/QSPage/QuestionSequencePlayer/SameAnswerNode";
 import {shuffle} from "lodash"
-import {UserStorage} from "../../../UserStore/UserStore";
+import {UserStorage} from "../../../../../Store/UserStore/UserStore";
 import CryptoJS from 'crypto-js'
-import {SERVER_BASE_URL} from "../../../../settings";
+import {SERVER_BASE_URL} from "../../../../../settings";
 
-export class SameQuestionPlayer {
+export class QuestionPlayerStore {
     constructor(ownStore, questionID) {
         makeAutoObservable(this)
         reaction(() => this.questionID, () => this.loadQuestionDataFromServer())
@@ -385,6 +389,17 @@ export class SameQuestionPlayer {
         }
     }
 
+    answerIndexForCreateErrorReport: number | null = null
+
+    onReportAnswerButtonClick = (index: number) => {
+        this.answerIndexForCreateErrorReport = index
+    }
+
+    answerReportText = ''
+
+    onCloseAnswerReportDialog = () => {
+        this.answerIndexForCreateErrorReport = null
+    }
 
 }
 

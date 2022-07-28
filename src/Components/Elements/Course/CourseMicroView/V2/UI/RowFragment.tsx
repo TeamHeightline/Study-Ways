@@ -3,7 +3,7 @@ import {IconButton, Popover} from "@mui/material";
 import CardMicroView from "../../../../Cards/CardView/CardMicroView";
 import {observer} from "mobx-react";
 import {CourseMicroStoreByID} from "../Store/CourseMicroStoreByID";
-import {useHistory, useRouteMatch} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 import NoiseControlOffIcon from '@mui/icons-material/NoiseControlOff';
 
@@ -17,8 +17,8 @@ const RowFragment = observer(({CRI, courseStore}: RowFragmentI) => {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
     const [hoveredItemID, setHoveredItemID] = useState<number | undefined>(undefined)
     const [hoverItemLevel, setHoveredItemLevel] = useState<number>(0)
-    const {path} = useRouteMatch();
-    const history = useHistory()
+    const {pathname} = useLocation();
+    const navigate = useNavigate();
     const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -76,19 +76,11 @@ const RowFragment = observer(({CRI, courseStore}: RowFragmentI) => {
                                         }
                                         courseStore.isPositionChanged = true
                                         if (!courseStore.isIgnoreRouteAfterSelect) {
-                                            if (path == "/course") {
-                                                history.replace("./course?" + "id=" + courseStore.id +
-                                                    "&activePage=" + courseStore.positionData.activePage +
-                                                    "&selectedPage=" + courseStore.positionData.activePage +
-                                                    "&selectedRow=" + CRI +
-                                                    "&selectedIndex=" + eIndex)
-                                            } else {
-                                                history.push("./course?" + "id=" + courseStore.id +
-                                                    "&activePage=" + courseStore.positionData.activePage +
-                                                    "&selectedPage=" + courseStore.positionData.activePage +
-                                                    "&selectedRow=" + CRI +
-                                                    "&selectedIndex=" + eIndex)
-                                            }
+                                            navigate("/course?" + "id=" + courseStore.id +
+                                                "&activePage=" + courseStore.positionData.activePage +
+                                                "&selectedPage=" + courseStore.positionData.activePage +
+                                                "&selectedRow=" + CRI +
+                                                "&selectedIndex=" + eIndex)
                                         }
                                     }}
                                     style={{opacity: !!element?.CourseElement?.id ? "100%" : "0%"}}

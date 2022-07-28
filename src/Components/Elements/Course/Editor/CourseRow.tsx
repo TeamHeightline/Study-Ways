@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import CourseFragment from "./CourseFragment";
+import {Box} from "@mui/material";
 
 export default function CourseRow({row, openPageIndex, ...props}: any) {
     const [RowState, setRow] = useState(row.SameLine)
@@ -8,8 +9,8 @@ export default function CourseRow({row, openPageIndex, ...props}: any) {
     }, [row.SameLine])
     // console.log(data)
     return (
-        <div>
-            <div className="mt-3">
+        <Box>
+            <Box sx={{mt: 1}}>
                 <CourseFragment key={openPageIndex + "row" + props.lIndex + "course" + props.cIndex}
                                 fragment={RowState[openPageIndex - 1]} fIndex={openPageIndex - 1}
                                 lIndex={props.lIndex} cIndex={props.cIndex}
@@ -24,7 +25,7 @@ export default function CourseRow({row, openPageIndex, ...props}: any) {
                                     setRow(newRow)
                                     props.updateCourseRow(newRow)
                                 })}/>
-            </div>
-        </div>
+            </Box>
+        </Box>
     )
 }

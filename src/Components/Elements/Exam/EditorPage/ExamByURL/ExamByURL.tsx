@@ -1,17 +1,14 @@
 import {Paper} from "@mui/material";
-import {RouteComponentProps} from "react-router-dom";
 import ExamByID from "../ExamByID/UI/exam-by-id-page";
+import {useParams} from "react-router-dom";
 
-interface routeProps {
-    examID: string
-}
 
-interface IExamEditorByURLProps extends RouteComponentProps<routeProps> {
+interface IExamEditorByURLProps {
 
 }
 
 export default function ExamEditorByURL({...props}: IExamEditorByURLProps) {
-    const examID = props.match.params.examID
+    const {examID} = useParams();
     if (!examID) {
         return <div/>
     }

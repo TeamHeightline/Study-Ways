@@ -2,7 +2,7 @@ import {styled} from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
 
 
-const ThemeModeSwitch = styled(Switch)(({theme}) => ({
+const ThemeModeRoutes = styled(Switch)(({theme}) => ({
     width: 62,
     height: 34,
     padding: 7,
@@ -49,4 +49,4 @@ const ThemeModeSwitch = styled(Switch)(({theme}) => ({
     },
 }));
 
-export default ThemeModeSwitch
+export default ThemeModeRoutes

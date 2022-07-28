@@ -4,7 +4,6 @@ import Upload from 'antd/es/upload';
 
 import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
 import {Collapse, Stack, TextField, Typography} from "@mui/material";
-import "@fontsource/raleway";
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Paper from "@mui/material/Paper";

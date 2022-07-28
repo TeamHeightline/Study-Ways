@@ -3,21 +3,23 @@ import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
 import {UserStorage} from "../../../UserStore/UserStore";
 import {GET_QS_DATA_BY_ID} from "./Struct";
 import {Query} from "../../../../SchemaTypes";
-import {SameQuestionPlayer} from "./SameQuestionPlayer";
+import {QuestionPlayerStore} from "../../../../Components/Elements/Question/QuestionByID/Store/QuestionPlayerStore";
 import {shuffle} from "lodash"
 
 export class QSPlayerStore {
-    constructor(){
+    constructor() {
         makeAutoObservable(this)
 
-        reaction(() =>this.questionSequenceID, () => {this.loadQSDataFromServer()})
+        reaction(() => this.questionSequenceID, () => {
+            this.loadQSDataFromServer()
+        })
     }
 
     //ID той последовательности вопросов, которую мы хотим отредактировать
     questionSequenceID: any = null
 
     //устанавливаем или меняем id серии вопросов
-    setQSID(id){
+    setQSID(id) {
         this.questionSequenceID = id
     }
 
@@ -48,42 +50,45 @@ export class QSPlayerStore {
     hardLevelOfHelpText = '0'
 
     //обработчик изменений сложности подсказки
-    changeHardLevelOfHelpText(newHardLevelOfHelpText){
+    changeHardLevelOfHelpText(newHardLevelOfHelpText) {
         this.hardLevelOfHelpText = newHardLevelOfHelpText
     }
 
     //Был ли выбран уровень сложности для всей серии вопросов
     HardLevelHasBeenSelected = false
 
-    setHardLevelHasBeenSelected(){
+    setHardLevelHasBeenSelected() {
         this.HardLevelHasBeenSelected = true
     }
 
     //Обработчик переключения между вопросами
-    changeSelectedQuestionIndex(newIndex){
+    changeSelectedQuestionIndex(newIndex) {
         this.selectedQuestionIndex = newIndex
     }
 
-    get activeQuestionStoreInstance(){
-        return(this.questionsStoreArray[this.selectedQuestionIndex])
+    get activeQuestionStoreInstance() {
+        return (this.questionsStoreArray[this.selectedQuestionIndex])
     }
+
     //------------------------------------------------------
 
 
     //Подгрузка данных с сервера о серии вопросов
     loadQSDataFromServer() {
-        if(this.questionSequenceID !== null && !this.allDataNasBeenLoaded){
+        if (this.questionSequenceID !== null && !this.allDataNasBeenLoaded) {
             const __questionsStoreArray: any = []
-            this.clientStorage.client.query<Query, {id: number}>(
-                {query: GET_QS_DATA_BY_ID,
+            this.clientStorage.client.query<Query, { id: number }>(
+                {
+                    query: GET_QS_DATA_BY_ID,
                     variables: {
-                    id: Number(this.questionSequenceID)
-                }, fetchPolicy: "network-only"})
+                        id: Number(this.questionSequenceID)
+                    }, fetchPolicy: "network-only"
+                })
                 .then((data) => {
                     this.name = String(data?.data?.questionSequenceById?.name)
                     //Перемешиваем вопросы
-                    shuffle(data?.data?.questionSequenceById?.sequenceData?.sequence).map((sameQuestion) =>{
-                        __questionsStoreArray.push(new SameQuestionPlayer(this, Number(sameQuestion)))
+                    shuffle(data?.data?.questionSequenceById?.sequenceData?.sequence).map((sameQuestion) => {
+                        __questionsStoreArray.push(new QuestionPlayerStore(this, Number(sameQuestion)))
                     })
                     this.questionsStoreArray = __questionsStoreArray
 

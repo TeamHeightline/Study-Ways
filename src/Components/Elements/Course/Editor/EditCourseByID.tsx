@@ -2,13 +2,24 @@ import React, {useEffect, useState} from 'react'
 import CourseRow from "./CourseRow";
 import {gql} from "graphql.macro";
 import {useMutation, useQuery} from "@apollo/client";
-import {Alert, CircularProgress, Pagination, Stack} from '@mui/material';
-import {Button, ButtonGroup, Grid, Snackbar, TextField, Typography} from "@mui/material";
+import {
+    Alert,
+    Box,
+    Button,
+    ButtonGroup,
+    CircularProgress,
+    Grid,
+    Pagination,
+    Snackbar,
+    Stack,
+    TextField,
+    Typography
+} from '@mui/material';
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 import AddIcon from '@mui/icons-material/Add';
 import {SERVER_BASE_URL} from "../../../../settings";
 import {EditorPage} from "../../Cards/Editor/EditorPageV2/Page";
-import {useHistory, useRouteMatch} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const GET_COURSE_BY_ID = gql`
     query GET_COURSE_BY_ID($id: ID!){
@@ -37,8 +48,8 @@ export default function EditCourseByID({course_id, ...props}: any) {
     const [stateOfSave, setStateOfSave] = useState(2) // 0- не сохранено 1- сохранение 2- сохранено
     const [rerender, setRerender] = useState(false)
     const isMobile = isMobileHook()
-    const history = useHistory()
-    const {path} = useRouteMatch();
+    const navigate = useNavigate();
+    const {pathname} = useLocation();
 
 
     const [update_course] = useMutation(UPDATE_COURSE_DATA, {
@@ -145,65 +156,63 @@ export default function EditCourseByID({course_id, ...props}: any) {
         )
     }
     return (
-        <div className="mt-4 pl-2">
-            <div className="pl-md-5">
-                {course_id ?
+        <Box sx={{pl: {xs: 0, md: 4}, mt: {xs: 0, md: 2}}}>
+            <Stack direction={"column"} sx={{maxWidth: 300}} spacing={1}>
+                {course_id &&
                     <Button
-                        className="col-md-2 col-12"
                         variant="outlined" color="primary" onClick={() => {
                         props.onChange("goBack")
                     }}>
                         Назад
-                    </Button> : null}
-                <br/>
-                <TextField className=" mt-2 col-md-4 col-12" value={courseName}
+                    </Button>}
+
+                <TextField value={courseName}
                            onChange={(e) => {
                                setCourseName(e.target.value)
                                autoSave()
                            }} label="Название курса" variant="filled" size="small" multiline/>
-                <div>
-                    {course_id &&
-                        <Button
-                            color="primary"
-                            variant="outlined"
-                            component="label"
-                            size="small"
-                            className="col-12 col-md-2 mt-2"
-                        >
-                            <input type="file" hidden name="file" onChange={changeHandlerForCardCourseImage}/>
-                            Изображение для курса
-                        </Button>}
-                    <br/>
-                    <Typography>
-                        {course_id && cardCourseImageName && <div>{isMobile ? cardCourseImageName.slice(0, 25) + "..."
-                            : cardCourseImageName}</div>}
-                    </Typography>
-                </div>
-                {CourseLinesData.length !== 0 &&
-                    <Grid container className="pr-md-5 mt-2">
-                        <Grid item xs={12} md={'auto'}>
-                            <Pagination
-                                count={CourseLinesData[0].SameLine.length} shape="rounded"
-                                onChange={(e, value) => {
-                                    setOpenPageIndex(value)
-                                }}
-                                size={isMobile ? "small" : "large"} variant="outlined" color="secondary"/>
-                        </Grid>
-                        <Grid item xs={12} md={1} style={{paddingLeft: 12}}>
-                            <ButtonGroup style={{zoom: "109%"}}>
-                                <Button onClick={() => addCourseFragment()}>
-                                    <AddIcon/>
-                                </Button>
-                            </ButtonGroup>
-                        </Grid>
-                    </Grid>}
-            </div>
-            <div className="pl-md-5 pr-md-5" style={{overflow: "auto"}}>
+
+                {course_id &&
+                    <Button
+                        color="primary"
+                        variant="outlined"
+                        component="label"
+                        size="small"
+                    >
+                        <input type="file" hidden name="file" onChange={changeHandlerForCardCourseImage}/>
+                        Изображение для курса
+                    </Button>}
+
+                <Typography>
+                    {course_id && cardCourseImageName && <div>{isMobile ? cardCourseImageName.slice(0, 25) + "..."
+                        : cardCourseImageName}</div>}
+                </Typography>
+            </Stack>
+
+            {CourseLinesData.length !== 0 &&
+                <Stack direction={"row"} alignItems={"flex-end"} sx={{mt: 2}}>
+                    <Grid item xs={12} md={'auto'}>
+                        <Pagination
+                            count={CourseLinesData[0].SameLine.length} shape="rounded"
+                            onChange={(e, value) => {
+                                setOpenPageIndex(value)
+                            }}
+                            size={isMobile ? "small" : "large"} variant="outlined" color="secondary"/>
+                    </Grid>
+                    <Grid item xs={12} md={1} sx={{mt: 1}}>
+                        <ButtonGroup style={{zoom: "109%"}}>
+                            <Button onClick={() => addCourseFragment()}>
+                                <AddIcon/>
+                            </Button>
+                        </ButtonGroup>
+                    </Grid>
+                </Stack>}
+            <Box sx={{overflow: "auto", mb: 1}}>
                 {CourseLinesData.length !== 0 && CourseLinesData.map((line, lIndex) => {
                     return (
                         <CourseRow
                             editCard={(item_id) => {
-                                history.push(path + "/card/" + item_id)
+                                navigate(pathname + "/card/" + item_id)
                             }}
                             key={lIndex + "course" + props.cIndex} row={line} lIndex={lIndex}
                             cIndex={props.cIndex}
@@ -219,18 +228,7 @@ export default function EditCourseByID({course_id, ...props}: any) {
                             }}/>
                     )
                 })}
-            </div>
-            {/*<div style={{overflow: "auto"}}>*/}
-            {/*    <MainCardEditor*/}
-            {/*        {...{activeEditCard, setActiveEditCard}}*/}
-
-            {/*        returnStateOfSave={(data) =>{*/}
-            {/*            setCardStateOfSave(data)*/}
-            {/*        }}*/}
-            {/*        onSetIsEditNow={(data) =>{*/}
-            {/*            setIsCardEditNow(data)*/}
-            {/*    }}/>*/}
-            {/*</div>*/}
+            </Box>
             <EditorPage/>
             <Snackbar open={true}>
                 {isCardEditNow ?
@@ -255,7 +253,7 @@ export default function EditCourseByID({course_id, ...props}: any) {
                     </Alert>
                 }
             </Snackbar>
-        </div>
+        </Box>
     )
 }
 

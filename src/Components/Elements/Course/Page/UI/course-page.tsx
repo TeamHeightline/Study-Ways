@@ -6,7 +6,7 @@ import {useSelector} from "react-redux";
 import CourseByData from "../../../../Shared/CourseByData/CourseMicroView";
 import {Helmet} from "react-helmet";
 import {loadCourseDataThunk} from "../redux-store/AsyncFunctions";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 interface ICoursePageProps extends BoxProps {
 
@@ -14,7 +14,7 @@ interface ICoursePageProps extends BoxProps {
 
 export default function CoursePage({...props}: ICoursePageProps) {
     const dispatch = useAppDispatch()
-    const history = useHistory()
+    const navigate = useNavigate();
 
     const courses = useSelector((state: RootState) => state.coursePage.courses_data);
     useEffect(() => {
@@ -36,7 +36,7 @@ export default function CoursePage({...props}: ICoursePageProps) {
                             <CourseByData
                                 courseData={course_data}
                                 onChangePosition={(position) => {
-                                    history.push("/course?" + "id=" + course_data.id +
+                                    navigate("/course?" + "id=" + course_data.id +
                                         "&activePage=" + position.activePage +
                                         "&selectedPage=" + position.activePage +
                                         "&selectedRow=" + position.selectedRow +

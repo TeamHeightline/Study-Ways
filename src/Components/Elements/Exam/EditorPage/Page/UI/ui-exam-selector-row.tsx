@@ -1,17 +1,17 @@
 import {TableCell, TableRow} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {IExamDataWithQSData} from "../../../../../../ServerLayer/Types/exam.types";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 interface IUIExamSelectorRowProps extends PaperProps {
     exam: IExamDataWithQSData
 }
 
 export default function UIExamSelectorRow({exam, ...props}: IUIExamSelectorRowProps) {
-    const history = useHistory();
+    const navigate = useNavigate();
 
     function openExamForEdit() {
-        history.push("/editor/exam/select/" + exam.id)
+        navigate("/editor/exam/select/" + exam.id)
     }
 
     return (

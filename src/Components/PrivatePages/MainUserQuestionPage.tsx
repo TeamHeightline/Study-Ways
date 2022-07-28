@@ -13,7 +13,7 @@ import {
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import Collapse from "@mui/material/Collapse";
-import {QuestionByID} from "../Elements/Question/QuestionByID/QuestionByID";
+import {QuestionByID} from "../Elements/Question/QuestionByID/UI/QuestionByID";
 import {observer} from "mobx-react";
 import {QuestionPageStorage} from "../../Store/PublicStorage/QuestionPage/QuestionPageStore";
 import {toJS} from "mobx";

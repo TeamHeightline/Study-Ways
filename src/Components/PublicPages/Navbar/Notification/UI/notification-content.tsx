@@ -3,7 +3,7 @@ import {BoxProps} from "@mui/material/Box/Box";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../../root-redux-store/RootStore";
 import CardMicroView from "../../../../Elements/Cards/CardView/CardMicroView";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 interface INotificationContentProps extends BoxProps {
 
@@ -11,7 +11,7 @@ interface INotificationContentProps extends BoxProps {
 
 export default function NotificationContent({...props}: INotificationContentProps) {
     const notifications = useSelector((state: RootState) => state.notification.notifications)
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const reverted_notifications = Array.isArray(notifications) && notifications.length > 0 ?
         [...notifications].reverse() : []
@@ -30,7 +30,7 @@ export default function NotificationContent({...props}: INotificationContentProp
                                 return (
                                     <CardMicroView key={index} cardID={card_id}
                                                    onClick={() => {
-                                                       history.push("/card/" + card_id)
+                                                       navigate("/card/" + card_id)
                                                    }}/>
                                 )
                             })

@@ -1,11 +1,11 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {Button, Divider, ListItemIcon, Menu, MenuItem, IconButton, Tooltip} from "@mui/material";
+import {Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip} from "@mui/material";
 import {DarkMode} from "@mui/icons-material";
 import {UserStorage} from "../../../Store/UserStore/UserStore";
 import {useAuth0} from "@auth0/auth0-react";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import EditIcon from '@mui/icons-material/Edit';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
@@ -22,7 +22,8 @@ interface INavbarMenuProps extends PaperProps {
 
 const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const history = useHistory();
+    const navigate = useNavigate();
+    ;
 
     const {logout, isAuthenticated} = useAuth0();
 
@@ -62,7 +63,7 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
                     disabled={!UserStorage.isLogin}
                     onClick={() => {
                         handleClose()
-                        history.push('/profile')
+                        navigate('/profile')
                     }}>
                     <ListItemIcon>
                         <AccountBoxIcon fontSize="small"/>
@@ -73,7 +74,7 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
                     disabled={UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER"}
                     onClick={() => {
                         handleClose()
-                        history.push('/editor')
+                        navigate('/editor')
                     }}>
                     <ListItemIcon>
                         <EditIcon fontSize="small"/>
@@ -84,7 +85,7 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
                     disabled={UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER"}
                     onClick={() => {
                         handleClose()
-                        history.push('/editor/allquestions')
+                        navigate('/editor/allquestions')
                     }}>
                     <ListItemIcon>
                         <QuestionMarkIcon fontSize="small"/>
@@ -93,7 +94,7 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
                 </MenuItem>
                 <MenuItem disabled={!UserStorage.isLogin}
                           onClick={() => {
-                              history.push('/selfstatistic')
+                              navigate('/selfstatistic')
                           }}>
                     <ListItemIcon>
                         <StackedLineChartIcon fontSize="small"/>

@@ -3,7 +3,7 @@ import {Alert, CircularProgress, Grid, Paper} from '@mui/material';
 import AlertTitle from '@mui/material/AlertTitle';
 import {UserStorage} from '../../../Store/UserStore/UserStore'
 import {observer} from "mobx-react";
-import {Route, Switch, useRouteMatch} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import {isMobileHook} from "../../../CustomHooks/isMobileHook";
 import RouterMenu from "./router-menu";
 
@@ -23,7 +23,6 @@ const CheckQuestion = React.lazy(() => import("../../Elements/CheckQuestion/Page
 
 
 export const EditorsRouter = observer(() => {
-    const {path} = useRouteMatch();
     const isMobile = isMobileHook()
 
     if (UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER") {
@@ -38,24 +37,82 @@ export const EditorsRouter = observer(() => {
     return (
         <Paper elevation={0}>
             <RouterMenu/>
-            <Suspense fallback={<Grid container justifyContent={"center"} sx={{pt: 4}}><CircularProgress/></Grid>}>
-                <Paper elevation={0} sx={{ml: isMobile ? 0 : 8}}>
-                    <Switch>
-                        <Route path={`${path}/course`} component={MainCourseEditor}/>
-                        <Route path={`${path}/se`} component={SearchingElementsEditor}/>
-                        <Route path={`${path}/question`} component={QuestionEditor}/>
-                        <Route path={`${path}/qse`} component={QuestionSequenceMainEditor}/>
-                        <Route path={`${path}/allquestions`} component={MainUserQuestionPage}/>
-                        <Route path={`${path}/statistic2`} component={StatisticV2}/>
-                        <Route path={`${path}/card2`} component={CardEditorV2}/>
-                        <Route path={`${path}/exam`} component={ExamEditorPage}/>
-                        <Route path={`${path}/checkquestion`} component={CheckQuestion}/>
-                        <Route path={`${path}/status-editor`} component={StatusEditorPage}/>
-                        <Route path={`${path}/`} component={MainCourseEditor}/>
-                    </Switch>
-                </Paper>
-            </Suspense>
+            <Paper elevation={0} sx={{ml: isMobile ? 0 : 8}}>
+                <Routes>
+                    <Route path={`/course`} element={
+                        <Suspense fallback={<Grid container justifyContent={"center"}
+                                                  sx={{pt: 4}}><CircularProgress/></Grid>}>
+                            <MainCourseEditor/>
+                        </Suspense>
+                    }/>
+                    <Route path={`/se`} element={
+                        <Suspense fallback={<Grid container justifyContent={"center"}
+                                                  sx={{pt: 4}}><CircularProgress/></Grid>}>
+                            <SearchingElementsEditor/>
+                        </Suspense>
+                    }/>
+                    <Route path={`/question`} element={
+                        <Suspense fallback={<Grid container justifyContent={"center"}
+                                                  sx={{pt: 4}}><CircularProgress/></Grid>}>
+                            <QuestionEditor/>
+                        </Suspense>}/>
+                    <Route path={`/qse`} element={
+                        <Suspense fallback={<Grid container justifyContent={"center"}
+                                                  sx={{pt: 4}}><CircularProgress/></Grid>}>
+                            <QuestionSequenceMainEditor/>
+                        </Suspense>
+                    }/>
+                    <Route path={`/allquestions/*`} element={
+                        <Suspense fallback={<Grid container justifyContent={"center"}
+                                                  sx={{pt: 4}}><CircularProgress/></Grid>}>
+                            <MainUserQuestionPage/>
+                        </Suspense>
+                    }/>
 
+                    <Route path={`/statistic2/*`} element={
+                        <Suspense fallback={<Grid container justifyContent={"center"}
+                                                  sx={{pt: 4}}><CircularProgress/></Grid>}>
+                            <StatisticV2/>
+                        </Suspense>
+                    }/>
+                    <Route path={`card2/*`} element={
+                        <Suspense fallback={<Grid container justifyContent={"center"}
+                                                  sx={{pt: 4}}><CircularProgress/></Grid>}>
+                            <CardEditorV2/>
+                        </Suspense>
+                    }/>
+                    <Route path={`/exam/*`} element={
+
+                        <Suspense fallback={<Grid container justifyContent={"center"}
+                                                  sx={{pt: 4}}><CircularProgress/></Grid>}>
+                            <ExamEditorPage/>
+                        </Suspense>
+
+                    }/>
+                    <Route path={`/checkquestion/*`} element={
+
+                        <Suspense fallback={<Grid container justifyContent={"center"}
+                                                  sx={{pt: 4}}><CircularProgress/></Grid>}>
+                            <CheckQuestion/>
+                        </Suspense>
+
+                    }/>
+                    <Route path={`/status-editor/*`} element={
+
+                        <Suspense fallback={<Grid container justifyContent={"center"}
+                                                  sx={{pt: 4}}><CircularProgress/></Grid>}>
+                            <StatusEditorPage/>
+                        </Suspense>
+
+                    }/>
+                    <Route path={`*`} element={
+                        <Suspense fallback={<Grid container justifyContent={"center"}
+                                                  sx={{pt: 4}}><CircularProgress/></Grid>}>
+                            <MainCourseEditor/>
+                        </Suspense>
+                    }/>
+                </Routes>
+            </Paper>
         </Paper>
     )
         ;

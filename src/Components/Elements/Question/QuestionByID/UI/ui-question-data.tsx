@@ -16,9 +16,9 @@ import {
     Stack
 } from "@mui/material";
 import React, {useState} from "react";
-import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 
-export default function DCPCImageQuestion(props: any) {
+export default function UiQuestionData(props: any) {
     const [openAcceptDefeatDialog, setOpenAcceptDefeatDialog] = useState(false)
     const [disableCheckButton, setDisableCheckButton] = useState(false)
     const isMobile = isMobileHook()

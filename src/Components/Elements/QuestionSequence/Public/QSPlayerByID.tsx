@@ -18,15 +18,12 @@ import {
 } from "@mui/material";
 import {observer} from "mobx-react";
 import {QSPlayerStore} from "../../../../Store/PublicStorage/QSPage/QuestionSequencePlayer/QSPlayerStore";
-import DCPCImageQuestion from "../../Question/QuestionByID/DCPCImageQuestion";
+import UiQuestionData from "../../Question/QuestionByID/UI/ui-question-data";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
-import {usePageVisibility} from 'react-page-visibility';
 
 import {ArgumentAxis, BarSeries, Chart, SplineSeries, Title, ValueAxis} from '@devexpress/dx-react-chart-material-ui';
-import {useLocation} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import '../../../../index.css'
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 import {MainDirection} from "../../Direction/UI/MainDirection";
@@ -37,49 +34,19 @@ import {UserStorage} from "../../../../Store/UserStore/UserStore";
 
 const processedStore = new QSPlayerStore()
 
-const useStyles = makeStyles(() =>
-    createStyles({
-        root: {
-            display: 'flex',
-            width: 385,
-            height: 400,
-        },
-        media: {
-            height: 240,
-        },
-        fullHeightMedia: {
-            height: 400
-        },
-
-        details: {
-            display: 'flex',
-            flexDirection: 'column',
-        },
-        content: {
-            flex: '1 0 auto',
-        },
-        cover: {
-            width: 151,
-        },
-
-
-    }),
-);
 
 export const QSPlayerByID = observer(({...props}: any) => {
+    const {id} = useParams()
 
     const slug = useLocation();
     useEffect(() => {
         if (slug.search === "?exam=true") {
             processedStore.isUseExamMode = true
         }
-        processedStore.setQSID(props?.match?.params?.id ? props?.match?.params?.id : props?.id)
-    }, [props])
+        processedStore.setQSID(id ? id : props?.id)
+    }, [props, id])
     const isMobile = isMobileHook()
 
-    const isVisible = usePageVisibility()
-
-    const classes = useStyles();
 
     // useEffect(() => {
     //     if (processedStore.isUseExamMode && !isVisible) {
@@ -175,7 +142,7 @@ export const QSPlayerByID = observer(({...props}: any) => {
                     <Grid container justifyContent={"center"}>
                         {processedStore.selectedQuestionIndex !== null &&
                             <Grid item xs={11}>
-                                <DCPCImageQuestion
+                                <UiQuestionData
                                     ignoreAspectRatio={true}
                                     onChange1={(e) => {
                                         processedStore.activeQuestionStoreInstance?.changeHardLevelOfHelpText(e.target.value)
@@ -212,8 +179,12 @@ export const QSPlayerByID = observer(({...props}: any) => {
                                     {processedStore.activeQuestionStoreInstance?.answersArray.map((answer, aIndex) => {
                                         return (
                                             <Card key={aIndex} variant="outlined"
-                                                  sx={{pb: 4}}
-                                                  className={classes.root}
+                                                  sx={{
+                                                      pb: 4,
+                                                      display: 'flex',
+                                                      width: 385,
+                                                      height: 400
+                                                  }}
                                                   style={{backgroundColor: processedStore.activeQuestionStoreInstance?.selectedAnswers?.has(answer?.id) ? "#2296F3" : "",}}
                                                   onClick={() => {
                                                       processedStore.activeQuestionStoreInstance.selectAnswerHandleChange(answer.id)
@@ -221,8 +192,10 @@ export const QSPlayerByID = observer(({...props}: any) => {
                                                 <CardActionArea>
                                                     {!answer.isImageDeleted && answer.answerImageUrl ?
                                                         <CardMedia
-                                                            style={{opacity: processedStore.activeQuestionStoreInstance?.selectedAnswers?.has(answer?.id) ? 0.5 : 1}}
-                                                            className={answer?.answerText ? classes.media : classes.fullHeightMedia}
+                                                            sx={{
+                                                                opacity: processedStore.activeQuestionStoreInstance?.selectedAnswers?.has(answer?.id) ? 0.5 : 1,
+                                                                height: answer?.answerText ? 240 : 400
+                                                            }}
                                                             image={answer?.answerImageUrl}
                                                         /> : null}
                                                     {answer?.answerText &&

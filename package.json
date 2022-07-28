@@ -25,7 +25,7 @@
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@graphql-codegen/schema-ast": "^2.5.0",
-    "@graphql-codegen/typescript": "^2.7.2",
+    "@graphql-codegen/typescript": "^2.4.5",
     "@minoru/react-dnd-treeview": "2.0.2",
     "@mui/icons-material": "5.8.4",
     "@mui/lab": "5.0.0-alpha.92",

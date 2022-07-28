@@ -9,7 +9,7 @@
   "private": true,
   "engines": {
     "node": "v16.15.0",
-    "npm": "8.15.5"
+    "npm": "8.5.5"
   },
   "dependencies": {
     "@apollo/client": "3.6.9",

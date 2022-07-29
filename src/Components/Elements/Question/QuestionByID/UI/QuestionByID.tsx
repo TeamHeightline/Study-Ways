@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {observer} from "mobx-react";
 import {QuestionPlayerStore} from "../Store/QuestionPlayerStore";
 import UiQuestionData from "./ui-question-data";
-import {Alert, CircularProgress, Stack} from '@mui/material';
+import {Box, CircularProgress, Stack} from '@mui/material';
 
 import {useLocation} from "react-router-dom";
 import {RequireLogInAlert} from "../../../../PublicPages/Notifications/RequireLogInAlert";
@@ -13,6 +13,7 @@ import UiCreateAnswerErrorReport from "./ui-create-answer-error-report";
 import UISelectHardLevel from "./ui-select-hard-level";
 import UIAnswers from "./ui-answers";
 import UIStatistic from "./ui-statistic";
+import UIHelpText from "./ui-help-text";
 
 
 export const QuestionByID = observer((props: any) => {
@@ -66,33 +67,23 @@ export const QuestionByID = observer((props: any) => {
     }
 
     return (
-        <Stack justifyContent={"center"} direction={"column"}>
-            <div>
-                <UiQuestionData
-                    ignoreAspectRatio={true}
-                    onChange1={(e) => {
-                        questionStore?.changeHardLevelOfHelpText(e.target.value)
-                    }}
-                    onClick1={() => questionStore?.checkErrors()}
-                    height={window.innerHeight}
-                    width={window.innerWidth - 100}
-                    urlHasBeenPassed={true}
-                    questionText={questionStore?.questionText}
-                    questionImgUrl={questionStore?.questionImageUrl}
-                    onAcceptDefeat={() => questionStore.onAcceptDefeat()}
-                />
-
-                {questionStore?.oneTimeCheckError &&
-                    questionStore?.IndexOfMostWantedError !== -1 &&
-                    <div>
-                        <Alert severity="error" variant="filled" sx={{mt: 1}}>
-                            {questionStore?.HelpTextForShow}
-                        </Alert>
-                    </div>
-                }
-                <UiCreateAnswerErrorReport questionStore={questionStore}/>
-                <UIAnswers questionStore={questionStore}/>
-            </div>
-        </Stack>
+        <Box>
+            <UiQuestionData
+                ignoreAspectRatio={true}
+                onChange1={(e) => {
+                    questionStore?.changeHardLevelOfHelpText(e.target.value)
+                }}
+                onClick1={() => questionStore?.checkErrors()}
+                height={window.innerHeight}
+                width={window.innerWidth - 100}
+                urlHasBeenPassed={true}
+                questionText={questionStore?.questionText}
+                questionImgUrl={questionStore?.questionImageUrl}
+                onAcceptDefeat={() => questionStore.onAcceptDefeat()}
+            />
+            <UIHelpText questionStore={questionStore}/>
+            <UiCreateAnswerErrorReport questionStore={questionStore}/>
+            <UIAnswers questionStore={questionStore}/>
+        </Box>
     );
 })

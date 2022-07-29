@@ -8,9 +8,10 @@ import {useNavigate} from "react-router-dom";
 import {useAuth0} from "@auth0/auth0-react";
 import NotificationButtonForNavbar from "./Notification/UI/notification-button-for-nav-bar";
 import LoginIcon from '@mui/icons-material/Login';
+import {observer} from "mobx-react";
 
 
-export default function IconMenu() {
+const IconMenu = observer(() => {
     const navigate = useNavigate();
     const {loginWithPopup} = useAuth0();
 
@@ -50,4 +51,6 @@ export default function IconMenu() {
                 </IconButton>}
         </Stack>
     )
-}
+})
+
+export default IconMenu

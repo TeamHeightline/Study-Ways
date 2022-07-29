@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {Box, Button, Grid, Paper, Tooltip, Typography} from "@mui/material";
+import {Box, Button, Grid, ListItemButton, Paper, Tooltip, Typography} from "@mui/material";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -52,7 +52,7 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                 <Box
                     sx={(theme) => ({
                         pt: "50px",
-                        width: isOpen ? 250 : isMobile ? 0 : 70,
+                        width: isOpen ? 250 : isMobile ? 0 : 85,
                         overflowX: 'hidden',
                         transition: theme.transitions.create('width', {
                             easing: theme.transitions.easing.sharp,
@@ -73,10 +73,12 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                                 }
                                 navigate(`/editor/course`)
                             }}>
-                                <ListItemIcon>
-                                    <BlurLinearIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary="Редактор курсов"/>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <BlurLinearIcon/>
+                                    </ListItemIcon>
+                                    <ListItemText primary="Редактор курсов"/>
+                                </ListItemButton>
                             </ListItem>
                         </Tooltip>
                         <Tooltip title={<Typography variant="body1">Карточки</Typography>}>
@@ -86,10 +88,12 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                                 }
                                 navigate(`/editor/card2`)
                             }}>
-                                <ListItemIcon>
-                                    <AppRegistrationIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary="Редактор карточек"/>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <AppRegistrationIcon/>
+                                    </ListItemIcon>
+                                    <ListItemText primary="Редактор карточек"/>
+                                </ListItemButton>
                             </ListItem>
                         </Tooltip>
                         <Tooltip title={<Typography variant="body1">Темы</Typography>}>
@@ -99,11 +103,13 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                                 }
                                 navigate(`/editor/se`)
                             }}>
-                                <ListItemIcon>
-                                    {/*<HubIcon/>*/}
-                                    <AccountTreeIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary="Редактор тем"/>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        {/*<HubIcon/>*/}
+                                        <AccountTreeIcon/>
+                                    </ListItemIcon>
+                                    <ListItemText primary="Редактор тем"/>
+                                </ListItemButton>
                             </ListItem>
                         </Tooltip>
                         <Tooltip title={<Typography variant="body1">Вопросы</Typography>}>
@@ -113,10 +119,12 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                                 }
                                 navigate(`/editor/question`)
                             }}>
-                                <ListItemIcon>
-                                    <QuizIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary="Редактор вопросов"/>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <QuizIcon/>
+                                    </ListItemIcon>
+                                    <ListItemText primary="Редактор вопросов"/>
+                                </ListItemButton>
                             </ListItem>
                         </Tooltip>
                         <Tooltip title={<Typography variant="body1">Серии вопросов</Typography>}>
@@ -126,10 +134,12 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                                 }
                                 navigate(`/editor/qse`)
                             }}>
-                                <ListItemIcon>
-                                    <LinearScaleIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary="Редактор серии вопросов"/>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <LinearScaleIcon/>
+                                    </ListItemIcon>
+                                    <ListItemText primary="Редактор серии вопросов"/>
+                                </ListItemButton>
                             </ListItem>
                         </Tooltip>
                         <Tooltip title={<Typography variant="body1">Статистика</Typography>}>
@@ -139,10 +149,12 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                                 }
                                 navigate(`/editor/statistic2`)
                             }}>
-                                <ListItemIcon>
-                                    <AddchartIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary="Статистика"/>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <AddchartIcon/>
+                                    </ListItemIcon>
+                                    <ListItemText primary="Статистика"/>
+                                </ListItemButton>
                             </ListItem>
                         </Tooltip>
                         <Tooltip title={<Typography variant="body1">Редактор экзаменов</Typography>}>
@@ -152,10 +164,12 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                                 }
                                 navigate(`/editor/exam`)
                             }}>
-                                <ListItemIcon>
-                                    <SchoolIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary="Редактор экзаменов"/>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <SchoolIcon/>
+                                    </ListItemIcon>
+                                    <ListItemText primary="Редактор экзаменов"/>
+                                </ListItemButton>
                             </ListItem>
                         </Tooltip>
                         <Tooltip title={<Typography variant="body1">Проверка вопросов</Typography>}>
@@ -165,10 +179,12 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                                 }
                                 navigate(`/editor/checkquestion`)
                             }}>
-                                <ListItemIcon>
-                                    <RuleIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary="Проверка вопросов"/>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <RuleIcon/>
+                                    </ListItemIcon>
+                                    <ListItemText primary="Проверка вопросов"/>
+                                </ListItemButton>
                             </ListItem>
                         </Tooltip>
                         <Tooltip title={<Typography variant="body1">Уровень доступа</Typography>}>
@@ -178,10 +194,12 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                                 }
                                 navigate(`/editor/status-editor`)
                             }}>
-                                <ListItemIcon>
-                                    <GroupIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary="Редактор уровней доступа"/>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <GroupIcon/>
+                                    </ListItemIcon>
+                                    <ListItemText primary="Редактор уровней доступа"/>
+                                </ListItemButton>
                             </ListItem>
                         </Tooltip>
                     </List>

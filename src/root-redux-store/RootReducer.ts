@@ -7,6 +7,7 @@ import StatusEditorSlice from "../Components/Elements/StatusEditor/redux-store/S
 import NotificationSlice from "../Components/PublicPages/Navbar/Notification/redux-store/NotificationSlice";
 import coursePageSlice from "../Components/Elements/Course/Page/redux-store/CoursePageSlice";
 import examEditorSlice from "../Components/Elements/Exam/EditorPage/ExamByID/redux-store/examEditorSlice";
+import questionEditorPageSlice from "../Components/Elements/Question/Editor/Page/redux-store/QuestionEditorPageSlice";
 
 enableMapSet()
 export const RootReducer = combineReducers({
@@ -17,6 +18,7 @@ export const RootReducer = combineReducers({
     statusEditor: StatusEditorSlice,
     notification: NotificationSlice,
     coursePage: coursePageSlice,
+    questionEditorPage: questionEditorPageSlice,
 
 });
 

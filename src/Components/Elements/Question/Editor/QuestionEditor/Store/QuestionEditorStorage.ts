@@ -425,11 +425,9 @@ class QuestionEditor {
     }
 
     //Создаем новый вопрос
-    createNewQuestion() {
-        this.clientStorage.client.mutate<Mutation>({mutation: CREATE_NEW_QUESTION})
+    async createNewQuestion() {
+        return this.clientStorage.client.mutate<Mutation>({mutation: CREATE_NEW_QUESTION})
             .then((response) => (response?.data?.updateQuestion?.question?.id))
-            .then((id) => this.selectQuestionClickHandler(Number(id)))
-            .then(() => this.loadBasicQuestionData())
     }
 
     //Создаем копию этого вопроса со всеми ответами и переходим в нее

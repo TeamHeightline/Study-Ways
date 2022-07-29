@@ -6,6 +6,7 @@ import {observer} from "mobx-react";
 import {Route, Routes} from "react-router-dom";
 import {isMobileHook} from "../../../CustomHooks/isMobileHook";
 import RouterMenu from "./router-menu";
+import EditQuestionByURL from "../../Elements/Question/Editor/QuestionEditor/UI/EditQuestionByUrl";
 
 const ExamEditorPage = React.lazy(() => import("../../Elements/Exam/EditorPage/Page/UI/exam-editor-page"))
 
@@ -15,7 +16,7 @@ const SearchingElementsEditor = React.lazy(() => import("../SearchingElementsEdi
 const QuestionSequenceMainEditor = React.lazy(() => import("../QuestionSequenceMainEditor"))
 const MainCourseEditor = React.lazy(() => import("../MainCourseEditor"))
 
-const QuestionEditor = React.lazy(() => import("../../Elements/Question/Editor/QuestionEditor/UI/QuestionEditor").then(module => ({default: module.QuestionEditor})))
+const QuestionEditor = React.lazy(() => import("../../Elements/Question/Editor/Page/UI/question-editor-page").then(module => ({default: module.QuestionEditorPage})))
 const MainUserQuestionPage = React.lazy(() => import("../MainUserQuestionPage").then(module => ({default: module.MainUserQuestionPage})))
 const StatisticV2 = React.lazy(() => import("../../Elements/Statistic/V2/StatisticV2").then(module => ({default: module.StatisticV2})))
 const CardEditorV2 = React.lazy(() => import("../../Elements/Cards/Editor/EditorPageV2/Page").then(module => ({default: module.EditorPage})))
@@ -105,6 +106,14 @@ export const EditorsRouter = observer(() => {
                         </Suspense>
 
                     }/>
+
+                    <Route path={`/question`} element={
+                        <Suspense fallback={<Grid container justifyContent={"center"}
+                                                  sx={{pt: 4}}><CircularProgress/></Grid>}>
+                            <QuestionEditor/>
+                        </Suspense>}/>
+                    <Route path={"/question/selected/:id"} element={<div><EditQuestionByURL/></div>}/>
+
                     <Route path={`*`} element={
                         <Suspense fallback={<Grid container justifyContent={"center"}
                                                   sx={{pt: 4}}><CircularProgress/></Grid>}>

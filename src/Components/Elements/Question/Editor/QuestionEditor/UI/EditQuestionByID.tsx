@@ -2,8 +2,6 @@ import {observer} from "mobx-react";
 import {Button, Grid, Stack, Typography} from "@mui/material";
 import {QuestionEditorStorage} from "../Store/QuestionEditorStorage";
 import {QuestionText} from "./QuestionText";
-import {ThemeSelector} from "./ThemeSelector";
-import {AuthorSelector} from "./AuthorSelector";
 import {QuestionNumberOfShowingAnswers} from "./QuestionNumberOfShowingAnswers";
 import {ImageForQuestion} from "./ImageForQuestion";
 import {QuestionSrc} from "./QuestionSrc";
@@ -11,21 +9,39 @@ import {SavingNotification} from "./SavingNotification";
 import {QuestionPreview} from "./QuestionPreview";
 import {AnswersEditor} from "../../AnswersEditor/EditAnswerByID/UI/AnswersEditor";
 import {CreateNewAnswer} from "./CreateNewAnswer";
-import React from "react";
+import React, {useEffect} from "react";
 import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
 import AdditionalActions from "./AdditionalActions";
 import ConnectedThemeSelector from "./ConnectedThemeSelector";
+import {useNavigate} from "react-router-dom";
 
-export const EditQuestionByID = observer(() => {
+interface IEditQuestionByIDProps {
+    questionID?: string
+}
+
+export const EditQuestionByID = observer(({questionID}: IEditQuestionByIDProps) => {
     const isMobile = isMobileHook()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        QuestionEditorStorage.loadQuestionAuthorsAndThemes()
+    }, [])
+
+    useEffect(() => {
+        if (questionID) {
+            QuestionEditorStorage.selectQuestionClickHandler(Number(questionID))
+        }
+    }, [questionID])
+
     return (
         <div style={{paddingLeft: isMobile ? 0 : 40, paddingRight: 10}}>
             <Button
-                className="col-12 col-md-2 mt-2"
+                sx={{maxWidth: 300, mt: 1}}
+                fullWidth
                 variant="outlined" color="primary"
                 disabled={QuestionEditorStorage.unsavedFlag}
                 onClick={() => {
-                    QuestionEditorStorage?.changeQuestionHasBeenSelected(false)
+                    navigate(-1)
                 }}>
                 Назад
             </Button>

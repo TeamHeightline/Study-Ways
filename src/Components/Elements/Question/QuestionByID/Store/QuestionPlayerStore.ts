@@ -10,6 +10,7 @@ import {shuffle} from "lodash"
 import {UserStorage} from "../../../../../Store/UserStore/UserStore";
 import CryptoJS from 'crypto-js'
 import {SERVER_BASE_URL} from "../../../../../settings";
+import axiosClient from "../../../../../ServerLayer/QueryLayer/config";
 
 export class QuestionPlayerStore {
     constructor(ownStore, questionID) {
@@ -395,11 +396,52 @@ export class QuestionPlayerStore {
         this.answerIndexForCreateErrorReport = index
     }
 
-    answerReportText = ''
 
     onCloseAnswerReportDialog = () => {
         this.answerIndexForCreateErrorReport = null
+        this.answerReportText = ''
     }
+
+    answerReportText = ''
+    changeAnswerReportText = (e) => {
+        this.answerReportText = e.target.value
+    }
+    onSendAnswerReportButtonClick = () => {
+        this.saveAnswerReport()
+        this.onCloseAnswerReportDialog()
+    }
+
+    saveAnswerReport = () => {
+        if (this.answerReportText && this.answerIndexForCreateErrorReport) {
+            axiosClient.post('/page/question-page/create-answer-report', {
+                report_data: {
+                    answer_id: this.answersArray[this.answerIndexForCreateErrorReport].id,
+                    text: this.answerReportText
+                }
+            })
+                .then(() => {
+                    this.addAnswerReportSavedMessage()
+                })
+                .catch(() => {
+                    this.addAnswerReportErrorMessage()
+                })
+        }
+    }
+
+    answerReportSavedMessageArray: boolean[] = []
+
+    addAnswerReportSavedMessage = () => {
+        this.answerReportSavedMessageArray.push(true)
+    }
+
+    addAnswerReportErrorMessage = () => {
+        this.answerReportSavedMessageArray.push(false)
+    }
+
+    removeAnswerReportSavedMessage = () => {
+        this.answerReportSavedMessageArray.shift()
+    }
+
 
 }
 

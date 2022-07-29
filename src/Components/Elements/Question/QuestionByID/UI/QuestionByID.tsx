@@ -5,7 +5,7 @@ import {QuestionPlayerStore} from "../Store/QuestionPlayerStore";
 import UiQuestionData from "./ui-question-data";
 import {Box, CircularProgress, Stack} from '@mui/material';
 
-import {useLocation} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import {RequireLogInAlert} from "../../../../PublicPages/Notifications/RequireLogInAlert";
 import {UserStorage} from "../../../../../Store/UserStore/UserStore";
 
@@ -14,10 +14,13 @@ import UISelectHardLevel from "./ui-select-hard-level";
 import UIAnswers from "./ui-answers";
 import UIStatistic from "./ui-statistic";
 import UIHelpText from "./ui-help-text";
+import UIAnswerReportSuccessSavedMessage from "./ui-answer-report-success-saved-message";
 
 
 export const QuestionByID = observer((props: any) => {
     const slug = useLocation();
+
+    const {id} = useParams()
 
     const [questionStore, setQuestionStore] = useState(new QuestionPlayerStore(null, undefined))
 
@@ -26,7 +29,7 @@ export const QuestionByID = observer((props: any) => {
             questionStore?.changeIsUseExamMode(true)
         }
 
-        questionStore?.changeQuestionId(props?.match?.params?.id ? props?.match?.params?.id : props?.id)
+        questionStore?.changeQuestionId(id ? id : props?.id)
     }, [props])
 
     useEffect(() => {
@@ -38,7 +41,7 @@ export const QuestionByID = observer((props: any) => {
     }, [questionStore?.questionHasBeenCompleted, props?.id])
 
     const restartQuestion = () => {
-        const questionID = props?.match?.params?.id ? props?.match?.params?.id : props?.id
+        const questionID = id ? id : props?.id
         setQuestionStore(new QuestionPlayerStore(null, questionID))
     }
 
@@ -83,6 +86,7 @@ export const QuestionByID = observer((props: any) => {
             />
             <UIHelpText questionStore={questionStore}/>
             <UiCreateAnswerErrorReport questionStore={questionStore}/>
+            <UIAnswerReportSuccessSavedMessage questionStore={questionStore}/>
             <UIAnswers questionStore={questionStore}/>
         </Box>
     );

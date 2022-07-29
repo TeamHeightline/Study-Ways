@@ -19,7 +19,7 @@ import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 import AddIcon from '@mui/icons-material/Add';
 import {SERVER_BASE_URL} from "../../../../settings";
 import {EditorPage} from "../../Cards/Editor/EditorPageV2/Page";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 
 const GET_COURSE_BY_ID = gql`
     query GET_COURSE_BY_ID($id: ID!){
@@ -50,12 +50,13 @@ export default function EditCourseByID({course_id, ...props}: any) {
     const isMobile = isMobileHook()
     const navigate = useNavigate();
     const {pathname} = useLocation();
+    const {id} = useParams()
 
 
     const [update_course] = useMutation(UPDATE_COURSE_DATA, {
         variables: {
             new_data: CourseLinesData,
-            course_id: props?.match?.params?.id ? props?.match?.params?.id : course_id,
+            course_id: id ? id : course_id,
             name: courseName
         },
         onError: error => console.log("Save error - " + error),
@@ -66,7 +67,7 @@ export default function EditCourseByID({course_id, ...props}: any) {
 
     const {data: course_data} = useQuery(GET_COURSE_BY_ID, {
         variables: {
-            id: props?.match?.params?.id ? props?.match?.params?.id : course_id
+            id: id ? id : course_id
         },
         onCompleted: data => {
             // console.log(data)

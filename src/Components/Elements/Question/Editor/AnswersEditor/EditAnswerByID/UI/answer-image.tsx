@@ -13,11 +13,11 @@ import {
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
-import {answer_object_type} from "../Store/edit-answer-by-id-store";
+import {EditAnswerByIdStore} from "../Store/edit-answer-by-id-store";
 
 
 interface IAnswerImageProps extends PaperProps {
-    answer_object: answer_object_type
+    answer_object: EditAnswerByIdStore
 
 }
 

@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {ClickAwayListener, Paper, Stack, Typography} from "@mui/material";
-import {answer_object_type} from "../Store/edit-answer-by-id-store";
+import {EditAnswerByIdStore} from "../Store/edit-answer-by-id-store";
 import {isMobileHook} from "../../../../../../../CustomHooks/isMobileHook";
 import TitleOnlyInExam from "./title-only-in-exam";
 import TitleIsRequired from "./title-is-required";
@@ -15,7 +15,7 @@ import TitleSimpleActions from "./title-simple-actions";
 
 
 interface IAnswerTitleProps extends PaperProps {
-    answer_object: answer_object_type,
+    answer_object: EditAnswerByIdStore,
     answer_index?: number
 }
 

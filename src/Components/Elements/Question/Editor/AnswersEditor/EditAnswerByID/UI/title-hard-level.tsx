@@ -2,13 +2,13 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Chip, Paper} from "@mui/material";
-import {answer_object_type} from "../Store/edit-answer-by-id-store";
+import {EditAnswerByIdStore} from "../Store/edit-answer-by-id-store";
 import Filter1Icon from '@mui/icons-material/Filter1';
 import Filter2Icon from '@mui/icons-material/Filter2';
 import Filter3Icon from '@mui/icons-material/Filter3';
 
 interface ITitleHardLevelProps extends PaperProps {
-    answer_object: answer_object_type
+    answer_object: EditAnswerByIdStore
 
 }
 

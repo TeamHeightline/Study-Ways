@@ -4,11 +4,11 @@ import {PaperProps} from "@mui/material/Paper/Paper";
 import {FormHelperText, InputLabel} from "@mui/material";
 import Input from "@mui/material/Input";
 import FormControl from "@mui/material/FormControl";
-import {answer_object_type} from "../Store/edit-answer-by-id-store";
+import {EditAnswerByIdStore} from "../Store/edit-answer-by-id-store";
 
 
 interface IAnswerCheckQueueProps extends PaperProps {
-    answer_object: answer_object_type
+    answer_object: EditAnswerByIdStore
 
 }
 

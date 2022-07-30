@@ -2,11 +2,11 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {TextField} from "@mui/material";
-import {answer_object_type} from "../Store/edit-answer-by-id-store";
+import {EditAnswerByIdStore} from "../Store/edit-answer-by-id-store";
 
 
 interface IAnswerHelpTextV2Props extends PaperProps {
-    answer_object: answer_object_type
+    answer_object: EditAnswerByIdStore
 
 }
 

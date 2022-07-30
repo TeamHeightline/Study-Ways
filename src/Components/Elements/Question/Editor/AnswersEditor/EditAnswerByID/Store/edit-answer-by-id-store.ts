@@ -10,6 +10,7 @@ import {
 import {computedFn} from "mobx-utils";
 import {SERVER_BASE_URL} from "../../../../../../../settings";
 import {QuestionEditorStorage} from "../../../QuestionEditor/Store/QuestionEditorStorage";
+import axiosClient from "../../../../../../../ServerLayer/QueryLayer/config";
 
 export class EditAnswerByIdStore {
     constructor(answer_id?: number) {
@@ -26,6 +27,7 @@ export class EditAnswerByIdStore {
 
         reaction(() => this.answer_object?.isImageDeleted,
             () => this.fakeAnswerIndexForUpdatePreview = this.fakeAnswerIndexForUpdatePreview + 1)
+
 
         if (answer_id) {
             this.answer_id = answer_id
@@ -329,12 +331,68 @@ export class EditAnswerByIdStore {
     isShowAnswerPreview = false
 
 
+    //------Сообщения о ошибках в ответах ----------------------------------------------------------
+
+    answerErrorMessage: answerReportType[] = []
+
+    loadAnswerErrorMessage = async () => {
+        if (this.answer_id) {
+            this.answerErrorMessage = await axiosClient.get('page/edit-answer-by-id/answer-report-by-id/' + this.answer_id).then((res) => res.data)
+        }
+    }
+
+    isOpenAnswerErrorMessageDialog = false
+
+    openAnswerErrorMessageDialog = () => {
+        this.isOpenAnswerErrorMessageDialog = true
+    }
+
+    closeAnswerErrorMessageDialog = () => {
+        this.isOpenAnswerErrorMessageDialog = false
+    }
+    updatingAnswerErrorMessageID: null | number = null
+
+    updateAnswerErrorMessageID = async () => {
+        await axiosClient.post('page/edit-answer-by-id/close-answer-report/' + this.updatingAnswerErrorMessageID)
+            .then(() => this.errorMessageClosedSuccessArray.push(true))
+            .catch(() => this.errorMessageClosedSuccessArray.push(false))
+        this.updatingAnswerErrorMessageID = null
+        this.loadAnswerErrorMessage()
+    }
+
+    onCloseAnswerReportClick = (answer_report_id) => {
+        this.updatingAnswerErrorMessageID = answer_report_id
+        this.updateAnswerErrorMessageID()
+    }
+
+    errorMessageClosedSuccessArray: boolean[] = []
+
+    removeElementFromErrorMessageClosedSuccessArray = () => {
+        this.errorMessageClosedSuccessArray.shift()
+    }
+
+
 }
 
-const editAnswerStore = new EditAnswerByIdStore()
+type answerReportType = {
+    id: number
+    created_by_id: number
+    answer_id: number
+    text: string
+    createdAt: string
+    is_closed: string
+    users_customuser: UsersCustomuser
+}
 
-export type answer_object_type = typeof editAnswerStore
+interface UsersCustomuser {
+    users_userprofile: UsersUserprofile
+    username: string
+}
 
+interface UsersUserprofile {
+    firstname: string
+    lastname: string
+}
 
 type answer_data_with_wrong_is_true_type = object_properties_to_array_mapper<RemoveTypename<AnswerNode>>
 export type answer_data_object = Omit<answer_data_with_wrong_is_true_type, "isTrue"> & { isTrue: "true" | "false" }

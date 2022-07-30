@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Collapse, Grid, Paper, Stack} from "@mui/material";
-import {answer_object_type} from "../Store/edit-answer-by-id-store";
+import {EditAnswerByIdStore} from "../Store/edit-answer-by-id-store";
 import {isMobileHook} from "../../../../../../../CustomHooks/isMobileHook";
 import AnswerText from "./answer-text";
 import AnswerHelpTextV1 from "./answer-help-text-v1";
@@ -19,7 +19,7 @@ import AnswerStateOfSave from "./answer-state-of-save";
 
 
 interface IAnswerContentProps extends PaperProps {
-    answer_object: answer_object_type
+    answer_object: EditAnswerByIdStore
 }
 
 const AnswerContent = observer(({answer_object, ...props}: IAnswerContentProps) => {

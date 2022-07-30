@@ -11,6 +11,7 @@ interface IEditAnswerByIDProps extends PaperProps {
 
 const EditAnswerByID = observer(({answer_id, answer_index, ...props}: IEditAnswerByIDProps) => {
     const answerStore = new EditAnswerByIdStore(answer_id)
+
     return (
         <EditAnswerUI answerStore={answerStore} answer_index={answer_index}/>
     )

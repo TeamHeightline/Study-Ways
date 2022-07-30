@@ -3,11 +3,11 @@ import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {InputLabel, MenuItem, Select} from "@mui/material";
 import FormControl from "@mui/material/FormControl";
-import {answer_object_type} from "../Store/edit-answer-by-id-store";
+import {EditAnswerByIdStore} from "../Store/edit-answer-by-id-store";
 
 
 interface IAnswerIsTrueProps extends PaperProps {
-    answer_object: answer_object_type
+    answer_object: EditAnswerByIdStore
 
 }
 

@@ -3,13 +3,13 @@ import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Paper, Stack, Typography} from "@mui/material";
 import {isMobileHook} from "../../../../../../../CustomHooks/isMobileHook";
-import {answer_object_type} from "../Store/edit-answer-by-id-store";
+import {EditAnswerByIdStore} from "../Store/edit-answer-by-id-store";
 import AnswerText from "./answer-text";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from '@mui/icons-material/Edit';
 
 interface ITitleEditableTextProps extends PaperProps {
-    answer_object: answer_object_type
+    answer_object: EditAnswerByIdStore
 
 }
 

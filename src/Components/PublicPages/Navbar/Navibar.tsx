@@ -11,10 +11,19 @@ import Typography from '@mui/material/Typography';
 import {observer} from "mobx-react";
 
 import {isMobileHook} from "../../../CustomHooks/isMobileHook";
-import ThemeStoreObject from "../../../global-theme";
 import {Stack} from "@mui/material";
 import IconMenu from "./IconMenu";
+import {alpha, styled} from '@mui/material/styles';
 
+const BlurredAppBar = styled(AppBar)(
+    ({theme}) => `
+  background-color: ${alpha(theme.palette.background.default, 0.10)};
+  background-image: none;
+  backdrop-filter: blur(10px);
+  box-shadow: none;
+  z-index: ${theme.zIndex.drawer + 1};
+`,
+)
 
 export const Navibar = observer(() => {
     const {width} = useWindowDimensions();
@@ -32,11 +41,7 @@ export const Navibar = observer(() => {
         )
     }
     return (
-        <AppBar position="fixed"
-                enableColorOnDark={ThemeStoreObject.isNavbarColored}
-                sx={{zIndex: (theme) => theme.zIndex.drawer + 1}}
-        >
-
+        <BlurredAppBar position="fixed">
             <Toolbar variant="dense">
                 <Typography variant="h6"
                             sx={{color: "white", flexGrow: 1}}
@@ -47,6 +52,6 @@ export const Navibar = observer(() => {
                 </Typography>
                 <IconMenu/>
             </Toolbar>
-        </AppBar>
+        </BlurredAppBar>
     );
 })

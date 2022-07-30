@@ -16,7 +16,7 @@ const IconMenu = observer(() => {
     const {loginWithPopup} = useAuth0();
 
     return (
-        <Stack direction={"row"}>
+        <Stack direction={"row"} sx={{backdropFilter: "none"}}>
             <Tooltip title={"Курсы"}>
                 <IconButton
                     sx={{mx: 1}}

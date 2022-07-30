@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip} from "@mui/material";
+import {Card, Divider, IconButton, ListItemIcon, MenuItem, Popover, Tooltip} from "@mui/material";
 import {DarkMode} from "@mui/icons-material";
 import {UserStorage} from "../../../Store/UserStore/UserStore";
 import {useAuth0} from "@auth0/auth0-react";
@@ -23,7 +23,7 @@ interface INavbarMenuProps extends PaperProps {
 const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const navigate = useNavigate();
-    ;
+
 
     const {logout, isAuthenticated} = useAuth0();
 
@@ -39,97 +39,113 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
 
     return (
         <>
+
             <Tooltip title={"Меню"}>
                 <IconButton onClick={handleMenu} sx={{mx: 2}}>
                     <MenuIcon/>
                 </IconButton>
             </Tooltip>
-
-            <Menu
-                id="menu-appbar"
+            <Popover
+                open={!!anchorEl}
                 anchorEl={anchorEl}
-                keepMounted
-                open={open}
                 onClose={handleClose}
-                disablePortal
-                disableScrollLock={false}
                 anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'left',
                 }}
 
             >
-                <MenuItem
-                    disabled={!UserStorage.isLogin}
-                    onClick={() => {
+                <Card sx={{py: 1}}>
+
+
+                    {/*<Menu*/}
+                    {/*    id="menu-appbar"*/}
+                    {/*    anchorEl={anchorEl}*/}
+                    {/*    keepMounted*/}
+                    {/*    open={open}*/}
+                    {/*    onClose={handleClose}*/}
+                    {/*    disablePortal*/}
+                    {/*    disableScrollLock={false}*/}
+                    {/*    anchorOrigin={{*/}
+                    {/*        vertical: 'bottom',*/}
+                    {/*        horizontal: 'left',*/}
+                    {/*    }}*/}
+
+                    {/*>*/}
+                    <MenuItem
+                        disabled={!UserStorage.isLogin}
+                        onClick={() => {
+                            handleClose()
+                            navigate('/profile')
+                        }}>
+                        <ListItemIcon>
+                            <AccountBoxIcon fontSize="small"/>
+                        </ListItemIcon>
+                        Профиль
+                    </MenuItem>
+                    <MenuItem
+                        disabled={UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER"}
+                        onClick={() => {
+                            handleClose()
+                            navigate('/editor')
+                        }}>
+                        <ListItemIcon>
+                            <EditIcon fontSize="small"/>
+                        </ListItemIcon>
+                        Редакторы
+                    </MenuItem>
+                    <MenuItem
+                        disabled={UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER"}
+                        onClick={() => {
+                            handleClose()
+                            navigate('/editor/allquestions')
+                        }}>
+                        <ListItemIcon>
+                            <QuestionMarkIcon fontSize="small"/>
+                        </ListItemIcon>
+                        Вопросы
+                    </MenuItem>
+                    <MenuItem disabled={!UserStorage.isLogin}
+                              onClick={() => {
+                                  navigate('/selfstatistic')
+                              }}>
+                        <ListItemIcon>
+                            <StackedLineChartIcon fontSize="small"/>
+                        </ListItemIcon>
+                        Статистика
+                    </MenuItem>
+                    <Divider/>
+                    <MenuItem
+                        onClick={ThemeStoreObject.changeMode}
+                    >
+                        <ListItemIcon>
+                            {ThemeStoreObject.mode === "light" &&
+                                <NightlightIcon fontSize="small"/>
+                            }
+                            {ThemeStoreObject.mode === "dark" &&
+                                <DarkMode fontSize="small"/>}
+                            {ThemeStoreObject.mode === "dark2" &&
+                                <LightModeIcon fontSize="small"/>}
+
+                        </ListItemIcon>
+                        Сменить тему
+                    </MenuItem>
+                    <MenuItem onClick={() => {
                         handleClose()
-                        navigate('/profile')
-                    }}>
-                    <ListItemIcon>
-                        <AccountBoxIcon fontSize="small"/>
-                    </ListItemIcon>
-                    Профиль
-                </MenuItem>
-                <MenuItem
-                    disabled={UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER"}
-                    onClick={() => {
-                        handleClose()
-                        navigate('/editor')
-                    }}>
-                    <ListItemIcon>
-                        <EditIcon fontSize="small"/>
-                    </ListItemIcon>
-                    Редакторы
-                </MenuItem>
-                <MenuItem
-                    disabled={UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER"}
-                    onClick={() => {
-                        handleClose()
-                        navigate('/editor/allquestions')
-                    }}>
-                    <ListItemIcon>
-                        <QuestionMarkIcon fontSize="small"/>
-                    </ListItemIcon>
-                    Вопросы
-                </MenuItem>
-                <MenuItem disabled={!UserStorage.isLogin}
-                          onClick={() => {
-                              navigate('/selfstatistic')
-                          }}>
-                    <ListItemIcon>
-                        <StackedLineChartIcon fontSize="small"/>
-                    </ListItemIcon>
-                    Статистика
-                </MenuItem>
-                <Divider/>
-                <MenuItem
-                    onClick={ThemeStoreObject.changeMode}
-                >
-                    <ListItemIcon>
-                        {ThemeStoreObject.mode === "light" &&
-                            <NightlightIcon fontSize="small"/>
+                        if (isAuthenticated) {
+                            logout({returnTo: window.location.origin})
                         }
-                        {ThemeStoreObject.mode === "dark" &&
-                            <DarkMode fontSize="small"/>}
-                        {ThemeStoreObject.mode === "dark2" &&
-                            <LightModeIcon fontSize="small"/>}
+                    }}>
+                        <ListItemIcon>
+                            <LogoutIcon/>
+                        </ListItemIcon>
+                        Выйти
+                    </MenuItem>
+                </Card>
 
-                    </ListItemIcon>
-                    Сменить тему
-                </MenuItem>
-                <MenuItem onClick={() => {
-                    handleClose()
-                    if (isAuthenticated) {
-                        logout({returnTo: window.location.origin})
-                    }
-                }}>
-                    <ListItemIcon>
-                        <LogoutIcon/>
-                    </ListItemIcon>
-                    Выйти
-                </MenuItem>
+                {/*</Menu>*/}
+            </Popover>
 
-            </Menu>
         </>
     )
 })

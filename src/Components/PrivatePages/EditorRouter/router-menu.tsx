@@ -57,7 +57,7 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                         transition: theme.transitions.create('width', {
                             easing: theme.transitions.easing.sharp,
                             duration: theme.transitions.duration.leavingScreen,
-                        }),
+                        })
                     })}>
                     <div>
                         < IconButton onClick={handleDrawer} size="large">

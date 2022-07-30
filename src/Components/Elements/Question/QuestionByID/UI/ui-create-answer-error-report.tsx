@@ -22,13 +22,13 @@ interface ICreateErrorInAnswerReportProps extends BoxProps {
 
 
 const UiCreateAnswerErrorReport = observer(({questionStore, ...props}: ICreateErrorInAnswerReportProps) => {
-    if (!questionStore?.answerIndexForCreateErrorReport) {
+    if (questionStore?.answerIndexForCreateErrorReport == undefined) {
         return (<div/>)
     }
     const selectedAnswer = questionStore.answersArray[questionStore?.answerIndexForCreateErrorReport]
     return (
         <Box {...props}>
-            <Dialog open={!!questionStore.answerIndexForCreateErrorReport && selectedAnswer}
+            <Dialog open={questionStore.answerIndexForCreateErrorReport !== undefined && !!selectedAnswer}
                     onClose={questionStore.onCloseAnswerReportDialog}>
                 <DialogTitle>Сообщить об ошибке в ответе</DialogTitle>
                 <DialogContent>

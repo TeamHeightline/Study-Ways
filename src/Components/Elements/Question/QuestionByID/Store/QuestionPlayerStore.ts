@@ -390,7 +390,7 @@ export class QuestionPlayerStore {
         }
     }
 
-    answerIndexForCreateErrorReport: number | null = null
+    answerIndexForCreateErrorReport: number | undefined = undefined
 
     onReportAnswerButtonClick = (index: number) => {
         this.answerIndexForCreateErrorReport = index
@@ -398,7 +398,7 @@ export class QuestionPlayerStore {
 
 
     onCloseAnswerReportDialog = () => {
-        this.answerIndexForCreateErrorReport = null
+        this.answerIndexForCreateErrorReport = undefined
         this.answerReportText = ''
     }
 

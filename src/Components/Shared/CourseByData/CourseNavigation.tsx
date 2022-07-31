@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Divider, Paper, Slider, Stack, Typography} from '@mui/material';
+import {Paper, Slider, Stack} from '@mui/material';
 import {observer} from "mobx-react";
 import RowFragment from "./RowFragment";
 import {ICourseData, ICoursePosition} from "./types";
@@ -52,14 +52,14 @@ const CourseNavigation = observer(({courseData, coursePosition, onChangePosition
                     )
                 })}
 
-                <Divider/>
-                <Typography
-                    variant={"body2"}
-                    sx={{
-                        p: 0.5
-                    }}>
-                    {courseData.name}
-                </Typography>
+                {/*<Divider/>*/}
+                {/*<Typography*/}
+                {/*    variant={"body2"}*/}
+                {/*    sx={{*/}
+                {/*        p: 0.5*/}
+                {/*    }}>*/}
+                {/*    {courseData.name}*/}
+                {/*</Typography>*/}
             </div>
         </Stack>
     )

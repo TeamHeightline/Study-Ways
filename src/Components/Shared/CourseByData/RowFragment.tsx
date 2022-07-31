@@ -46,8 +46,9 @@ const RowFragment = observer(({
                 id="mouse-over-popover"
                 sx={{
                     pointerEvents: 'none',
+                    ml: 4
                 }}
-                style={{marginTop: 34 * (4 - hoverItemLevel) + 26,}}
+                // style={{marginTop: 34 * (4 - hoverItemLevel) + 26,}}
                 open={open}
                 anchorEl={anchorEl}
                 anchorOrigin={{

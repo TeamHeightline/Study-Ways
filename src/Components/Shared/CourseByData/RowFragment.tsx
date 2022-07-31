@@ -66,6 +66,7 @@ const RowFragment = observer(({
             {courseRow.SameLine[activePage - 1]?.CourseFragment?.map((element: CourseElement, eIndex: number) => {
                 return (
                     <IconButton size="small"
+                                sx={{backgroundColor: "transparent"}}
                                 edge="start"
                                 onMouseEnter={(e) => {
                                     setHoveredItemID(Number(element?.CourseElement?.id))

@@ -39,6 +39,7 @@ export default function CourseByData({courseData, coursePosition, onChangePositi
 
                         <Tooltip title={<div>{courseData.name?.toUpperCase()}</div>}>
                             <CardActionArea
+                                onClick={() => setIsOpen(!isOpen)}
                                 style={{
                                     height: 170,
                                     width: 170,

@@ -34,9 +34,7 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
-    const open = Boolean(anchorEl);
-
+    
     return (
         <>
 

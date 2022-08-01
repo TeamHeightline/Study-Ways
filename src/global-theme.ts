@@ -20,8 +20,8 @@ class ThemeStore {
         }
     }
 
-    get isNavbarColored() {
-        return !(this.mode === "dark2")
+    get isOffButtonShiny() {
+        return !(this.mode === "dark")
     }
 
     setModeToLocalStorage(mode: "dark" | "light" | "dark2") {
@@ -63,13 +63,6 @@ class ThemeStore {
         }
     }
 
-    get secondaryColor() {
-        if (this.isLightTheme) {
-            return "rgba(0, 0, 0, 0.6)"
-        } else {
-            return this.textColor
-        }
-    }
 
     get theme() {
         const theme = createTheme({
@@ -111,6 +104,29 @@ class ThemeStore {
                         h1: {
                             fontWeight: "bold"
                         }
+                    }
+                },
+                MuiButton: this.isOffButtonShiny ? {} : {
+                    styleOverrides: {
+                        root: {
+                            boxShadow: `0 0 22px 0 rgb(75 135 184 / 22%)`
+                        },
+                        text: {
+                            boxShadow: `none`
+                        },
+                        outlinedSecondary: {
+                            boxShadow: `0 0 22px 0 rgb(245 0 87 / 22%)`
+                        },
+                        containedSecondary: {
+                            boxShadow: `0 0 22px 0 rgb(245 0 87 / 22%)`
+                        },
+                        outlinedError: {
+                            boxShadow: `0 0 22px 0 rgb(245 0 87 / 22%)`
+                        },
+                        containedError: {
+                            boxShadow: `0 0 22px 0 rgb(245 0 87 / 22%)`
+                        }
+
                     }
                 },
                 MuiCssBaseline: {

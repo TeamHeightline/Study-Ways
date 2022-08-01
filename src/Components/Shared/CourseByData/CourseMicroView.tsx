@@ -73,7 +73,7 @@ export default function CourseByData({courseData, coursePosition, onChangePositi
                     </CardActionArea>
                 </Card>
 
-                <Collapse in={isOpen}>
+                <Collapse in={isOpen} unmountOnExit>
                     <Box sx={{
                         p: 0,
                         width: 360,

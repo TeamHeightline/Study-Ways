@@ -24,10 +24,11 @@ const BlurredAppBar = styled(AppBar)(
 export const Navibar = observer(() => {
     const {width} = useWindowDimensions();
     const navigate = useNavigate();
-    
+
     return (
-        <BlurredAppBar position="fixed">
+        <BlurredAppBar position="fixed" sx={{height: 48}}>
             <Toolbar variant="dense" sx={{justifyContent: {xs: "space-around", md: "none"}}}>
+
                 <Typography variant="h6"
                             sx={{color: "white", flexGrow: 1, display: {xs: "none", md: "block"}}}
                             onClick={() => {

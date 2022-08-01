@@ -45,10 +45,12 @@ export const QuestionEditorPage = observer(() => {
                     </Stack>
                     <Grid container spacing={4} justifyContent="space-between" sx={{mt: 1}}>
                         {questions?.map((question) =>
-                            <Grid item key={question.id}>
-                                <Badge color="secondary" badgeContent={question.sumOfAnswersReports}>
+                            <Grid item key={question.id} sx={{maxWidth: 350, width: "100%",}}>
+                                <Badge color="secondary" badgeContent={question.sumOfAnswersReports}
+                                       sx={{width: "100%"}}
+                                >
                                     <Card
-                                        style={{width: 350, height: 160, textAlign: "center"}}
+                                        style={{height: 160, textAlign: "center", width: "100%"}}
                                         variant="outlined">
                                         <CardActionArea style={{height: "100%"}}
                                                         onClick={() => navigate("selected/" + question.id)}>

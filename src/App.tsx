@@ -81,7 +81,7 @@ const App = observer(() => {
                 <Router>
                     <Navibar/>
                     <SeoData/>
-                    <div style={{paddingTop: isMobile ? 0 : 48}}>
+                    <div style={{paddingTop: 48}}>
                         <Suspense fallback={<Grid container justifyContent={"center"}
                                                   sx={{pt: 4}}><CircularProgress/></Grid>}>
                             <RequireLogInAlert/>

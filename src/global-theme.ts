@@ -81,6 +81,13 @@ class ThemeStore {
 
             },
             components: {
+                MuiCard: {
+                    styleOverrides: {
+                        root: {
+                            borderRadius: 12
+                        }
+                    }
+                },
                 MuiTypography: {
                     styleOverrides: {
                         root: {

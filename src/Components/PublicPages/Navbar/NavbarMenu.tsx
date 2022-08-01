@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {Card, Divider, IconButton, ListItemIcon, MenuItem, Popover, Tooltip} from "@mui/material";
+import {Box, Divider, IconButton, ListItemIcon, MenuItem, Popover, Tooltip} from "@mui/material";
 import {DarkMode} from "@mui/icons-material";
 import {UserStorage} from "../../../Store/UserStore/UserStore";
 import {useAuth0} from "@auth0/auth0-react";
@@ -34,7 +34,7 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    
+
     return (
         <>
 
@@ -53,7 +53,7 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
                 }}
 
             >
-                <Card sx={{py: 1}}>
+                <Box sx={{py: 1}}>
 
 
                     {/*<Menu*/}
@@ -139,7 +139,7 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
                         </ListItemIcon>
                         Выйти
                     </MenuItem>
-                </Card>
+                </Box>
 
                 {/*</Menu>*/}
             </Popover>

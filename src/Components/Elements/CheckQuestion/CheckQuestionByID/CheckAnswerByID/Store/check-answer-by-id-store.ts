@@ -2,6 +2,7 @@ import {autorun, makeAutoObservable} from "mobx";
 import {AnswerNode, Query} from "../../../../../../SchemaTypes";
 import {ClientStorage} from "../../../../../../Store/ApolloStorage/ClientStorage";
 import {AnswerDataByID} from "./query";
+import axiosClient from "../../../../../../ServerLayer/QueryLayer/config";
 
 export class CheckAnswerByIdStore {
     constructor(answerID) {
@@ -34,6 +35,58 @@ export class CheckAnswerByIdStore {
                 .catch((e) => console.log(e))
         }
     }
-    
+
+    // Блок, посвященный созданию отчета об ошибке
+    isOpenAnswerReportDialog = false
+
+    openAnswerReportDialog = () => {
+        this.isOpenAnswerReportDialog = true
+    }
+    closeAnswerReportDialog = () => {
+        this.isOpenAnswerReportDialog = false
+        this.answerReportText = ""
+    }
+
+    answerReportText = ''
+    changeAnswerReportText = (e) => {
+        this.answerReportText = e.target.value
+    }
+
+    saveAnswerReport = () => {
+        if (this.answerReportText && this.answerID) {
+            axiosClient.post('/page/question-page/create-answer-report', {
+                report_data: {
+                    answer_id: Number(this.answerID),
+                    text: this.answerReportText
+                }
+            })
+                .then(() => {
+                    this.addAnswerReportSavedMessage()
+                })
+                .catch(() => {
+                    this.addAnswerReportErrorMessage()
+                })
+        }
+    }
+
+    answerReportSavedMessageArray: boolean[] = []
+
+    addAnswerReportSavedMessage = () => {
+        this.answerReportSavedMessageArray.push(true)
+    }
+
+    addAnswerReportErrorMessage = () => {
+        this.answerReportSavedMessageArray.push(false)
+    }
+
+    removeAnswerReportSavedMessage = () => {
+        this.answerReportSavedMessageArray.shift()
+    }
+
+    onSendAnswerReportButtonClick = () => {
+        this.saveAnswerReport()
+        this.closeAnswerReportDialog()
+    }
+
 
 }

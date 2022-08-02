@@ -4,13 +4,14 @@ import {Collapse, InputAdornment, TextField} from "@mui/material";
 import CopyrightIcon from "@mui/icons-material/Copyright";
 import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
 
-interface ICopyRightProps extends React.HTMLAttributes<HTMLDivElement>{
+interface ICopyRightProps extends React.HTMLAttributes<HTMLDivElement> {
 
 }
-export const CopyRight = observer(({...props}: ICopyRightProps) =>{
-    return(
+
+export const UiCopyRight = observer(({...props}: ICopyRightProps) => {
+    return (
         <div {...props}>
-            <Collapse in={CESObject.getField("isCardUseCopyright",false)}>
+            <Collapse in={CESObject.getField("isCardUseCopyright", false)}>
                 <TextField
                     variant="outlined"
                     label="Авторские права принадлежат: "

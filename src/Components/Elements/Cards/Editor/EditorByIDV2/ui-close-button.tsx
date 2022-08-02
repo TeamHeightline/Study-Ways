@@ -10,7 +10,7 @@ interface ICloseButtonProps extends React.HTMLAttributes<HTMLDivElement> {
 
 }
 
-export const CloseButton = observer(({...props}: ICloseButtonProps) => {
+export const UiCloseButton = observer(({...props}: ICloseButtonProps) => {
     const navigate = useNavigate();
     const isMobile = isMobileHook()
     return (

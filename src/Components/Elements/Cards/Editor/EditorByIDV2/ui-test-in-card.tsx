@@ -3,11 +3,12 @@ import React from 'react';
 import {Stack, TextField, Typography} from "@mui/material";
 import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
 
-interface ITestInCardProps extends React.HTMLAttributes<HTMLDivElement>{
+interface ITestInCardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 }
-export const TestInCard = observer(({...props}: ITestInCardProps) =>{
-    return(
+
+export const UiTestInCard = observer(({...props}: ITestInCardProps) => {
+    return (
         <div {...props}>
             <Stack direction={"column"}>
                 <TextField

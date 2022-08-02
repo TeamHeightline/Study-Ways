@@ -6,13 +6,13 @@ import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDown
 import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
 import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
 import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
-import {SelectCard} from "./SelectCard";
+import {UiSelectCard} from "./ui-select-card";
 
 interface IArrowNavigationProps extends React.HTMLAttributes<HTMLDivElement> {
 
 }
 
-export const ArrowNavigation = observer(({...props}: IArrowNavigationProps) => {
+export const UiArrowNavigation = observer(({...props}: IArrowNavigationProps) => {
     return (
         <div {...props}>
             <Collapse in={CESObject.getField("isCardUseArrowNavigation", false)}>
@@ -23,7 +23,7 @@ export const ArrowNavigation = observer(({...props}: IArrowNavigationProps) => {
                                 <KeyboardArrowLeftOutlinedIcon/>
                             </Button>
                         </ButtonGroup>
-                        <SelectCard card_direction={"cardBefore"}/>
+                        <UiSelectCard card_direction={"cardBefore"}/>
                     </Stack>
                     <Stack direction={"row"} spacing={1}>
                         <ButtonGroup size="medium" color="primary">
@@ -31,7 +31,7 @@ export const ArrowNavigation = observer(({...props}: IArrowNavigationProps) => {
                                 <KeyboardArrowDownOutlinedIcon/>
                             </Button>
                         </ButtonGroup>
-                        <SelectCard card_direction={"cardDown"}/>
+                        <UiSelectCard card_direction={"cardDown"}/>
                     </Stack>
                     <Stack direction={"row"} spacing={1}>
                         <ButtonGroup size="medium" color="primary">
@@ -39,7 +39,7 @@ export const ArrowNavigation = observer(({...props}: IArrowNavigationProps) => {
                                 <KeyboardArrowUpOutlinedIcon/>
                             </Button>
                         </ButtonGroup>
-                        <SelectCard card_direction={"cardUp"}/>
+                        <UiSelectCard card_direction={"cardUp"}/>
                     </Stack>
                     <Stack direction={"row"} spacing={1}>
                         <ButtonGroup size="medium" color="primary">
@@ -47,7 +47,7 @@ export const ArrowNavigation = observer(({...props}: IArrowNavigationProps) => {
                                 <KeyboardArrowRightOutlinedIcon/>
                             </Button>
                         </ButtonGroup>
-                        <SelectCard card_direction={"cardNext"}/>
+                        <UiSelectCard card_direction={"cardNext"}/>
                     </Stack>
                 </Stack>
             </Collapse>

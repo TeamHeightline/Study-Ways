@@ -1,21 +1,21 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import {CircularProgress, Collapse, Grid, Stack} from "@mui/material";
-import {CloseButton} from "./CloseButton";
-import {ID} from "./ID";
-import {CMenu} from "./CMenu";
-import {Title} from "./Title";
-import {HardLevel} from "./HardLeve";
-import {ConnectedThemeSelector} from "./ConnectedThemeSelector";
-import {CopyRight} from "./CopyRight";
+import {UiCloseButton} from "./ui-close-button";
+import {ID} from "./ui-id";
+import {UiCMenu} from "./ui-c-menu";
+import {UiTitle} from "./ui-title";
+import {HardLevel} from "./ui-hard-level";
+import {UiConnectedThemeSelector} from "./ui-connected-theme-selector";
+import {UiCopyRight} from "./ui-copy-right";
 import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
-import {YouTubeVideo} from "./YouTubeVideo";
-import {UploadImage} from "./UploadImage";
-import {RichTextEditor} from "./RichTextEditor";
-import {TagField} from "./TagField";
-import {ArrowNavigation} from "./ArrowNavigation";
-import {TestInCard} from "./TestInCard";
-import {TestBeforeCard} from "./TestBeforeCard";
+import {UiYoutubeVideo} from "./ui-youtube-video";
+import {UiUploadImage} from "./ui-upload-image";
+import {UiRichTextEditor} from "./ui-rich-text-editor";
+import {UiTagField} from "./ui-tag-field";
+import {UiArrowNavigation} from "./ui-arrow-navigation";
+import {UiTestInCard} from "./ui-test-in-card";
+import {UiTestBeforeCard} from "./ui-test-before-card";
 import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 
 interface IEditCardUIProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -37,17 +37,17 @@ const EditCardUI = observer(({...props}: IEditCardUIProps) => {
                   rowSpacing={2} spacing={4}>
 
                 <Grid item xs={12}>
-                    <CloseButton/>
+                    <UiCloseButton/>
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <ID/>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <CMenu/>
+                    <UiCMenu/>
                 </Grid>
 
                 <Grid item xs={12} md={6}>
-                    <Title/>
+                    <UiTitle/>
                 </Grid>
                 <Grid xs={12} md={6} item container spacing={4}>
                     <Grid item xs={12} md={6}>
@@ -56,45 +56,45 @@ const EditCardUI = observer(({...props}: IEditCardUIProps) => {
                 </Grid>
 
                 <Grid item xs={12} md={6}>
-                    <ConnectedThemeSelector/>
+                    <UiConnectedThemeSelector/>
                 </Grid>
                 <Grid item xs={12} md={6} container
                       spacing={4}>
                     {/*<Grid item xs={12} md={6}>*/}
-                    {/*    <AuthorSelector/>*/}
+                    {/*    <UiAuthorSelector/>*/}
                     {/*</Grid>*/}
                     <Grid item xs={12} md={6}>
-                        <CopyRight/>
+                        <UiCopyRight/>
                     </Grid>
                 </Grid>
 
                 <Grid item xs={12} md={6}>
                     <Collapse in={CESObject.getField("cardContentType", "A_0") === "A_0"}>
-                        <YouTubeVideo/>
+                        <UiYoutubeVideo/>
                     </Collapse>
                     <Collapse in={!(CESObject.getField("cardContentType", "A_0") === "A_0")}>
-                        <UploadImage/>
+                        <UiUploadImage/>
                     </Collapse>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <RichTextEditor/>
+                    <UiRichTextEditor/>
                 </Grid>
                 <Grid item xs={12}>
-                    <TagField/>
+                    <UiTagField/>
                 </Grid>
 
                 <Grid item xs={12} md={6}>
-                    <ArrowNavigation/>
+                    <UiArrowNavigation/>
                 </Grid>
                 <Grid item container xs={12} md={6} spacing={4}>
                     <Grid item xs={12} md={6}>
                         <Collapse in={CESObject.getField("isCardUseTestInCard", false)}>
-                            <TestInCard/>
+                            <UiTestInCard/>
                         </Collapse>
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <Collapse in={CESObject.getField("isCardUseTestBeforeCard", false)}>
-                            <TestBeforeCard/>
+                            <UiTestBeforeCard/>
                         </Collapse>
                     </Grid>
 

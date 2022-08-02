@@ -5,7 +5,7 @@ import {CircularProgress, Collapse, Grid} from "@mui/material";
 import {UserStorage} from "../../../../../Store/UserStore/UserStore";
 import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 import EditCardUI from "./EditCardUI";
-import CardSelectorForArrow from "./CardSelectorForArrow";
+import UiCardSelectorForArrowNavigation from "./ui-card-selector-for-arrow-navigation";
 
 export const EditCardByID = observer(({id}) => {
     useEffect(() => {
@@ -14,22 +14,22 @@ export const EditCardByID = observer(({id}) => {
     }, [id, UserStorage.userAccessLevel])
     const isMobile = isMobileHook()
 
-    if(!(CESObject.cardDataLoaded && CESObject.authorsDataLoaded)){
+    if (!(CESObject.cardDataLoaded && CESObject.authorsDataLoaded)) {
         return (
             <Grid container justifyContent="center" style={{marginTop: 12}}>
                 <Grid item>
-                    <CircularProgress />
+                    <CircularProgress/>
                 </Grid>
             </Grid>
         )
     }
-    return(
+    return (
         <div>
             <Collapse in={CESObject.arrowForCardIsSelecting == ""}>
                 <EditCardUI/>
             </Collapse>
             <Collapse in={!(CESObject.arrowForCardIsSelecting == "")}>
-                <CardSelectorForArrow/>
+                <UiCardSelectorForArrowNavigation/>
             </Collapse>
         </div>
     )

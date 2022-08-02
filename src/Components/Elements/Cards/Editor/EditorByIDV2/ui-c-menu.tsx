@@ -11,7 +11,7 @@ import CodeIcon from "@mui/icons-material/Code";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import {CESObject,} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
 
-export const CMenu = observer(({...props}) => {
+export const UiCMenu = observer(({...props}) => {
     const [anchorEl, setAnchorEl] = React.useState<any>(null);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);

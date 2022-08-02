@@ -12,7 +12,7 @@ interface ISelectCardProps extends React.HTMLAttributes<HTMLDivElement> {
     card_direction: "cardBefore" | "cardDown" | "cardNext" | "cardUp"
 }
 
-export const SelectCard = observer(({card_direction, ...props}: ISelectCardProps) => {
+export const UiSelectCard = observer(({card_direction, ...props}: ISelectCardProps) => {
     const handleClickOpenSelectCard = () => {
         CESObject.onStartSelectCard(card_direction)
     };

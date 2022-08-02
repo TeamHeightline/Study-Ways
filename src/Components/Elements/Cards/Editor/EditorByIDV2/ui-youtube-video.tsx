@@ -7,12 +7,13 @@ import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEdi
 import urlParser from "js-video-url-parser";
 import "js-video-url-parser/lib/provider/youtube";
 
-interface IYouTubeVideoProps extends React.HTMLAttributes<HTMLDivElement>{
+interface IYouTubeVideoProps extends React.HTMLAttributes<HTMLDivElement> {
 
 }
-export const YouTubeVideo = observer(({...props}: IYouTubeVideoProps) =>{
+
+export const UiYoutubeVideo = observer(({...props}: IYouTubeVideoProps) => {
     const isMobile = isMobileHook()
-    return(
+    return (
         <div {...props}>
             <ReactPlayer controls
                          url={CESObject.getField("videoUrl", "")}
@@ -27,10 +28,10 @@ export const YouTubeVideo = observer(({...props}: IYouTubeVideoProps) =>{
                 value={CESObject.getField("videoUrl", "")}
                 onChange={CESObject.changeYoutubeUrl}
                 error={CESObject.getField("videoUrl", "") !== "" &&
-                urlParser.parse(CESObject.getField("videoUrl", ""))?.provider == undefined}
+                    urlParser.parse(CESObject.getField("videoUrl", ""))?.provider == undefined}
                 helperText={CESObject.getField("videoUrl", "") !== "" &&
-                urlParser.parse(CESObject.getField("videoUrl", ""))?.provider == undefined?
-                "Ссылка не распознана как видео-источник": ""}
+                urlParser.parse(CESObject.getField("videoUrl", ""))?.provider == undefined ?
+                    "Ссылка не распознана как видео-источник" : ""}
             />
 
         </div>

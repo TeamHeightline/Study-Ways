@@ -9,12 +9,12 @@ import Button from "@mui/material/Button";
 import {CardSelector} from "../../Selector/UI/CardSelector";
 import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
 
-interface ICardSelectorForArrowProps extends React.HTMLAttributes<HTMLDivElement>{
+interface ICardSelectorForArrowProps extends React.HTMLAttributes<HTMLDivElement> {
 
 }
 
-const CardSelectorForArrow = observer(({...props}: ICardSelectorForArrowProps) =>{
-    return(
+const UiCardSelectorForArrowNavigation = observer(({...props}: ICardSelectorForArrowProps) => {
+    return (
         <div {...props}>
             <AppBar position={"relative"}>
                 <Toolbar>
@@ -24,9 +24,9 @@ const CardSelectorForArrow = observer(({...props}: ICardSelectorForArrowProps) =
                         onClick={CESObject.onCloseSelectCard}
                         aria-label="close"
                     >
-                        <CloseIcon />
+                        <CloseIcon/>
                     </IconButton>
-                    <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                    <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
                         Нажмите на карточку, чтобы выбрать ее
                     </Typography>
                     <Button autoFocus color="inherit" onClick={CESObject.onCloseSelectCard}>
@@ -41,4 +41,4 @@ const CardSelectorForArrow = observer(({...props}: ICardSelectorForArrowProps) =
     )
 })
 
-export default CardSelectorForArrow
+export default UiCardSelectorForArrowNavigation

@@ -20,7 +20,7 @@ const upload_props: any = {
 };
 const {Dragger} = Upload;
 
-export const UploadImage = observer(({...props}: IUploadImageProps) => {
+export const UiUploadImage = observer(({...props}: IUploadImageProps) => {
     return (
         <div {...props}>
             <Dragger {...upload_props}

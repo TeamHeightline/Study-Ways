@@ -9,7 +9,7 @@ interface IConnectedThemeSelectorProps extends React.HTMLAttributes<HTMLDivEleme
 
 const {SHOW_CHILD} = TreeSelect;
 
-export const ConnectedThemeSelector = observer(({...props}: IConnectedThemeSelectorProps) => {
+export const UiConnectedThemeSelector = observer(({...props}: IConnectedThemeSelectorProps) => {
     const tProps = {
         treeDataSimpleMode: true,
         treeData: CESObject.connectedThemesForSelector,

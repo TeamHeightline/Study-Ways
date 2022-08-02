@@ -5,15 +5,18 @@ import {Button, Chip, Collapse, TextField} from "@mui/material";
 import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-interface ITagFieldProps extends React.HTMLAttributes<HTMLDivElement>{
+interface ITagFieldProps extends React.HTMLAttributes<HTMLDivElement> {
 
 }
-export const TagField = observer(({...props}: ITagFieldProps) =>{
+
+export const UiTagField = observer(({...props}: ITagFieldProps) => {
     const [showTags, setShowTags] = useState(false)
-    return(
+    return (
         <div {...props}>
             <Button
-                onClick={() =>{setShowTags(!showTags)}}
+                onClick={() => {
+                    setShowTags(!showTags)
+                }}
                 variant="outlined"
                 size={"small"}
                 endIcon={<ArrowDropDownIcon/>}
@@ -32,7 +35,7 @@ export const TagField = observer(({...props}: ITagFieldProps) =>{
                     }}
                     renderTags={(value, getTagProps) =>
                         value?.map((option, index: number) => (
-                            <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                            <Chip variant="outlined" label={option} {...getTagProps({index})} />
                         ))
                     }
                     renderInput={(params) => (

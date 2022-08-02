@@ -1,7 +1,5 @@
 import {observer} from "mobx-react";
-import {
-    QuestionEditorStorage
-} from "../Store/QuestionEditorStorage";
+import {QuestionEditorStorage} from "../Store/QuestionEditorStorage";
 import {Button, Typography} from "@mui/material";
 import React from "react";
 import Paper from "@mui/material/Paper";

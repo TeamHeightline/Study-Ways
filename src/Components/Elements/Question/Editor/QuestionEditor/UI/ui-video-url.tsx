@@ -4,7 +4,7 @@ import {QuestionEditorStorage} from "../Store/QuestionEditorStorage";
 import FormControl from "@mui/material/FormControl";
 import React from "react";
 
-export const QuestionVideoURL = observer(() => {
+export const UiVideoUrl = observer(() => {
     return (
         <FormControl className="col-12">
             <TextField

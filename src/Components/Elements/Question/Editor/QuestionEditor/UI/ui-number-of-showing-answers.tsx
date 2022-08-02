@@ -4,7 +4,7 @@ import {FormControl, MenuItem, Stack, TextField, Typography} from "@mui/material
 import {QuestionEditorStorage} from "../Store/QuestionEditorStorage";
 import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
 
-export const QuestionNumberOfShowingAnswers = observer(() => {
+export const UiNumberOfShowingAnswers = observer(() => {
     const isMobile = isMobileHook()
     return (
         <div>

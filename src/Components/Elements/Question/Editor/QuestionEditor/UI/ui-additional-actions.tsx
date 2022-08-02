@@ -7,9 +7,7 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import SchoolIcon from '@mui/icons-material/School';
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 
-import {
-    QuestionEditorStorage
-} from "../Store/QuestionEditorStorage";
+import {QuestionEditorStorage} from "../Store/QuestionEditorStorage";
 
 interface IAdditionalActionsProps extends React.HTMLAttributes<HTMLDivElement> {
 
@@ -34,7 +32,7 @@ const actions = [
     },
 ];
 
-const AdditionalActions = observer(({...props}: IAdditionalActionsProps) => {
+const UiAdditionalActions = observer(({...props}: IAdditionalActionsProps) => {
     return (
         <div {...props}>
             <Backdrop
@@ -63,4 +61,4 @@ const AdditionalActions = observer(({...props}: IAdditionalActionsProps) => {
     )
 })
 
-export default AdditionalActions
+export default UiAdditionalActions

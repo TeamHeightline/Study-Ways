@@ -6,7 +6,7 @@ import UiQuestionData from "../../../QuestionByID/UI/ui-question-data";
 import React from "react";
 import {observer} from "mobx-react";
 
-export const QuestionPreview = observer(() => {
+export const UiQuestionPreview = observer(() => {
     return (
         <>
             {QuestionEditorStorage.questionHasBeenSelected &&

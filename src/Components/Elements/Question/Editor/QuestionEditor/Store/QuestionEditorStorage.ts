@@ -7,8 +7,7 @@ import {
     GET_CONNECTED_THEMES,
     GET_QUESTION_DATA_BY_ID,
     MY_QUESTIONS_BASIC_DATA,
-    THEMES_AND_AUTHORS_FOR_QUESTION,
-    UPDATE_QUESTION
+    THEMES_AND_AUTHORS_FOR_QUESTION
 } from "./Struct";
 import {
     AnswerNode,
@@ -24,6 +23,7 @@ import {sort} from "fast-sort";
 import {Answer, answerStoreType} from "./AnswersStorage";
 import {UserStorage} from "../../../../../../Store/UserStore/UserStore";
 import {SERVER_BASE_URL} from "../../../../../../settings";
+import axiosClient from "../../../../../../ServerLayer/QueryLayer/config";
 
 export enum variantsOfStateOfSave {
     SAVED = "SAVED",
@@ -288,30 +288,27 @@ class QuestionEditor {
 
     //Функция для сохранения даных на сервере
     saveDataOnServer() {
-        this.clientStorage.client.mutate({
-            mutation: UPDATE_QUESTION, variables: {
+        if (this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN") {
+            axiosClient.post("/page/edit-question-by-id/update-question", {
                 id: this.selectedQuestionID,
-                connectedTheme: this.selectedConnectedTheme,
-                createdBy: 0,
-                theme: this.selectedQuestionThemesArray,
-                author: this.selectedQuestionAuthorsArray,
+                connected_theme_id: this.selectedConnectedTheme,
                 text: this.selectedQuestionText,
-                videoUrl: this.selectedQuestionVideoUrl,
-                numberOfShowingAnswers: Number(this.selectedQuestionNumberOfShowingAnswers),
-            }
-        })
-            .then((response) => {
-                console.log(response)
-                if (response.data.updateQuestion.errors.length > 0) {
-                    this.stateOfSave = variantsOfStateOfSave.ERROR
-                } else {
-                    this.stateOfSave = variantsOfStateOfSave.SAVED
-                }
+                video_url: this.selectedQuestionVideoUrl,
+                number_of_showing_answers: Number(this.selectedQuestionNumberOfShowingAnswers),
             })
-            .then(() => {
-                this.loadBasicQuestionData()
-                this.simpleUpdateFlag = true
-            })
+                .then((response) => {
+                    console.log(response)
+                    if (response.data.id) {
+                        this.stateOfSave = variantsOfStateOfSave.SAVED
+                    } else {
+                        this.stateOfSave = variantsOfStateOfSave.ERROR
+                    }
+                })
+                .then(() => {
+                    this.loadBasicQuestionData()
+                    this.simpleUpdateFlag = true
+                })
+        }
     }
 
     //сохранен/не сохранен / ошибка

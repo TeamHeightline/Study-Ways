@@ -36,6 +36,3 @@ export class CheckQuestionByIdStore {
         }
     }
 }
-
-const sampleCQStore = new CheckQuestionByIdStore()
-export type CQStoreType = typeof sampleCQStore

@@ -2,13 +2,13 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Chip, Grid, Paper} from "@mui/material";
-import {CQStoreType} from "../Store/check-question-by-id-store";
+import {CheckQuestionByIdStore} from "../Store/check-question-by-id-store";
 import Typography from "@mui/material/Typography";
 import {NanoQuestionStoreType} from "../../../Question/QuestionNanoViewByID/Store/question-nano-view-by-id-store";
 
 
 interface ICheckQuestionTitleProps extends PaperProps {
-    CQStore: CQStoreType,
+    CQStore: CheckQuestionByIdStore,
     QuestionDataStore: NanoQuestionStoreType
 }
 

@@ -8,6 +8,7 @@ import CheckQuestionTitle from "./qcheck-question-title";
 import {QuestionNanoViewByIdStore} from "../../../Question/QuestionNanoViewByID/Store/question-nano-view-by-id-store";
 import QuestionTextAndImage from "./question-text-and-image";
 import CheckAnswerIndex from "../CheckAnswerByID/UI";
+import UIEditQuestionButton from "./ui-edit-question-button";
 
 
 interface ICheckQuestionByIDProps extends PaperProps {
@@ -22,6 +23,7 @@ const CheckQuestionByID = observer(({question_id, ...props}: ICheckQuestionByIDP
             <GoBackButton/>
             <Stack alignItems={"center"}>
                 <CheckQuestionTitle CQStore={CQStore} QuestionDataStore={QuestionDataStore}/>
+                <UIEditQuestionButton question_id={question_id}/>
             </Stack>
             <Grid
                 sx={{pt: 2}}

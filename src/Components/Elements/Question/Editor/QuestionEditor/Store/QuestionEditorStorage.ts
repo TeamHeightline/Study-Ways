@@ -49,17 +49,11 @@ class QuestionEditor {
     //доступ к данным о пользователе, чтобы можно было проверять уровень доступа
     userStorage = UserStorage
 
-    //Данные с сервера о всех вопросах
-    allQuestionsData: Maybe<QuestionNode[]> | any = []
-
     //Все темы для вопросов
     allThemesForQuestion: Maybe<QuestionThemesNode[]> | any = []
 
     //Все авторы для вопросов
     allAuthorsForQuestion: Maybe<QuestionAuthorNode[]> | any = []
-
-    //Флаг, указывающий на то, были ли доставлены данные о всех вопросах с сервера или нет
-    allQuestionsDataHasBeenDeliver = false
 
     //Флаг, указывающий на то, был ли выбран вопрос в селекторе
     questionHasBeenSelected = false
@@ -160,19 +154,6 @@ class QuestionEditor {
 
     //----------------------------------------------------------------
 
-    // get isAnyoneOfAnswersNotSaved() {
-    //     let allAnswersSaved = true
-    //     for (let [key, answer] of this.registeredAnswersStores) {
-    //         if (!answer.stateOfSave) {
-    //             allAnswersSaved = false
-    //         }
-    //     }
-    //     return allAnswersSaved
-    // }
-
-    changeQuestionHasBeenSelected(newState) {
-        this.questionHasBeenSelected = newState
-    }
 
     //Флаг, указывающий на то, использовать превью или нет
     showPreview = false
@@ -269,9 +250,6 @@ class QuestionEditor {
     }
 
     //Геттер, нужен чтобы можно было без преобразований использовать allQuestionsData
-    get allQuestionsDataForSelector() {
-        return (toJS(this.allQuestionsData))
-    }
 
 
     deliverFromServerImageURL() {
@@ -393,30 +371,11 @@ class QuestionEditor {
     //Раздел ответов ----------------------------------------------------------
     answers: answerStoreType[] = []
 
-    get answersForUI() {
-        return this.answers
-    }
-
-    get notDeletedAnswers() {
-        return this.answers.filter((answer) => !answer.isDeleted)
-    }
-
-    get answersID(): number[] {
-        return toJS(this.notDeletedAnswers).map((answer) => Number(answer.id))
-    }
-
-    getAnswerByID = (answer_id) => {
-        return this.answers.find((answer) => answer.id = answer_id)
-    }
-
 
     //Флаг который позволяет игнорировать пересоздание сторов для ответов в случае если это просто обновление
     //ответа
     simpleUpdateFlag = false
 
-    changeSimpleUpdateFlag(newFlag) {
-        this.simpleUpdateFlag = newFlag
-    }
 
     //флаг блокировки закрытия вопроса, если не сохранен вопрос или какой-лбо из его ответов
     get unsavedFlag() {
@@ -474,44 +433,6 @@ class QuestionEditor {
             .catch(() => void (0))
     }
 
-
-    activeFolder = 0
-
-    changeActiveFolder(newFolder) {
-        this.activeFolder = newFolder
-    }
-
-    get QuestionArrayForDisplay() {
-        if (!this?.basicQuestionData) {
-            return ([])
-        }
-        if (this.activeFolder === 0) {
-            return (
-                sort(this.basicQuestionData)?.desc((question: any) => Number(question.id))
-            )
-        }
-        if (this.activeFolder === 1) {
-            return (
-                sort(this.basicQuestionData?.filter((question) => question.text !== "Новый вопрос"))?.desc((question: any) => Number(question.id))
-            )
-        }
-        if (this.activeFolder === 2) {
-            return (
-                sort(this.basicQuestionData?.filter((question) => question.text === "Новый вопрос"))?.desc((question: any) => Number(question.id))
-            )
-        }
-    }
-
-    //Массив редактируемых сейчас вопросов, нужен чтобы хранить свернутые и развернутые ответы
-    activeEditAnswerIDSet = new Set()
-
-    changeActiveEditAnswerIDSet(id) {
-        if (QuestionEditorStorage.activeEditAnswerIDSet.has(id)) {
-            QuestionEditorStorage.activeEditAnswerIDSet.delete(id)
-        } else {
-            QuestionEditorStorage.activeEditAnswerIDSet.add(id)
-        }
-    }
 
 }
 

@@ -50,8 +50,8 @@ export default function CourseByData({courseData, coursePosition, onChangePositi
                                 padding: 0,
                                 backgroundSize: "cover",
                                 backgroundPosition: "center",
-                                contentVisibility: "auto",
                                 backgroundImage: "url(" + FILE_URL + "/" + courseData?.cards_cardcourseimage?.image + ")",
+                                contentVisibility: "auto",
                                 cacheControl: "public,max-age=31536000,immutable",
                                 loading: "lazy",
                                 decoding: "async"

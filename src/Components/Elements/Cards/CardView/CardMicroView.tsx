@@ -91,7 +91,13 @@ export default function CardMicroView({
                         <Grid item xs={4}>
                             {Number(card_data.cardById.cardContentType[2]) === 0 && card_data?.cardById?.videoUrl &&
                                 <CardMedia
-                                    style={{width: 132, height: 169}}
+                                    sx={{
+                                        width: 132, height: 169,
+                                        contentVisibility: "auto",
+                                        cacheControl: "public,max-age=31536000,immutable",
+                                        loading: "lazy",
+                                        decoding: "async"
+                                    }}
                                     onError={() => void (0)}
                                     image={
                                         "https://img.youtube.com/vi/" + urlParser.parse(card_data?.cardById.videoUrl)?.id + "/hqdefault.jpg"

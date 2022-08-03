@@ -2,15 +2,16 @@ import {observer} from "mobx-react";
 import React from 'react';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
-import CardMicroView from "../../CardView/CardMicroView";
+import {CESObject} from "../Store/CardEditorStorage";
+import CardMicroView from "../../../CardView/CardMicroView";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import ClearIcon from "@mui/icons-material/Clear";
-import TransparentTooltip from "../../../../../CustomHooks/TransparentTooltip";
+import TransparentTooltip from "../../../../../../CustomHooks/TransparentTooltip";
 
 interface ISelectCardProps extends React.HTMLAttributes<HTMLDivElement> {
     card_direction: "cardBefore" | "cardDown" | "cardNext" | "cardUp"
 }
+
 
 export const UiSelectCard = observer(({card_direction, ...props}: ISelectCardProps) => {
     const handleClickOpenSelectCard = () => {

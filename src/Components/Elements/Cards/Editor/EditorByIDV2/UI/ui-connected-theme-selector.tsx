@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import TreeSelect from "antd/es/tree-select";
-import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
+import {CESObject} from "../Store/CardEditorStorage";
 
 interface IConnectedThemeSelectorProps extends React.HTMLAttributes<HTMLDivElement> {
 

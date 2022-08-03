@@ -1,9 +1,9 @@
 import {observer} from "mobx-react";
-import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
+import {CESObject} from "../Store/CardEditorStorage";
 import React, {useEffect} from "react";
 import {CircularProgress, Collapse, Grid} from "@mui/material";
-import {UserStorage} from "../../../../../Store/UserStore/UserStore";
-import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
+import {UserStorage} from "../../../../../../Store/UserStore/UserStore";
+import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
 import EditCardUI from "./EditCardUI";
 import UiCardSelectorForArrowNavigation from "./ui-card-selector-for-arrow-navigation";
 

@@ -6,8 +6,8 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import {CardSelector} from "../../Selector/UI/CardSelector";
-import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
+import {CardSelector} from "../../../Selector/UI/CardSelector";
+import {CESObject} from "../Store/CardEditorStorage";
 
 interface ICardSelectorForArrowProps extends React.HTMLAttributes<HTMLDivElement> {
 

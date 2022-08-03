@@ -1,6 +1,6 @@
 import {makeAutoObservable, reaction, toJS} from "mobx";
-import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
-import {UserStorage} from "../../../UserStore/UserStore";
+import {ClientStorage} from "../../../../../../Store/ApolloStorage/ClientStorage";
+import {UserStorage} from "../../../../../../Store/UserStore/UserStore";
 import {
     GET_CARD_DATA_BY_ID,
     GET_CONNECTED_THEMES,
@@ -8,13 +8,21 @@ import {
     GET_QUESTION_TEXT_BY_ID,
     UPDATE_CARD
 } from "./Struct";
-import {CardAuthorNode, CardNode, Mutation, Query, QuestionNode, UnstructuredThemesNode} from "../../../../SchemaTypes";
+import {
+    CardAuthorNode,
+    CardNode,
+    Mutation,
+    Query,
+    QuestionNode,
+    UnstructuredThemesNode
+} from "../../../../../../SchemaTypes";
 import {computedFn} from "mobx-utils"
 import {sort} from "fast-sort";
-import {SERVER_BASE_URL} from "../../../../settings";
+import {SERVER_BASE_URL} from "../../../../../../settings";
 import message from "antd/es/message";
 import "js-video-url-parser/lib/provider/youtube";
 import urlParser from "js-video-url-parser";
+import axiosClient from "../../../../../../ServerLayer/QueryLayer/config";
 
 
 export type card_object_fields = keyof CardNode
@@ -380,6 +388,31 @@ class CardEditorStorage {
             this.changeFieldByValue(this.arrowForCardIsSelecting, card_id)
         }
         this.onCloseSelectCard()
+    }
+
+
+    //-------Работа с созданием копии --------------------
+
+    isOpenCopyCardDialog = false
+
+    openCopyCardDialog = () => {
+        this.isOpenCopyCardDialog = true
+    }
+    closeCopyCardDialog = () => {
+        this.isOpenCopyCardDialog = false
+    }
+
+    isPendingCreateCopy = false
+
+    createCopyCard = async () => {
+        if (!!this?.card_object?.id) {
+            this.isPendingCreateCopy = true
+            const copyCard = await axiosClient.post("/page/edit-card-by-id/create-card-copy/" + this.card_object.id)
+            this.isPendingCreateCopy = false
+            this.isOpenCopyCardDialog = false
+            return copyCard
+
+        }
     }
 
 }

@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React, {useState} from 'react';
 import {Autocomplete} from "@mui/lab";
 import {Button, Chip, Collapse, TextField} from "@mui/material";
-import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
+import {CESObject} from "../Store/CardEditorStorage";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 interface ITagFieldProps extends React.HTMLAttributes<HTMLDivElement> {

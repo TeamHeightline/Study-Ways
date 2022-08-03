@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import Typography from "@mui/material/Typography";
-import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
+import {CESObject} from "../Store/CardEditorStorage";
 
 interface IIDProps extends React.HTMLAttributes<HTMLDivElement> {
 

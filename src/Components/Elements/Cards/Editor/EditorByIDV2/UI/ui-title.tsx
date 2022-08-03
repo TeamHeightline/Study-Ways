@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import {FormControl, TextField} from "@mui/material";
-import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
+import {CESObject} from "../Store/CardEditorStorage";
 
 interface ITitleProps extends React.HTMLAttributes<HTMLDivElement> {
 

@@ -8,7 +8,7 @@ import {UiTitle} from "./ui-title";
 import {HardLevel} from "./ui-hard-level";
 import {UiConnectedThemeSelector} from "./ui-connected-theme-selector";
 import {UiCopyRight} from "./ui-copy-right";
-import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
+import {CESObject} from "../Store/CardEditorStorage";
 import {UiYoutubeVideo} from "./ui-youtube-video";
 import {UiUploadImage} from "./ui-upload-image";
 import {UiRichTextEditor} from "./ui-rich-text-editor";
@@ -16,7 +16,9 @@ import {UiTagField} from "./ui-tag-field";
 import {UiArrowNavigation} from "./ui-arrow-navigation";
 import {UiTestInCard} from "./ui-test-in-card";
 import {UiTestBeforeCard} from "./ui-test-before-card";
-import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
+import UICreateButton from "./ui-create-copy-button";
+import UICreateCopyDialog from "./ui-create-copy-dialog";
 
 interface IEditCardUIProps extends React.HTMLAttributes<HTMLDivElement> {
 
@@ -35,6 +37,7 @@ const EditCardUI = observer(({...props}: IEditCardUIProps) => {
         <div {...props}>
             <Grid container item sx={{pl: isMobile ? 0 : 8, pr: isMobile ? 0 : 8, pt: isMobile ? 0 : 1}}
                   rowSpacing={2} spacing={4}>
+                <UICreateCopyDialog/>
 
                 <Grid item xs={12}>
                     <UiCloseButton/>
@@ -43,7 +46,10 @@ const EditCardUI = observer(({...props}: IEditCardUIProps) => {
                     <ID/>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <UiCMenu/>
+                    <Stack direction={"row"} spacing={2}>
+                        <UiCMenu/>
+                        <UICreateButton/>
+                    </Stack>
                 </Grid>
 
                 <Grid item xs={12} md={6}>

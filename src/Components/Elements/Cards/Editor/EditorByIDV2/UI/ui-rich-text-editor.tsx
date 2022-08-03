@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {Card, Typography} from "@mui/material";
 import {CKEditor} from '@ckeditor/ckeditor5-react'
-import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
+import {CESObject} from "../Store/CardEditorStorage";
 import './ui-rich-text-editor-style.css'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 

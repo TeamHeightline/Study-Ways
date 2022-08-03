@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React from 'react';
 import InputLabel from "@mui/material/InputLabel";
 import {FormControl, MenuItem, Select} from "@mui/material";
-import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
+import {CESObject} from "../Store/CardEditorStorage";
 
 interface IAuthorSelectorProps extends React.HTMLAttributes<HTMLDivElement> {
 

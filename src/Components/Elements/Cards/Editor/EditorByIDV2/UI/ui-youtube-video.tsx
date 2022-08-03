@@ -2,8 +2,8 @@ import {observer} from "mobx-react";
 import React from 'react';
 import ReactPlayer from "react-player";
 import {TextField} from "@mui/material";
-import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
-import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
+import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
+import {CESObject} from "../Store/CardEditorStorage";
 import urlParser from "js-video-url-parser";
 import "js-video-url-parser/lib/provider/youtube";
 

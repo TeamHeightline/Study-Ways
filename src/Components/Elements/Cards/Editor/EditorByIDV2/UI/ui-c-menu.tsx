@@ -9,7 +9,7 @@ import HttpIcon from "@mui/icons-material/Http";
 import ImageIcon from "@mui/icons-material/Image";
 import CodeIcon from "@mui/icons-material/Code";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
-import {CESObject,} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
+import {CESObject,} from "../Store/CardEditorStorage";
 
 export const UiCMenu = observer(({...props}) => {
     const [anchorEl, setAnchorEl] = React.useState<any>(null);
@@ -25,14 +25,16 @@ export const UiCMenu = observer(({...props}) => {
         <div {...props}>
             <div>
                 <Button
+                    size={"large"}
 
                     variant="outlined"
                     color="primary"
                     onClick={handleClick}
+                    startIcon={<SettingsIcon/>}
                 >
-                    <ListItemIcon>
-                        <SettingsIcon/>
-                    </ListItemIcon>
+                    {/*<ListItemIcon>*/}
+                    {/*    <SettingsIcon/>*/}
+                    {/*</ListItemIcon>*/}
                     Настроить содержимое
                 </Button>
                 <Menu

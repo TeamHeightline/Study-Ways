@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import {Stack, TextField, Typography} from "@mui/material";
-import {CESObject} from "../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
+import {CESObject} from "../Store/CardEditorStorage";
 
 interface ITestInCardProps extends React.HTMLAttributes<HTMLDivElement> {
 

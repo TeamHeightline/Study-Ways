@@ -50,7 +50,12 @@ export default function CourseByData({courseData, coursePosition, onChangePositi
                                 padding: 0,
                                 backgroundSize: "cover",
                                 backgroundPosition: "center",
-                                backgroundImage: "url(" + FILE_URL + "/" + courseData?.cards_cardcourseimage?.image + ")"
+                                contentVisibility: "auto",
+                                backgroundImage: "url(" + FILE_URL + "/" + courseData?.cards_cardcourseimage?.image + ")",
+                                cacheControl: "public,max-age=31536000,immutable",
+                                loading: "lazy",
+                                decoding: "async"
+
                             }}>
                                 <Box sx={{
                                     height: 171,

@@ -73,7 +73,7 @@ const CourseMicroView = observer(({
                                     "url(" + courseStore.courseImage + ")" :
                                     "url('https://storage.googleapis.com/sw-files/cards-course-images/course/'" +
                                     courseStore.id + ")",
-                                contentVisibility: "auto",
+
                                 cacheControl: "public,max-age=31536000,immutable",
                                 loading: "lazy",
                                 decoding: "async"

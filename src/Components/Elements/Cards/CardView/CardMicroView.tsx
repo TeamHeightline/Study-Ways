@@ -93,7 +93,7 @@ export default function CardMicroView({
                                 <CardMedia
                                     sx={{
                                         width: 132, height: 169,
-                                        contentVisibility: "auto",
+
                                         cacheControl: "public,max-age=31536000,immutable",
                                         loading: "lazy",
                                         decoding: "async"

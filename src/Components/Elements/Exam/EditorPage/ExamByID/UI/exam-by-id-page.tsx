@@ -7,8 +7,6 @@ import ExamName from "./exam-name";
 import UIPageTitle from "./ui-page-title";
 import UIDuration from "./ui-duration";
 import SelectedQSByData from "./ui-seleced-qs-by-data";
-import UIAccessTypeToggle from "./ui-access-type-togle";
-import UIAccessTypeVariants from "./ui-access-type-variants";
 import UIStudentsAccessType from "./ui-students-access-type";
 import UIExamUrls from "./ui-exam-urls";
 import {useSelector} from "react-redux";
@@ -26,24 +24,17 @@ interface IExamByIDProps extends PaperProps {
 }
 
 const ExamByID = observer(({exam_id, ...props}: IExamByIDProps) => {
-    const storeExamID = useSelector((state: RootState) => state?.examEditor?.exam_id)
     const loadedExamDataID = useSelector((state: RootState) => state?.examEditor?.exam_data?.id)
-    const isLoadingEdamData = useSelector((state: RootState) => state?.examEditor?.exam_data_loading)
     const dispatch = useAppDispatch()
     const isMobile = isMobileHook()
 
     useEffect(() => {
         dispatch(changeExamId(String(exam_id)))
+        dispatch(loadExamDataThunk(String(exam_id)))
     }, [exam_id])
 
-    useEffect(() => {
-        if (storeExamID) {
-            dispatch(loadExamDataThunk(storeExamID))
-        }
-    }, [storeExamID])
 
-
-    if (isLoadingEdamData || Number(loadedExamDataID) !== Number(exam_id)) {
+    if (Number(loadedExamDataID) !== Number(exam_id)) {
         return (
             <Stack alignItems={"center"}>
                 <CircularProgress/>
@@ -103,8 +94,8 @@ const ExamByID = observer(({exam_id, ...props}: IExamByIDProps) => {
 
             </Stack>
             <Divider>Статистика</Divider>
-            {loadedExamDataID &&
-                <ExamResultsByID exam_id={Number(loadedExamDataID)}/>}
+            {exam_id &&
+                <ExamResultsByID exam_id={Number(exam_id)}/>}
         </Paper>
     )
 })

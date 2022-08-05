@@ -1,7 +1,6 @@
 import {Box, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
 import CheckIcon from '@mui/icons-material/Check';
-import TimerIcon from '@mui/icons-material/Timer';
 import CloseIcon from '@mui/icons-material/Close';
 import {RootState, useAppDispatch} from "../../../../../../root-redux-store/RootStore";
 import {useSelector} from "react-redux";
@@ -39,23 +38,6 @@ export default function UIAccessModeSelector({...props}: IUIAccessModeSelectorPr
                         <CloseIcon sx={{mr: 2}} fontSize="small"/>
                         Закрытый
                     </MenuItem>
-
-                    {/*<MenuItem value={"manual"}>*/}
-                    {/*    <ToggleOffIcon sx={{mr: 2}} fontSize="small"/>*/}
-                    {/*    Ручной режим*/}
-                    {/*</MenuItem>*/}
-
-                    <MenuItem value={"time-interval"}>
-                        <TimerIcon sx={{mr: 2}} fontSize="small"/>
-                        Промежуток времени
-                    </MenuItem>
-
-                    {/*<MenuItem value={"password"}>*/}
-                    {/*    <PasswordIcon sx={{mr: 2}} fontSize="small"/>*/}
-                    {/*    По паролю*/}
-                    {/*</MenuItem>*/}
-
-
                 </Select>
             </FormControl>
         </Box>

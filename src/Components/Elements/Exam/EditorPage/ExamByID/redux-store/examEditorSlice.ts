@@ -38,6 +38,26 @@ const examEditorSlice = createSlice({
         },
         prepareForUpdateExamData: (state) => {
             state.update_exam_loading = true;
+        },
+        changeIsEnableHelpText: (state) => {
+            if (state.exam_data) {
+                state.exam_data.is_enable_help_text = !state.exam_data.is_enable_help_text
+            }
+        },
+        changeHelpTextLevel: (state, action: PayloadAction<IExamData['help_text_level']>) => {
+            if (state.exam_data) {
+                state.exam_data.help_text_level = action.payload;
+            }
+        },
+        changeIsEnableMaxQuestionAttempts: (state) => {
+            if (state.exam_data) {
+                state.exam_data.is_enable_max_question_attempts = !state.exam_data.is_enable_max_question_attempts
+            }
+        },
+        changeMaxQuestionAttempts: (state, action: PayloadAction<IExamData['max_question_attempts']>) => {
+            if (state.exam_data) {
+                state.exam_data.max_question_attempts = action.payload;
+            }
         }
     },
     extraReducers: {
@@ -99,7 +119,14 @@ export interface IExamData {
     "uid": string,
     "created_by_id": string,
     "minutes": number,
-    question_sequence_id: number
+    question_sequence_id: number,
+    is_enable_help_text: boolean,
+    is_enable_password_check: boolean,
+    is_enable_start_and_finish_time: boolean,
+    is_enable_max_question_attempts: boolean,
+    help_text_level: 0 | 1 | 2,
+    password: null,
+    max_question_attempts: number
 }
 
 export default examEditorSlice.reducer;
@@ -109,5 +136,9 @@ export const {
     changeExamName,
     changeExamMinutes,
     changeAccessMode,
-    prepareForUpdateExamData
+    prepareForUpdateExamData,
+    changeIsEnableHelpText,
+    changeHelpTextLevel,
+    changeIsEnableMaxQuestionAttempts,
+    changeMaxQuestionAttempts
 } = examEditorSlice.actions;

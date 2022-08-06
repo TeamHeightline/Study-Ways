@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {loadExamDataThunk, loadQSDataThunk, updateExamThunk} from "./async-actions";
 import {sequenceDataI} from "../../../../../../ServerLayer/Types/question-sequence.type";
+import CryptoJS from "crypto-js";
 
 const examEditorSlice = createSlice({
     name: "examEditor",
@@ -16,6 +17,8 @@ const examEditorSlice = createSlice({
 
         update_exam_loading: false,
         update_exam_error: null,
+
+        original_password: '',
     },
     reducers: {
         changeAccessMode: (state, action: PayloadAction<IExamData['access_mode']>) => {
@@ -61,11 +64,22 @@ const examEditorSlice = createSlice({
                 state.exam_data.is_enable_password_check = !state.exam_data.is_enable_password_check
             }
         },
-        changePassword: (state, action: PayloadAction<IExamData['password']>) => {
+        changeOriginalPassword: (state, action: PayloadAction<string>) => {
+            if (state.exam_data) {
+                state.original_password = action.payload;
+            }
+        },
+        changePassword: (state, action: PayloadAction<string>) => {
             if (state.exam_data) {
                 state.exam_data.password = action.payload;
             }
+        },
+        changeIsEnableStartAndFinishTime: (state) => {
+            if (state.exam_data) {
+                state.exam_data.is_enable_start_and_finish_time = !state.exam_data.is_enable_start_and_finish_time
+            }
         }
+
 
     },
     extraReducers: {
@@ -94,6 +108,8 @@ const examEditorSlice = createSlice({
         },
         [loadExamDataThunk.fulfilled.type]: (state, action) => {
             state.exam_data = action.payload;
+            state.original_password = CryptoJS.AES.decrypt(action.payload.password, "sw-secret-key").toString(CryptoJS.enc.Utf8)
+            action.payload.password;
             state.exam_data_loading = false;
         },
         [loadExamDataThunk.rejected.type]: (state, action) => {
@@ -134,7 +150,7 @@ export interface IExamData {
     is_enable_max_question_attempts: boolean,
     help_text_level: 0 | 1 | 2,
     password: string | null,
-    max_question_attempts: number
+    max_question_attempts: number,
 }
 
 export default examEditorSlice.reducer;
@@ -149,5 +165,6 @@ export const {
     changeIsEnableMaxQuestionAttempts,
     changeMaxQuestionAttempts,
     changeIsEnablePasswordCheck,
-    changePassword
+    changePassword,
+    changeOriginalPassword
 } = examEditorSlice.actions;

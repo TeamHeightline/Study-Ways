@@ -17,20 +17,12 @@ interface IExamResultsByIDProps extends PaperProps {
 
 export default function ExamResultsByID({exam_id, ...props}: IExamResultsByIDProps) {
     const dispatch: any = useDispatch();
-    const examID = useSelector((state: RootState) => state?.examResultsByIDReducer?.exam_id)
     const examResults = useSelector((state: RootState) => state?.examResultsByIDReducer?.exam_results)
 
     useEffect(() => {
-        if (examID !== exam_id) {
-            dispatch(changeExamID(exam_id));
-        }
+        dispatch(changeExamID(exam_id));
+        dispatch(loadExamResultsAsync(exam_id));
     }, [exam_id])
-
-    useEffect(() => {
-        if (examID) {
-            dispatch(loadExamResultsAsync(examID));
-        }
-    }, [examID]);
 
     useEffect(() => {
         dispatch(createArrayForChart())

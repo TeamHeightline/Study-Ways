@@ -66,13 +66,17 @@ const CourseMicroView = observer(({
                     <Tooltip
                         title={<div>{courseStore?.courseName?.toUpperCase()}</div>}>
                         <CardActionArea
-                            style={{
+                            sx={{
                                 backgroundSize: "cover",
                                 backgroundPosition: "center",
                                 backgroundImage: courseStore.courseImage ?
                                     "url(" + courseStore.courseImage + ")" :
                                     "url('https://storage.googleapis.com/sw-files/cards-course-images/course/'" +
-                                    courseStore.id + ")"
+                                    courseStore.id + ")",
+
+                                cacheControl: "public,max-age=31536000,immutable",
+                                loading: "lazy",
+                                decoding: "async"
                             }}
                             onClick={() => {
                                 navigate("./course?" + "id=" + course_id +

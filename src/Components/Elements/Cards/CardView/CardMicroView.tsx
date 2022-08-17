@@ -3,7 +3,7 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import {CardActionArea, Chip, Grid, Skeleton, Stack, Tooltip} from "@mui/material";
+import {Box, CardActionArea, Chip, Grid, Skeleton, Stack, Tooltip} from "@mui/material";
 import {useQuery} from "@apollo/client";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import HttpIcon from '@mui/icons-material/Http';
@@ -80,7 +80,8 @@ export default function CardMicroView({
                   sx={{
                       display: 'flex',
                       width: "400px",
-                      height: "170px"
+                      height: "170px",
+                      border: "none"
                   }}
                   onClick={() => {
                       onChange(cardID)
@@ -90,7 +91,13 @@ export default function CardMicroView({
                         <Grid item xs={4}>
                             {Number(card_data.cardById.cardContentType[2]) === 0 && card_data?.cardById?.videoUrl &&
                                 <CardMedia
-                                    style={{width: 132, height: 169}}
+                                    sx={{
+                                        width: 132, height: 169,
+
+                                        cacheControl: "public,max-age=31536000,immutable",
+                                        loading: "lazy",
+                                        decoding: "async"
+                                    }}
                                     onError={() => void (0)}
                                     image={
                                         "https://img.youtube.com/vi/" + urlParser.parse(card_data?.cardById.videoUrl)?.id + "/hqdefault.jpg"
@@ -107,7 +114,7 @@ export default function CardMicroView({
                         </Grid>
                         <Grid item xs={8} sx={{height: "100%"}}>
                             <Stack direction={"column"}
-                                   justifyContent={"space-between"}
+                                // justifyContent={"space-between"}
                                    sx={{pl: 1, pr: 1, pb: 1, height: "170px"}}
                             >
                                 <div>
@@ -145,13 +152,14 @@ export default function CardMicroView({
                                             display: '-webkit-box',
                                             overflow: 'hidden',
                                             WebkitBoxOrient: 'vertical',
-                                            WebkitLineClamp: 4
+                                            WebkitLineClamp: 4,
+                                            maxHeight: 70
                                         }}
                                         style={{overflow: "hidden"}}>
                                         {card_data?.cardById?.title}
                                     </Typography>
                                 </div>
-                                <div>
+                                <Box sx={{mt: 2}}>
                                     {showTheme &&
                                         <Typography variant="caption"
                                                     sx={{
@@ -180,7 +188,7 @@ export default function CardMicroView({
                                             <AccountBoxIcon fontSize={"small"}/>
                                             {authorName}
                                         </Typography>}
-                                </div>
+                                </Box>
 
                             </Stack>
 

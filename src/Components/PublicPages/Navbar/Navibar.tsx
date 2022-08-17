@@ -3,15 +3,11 @@
 
 import {useNavigate} from 'react-router-dom';
 import useWindowDimensions from "../../../CustomHooks/useWindowDimensions";
-import BottomNavigation from '@mui/material/BottomNavigation';
 import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import {observer} from "mobx-react";
-
-import {isMobileHook} from "../../../CustomHooks/isMobileHook";
-import {Stack} from "@mui/material";
 import IconMenu from "./IconMenu";
 import {alpha, styled} from '@mui/material/styles';
 
@@ -28,23 +24,13 @@ const BlurredAppBar = styled(AppBar)(
 export const Navibar = observer(() => {
     const {width} = useWindowDimensions();
     const navigate = useNavigate();
-    const isMobile = isMobileHook()
 
-
-    if (isMobile) {
-        return (
-            <BottomNavigation>
-                <Stack alignItems={"center"}>
-                    <IconMenu/>
-                </Stack>
-            </BottomNavigation>
-        )
-    }
     return (
-        <BlurredAppBar position="fixed">
-            <Toolbar variant="dense">
+        <BlurredAppBar position="fixed" sx={{height: 48}}>
+            <Toolbar variant="dense" sx={{justifyContent: {xs: "space-around", md: "none"}}}>
+
                 <Typography variant="h6"
-                            sx={{color: "white", flexGrow: 1}}
+                            sx={{color: "white", flexGrow: 1, display: {xs: "none", md: "block"}}}
                             onClick={() => {
                                 navigate("/courses")
                             }}>

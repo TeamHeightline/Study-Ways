@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {IconButton, Popover} from "@mui/material";
+import {IconButton, Popover, Stack} from "@mui/material";
 import {observer} from "mobx-react";
 
 import NoiseControlOffIcon from '@mui/icons-material/NoiseControlOff';
@@ -41,12 +41,13 @@ const RowFragment = observer(({
 
 
     return (
-        <div style={{width: 610}}>
+        <div>
             <Popover
                 id="mouse-over-popover"
                 sx={{
                     pointerEvents: 'none',
-                    ml: 4
+                    ml: 4,
+                    mt: 6
                 }}
                 // style={{marginTop: 34 * (4 - hoverItemLevel) + 26,}}
                 open={open}
@@ -63,44 +64,53 @@ const RowFragment = observer(({
                     <CardMicroView cardID={hoveredItemID}/>}
             </Popover>
 
-            {courseRow.SameLine[activePage - 1]?.CourseFragment?.map((element: CourseElement, eIndex: number) => {
-                return (
-                    <IconButton size="small"
-                                edge="start"
-                                onMouseEnter={(e) => {
-                                    setHoveredItemID(Number(element?.CourseElement?.id))
-                                    if (rowIndex) {
-                                        setHoveredItemLevel(rowIndex)
-                                    } else {
-                                        setHoveredItemLevel(0)
-                                    }
-                                    handlePopoverOpen(e)
-                                }}
-                                onMouseLeave={handlePopoverClose}
-                                onClick={() => {
-                                    if (onChangePosition) {
-                                        onChangePosition({
-                                            activePage: activePage,
-                                            selectedPage: activePage,
-                                            selectedRow: rowIndex,
-                                            selectedIndex: eIndex,
-                                        })
-                                    }
-                                }}
-                                style={{opacity: !element?.CourseElement?.id ? "0%" : '100%'}}
-                                disabled={!element?.CourseElement?.id}
-                                color={
-                                    positionData &&
-                                    positionData.selectedRow == rowIndex &&
-                                    positionData.selectedPage == activePage &&
-                                    positionData.selectedIndex == eIndex ?
-                                        "secondary" :
-                                        "primary"}
-                    >
-                        <NoiseControlOffIcon/>
-                    </IconButton>
-                )
-            })}
+            <Stack direction={"row"}>
+                {courseRow.SameLine[activePage - 1]?.CourseFragment?.map((element: CourseElement, eIndex: number) => {
+                    if (!element?.CourseElement?.id) {
+                        return (
+                            <div style={{height: 34, width: 34}} key={"EmptyCard" + activePage + " " + eIndex}/>
+                        )
+                    }
+                    return (
+                        <IconButton size="small"
+                                    key={"RealCard" + activePage + " " + eIndex}
+                                    sx={{backgroundColor: "transparent"}}
+                                    edge="start"
+                                    onMouseEnter={(e) => {
+                                        setHoveredItemID(Number(element?.CourseElement?.id))
+                                        if (rowIndex) {
+                                            setHoveredItemLevel(rowIndex)
+                                        } else {
+                                            setHoveredItemLevel(0)
+                                        }
+                                        handlePopoverOpen(e)
+                                    }}
+                                    onMouseLeave={handlePopoverClose}
+                                    onClick={() => {
+                                        if (onChangePosition) {
+                                            onChangePosition({
+                                                activePage: activePage,
+                                                selectedPage: activePage,
+                                                selectedRow: rowIndex,
+                                                selectedIndex: eIndex,
+                                            })
+                                        }
+                                    }}
+                                    style={{opacity: !element?.CourseElement?.id ? "0%" : '100%'}}
+                                    disabled={!element?.CourseElement?.id}
+                                    color={
+                                        positionData &&
+                                        positionData.selectedRow == rowIndex &&
+                                        positionData.selectedPage == activePage &&
+                                        positionData.selectedIndex == eIndex ?
+                                            "secondary" :
+                                            "primary"}
+                        >
+                            <NoiseControlOffIcon/>
+                        </IconButton>
+                    )
+                })}
+            </Stack>
         </div>
     )
 })

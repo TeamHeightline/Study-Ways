@@ -25,7 +25,7 @@ const CourseNavigation = observer(({courseData, coursePosition, onChangePosition
     // @ts-ignore
     return (
         <Stack direction={"row"}>
-            <Paper elevation={0} sx={{pt: 2, pb: 2}}>
+            <Paper elevation={0} sx={{pt: 2, pb: 2, backgroundColor: "transparent"}}>
                 <Slider
                     value={activePage}
                     onChange={handleChange}

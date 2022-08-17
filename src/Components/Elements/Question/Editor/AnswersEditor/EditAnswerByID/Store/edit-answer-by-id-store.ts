@@ -6,7 +6,7 @@ import {AnswerHardLevelOfAnswer, AnswerNode, Mutation} from "../../../../../../.
 import {
     object_properties_to_array_mapper,
     RemoveTypename
-} from "../../../../../../../Store/PrivateStorage/EditorsPage/CardEditorPage/CardEditorStorage";
+} from "../../../../../Cards/Editor/EditorByIDV2/Store/CardEditorStorage";
 import {computedFn} from "mobx-utils";
 import {SERVER_BASE_URL} from "../../../../../../../settings";
 import {QuestionEditorStorage} from "../../../QuestionEditor/Store/QuestionEditorStorage";

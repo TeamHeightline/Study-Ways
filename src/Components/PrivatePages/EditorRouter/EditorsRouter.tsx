@@ -1,5 +1,5 @@
 import React, {Suspense} from "react";
-import {Alert, CircularProgress, Grid, Paper} from '@mui/material';
+import {Alert, Box, CircularProgress, Grid} from '@mui/material';
 import AlertTitle from '@mui/material/AlertTitle';
 import {UserStorage} from '../../../Store/UserStore/UserStore'
 import {observer} from "mobx-react";
@@ -36,9 +36,9 @@ export const EditorsRouter = observer(() => {
         )
     }
     return (
-        <Paper elevation={0}>
+        <Box>
             <RouterMenu/>
-            <Paper elevation={0} sx={{ml: isMobile ? 0 : 8}}>
+            <Box sx={{ml: isMobile ? 0 : 12}}>
                 <Routes>
                     <Route path={`/course`} element={
                         <Suspense fallback={<Grid container justifyContent={"center"}
@@ -121,8 +121,8 @@ export const EditorsRouter = observer(() => {
                         </Suspense>
                     }/>
                 </Routes>
-            </Paper>
-        </Paper>
+            </Box>
+        </Box>
     )
         ;
 })

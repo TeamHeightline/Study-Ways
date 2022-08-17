@@ -7,9 +7,6 @@ import ExamName from "./exam-name";
 import UIPageTitle from "./ui-page-title";
 import UIDuration from "./ui-duration";
 import SelectedQSByData from "./ui-seleced-qs-by-data";
-import UIAccessTypeToggle from "./ui-access-type-togle";
-import UIAccessTypeVariants from "./ui-access-type-variants";
-import UIStudentsAccessType from "./ui-students-access-type";
 import UIExamUrls from "./ui-exam-urls";
 import {useSelector} from "react-redux";
 import {loadExamDataThunk} from "../redux-store/async-actions";
@@ -17,8 +14,15 @@ import AutoSaveModule from "./auto-save-module";
 import ExamResultsByID from "../../../ExamResultsByID/UI/exam-results-by-id";
 import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
 import {RootState, useAppDispatch} from "../../../../../../root-redux-store/RootStore";
-import {changeExamId} from "../redux-store/examEditorSlice";
 import UIAccessModeSelector from "./ui-access-mode-selector";
+import UIIsEnableHelpText from "./ui-is-enable-help-text";
+import UIHelpTextLevel from "./ui-help-text-level";
+import UIIsEnablePasswordCheck from "./ui-is-enable-password-check";
+import UIPassword from "./ui-password";
+import UIMaxAttemptsForQuestions from "./ui-max-attempts-for-questions";
+import UIIsEnableStartAndFinishTime from "./ui-is-enable-start-and-finish-time";
+import UIStartAndFinishTime from "./ui-start-and-finish-time";
+import UIIsEnableMaxQuestionAttempts from "./ui-is-enable-max-question-attempts";
 
 
 interface IExamByIDProps extends PaperProps {
@@ -26,24 +30,16 @@ interface IExamByIDProps extends PaperProps {
 }
 
 const ExamByID = observer(({exam_id, ...props}: IExamByIDProps) => {
-    const storeExamID = useSelector((state: RootState) => state?.examEditor?.exam_id)
     const loadedExamDataID = useSelector((state: RootState) => state?.examEditor?.exam_data?.id)
-    const isLoadingEdamData = useSelector((state: RootState) => state?.examEditor?.exam_data_loading)
     const dispatch = useAppDispatch()
     const isMobile = isMobileHook()
 
     useEffect(() => {
-        dispatch(changeExamId(String(exam_id)))
+        dispatch(loadExamDataThunk(String(exam_id)))
     }, [exam_id])
 
-    useEffect(() => {
-        if (storeExamID) {
-            dispatch(loadExamDataThunk(storeExamID))
-        }
-    }, [storeExamID])
 
-
-    if (isLoadingEdamData || Number(loadedExamDataID) !== Number(exam_id)) {
+    if (Number(loadedExamDataID) !== Number(exam_id)) {
         return (
             <Stack alignItems={"center"}>
                 <CircularProgress/>
@@ -72,9 +68,12 @@ const ExamByID = observer(({exam_id, ...props}: IExamByIDProps) => {
 
                 <Stack direction={"column"} spacing={1} width={isMobile ? "100%" : 400}>
                     <div>
-                        <Divider>Проводится в </Divider>
+                        <Divider>Сложность </Divider>
                     </div>
-                    <UIAccessModeSelector/>
+                    <UIIsEnableHelpText/>
+                    <UIHelpTextLevel/>
+                    <UIIsEnableMaxQuestionAttempts/>
+                    <UIMaxAttemptsForQuestions/>
                     {/*<UIAccessTypeToggle/>*/}
                     {/*<UIAccessTypeVariants/>*/}
                 </Stack>
@@ -85,9 +84,13 @@ const ExamByID = observer(({exam_id, ...props}: IExamByIDProps) => {
 
                 <Stack direction={'column'} spacing={1} width={isMobile ? "100%" : 400}>
                     <div>
-                        <Divider>Допуск к экзамену</Divider>
+                        <Divider>Ограничение доступа</Divider>
                     </div>
-                    <UIStudentsAccessType/>
+                    <UIAccessModeSelector/>
+                    <UIIsEnablePasswordCheck/>
+                    <UIPassword/>
+                    <UIIsEnableStartAndFinishTime/>
+                    <UIStartAndFinishTime/>
                 </Stack>
 
                 <div>
@@ -103,8 +106,8 @@ const ExamByID = observer(({exam_id, ...props}: IExamByIDProps) => {
 
             </Stack>
             <Divider>Статистика</Divider>
-            {loadedExamDataID &&
-                <ExamResultsByID exam_id={Number(loadedExamDataID)}/>}
+            {exam_id &&
+                <ExamResultsByID exam_id={Number(exam_id)}/>}
         </Paper>
     )
 })

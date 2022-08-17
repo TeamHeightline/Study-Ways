@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {loadExamDataThunk, loadQSDataThunk, updateExamThunk} from "./async-actions";
 import {sequenceDataI} from "../../../../../../ServerLayer/Types/question-sequence.type";
+import CryptoJS from "crypto-js";
 
 const examEditorSlice = createSlice({
     name: "examEditor",
@@ -16,11 +17,10 @@ const examEditorSlice = createSlice({
 
         update_exam_loading: false,
         update_exam_error: null,
+
+        original_password: '',
     },
     reducers: {
-        changeExamId: (state, action: PayloadAction<string>) => {
-            state.exam_id = action.payload;
-        },
         changeAccessMode: (state, action: PayloadAction<IExamData['access_mode']>) => {
             if (state.exam_data) {
                 state.exam_data.access_mode = action.payload;
@@ -38,13 +38,55 @@ const examEditorSlice = createSlice({
         },
         prepareForUpdateExamData: (state) => {
             state.update_exam_loading = true;
+        },
+        changeIsEnableHelpText: (state) => {
+            if (state.exam_data) {
+                state.exam_data.is_enable_help_text = !state.exam_data.is_enable_help_text
+            }
+        },
+        changeHelpTextLevel: (state, action: PayloadAction<IExamData['help_text_level']>) => {
+            if (state.exam_data) {
+                state.exam_data.help_text_level = action.payload;
+            }
+        },
+        changeIsEnableMaxQuestionAttempts: (state) => {
+            if (state.exam_data) {
+                state.exam_data.is_enable_max_question_attempts = !state.exam_data.is_enable_max_question_attempts
+            }
+        },
+        changeMaxQuestionAttempts: (state, action: PayloadAction<IExamData['max_question_attempts']>) => {
+            if (state.exam_data) {
+                state.exam_data.max_question_attempts = action.payload;
+            }
+        },
+        changeIsEnablePasswordCheck: (state) => {
+            if (state.exam_data) {
+                state.exam_data.is_enable_password_check = !state.exam_data.is_enable_password_check
+            }
+        },
+        changeOriginalPassword: (state, action: PayloadAction<string>) => {
+            if (state.exam_data) {
+                state.original_password = action.payload;
+            }
+        },
+        changePassword: (state, action: PayloadAction<string>) => {
+            if (state.exam_data) {
+                state.exam_data.password = action.payload;
+            }
+        },
+        changeIsEnableStartAndFinishTime: (state) => {
+            if (state.exam_data) {
+                state.exam_data.is_enable_start_and_finish_time = !state.exam_data.is_enable_start_and_finish_time
+            }
         }
+
+
     },
     extraReducers: {
 
 
         //Загрузка данных серии вопросов
-        [loadQSDataThunk.pending.type]: (state, action) => {
+        [loadQSDataThunk.pending.type]: (state) => {
             state.selected_qs_data_loading = true;
             state.selected_qs_data = null;
             state.selected_qs_data_error = null;
@@ -60,12 +102,14 @@ const examEditorSlice = createSlice({
 
 
         //Загрузка данных экзамена
-        [loadExamDataThunk.pending.type]: (state, action) => {
+        [loadExamDataThunk.pending.type]: (state) => {
             state.exam_data_loading = true;
             state.exam_data = null;
         },
         [loadExamDataThunk.fulfilled.type]: (state, action) => {
             state.exam_data = action.payload;
+            state.original_password = CryptoJS.AES.decrypt(action.payload.password, "sw-secret-key").toString(CryptoJS.enc.Utf8)
+            action.payload.password;
             state.exam_data_loading = false;
         },
         [loadExamDataThunk.rejected.type]: (state, action) => {
@@ -75,10 +119,10 @@ const examEditorSlice = createSlice({
 
 
         //Обновление данных экзамена
-        [updateExamThunk.pending.type]: (state, action) => {
+        [updateExamThunk.pending.type]: (state) => {
             state.update_exam_loading = true;
         },
-        [updateExamThunk.fulfilled.type]: (state, action) => {
+        [updateExamThunk.fulfilled.type]: (state) => {
             state.update_exam_loading = false;
         },
         [updateExamThunk.rejected.type]: (state, action) => {
@@ -99,15 +143,28 @@ export interface IExamData {
     "uid": string,
     "created_by_id": string,
     "minutes": number,
-    question_sequence_id: number
+    question_sequence_id: number,
+    is_enable_help_text: boolean,
+    is_enable_password_check: boolean,
+    is_enable_start_and_finish_time: boolean,
+    is_enable_max_question_attempts: boolean,
+    help_text_level: 0 | 1 | 2,
+    password: string | null,
+    max_question_attempts: number,
 }
 
 export default examEditorSlice.reducer;
 
 export const {
-    changeExamId,
     changeExamName,
     changeExamMinutes,
     changeAccessMode,
-    prepareForUpdateExamData
+    prepareForUpdateExamData,
+    changeIsEnableHelpText,
+    changeHelpTextLevel,
+    changeIsEnableMaxQuestionAttempts,
+    changeMaxQuestionAttempts,
+    changeIsEnablePasswordCheck,
+    changePassword,
+    changeOriginalPassword
 } = examEditorSlice.actions;

@@ -55,9 +55,9 @@ export const AISearchString = observer(() => {
                     </div>
                 </Stack>
                 <Stack direction={{xs: "column", md: "row"}} sx={{mt: 2, width: "100%"}} spacing={{xs: 2, md: 4}}>
+                    <AIThemeFilter/>
                     <AIAuthorSelector/>
                     <AIHardLevelFilter/>
-                    <AIThemeFilter/>
                     <ContentType/>
                 </Stack>
             </Grid>

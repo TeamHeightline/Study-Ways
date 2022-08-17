@@ -7,8 +7,8 @@ import React from "react";
 import {useNavigate} from "react-router-dom";
 import {useAuth0} from "@auth0/auth0-react";
 import NotificationButtonForNavbar from "./Notification/UI/notification-button-for-nav-bar";
-import LoginIcon from '@mui/icons-material/Login';
 import {observer} from "mobx-react";
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
 
 
 const IconMenu = observer(() => {
@@ -47,7 +47,7 @@ const IconMenu = observer(() => {
                             onClick={() => {
                                 loginWithPopup()
                             }}>
-                    <LoginIcon/>
+                    <VpnKeyIcon/>
                 </IconButton>}
         </Stack>
     )

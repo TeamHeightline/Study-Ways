@@ -6,31 +6,22 @@ import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDown
 import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
 import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
 import {CourseMicroStoreByID} from "../Store/CourseMicroStoreByID";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 interface IArrowNavigationProps extends React.HTMLAttributes<HTMLDivElement> {
     courseStore: CourseMicroStoreByID
 }
 
 const ArrowNavigation = observer(({courseStore, ...props}: IArrowNavigationProps) => {
-    const {pathname} = useLocation();
     const navigate = useNavigate();
 
     const goToCardByArrow = (card_arrow: "Back" | "Down" | "Up" | "Next") => {
         const new_position = courseStore.getPositionByArrow(card_arrow)
-        if (pathname == "/course") {
-            navigate("./course?" + "id=" + courseStore.id +
-                "&activePage=" + new_position.activePage +
-                "&selectedPage=" + new_position.activePage +
-                "&selectedRow=" + new_position.selectedRow +
-                "&selectedIndex=" + new_position.selectedIndex)
-        } else {
-            navigate("./course?" + "id=" + courseStore.id +
-                "&activePage=" + new_position.activePage +
-                "&selectedPage=" + new_position.activePage +
-                "&selectedRow=" + new_position.selectedRow +
-                "&selectedIndex=" + new_position.selectedIndex)
-        }
+        navigate("/course?" + "id=" + courseStore.id +
+            "&activePage=" + new_position.activePage +
+            "&selectedPage=" + new_position.activePage +
+            "&selectedRow=" + new_position.selectedRow +
+            "&selectedIndex=" + new_position.selectedIndex)
     }
     return (
         <div {...props}>

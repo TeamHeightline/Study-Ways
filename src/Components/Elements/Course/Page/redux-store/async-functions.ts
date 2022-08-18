@@ -4,8 +4,8 @@ import {ICourseData} from "./types";
 
 export const loadCourseDataThunk = createAsyncThunk(
     'coursePage/loadCourseData',
-    async () => {
-        return axiosClient.get<ICourseData[]>('/page/course')
+    async (search?: string) => {
+        return axiosClient.get<ICourseData[]>(!search ? '/page/course' : `/page/course?search=${search}`)
             .then((res) => res.data)
     }
 )

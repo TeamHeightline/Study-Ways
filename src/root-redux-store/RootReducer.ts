@@ -5,7 +5,7 @@ import {examResultsByIDReducer} from "../Components/Elements/Exam/ExamResultsByI
 import {combineReducers} from '@reduxjs/toolkit'
 import StatusEditorSlice from "../Components/Elements/StatusEditor/redux-store/StatusEditorSlice";
 import NotificationSlice from "../Components/PublicPages/Navbar/Notification/redux-store/NotificationSlice";
-import coursePageSlice from "../Components/Elements/Course/Page/redux-store/CoursePageSlice";
+import coursePageSlice from "../Components/Elements/Course/Page/redux-store/course-page-slice";
 import examEditorSlice from "../Components/Elements/Exam/EditorPage/ExamByID/redux-store/examEditorSlice";
 import questionEditorPageSlice from "../Components/Elements/Question/Editor/Page/redux-store/QuestionEditorPageSlice";
 

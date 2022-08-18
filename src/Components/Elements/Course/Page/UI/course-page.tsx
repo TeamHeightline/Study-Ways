@@ -5,8 +5,9 @@ import {RootState, useAppDispatch} from "../../../../../root-redux-store/RootSto
 import {useSelector} from "react-redux";
 import CourseByData from "../../../../Shared/CourseByData/CourseMicroView";
 import {Helmet} from "react-helmet";
-import {loadCourseDataThunk} from "../redux-store/AsyncFunctions";
+import {loadCourseDataThunk} from "../redux-store/async-functions";
 import {useNavigate} from "react-router-dom";
+import UISearch from "./ui-search";
 
 interface ICoursePageProps extends BoxProps {
 
@@ -25,8 +26,9 @@ export default function CoursePage({...props}: ICoursePageProps) {
             <Helmet>
                 <title>Курсы</title>
             </Helmet>
+            <UISearch/>
             <Grid container
-                  sx={{pt: 2, minWidth: "500px"}}
+                  sx={{pt: 2}}
                   justifyContent={"space-evenly"}
                   spacing={4}
                   rowSpacing={2}>

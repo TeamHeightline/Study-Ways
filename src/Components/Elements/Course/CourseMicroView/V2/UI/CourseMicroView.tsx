@@ -79,7 +79,7 @@ const CourseMicroView = observer(({
                                 decoding: "async"
                             }}
                             onClick={() => {
-                                navigate("./course?" + "id=" + course_id +
+                                navigate("/course?" + "id=" + course_id +
                                     "&activePage=1" +
                                     "&selectedPage=1" +
                                     "&selectedRow=0" +

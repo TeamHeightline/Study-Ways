@@ -40,7 +40,7 @@ export const EditorsRouter = observer(() => {
             <RouterMenu/>
             <Box sx={{ml: isMobile ? 0 : 12}}>
                 <Routes>
-                    <Route path={`/course`} element={
+                    <Route path={`/course/*`} element={
                         <Suspense fallback={<Grid container justifyContent={"center"}
                                                   sx={{pt: 4}}><CircularProgress/></Grid>}>
                             <MainCourseEditor/>

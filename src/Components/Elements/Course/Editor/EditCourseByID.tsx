@@ -19,7 +19,8 @@ import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 import AddIcon from '@mui/icons-material/Add';
 import {SERVER_BASE_URL} from "../../../../settings";
 import {EditorPage} from "../../Cards/Editor/EditorPageV2/Page";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import SearchIcon from '@mui/icons-material/Search';
+import {Route, Routes, useNavigate, useParams} from "react-router-dom";
 
 const GET_COURSE_BY_ID = gql`
     query GET_COURSE_BY_ID($id: ID!){
@@ -49,7 +50,6 @@ export default function EditCourseByID({course_id, ...props}: any) {
     const [rerender, setRerender] = useState(false)
     const isMobile = isMobileHook()
     const navigate = useNavigate();
-    const {pathname} = useLocation();
     const {id} = useParams()
 
 
@@ -156,6 +156,8 @@ export default function EditCourseByID({course_id, ...props}: any) {
             </Stack>
         )
     }
+
+
     return (
         <Box sx={{pl: {xs: 0, md: 4}, mt: {xs: 0, md: 2}}}>
             <Stack direction={"column"} sx={{maxWidth: 300}} spacing={1}>
@@ -213,7 +215,7 @@ export default function EditCourseByID({course_id, ...props}: any) {
                     return (
                         <CourseRow
                             editCard={(item_id) => {
-                                navigate(pathname + "/card/" + item_id)
+                                navigate("/editor/course/card/" + item_id)
                             }}
                             key={lIndex + "course" + props.cIndex} row={line} lIndex={lIndex}
                             cIndex={props.cIndex}
@@ -230,6 +232,16 @@ export default function EditCourseByID({course_id, ...props}: any) {
                     )
                 })}
             </Box>
+            <Routes>
+                <Route path={'card/:id'} element={
+                    <Button startIcon={<SearchIcon/>} variant={"contained"}
+                            onClick={() => {
+                                navigate("/editor/course")
+                            }}>
+                        К поиску карточек
+                    </Button>
+                }/>
+            </Routes>
             <EditorPage/>
             <Snackbar open={true}>
                 {isCardEditNow ?

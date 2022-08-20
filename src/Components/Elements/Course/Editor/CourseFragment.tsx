@@ -5,7 +5,7 @@ import EditCourseItem from "./EditCourseItem";
 export default function CourseFragment({fragment, ...props}: any) {
     const [Fragment, setFragment] = useState(fragment.CourseFragment)
     return (
-        <div style={{width: 1500}}>
+        <div style={{width: 2000}}>
             <Stack direction={"row"}>
                 {Fragment.map((item, iIndex) => {
                     return (

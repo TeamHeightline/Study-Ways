@@ -1,10 +1,11 @@
 import React, {useState} from 'react'
-import {Box, Card, Popover, TextField} from "@mui/material";
+import {Card, CardActionArea, Popover, Stack, TextField} from "@mui/material";
 import {gql} from "graphql.macro";
 import {useQuery} from "@apollo/client";
 import {SERVER_BASE_URL} from "../../../../settings";
 import urlParser from "js-video-url-parser";
 import CardMicroView from "../../Cards/CardView/CardMicroView";
+import InfoIcon from '@mui/icons-material/Info';
 
 const GET_CARD_DATA_BY_ID = gql`
     query GET_CARD_DATA_BY_ID($id: ID!){
@@ -79,8 +80,27 @@ export default function EditCourseItem({item_id, item_position, ...props}: any) 
         }
     })
     // console.log(itemID)
+
+    const card_content_type = Number(card_data?.cardById.cardContentType[2])
+
+    const card_image = card_content_type === 0 && card_data?.cardById?.videoUrl ? "https://img.youtube.com/vi/" + urlParser.parse(card_data?.cardById?.videoUrl)?.id + "/hqdefault.jpg" :
+        (card_content_type === 1 || card_content_type === 2) && cardImage ? cardImage : ""
     return (
-        <Card style={{height: 80, width: 135, marginLeft: 12}} variant="outlined">
+        <Card
+            style={{
+                height: 113, width: 200,
+                marginLeft: 12,
+                backgroundImage: `url(${card_image})`,
+                backgroundSize: "cover"
+            }}
+            // onMouseEnter={handlePopoverOpen}
+            // onMouseLeave={handlePopoverClose}
+            // onClick={() => {
+            //     if (itemID) {
+            //         props.editCard(itemID)
+            //     }
+            // }}
+            variant="outlined">
             <Popover
                 id="mouse-over-popover"
                 sx={{
@@ -102,48 +122,28 @@ export default function EditCourseItem({item_id, item_position, ...props}: any) 
             >
                 <CardMicroView cardID={itemID}/>
             </Popover>
-            <div>
-                {itemID ?
-                    <Box
-                        sx={{
-                            width: 135,
-                            height: 50,
-                            objectFit: 'cover'
-                        }}
-                        onMouseEnter={handlePopoverOpen}
-                        onMouseLeave={handlePopoverClose}
-                        onClick={() => props.editCard(itemID)}>
-                        {Number(card_data?.cardById.cardContentType[2]) === 0 && card_data?.cardById?.videoUrl &&
-                            <>
-                                <img
-                                    style={{
-                                        width: 135,
-                                        height: 50,
-                                        objectFit: 'cover'
-                                    }}
-                                    src={"https://img.youtube.com/vi/" + urlParser.parse(card_data?.cardById?.videoUrl)?.id + "/hqdefault.jpg"}/>
-                            </>}
-                        {(Number(card_data?.cardById.cardContentType[2]) === 1 || Number(card_data?.cardById?.cardContentType[2]) === 2) && cardImage &&
-                            <img style={{
-                                width: 135,
-                                height: 50,
-                                objectFit: 'cover'
-                            }} src={cardImage}/>
-                        }
-                    </Box> : <div style={{
-                        width: 135,
-                        height: 50,
-                        objectFit: 'cover'
-                    }}/>}
+            <CardActionArea
+                onClick={() => {
+                    if (itemID) {
+                        props.editCard(itemID)
+                    }
+                }}>
+                <Stack alignItems={"end"} onMouseEnter={handlePopoverOpen}
+                       onMouseLeave={handlePopoverClose}>
+                    <InfoIcon/>
+                </Stack>
 
 
                 <TextField
-                    className="col-12 pl-2"
-                    // id={"courseItemID" + itemID}
-                    label=""
+                    sx={{
+                        mt: 5,
+                        backdropFilter: "blur(6px)"
+                    }}
+                    label="ID карточки"
                     fullWidth
                     value={itemID}
-                    variant="standard"
+                    size={"small"}
+                    variant="filled"
                     onChange={(e) => {
                         const valueWithOnlyNumber = e.target.value.replace(/[^\d]/g, '')
                         props.updateItem({
@@ -154,7 +154,7 @@ export default function EditCourseItem({item_id, item_position, ...props}: any) 
                         setItemID(valueWithOnlyNumber)
                     }}
                 />
-            </div>
+            </CardActionArea>
 
         </Card>
     );

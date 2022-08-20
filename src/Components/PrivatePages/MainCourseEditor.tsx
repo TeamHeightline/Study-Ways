@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Button, Container, Grid} from "@mui/material";
+import {Button, CardActionArea, Container, Grid} from "@mui/material";
 import {gql} from "graphql.macro";
 import {useMutation, useQuery} from "@apollo/client";
 import EditCourseByID, {CourseLines} from "../Elements/Course/Editor/EditCourseByID";
@@ -62,13 +62,19 @@ export default function MainCourseEditor() {
                     {own_course_data?.me.cardcourseSet.map((course) => {
                         return (
                             <Grid item xs={"auto"} key={"CourseID" + course.id}>
-                                <CourseMicroView
+                                <CardActionArea
+                                    key={"CourseID" + course.id}
                                     onClick={() => {
                                         setSelectedCourseID(course.id)
                                         setIsEditCourseNow(true)
-                                    }}
-                                    course_id={Number(course.id)}
-                                    key={"CourseID" + course.id}/>
+                                    }}>
+                                    <div style={{pointerEvents: 'none'}}>
+                                        <CourseMicroView
+                                            aria-disabled={true}
+                                            course_id={Number(course.id)}
+                                        />
+                                    </div>
+                                </CardActionArea>
                             </Grid>
                         )
                     })}

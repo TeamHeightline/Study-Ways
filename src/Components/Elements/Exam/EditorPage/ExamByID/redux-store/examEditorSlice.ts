@@ -108,8 +108,9 @@ const examEditorSlice = createSlice({
         },
         [loadExamDataThunk.fulfilled.type]: (state, action) => {
             state.exam_data = action.payload;
-            state.original_password = CryptoJS.AES.decrypt(action.payload.password, "sw-secret-key").toString(CryptoJS.enc.Utf8)
-            action.payload.password;
+            if (action?.payload?.password) {
+                state.original_password = CryptoJS.AES.decrypt(action.payload.password, "sw-secret-key").toString(CryptoJS.enc.Utf8)
+            }
             state.exam_data_loading = false;
         },
         [loadExamDataThunk.rejected.type]: (state, action) => {

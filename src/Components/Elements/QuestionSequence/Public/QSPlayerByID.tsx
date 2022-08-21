@@ -26,8 +26,6 @@ import {ArgumentAxis, BarSeries, Chart, SplineSeries, Title, ValueAxis} from '@d
 import {useLocation, useParams} from "react-router-dom";
 import '../../../../index.css'
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
-import {MainDirection} from "../../Direction/UI/MainDirection";
-import {toJS} from "mobx";
 import {RequireLogInAlert} from "../../../PublicPages/Notifications/RequireLogInAlert";
 import SchoolIcon from '@mui/icons-material/School';
 import {UserStorage} from "../../../../Store/UserStore/UserStore";
@@ -249,12 +247,6 @@ export const QSPlayerByID = observer(({...props}: any) => {
                             <Title text="Количество баллов на каждой из попыток"/>
                         </Chart>
                     </Stack>
-                    {toJS(processedStore.activeQuestionStoreInstance?.dataForDirection).length &&
-                        <div style={{minHeight: 250}}>
-                            <MainDirection
-                                directionDataProps={toJS(processedStore.activeQuestionStoreInstance?.dataForDirection)}/>
-                        </div>}
-
                 </div>}
 
         </div>

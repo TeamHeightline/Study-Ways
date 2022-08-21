@@ -18,8 +18,6 @@ export class QuestionPlayerStore {
         reaction(() => this.questionID, () => this.loadQuestionDataFromServer())
         reaction(() => this.questionID, () => this.deliverFromServerImageURL())
         reaction(() => this.questionHasBeenCompleted, () => this.saveDetailStatistic())
-        reaction(() => this.isAcceptDefeat, () => this.loadRecommendedCardsForThisQuestion())
-        reaction(() => this.questionHasBeenCompleted, () => this.loadRecommendedCardsForThisQuestion())
 
         this.ownStore = ownStore
         this.questionID = questionID
@@ -242,24 +240,6 @@ export class QuestionPlayerStore {
             .catch(() => this.questionImageUrl = '')
     }
 
-    loadRecommendedCardsForThisQuestion() {
-        if (this.isAcceptDefeat || this.questionHasBeenCompleted) {
-            // this.clientStorage.client.query({
-            //     query: GET_CARDS_ID_BY_SEARCH_STRING,
-            //     variables: {searchString: toJS(this.questionText).replace('/физик/g', '')}
-            // })
-            //     .then(response => {
-            //         const __directionData: any = []
-            //         response?.data?.ftSearchInCards?.slice(0, 5).map((card) => {
-            //             __directionData.push({type: "CardElement", id: card.id})
-            //         })
-            //         console.log(toJS(__directionData))
-            //         this.dataForDirection = __directionData
-            //     })
-        }
-    }
-
-    dataForDirection: any = []
 
     //Функция для загрузки данных о вопросе с сервера
     loadQuestionDataFromServer() {

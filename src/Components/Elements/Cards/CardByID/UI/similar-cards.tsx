@@ -20,8 +20,6 @@ const SimilarCards = observer(({card_store, ...props}: ISimilarCardsProps) => {
     }
     return (
         <Paper elevation={0} {...props}>
-            {/*{card_store.dataForDirection &&*/}
-            {/*    <MainDirection directionDataProps={card_store.dataForDirection}/>}*/}
             <Stack alignItems={"center"} sx={{mt: 2}}>
                 <Typography variant={"h3"}>
                     Похожие карточки

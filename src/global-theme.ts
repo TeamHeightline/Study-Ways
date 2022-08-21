@@ -91,7 +91,8 @@ class ThemeStore {
                 MuiTypography: {
                     styleOverrides: {
                         root: {
-                            fontFamily: "Nunito, sans-serif"
+                            fontFamily: "Nunito, sans-serif",
+                            hyphens: "auto"
                         },
                         h6: {
                             fontWeight: "bold"

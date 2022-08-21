@@ -20,9 +20,9 @@ const ThemeWithAncestor = observer(({themeObject, card_store, ...props}: IThemeW
                         {card_store
                             .onThemeHover(String(themeObject.id))
                             ?.map((theme) => theme?.text)
-                            ?.join("/")}
+                            ?.join(" / ")}
                     </Typography>}>
-                <Typography>
+                <Typography sx={{hyphens: "auto"}}>
                     {themeObject.text}
                 </Typography>
             </Tooltip>

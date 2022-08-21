@@ -15,8 +15,9 @@ const CardTitleWithId = observer(({card_store, ...props}: ICardTitleProps) => {
     const card_id = card_store?.card_data?.id
 
     return (
-        <Stack direction={"row"}>
+        <Stack direction={{xs: "column", md: "row"}}>
             <Typography
+                sx={{hyphens: "auto"}}
                 component={'span'}
                 // id={"card-title"}
                 variant={isMobile ? "h6" : "h4"}>

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
@@ -18,6 +18,7 @@ import urlParser from "js-video-url-parser";
 import "js-video-url-parser/lib/provider/youtube";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import ThemeStoreObject from "../../../../global-theme";
+import ReactPlayer from "react-player";
 
 interface ICardMicroViewProps extends React.HTMLAttributes<HTMLDivElement> {
     cardID: number,
@@ -33,8 +34,7 @@ export default function CardMicroView({
                                           onChange,
                                           ...props
                                       }: ICardMicroViewProps) {
-    const isDarkTheme = ThemeStoreObject.mode === "dark";
-
+    const [onVideoHover, setOnVideoHover] = useState(false)
     const {data: card_data, refetch} = useQuery(GET_CARD_FOR_MICRO_VIEW_BY_ID, {
         variables: {
             id: cardID
@@ -54,6 +54,8 @@ export default function CardMicroView({
 
     const showTheme = !!themesText
     const showAuthor = !!authorName.split(" ").join("")
+    const isDarkTheme = ThemeStoreObject.mode === "dark";
+
 
     if (!card_data) {
         return (
@@ -90,19 +92,36 @@ export default function CardMicroView({
                     <Grid container alignItems={"start"}>
                         <Grid item xs={4}>
                             {Number(card_data.cardById.cardContentType[2]) === 0 && card_data?.cardById?.videoUrl &&
-                                <CardMedia
-                                    sx={{
-                                        width: 132, height: 169,
-
-                                        cacheControl: "public,max-age=31536000,immutable",
-                                        loading: "lazy",
-                                        decoding: "async"
+                                <div
+                                    onMouseEnter={() => {
+                                        setOnVideoHover(true)
                                     }}
-                                    onError={() => void (0)}
-                                    image={
-                                        "https://img.youtube.com/vi/" + urlParser.parse(card_data?.cardById.videoUrl)?.id + "/hqdefault.jpg"
-                                    }
-                                />}
+                                    onMouseLeave={() => {
+                                        setOnVideoHover(false)
+                                    }}>
+                                    {onVideoHover ?
+                                        <ReactPlayer controls
+                                                     autoplay
+                                                     url={card_data?.cardById.videoUrl}
+                                                     height={169}
+                                                     width={132}
+                                        />
+                                        :
+                                        <CardMedia
+                                            sx={{
+                                                width: 132, height: 169,
+
+                                                cacheControl: "public,max-age=31536000,immutable",
+                                                loading: "lazy",
+                                                decoding: "async"
+                                            }}
+                                            onError={() => void (0)}
+                                            image={
+                                                "https://img.youtube.com/vi/" + urlParser.parse(card_data?.cardById.videoUrl)?.id + "/hqdefault.jpg"
+                                            }
+                                        />}
+                                </div>
+                            }
                             {(Number(card_data.cardById.cardContentType[2]) === 1 ||
                                     Number(card_data.cardById.cardContentType[2]) === 2) &&
                                 <CardMedia

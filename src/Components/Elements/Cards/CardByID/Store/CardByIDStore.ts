@@ -13,6 +13,7 @@ import {
 import {SERVER_BASE_URL} from "../../../../../settings";
 import {ICourseLine} from "../../../Course/Editor/EditCourseByID";
 import {positionDataI} from "../../../Course/CourseMicroView/V2/Store/CourseMicroStoreByID";
+import React, {RefObject} from "react";
 
 export class CardByIDStore {
     constructor(id?: number) {
@@ -304,6 +305,9 @@ export class CardByIDStore {
             this.isBookmarked = Boolean(this.card_data.isBookmarked)
         }
     }
+
+    isOpenGoToTestDialogAfterVideo = false
+    testElementRef = React.createRef() as RefObject<HTMLDivElement>
 
 
 }

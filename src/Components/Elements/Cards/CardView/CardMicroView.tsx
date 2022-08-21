@@ -3,7 +3,7 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import {Box, CardActionArea, Chip, Grid, Skeleton, Stack, Tooltip} from "@mui/material";
+import {Box, CardActionArea, Chip, Skeleton, Stack, Tooltip} from "@mui/material";
 import {useQuery} from "@apollo/client";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import HttpIcon from '@mui/icons-material/Http';
@@ -19,6 +19,7 @@ import "js-video-url-parser/lib/provider/youtube";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import ThemeStoreObject from "../../../../global-theme";
 import ReactPlayer from "react-player";
+import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 
 interface ICardMicroViewProps extends React.HTMLAttributes<HTMLDivElement> {
     cardID: number,
@@ -48,6 +49,8 @@ export default function CardMicroView({
             }
         }
     }, [isEditNow, isNowEditableCard])
+
+    const isMobile = isMobileHook()
 
     const themesText = card_data?.cardById?.cCardTheme[0]?.text
     const authorName = card_data?.cardById?.authorProfile?.firstname + " " + card_data?.cardById?.authorProfile.lastname
@@ -81,16 +84,18 @@ export default function CardMicroView({
             <Card variant={isDarkTheme ? "outlined" : "elevation"}
                   sx={{
                       display: 'flex',
-                      width: "400px",
-                      height: "170px",
+                      width: {xs: 300, md: 400},
+                      height: {xs: 340, md: 170},
                       border: "none"
                   }}
                   onClick={() => {
                       onChange(cardID)
                   }}>
                 <CardActionArea sx={{height: "100%"}}>
-                    <Grid container alignItems={"start"}>
-                        <Grid item xs={4}>
+                    <Stack direction={{
+                        xs: "column", md: "row"
+                    }}>
+                        <Box>
                             {Number(card_data.cardById.cardContentType[2]) === 0 && card_data?.cardById?.videoUrl &&
                                 <div
                                     onPointerEnter={() => {
@@ -109,17 +114,20 @@ export default function CardMicroView({
                                         <ReactPlayer controls
                                                      autoplay
                                                      url={card_data?.cardById.videoUrl}
-                                                     height={169}
-                                                     width={132}
+                                                     height={170}
+                                                     width={isMobile ? 300 : 132}
                                         />
                                         :
                                         <CardMedia
                                             sx={{
-                                                width: 132, height: 169,
-
+                                                width: {xs: 300, md: 132},
+                                                height: 170,
                                                 cacheControl: "public,max-age=31536000,immutable",
                                                 loading: "lazy",
-                                                decoding: "async"
+                                                decoding: "async",
+                                                backgroundSize: "cover",
+                                                backgroundPosition: "center"
+
                                             }}
                                             onError={() => void (0)}
                                             image={
@@ -131,13 +139,17 @@ export default function CardMicroView({
                             {(Number(card_data.cardById.cardContentType[2]) === 1 ||
                                     Number(card_data.cardById.cardContentType[2]) === 2) &&
                                 <CardMedia
-                                    style={{width: 132, height: 169}}
+                                    sx={{
+                                        // width: 300,
+                                        width: {xs: 300, md: 132},
+                                        height: 170,
+                                    }}
                                     onError={() => void (0)}
                                     image={card_data?.cardById?.imageUrl}
                                 />
                             }
-                        </Grid>
-                        <Grid item xs={8} sx={{height: "100%"}}>
+                        </Box>
+                        <Box sx={{height: "100%"}}>
                             <Stack direction={"column"}
                                 // justifyContent={"space-between"}
                                    sx={{pl: 1, pr: 1, pb: 1, height: "170px"}}
@@ -217,8 +229,8 @@ export default function CardMicroView({
 
                             </Stack>
 
-                        </Grid>
-                    </Grid>
+                        </Box>
+                    </Stack>
                 </CardActionArea>
             </Card>
         </div>

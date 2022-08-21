@@ -2,7 +2,7 @@ import React from 'react';
 import {Box, Card, CardActionArea, Collapse, IconButton, Stack, Typography} from "@mui/material";
 import CourseNavigation from "./CourseNavigation";
 import ArrowNavigation from "./ArrowNavigation";
-import {FILE_URL} from "../../../settings";
+import {FILE_URL, REST_SERVER_URL} from "../../../settings";
 import {ICourseData, ICoursePosition} from "./types";
 import {amber, blue, cyan, green, indigo, lime, orange, purple, red, teal, yellow} from '@mui/material/colors';
 import {alpha, darken} from "@mui/material/styles";
@@ -50,7 +50,7 @@ export default function CourseByData({courseData, coursePosition, onChangePositi
                                 padding: 0,
                                 backgroundSize: "cover",
                                 backgroundPosition: "center",
-                                backgroundImage: "url(" + FILE_URL + "/" + courseData?.cards_cardcourseimage?.image + ")",
+                                backgroundImage: courseData?.cards_cardcourseimage?.image ? `url(${FILE_URL}/cards-course-images/course/${courseData.id}_small), url(${REST_SERVER_URL}/page/course/resize-course-image?image_url=${FILE_URL}/${courseData?.cards_cardcourseimage?.image}&course_id=${courseData.id})` : "none",
                                 cacheControl: "public,max-age=31536000,immutable",
                                 loading: "lazy",
                                 decoding: "async"

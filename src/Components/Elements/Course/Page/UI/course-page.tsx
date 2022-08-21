@@ -38,11 +38,19 @@ export default function CoursePage({...props}: ICoursePageProps) {
                             <CourseByData
                                 courseData={course_data}
                                 onChangePosition={(position) => {
-                                    navigate("/course?" + "id=" + course_data.id +
-                                        "&activePage=" + position.activePage +
-                                        "&selectedPage=" + position.activePage +
-                                        "&selectedRow=" + position.selectedRow +
-                                        "&selectedIndex=" + position.selectedIndex)
+                                    if (location.pathname === "/course") {
+                                        navigate("/course?" + "id=" + course_data.id +
+                                            "&activePage=" + position.activePage +
+                                            "&selectedPage=" + position.activePage +
+                                            "&selectedRow=" + position.selectedRow +
+                                            "&selectedIndex=" + position.selectedIndex, {replace: true})
+                                    } else {
+                                        navigate("/course?" + "id=" + course_data.id +
+                                            "&activePage=" + position.activePage +
+                                            "&selectedPage=" + position.activePage +
+                                            "&selectedRow=" + position.selectedRow +
+                                            "&selectedIndex=" + position.selectedIndex)
+                                    }
                                 }}
                             />
                         </Grid>

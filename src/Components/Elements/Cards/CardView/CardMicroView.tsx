@@ -93,8 +93,14 @@ export default function CardMicroView({
                         <Grid item xs={4}>
                             {Number(card_data.cardById.cardContentType[2]) === 0 && card_data?.cardById?.videoUrl &&
                                 <div
+                                    onPointerEnter={() => {
+                                        setOnVideoHover(true)
+                                    }}
                                     onMouseEnter={() => {
                                         setOnVideoHover(true)
+                                    }}
+                                    onPointerLeave={() => {
+                                        setOnVideoHover(false)
                                     }}
                                     onMouseLeave={() => {
                                         setOnVideoHover(false)

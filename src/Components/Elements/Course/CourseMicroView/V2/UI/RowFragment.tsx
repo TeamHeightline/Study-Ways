@@ -6,6 +6,7 @@ import {CourseMicroStoreByID} from "../Store/CourseMicroStoreByID";
 import {useLocation, useNavigate} from "react-router-dom";
 
 import NoiseControlOffIcon from '@mui/icons-material/NoiseControlOff';
+import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
 
 
 interface RowFragmentI {
@@ -19,6 +20,7 @@ const RowFragment = observer(({CRI, courseStore}: RowFragmentI) => {
     const [hoverItemLevel, setHoveredItemLevel] = useState<number>(0)
     const {pathname} = useLocation();
     const navigate = useNavigate();
+    const isMobile = isMobileHook()
     const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -56,13 +58,15 @@ const RowFragment = observer(({CRI, courseStore}: RowFragmentI) => {
                     return (
                         <IconButton size="small"
                                     onMouseEnter={(e) => {
-                                        setHoveredItemID(Number(element?.CourseElement?.id))
-                                        if (CRI) {
-                                            setHoveredItemLevel(CRI)
-                                        } else {
-                                            setHoveredItemLevel(0)
+                                        if (!isMobile) {
+                                            setHoveredItemID(Number(element?.CourseElement?.id))
+                                            if (CRI) {
+                                                setHoveredItemLevel(CRI)
+                                            } else {
+                                                setHoveredItemLevel(0)
+                                            }
+                                            handlePopoverOpen(e)
                                         }
-                                        handlePopoverOpen(e)
                                     }}
                                     onMouseLeave={handlePopoverClose}
                                     edge="start"

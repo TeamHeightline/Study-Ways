@@ -19,7 +19,7 @@ const CardMainContent = observer(({card_store, ...props}: ICardMainContentProps)
     const isShowImageContent = isRemoteResourceContentType || isSimpleImageContentType
 
     return (
-        <Paper elevation={0} {...props}>
+        <Paper elevation={0} sx={{height: {xs: 200, md: 440}}} {...props}>
             {isYoutubeContentType &&
                 <YoutubeContent card_store={card_store}/>}
             {isShowImageContent &&

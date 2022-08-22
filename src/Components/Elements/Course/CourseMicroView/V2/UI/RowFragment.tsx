@@ -95,11 +95,14 @@ const RowFragment = observer(({CRI, courseStore}: RowFragmentI) => {
                                         courseStore.position.selectedPage === courseStore.position.activePage &&
                                         courseStore.position.selectedIndex === eIndex ?
                                             "secondary" :
-                                            "primary"}
+                                            element?.CourseElement?.id && courseStore.viewedCardIDs.has(Number(element?.CourseElement?.id)) ?
+                                                "inherit" :
+                                                "primary"}
                         >
                             {/*<StopSharpIcon/>*/}
                             {/*<CircleIcon fontSize={"small"}/>*/}
                             <NoiseControlOffIcon/>
+                            {/*<Looks6Icon/>*/}
                         </IconButton>
                     )
                 })}

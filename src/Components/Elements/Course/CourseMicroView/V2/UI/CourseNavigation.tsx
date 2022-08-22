@@ -18,10 +18,32 @@ const CourseNavigation = observer(({courseStore}: CourseNavigationProps) => {
     return (
         <Stack direction={"row"}>
             <Paper elevation={0} sx={{pt: 2, pb: 2}}>
+                {/*<Slider*/}
+                {/*    value={courseStore.position.activePage}*/}
+                {/*    onChange={handleChange}*/}
+                {/*    orientation="horizontal"*/}
+                {/*    valueLabelDisplay="auto"*/}
+                {/*    disabled={Number(courseStore?.courseData[0].SameLine.length) <= 1}*/}
+                {/*    min={1}*/}
+                {/*    marks*/}
+                {/*    step={1}*/}
+                {/*    max={courseStore?.courseData[0].SameLine.length}*/}
+                {/*/>*/}
+            </Paper>
+            <div>
+
+                {courseStore?.course?.map((courseRow, CRI) => {
+                    return (
+                        <RowFragment key={CRI + "NavigationRow"} CRI={CRI} courseStore={courseStore}/>
+                    )
+                })}
+
                 <Slider
+                    sx={{width: 320, mx: 1}}
+                    size={"small"}
                     value={courseStore.position.activePage}
                     onChange={handleChange}
-                    orientation="vertical"
+                    orientation="horizontal"
                     valueLabelDisplay="auto"
                     disabled={Number(courseStore?.courseData[0].SameLine.length) <= 1}
                     min={1}
@@ -29,14 +51,6 @@ const CourseNavigation = observer(({courseStore}: CourseNavigationProps) => {
                     step={1}
                     max={courseStore?.courseData[0].SameLine.length}
                 />
-            </Paper>
-            <div>
-                {courseStore?.course?.map((courseRow, CRI) => {
-                    return (
-                        <RowFragment key={CRI + "NavigationRow"} CRI={CRI} courseStore={courseStore}/>
-                    )
-                })}
-
                 <Divider/>
                 <Typography
                     variant={"body2"}
@@ -45,6 +59,7 @@ const CourseNavigation = observer(({courseStore}: CourseNavigationProps) => {
                     }}>
                     {courseStore?.courseName}
                 </Typography>
+
             </div>
         </Stack>
     )

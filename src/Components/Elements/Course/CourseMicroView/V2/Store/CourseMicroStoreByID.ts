@@ -172,4 +172,8 @@ export class CourseMicroStoreByID {
     }
 
     //------------------------------------------------------------------------------------------------
+
+    viewedCardIDs: Set<number> = new Set()
+
+
 }

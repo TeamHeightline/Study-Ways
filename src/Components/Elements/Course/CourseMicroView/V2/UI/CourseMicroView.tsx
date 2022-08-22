@@ -42,8 +42,12 @@ const CourseMicroView = observer(({
     }, [courseStore.position])
 
     useEffect(() => {
+        const new_selected_card_id = Number(courseStore.get_card_id_by_position(courseStore.position))
         if (onCardSelect) {
-            onCardSelect(Number(courseStore.get_card_id_by_position(courseStore.position)))
+            onCardSelect(new_selected_card_id)
+        }
+        if (new_selected_card_id) {
+            courseStore.viewedCardIDs.add(new_selected_card_id)
         }
     }, [Number(courseStore.get_card_id_by_position(courseStore.position))])
 
@@ -60,7 +64,7 @@ const CourseMicroView = observer(({
                  overflowX: isMobile ? "auto" : undefined,
                  maxWidth: isMobile ? window.innerWidth - 40 : ""
              }}>
-            <Card style={{padding: 0, width: 500}} variant="outlined">
+            <Card style={{padding: 0, width: 550}} variant="outlined">
 
                 <Stack direction="row" alignItems="stretch">
                     <Tooltip
@@ -87,7 +91,7 @@ const CourseMicroView = observer(({
                             }}
                         >
                             <div style={{
-                                width: 150,
+                                width: 200,
                             }}/>
                         </CardActionArea>
                     </Tooltip>

@@ -1,11 +1,12 @@
 import React, {useState} from 'react'
-import {Card, CardActionArea, Popover, Stack, TextField} from "@mui/material";
+import {Card, Popover, Stack, TextField} from "@mui/material";
 import {gql} from "graphql.macro";
 import {useQuery} from "@apollo/client";
 import {SERVER_BASE_URL} from "../../../../settings";
 import urlParser from "js-video-url-parser";
 import CardMicroView from "../../Cards/CardView/CardMicroView";
 import InfoIcon from '@mui/icons-material/Info';
+import EditIcon from '@mui/icons-material/Edit';
 import {alpha} from "@mui/material/styles";
 import ThemeStoreObject from "../../../../global-theme";
 
@@ -40,6 +41,10 @@ const GET_CARD_DATA_BY_ID = gql`
         }
     }`
 
+//function that get string and return only numbers and comma
+function getNumbers(str) {
+    return str.replace(/[^0-9,]/g, '');
+}
 
 export default function EditCourseItem({item_id, item_position, ...props}: any) {
     const [itemID, setItemID] = useState(item_id)
@@ -124,40 +129,44 @@ export default function EditCourseItem({item_id, item_position, ...props}: any) 
             >
                 <CardMicroView cardID={itemID}/>
             </Popover>
-            <CardActionArea
-                onClick={() => {
-                    if (itemID) {
-                        props.editCard(itemID)
-                    }
-                }}>
-                <Stack alignItems={"end"} onMouseEnter={handlePopoverOpen}
-                       onMouseLeave={handlePopoverClose}>
+            {/*<CardActionArea*/}
+            {/*>*/}
+            <Stack alignItems={"end"} onMouseEnter={handlePopoverOpen}
+                   onMouseLeave={handlePopoverClose}>
+                <Stack direction={"row"}>
                     <InfoIcon/>
-                </Stack>
-
-
-                <TextField
-                    sx={{
-                        mt: 5,
-                        backdropFilter: "blur(6px)",
-                        bgcolor: alpha(ThemeStoreObject.backgroundColor || "#0A1929", 0.4),
-                    }}
-                    label="ID карточки"
-                    fullWidth
-                    value={itemID}
-                    size={"small"}
-                    variant="filled"
-                    onChange={(e) => {
-                        const valueWithOnlyNumber = e.target.value.replace(/[^\d]/g, '')
-                        props.updateItem({
-                            CourseElement: {
-                                id: valueWithOnlyNumber
+                    <EditIcon
+                        onClick={() => {
+                            if (itemID) {
+                                props.editCard(itemID)
                             }
-                        })
-                        setItemID(valueWithOnlyNumber)
-                    }}
-                />
-            </CardActionArea>
+                        }}/>
+                </Stack>
+            </Stack>
+
+
+            <TextField
+                sx={{
+                    mt: 5,
+                    backdropFilter: "blur(6px)",
+                    bgcolor: alpha(ThemeStoreObject.backgroundColor || "#0A1929", 0.4),
+                }}
+                label="ID карточки"
+                fullWidth
+                value={itemID}
+                size={"small"}
+                variant="filled"
+                onChange={(e) => {
+                    const valueWithOnlyNumber = getNumbers(e.target.value)
+                    props.updateItem({
+                        CourseElement: {
+                            id: valueWithOnlyNumber
+                        }
+                    })
+                    setItemID(valueWithOnlyNumber)
+                }}
+            />
+            {/*</CardActionArea>*/}
 
         </Card>
     );

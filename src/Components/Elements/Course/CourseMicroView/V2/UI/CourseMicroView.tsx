@@ -98,6 +98,7 @@ const CourseMicroView = observer(({
                 </Stack>
             </Card>
             {/*{showArrowNavigation && <ArrowNavigation courseStore={courseStore}/>}*/}
+            
         </div>
     )
 })

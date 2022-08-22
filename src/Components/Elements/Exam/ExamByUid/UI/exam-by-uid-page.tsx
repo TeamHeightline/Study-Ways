@@ -7,18 +7,20 @@ import QuestionPlayer from "./question-player/question-player";
 import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 import {UserStorage} from "../../../../../Store/UserStore/UserStore";
 import {useAppDispatch} from "../../../../../root-redux-store/RootStore";
+import {useParams} from "react-router-dom";
 
 
 export default function ExamByUIDPge({...props}) {
     const isMobile = isMobileHook()
     const dispatch = useAppDispatch();
+    const {uid} = useParams()
 
     useEffect(() => {
-        if (UserStorage.isLogin) {
-            dispatch(openExamPageThunk(props.match.params.uid))
-            dispatch(loadExamDataThunk(props.match.params.uid))
+        if (UserStorage.isLogin && uid) {
+            dispatch(openExamPageThunk(uid))
+            dispatch(loadExamDataThunk(uid))
         }
-    }, [props.match.params.uid, UserStorage.isLogin])
+    }, [uid, UserStorage.isLogin])
     if (!UserStorage.isLogin) {
         return (
             <Stack alignItems="center">

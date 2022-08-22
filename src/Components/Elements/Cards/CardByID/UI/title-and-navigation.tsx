@@ -13,12 +13,14 @@ import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 
 interface ITitleAndNavigationProps extends PaperProps {
     course_navigation?: ReturnType<typeof CourseMicroView>
-    card_store: CardByIDStore
+    card_store: CardByIDStore,
+    is_hidden_navigation?: boolean,
 }
 
 const TitleAndNavigation = observer(({
                                          course_navigation,
                                          card_store,
+                                         is_hidden_navigation = false,
                                          ...props
                                      }: ITitleAndNavigationProps) => {
     const isMobile = isMobileHook()
@@ -29,6 +31,7 @@ const TitleAndNavigation = observer(({
                 direction={openFromCourse && !isMobile ? "row" : "column"} spacing={2}>
                 {openFromCourse ?
                     course_navigation :
+                    !is_hidden_navigation &&
                     <DefaultCardNavigation card_store={card_store}/>}
                 <Stack direction={"column"}>
                     <CardTitleWithId card_store={card_store}/>

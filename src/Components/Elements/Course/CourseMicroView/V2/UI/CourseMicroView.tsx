@@ -10,7 +10,7 @@ interface ICourseMicroViewProps extends React.HTMLAttributes<HTMLDivElement> {
     course_id: number,
     position_data?: positionDataI,
     onPosition?: (selected_position: positionDataI) => void,
-    onCardSelect?: (selected_card_id: number | undefined) => void,
+    onCardSelect?: (selected_card_id: string | undefined) => void,
     onCourseImageClick?: (clicked: string) => void,
     showArrowNavigation?: boolean,
     ignoreURLRedirectOnSelectCard?: boolean,
@@ -41,8 +41,8 @@ const CourseMicroView = observer(({
     }, [courseStore.position])
 
     useEffect(() => {
-        const new_selected_card_id = Number(courseStore.get_card_id_by_position(courseStore.position))
-        if (onCardSelect) {
+        const new_selected_card_id = String(courseStore.get_card_id_by_position(courseStore.position))
+        if (onCardSelect && new_selected_card_id) {
             onCardSelect(new_selected_card_id)
         }
         if (new_selected_card_id) {
@@ -98,7 +98,7 @@ const CourseMicroView = observer(({
                 </Stack>
             </Card>
             {/*{showArrowNavigation && <ArrowNavigation courseStore={courseStore}/>}*/}
-            
+
         </div>
     )
 })

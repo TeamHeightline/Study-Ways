@@ -16,10 +16,18 @@ import CardResourceIframe from "./card-resourse-iframe";
 
 interface ICardByIDProps extends PaperProps {
     card_id?: number,
-    course_navigation?: ReturnType<typeof CourseMicroView>
+    course_navigation?: ReturnType<typeof CourseMicroView>,
+    is_hidden_go_back_button?: boolean,
+    is_hidden_navigation?: boolean,
 }
 
-const CardByID = observer(({card_id, course_navigation, ...props}: ICardByIDProps) => {
+const CardByID = observer(({
+                               card_id,
+                               course_navigation,
+                               is_hidden_go_back_button = false,
+                               is_hidden_navigation = false,
+                               ...props
+                           }: ICardByIDProps) => {
     const [cardStore] = useState(new CardByIDStore(card_id))
     useEffect(() => {
         cardStore?.changeID(card_id)
@@ -27,8 +35,10 @@ const CardByID = observer(({card_id, course_navigation, ...props}: ICardByIDProp
     return (
         <Paper elevation={0} sx={{pt: 2, pl: 2, pr: 2}} {...props}>
             <CardBrowserIndexing card_store={cardStore}/>
-            <GoBackButton sx={{pb: 1}}/>
+            {!is_hidden_go_back_button &&
+                <GoBackButton sx={{pb: 1}}/>}
             <TitleAndNavigation
+                is_hidden_navigation={is_hidden_navigation}
                 sx={{pt: 1}}
                 card_store={cardStore}
                 course_navigation={course_navigation}

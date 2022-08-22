@@ -173,7 +173,7 @@ export class CourseMicroStoreByID {
 
     //------------------------------------------------------------------------------------------------
 
-    viewedCardIDs: Set<number> = new Set()
+    viewedCardIDs: Set<string> = new Set()
 
 
 }

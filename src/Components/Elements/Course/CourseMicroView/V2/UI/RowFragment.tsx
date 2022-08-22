@@ -8,6 +8,11 @@ import {useLocation, useNavigate} from "react-router-dom";
 import NoiseControlOffIcon from '@mui/icons-material/NoiseControlOff';
 import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
 
+import LooksTwoIcon from '@mui/icons-material/LooksTwo';
+import Looks3Icon from '@mui/icons-material/Looks3';
+import Looks4Icon from '@mui/icons-material/Looks4';
+import Looks5Icon from '@mui/icons-material/Looks5';
+import Looks6Icon from '@mui/icons-material/Looks6';
 
 interface RowFragmentI {
     CRI: number,
@@ -16,7 +21,7 @@ interface RowFragmentI {
 
 const RowFragment = observer(({CRI, courseStore}: RowFragmentI) => {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-    const [hoveredItemID, setHoveredItemID] = useState<number | undefined>(undefined)
+    const [hoveredItemID, setHoveredItemID] = useState<string | undefined>(undefined)
     const [hoverItemLevel, setHoveredItemLevel] = useState<number>(0)
     const {pathname} = useLocation();
     const navigate = useNavigate();
@@ -49,17 +54,22 @@ const RowFragment = observer(({CRI, courseStore}: RowFragmentI) => {
                 onClose={handlePopoverClose}
                 disableRestoreFocus
             >
-                {hoveredItemID &&
-                    <CardMicroView cardID={hoveredItemID}/>}
+                <div>
+
+                    {hoveredItemID && String(hoveredItemID)?.split(",")?.map((cardID) =>
+                        <CardMicroView cardID={Number(cardID)}/>)}
+                </div>
+
             </Popover>
             {courseStore.courseData[CRI]
                 .SameLine[courseStore.position.activePage - 1]
                 ?.CourseFragment?.map((element, eIndex) => {
+                    const number_of_elements = String(element?.CourseElement?.id)?.split(",").length || 1
                     return (
                         <IconButton size="small"
                                     onMouseEnter={(e) => {
                                         if (!isMobile) {
-                                            setHoveredItemID(Number(element?.CourseElement?.id))
+                                            setHoveredItemID(String(element?.CourseElement?.id))
                                             if (CRI) {
                                                 setHoveredItemLevel(CRI)
                                             } else {
@@ -95,13 +105,26 @@ const RowFragment = observer(({CRI, courseStore}: RowFragmentI) => {
                                         courseStore.position.selectedPage === courseStore.position.activePage &&
                                         courseStore.position.selectedIndex === eIndex ?
                                             "secondary" :
-                                            element?.CourseElement?.id && courseStore.viewedCardIDs.has(Number(element?.CourseElement?.id)) ?
+                                            element?.CourseElement?.id && courseStore.viewedCardIDs.has(element?.CourseElement?.id) ?
                                                 "inherit" :
                                                 "primary"}
                         >
-                            {/*<StopSharpIcon/>*/}
-                            {/*<CircleIcon fontSize={"small"}/>*/}
-                            <NoiseControlOffIcon/>
+
+                            {/*<NoiseControlOffIcon/>*/}
+                            {number_of_elements === 1 ?
+                                <NoiseControlOffIcon/> :
+                                number_of_elements === 2 ?
+                                    <LooksTwoIcon/> :
+                                    number_of_elements === 3 ?
+                                        <Looks3Icon/> :
+                                        number_of_elements === 4 ?
+                                            <Looks4Icon/> :
+                                            number_of_elements === 5 ?
+                                                <Looks5Icon/> :
+                                                <Looks6Icon/>}
+
+
+                            {/*}*/}
                             {/*<Looks6Icon/>*/}
                         </IconButton>
                     )

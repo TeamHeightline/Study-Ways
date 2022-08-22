@@ -6,6 +6,8 @@ import {SERVER_BASE_URL} from "../../../../settings";
 import urlParser from "js-video-url-parser";
 import CardMicroView from "../../Cards/CardView/CardMicroView";
 import InfoIcon from '@mui/icons-material/Info';
+import {alpha} from "@mui/material/styles";
+import ThemeStoreObject from "../../../../global-theme";
 
 const GET_CARD_DATA_BY_ID = gql`
     query GET_CARD_DATA_BY_ID($id: ID!){
@@ -137,7 +139,8 @@ export default function EditCourseItem({item_id, item_position, ...props}: any) 
                 <TextField
                     sx={{
                         mt: 5,
-                        backdropFilter: "blur(6px)"
+                        backdropFilter: "blur(6px)",
+                        bgcolor: alpha(ThemeStoreObject.backgroundColor || "#0A1929", 0.5),
                     }}
                     label="ID карточки"
                     fullWidth

@@ -60,8 +60,8 @@ const RowFragment = observer(({
                 onClose={handlePopoverClose}
                 disableRestoreFocus
             >
-                {hoveredItemID &&
-                    <CardMicroView cardID={hoveredItemID}/>}
+                {hoveredItemID && String(hoveredItemID)?.split(",")?.map((cardID) =>
+                    <CardMicroView cardID={Number(cardID)}/>)}
             </Popover>
 
             <Stack direction={"row"}>

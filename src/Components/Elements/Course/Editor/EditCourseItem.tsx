@@ -100,13 +100,6 @@ export default function EditCourseItem({item_id, item_position, ...props}: any) 
                 backgroundImage: `url(${card_image})`,
                 backgroundSize: "cover"
             }}
-            // onMouseEnter={handlePopoverOpen}
-            // onMouseLeave={handlePopoverClose}
-            // onClick={() => {
-            //     if (itemID) {
-            //         props.editCard(itemID)
-            //     }
-            // }}
             variant="outlined">
             <Popover
                 id="mouse-over-popover"
@@ -127,7 +120,10 @@ export default function EditCourseItem({item_id, item_position, ...props}: any) 
                 onClose={handlePopoverClose}
                 disableRestoreFocus
             >
-                <CardMicroView cardID={itemID}/>
+                <div>
+                    {itemID && String(itemID)?.split(",")?.map((cardID) =>
+                        <CardMicroView cardID={Number(cardID)}/>)}
+                </div>
             </Popover>
             {/*<CardActionArea*/}
             {/*>*/}

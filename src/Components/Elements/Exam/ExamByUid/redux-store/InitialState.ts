@@ -9,7 +9,7 @@ export interface IQuestionStatus {
     "statistic_id"?: number,
 }
 
-interface IExamData {
+export interface IExamData {
     id: number,
     name: string
     start_at: Date | null
@@ -42,5 +42,7 @@ export const initialState = {
     await_statistic_save: false,
     is_statistic_save_error: false,
     access_password: "",
-    is_password_check_passed: false
+    is_password_check_passed: false,
+    remaining_minutes: 100,
+    remaining_attempts: 100
 }

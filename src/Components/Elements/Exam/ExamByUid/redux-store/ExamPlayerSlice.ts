@@ -5,8 +5,7 @@ import {IQuestionWithAnswers} from "../../../../../ServerLayer/Types/question.ty
 import {IDetailStatistic} from "../../../../../ServerLayer/Types/detail-statistic.types";
 import CryptoJS from "crypto-js";
 
-import {initialState, IQuestionStatus} from "./InitialState";
-import {IExamData} from "../../../../../ServerLayer/Types/exam.types";
+import {IExamData, initialState, IQuestionStatus} from "./InitialState";
 
 
 const examPlayerSlicer = createSlice({
@@ -101,6 +100,8 @@ const examPlayerSlicer = createSlice({
                     state?.exam_data?.help_text_level === 1 ? state.selected_question_data?.usertests_answer[indexOfMostWantedError]?.help_textV2 :
                         state.selected_question_data?.usertests_answer[indexOfMostWantedError]?.help_textV3 || "Автор ответа не указал подсказку")
 
+            state.remaining_attempts = state.remaining_attempts - 1
+
         },
         setAccessPassword: (state, action: PayloadAction<string>) => {
             state.access_password = action.payload
@@ -109,6 +110,9 @@ const examPlayerSlicer = createSlice({
             if (action.payload === original_password) {
                 state.is_password_check_passed = true
             }
+        },
+        removeOneMinute: (state) => {
+            state.remaining_minutes = state.remaining_minutes - 1
         }
 
     },
@@ -116,6 +120,8 @@ const examPlayerSlicer = createSlice({
         [loadExamDataThunk.fulfilled.type]: (state, action: PayloadAction<{ data: IExamData }>) => {
             // @ts-ignore
             state.exam_data = action.payload.data
+            state.remaining_minutes = action.payload.data.minutes || 100
+            state.remaining_attempts = action.payload.data.max_question_attempts
         },
         [saveDetailStatisticThunk.pending.type]: (state) => {
             state.await_statistic_save = true
@@ -186,7 +192,7 @@ const examPlayerSlicer = createSlice({
             }
 
             state.max_sum_of_points = max_sum_of_points
-
+            state.remaining_attempts = state?.exam_data?.max_question_attempts || 100
 
             state.loading_selected_question_data = false
 
@@ -202,5 +208,6 @@ export const {
     changeSelectedAnswersId,
     changeSelectedQuestionId,
     checkAnswers,
-    setAccessPassword
+    setAccessPassword,
+    removeOneMinute
 } = examPlayerSlicer.actions

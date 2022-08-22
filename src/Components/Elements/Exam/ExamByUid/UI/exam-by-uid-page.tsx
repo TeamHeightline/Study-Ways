@@ -20,6 +20,7 @@ const ExamByUIDPge = observer(({...props}) => {
     const is_enable_password_check = useAppSelector(state => state.examPlayer?.exam_data?.is_enable_password_check)
     const password = useAppSelector(state => state.examPlayer?.exam_data?.password)
     const is_password_check_passed = useAppSelector(state => state.examPlayer?.is_password_check_passed)
+    const remaining_minutes = useAppSelector(state => state.examPlayer?.remaining_minutes)
 
     useEffect(() => {
         if (UserStorage.isLogin && uid) {
@@ -32,6 +33,13 @@ const ExamByUIDPge = observer(({...props}) => {
             <Stack alignItems="center">
                 <CircularProgress/>
             </Stack>
+        )
+    }
+    if (remaining_minutes < 0) {
+        return (
+            <Alert severity={"error"}>
+                Время экзамена закончилось
+            </Alert>
         )
     }
 

@@ -7,7 +7,7 @@ import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
 import {useDispatch, useSelector} from "react-redux";
 import {checkAnswers} from "../../redux-store/ExamPlayerSlice";
 import UiComebackLaterDialog from "./ui-come-back-later-dialog";
-import {RootState} from "../../../../../../root-redux-store/RootStore";
+import {RootState, useAppSelector} from "../../../../../../root-redux-store/RootStore";
 
 interface IUIQuestionTextProps extends PaperProps {
 
@@ -19,6 +19,9 @@ export default function UIQuestionText({...props}: IUIQuestionTextProps) {
     const [disableCheckButton, setDisableCheckButton] = useState(false)
     const [isOpenComeBackLaterDialog, setIsOpenComeBackLaterDialog] = useState(false)
     const questionText = useSelector((state: RootState) => state?.examPlayer?.selected_question_data?.text)
+    const remaining_attempts = useAppSelector(state => state.examPlayer?.remaining_attempts)
+    const is_enable_max_question_attempts = useAppSelector(state => state.examPlayer?.exam_data?.is_enable_max_question_attempts)
+
 
     function checkError() {
         dispatch(checkAnswers())
@@ -58,6 +61,10 @@ export default function UIQuestionText({...props}: IUIQuestionTextProps) {
                                 Сдаться
                             </Button>
                         </Stack>
+                        {is_enable_max_question_attempts &&
+                            <Typography>
+                                Осталось попыток: {remaining_attempts}
+                            </Typography>}
                     </Grid>
                 </Grid>
             </CardContent>

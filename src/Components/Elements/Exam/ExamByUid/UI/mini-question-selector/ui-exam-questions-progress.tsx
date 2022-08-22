@@ -1,4 +1,4 @@
-import {Card, Grid, Paper} from "@mui/material";
+import {Card, Grid, Paper, Typography} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {useDispatch, useSelector} from "react-redux";
 import UIQuestionButtonFactory from "./ui-question-button-factory";
@@ -6,7 +6,7 @@ import {changeSelectedQuestionId} from "../../redux-store/ExamPlayerSlice";
 import {useEffect} from "react";
 import {IQuestionStatus} from "../../redux-store/InitialState";
 import {updateQuestionProgress} from "../../../../../../ServerLayer/QueryLayer/exam.query";
-import {RootState} from "../../../../../../root-redux-store/RootStore";
+import {RootState, useAppSelector} from "../../../../../../root-redux-store/RootStore";
 
 interface IUIExamQuestionProgressProps extends PaperProps {
 
@@ -15,7 +15,10 @@ interface IUIExamQuestionProgressProps extends PaperProps {
 export default function UIExamQuestionProgress({...props}: IUIExamQuestionProgressProps) {
     const questionStatuses = useSelector((state: RootState) => state?.examPlayer?.question_statuses)
     const selectedQuestionID = useSelector((state: RootState) => state?.examPlayer?.selected_question_id)
+    const remaining_minutes = useAppSelector(state => state.examPlayer?.remaining_minutes)
+
     const dispatch = useDispatch();
+
     useEffect(() => {
         if (questionStatuses) {
             //сохраняем обновленный статус вопроса
@@ -51,6 +54,9 @@ export default function UIExamQuestionProgress({...props}: IUIExamQuestionProgre
                     })}
                 </Grid>
             </Card>
+            <Typography variant={"h6"}>
+                Осталось минут: {remaining_minutes}
+            </Typography>
         </Paper>
     )
 }

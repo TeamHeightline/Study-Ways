@@ -140,7 +140,7 @@ export default function EditCourseItem({item_id, item_position, ...props}: any) 
                     sx={{
                         mt: 5,
                         backdropFilter: "blur(6px)",
-                        bgcolor: alpha(ThemeStoreObject.backgroundColor || "#0A1929", 0.5),
+                        bgcolor: alpha(ThemeStoreObject.backgroundColor || "#0A1929", 0.4),
                     }}
                     label="ID карточки"
                     fullWidth

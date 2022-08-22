@@ -3,7 +3,6 @@ import React, {useEffect, useState} from 'react';
 import {CourseMicroStoreByID, positionDataI} from "../Store/CourseMicroStoreByID";
 import {Card, CardActionArea, Stack, Tooltip} from "@mui/material";
 import CourseNavigation from "./CourseNavigation";
-import ArrowNavigation from "./ArrowNavigation";
 import {useNavigate} from "react-router-dom";
 import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
 
@@ -98,7 +97,7 @@ const CourseMicroView = observer(({
                     <CourseNavigation courseStore={courseStore}/>
                 </Stack>
             </Card>
-            {showArrowNavigation && <ArrowNavigation courseStore={courseStore}/>}
+            {/*{showArrowNavigation && <ArrowNavigation courseStore={courseStore}/>}*/}
         </div>
     )
 })

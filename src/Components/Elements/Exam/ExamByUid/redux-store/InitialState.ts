@@ -42,4 +42,5 @@ export const initialState = {
     await_statistic_save: false,
     is_statistic_save_error: false,
     access_password: "",
+    is_password_check_passed: false
 }

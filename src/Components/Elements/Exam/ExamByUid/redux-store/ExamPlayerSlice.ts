@@ -3,6 +3,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {loadExamDataThunk, loadQuestionDataThunk, openExamPageThunk, saveDetailStatisticThunk} from "./AsyncActions";
 import {IQuestionWithAnswers} from "../../../../../ServerLayer/Types/question.type";
 import {IDetailStatistic} from "../../../../../ServerLayer/Types/detail-statistic.types";
+import CryptoJS from "crypto-js";
 
 import {initialState, IQuestionStatus} from "./InitialState";
 import {IExamData} from "../../../../../ServerLayer/Types/exam.types";
@@ -103,6 +104,11 @@ const examPlayerSlicer = createSlice({
         },
         setAccessPassword: (state, action: PayloadAction<string>) => {
             state.access_password = action.payload
+            //Именно так, потому что нам критически важно нигде (ни в экшене, ни в стейте не отображать реальный пароль)
+            const original_password = CryptoJS.AES.decrypt(state?.exam_data?.password, "sw-secret-key").toString(CryptoJS.enc.Utf8)
+            if (action.payload === original_password) {
+                state.is_password_check_passed = true
+            }
         }
 
     },
@@ -192,4 +198,9 @@ const examPlayerSlicer = createSlice({
 
 export default examPlayerSlicer.reducer
 
-export const {changeSelectedAnswersId, changeSelectedQuestionId, checkAnswers} = examPlayerSlicer.actions
+export const {
+    changeSelectedAnswersId,
+    changeSelectedQuestionId,
+    checkAnswers,
+    setAccessPassword
+} = examPlayerSlicer.actions

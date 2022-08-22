@@ -41,4 +41,5 @@ export const initialState = {
     is_question_completed: false,
     await_statistic_save: false,
     is_statistic_save_error: false,
+    access_password: "",
 }

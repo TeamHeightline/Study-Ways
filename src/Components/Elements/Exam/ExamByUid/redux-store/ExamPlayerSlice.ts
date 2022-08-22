@@ -100,6 +100,9 @@ const examPlayerSlicer = createSlice({
                     state?.exam_data?.help_text_level === 1 ? state.selected_question_data?.usertests_answer[indexOfMostWantedError]?.help_textV2 :
                         state.selected_question_data?.usertests_answer[indexOfMostWantedError]?.help_textV3 || "Автор ответа не указал подсказку")
 
+        },
+        setAccessPassword: (state, action: PayloadAction<string>) => {
+            state.access_password = action.payload
         }
 
     },

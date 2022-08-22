@@ -8,9 +8,10 @@ import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 import {UserStorage} from "../../../../../Store/UserStore/UserStore";
 import {useAppDispatch} from "../../../../../root-redux-store/RootStore";
 import {useParams} from "react-router-dom";
+import {observer} from "mobx-react";
 
 
-export default function ExamByUIDPge({...props}) {
+const ExamByUIDPge = observer(({...props}) => {
     const isMobile = isMobileHook()
     const dispatch = useAppDispatch();
     const {uid} = useParams()
@@ -35,4 +36,6 @@ export default function ExamByUIDPge({...props}) {
             <QuestionPlayer/>
         </Paper>
     )
-}
+})
+
+export default ExamByUIDPge

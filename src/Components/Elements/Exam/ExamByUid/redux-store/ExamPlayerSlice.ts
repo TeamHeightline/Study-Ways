@@ -95,17 +95,18 @@ const examPlayerSlicer = createSlice({
                 state.is_question_completed = true
             }
 
-            state.help_text = state.selected_question_data?.usertests_answer[indexOfMostWantedError]?.help_textV3
-                || state.selected_question_data?.usertests_answer[indexOfMostWantedError]?.help_textV2
-                || state.selected_question_data?.usertests_answer[indexOfMostWantedError]?.help_textV1
-                || ""
+            state.help_text = String(!state?.exam_data?.is_enable_help_text ? "Подсказки отключены" :
+                state?.exam_data?.help_text_level === 0 ? state.selected_question_data?.usertests_answer[indexOfMostWantedError]?.help_textV1 :
+                    state?.exam_data?.help_text_level === 1 ? state.selected_question_data?.usertests_answer[indexOfMostWantedError]?.help_textV2 :
+                        state.selected_question_data?.usertests_answer[indexOfMostWantedError]?.help_textV3 || "Автор ответа не указал подсказку")
+
         }
 
     },
     extraReducers: {
-        [loadExamDataThunk.fulfilled.type]: (state, action: PayloadAction<IExamData>) => {
+        [loadExamDataThunk.fulfilled.type]: (state, action: PayloadAction<{ data: IExamData }>) => {
             // @ts-ignore
-            state.exam_data = action.payload
+            state.exam_data = action.payload.data
         },
         [saveDetailStatisticThunk.pending.type]: (state) => {
             state.await_statistic_save = true

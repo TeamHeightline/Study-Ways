@@ -15,7 +15,7 @@ const emptyStatistic = {
 
 
 export const loadExamDataThunk = createAsyncThunk(
-    'examPlayer/loadExamName',
+    'examPlayer/loadExamData',
     async (examUID: string) => {
         return axiosClient.get(`page/exam-player/exam-data/uid/${examUID}`)
     })

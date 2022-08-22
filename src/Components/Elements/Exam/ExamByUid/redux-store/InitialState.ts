@@ -15,7 +15,15 @@ interface IExamData {
     start_at: Date | null
     end_at: Date | null
     uid: string
-    minutes: number | null
+    minutes: number | null,
+    access_mode: string,
+    is_enable_help_text: boolean,
+    is_enable_password_check: boolean,
+    is_enable_start_and_finish_time: boolean,
+    is_enable_max_question_attempts: boolean,
+    help_text_level: number,
+    password: string,
+    max_question_attempts: number
 }
 
 export const initialState = {

@@ -1,4 +1,4 @@
-import {autorun, makeAutoObservable, toJS} from "mobx";
+import {autorun, makeAutoObservable, reaction, toJS} from "mobx";
 import {CardCourseNode, CardNode, Mutation, Query, UnstructuredThemesNode} from "../../../../../SchemaTypes";
 import {ClientStorage} from "../../../../../Store/ApolloStorage/ClientStorage";
 import {
@@ -29,6 +29,9 @@ export class CardByIDStore {
         autorun(() => this.updateRatingAndISBookmarked())
         autorun(() => this.loadThemesAncestors())
         autorun(() => this.loadSimilarCards())
+        reaction(() => this.id, () => {
+            recombeeClient.send(new recombee.AddDetailView(UserStorage.userIDForRecombee, this.id));
+        })
         this.id = id
     }
 
@@ -58,8 +61,6 @@ export class CardByIDStore {
                         if (card_data && this.id == Number(card_data?.id)) {
                             this.card_data = card_data
 
-                            recombeeClient.send(new recombee.AddDetailView(UserStorage.userIDForRecombee, card_data?.id));
-                            
                         }
                         if (useCache) {
                             this.loadCardData(false)

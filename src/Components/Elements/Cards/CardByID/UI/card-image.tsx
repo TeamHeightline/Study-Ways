@@ -1,8 +1,9 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {Button, Card, CardActionArea} from "@mui/material";
+import {Card, CardActionArea} from "@mui/material";
 import {CardByIDStore} from "../Store/CardByIDStore";
+import GoToTestButton from "./go-to-test-button";
 
 
 interface ICardImageProps extends PaperProps {
@@ -20,12 +21,6 @@ const CardImage = observer(({card_store, ...props}: ICardImageProps) => {
         window.open(remoteResourceURL, '_blank')
     }
 
-    const onGoToTestButtonClick = () => {
-        console.log("testing time")
-        if (!!card_store?.testElementRef?.current) {
-            card_store.testElementRef.current.scrollIntoView({behavior: "smooth"})
-        }
-    }
 
     return (
         <Card elevation={0} {...props}
@@ -45,9 +40,7 @@ const CardImage = observer(({card_store, ...props}: ICardImageProps) => {
                     }}
                     onClick={goToRemoteResource}
                 />}
-            <Button color={"error"} fullWidth variant={"contained"} onClick={onGoToTestButtonClick}>
-                К тесту
-            </Button>
+            <GoToTestButton card_store={card_store}/>
 
         </Card>
     )

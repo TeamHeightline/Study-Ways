@@ -14,6 +14,10 @@ import {SERVER_BASE_URL} from "../../../../../settings";
 import {ICourseLine} from "../../../Course/Editor/EditCourseByID";
 import {positionDataI} from "../../../Course/CourseMicroView/V2/Store/CourseMicroStoreByID";
 import React, {RefObject} from "react";
+import recombeeClient from "../../../../../Store/RecombeeClient/recombee-client";
+import {UserStorage} from "../../../../../Store/UserStore/UserStore";
+// @ts-ignore
+import recombee from 'recombee-js-api-client';
 
 export class CardByIDStore {
     constructor(id?: number) {
@@ -53,6 +57,9 @@ export class CardByIDStore {
                     .then((card_data) => {
                         if (card_data && this.id == Number(card_data?.id)) {
                             this.card_data = card_data
+
+                            recombeeClient.send(new recombee.AddDetailView(UserStorage.userIDForRecombee, card_data?.id));
+                            
                         }
                         if (useCache) {
                             this.loadCardData(false)
@@ -86,20 +93,6 @@ export class CardByIDStore {
 
     similarCardsID: string[] = []
 
-    get dataForDirection(): similarCardsI[] | null {
-        if (toJS(this.similarCardsID).length > 0) {
-            const cardElementArray: similarCardsI[] = toJS(this.similarCardsID)
-                ?.map((card_id) => {
-                    return {
-                        type: "CardElement",
-                        id: Number(card_id)
-                    }
-                })
-            return cardElementArray
-        } else {
-            return null
-        }
-    }
 
     getAncestorForTheme(theme_id: number) {
         this.clientStorage.client.query({

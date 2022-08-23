@@ -30,7 +30,9 @@ export class CardByIDStore {
         autorun(() => this.loadThemesAncestors())
         autorun(() => this.loadSimilarCards())
         reaction(() => this.id, () => {
-            recombeeClient.send(new recombee.AddDetailView(UserStorage.userIDForRecombee, this.id));
+            recombeeClient.send(new recombee.AddDetailView(UserStorage.userIDForRecombee, this.id, {
+                'cascadeCreate': true
+            }));
         })
         this.id = id
     }

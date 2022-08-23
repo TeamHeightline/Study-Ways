@@ -34,6 +34,12 @@ export class CardByIDStore {
                 'cascadeCreate': true
             }));
         })
+        reaction(() => UserStorage.userIDForRecombee, () => {
+            recombeeClient.send(new recombee.AddDetailView(UserStorage.userIDForRecombee, this.id, {
+                'cascadeCreate': true
+            }));
+        })
+
         this.id = id
     }
 

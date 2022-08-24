@@ -6,7 +6,6 @@ import {DarkMode} from "@mui/icons-material";
 import {UserStorage} from "../../../Store/UserStore/UserStore";
 import {useAuth0} from "@auth0/auth0-react";
 import {useNavigate} from "react-router-dom";
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import EditIcon from '@mui/icons-material/Edit';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -15,6 +14,7 @@ import ThemeStoreObject from "../../../global-theme";
 import LightModeIcon from '@mui/icons-material/LightMode';
 import NightlightIcon from '@mui/icons-material/Nightlight';
 import StackedLineChartIcon from "@mui/icons-material/StackedLineChart";
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
 interface INavbarMenuProps extends PaperProps {
 
@@ -54,22 +54,6 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
 
             >
                 <Box sx={{py: 1}}>
-
-
-                    {/*<Menu*/}
-                    {/*    id="menu-appbar"*/}
-                    {/*    anchorEl={anchorEl}*/}
-                    {/*    keepMounted*/}
-                    {/*    open={open}*/}
-                    {/*    onClose={handleClose}*/}
-                    {/*    disablePortal*/}
-                    {/*    disableScrollLock={false}*/}
-                    {/*    anchorOrigin={{*/}
-                    {/*        vertical: 'bottom',*/}
-                    {/*        horizontal: 'left',*/}
-                    {/*    }}*/}
-
-                    {/*>*/}
                     <MenuItem
                         disabled={!UserStorage.isLogin}
                         onClick={() => {
@@ -77,7 +61,7 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
                             navigate('/profile')
                         }}>
                         <ListItemIcon>
-                            <AccountBoxIcon fontSize="small"/>
+                            <ManageAccountsIcon fontSize="small"/>
                         </ListItemIcon>
                         Профиль
                     </MenuItem>
@@ -140,8 +124,6 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
                         Выйти
                     </MenuItem>
                 </Box>
-
-                {/*</Menu>*/}
             </Popover>
 
         </>

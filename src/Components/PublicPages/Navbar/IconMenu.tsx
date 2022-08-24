@@ -6,9 +6,9 @@ import NavbarMenu from "./NavbarMenu";
 import React from "react";
 import {useNavigate} from "react-router-dom";
 import {useAuth0} from "@auth0/auth0-react";
-import NotificationButtonForNavbar from "./Notification/UI/notification-button-for-nav-bar";
 import {observer} from "mobx-react";
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import PersonalMenu from "./PersonalMenu";
 
 
 const IconMenu = observer(() => {
@@ -40,7 +40,8 @@ const IconMenu = observer(() => {
             {UserStorage.isLogin ?
                 <Stack direction={"row"}>
                     <NavbarMenu/>
-                    <NotificationButtonForNavbar/>
+                    <PersonalMenu/>
+                    {/*<NotificationButtonForNavbar/>*/}
                 </Stack>
                 :
                 <IconButton sx={{mx: 2}}

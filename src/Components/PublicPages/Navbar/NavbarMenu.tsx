@@ -13,7 +13,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ThemeStoreObject from "../../../global-theme";
 import LightModeIcon from '@mui/icons-material/LightMode';
 import NightlightIcon from '@mui/icons-material/Nightlight';
-import StackedLineChartIcon from "@mui/icons-material/StackedLineChart";
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
 interface INavbarMenuProps extends PaperProps {
@@ -86,15 +85,6 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
                             <QuestionMarkIcon fontSize="small"/>
                         </ListItemIcon>
                         Вопросы
-                    </MenuItem>
-                    <MenuItem disabled={!UserStorage.isLogin}
-                              onClick={() => {
-                                  navigate('/selfstatistic')
-                              }}>
-                        <ListItemIcon>
-                            <StackedLineChartIcon fontSize="small"/>
-                        </ListItemIcon>
-                        Статистика
                     </MenuItem>
                     <Divider/>
                     <MenuItem

@@ -9,6 +9,7 @@ import coursePageSlice from "../Components/Elements/Course/Page/redux-store/cour
 import examEditorSlice from "../Components/Elements/Exam/EditorPage/ExamByID/redux-store/examEditorSlice";
 import questionEditorPageSlice from "../Components/Elements/Question/Editor/Page/redux-store/QuestionEditorPageSlice";
 import recentCardSlice from "../Components/Elements/RecentCards/Store/recent-card-slice";
+import cardBookmarksSlice from "../Components/Elements/CardBookmarks/Store/card-bookmarks-slice";
 
 enableMapSet()
 export const RootReducer = combineReducers({
@@ -20,7 +21,8 @@ export const RootReducer = combineReducers({
     notification: NotificationSlice,
     coursePage: coursePageSlice,
     questionEditorPage: questionEditorPageSlice,
-    recentCards: recentCardSlice
+    recentCards: recentCardSlice,
+    cardBookmarks: cardBookmarksSlice
 
 });
 

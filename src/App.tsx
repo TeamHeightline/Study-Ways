@@ -34,6 +34,7 @@ const CoursePage = React.lazy(() => import("./Components/Elements/Course/Page/UI
 const CourseByURL = React.lazy(() => import("./Components/Elements/Course/CourseByURL/UI/CourseByURL"))
 const ExamByUID = React.lazy(() => import("./Components/Elements/Exam/ExamByUid/UI/exam-by-uid-page"))
 const RecentCardsPage = React.lazy(() => import("./Components/Elements/RecentCards/UI/recent-cards-page"))
+const BookmarksPage = React.lazy(() => import("./Components/Elements/CardBookmarks/UI/card-bookmarks-page"))
 
 const App = observer(() => {
     const {
@@ -114,6 +115,8 @@ const App = observer(() => {
 
                                 <Route path={"/recent-cards"}
                                        element={<Suspense fallback={<div/>}><RecentCardsPage/></Suspense>}/>
+                                <Route path={"/bookmarks"}
+                                       element={<Suspense fallback={<div/>}><BookmarksPage/></Suspense>}/>
 
                                 <Route path={"/"}
                                        element={<Suspense fallback={<div/>}><CoursePage/></Suspense>}/>

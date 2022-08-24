@@ -16,7 +16,6 @@ import {ApolloProvider} from "@apollo/client";
 import {observer} from "mobx-react"
 import {ClientStorage} from "./Store/ApolloStorage/ClientStorage";
 import {RequireLogInAlert} from "./Components/PublicPages/Notifications/RequireLogInAlert";
-import {isMobileHook} from "./CustomHooks/isMobileHook";
 import {CircularProgress, Grid} from "@mui/material";
 import Auth0Login from "./Components/Elements/Auth0/auth0-login";
 import Auth0AfterLogin from "./Components/Elements/Auth0/auth0-after-login";
@@ -34,10 +33,9 @@ const SelfStatistic = React.lazy(() => import("./Components/Elements/SimpleSelfS
 const CoursePage = React.lazy(() => import("./Components/Elements/Course/Page/UI/course-page"))
 const CourseByURL = React.lazy(() => import("./Components/Elements/Course/CourseByURL/UI/CourseByURL"))
 const ExamByUID = React.lazy(() => import("./Components/Elements/Exam/ExamByUid/UI/exam-by-uid-page"))
-
+const RecentCardsPage = React.lazy(() => import("./Components/Elements/RecentCards/UI/recent-cards-page"))
 
 const App = observer(() => {
-    const isMobile = isMobileHook()
     const {
         isLoading,
         isAuthenticated,
@@ -114,6 +112,8 @@ const App = observer(() => {
                                 <Route path={"/profile"}
                                        element={<Suspense fallback={<div/>}><ProfilePage/></Suspense>}/>
 
+                                <Route path={"/recent-cards"}
+                                       element={<Suspense fallback={<div/>}><RecentCardsPage/></Suspense>}/>
 
                                 <Route path={"/"}
                                        element={<Suspense fallback={<div/>}><CoursePage/></Suspense>}/>

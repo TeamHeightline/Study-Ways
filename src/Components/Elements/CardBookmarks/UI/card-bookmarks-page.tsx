@@ -1,4 +1,4 @@
-import {Box, CircularProgress, Grid, Stack} from "@mui/material";
+import {Box, CircularProgress, Grid, Stack, Typography} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
 import {UserStorage} from "../../../../Store/UserStore/UserStore";
 import {useEffect} from "react";
@@ -39,6 +39,11 @@ export default function CardBookmarksPage({...props}: ICardBookmarksPageProps) {
 
     return (
         <Box {...props}>
+            <Stack alignItems={"center"}>
+                <Typography variant={"h3"} sx={{mt: 3}}>
+                    Карточки, добавленные в закладки
+                </Typography>
+            </Stack>
             <Grid container spacing={2} justifyContent={"space-around"}>
                 {card_bookmarks_id_array?.map((card_id, index) => {
                     return (

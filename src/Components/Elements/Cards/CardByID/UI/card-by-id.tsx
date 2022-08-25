@@ -45,7 +45,7 @@ const CardByID = observer(({
                 card_store={cardStore}
                 course_navigation={course_navigation}
             />
-            <Stack direction={"row"} sx={{width: "100%"}} justifyContent={"space-between"}>
+            <Stack direction={{md: "row", xs: "column"}} sx={{width: "100%"}} justifyContent={"space-between"}>
                 <CardContentAndDescription card_store={cardStore} sx={{pt: 1}}/>
                 <CardHistoryDrawer/>
             </Stack>

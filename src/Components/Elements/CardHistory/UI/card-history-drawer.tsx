@@ -42,7 +42,7 @@ export default function CardHistoryDrawer({...props}: ICardHistoryDrawerProps) {
     return (
         <Box>
             <Button onClick={openHistoryDrawer} variant={"contained"}
-                    sx={{transform: "rotate(90deg)"}} startIcon={<HistoryIcon/>}>
+                    sx={{transform: {md: "rotate(90deg)", xs: "none"}}} startIcon={<HistoryIcon/>}>
                 История
             </Button>
             <Drawer open={isOpen} onClose={closeHistoryDrawer} anchor={"right"}>

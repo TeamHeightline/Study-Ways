@@ -13,6 +13,7 @@ import Looks3Icon from '@mui/icons-material/Looks3';
 import Looks4Icon from '@mui/icons-material/Looks4';
 import Looks5Icon from '@mui/icons-material/Looks5';
 import Looks6Icon from '@mui/icons-material/Looks6';
+import ForkRightIcon from '@mui/icons-material/ForkRight';
 
 interface RowFragmentI {
     CRI: number,
@@ -65,10 +66,17 @@ const RowFragment = observer(({CRI, courseStore}: RowFragmentI) => {
                 .SameLine[courseStore.position.activePage - 1]
                 ?.CourseFragment?.map((element, eIndex) => {
                     const number_of_elements = String(element?.CourseElement?.id)?.split(",").length || 1
+                    //@ts-ignore
+                    const is_course_link_cell = element?.CourseElement?.type === "course-link"
+
+                    // @ts-ignore
+                    const course_link = element?.CourseElement.course_link
+                    const is_can_click_to_link = is_course_link_cell && !!course_link
+
                     return (
                         <IconButton size="small"
                                     onMouseEnter={(e) => {
-                                        if (!isMobile) {
+                                        if (!isMobile && !is_course_link_cell) {
                                             setHoveredItemID(String(element?.CourseElement?.id))
                                             if (CRI) {
                                                 setHoveredItemLevel(CRI)
@@ -82,23 +90,27 @@ const RowFragment = observer(({CRI, courseStore}: RowFragmentI) => {
                                     edge="start"
                                     key={eIndex + "CourseFragment" + "RowFragment" + CRI + "NavigationRow"}
                                     onClick={() => {
-                                        courseStore.positionData = {
-                                            activePage: courseStore.positionData.activePage,
-                                            selectedPage: courseStore.positionData.activePage,
-                                            selectedRow: CRI,
-                                            selectedIndex: eIndex
-                                        }
-                                        courseStore.isPositionChanged = true
-                                        if (!courseStore.isIgnoreRouteAfterSelect) {
-                                            navigate("/course?" + "id=" + courseStore.id +
-                                                "&activePage=" + courseStore.positionData.activePage +
-                                                "&selectedPage=" + courseStore.positionData.activePage +
-                                                "&selectedRow=" + CRI +
-                                                "&selectedIndex=" + eIndex)
+                                        if (is_can_click_to_link) {
+                                            navigate(course_link.replace(/^.*\/\/[^\/]+/, ''))
+                                        } else {
+                                            courseStore.positionData = {
+                                                activePage: courseStore.positionData.activePage,
+                                                selectedPage: courseStore.positionData.activePage,
+                                                selectedRow: CRI,
+                                                selectedIndex: eIndex
+                                            }
+                                            courseStore.isPositionChanged = true
+                                            if (!courseStore.isIgnoreRouteAfterSelect) {
+                                                navigate("/course?" + "id=" + courseStore.id +
+                                                    "&activePage=" + courseStore.positionData.activePage +
+                                                    "&selectedPage=" + courseStore.positionData.activePage +
+                                                    "&selectedRow=" + CRI +
+                                                    "&selectedIndex=" + eIndex)
+                                            }
                                         }
                                     }}
-                                    style={{opacity: !!element?.CourseElement?.id ? "100%" : "0%"}}
-                                    disabled={!element?.CourseElement?.id}
+                                    style={{opacity: !!element?.CourseElement?.id || is_can_click_to_link ? "100%" : "0%"}}
+                                    disabled={!element?.CourseElement?.id && !is_can_click_to_link}
                                     color={
                                         courseStore.position &&
                                         courseStore.position.selectedRow === CRI &&
@@ -111,17 +123,20 @@ const RowFragment = observer(({CRI, courseStore}: RowFragmentI) => {
                         >
 
                             {/*<NoiseControlOffIcon/>*/}
-                            {number_of_elements === 1 ?
-                                <NoiseControlOffIcon/> :
-                                number_of_elements === 2 ?
-                                    <LooksTwoIcon/> :
-                                    number_of_elements === 3 ?
-                                        <Looks3Icon/> :
-                                        number_of_elements === 4 ?
-                                            <Looks4Icon/> :
-                                            number_of_elements === 5 ?
-                                                <Looks5Icon/> :
-                                                <Looks6Icon/>}
+                            {
+                                is_course_link_cell ?
+                                    <ForkRightIcon/> :
+                                    number_of_elements === 1 ?
+                                        <NoiseControlOffIcon/> :
+                                        number_of_elements === 2 ?
+                                            <LooksTwoIcon/> :
+                                            number_of_elements === 3 ?
+                                                <Looks3Icon/> :
+                                                number_of_elements === 4 ?
+                                                    <Looks4Icon/> :
+                                                    number_of_elements === 5 ?
+                                                        <Looks5Icon/> :
+                                                        <Looks6Icon/>}
 
 
                             {/*}*/}

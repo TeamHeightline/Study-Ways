@@ -10,7 +10,7 @@ export default function CourseFragment({fragment, ...props}: any) {
                 {Fragment.map((item, iIndex) => {
                     return (
                         // <Col span={2} key={iIndex+ "Fragment" + props.fIndex + "row" + props.lIndex + "course" + props.cIndex} >
-                        <EditCourseItem item_id={item.CourseElement.id}
+                        <EditCourseItem item_data={item.CourseElement}
                                         editCard={(item_id) => props.editCard(item_id)}
                                         key={iIndex + "Fragment" + props.fIndex + "row" + props.lIndex + "course" + props.cIndex}
                                         item_position={iIndex}

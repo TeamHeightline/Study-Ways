@@ -177,7 +177,7 @@ export default function EditCourseItem({item_data, item_position, updateItem, ..
     return (
         <Card
             sx={{
-                height: 113, width: 200,
+                height: 170, width: 300,
                 // marginLeft: 12,
                 backgroundImage: `url(${cell_image})`,
                 backgroundSize: is_card_series_in_slot || is_course_link_cell ? "contain" : "cover",
@@ -226,7 +226,7 @@ export default function EditCourseItem({item_data, item_position, updateItem, ..
             {is_course_link_cell ?
                 <TextField
                     size={"small"}
-                    sx={{mt: 3.5}}
+                    sx={{mt: 10}}
                     autoFocus
                     id="course-position-field"
                     label="Ссылка на элемент в курсе"
@@ -238,7 +238,7 @@ export default function EditCourseItem({item_data, item_position, updateItem, ..
                 :
                 <TextField
                     sx={{
-                        mt: 3.5,
+                        mt: 10,
                         backdropFilter: "blur(6px)",
                         bgcolor: alpha(ThemeStoreObject.backgroundColor || "#0A1929", 0.4),
                     }}

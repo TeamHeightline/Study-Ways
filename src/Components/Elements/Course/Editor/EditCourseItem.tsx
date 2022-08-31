@@ -47,7 +47,7 @@ function getNumbers(str) {
 }
 
 export default function EditCourseItem({item_id, item_position, ...props}: any) {
-    const [itemID, setItemID] = useState(item_id)
+    // const [itemID, setItemID] = useState(item_id)
     const [cardImage, setCardImage] = useState()
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
@@ -64,7 +64,7 @@ export default function EditCourseItem({item_id, item_position, ...props}: any) 
 
     const get_card_image = () => {
         // SERVER_BASE_URL/cardfiles/card?
-        fetch(SERVER_BASE_URL + "/cardfiles/card?id=" + itemID)
+        fetch(SERVER_BASE_URL + "/cardfiles/card?id=" + item_id)
             .then((response) => response.json())
             .then((data) => {
                 // console.log(data)
@@ -78,10 +78,10 @@ export default function EditCourseItem({item_id, item_position, ...props}: any) 
 
     const {data: card_data} = useQuery(GET_CARD_DATA_BY_ID, {
         variables: {
-            id: itemID
+            id: item_id
         },
         onCompleted: () => {
-            if (itemID) {
+            if (item_id) {
                 get_card_image()
             }
         }
@@ -121,7 +121,7 @@ export default function EditCourseItem({item_id, item_position, ...props}: any) 
                 disableRestoreFocus
             >
                 <div>
-                    {itemID && String(itemID)?.split(",")?.map((cardID) =>
+                    {item_id && String(item_id)?.split(",")?.map((cardID) =>
                         <CardMicroView cardID={Number(cardID)}/>)}
                 </div>
             </Popover>
@@ -133,8 +133,8 @@ export default function EditCourseItem({item_id, item_position, ...props}: any) 
                     <InfoIcon/>
                     <EditIcon
                         onClick={() => {
-                            if (itemID) {
-                                props.editCard(itemID)
+                            if (item_id) {
+                                props.editCard(item_id)
                             }
                         }}/>
                 </Stack>
@@ -149,7 +149,7 @@ export default function EditCourseItem({item_id, item_position, ...props}: any) 
                 }}
                 label="ID карточки"
                 fullWidth
-                value={itemID}
+                value={item_id}
                 size={"small"}
                 variant="filled"
                 onChange={(e) => {
@@ -159,7 +159,7 @@ export default function EditCourseItem({item_id, item_position, ...props}: any) 
                             id: valueWithOnlyNumber
                         }
                     })
-                    setItemID(valueWithOnlyNumber)
+                    // setItemID(valueWithOnlyNumber)
                 }}
             />
             {/*</CardActionArea>*/}

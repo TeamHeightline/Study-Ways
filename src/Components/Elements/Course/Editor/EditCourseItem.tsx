@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Card, Popover, Stack, TextField} from "@mui/material";
+import {Card, IconButton, Popover, Stack, TextField} from "@mui/material";
 import {gql} from "graphql.macro";
 import {useQuery} from "@apollo/client";
 import {SERVER_BASE_URL} from "../../../../settings";
@@ -146,23 +146,26 @@ export default function EditCourseItem({item_id, item_position, ...props}: any) 
             </Popover>
             {/*<CardActionArea*/}
             {/*>*/}
-            <Stack alignItems={"end"} onMouseEnter={handlePopoverOpen}
-                   onMouseLeave={handlePopoverClose}>
+            <Stack alignItems={"end"}>
                 <Stack direction={"row"}>
-                    <InfoIcon/>
-                    <EditIcon
-                        onClick={() => {
-                            if (item_id) {
-                                props.editCard(item_id)
-                            }
-                        }}/>
+                    <IconButton size={"small"} disabled={is_card_series_in_slot}>
+                        <EditIcon
+                            onClick={() => {
+                                if (item_id) {
+                                    props.editCard(item_id)
+                                }
+                            }}/>
+                    </IconButton>
+                    <IconButton size={"small"} onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}>
+                        <InfoIcon/>
+                    </IconButton>
                 </Stack>
             </Stack>
 
 
             <TextField
                 sx={{
-                    mt: 5,
+                    mt: 3.5,
                     backdropFilter: "blur(6px)",
                     bgcolor: alpha(ThemeStoreObject.backgroundColor || "#0A1929", 0.4),
                 }}

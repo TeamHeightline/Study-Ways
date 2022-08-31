@@ -6,7 +6,7 @@ export default function CourseFragment({fragment, ...props}: any) {
     const [Fragment, setFragment] = useState(fragment.CourseFragment)
     return (
         <div style={{width: 2000}}>
-            <Stack direction={"row"}>
+            <Stack direction={"row"} spacing={2}>
                 {Fragment.map((item, iIndex) => {
                     return (
                         // <Col span={2} key={iIndex+ "Fragment" + props.fIndex + "row" + props.lIndex + "course" + props.cIndex} >

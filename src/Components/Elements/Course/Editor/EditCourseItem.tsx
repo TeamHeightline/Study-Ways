@@ -86,19 +86,38 @@ export default function EditCourseItem({item_id, item_position, ...props}: any) 
             }
         }
     })
+
     // console.log(itemID)
+
+    function getFilterIconByNumber(num: number) {
+        if (num > 9) {
+            return "https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/filter_9_plus/default/48px.svg"
+        }
+        return `https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/filter_${num}/default/48px.svg`
+    }
 
     const card_content_type = Number(card_data?.cardById.cardContentType[2])
 
-    const card_image = card_content_type === 0 && card_data?.cardById?.videoUrl ? "https://img.youtube.com/vi/" + urlParser.parse(card_data?.cardById?.videoUrl)?.id + "/hqdefault.jpg" :
-        (card_content_type === 1 || card_content_type === 2) && cardImage ? cardImage : ""
+    const number_of_card_in_series = item_id?.split(",")?.length
+
+    const is_card_series_in_slot = number_of_card_in_series >= 2
+
+    const series_icon = is_card_series_in_slot ? getFilterIconByNumber(number_of_card_in_series) : "none"
+
+
+    const card_image = is_card_series_in_slot ? series_icon :
+        card_content_type === 0 && card_data?.cardById?.videoUrl ? "https://img.youtube.com/vi/" + urlParser.parse(card_data?.cardById?.videoUrl)?.id + "/hqdefault.jpg" :
+            (card_content_type === 1 || card_content_type === 2) && cardImage ? cardImage : ""
     return (
         <Card
             style={{
                 height: 113, width: 200,
-                marginLeft: 12,
+                // marginLeft: 12,
                 backgroundImage: `url(${card_image})`,
-                backgroundSize: "cover"
+                backgroundSize: is_card_series_in_slot ? "contain" : "cover",
+                backgroundPosition: "center",
+                backgroundColor: is_card_series_in_slot ? "white" : undefined,
+                backgroundRepeat: "no-repeat"
             }}
             variant="outlined">
             <Popover

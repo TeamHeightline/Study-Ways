@@ -105,18 +105,18 @@ export class CourseMicroStoreByID {
 
     changeCourseName = (course_name?: string) => {
         if (course_name) {
-            this.courseName = course_name
+            this.courseName = course_name.replace(/\[.*?\]/g, '')
         } else {
             this.courseName = "Название курса по умолчанию"
         }
     }
 
-    getCourseData(useCache = true) {
+    getCourseData() {
         if (this.id) {
             try {
                 this.clientStorage.client.query({
                     query: GET_COURSE_DATA_BY_ID,
-                    fetchPolicy: useCache ? "cache-only" : "network-only",
+                    fetchPolicy: "network-only",
                     variables: {
                         id: this.id
                     }
@@ -126,17 +126,16 @@ export class CourseMicroStoreByID {
                         if (course_data && course_data.id) {
                             this.changeCourseName(course_data.name)
                             this.courseData = course_data.courseData
-                        }
-                        if (useCache) {
-                            this.getCourseData(false)
+                            const matches = course_data.name.match(/\[(.*?)\]/)
+                            if (matches && matches[1]) {
+                                this.mainLineIndex = Number(matches[1]) - 1
+                            }
+                            console.log(this.mainLineIndex)
                         }
                     })
 
             } catch (e) {
                 console.log(e)
-                if (useCache) {
-                    this.getCourseData(false)
-                }
             }
         }
     }
@@ -174,6 +173,8 @@ export class CourseMicroStoreByID {
     //------------------------------------------------------------------------------------------------
 
     viewedCardIDs: Set<string> = new Set()
+
+    mainLineIndex = null as number | null
 
 
 }

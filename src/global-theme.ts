@@ -63,6 +63,10 @@ class ThemeStore {
         }
     }
 
+    get primaryColor() {
+        return ("#2196f3")
+    }
+
 
     get theme() {
         const theme = createTheme({
@@ -73,7 +77,7 @@ class ThemeStore {
                     paper: this.backgroundColor
                 },
                 primary: {
-                    main: "#2196f3",
+                    main: this.primaryColor,
                 },
                 secondary: {
                     main: '#f50057',

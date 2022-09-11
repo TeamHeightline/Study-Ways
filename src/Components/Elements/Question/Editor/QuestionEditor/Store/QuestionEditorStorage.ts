@@ -291,7 +291,7 @@ class QuestionEditor {
         if (this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN") {
             axiosClient.post("/page/edit-question-by-id/update-question", {
                 id: this.selectedQuestionID,
-                connected_theme_id: this.selectedConnectedTheme,
+                connected_theme_id: Number(this.selectedConnectedTheme),
                 text: this.selectedQuestionText,
                 video_url: this.selectedQuestionVideoUrl,
                 number_of_showing_answers: Number(this.selectedQuestionNumberOfShowingAnswers),

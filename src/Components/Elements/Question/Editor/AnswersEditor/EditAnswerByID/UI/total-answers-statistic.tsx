@@ -23,7 +23,7 @@ const TotalAnswersStatistic = observer(({...props}: ITotalAnswersStatisticProps)
             <Card variant="outlined" sx={{pt: 2, pb: 2, pl: 2, pr: 2}} ref={errorRef}>
                 <Typography variant={"body1"}>
                     Всего ответов:
-                    {QuestionEditorStorage.NumberOfAllAnswers}
+                    {" " + QuestionEditorStorage.NumberOfAllAnswers}
                 </Typography>
                 <Typography variant={"body1"}>
                     Обязательных ответов:

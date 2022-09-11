@@ -192,10 +192,10 @@ class QuestionEditor {
     loadingQuestionData = false
 
     selectQuestionClickHandler(id: number) {
-        this.registeredAnswersID = new Set()
-        this.registeredRequireAnswersID = new Set()
-        this.registeredOnlyExamAnswersID = new Set()
-        this.loadingQuestionData = true
+
+        this.clearAllStatisticData()
+
+
         if (this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN") {
             this.clientStorage.client.query<Query>({
                 query: GET_QUESTION_DATA_BY_ID, fetchPolicy: "network-only",
@@ -428,6 +428,16 @@ class QuestionEditor {
                 // this.selectQuestionClickHandler(this.selectedQuestionID)
             })
             .catch(() => void (0))
+    }
+
+
+    clearAllStatisticData() {
+        this.registeredAnswersID = new Set()
+        this.registeredRequireAnswersID = new Set()
+        this.registeredOnlyExamAnswersID = new Set()
+        this.loadingQuestionData = true
+        this.answers_id_array = []
+        this.answers = []
     }
 
 

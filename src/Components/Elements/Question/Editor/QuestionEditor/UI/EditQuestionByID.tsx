@@ -42,6 +42,7 @@ export const EditQuestionByID = observer(({questionID}: IEditQuestionByIDProps) 
                 disabled={QuestionEditorStorage.unsavedFlag}
                 onClick={() => {
                     navigate(-1)
+                    QuestionEditorStorage.clearAllStatisticData()
                 }}>
                 Назад
             </Button>

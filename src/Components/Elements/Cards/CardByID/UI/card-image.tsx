@@ -29,7 +29,7 @@ const CardImage = observer(({card_store, ...props}: ICardImageProps) => {
                   backgroundRepeat: "no-repeat",
                   backgroundPosition: "center",
                   width: "100%",
-                  height: 400,
+                  height: {xs: 400, md: 540},
                   backgroundImage: card_image,
               }}>
             {isClickableImage &&

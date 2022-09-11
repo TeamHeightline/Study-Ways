@@ -13,7 +13,6 @@ import TestAfterCard from "./test-after-card";
 import CardBrowserIndexing from "./card-browser-indexing";
 import CardResourceIframe from "./card-resourse-iframe";
 import CardHistoryDrawer from "../../../CardHistory/UI/card-history-drawer";
-import {Stack} from "@mui/material";
 
 
 interface ICardByIDProps extends PaperProps {
@@ -45,10 +44,8 @@ const CardByID = observer(({
                 card_store={cardStore}
                 course_navigation={course_navigation}
             />
-            <Stack direction={{md: "row", xs: "column"}} sx={{width: "100%"}} justifyContent={"space-between"}>
-                <CardContentAndDescription card_store={cardStore} sx={{pt: 1}}/>
-                <CardHistoryDrawer/>
-            </Stack>
+            <CardContentAndDescription card_store={cardStore} sx={{pt: 1}}/>
+            <CardHistoryDrawer/>
             <CardNavigationRatingFind card_store={cardStore} sx={{pt: 1}}/>
             <TestAfterCard card_store={cardStore} sx={{pt: 1}}/>
             <CardResourceIframe card_store={cardStore}/>

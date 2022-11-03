@@ -16,7 +16,9 @@ export class QuestionPlayerStore {
     constructor(ownStore, questionID) {
         makeAutoObservable(this)
         reaction(() => this.questionID, () => this.loadQuestionDataFromServer())
+        reaction(() => UserStorage.isLogin, () => this.loadQuestionDataFromServer())
         reaction(() => this.questionID, () => this.deliverFromServerImageURL())
+        reaction(() => UserStorage.isLogin, () => this.deliverFromServerImageURL())
         reaction(() => this.questionHasBeenCompleted, () => this.saveDetailStatistic())
 
         this.ownStore = ownStore

@@ -42,7 +42,7 @@ const UISingleAnswerByData = observer(({
                             image={imageURL}
                         />}
                     {text &&
-                        <CardContent sx={{mb: 2}}>
+                        <CardContent sx={{mb: 2, overflow: "auto"}}>
                             <Typography variant="body1" color="textSecondary"
                                         component="p" sx={{pb: 2}}>
                                 {text}

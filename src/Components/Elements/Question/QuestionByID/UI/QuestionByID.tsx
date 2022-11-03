@@ -30,7 +30,11 @@ export const QuestionByID = observer((props: any) => {
         }
 
         questionStore?.changeQuestionId(id ? id : props?.id)
-    }, [props])
+    }, [props, id])
+
+    useEffect(() => {
+        questionStore?.loadQuestionDataFromServer()
+    }, [props?.id])
 
     useEffect(() => {
         if (questionStore?.questionHasBeenCompleted) {

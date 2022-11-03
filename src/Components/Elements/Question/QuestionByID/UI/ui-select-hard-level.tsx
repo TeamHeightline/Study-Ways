@@ -17,7 +17,7 @@ const UISelectHardLevel = observer(({questionStore, ...props}: IUISelectHardLeve
                 <Grid item xs={12} md={3}>
                     <Card variant="elevation" elevation={3} style={{padding: 12}}>
                         <Typography align={"center"} variant="h5" component={'span'}>
-                            Перед началом вопроса выберете уровень сложности:
+                            Перед началом вопроса выберите уровень сложности:
                         </Typography>
                         <Select
                             style={{marginTop: 12}}

@@ -24,6 +24,7 @@ import CardByURL from "./Components/Elements/Cards/CardByURL/UI/card-by-url";
 import SeoData from "./seo-data";
 import ProfilePage from "./Components/Elements/Profile/UI/ProfilePage";
 import axiosClient from "./ServerLayer/QueryLayer/config";
+import CardByID from "./Components/Elements/Cards/CardByID/UI/card-by-id";
 
 const EditorsRouter = React.lazy(() => import("./Components/PrivatePages/EditorRouter/EditorsRouter").then(module => ({default: module.EditorsRouter})))
 const MainCardPublicView = React.lazy(() => import("./Components/Elements/Cards/Page/MainCardPublicView").then(module => ({default: module.MainCardPublicView})))
@@ -119,7 +120,7 @@ const App = observer(() => {
                                        element={<Suspense fallback={<div/>}><BookmarksPage/></Suspense>}/>
 
                                 <Route path={"/"}
-                                       element={<Suspense fallback={<div/>}><CoursePage/></Suspense>}/>
+                                       element={<Suspense fallback={<div/>}><CardByID card_id={2677}/></Suspense>}/>
                             </Routes>
                         </Suspense>
                     </div>

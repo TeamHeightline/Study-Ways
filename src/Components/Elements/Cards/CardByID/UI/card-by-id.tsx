@@ -3,7 +3,6 @@ import React, {useEffect, useState} from 'react';
 import {CardByIDStore} from "../Store/CardByIDStore";
 import GoBackButton from "./go-back-button";
 import TitleAndNavigation from "./title-and-navigation";
-import Paper from "@mui/material/Paper";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import CardContentAndDescription from "./card-content-and-description";
 import CardNavigationRatingFind from "./card-navigation-rating-find-in-course";
@@ -13,6 +12,8 @@ import CardBrowserIndexing from "./card-browser-indexing";
 import CardResourceIframe from "./card-resourse-iframe";
 import CardHistoryDrawer from "../../../CardHistory/UI/card-history-drawer";
 import CardViews from "./card-views";
+import useWindowDimensions from "../../../../../CustomHooks/useWindowDimensions";
+import {Box} from "@mui/material";
 
 
 interface ICardByIDProps extends PaperProps {
@@ -30,11 +31,13 @@ const CardByID = observer(({
                                ...props
                            }: ICardByIDProps) => {
     const [cardStore] = useState(new CardByIDStore(card_id))
+    const {width} = useWindowDimensions()
+
     useEffect(() => {
         cardStore?.changeID(card_id)
     }, [card_id])
     return (
-        <Paper elevation={0} sx={{pt: 2, pl: 2, pr: 2}} {...props}>
+        <Box sx={{pt: 2, pl: 2, pr: 2, maxWidth: width}} {...props}>
             <CardBrowserIndexing card_store={cardStore}/>
             {!is_hidden_go_back_button &&
                 <GoBackButton sx={{pb: 1}}/>}
@@ -53,7 +56,7 @@ const CardByID = observer(({
 
             <SimilarCards card_store={cardStore} sx={{pt: 1}}/>
 
-        </Paper>
+        </Box>
     )
 })
 

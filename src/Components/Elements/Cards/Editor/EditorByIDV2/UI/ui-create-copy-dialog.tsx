@@ -6,7 +6,7 @@ import {CESObject} from "../Store/CardEditorStorage";
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import {LoadingButton} from "@mui/lab";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 interface IUICreateCopyDialogProps extends PaperProps {
 
@@ -14,11 +14,18 @@ interface IUICreateCopyDialogProps extends PaperProps {
 
 const UICreateCopyDialog = observer(({...props}: IUICreateCopyDialogProps) => {
     const navigate = useNavigate()
+    const location = useLocation();
+
     const createCardCopy = async () => {
+
         CESObject.createCopyCard()
             .then((res) => {
-                if (!!res?.data?.id) {
-                    navigate("/editor/card2/card/" + res.data.id)
+                const oldCardID = CESObject?.card_object?.id
+                const newCardID = res?.data?.id
+                if (oldCardID && newCardID) {
+                    const oldUrl = location.pathname
+                    const newUrl = oldUrl.replace(oldCardID, newCardID)
+                    navigate(newUrl)
                 }
             })
     }

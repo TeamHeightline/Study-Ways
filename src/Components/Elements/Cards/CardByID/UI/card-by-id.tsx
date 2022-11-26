@@ -12,6 +12,7 @@ import SimilarCards from "./similar-cards";
 import CardBrowserIndexing from "./card-browser-indexing";
 import CardResourceIframe from "./card-resourse-iframe";
 import CardHistoryDrawer from "../../../CardHistory/UI/card-history-drawer";
+import CardViews from "./card-views";
 
 
 interface ICardByIDProps extends PaperProps {
@@ -44,6 +45,7 @@ const CardByID = observer(({
                 course_navigation={course_navigation}
             />
             <CardContentAndDescription card_store={cardStore} sx={{pt: 1}}/>
+            <CardViews card_id={card_id}/>
             <CardHistoryDrawer/>
             <CardNavigationRatingFind card_store={cardStore} sx={{pt: 1}}/>
             {/*<TestAfterCard card_store={cardStore} sx={{pt: 1}}/>*/}

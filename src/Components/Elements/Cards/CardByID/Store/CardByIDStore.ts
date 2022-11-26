@@ -19,6 +19,7 @@ import {UserStorage} from "../../../../../Store/UserStore/UserStore";
 // @ts-ignore
 import recombee from 'recombee-js-api-client';
 
+
 export class CardByIDStore {
     constructor(id?: number) {
         makeAutoObservable(this)

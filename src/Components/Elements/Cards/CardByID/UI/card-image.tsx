@@ -3,7 +3,6 @@ import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Card, CardActionArea} from "@mui/material";
 import {CardByIDStore} from "../Store/CardByIDStore";
-import GoToTestButton from "./go-to-test-button";
 
 
 interface ICardImageProps extends PaperProps {
@@ -40,7 +39,6 @@ const CardImage = observer(({card_store, ...props}: ICardImageProps) => {
                     }}
                     onClick={goToRemoteResource}
                 />}
-            <GoToTestButton card_store={card_store}/>
 
         </Card>
     )

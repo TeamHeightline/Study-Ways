@@ -36,9 +36,10 @@ const YoutubeContent = observer(({card_store, ...props}: IYoutubeContentProps) =
                                      controls
                                      url={youtubeVideoURL}
                                      onEnded={onEndVideoWatch}
-                        />}
+                        />
+                    }
                 </div>
-                {card_store.isOpenGoToTestDialogAfterVideo && test_after_card_id &&
+                {card_store.card_data?.isCardUseTestInCard && card_store.isOpenGoToTestDialogAfterVideo && test_after_card_id &&
                     <div style={{
                         position: "absolute", left: 0,
                         right: 0, zIndex: 1
@@ -46,6 +47,7 @@ const YoutubeContent = observer(({card_store, ...props}: IYoutubeContentProps) =
                         <GoToTestDialog card_store={card_store}/>
                     </div>}
             </div>
+
         </Paper>
     )
 })

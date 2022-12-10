@@ -1,10 +1,11 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {Paper} from "@mui/material";
+import {Box, Paper} from "@mui/material";
 import {CardByIDStore} from "../Store/CardByIDStore";
 import YoutubeContent from "./youtube-content";
 import CardImage from "./card-image";
+import GoToTestButton from "./go-to-test-button";
 
 
 interface ICardMainContentProps extends PaperProps {
@@ -19,13 +20,16 @@ const CardMainContent = observer(({card_store, ...props}: ICardMainContentProps)
     const isShowImageContent = isRemoteResourceContentType || isSimpleImageContentType
 
     return (
-        <Paper elevation={0} sx={{height: {xs: 200, md: 540}}} {...props}>
-            {isYoutubeContentType &&
-                <YoutubeContent card_store={card_store}/>}
-            {isShowImageContent &&
-                <CardImage card_store={card_store}/>
-            }
-        </Paper>
+        <Box>
+            <GoToTestButton card_store={card_store}/>
+            <Paper elevation={0} sx={{height: {xs: 200, md: 540}}} {...props}>
+                {isYoutubeContentType &&
+                    <YoutubeContent card_store={card_store}/>}
+                {isShowImageContent &&
+                    <CardImage card_store={card_store}/>
+                }
+            </Paper>
+        </Box>
     )
 })
 

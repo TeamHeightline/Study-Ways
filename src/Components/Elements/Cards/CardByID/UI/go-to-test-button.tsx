@@ -17,9 +17,6 @@ const GoToTestButton = observer(({card_store, ...props}: IGoToTestButtonProps) =
 
     const onGoToTestButtonClick = () => {
         navigate("/iq/" + card_store.card_data?.testInCard?.id)
-        if (!!card_store?.testElementRef?.current) {
-            card_store.testElementRef.current.scrollIntoView({behavior: "smooth"})
-        }
     }
 
     return (

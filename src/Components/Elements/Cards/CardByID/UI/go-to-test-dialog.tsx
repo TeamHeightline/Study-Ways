@@ -25,7 +25,7 @@ const GoToTestDialog = observer(({card_store}: IProps) => {
         <Stack alignItems={"center"} justifyContent={"center"}
                sx={{
                    width: "100%",
-                   height: {xs: 200, md: 440},
+                   height: {xs: 200, md: 540},
                    backgroundColor: "rgba(50, 50, 50, 0.96)"
                }}>
             <Alert variant={"filled"}>

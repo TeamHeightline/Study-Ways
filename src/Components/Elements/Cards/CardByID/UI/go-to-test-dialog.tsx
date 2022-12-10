@@ -2,6 +2,7 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {Alert, Button, Stack} from "@mui/material";
 import {CardByIDStore} from "../Store/CardByIDStore";
+import {useNavigate} from "react-router-dom";
 
 interface IProps {
     card_store: CardByIDStore
@@ -9,15 +10,15 @@ interface IProps {
 }
 
 const GoToTestDialog = observer(({card_store}: IProps) => {
+    const navigate = useNavigate()
+
     const onCloseButtonClick = () => {
         card_store.isOpenGoToTestDialogAfterVideo = false
     }
 
     const onGoToTestButtonClick = () => {
         console.log("testing time")
-        if (!!card_store?.testElementRef?.current) {
-            card_store.testElementRef.current.scrollIntoView({behavior: "smooth"})
-        }
+        navigate("/iq/" + card_store.card_data?.testInCard?.id)
     }
 
     return (

@@ -16,7 +16,6 @@ const GoToTestButton = observer(({card_store, ...props}: IGoToTestButtonProps) =
     const navigate = useNavigate()
 
     const onGoToTestButtonClick = () => {
-        console.log("testing time")
         navigate("/iq/" + card_store.card_data?.testInCard?.id)
         if (!!card_store?.testElementRef?.current) {
             card_store.testElementRef.current.scrollIntoView({behavior: "smooth"})

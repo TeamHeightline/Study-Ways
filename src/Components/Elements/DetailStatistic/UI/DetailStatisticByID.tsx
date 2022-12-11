@@ -18,7 +18,7 @@ export const DetailStatisticByID = observer(({attempt_id}: IDetailStatisticByIDP
     useEffect(() => {
         statisticByIDStore.changeAttemptID(attempt_id)
     }, [attempt_id])
-    const textColor = statisticByIDStore.dataForRow.questionHasBeenCompleted ? "" : "rgb(245,0,87)"
+    const textColor = statisticByIDStore.dataForRow.questionHasBeenCompleted ? "" : "warning.main"
     if (statisticByIDStore.loadingData) {
         return (
             <TableRow>
@@ -45,10 +45,10 @@ export const DetailStatisticByID = observer(({attempt_id}: IDetailStatisticByIDP
                     </IconButton>
                 </TableCell>
                 <TableCell component="th" scope="statisticByIDStore.dataForRow"
-                           style={{color: textColor}}>
+                           sx={{color: textColor}}>
                     {statisticByIDStore.dataForRow.username}
                 </TableCell>
-                <TableCell style={{color: textColor}}>
+                <TableCell sx={{color: textColor}}>
                     <Stack direction={"row"} justifyContent={"end"} spacing={2}>
                         <div>
                             {statisticByIDStore.dataForRow?.firstname || ""}
@@ -65,39 +65,39 @@ export const DetailStatisticByID = observer(({attempt_id}: IDetailStatisticByIDP
 
                 <Tooltip disableInteractive title={statisticByIDStore.dataForRow.QuestionTextForStatistic}>
                     <TableCell
-                        style={{color: textColor}}>
+                        sx={{color: textColor}}>
                         {statisticByIDStore.dataForRow.questionID}
                     </TableCell>
                 </Tooltip>
 
                 <TableCell
-                    style={{color: textColor}}>
+                    sx={{color: textColor}}>
                     {statisticByIDStore.dataForRow.numberOfPasses}
                 </TableCell>
                 <TableCell
-                    style={{color: textColor}}>
+                    sx={{color: textColor}}>
                     {statisticByIDStore.dataForRow.arithmeticMeanNumberOfWrongAnswer}
                 </TableCell>
                 <TableCell
-                    style={{color: textColor}}>
+                    sx={{color: textColor}}>
                     {statisticByIDStore.dataForRow.numberOfWrongAnswers}
                 </TableCell>
                 <TableCell
-                    style={{color: textColor}}>
+                    sx={{color: textColor}}>
                     {statisticByIDStore.dataForRow.arithmeticMeanNumberOfAnswersPointsDivideToMaxPoints}
                 </TableCell>
                 <TableCell
-                    style={{color: textColor}}>
+                    sx={{color: textColor}}>
                     {statisticByIDStore.dataForRow.SumOFPointsWithNewMethod}
                 </TableCell>
                 <TableCell
-                    style={{color: textColor}}>
+                    sx={{color: textColor}}>
                     {statisticByIDStore.dataForRow.FormattedCreatedAt}
                 </TableCell>
             </TableRow>
             <TableRow>
                 <TableCell colSpan={10}
-                           style={{paddingBottom: 0, paddingTop: 0}}>
+                           sx={{paddingBottom: 0, paddingTop: 0}}>
                     <ChartAndStepByStepStatistic
                         statisticByIDStore={statisticByIDStore}
                         row={statisticByIDStore.dataForRow}

@@ -40,10 +40,14 @@ export class CardByIDStore {
                 'cascadeCreate': true
             }));
         })
+        reaction(() => this.id, () => {
+            this.is_test_in_card_closed = false
+        })
 
         this.id = id
     }
 
+    is_test_in_card_closed = false
     clientStorage = ClientStorage
     id?: number
     card_data?: CardNode

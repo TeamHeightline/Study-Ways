@@ -14,6 +14,7 @@ import CardHistoryDrawer from "../../../CardHistory/UI/card-history-drawer";
 import CardViews from "./card-views";
 import useWindowDimensions from "../../../../../CustomHooks/useWindowDimensions";
 import {Box} from "@mui/material";
+import TestBeforeCard from "./test-before-card";
 
 
 interface ICardByIDProps extends PaperProps {
@@ -36,6 +37,7 @@ const CardByID = observer(({
     useEffect(() => {
         cardStore?.changeID(card_id)
     }, [card_id])
+
     return (
         <Box sx={{pt: 2, pl: 2, pr: 2, maxWidth: width}} {...props}>
             <CardBrowserIndexing card_store={cardStore}/>
@@ -48,6 +50,7 @@ const CardByID = observer(({
                 course_navigation={course_navigation}
             />
             <CardContentAndDescription card_store={cardStore} sx={{pt: 1}}/>
+            <TestBeforeCard card_store={cardStore}/>
             <CardViews card_id={card_id}/>
             <CardHistoryDrawer/>
             <CardNavigationRatingFind card_store={cardStore} sx={{pt: 1}}/>

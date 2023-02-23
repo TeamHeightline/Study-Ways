@@ -48,7 +48,8 @@ export const saveDetailStatisticThunk = createAsyncThunk(
                 statistic: store.statistic || emptyStatistic,
                 is_useExamMode: true,
                 max_sum_of_answers_point: store.max_sum_of_points,
-                question_sequence_id: undefined
+                question_sequence_id: undefined,
+                answers_id_array: store.selected_question_data?.usertests_answer?.map((answer) => answer.id) || []
             })
         }
     }

@@ -1,10 +1,6 @@
 import {makeAutoObservable, reaction, toJS} from "mobx";
 import {ClientStorage} from "../../../../../Store/ApolloStorage/ClientStorage";
-import {
-    GET_ENCRYPT_QUESTION_DATA_BY_ID,
-    SAVE_DETAIL_STATISTIC,
-    SAVE_DETAIL_STATISTIC_WITH_QS
-} from "../../../../../Store/PublicStorage/QSPage/QuestionSequencePlayer/Struct";
+import {GET_ENCRYPT_QUESTION_DATA_BY_ID} from "../../../../../Store/PublicStorage/QSPage/QuestionSequencePlayer/Struct";
 import {SameAnswerNode} from "../../../../../Store/PublicStorage/QSPage/QuestionSequencePlayer/SameAnswerNode";
 import {shuffle} from "lodash"
 import {UserStorage} from "../../../../../Store/UserStore/UserStore";
@@ -33,7 +29,6 @@ export class QuestionPlayerStore {
 
     }
 
-    userStore = UserStorage
     ownStore: any = null
     questionID: any
 
@@ -274,8 +269,8 @@ export class QuestionPlayerStore {
                     //максимальное число баллов, которые можно получить выбрав все правильные ответы
                     let __maxSumOfAnswerPoints = 0
                     //Перемешиваем ответы и обрезаем из количество на значение из настроек
-                    const __requiredAnswersForDisplay = shuffle(__decrypt_answers?.filter((answer) => answer.is_deleted === false)?.filter((answer) => answer.is_required === true))?.slice(0, __decrypt_question?.number_of_showing_answers)
-                    const __notRequiredAnswersForDisplay = shuffle(__decrypt_answers?.filter((answer) => answer.is_deleted === false)?.filter((answer) => answer.is_required === false))?.slice(0, __decrypt_question?.number_of_showing_answers - __requiredAnswersForDisplay.length)
+                    const __requiredAnswersForDisplay = shuffle(__decrypt_answers?.filter((answer) => !answer.is_deleted)?.filter((answer) => answer.is_required))?.slice(0, __decrypt_question?.number_of_showing_answers)
+                    const __notRequiredAnswersForDisplay = shuffle(__decrypt_answers?.filter((answer) => !answer.is_deleted)?.filter((answer) => !answer.is_required))?.slice(0, __decrypt_question?.number_of_showing_answers - __requiredAnswersForDisplay.length)
                     let __answersForDisplay = __requiredAnswersForDisplay.length > 0 ? __requiredAnswersForDisplay.concat(__notRequiredAnswersForDisplay) : __notRequiredAnswersForDisplay;
                     __answersForDisplay = shuffle(__answersForDisplay)
                     __answersForDisplay.map((answer) => {
@@ -311,7 +306,6 @@ export class QuestionPlayerStore {
 
     //Сохраняет детальную статистику по прохождению вопроса
     saveDetailStatistic() {
-        // if (this?.ownStore && this?.ownStore?.questionSequenceID) {
         createDetailStatistic({
             question_id: Number(this.questionID),
             user_name: UserStorage?.username || "Анонимный пользователь",
@@ -324,12 +318,12 @@ export class QuestionPlayerStore {
             },
             is_useExamMode: this.isUseExamMode || this?.ownStore?.isUseExamMode || false,
             max_sum_of_answers_point: this.maxSumOfPoints,
+            answers_id_array: this.answersArray?.map((answer) => answer.id),
             ...(this?.ownStore && this?.ownStore?.questionSequenceID && {
                 question_sequence_id: this?.ownStore?.questionSequenceID
             })
         })
             .catch(() => void (0))
-        // }
     }
 
     //------------------------------------------------------------------------------------------------------------------

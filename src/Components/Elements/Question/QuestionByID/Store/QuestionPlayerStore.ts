@@ -11,6 +11,7 @@ import {UserStorage} from "../../../../../Store/UserStore/UserStore";
 import CryptoJS from 'crypto-js'
 import {SERVER_BASE_URL} from "../../../../../settings";
 import axiosClient from "../../../../../ServerLayer/QueryLayer/config";
+import {createDetailStatistic} from "../../../../../ServerLayer/QueryLayer/detail-statistic.query";
 
 export class QuestionPlayerStore {
     constructor(ownStore, questionID) {
@@ -310,44 +311,25 @@ export class QuestionPlayerStore {
 
     //Сохраняет детальную статистику по прохождению вопроса
     saveDetailStatistic() {
-        if (this?.ownStore && this?.ownStore?.questionSequenceID) {
-            this.clientStorage.client.mutate({
-                mutation: SAVE_DETAIL_STATISTIC_WITH_QS, variables: {
-                    question: this.questionID,
-                    isLogin: this.userStore.isLogin,
-                    userName: this.userStore.isLogin ? this.userStore.username : localStorage?.getItem('username')?.length !== 0 ? localStorage?.getItem('username') : "Анонимный пользователь",
-
-                    isUseexammode: this.isUseExamMode || this?.ownStore?.isUseExamMode,
-
-                    questionSequence: this?.ownStore?.questionSequenceID,
-                    questionHasBeenCompleted: this?.questionHasBeenCompleted,
-                    maxSumOfAnswersPoint: this.maxSumOfPoints,
-                    statistic: {
-                        numberOfPasses: this.numberOfPasses,
-                        ArrayForShowAnswerPoints: this.ArrayForShowAnswerPoints,
-                        ArrayForShowWrongAnswers: this.ArrayForShowWrongAnswers,
-                    }
-                }
+        // if (this?.ownStore && this?.ownStore?.questionSequenceID) {
+        createDetailStatistic({
+            question_id: Number(this.questionID),
+            user_name: UserStorage?.username || "Анонимный пользователь",
+            is_login: UserStorage.isLogin,
+            question_has_been_completed: this?.questionHasBeenCompleted,
+            statistic: {
+                numberOfPasses: this.numberOfPasses,
+                ArrayForShowAnswerPoints: this.ArrayForShowAnswerPoints,
+                ArrayForShowWrongAnswers: this.ArrayForShowWrongAnswers,
+            },
+            is_useExamMode: this.isUseExamMode || this?.ownStore?.isUseExamMode || false,
+            max_sum_of_answers_point: this.maxSumOfPoints,
+            ...(this?.ownStore && this?.ownStore?.questionSequenceID && {
+                question_sequence_id: this?.ownStore?.questionSequenceID
             })
-                .catch(() => void (0))
-        } else {
-            this.clientStorage.client.mutate({
-                mutation: SAVE_DETAIL_STATISTIC, variables: {
-                    question: this.questionID,
-                    isLogin: this.userStore.isLogin,
-                    userName: this.userStore.isLogin ? this.userStore.username : localStorage?.getItem('username')?.length !== 0 ? localStorage?.getItem('username') : "Анонимный пользователь",
-                    isUseexammode: this.isUseExamMode || this?.ownStore?.isUseExamMode,
-                    questionHasBeenCompleted: this?.questionHasBeenCompleted,
-                    maxSumOfAnswersPoint: this.maxSumOfPoints,
-                    statistic: {
-                        numberOfPasses: this.numberOfPasses,
-                        ArrayForShowAnswerPoints: this.ArrayForShowAnswerPoints,
-                        ArrayForShowWrongAnswers: this.ArrayForShowWrongAnswers,
-                    }
-                }
-            })
-                .catch(() => void (0))
-        }
+        })
+            .catch(() => void (0))
+        // }
     }
 
     //------------------------------------------------------------------------------------------------------------------

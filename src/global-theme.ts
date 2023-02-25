@@ -84,6 +84,10 @@ class ThemeStore {
                 },
 
             },
+            //Скругление углов у всех элементов
+            shape: {
+                borderRadius: 12,
+            },
             components: {
                 MuiCard: {
                     styleOverrides: {

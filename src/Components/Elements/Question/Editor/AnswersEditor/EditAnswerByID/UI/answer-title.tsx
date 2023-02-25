@@ -12,6 +12,7 @@ import TitleHardLevel from "./title-hard-level";
 import AnswerImage from "./answer-image";
 import TitleIsSaved from "./title-is-saved";
 import TitleSimpleActions from "./title-simple-actions";
+import AnswerStatistic from "./answer-statistic";
 
 
 interface IAnswerTitleProps extends PaperProps {
@@ -45,6 +46,7 @@ const AnswerTitle = observer(({answer_object, answer_index, ...props}: IAnswerTi
                             <TitleIsRequired answer_object={answer_object}/>
                             <TitleHardLevel answer_object={answer_object}/>
                             <TitleIsTrue answer_object={answer_object}/>
+                            <AnswerStatistic answer_id={Number(answer_object.answer_id)}/>
                         </Stack>
                         <AnswerImage answer_object={answer_object}/>
                     </Stack>

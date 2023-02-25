@@ -1,4 +1,6 @@
 import {gql} from "@apollo/client";
+import axiosClient from "../../../../../../../ServerLayer/QueryLayer/config";
+import {IAnswerStatistic} from "./type";
 
 export const LOAD_ANSWER_BY_ID = gql`
     query LOAD_ANSWER_BY_ID($answer_id: ID!){
@@ -81,3 +83,9 @@ export const UPDATE_ANSWER = gql`mutation UPDATE_ANSWER(
         }
     }
 }`
+
+
+export async function getAnswerStatistic(answer_id: number) {
+    return axiosClient.get<IAnswerStatistic>('/page/edit-answer-by-id/answer-statistics/' + answer_id)
+        .then((res) => res.data)
+}

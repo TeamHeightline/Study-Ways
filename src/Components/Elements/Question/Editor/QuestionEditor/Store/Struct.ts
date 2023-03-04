@@ -1,4 +1,5 @@
 import {gql} from "@apollo/client";
+import axiosClient from "../../../../../../ServerLayer/QueryLayer/config";
 
 export const CREATE_DEEP_QUESTION_COPY = gql`
     mutation CREATE_DEEP_QUESTION_COPY($questionId: Int!){
@@ -79,46 +80,46 @@ export const CREATE_NEW_ANSWER = gql`mutation CREATE_ANSWER($question: ID!){
 
 export const UPDATE_QUESTION = gql`
     mutation UPDATE_QUESTION(
-        $createdBy: ID!, 
-        $theme: [ID]!, 
-        $author: [ID]!, 
-        $text: String!, 
-        $videoUrl: String, 
-        $id: ID!, 
-        $isImageQuestion: Boolean, 
+        $createdBy: ID!,
+        $theme: [ID]!,
+        $author: [ID]!,
+        $text: String!,
+        $videoUrl: String,
+        $id: ID!,
+        $isImageQuestion: Boolean,
         $numberOfShowingAnswers: Int,
         $connectedTheme: ID
     ){
-    updateQuestion(input: 
-    {
-        createdBy:$createdBy, 
-        theme: $theme, 
-        author: $author, 
-        text: $text, 
-        videoUrl: $videoUrl, 
-        id: $id, 
-        isImageQuestion: $isImageQuestion, 
-        numberOfShowingAnswers: $numberOfShowingAnswers,
-        connectedTheme: $connectedTheme
-    }){
-        errors{
-            field
-            messages
-        }
-        question{
-            id
-            theme{
-                id
-                name
+        updateQuestion(input:
+        {
+            createdBy:$createdBy,
+            theme: $theme,
+            author: $author,
+            text: $text,
+            videoUrl: $videoUrl,
+            id: $id,
+            isImageQuestion: $isImageQuestion,
+            numberOfShowingAnswers: $numberOfShowingAnswers,
+            connectedTheme: $connectedTheme
+        }){
+            errors{
+                field
+                messages
             }
-            author{
+            question{
                 id
-                name
-            }
+                theme{
+                    id
+                    name
+                }
+                author{
+                    id
+                    name
+                }
 
+            }
         }
-    }
-}`
+    }`
 
 export const ITEM_HEIGHT = 48;
 export const ITEM_PADDING_TOP = 8;
@@ -188,3 +189,14 @@ export const GET_CONNECTED_THEMES = gql`
             parent{id}
         }
     }`
+
+export interface IQuestionStatistic {
+    question_id: number,
+    exam_avg: number | null,
+    training_avg: number | null,
+}
+
+export async function getQuestionStatistic(question_id: number) {
+    return axiosClient.get<IQuestionStatistic>("/page/edit-question-by-id/question-statistic/" + question_id)
+        .then((res) => res.data)
+}

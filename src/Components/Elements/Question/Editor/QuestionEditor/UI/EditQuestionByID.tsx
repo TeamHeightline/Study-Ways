@@ -14,6 +14,7 @@ import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
 import UiAdditionalActions from "./ui-additional-actions";
 import ConnectedThemeSelector from "./ui-connected-theme-selector";
 import {useNavigate} from "react-router-dom";
+import UIQuestionStatistic from "./ui-statistic";
 
 interface IEditQuestionByIDProps {
     questionID?: string
@@ -86,7 +87,10 @@ export const EditQuestionByID = observer(({questionID}: IEditQuestionByIDProps) 
                         sx={{mt: 1}}
                         spacing={isMobile ? 0 : 2}>
                         <ImageForQuestion/>
-                        <QuestionSrc/>
+                        <Stack direction={"row"} spacing={1}>
+                            <QuestionSrc/>
+                            <UIQuestionStatistic/>
+                        </Stack>
                         <SavingNotification/>
                     </Stack>
                     <UiQuestionPreview/>

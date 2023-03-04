@@ -1,5 +1,5 @@
 import {observer} from "mobx-react";
-import {Button, Grid, Stack, Typography} from "@mui/material";
+import {Box, Button, Grid, Stack, Typography} from "@mui/material";
 import {QuestionEditorStorage} from "../Store/QuestionEditorStorage";
 import {QuestionText} from "./ui-text";
 import {UiNumberOfShowingAnswers} from "./ui-number-of-showing-answers";
@@ -47,7 +47,9 @@ export const EditQuestionByID = observer(({questionID}: IEditQuestionByIDProps) 
                 Назад
             </Button>
 
-            <Grid container justifyContent={"center"}>
+            <Grid container
+                  sx={{p: {xs: 1, md: 0}}}
+                  justifyContent={"center"}>
                 <Grid item xs={isMobile ? 12 : 11}>
                     <Stack alignItems={"center"} sx={{pb: 2}}>
                         <Typography variant={"h2"}>Редактор вопроса</Typography>
@@ -81,7 +83,7 @@ export const EditQuestionByID = observer(({questionID}: IEditQuestionByIDProps) 
                     <Stack
                         direction={{xs: 'column', sm: 'row'}}
                         justifyContent={"space-between"}
-                        className="mt-2"
+                        sx={{mt: 1}}
                         spacing={isMobile ? 0 : 2}>
                         <ImageForQuestion/>
                         <QuestionSrc/>
@@ -91,7 +93,9 @@ export const EditQuestionByID = observer(({questionID}: IEditQuestionByIDProps) 
                 </Grid>
             </Grid>
 
-            <AnswersEditor/>
+            <Box sx={{p: {xs: 1, md: 0}}}>
+                <AnswersEditor/>
+            </Box>
             <Grid container justifyContent={"center"}>
                 <Grid item xs={isMobile ? 12 : 9}>
                     <CreateNewAnswer/>

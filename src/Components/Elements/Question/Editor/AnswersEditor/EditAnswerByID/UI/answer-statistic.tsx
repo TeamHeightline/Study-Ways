@@ -18,8 +18,7 @@ export default function AnswerStatistic({answer_id, ...props}: IAnswerStatisticP
             })
     }, [answer_id])
 
-    console.log(answer_id)
-    console.log(answerStatistic)
+    
     if (!answerStatistic?.number_of_incorrect_answer_choices || !answerStatistic?.number_of_all_answer_choices) {
         return <div/>
     }

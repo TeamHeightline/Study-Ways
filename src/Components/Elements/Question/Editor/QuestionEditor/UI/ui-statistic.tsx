@@ -29,7 +29,7 @@ export default function UIQuestionStatistic({...props}: IUIQuestionStatisticProp
         <Box {...props}>
             {questionStatistic?.training_avg &&
                 <Tooltip title={"Средний балл в тренировочном режиме"}>
-                    <Chip label={questionStatistic?.training_avg + "%"}
+                    <Chip label={Math.ceil(questionStatistic?.training_avg) + "%"}
                           icon={<ArchitectureIcon/>}
                           sx={{
                               backgroundColor: questionStatistic.training_avg > 70 ? "green" :
@@ -39,7 +39,7 @@ export default function UIQuestionStatistic({...props}: IUIQuestionStatisticProp
             {questionStatistic?.exam_avg &&
                 <Tooltip title={"Средний балл в экзаменационном режиме"}>
                     <Chip
-                        label={questionStatistic.exam_avg + "%"}
+                        label={Math.ceil(questionStatistic.exam_avg) + "%"}
                         icon={<SchoolIcon/>}
                         sx={{
                             backgroundColor: questionStatistic.exam_avg > 70 ? "green" :

@@ -26,7 +26,7 @@ const TestBeforeCard = observer(({card_store, ...props}: ITestBeforeCardProps) =
     const is_test_in_card_closed = card_store.is_test_in_card_closed
 
     const is_hide_this_alert = !(!is_test_in_card_closed && isCardHaveTestBeforeCard)
-    console.log(card_store.is_test_in_card_closed)
+    
 
     if (is_hide_this_alert) return null
 

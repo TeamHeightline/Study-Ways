@@ -3,7 +3,7 @@ import {Box, IconButton, Popover, Stack} from "@mui/material";
 import CardMicroView from "../../../../Cards/CardView/CardMicroView";
 import {observer} from "mobx-react";
 import {CourseMicroStoreByID} from "../Store/CourseMicroStoreByID";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 import NoiseControlOffIcon from '@mui/icons-material/NoiseControlOff';
 import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
@@ -26,9 +26,9 @@ const RowFragment = observer(({CRI, courseStore}: RowFragmentI) => {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
     const [hoveredItemID, setHoveredItemID] = useState<string | undefined>(undefined)
     const [hoverItemLevel, setHoveredItemLevel] = useState<number>(0)
-    const {pathname} = useLocation();
     const navigate = useNavigate();
     const isMobile = isMobileHook()
+
     const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };

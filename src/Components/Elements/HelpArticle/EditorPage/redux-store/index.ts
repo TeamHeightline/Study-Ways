@@ -1,17 +1,18 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {createHelpArticle} from "./async-actions";
 
+const default_create_article_data = {
+    title: "",
+    url: "",
+    content: "",
+    video_url: ""
+}
 const helpArticleEditorPageSlice = createSlice({
     name: 'helpArticleEditorPage',
     initialState: {
         is_open_create_dialog: true,
         is_loading_create_article: false,
-        create_article_data: {
-            title: "",
-            url: "",
-            content: "",
-            video_url: ""
-        }
+        create_article_data: default_create_article_data
     },
     reducers: {
         setIsOpenCreateDialog: (state, action) => {
@@ -30,6 +31,11 @@ const helpArticleEditorPageSlice = createSlice({
         builder.addCase(createHelpArticle.rejected, (store) => {
             store.is_loading_create_article = false
             store.is_open_create_dialog = true
+        })
+        builder.addCase(createHelpArticle.fulfilled, (store) => {
+            store.is_loading_create_article = false
+            store.is_open_create_dialog = false
+            store.create_article_data = default_create_article_data
         })
 
     }

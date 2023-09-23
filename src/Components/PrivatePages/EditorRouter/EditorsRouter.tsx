@@ -7,6 +7,7 @@ import {Route, Routes} from "react-router-dom";
 import {isMobileHook} from "../../../CustomHooks/isMobileHook";
 import RouterMenu from "./router-menu";
 import EditQuestionByURL from "../../Elements/Question/Editor/QuestionEditor/UI/EditQuestionByUrl";
+import HelpArticleEditPage from "../../Elements/HelpArticle/EditorPage/UI";
 
 const ExamEditorPage = React.lazy(() => import("../../Elements/Exam/EditorPage/Page/UI/exam-editor-page"))
 
@@ -113,6 +114,17 @@ export const EditorsRouter = observer(() => {
                             <QuestionEditor/>
                         </Suspense>}/>
                     <Route path={"/question/selected/:id"} element={<div><EditQuestionByURL/></div>}/>
+
+                    <Route path={`/question`} element={
+                        <Suspense fallback={<Grid container justifyContent={"center"}
+                                                  sx={{pt: 4}}><CircularProgress/></Grid>}>
+                            <QuestionEditor/>
+                        </Suspense>}/>
+
+                    <Route path={"/help-article"} element={<Suspense fallback={<Grid container justifyContent={"center"}
+                                                                                     sx={{pt: 4}}><CircularProgress/></Grid>}>
+                        <HelpArticleEditPage/>
+                    </Suspense>}/>
 
                     <Route path={`*`} element={
                         <Suspense fallback={<Grid container justifyContent={"center"}

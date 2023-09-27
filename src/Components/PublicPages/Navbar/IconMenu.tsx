@@ -9,6 +9,7 @@ import {useAuth0} from "@auth0/auth0-react";
 import {observer} from "mobx-react";
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import PersonalMenu from "./PersonalMenu";
+import HelpArticleByURL from "../../Elements/HelpArticle/HelpArticleByURL";
 
 
 const IconMenu = observer(() => {
@@ -17,6 +18,9 @@ const IconMenu = observer(() => {
 
     return (
         <Stack direction={"row"} sx={{backdropFilter: "none"}}>
+
+            <HelpArticleByURL/>
+
             <Tooltip title={"Курсы"}>
                 <IconButton
                     sx={{mx: 1}}

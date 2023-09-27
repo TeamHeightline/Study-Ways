@@ -23,6 +23,7 @@ import {useNavigate} from "react-router-dom";
 import {isMobileHook} from "../../../CustomHooks/isMobileHook";
 import RuleIcon from '@mui/icons-material/Rule';
 import GroupIcon from '@mui/icons-material/Group';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 
 
 interface IRouterMenuProps extends PaperProps {
@@ -77,7 +78,7 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                                     <ListItemIcon>
                                         <BlurLinearIcon/>
                                     </ListItemIcon>
-                                    <ListItemText primary="Редактор курсов"/>
+                                    <ListItemText primary={isOpen ? "Редактор курсов" : ""}/>
                                 </ListItemButton>
                             </ListItem>
                         </Tooltip>
@@ -92,7 +93,7 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                                     <ListItemIcon>
                                         <AppRegistrationIcon/>
                                     </ListItemIcon>
-                                    <ListItemText primary="Редактор карточек"/>
+                                    <ListItemText primary={isOpen ? "Редактор карточек" : ""}/>
                                 </ListItemButton>
                             </ListItem>
                         </Tooltip>
@@ -108,7 +109,7 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                                         {/*<HubIcon/>*/}
                                         <AccountTreeIcon/>
                                     </ListItemIcon>
-                                    <ListItemText primary="Редактор тем"/>
+                                    <ListItemText primary={isOpen ? "Редактор тем" : ""}/>
                                 </ListItemButton>
                             </ListItem>
                         </Tooltip>
@@ -123,7 +124,7 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                                     <ListItemIcon>
                                         <QuizIcon/>
                                     </ListItemIcon>
-                                    <ListItemText primary="Редактор вопросов"/>
+                                    <ListItemText primary={isOpen ? "Редактор вопросов" : ""}/>
                                 </ListItemButton>
                             </ListItem>
                         </Tooltip>
@@ -138,7 +139,7 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                                     <ListItemIcon>
                                         <LinearScaleIcon/>
                                     </ListItemIcon>
-                                    <ListItemText primary="Редактор серии вопросов"/>
+                                    <ListItemText primary={isOpen ? "Редактор серии вопросов" : ""}/>
                                 </ListItemButton>
                             </ListItem>
                         </Tooltip>
@@ -153,7 +154,7 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                                     <ListItemIcon>
                                         <AddchartIcon/>
                                     </ListItemIcon>
-                                    <ListItemText primary="Статистика"/>
+                                    <ListItemText primary={isOpen ? "Статистика" : ""}/>
                                 </ListItemButton>
                             </ListItem>
                         </Tooltip>
@@ -168,7 +169,7 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                                     <ListItemIcon>
                                         <SchoolIcon/>
                                     </ListItemIcon>
-                                    <ListItemText primary="Редактор экзаменов"/>
+                                    <ListItemText primary={isOpen ? "Редактор экзаменов" : ""}/>
                                 </ListItemButton>
                             </ListItem>
                         </Tooltip>
@@ -183,7 +184,7 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                                     <ListItemIcon>
                                         <RuleIcon/>
                                     </ListItemIcon>
-                                    <ListItemText primary="Проверка вопросов"/>
+                                    <ListItemText primary={isOpen ? "Проверка вопросов" : ""}/>
                                 </ListItemButton>
                             </ListItem>
                         </Tooltip>
@@ -198,7 +199,22 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                                     <ListItemIcon>
                                         <GroupIcon/>
                                     </ListItemIcon>
-                                    <ListItemText primary="Редактор уровней доступа"/>
+                                    <ListItemText primary={isOpen ? "Редактор уровней доступа" : ""}/>
+                                </ListItemButton>
+                            </ListItem>
+                        </Tooltip>
+                        <Tooltip title={<Typography variant="body1">Подсказки</Typography>}>
+                            <ListItem onClick={() => {
+                                if (isMobile) {
+                                    setOpen(false)
+                                }
+                                navigate(`/editor/help-article`)
+                            }}>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <QuestionMarkIcon/>
+                                    </ListItemIcon>
+                                    <ListItemText primary={isOpen ? "Редактор подсказок на страницах" : ""}/>
                                 </ListItemButton>
                             </ListItem>
                         </Tooltip>

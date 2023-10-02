@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {createOrUpdateHelpArticle} from "./async-actions";
+import {createHelpArticle, updateHelpArticle} from "./async-actions";
 import {IHelpArticle} from "../../HelpArticleByURL/redux-store/types";
 import {getArticles} from "../../HelpArticleByURL/redux-store/async-actions";
 
@@ -44,15 +44,29 @@ const helpArticleEditorPageSlice = createSlice({
         }
     },
     extraReducers: builder => {
-        builder.addCase(createOrUpdateHelpArticle.pending, (state) => {
+        builder.addCase(createHelpArticle.pending, (state) => {
             state.is_loading_create_article = true
             state.is_open_create_dialog = false
         })
-        builder.addCase(createOrUpdateHelpArticle.rejected, (state) => {
+        builder.addCase(createHelpArticle.rejected, (state) => {
             state.is_loading_create_article = false
             state.is_open_create_dialog = true
         })
-        builder.addCase(createOrUpdateHelpArticle.fulfilled, (state) => {
+        builder.addCase(createHelpArticle.fulfilled, (state) => {
+            state.is_loading_create_article = false
+            state.is_open_create_dialog = false
+            state.create_or_update_article_data = default_create_or_update_article_data
+        })
+
+        builder.addCase(updateHelpArticle.pending, (state) => {
+            state.is_loading_create_article = true
+            state.is_open_create_dialog = false
+        })
+        builder.addCase(updateHelpArticle.rejected, (state) => {
+            state.is_loading_create_article = false
+            state.is_open_create_dialog = true
+        })
+        builder.addCase(updateHelpArticle.fulfilled, (state) => {
             state.is_loading_create_article = false
             state.is_open_create_dialog = false
             state.create_or_update_article_data = default_create_or_update_article_data

@@ -6,7 +6,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import {LoadingButton} from "@mui/lab";
 import AddIcon from "@mui/icons-material/Add";
 import React from "react";
-import {createOrUpdateHelpArticle} from "../../redux-store/async-actions";
+import {createHelpArticle, updateHelpArticle} from "../../redux-store/async-actions";
 import URL from "./url";
 import Title from "./title";
 import VideoUrl from "./video-url";
@@ -29,13 +29,18 @@ export default function CreateHelpArticleDialog({...props}: ICreateHelpArticleDi
         dispatch(closeCreateDialog())
     }
 
+    const isEditDialog = !!create_or_update_article_data.id
+
+
     function handleCreate() {
-        dispatch(createOrUpdateHelpArticle(create_or_update_article_data))
+        if (isEditDialog) {
+            dispatch(createHelpArticle(create_or_update_article_data))
+        } else {
+            dispatch(updateHelpArticle(create_or_update_article_data))
+        }
     }
 
     const isCanNOTCreate = !create_or_update_article_data.title || !create_or_update_article_data.url
-
-    const isEditDialog = !!create_or_update_article_data.id
 
     return (
         <Box {...props}>
@@ -68,7 +73,7 @@ export default function CreateHelpArticleDialog({...props}: ICreateHelpArticleDi
                         autoFocus
                         startIcon={<AddIcon/>}
                     >
-                        Создать
+                        {isEditDialog ? "Сохранить" : "Создать"}
                     </LoadingButton>
                 </DialogActions>
             </Dialog>

@@ -55,23 +55,21 @@ export default function PersonalMenu({...props}: IPersonalMenuProps) {
                         </ListItemIcon>
                         Мои курсы
                     </MenuItem>
-                    <MenuItem
-                        disabled={UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER"}
-                        onClick={() => {
-                            handleClose()
-                            navigate('/selfstatistic')
-                        }}>
+                    <MenuItem disabled={!UserStorage.isLogin}
+                              onClick={() => {
+                                  handleClose()
+                                  navigate('/selfstatistic')
+                              }}>
                         <ListItemIcon>
                             <StackedLineChartIcon/>
                         </ListItemIcon>
                         Результаты тестов
                     </MenuItem>
-                    <MenuItem
-                        disabled={UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER"}
-                        onClick={() => {
-                            handleClose()
-                            navigate('/bookmarks')
-                        }}>
+                    <MenuItem disabled={!UserStorage.isLogin}
+                              onClick={() => {
+                                  handleClose()
+                                  navigate('/bookmarks')
+                              }}>
                         <ListItemIcon>
                             <BookmarksIcon/>
                         </ListItemIcon>

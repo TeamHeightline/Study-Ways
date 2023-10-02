@@ -15,7 +15,7 @@ interface ITitleProps extends BoxProps {
 export default function Content({...props}: ITitleProps) {
     const {
         content
-    } = useAppSelector(store => store.helpArticleEditor.create_article_data)
+    } = useAppSelector(store => store.helpArticleEditor.create_or_update_article_data)
     const dispatch = useAppDispatch()
 
     function handleChange(event, editor) {

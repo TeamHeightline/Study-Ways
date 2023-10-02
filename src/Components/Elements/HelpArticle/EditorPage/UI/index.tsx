@@ -1,21 +1,30 @@
 import {useAppDispatch} from "../../../../../root-redux-store/RootStore";
-import {Button} from "@mui/material";
-import {setIsOpenCreateDialog} from "../redux-store";
-import CreateHelpArticleDialog from "./CreateDialog";
+import {Button, Typography} from "@mui/material";
+import {openCreateDialog} from "../redux-store";
+import CreateHelpArticleDialog from "./CreateOrUpdateDialog";
+import AddIcon from '@mui/icons-material/Add';
+import HelpArticleList from "./ArticleList";
+import {getArticles} from "../../HelpArticleByURL/redux-store/async-actions";
+import {useEffect} from 'react'
 
 export default function HelpArticleEditPage() {
     const dispatch = useAppDispatch()
 
+    useEffect(() => {
+        dispatch(getArticles())
+    }, [])
+
     function handleOpenCreateDialog() {
-        dispatch(setIsOpenCreateDialog(true))
+        dispatch(openCreateDialog())
     }
 
     return (
         <div>
-            <h1>HelpArticleEditPage</h1>
-            <Button onClick={handleOpenCreateDialog}>
-                Создать подсказку
+            <Typography variant={"h3"} textAlign={"center"}>Редактор справок</Typography>
+            <Button onClick={handleOpenCreateDialog} variant={"contained"} startIcon={<AddIcon/>}>
+                Создать справку
             </Button>
+            <HelpArticleList/>
             <CreateHelpArticleDialog/>
         </div>
     )

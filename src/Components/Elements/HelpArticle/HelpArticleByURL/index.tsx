@@ -30,9 +30,6 @@ export default function ArticleByURL({...props}: IArticleByURLProps) {
         setIsOpen(false)
     }, [!!article_by_url])
 
-    console.log(articles)
-    console.log(location)
-    console.log(article_by_url)
 
     return (
         <Box {...props}>

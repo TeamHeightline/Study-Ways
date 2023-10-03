@@ -11,6 +11,7 @@ import URL from "./url";
 import Title from "./title";
 import VideoUrl from "./video-url";
 import Content from "./content";
+import {getArticles} from "../../../HelpArticleByURL/redux-store/async-actions";
 
 interface ICreateHelpArticleDialogProps extends BoxProps {
 
@@ -35,8 +36,14 @@ export default function CreateHelpArticleDialog({...props}: ICreateHelpArticleDi
     function handleCreate() {
         if (isEditDialog) {
             dispatch(updateHelpArticle(create_or_update_article_data))
+                .then(() => {
+                    dispatch(getArticles())
+                })
         } else {
             dispatch(createHelpArticle(create_or_update_article_data))
+                .then(() => {
+                    dispatch(getArticles())
+                })
         }
     }
 

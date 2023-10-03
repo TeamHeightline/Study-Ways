@@ -34,9 +34,9 @@ export default function CreateHelpArticleDialog({...props}: ICreateHelpArticleDi
 
     function handleCreate() {
         if (isEditDialog) {
-            dispatch(createHelpArticle(create_or_update_article_data))
-        } else {
             dispatch(updateHelpArticle(create_or_update_article_data))
+        } else {
+            dispatch(createHelpArticle(create_or_update_article_data))
         }
     }
 

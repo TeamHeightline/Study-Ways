@@ -24,7 +24,11 @@ export default function ArticleByURL({...props}: IArticleByURLProps) {
 
 
     const pathname = location.pathname
-    const article_by_url = articles.find((article) => article.url === pathname)
+
+    const sorted_articles_by_url_length = [...articles]
+        .sort((aItem, bItem) => bItem.url.length - aItem.url.length)
+
+    const article_by_url =sorted_articles_by_url_length.find((article) => pathname.includes(article.url))
 
     useEffect(() => {
         setIsOpen(false)

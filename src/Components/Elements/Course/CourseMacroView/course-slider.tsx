@@ -1,10 +1,10 @@
 import {IconButton, Slider, Stack} from "@mui/material";
-import {BoxProps} from "@mui/material/Box/Box";
+import {StackProps} from "@mui/material/Stack/Stack"
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import React from "react";
 
-interface ICourseSliderProps extends BoxProps {
+interface ICourseSliderProps extends StackProps {
     activePage: number,
     setActivePage: (newPage: number) => void,
     courseData: any

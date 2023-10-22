@@ -25,17 +25,7 @@ import SeoData from "./seo-data";
 import ProfilePage from "./Pages/Profile/UI/ProfilePage";
 import axiosClient from "./ServerLayer/QueryLayer/config";
 import CardByID from "./Pages/Cards/CardByID/UI/card-by-id";
-
-const EditorsRouter = React.lazy(() => import("./Routers/EditorRouter/EditorsRouter").then(module => ({default: module.EditorsRouter})))
-const MainCardPublicView = React.lazy(() => import("./Pages/Cards/Page/MainCardPublicView").then(module => ({default: module.MainCardPublicView})))
-const QSPlayerByID = React.lazy(() => import("./Pages/QuestionSequence/Public/QSPlayerByID").then(module => ({default: module.QSPlayerByID})))
-const ImageQuestion = React.lazy(() => import("./Pages/Question/QuestionByID/UI/QuestionByID").then(module => ({default: module.QuestionByID})))
-const SelfStatistic = React.lazy(() => import("./Pages/SimpleSelfStatistic/UI/self-statistic-page").then(module => ({default: module.SelfStatisticPage})))
-const CoursePage = React.lazy(() => import("./Pages/Course/Page/UI/course-page"))
-const CourseByURL = React.lazy(() => import("./Pages/Course/CourseByURL/UI/CourseByURL"))
-const ExamByUID = React.lazy(() => import("./Pages/Exam/ExamByUid/UI/exam-by-uid-page"))
-const RecentCardsPage = React.lazy(() => import("./Pages/RecentCards/UI/recent-cards-page"))
-const BookmarksPage = React.lazy(() => import("./Pages/CardBookmarks/UI/card-bookmarks-page"))
+import PublicRouter from "./Routers/PublicRouter";
 
 const App = observer(() => {
     const {
@@ -81,49 +71,7 @@ const App = observer(() => {
                 <Router>
                     <Navibar/>
                     <SeoData/>
-                    <div style={{paddingTop: 48}}>
-                        <Suspense fallback={<Grid container justifyContent={"center"}
-                                                  sx={{pt: 4}}><CircularProgress/></Grid>}>
-                            <RequireLogInAlert/>
-                            {/*<ProfileNotification/>*/}
-                            <Routes>
-                                <Route path="/login" element={<div><Auth0Login/></div>}/>
-                                <Route path={"/afterlogin"} element={<div><Auth0AfterLogin/></div>}/>
-                                <Route path="/unlogin" element={<div>Auth0Logout</div>}/>
-                                <Route path="/editor/*" element={<div><EditorsRouter/></div>}/>
-
-                                <Route path="/iq/:id"
-                                       element={<Suspense fallback={<div/>}><ImageQuestion/></Suspense>}/>
-
-                                <Route path="/qs/:id"
-                                       element={<Suspense fallback={<div/>}><QSPlayerByID/></Suspense>}/>
-                                <Route path={"/exam/:uid"}
-                                       element={<Suspense fallback={<div/>}><ExamByUID/></Suspense>}/>
-
-                                <Route path="/cards"
-                                       element={<Suspense fallback={<div/>}><MainCardPublicView/></Suspense>}/>
-                                <Route path={"/card/:id"}
-                                       element={<Suspense fallback={<div/>}><CardByURL/></Suspense>}/>
-                                <Route path={"/selfstatistic"}
-                                       element={<Suspense fallback={<div/>}><SelfStatistic/></Suspense>}/>
-
-                                <Route path="/courses"
-                                       element={<Suspense fallback={<div/>}><CoursePage/></Suspense>}/>
-                                <Route path={"/course"}
-                                       element={<Suspense fallback={<div/>}><CourseByURL/></Suspense>}/>
-                                <Route path={"/profile"}
-                                       element={<Suspense fallback={<div/>}><ProfilePage/></Suspense>}/>
-
-                                <Route path={"/recent-cards"}
-                                       element={<Suspense fallback={<div/>}><RecentCardsPage/></Suspense>}/>
-                                <Route path={"/bookmarks"}
-                                       element={<Suspense fallback={<div/>}><BookmarksPage/></Suspense>}/>
-
-                                <Route path={"/"}
-                                       element={<Suspense fallback={<div/>}><CardByID card_id={2677}/></Suspense>}/>
-                            </Routes>
-                        </Suspense>
-                    </div>
+                    <PublicRouter/>
                 </Router>
             </ApolloProvider>
         </>

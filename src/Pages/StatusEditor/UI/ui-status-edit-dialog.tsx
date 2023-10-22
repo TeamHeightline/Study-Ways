@@ -12,7 +12,7 @@ import {
     Select,
 } from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
-import {RootState, useAppDispatch} from "../../../root-redux-store/RootStore";
+import {RootState, useAppDispatch} from "../../../ReduxStore/RootStore";
 import {useSelector} from "react-redux";
 import CancelIcon from '@mui/icons-material/Cancel';
 import SaveIcon from '@mui/icons-material/Save';

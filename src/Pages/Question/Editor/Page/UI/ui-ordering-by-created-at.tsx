@@ -2,7 +2,7 @@ import {Box, IconButton, Stack, Typography} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import {RootState, useAppDispatch} from "../../../../../root-redux-store/RootStore";
+import {RootState, useAppDispatch} from "../../../../../ReduxStore/RootStore";
 import {useSelector} from "react-redux";
 import {changeOrderingByCreatedAt} from "../redux-store/QuestionEditorPageSlice";
 

@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import UIExamSelectorTableHead from "./ui-exam-selector-table-head";
 import UIExamSelectorRow from "./ui-exam-selector-row";
 import UICreateExam from "./ui-create-exam";
-import {RootState} from "../../../../../root-redux-store/RootStore";
+import {RootState} from "../../../../../ReduxStore/RootStore";
 
 interface IUIExamSelectorProps extends PaperProps {
 

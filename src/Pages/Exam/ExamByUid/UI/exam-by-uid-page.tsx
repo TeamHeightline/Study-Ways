@@ -6,7 +6,7 @@ import UIExamQuestionProgress from "./mini-question-selector/ui-exam-questions-p
 import QuestionPlayer from "./question-player/question-player";
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 import {UserStorage} from "../../../../Store/UserStore/UserStore";
-import {useAppDispatch, useAppSelector} from "../../../../root-redux-store/RootStore";
+import {useAppDispatch, useAppSelector} from "../../../../ReduxStore/RootStore";
 import {useParams} from "react-router-dom";
 import {observer} from "mobx-react";
 import UIAccessPassword from "./ui-access-password";

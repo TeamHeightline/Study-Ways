@@ -13,7 +13,7 @@ import {loadExamDataThunk} from "../redux-store/async-actions";
 import AutoSaveModule from "./auto-save-module";
 import ExamResultsByID from "../../../ExamResultsByID/UI/exam-results-by-id";
 import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
-import {RootState, useAppDispatch} from "../../../../../root-redux-store/RootStore";
+import {RootState, useAppDispatch} from "../../../../../ReduxStore/RootStore";
 import UIAccessModeSelector from "./ui-access-mode-selector";
 import UIIsEnableHelpText from "./ui-is-enable-help-text";
 import UIHelpTextLevel from "./ui-help-text-level";

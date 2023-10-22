@@ -4,7 +4,7 @@ import UIMiniSelectedQuestion from "./ui-mini-selected-question";
 import {IQuestionStatus} from "../../redux-store/InitialState";
 import UIMiniPassedQuestionButton from "./ui-mini-passed-question-button";
 import UIMiniUnselectedQuestion from "./ui-mini-unselected-question";
-import {RootState} from "../../../../../root-redux-store/RootStore";
+import {RootState} from "../../../../../ReduxStore/RootStore";
 
 interface IUIQuestionButtonFactoryProps extends PaperProps {
     questionIndex: number,

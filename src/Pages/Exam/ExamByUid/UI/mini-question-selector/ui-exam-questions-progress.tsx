@@ -6,7 +6,7 @@ import {changeSelectedQuestionId} from "../../redux-store/ExamPlayerSlice";
 import {useEffect} from "react";
 import {IQuestionStatus} from "../../redux-store/InitialState";
 import {updateQuestionProgress} from "../../../../../ServerLayer/QueryLayer/exam.query";
-import {RootState, useAppSelector} from "../../../../../root-redux-store/RootStore";
+import {RootState, useAppSelector} from "../../../../../ReduxStore/RootStore";
 
 interface IUIExamQuestionProgressProps extends PaperProps {
 

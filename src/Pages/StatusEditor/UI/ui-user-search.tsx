@@ -3,7 +3,7 @@ import {PaperProps} from "@mui/material/Paper/Paper";
 import {useSelector} from "react-redux";
 import {changeSearchString} from "../redux-store/StatusEditorSlice";
 import {loadAllUsersAsync, searchUserAsync} from "../redux-store/AsyncActions";
-import {RootState, useAppDispatch} from "../../../root-redux-store/RootStore";
+import {RootState, useAppDispatch} from "../../../ReduxStore/RootStore";
 import SearchIcon from '@mui/icons-material/Search';
 
 interface IUIUserSearchProps extends PaperProps {

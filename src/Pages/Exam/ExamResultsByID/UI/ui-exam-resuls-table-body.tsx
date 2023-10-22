@@ -3,7 +3,7 @@ import {PaperProps} from "@mui/material/Paper/Paper";
 import {useSelector} from "react-redux";
 import React from "react";
 import UIExamResultTableRow from "./ui-exam-result-table-row";
-import {RootState} from "../../../../root-redux-store/RootStore";
+import {RootState} from "../../../../ReduxStore/RootStore";
 
 interface IUIExamsResultsTableBodyProps extends PaperProps {
 

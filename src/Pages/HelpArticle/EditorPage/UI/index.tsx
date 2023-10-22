@@ -1,4 +1,4 @@
-import {useAppDispatch} from "../../../../root-redux-store/RootStore";
+import {useAppDispatch} from "../../../../ReduxStore/RootStore";
 import {Button, Typography} from "@mui/material";
 import {openCreateDialog} from "../redux-store";
 import CreateHelpArticleDialog from "./CreateOrUpdateDialog";

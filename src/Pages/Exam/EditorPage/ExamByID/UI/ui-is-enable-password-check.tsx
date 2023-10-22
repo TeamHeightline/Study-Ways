@@ -2,7 +2,7 @@ import {Box, Checkbox, FormControlLabel} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
 import React from "react";
 import {useSelector} from "react-redux";
-import {RootState, useAppDispatch} from "../../../../../root-redux-store/RootStore";
+import {RootState, useAppDispatch} from "../../../../../ReduxStore/RootStore";
 import {changeIsEnablePasswordCheck} from "../redux-store/examEditorSlice";
 
 interface IUIIsEnablePasswordCheckProps extends BoxProps {

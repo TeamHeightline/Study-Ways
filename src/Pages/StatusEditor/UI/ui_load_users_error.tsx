@@ -1,6 +1,6 @@
 import {Alert, Box} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
-import {RootState} from "../../../root-redux-store/RootStore";
+import {RootState} from "../../../ReduxStore/RootStore";
 import {useSelector} from "react-redux";
 
 interface IUILoadUsersFailProps extends BoxProps {

@@ -1,7 +1,7 @@
 import {Box, Grid} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
 import React, {useEffect} from "react";
-import {RootState, useAppDispatch} from "../../../../root-redux-store/RootStore";
+import {RootState, useAppDispatch} from "../../../../ReduxStore/RootStore";
 import {useSelector} from "react-redux";
 import CourseByData from "./CourseByData/CourseMicroView";
 import {Helmet} from "react-helmet";

@@ -3,7 +3,7 @@ import {PaperProps} from "@mui/material/Paper/Paper";
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {saveDetailStatisticThunk} from "../../redux-store/AsyncActions";
-import {RootState, useAppSelector} from "../../../../../root-redux-store/RootStore";
+import {RootState, useAppSelector} from "../../../../../ReduxStore/RootStore";
 
 interface IUiComebackLaterDialogProps extends PaperProps {
     isOpenComeBackLaterDialog: boolean,
@@ -32,7 +32,7 @@ export default function UiComebackLaterDialog({
             saveProgress()
         }
     }, [remaining_attempts])
-    
+
     useEffect(() => {
         if (remaining_minutes < 0) {
             saveProgress()

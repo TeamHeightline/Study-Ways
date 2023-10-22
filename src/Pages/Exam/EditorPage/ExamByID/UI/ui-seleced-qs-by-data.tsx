@@ -3,7 +3,7 @@ import {PaperProps} from "@mui/material/Paper/Paper";
 import React, {useEffect} from "react";
 import {useSelector} from "react-redux";
 import {sequenceDataI} from "../../../../../ServerLayer/Types/question-sequence.type";
-import {RootState, useAppDispatch} from "../../../../../root-redux-store/RootStore";
+import {RootState, useAppDispatch} from "../../../../../ReduxStore/RootStore";
 import {loadQSDataThunk} from "../redux-store/async-actions";
 
 interface ISelectedQSByDataProps extends PaperProps {

@@ -5,7 +5,7 @@ import React from "react";
 import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 import {useSelector} from "react-redux";
 import {FILE_URL} from "../../../../../settings";
-import {RootState} from "../../../../../root-redux-store/RootStore";
+import {RootState} from "../../../../../ReduxStore/RootStore";
 
 interface IUIQuestionImageProps extends PaperProps {
 }

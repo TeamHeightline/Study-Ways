@@ -1,7 +1,7 @@
 import {Badge, Box, IconButton, Paper, Popover, Tooltip} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import {RootState, useAppDispatch} from "../../../../root-redux-store/RootStore";
+import {RootState, useAppDispatch} from "../../../../ReduxStore/RootStore";
 import {useEffect, useState} from "react";
 import recombeeClient from "../../../../Store/RecombeeClient/recombee-client";
 // @ts-ignore

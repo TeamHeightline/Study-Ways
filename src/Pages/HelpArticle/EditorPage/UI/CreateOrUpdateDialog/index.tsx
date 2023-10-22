@@ -1,6 +1,6 @@
 import {Box, Button, Dialog, DialogActions, DialogTitle, DialogContent} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
-import {useAppDispatch, useAppSelector} from "../../../../../root-redux-store/RootStore";
+import {useAppDispatch, useAppSelector} from "../../../../../ReduxStore/RootStore";
 import {closeCreateDialog} from "../../redux-store";
 import CloseIcon from "@mui/icons-material/Close";
 import {LoadingButton} from "@mui/lab";

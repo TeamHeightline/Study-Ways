@@ -3,7 +3,7 @@ import {Badge, Card, CardActionArea, Grid, Stack, Typography} from "@mui/materia
 import {observer} from "mobx-react";
 import {UiCreateNewQuestion} from "./ui-create-new-question";
 import Paper from "@mui/material/Paper";
-import {RootState, useAppDispatch} from "../../../../../root-redux-store/RootStore";
+import {RootState, useAppDispatch} from "../../../../../ReduxStore/RootStore";
 import {loadQuestionsThunk} from "../redux-store/AsyncActions";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";

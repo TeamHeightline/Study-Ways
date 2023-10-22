@@ -1,6 +1,6 @@
 import {Box, CircularProgress, Grid, Stack, Typography} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
-import {useAppDispatch, useAppSelector} from "../../../root-redux-store/RootStore";
+import {useAppDispatch, useAppSelector} from "../../../ReduxStore/RootStore";
 import CardMicroView from "../../Cards/CardView/CardMicroView";
 import {useEffect} from "react";
 import {UserStorage} from "../../../Store/UserStore/UserStore";

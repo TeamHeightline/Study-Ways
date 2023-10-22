@@ -2,7 +2,7 @@ import {Box, IconButton} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
 import {getArticles} from "./redux-store/async-actions";
 import React, {useEffect, useState} from 'react'
-import {useAppDispatch, useAppSelector} from "../../../root-redux-store/RootStore";
+import {useAppDispatch, useAppSelector} from "../../../ReduxStore/RootStore";
 import {useLocation} from "react-router-dom";
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import ContentDialog from "./UI/content-dialog";
@@ -28,7 +28,7 @@ export default function ArticleByURL({...props}: IArticleByURLProps) {
     const sorted_articles_by_url_length = [...articles]
         .sort((aItem, bItem) => bItem.url.length - aItem.url.length)
 
-    const article_by_url =sorted_articles_by_url_length.find((article) => pathname.includes(article.url))
+    const article_by_url = sorted_articles_by_url_length.find((article) => pathname.includes(article.url))
 
     useEffect(() => {
         setIsOpen(false)

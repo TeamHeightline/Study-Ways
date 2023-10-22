@@ -1,6 +1,6 @@
 import {Box, List, ListItem, ListItemButton, ListItemText, Stack, Typography, Divider, IconButton} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
-import {useAppDispatch, useAppSelector} from "../../../../../root-redux-store/RootStore";
+import {useAppDispatch, useAppSelector} from "../../../../../ReduxStore/RootStore";
 import LinkIcon from '@mui/icons-material/Link';
 import {IHelpArticle} from "../../../HelpArticleByURL/redux-store/types";
 import {openEditDialog} from "../../redux-store";

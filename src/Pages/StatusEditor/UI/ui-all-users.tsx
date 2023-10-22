@@ -4,7 +4,7 @@ import {useSelector} from "react-redux";
 import {IBasicUserInformation} from "../../../ServerLayer/Types/user.types";
 import UIUserProfileHead from "./ui-user-tablse-head";
 import UIUserStatusCell from "./ui-user-status-cell";
-import {RootState, useAppDispatch} from "../../../root-redux-store/RootStore";
+import {RootState, useAppDispatch} from "../../../ReduxStore/RootStore";
 import {changeSelectedUser} from "../redux-store/StatusEditorSlice";
 
 interface IUIAllUsersProps extends PaperProps {

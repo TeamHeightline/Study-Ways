@@ -7,7 +7,7 @@ import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 import {useDispatch, useSelector} from "react-redux";
 import {checkAnswers} from "../../redux-store/ExamPlayerSlice";
 import UiComebackLaterDialog from "./ui-come-back-later-dialog";
-import {RootState, useAppSelector} from "../../../../../root-redux-store/RootStore";
+import {RootState, useAppSelector} from "../../../../../ReduxStore/RootStore";
 
 interface IUIQuestionTextProps extends PaperProps {
 

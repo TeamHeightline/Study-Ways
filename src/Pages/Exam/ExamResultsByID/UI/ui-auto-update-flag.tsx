@@ -4,7 +4,7 @@ import {useState} from "react";
 import {useInterval} from "./use-interval";
 import {useDispatch, useSelector} from "react-redux";
 import {loadExamResultsAsync} from "../redux-store/async-actions";
-import {RootState} from "../../../../root-redux-store/RootStore";
+import {RootState} from "../../../../ReduxStore/RootStore";
 
 interface IUIAutoUpdateFlagProps extends PaperProps {
 

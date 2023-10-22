@@ -1,6 +1,6 @@
 import {Box, Stack, TextField} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
-import {useAppDispatch, useAppSelector} from "../../../../../root-redux-store/RootStore";
+import {useAppDispatch, useAppSelector} from "../../../../../ReduxStore/RootStore";
 import {changeCreateArticleData} from "../../redux-store";
 import TitleIcon from '@mui/icons-material/Title';
 
@@ -26,7 +26,7 @@ export default function Title({...props}: ITitleProps) {
         <Box {...props}>
             <Stack direction={"row"} sx={{mt: 1}} spacing={1} alignItems={"center"}>
                 <TitleIcon fontSize="large"/>
-                
+
                 <TextField value={title} onChange={handleChange} variant={"outlined"}
                            sx={{width: 550}}
                            label={"Заголовок справки"}>

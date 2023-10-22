@@ -3,7 +3,7 @@ import {BoxProps} from "@mui/material/Box/Box";
 import React, {useEffect, useState} from "react";
 import {UserStorage} from "../../../Store/UserStore/UserStore";
 import {loadRecentCardsThunk} from "../../RecentCards/Store/async-actions";
-import {useAppDispatch, useAppSelector} from "../../../root-redux-store/RootStore";
+import {useAppDispatch, useAppSelector} from "../../../ReduxStore/RootStore";
 import CardMicroView from "../../Cards/CardView/CardMicroView";
 import {useNavigate} from "react-router-dom";
 import HistoryIcon from "@mui/icons-material/History";

@@ -2,7 +2,7 @@ import {Box, IconButton, InputAdornment, TextField} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
 import {useEffect, useState} from "react";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
-import {RootState, useAppDispatch} from "../../../../../root-redux-store/RootStore";
+import {RootState, useAppDispatch} from "../../../../../ReduxStore/RootStore";
 import {useSelector} from "react-redux";
 import {changeOriginalPassword, changePassword} from "../redux-store/examEditorSlice";
 import CryptoJS from "crypto-js";

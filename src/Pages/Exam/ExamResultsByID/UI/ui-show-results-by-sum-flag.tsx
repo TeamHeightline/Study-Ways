@@ -2,7 +2,7 @@ import {FormControlLabel, Paper, Switch} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {useDispatch, useSelector} from "react-redux";
 import {changeShowResultsBySum} from "../redux-store/actions";
-import {RootState} from "../../../../root-redux-store/RootStore";
+import {RootState} from "../../../../ReduxStore/RootStore";
 
 interface IShowResultsBySumFlagProps extends PaperProps {
 

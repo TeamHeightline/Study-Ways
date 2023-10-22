@@ -1,7 +1,7 @@
 import {Box, Checkbox, FormControlLabel} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
 import React from "react";
-import {RootState, useAppDispatch} from "../../../../../root-redux-store/RootStore";
+import {RootState, useAppDispatch} from "../../../../../ReduxStore/RootStore";
 import {useSelector} from "react-redux";
 import {changeIsEnableMaxQuestionAttempts} from "../redux-store/examEditorSlice";
 

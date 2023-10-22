@@ -3,7 +3,7 @@ import {ClientStorage} from "../../../ApolloStorage/ClientStorage";
 import {UserStorage} from "../../../UserStore/UserStore";
 import {GET_QS_DATA_BY_ID} from "./Struct";
 import {Query} from "../../../../SchemaTypes";
-import {QuestionPlayerStore} from "../../../../Components/Elements/Question/QuestionByID/Store/QuestionPlayerStore";
+import {QuestionPlayerStore} from "../../../../Pages/Question/QuestionByID/Store/QuestionPlayerStore";
 import {shuffle} from "lodash"
 
 export class QSPlayerStore {

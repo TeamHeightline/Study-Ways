@@ -5,7 +5,7 @@
 
 import React, {Suspense, useEffect} from 'react';
 import './App.css';
-import {Navibar} from './Components/PublicPages/Navbar/Navibar';
+import {Navibar} from './SharedComponents/Navbar/Navibar';
 import {UserStorage} from './Store/UserStore/UserStore'
 
 
@@ -15,27 +15,27 @@ import {BrowserRouter as Router, Route, Routes,} from "react-router-dom";
 import {ApolloProvider} from "@apollo/client";
 import {observer} from "mobx-react"
 import {ClientStorage} from "./Store/ApolloStorage/ClientStorage";
-import {RequireLogInAlert} from "./Components/PublicPages/Notifications/RequireLogInAlert";
+import {RequireLogInAlert} from "./SharedComponents/Notifications/RequireLogInAlert";
 import {CircularProgress, Grid} from "@mui/material";
-import Auth0Login from "./Components/Elements/Auth0/auth0-login";
-import Auth0AfterLogin from "./Components/Elements/Auth0/auth0-after-login";
+import Auth0Login from "./Pages/Auth0/auth0-login";
+import Auth0AfterLogin from "./Pages/Auth0/auth0-after-login";
 import {useAuth0} from "@auth0/auth0-react";
-import CardByURL from "./Components/Elements/Cards/CardByURL/UI/card-by-url";
+import CardByURL from "./Pages/Cards/CardByURL/UI/card-by-url";
 import SeoData from "./seo-data";
-import ProfilePage from "./Components/Elements/Profile/UI/ProfilePage";
+import ProfilePage from "./Pages/Profile/UI/ProfilePage";
 import axiosClient from "./ServerLayer/QueryLayer/config";
-import CardByID from "./Components/Elements/Cards/CardByID/UI/card-by-id";
+import CardByID from "./Pages/Cards/CardByID/UI/card-by-id";
 
-const EditorsRouter = React.lazy(() => import("./Components/PrivatePages/EditorRouter/EditorsRouter").then(module => ({default: module.EditorsRouter})))
-const MainCardPublicView = React.lazy(() => import("./Components/Elements/Cards/Page/MainCardPublicView").then(module => ({default: module.MainCardPublicView})))
-const QSPlayerByID = React.lazy(() => import("./Components/Elements/QuestionSequence/Public/QSPlayerByID").then(module => ({default: module.QSPlayerByID})))
-const ImageQuestion = React.lazy(() => import("./Components/Elements/Question/QuestionByID/UI/QuestionByID").then(module => ({default: module.QuestionByID})))
-const SelfStatistic = React.lazy(() => import("./Components/Elements/SimpleSelfStatistic/UI/self-statistic-page").then(module => ({default: module.SelfStatisticPage})))
-const CoursePage = React.lazy(() => import("./Components/Elements/Course/Page/UI/course-page"))
-const CourseByURL = React.lazy(() => import("./Components/Elements/Course/CourseByURL/UI/CourseByURL"))
-const ExamByUID = React.lazy(() => import("./Components/Elements/Exam/ExamByUid/UI/exam-by-uid-page"))
-const RecentCardsPage = React.lazy(() => import("./Components/Elements/RecentCards/UI/recent-cards-page"))
-const BookmarksPage = React.lazy(() => import("./Components/Elements/CardBookmarks/UI/card-bookmarks-page"))
+const EditorsRouter = React.lazy(() => import("./Routers/EditorRouter/EditorsRouter").then(module => ({default: module.EditorsRouter})))
+const MainCardPublicView = React.lazy(() => import("./Pages/Cards/Page/MainCardPublicView").then(module => ({default: module.MainCardPublicView})))
+const QSPlayerByID = React.lazy(() => import("./Pages/QuestionSequence/Public/QSPlayerByID").then(module => ({default: module.QSPlayerByID})))
+const ImageQuestion = React.lazy(() => import("./Pages/Question/QuestionByID/UI/QuestionByID").then(module => ({default: module.QuestionByID})))
+const SelfStatistic = React.lazy(() => import("./Pages/SimpleSelfStatistic/UI/self-statistic-page").then(module => ({default: module.SelfStatisticPage})))
+const CoursePage = React.lazy(() => import("./Pages/Course/Page/UI/course-page"))
+const CourseByURL = React.lazy(() => import("./Pages/Course/CourseByURL/UI/CourseByURL"))
+const ExamByUID = React.lazy(() => import("./Pages/Exam/ExamByUid/UI/exam-by-uid-page"))
+const RecentCardsPage = React.lazy(() => import("./Pages/RecentCards/UI/recent-cards-page"))
+const BookmarksPage = React.lazy(() => import("./Pages/CardBookmarks/UI/card-bookmarks-page"))
 
 const App = observer(() => {
     const {

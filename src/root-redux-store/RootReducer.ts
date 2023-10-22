@@ -1,17 +1,17 @@
-import ExamPlayerReducer from "../Components/Elements/Exam/ExamByUid/redux-store/ExamPlayerSlice";
+import ExamPlayerReducer from "../Pages/Exam/ExamByUid/redux-store/ExamPlayerSlice";
 import {enableMapSet} from 'immer'
-import {examEditorPageReducer} from "../Components/Elements/Exam/EditorPage/Page/redux-store/reducer";
-import {examResultsByIDReducer} from "../Components/Elements/Exam/ExamResultsByID/redux-store/reducer";
+import {examEditorPageReducer} from "../Pages/Exam/EditorPage/Page/redux-store/reducer";
+import {examResultsByIDReducer} from "../Pages/Exam/ExamResultsByID/redux-store/reducer";
 import {combineReducers} from '@reduxjs/toolkit'
-import StatusEditorSlice from "../Components/Elements/StatusEditor/redux-store/StatusEditorSlice";
-import NotificationSlice from "../Components/PublicPages/Navbar/Notification/redux-store/NotificationSlice";
-import coursePageSlice from "../Components/Elements/Course/Page/redux-store/course-page-slice";
-import examEditorSlice from "../Components/Elements/Exam/EditorPage/ExamByID/redux-store/examEditorSlice";
-import questionEditorPageSlice from "../Components/Elements/Question/Editor/Page/redux-store/QuestionEditorPageSlice";
-import recentCardSlice from "../Components/Elements/RecentCards/Store/recent-card-slice";
-import cardBookmarksSlice from "../Components/Elements/CardBookmarks/Store/card-bookmarks-slice";
-import helpArticleEditorPageSlice from "../Components/Elements/HelpArticle/EditorPage/redux-store";
-import helpArticleByURLSlice from "../Components/Elements/HelpArticle/HelpArticleByURL/redux-store"
+import StatusEditorSlice from "../Pages/StatusEditor/redux-store/StatusEditorSlice";
+import NotificationSlice from "../SharedComponents/Navbar/Notification/redux-store/NotificationSlice";
+import coursePageSlice from "../Pages/Course/Page/redux-store/course-page-slice";
+import examEditorSlice from "../Pages/Exam/EditorPage/ExamByID/redux-store/examEditorSlice";
+import questionEditorPageSlice from "../Pages/Question/Editor/Page/redux-store/QuestionEditorPageSlice";
+import recentCardSlice from "../Pages/RecentCards/Store/recent-card-slice";
+import cardBookmarksSlice from "../Pages/CardBookmarks/Store/card-bookmarks-slice";
+import helpArticleEditorPageSlice from "../Pages/HelpArticle/EditorPage/redux-store";
+import helpArticleByURLSlice from "../Pages/HelpArticle/HelpArticleByURL/redux-store"
 
 enableMapSet()
 export const RootReducer = combineReducers({

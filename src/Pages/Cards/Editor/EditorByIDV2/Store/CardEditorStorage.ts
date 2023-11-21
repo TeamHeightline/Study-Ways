@@ -23,6 +23,7 @@ import message from "antd/es/message";
 import "js-video-url-parser/lib/provider/youtube";
 import urlParser from "js-video-url-parser";
 import axiosClient from "../../../../../ServerLayer/QueryLayer/config";
+import haveStatus from "../../../../../Store/UserStore/utils/HaveStatus";
 
 
 export type card_object_fields = keyof CardNode
@@ -46,7 +47,7 @@ class CardEditorStorage {
     loadCardDataFromServer(id: string | number | undefined) {
         if (id) {
             this.cardDataLoaded = false
-            if (this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN") {
+            if (haveStatus(["ADMIN", "TEACHER", "CARD_EDITOR"])) {
                 this.loadConnectedThemes()
                 this.clientStorage.client.query({
                     query: GET_CARD_DATA_BY_ID, fetchPolicy: "network-only",
@@ -98,7 +99,7 @@ class CardEditorStorage {
 
     saveDataOnServer(editor_context = this, card_object = this.card_object) {
         const data_object = toJS(card_object)
-        if (this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN") {
+        if (haveStatus(["ADMIN", "TEACHER", "CARD_EDITOR"])) {
             if (card_object) {
                 try {
                     this.clientStorage.client.mutate<Mutation>({
@@ -127,7 +128,7 @@ class CardEditorStorage {
     authorsDataLoaded = false
 
     loadCardAuthorsFromServer() {
-        if (this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN") {
+        if (haveStatus(["ADMIN", "TEACHER", "CARD_EDITOR"])) {
             this.clientStorage.client.query({query: GET_MY_CARD_AUTHOR, fetchPolicy: "network-only"})
                 .then((response) => (response.data.me.cardauthorSet))
                 .then((authors_data) => {
@@ -335,7 +336,7 @@ class CardEditorStorage {
     testInCardData?: QuestionNode | null = undefined
 
     loadTestInCardText() {
-        if (this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN") {
+        if (haveStatus(["ADMIN", "TEACHER", "CARD_EDITOR"])) {
             if (this.getField("testInCard", '')) {
                 try {
                     this.clientStorage.client.query<Query>({
@@ -356,7 +357,7 @@ class CardEditorStorage {
     testBeforeCardData?: QuestionNode | null = undefined
 
     loadTestBeforeCardText() {
-        if (this.userStorage.userAccessLevel === "TEACHER" || this.userStorage.userAccessLevel === "ADMIN") {
+        if (haveStatus(["ADMIN", "TEACHER", "CARD_EDITOR"])) {
             if (this.getField("testBeforeCard", '')) {
                 try {
                     this.clientStorage.client.query<Query>({

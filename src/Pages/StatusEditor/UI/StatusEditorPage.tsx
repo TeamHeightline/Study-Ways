@@ -24,7 +24,7 @@ export default function StatusEditorPage({...props}: IStatusEditorPageProps) {
                 <UITitle/>
                 <UIStatusEditDialog/>
                 <Grid container justifyContent={"center"}>
-                    <Grid item xs={12} md={8}>
+                    <Grid item xs={12} md={10}>
                         <UIUserSearch/>
                         <UIAllUsers sx={{mt: 2}}/>
                         <UILoadUsersFail/>

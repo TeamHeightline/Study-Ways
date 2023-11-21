@@ -10,27 +10,19 @@ import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import BlurLinearIcon from "@mui/icons-material/BlurLinear";
 import ListItemText from "@mui/material/ListItemText";
-import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
-import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import QuizIcon from "@mui/icons-material/Quiz";
-import LinearScaleIcon from "@mui/icons-material/LinearScale";
-import SchoolIcon from '@mui/icons-material/School';
-import AddchartIcon from "@mui/icons-material/Addchart";
 import MenuIcon from "@mui/icons-material/Menu";
 import {useNavigate} from "react-router-dom";
 import {isMobileHook} from "../../CustomHooks/isMobileHook";
-import RuleIcon from '@mui/icons-material/Rule';
-import GroupIcon from '@mui/icons-material/Group';
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import {privateRoutes} from "./routes";
+import haveStatus from "../../Store/UserStore/utils/HaveStatus";
 
 
 interface IRouterMenuProps extends PaperProps {
 
 }
 
-
+const EDITOR_URL_PREFIX = "/editor/"
 const RouterMenu = observer(({...props}: IRouterMenuProps) => {
     const navigate = useNavigate();
     const [isOpen, setOpen] = React.useState(false);
@@ -67,157 +59,180 @@ const RouterMenu = observer(({...props}: IRouterMenuProps) => {
                     </div>
                     <Divider/>
                     <List>
-                        <Tooltip title={<Typography variant="body1">Курсы</Typography>}>
-                            <ListItem onClick={() => {
-                                if (isMobile) {
-                                    setOpen(false)
-                                }
-                                navigate(`/editor/course`)
-                            }}>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <BlurLinearIcon/>
-                                    </ListItemIcon>
-                                    <ListItemText primary={isOpen ? "Редактор курсов" : ""}/>
-                                </ListItemButton>
-                            </ListItem>
-                        </Tooltip>
-                        <Tooltip title={<Typography variant="body1">Карточки</Typography>}>
-                            <ListItem onClick={() => {
-                                if (isMobile) {
-                                    setOpen(false)
-                                }
-                                navigate(`/editor/card2`)
-                            }}>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <AppRegistrationIcon/>
-                                    </ListItemIcon>
-                                    <ListItemText primary={isOpen ? "Редактор карточек" : ""}/>
-                                </ListItemButton>
-                            </ListItem>
-                        </Tooltip>
-                        <Tooltip title={<Typography variant="body1">Темы</Typography>}>
-                            <ListItem onClick={() => {
-                                if (isMobile) {
-                                    setOpen(false)
-                                }
-                                navigate(`/editor/se`)
-                            }}>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        {/*<HubIcon/>*/}
-                                        <AccountTreeIcon/>
-                                    </ListItemIcon>
-                                    <ListItemText primary={isOpen ? "Редактор тем" : ""}/>
-                                </ListItemButton>
-                            </ListItem>
-                        </Tooltip>
-                        <Tooltip title={<Typography variant="body1">Вопросы</Typography>}>
-                            <ListItem onClick={() => {
-                                if (isMobile) {
-                                    setOpen(false)
-                                }
-                                navigate(`/editor/question`)
-                            }}>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <QuizIcon/>
-                                    </ListItemIcon>
-                                    <ListItemText primary={isOpen ? "Редактор вопросов" : ""}/>
-                                </ListItemButton>
-                            </ListItem>
-                        </Tooltip>
-                        <Tooltip title={<Typography variant="body1">Серии вопросов</Typography>}>
-                            <ListItem onClick={() => {
-                                if (isMobile) {
-                                    setOpen(false)
-                                }
-                                navigate(`/editor/qse`)
-                            }}>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <LinearScaleIcon/>
-                                    </ListItemIcon>
-                                    <ListItemText primary={isOpen ? "Редактор серии вопросов" : ""}/>
-                                </ListItemButton>
-                            </ListItem>
-                        </Tooltip>
-                        <Tooltip title={<Typography variant="body1">Статистика</Typography>}>
-                            <ListItem onClick={() => {
-                                if (isMobile) {
-                                    setOpen(false)
-                                }
-                                navigate(`/editor/statistic2`)
-                            }}>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <AddchartIcon/>
-                                    </ListItemIcon>
-                                    <ListItemText primary={isOpen ? "Статистика" : ""}/>
-                                </ListItemButton>
-                            </ListItem>
-                        </Tooltip>
-                        <Tooltip title={<Typography variant="body1">Редактор экзаменов</Typography>}>
-                            <ListItem onClick={() => {
-                                if (isMobile) {
-                                    setOpen(false)
-                                }
-                                navigate(`/editor/exam`)
-                            }}>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <SchoolIcon/>
-                                    </ListItemIcon>
-                                    <ListItemText primary={isOpen ? "Редактор экзаменов" : ""}/>
-                                </ListItemButton>
-                            </ListItem>
-                        </Tooltip>
-                        <Tooltip title={<Typography variant="body1">Проверка вопросов</Typography>}>
-                            <ListItem onClick={() => {
-                                if (isMobile) {
-                                    setOpen(false)
-                                }
-                                navigate(`/editor/checkquestion`)
-                            }}>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <RuleIcon/>
-                                    </ListItemIcon>
-                                    <ListItemText primary={isOpen ? "Проверка вопросов" : ""}/>
-                                </ListItemButton>
-                            </ListItem>
-                        </Tooltip>
-                        <Tooltip title={<Typography variant="body1">Уровень доступа</Typography>}>
-                            <ListItem onClick={() => {
-                                if (isMobile) {
-                                    setOpen(false)
-                                }
-                                navigate(`/editor/status-editor`)
-                            }}>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <GroupIcon/>
-                                    </ListItemIcon>
-                                    <ListItemText primary={isOpen ? "Редактор уровней доступа" : ""}/>
-                                </ListItemButton>
-                            </ListItem>
-                        </Tooltip>
-                        <Tooltip title={<Typography variant="body1">Подсказки</Typography>}>
-                            <ListItem onClick={() => {
-                                if (isMobile) {
-                                    setOpen(false)
-                                }
-                                navigate(`/editor/help-article`)
-                            }}>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <QuestionMarkIcon/>
-                                    </ListItemIcon>
-                                    <ListItemText primary={isOpen ? "Редактор подсказок на страницах" : ""}/>
-                                </ListItemButton>
-                            </ListItem>
-                        </Tooltip>
+                        {privateRoutes.map((route) => {
+                            if (!!route?.title) {
+                                return (
+                                    <Tooltip title={<Typography variant="body1">{route.title}</Typography>}>
+                                        <ListItem disabled={!haveStatus(route.status)}
+                                                  onClick={() => {
+                                                      if (!haveStatus(route.status)) {
+                                                          return
+                                                      }
+                                                      isMobile && setOpen(false)
+                                                      navigate(EDITOR_URL_PREFIX + route.navigate)
+                                                  }}>
+                                            <ListItemButton>
+                                                <ListItemIcon>
+                                                    {route.icon}
+                                                </ListItemIcon>
+                                                <ListItemText primary={isOpen ? route.title : ""}/>
+                                            </ListItemButton>
+                                        </ListItem>
+                                    </Tooltip>
+                                )
+                            }
+                        })}
+                        {/*<Tooltip title={<Typography variant="body1">Курсы</Typography>}>*/}
+                        {/*    <ListItem onClick={() => {*/}
+                        {/*        if (isMobile) {*/}
+                        {/*            setOpen(false)*/}
+                        {/*        }*/}
+                        {/*        navigate(`/editor/course`)*/}
+                        {/*    }}>*/}
+                        {/*        <ListItemButton>*/}
+                        {/*            <ListItemIcon>*/}
+                        {/*                <BlurLinearIcon/>*/}
+                        {/*            </ListItemIcon>*/}
+                        {/*            <ListItemText primary={isOpen ? "Редактор курсов" : ""}/>*/}
+                        {/*        </ListItemButton>*/}
+                        {/*    </ListItem>*/}
+                        {/*</Tooltip>*/}
+                        {/*<Tooltip title={<Typography variant="body1">Карточки</Typography>}>*/}
+                        {/*    <ListItem onClick={() => {*/}
+                        {/*        if (isMobile) {*/}
+                        {/*            setOpen(false)*/}
+                        {/*        }*/}
+                        {/*        navigate(`/editor/card2`)*/}
+                        {/*    }}>*/}
+                        {/*        <ListItemButton>*/}
+                        {/*            <ListItemIcon>*/}
+                        {/*                <AppRegistrationIcon/>*/}
+                        {/*            </ListItemIcon>*/}
+                        {/*            <ListItemText primary={isOpen ? "Редактор карточек" : ""}/>*/}
+                        {/*        </ListItemButton>*/}
+                        {/*    </ListItem>*/}
+                        {/*</Tooltip>*/}
+                        {/*<Tooltip title={<Typography variant="body1">Темы</Typography>}>*/}
+                        {/*    <ListItem onClick={() => {*/}
+                        {/*        if (isMobile) {*/}
+                        {/*            setOpen(false)*/}
+                        {/*        }*/}
+                        {/*        navigate(`/editor/se`)*/}
+                        {/*    }}>*/}
+                        {/*        <ListItemButton>*/}
+                        {/*            <ListItemIcon>*/}
+                        {/*                /!*<HubIcon/>*!/*/}
+                        {/*                <AccountTreeIcon/>*/}
+                        {/*            </ListItemIcon>*/}
+                        {/*            <ListItemText primary={isOpen ? "Редактор тем" : ""}/>*/}
+                        {/*        </ListItemButton>*/}
+                        {/*    </ListItem>*/}
+                        {/*</Tooltip>*/}
+                        {/*<Tooltip title={<Typography variant="body1">Вопросы</Typography>}>*/}
+                        {/*    <ListItem onClick={() => {*/}
+                        {/*        if (isMobile) {*/}
+                        {/*            setOpen(false)*/}
+                        {/*        }*/}
+                        {/*        navigate(`/editor/question`)*/}
+                        {/*    }}>*/}
+                        {/*        <ListItemButton>*/}
+                        {/*            <ListItemIcon>*/}
+                        {/*                <QuizIcon/>*/}
+                        {/*            </ListItemIcon>*/}
+                        {/*            <ListItemText primary={isOpen ? "Редактор вопросов" : ""}/>*/}
+                        {/*        </ListItemButton>*/}
+                        {/*    </ListItem>*/}
+                        {/*</Tooltip>*/}
+                        {/*<Tooltip title={<Typography variant="body1">Серии вопросов</Typography>}>*/}
+                        {/*    <ListItem onClick={() => {*/}
+                        {/*        if (isMobile) {*/}
+                        {/*            setOpen(false)*/}
+                        {/*        }*/}
+                        {/*        navigate(`/editor/qse`)*/}
+                        {/*    }}>*/}
+                        {/*        <ListItemButton>*/}
+                        {/*            <ListItemIcon>*/}
+                        {/*                <LinearScaleIcon/>*/}
+                        {/*            </ListItemIcon>*/}
+                        {/*            <ListItemText primary={isOpen ? "Редактор серии вопросов" : ""}/>*/}
+                        {/*        </ListItemButton>*/}
+                        {/*    </ListItem>*/}
+                        {/*</Tooltip>*/}
+                        {/*<Tooltip title={<Typography variant="body1">Статистика</Typography>}>*/}
+                        {/*    <ListItem onClick={() => {*/}
+                        {/*        if (isMobile) {*/}
+                        {/*            setOpen(false)*/}
+                        {/*        }*/}
+                        {/*        navigate(`/editor/statistic2`)*/}
+                        {/*    }}>*/}
+                        {/*        <ListItemButton>*/}
+                        {/*            <ListItemIcon>*/}
+                        {/*                <AddchartIcon/>*/}
+                        {/*            </ListItemIcon>*/}
+                        {/*            <ListItemText primary={isOpen ? "Статистика" : ""}/>*/}
+                        {/*        </ListItemButton>*/}
+                        {/*    </ListItem>*/}
+                        {/*</Tooltip>*/}
+                        {/*<Tooltip title={<Typography variant="body1">Редактор экзаменов</Typography>}>*/}
+                        {/*    <ListItem onClick={() => {*/}
+                        {/*        if (isMobile) {*/}
+                        {/*            setOpen(false)*/}
+                        {/*        }*/}
+                        {/*        navigate(`/editor/exam`)*/}
+                        {/*    }}>*/}
+                        {/*        <ListItemButton>*/}
+                        {/*            <ListItemIcon>*/}
+                        {/*                <SchoolIcon/>*/}
+                        {/*            </ListItemIcon>*/}
+                        {/*            <ListItemText primary={isOpen ? "Редактор экзаменов" : ""}/>*/}
+                        {/*        </ListItemButton>*/}
+                        {/*    </ListItem>*/}
+                        {/*</Tooltip>*/}
+                        {/*<Tooltip title={<Typography variant="body1">Проверка вопросов</Typography>}>*/}
+                        {/*    <ListItem onClick={() => {*/}
+                        {/*        if (isMobile) {*/}
+                        {/*            setOpen(false)*/}
+                        {/*        }*/}
+                        {/*        navigate(`/editor/checkquestion`)*/}
+                        {/*    }}>*/}
+                        {/*        <ListItemButton>*/}
+                        {/*            <ListItemIcon>*/}
+                        {/*                <RuleIcon/>*/}
+                        {/*            </ListItemIcon>*/}
+                        {/*            <ListItemText primary={isOpen ? "Проверка вопросов" : ""}/>*/}
+                        {/*        </ListItemButton>*/}
+                        {/*    </ListItem>*/}
+                        {/*</Tooltip>*/}
+                        {/*<Tooltip title={<Typography variant="body1">Уровень доступа</Typography>}>*/}
+                        {/*    <ListItem onClick={() => {*/}
+                        {/*        if (isMobile) {*/}
+                        {/*            setOpen(false)*/}
+                        {/*        }*/}
+                        {/*        navigate(`/editor/status-editor`)*/}
+                        {/*    }}>*/}
+                        {/*        <ListItemButton>*/}
+                        {/*            <ListItemIcon>*/}
+                        {/*                <GroupIcon/>*/}
+                        {/*            </ListItemIcon>*/}
+                        {/*            <ListItemText primary={isOpen ? "Редактор уровней доступа" : ""}/>*/}
+                        {/*        </ListItemButton>*/}
+                        {/*    </ListItem>*/}
+                        {/*</Tooltip>*/}
+                        {/*<Tooltip title={<Typography variant="body1">Подсказки</Typography>}>*/}
+                        {/*    <ListItem onClick={() => {*/}
+                        {/*        if (isMobile) {*/}
+                        {/*            setOpen(false)*/}
+                        {/*        }*/}
+                        {/*        navigate(`/editor/help-article`)*/}
+                        {/*    }}>*/}
+                        {/*        <ListItemButton>*/}
+                        {/*            <ListItemIcon>*/}
+                        {/*                <QuestionMarkIcon/>*/}
+                        {/*            </ListItemIcon>*/}
+                        {/*            <ListItemText primary={isOpen ? "Редактор подсказок на страницах" : ""}/>*/}
+                        {/*        </ListItemButton>*/}
+                        {/*    </ListItem>*/}
+                        {/*</Tooltip>*/}
                     </List>
                 </Box>
             </Drawer>

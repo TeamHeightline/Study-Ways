@@ -32,6 +32,7 @@ export default function NotificationButtonForNavbar({...props}: INotificationBut
 
 
     useEffect(() => {
+        // @ts-ignore
         recombeeClient.send(new recombee.RecommendItemsToUser(UserStorage.userIDForRecombee, 5,
                 {'scenario': 'On-open-suggestion'}),
             (err, matches) => {

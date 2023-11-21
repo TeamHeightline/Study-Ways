@@ -14,6 +14,7 @@ import ThemeStoreObject from "../../global-theme";
 import LightModeIcon from '@mui/icons-material/LightMode';
 import NightlightIcon from '@mui/icons-material/Nightlight';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import haveStatus from "../../Store/UserStore/utils/HaveStatus";
 
 interface INavbarMenuProps extends PaperProps {
 
@@ -65,7 +66,7 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
                         Профиль
                     </MenuItem>
                     <MenuItem
-                        disabled={UserStorage.userAccessLevel !== "ADMIN" && UserStorage.userAccessLevel !== "TEACHER"}
+                        disabled={!haveStatus(["ADMIN", "TEACHER", "CARD_EDITOR"])}
                         onClick={() => {
                             handleClose()
                             navigate('/editor')

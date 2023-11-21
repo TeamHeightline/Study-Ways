@@ -10,7 +10,7 @@ export interface IUserprofile {
     users_educationorganization: users_educationorganization
 }
 
-export type user_access_level = "STUDENT" | "ADMIN" | "TEACHER"
+export type user_access_level = "STUDENT" | "CARD_EDITOR" | "ADMIN" | "TEACHER"
 
 export interface IBasicUserInformation {
     "id": number,

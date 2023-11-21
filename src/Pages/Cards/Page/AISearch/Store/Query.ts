@@ -6,6 +6,7 @@ import {UserStorage} from "../../../../../Store/UserStore/UserStore";
 export async function getAutocompleteCardDataAsync(searchString: string | undefined, filterString: string | undefined = undefined, callBackFn?: (data: any) => void, numberOfCards: number = 10) {
     console.log(searchString)
     if (searchString) {
+        // @ts-ignore
         recombeeClient.send(new recombee.SearchItems(
                 UserStorage.userIDForRecombee,
                 searchString || undefined,
@@ -37,6 +38,7 @@ export async function getRecommendedItemToUser(
     callBackFn?: (data: any) => void,
     numberOfCards: number = 10
 ) {
+    // @ts-ignore
     recombeeClient.send(new recombee.RecommendItemsToUser(userId,
             numberOfCards,
             {
@@ -58,6 +60,7 @@ export async function getRecommendedItemToUser(
 
 export async function selectRecommendedCardReport(recommendationID: string, itemId) {
     if (recommendationID && itemId) {
+        // @ts-ignore
         recombeeClient.send(new recombee.AddDetailView(UserStorage.userIDForRecombee, itemId, {
             'recommId': recommendationID
         }));

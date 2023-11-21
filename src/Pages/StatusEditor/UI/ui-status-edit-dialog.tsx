@@ -84,6 +84,7 @@ export default function UIStatusEditDialog({...props}: IUIStatusEditDialogProps)
                                 label="Статус"
                             >
                                 <MenuItem value={"STUDENT"}>Студент</MenuItem>
+                                <MenuItem value={"CARD_EDITOR"}>Студент с правом создания карточек</MenuItem>
                                 <MenuItem value={"TEACHER"}>Преподаватель</MenuItem>
                                 <MenuItem value={"ADMIN"}>Администратор</MenuItem>
                             </Select>

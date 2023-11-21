@@ -31,11 +31,13 @@ export class CardByIDStore {
         autorun(() => this.loadThemesAncestors())
         autorun(() => this.loadSimilarCards())
         reaction(() => this.id, () => {
+            // @ts-ignore
             recombeeClient.send(new recombee.AddDetailView(UserStorage.userIDForRecombee, this.id, {
                 'cascadeCreate': true
             }));
         })
         reaction(() => UserStorage.userIDForRecombee, () => {
+            // @ts-ignore
             recombeeClient.send(new recombee.AddDetailView(UserStorage.userIDForRecombee, this.id, {
                 'cascadeCreate': true
             }));

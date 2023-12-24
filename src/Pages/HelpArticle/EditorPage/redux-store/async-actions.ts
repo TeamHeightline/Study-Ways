@@ -16,3 +16,11 @@ export const updateHelpArticle = createAsyncThunk(
             .then((res) => res.data)
     }
 )
+
+export const deleteHelpArticle = createAsyncThunk(
+    "helpArticleEditorPage/deleteHelpArticle",
+    async (id: number) => {
+        return axiosClient.post(`page/help-article/delete`, {id})
+            .then((res) => res.data)
+    }
+)

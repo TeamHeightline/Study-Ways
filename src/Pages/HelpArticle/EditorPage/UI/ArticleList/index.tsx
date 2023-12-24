@@ -5,6 +5,8 @@ import LinkIcon from '@mui/icons-material/Link';
 import {IHelpArticle} from "../../../HelpArticleByURL/redux-store/types";
 import {openEditDialog} from "../../redux-store";
 import DeleteIcon from '@mui/icons-material/Delete';
+import {deleteHelpArticle} from "../../redux-store/async-actions";
+import {getArticles} from "../../../HelpArticleByURL/redux-store/async-actions";
 
 
 interface IHelpArticleListProps extends BoxProps {
@@ -19,8 +21,12 @@ export default function HelpArticleList({...props}: IHelpArticleListProps) {
         dispatch(openEditDialog(article))
     }
 
-    function handleDelete() {
-        console.log("delete")
+    function handleDelete(e, id: number) {
+        e.stopPropagation()
+        dispatch(deleteHelpArticle(id))
+            .then(() => {
+                dispatch(getArticles())
+            })
     }
 
     return (
@@ -33,7 +39,7 @@ export default function HelpArticleList({...props}: IHelpArticleListProps) {
                             <Box>
                                 <ListItem key={article.id} sx={{p: 0}}
                                           secondaryAction={
-                                              <IconButton onClick={handleDelete}>
+                                              <IconButton onClick={(e) => handleDelete(e, Number(article.id))}>
                                                   <DeleteIcon/>
                                               </IconButton>
                                           }

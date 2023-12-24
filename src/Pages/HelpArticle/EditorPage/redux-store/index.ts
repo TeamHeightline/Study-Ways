@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {createHelpArticle, updateHelpArticle} from "./async-actions";
+import {createHelpArticle, deleteHelpArticle, updateHelpArticle} from "./async-actions";
 import {IHelpArticle} from "../../HelpArticleByURL/redux-store/types";
 import {getArticles} from "../../HelpArticleByURL/redux-store/async-actions";
 
@@ -73,6 +73,9 @@ const helpArticleEditorPageSlice = createSlice({
         })
         builder.addCase(getArticles.fulfilled, (state, action) => {
             state.articles = action.payload
+        })
+        builder.addCase(deleteHelpArticle.pending, (state, action) => {
+            state.articles = state.articles.filter((article) => Number(article.id) != action.meta.arg)
         })
 
     }

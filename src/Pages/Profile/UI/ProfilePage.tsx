@@ -50,14 +50,16 @@ const ProfilePage = observer(({...props}: IProfilePageProps) => {
                             </Typography>
                         </Stack>
                         <Stack direction={"column"} spacing={2}>
-                            <Stack direction={"row"} spacing={2}>
+                            <Stack direction={"row"} spacing={0.1}>
                                 <TextField
+                                    sx={{"& .MuiFilledInput-root": {borderTopRightRadius: 0}}}
                                     value={ProfilePageStore.firstname}
                                     onChange={ProfilePageStore.changeFirstName}
                                     id={"first_name"}
                                     label={"Имя"}
                                     variant={"filled"}/>
                                 <TextField
+                                    sx={{"& .MuiFilledInput-root": {borderTopLeftRadius: 0}}}
                                     value={ProfilePageStore.lastname}
                                     onChange={ProfilePageStore.changeLastName}
                                     id={"last_name"}

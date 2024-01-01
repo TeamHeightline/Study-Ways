@@ -1,6 +1,4 @@
-import {IconButton, Stack, Tooltip} from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
-import AppsIcon from "@mui/icons-material/Apps";
+import {IconButton, Stack} from "@mui/material";
 import {UserStorage} from "../../Store/UserStore/UserStore";
 import NavbarMenu from "./NavbarMenu";
 import React from "react";
@@ -19,41 +17,24 @@ const IconMenu = observer(() => {
     return (
         <Stack direction={"row"} sx={{backdropFilter: "none"}}>
 
-            <HelpArticleByURL/>
+            <Stack direction={"row"} spacing={2}>
+                <HelpArticleByURL/>
 
-            <Tooltip title={"Курсы"}>
-                <IconButton
-                    sx={{mx: 1}}
-                    onClick={() => {
-                        navigate("/courses")
+                {UserStorage.isLogin ?
+                    <>
+                        <NavbarMenu/>
+                        <PersonalMenu/>
+                        {/*<NotificationButtonForNavbar/>*/}
+                    </>
+                    :
+                    <IconButton sx={{mx: 2}} onClick={() => {
+                        loginWithPopup()
                     }}>
-                    <HomeIcon/>
-                </IconButton>
-            </Tooltip>
+                        <VpnKeyIcon/>
+                    </IconButton>}
 
-            <Tooltip title={"Карточки"}>
-                <IconButton
-                    sx={{mx: 1}}
-                    onClick={() => {
-                        navigate("/cards")
-                    }}>
-                    <AppsIcon/>
-                </IconButton>
-            </Tooltip>
 
-            {UserStorage.isLogin ?
-                <Stack direction={"row"}>
-                    <NavbarMenu/>
-                    <PersonalMenu/>
-                    {/*<NotificationButtonForNavbar/>*/}
-                </Stack>
-                :
-                <IconButton sx={{mx: 2}}
-                            onClick={() => {
-                                loginWithPopup()
-                            }}>
-                    <VpnKeyIcon/>
-                </IconButton>}
+            </Stack>
         </Stack>
     )
 })

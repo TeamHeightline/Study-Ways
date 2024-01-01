@@ -10,7 +10,8 @@ import SchoolIcon from '@mui/icons-material/School';
 import AddchartIcon from "@mui/icons-material/Addchart";
 import RuleIcon from '@mui/icons-material/Rule';
 import GroupIcon from '@mui/icons-material/Group';
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import UserGroupsEditor from "../../Pages/UserGroups/EditorPage/UI";
+import InfoIcon from "@mui/icons-material/Info";
 
 const ExamEditorPage = React.lazy(() => import("../../Pages/Exam/EditorPage/Page/UI/exam-editor-page"))
 
@@ -21,7 +22,6 @@ const QuestionSequenceMainEditor = React.lazy(() => import("../../Pages/Question
 const MainCourseEditor = React.lazy(() => import("../../Pages/Course/CourseEditorPage/MainCourseEditor"))
 
 const QuestionEditor = React.lazy(() => import("../../Pages/Question/Editor/Page/UI/question-editor-page").then(module => ({default: module.QuestionEditorPage})))
-const MainUserQuestionPage = React.lazy(() => import("../../Pages/Question/QuestionsPage/MainUserQuestionPage").then(module => ({default: module.MainUserQuestionPage})))
 const StatisticV2 = React.lazy(() => import("../../Pages/Statistic/V2/StatisticV2").then(module => ({default: module.StatisticV2})))
 const CardEditorV2 = React.lazy(() => import("../../Pages/Cards/Editor/EditorPageV2/Page").then(module => ({default: module.EditorPage})))
 const CheckQuestion = React.lazy(() => import("../../Pages/CheckQuestion/Page/UI/check-question-page"))
@@ -105,12 +105,15 @@ export const privateRoutes = [
         component: <HelpArticleEditPage/>,
         title: "Редактор подсказок для страниц",
         navigate: "help-article",
-        icon: <QuestionMarkIcon/>,
+        icon: <InfoIcon/>,
         status: ["ADMIN", "TEACHER"]
     },
     {
-        path: `/allquestions/*`,
-        component: <MainUserQuestionPage/>,
+        path: "/user-groups",
+        component: <UserGroupsEditor/>,
+        title: "Редактор групп пользователей",
+        navigate: "user-groups",
+        icon: <GroupIcon/>,
         status: ["ADMIN", "TEACHER"]
     },
 

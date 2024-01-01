@@ -6,6 +6,7 @@ import {useAppDispatch, useAppSelector} from "../../../ReduxStore/RootStore";
 import {useLocation} from "react-router-dom";
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import ContentDialog from "./UI/content-dialog";
+import InfoIcon from '@mui/icons-material/Info';
 
 interface IArticleByURLProps extends BoxProps {
 
@@ -40,7 +41,7 @@ export default function ArticleByURL({...props}: IArticleByURLProps) {
             {article_by_url &&
                 <>
                     <IconButton onClick={() => setIsOpen(true)}>
-                        <QuestionMarkIcon/>
+                        <InfoIcon/>
                     </IconButton>
                     <ContentDialog isOpen={isOpen} article={article_by_url} onClose={() => setIsOpen(false)}/>
                 </>

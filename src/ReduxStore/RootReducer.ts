@@ -12,6 +12,8 @@ import recentCardSlice from "../Pages/RecentCards/Store/recent-card-slice";
 import cardBookmarksSlice from "../Pages/CardBookmarks/Store/card-bookmarks-slice";
 import helpArticleEditorPageSlice from "../Pages/HelpArticle/EditorPage/redux-store";
 import helpArticleByURLSlice from "../Pages/HelpArticle/HelpArticleByURL/redux-store"
+import userGroupEditorPageSlice from "../Pages/UserGroups/EditorPage/store";
+import {userGroupApi} from "../Pages/UserGroups/EditorPage/store/api";
 
 enableMapSet()
 export const RootReducer = combineReducers({
@@ -26,7 +28,9 @@ export const RootReducer = combineReducers({
     recentCards: recentCardSlice,
     cardBookmarks: cardBookmarksSlice,
     helpArticleEditor: helpArticleEditorPageSlice,
-    helpArticleByURL: helpArticleByURLSlice
+    helpArticleByURL: helpArticleByURLSlice,
+    userGroupEditor: userGroupEditorPageSlice,
+    [userGroupApi.reducerPath]: userGroupApi.reducer,
 });
 
 

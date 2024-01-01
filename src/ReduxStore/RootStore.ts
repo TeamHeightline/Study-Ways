@@ -1,6 +1,7 @@
 import {configureStore} from '@reduxjs/toolkit'
 import {RootReducer} from "./RootReducer";
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux'
+import {userGroupApi} from "../Pages/UserGroups/EditorPage/store/api";
 
 
 const reduxStore = configureStore({
@@ -8,7 +9,9 @@ const reduxStore = configureStore({
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware({
             serializableCheck: false,
-        }),
+        })
+            .concat(userGroupApi.middleware),
+
 
 });
 

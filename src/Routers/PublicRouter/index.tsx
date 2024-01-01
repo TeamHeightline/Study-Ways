@@ -18,6 +18,7 @@ const CourseByURL = React.lazy(() => import("../../Pages/Course/CourseByURL/UI/C
 const ExamByUID = React.lazy(() => import("../../Pages/Exam/ExamByUid/UI/exam-by-uid-page"))
 const RecentCardsPage = React.lazy(() => import("../../Pages/RecentCards/UI/recent-cards-page"))
 const BookmarksPage = React.lazy(() => import("../../Pages/CardBookmarks/UI/card-bookmarks-page"))
+const MainUserQuestionPage = React.lazy(() => import("../../Pages/Question/QuestionsPage/MainUserQuestionPage").then(module => ({default: module.MainUserQuestionPage})))
 
 interface IPublicRouterProps {
 
@@ -83,6 +84,10 @@ const routes = [
     {
         path: "/bookmarks",
         component: <BookmarksPage/>
+    },
+    {
+        path: `/all-questions/*`,
+        component: <MainUserQuestionPage/>,
     },
     {
         path: "/",

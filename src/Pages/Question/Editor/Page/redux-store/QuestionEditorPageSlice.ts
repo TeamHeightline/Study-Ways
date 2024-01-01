@@ -1,14 +1,30 @@
-import {createSlice} from "@reduxjs/toolkit";
-import {loadQuestionsThunk} from "./AsyncActions";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {loadAuthorsThunk, loadQuestionsThunk} from "./AsyncActions";
 
 interface IQuestion {
     id: number,
+    created_by_id: number,
     text: string,
     sumOfAnswersReports: number
 }
 
+interface IAuthors {
+    id: number,
+    username: string,
+    users_userprofile: {
+        firstname: string,
+        lastname: string
+    }
+
+}
+
 const initialState = {
     questions: [] as IQuestion[],
+
+    authors: [] as IAuthors[],
+
+    author_filter: "my" as "my" | "all" | string,
+
     is_pending_questions: true,
     is_loading_questions_error: false,
 
@@ -40,6 +56,9 @@ const questionEditorPageSlice = createSlice({
         },
         finishCreatingNewQuestion: (state) => {
             state.is_new_question_now_creating = false
+        },
+        changeAuthorFilter: (state, action) => {
+            state.author_filter = action.payload
         }
     },
     extraReducers: {
@@ -55,6 +74,9 @@ const questionEditorPageSlice = createSlice({
         [loadQuestionsThunk.rejected.type]: (state) => {
             state.is_pending_questions = false
             state.is_loading_questions_error = true
+        },
+        [loadAuthorsThunk.fulfilled.type]: (state, action) => {
+            state.authors = action.payload
         }
     }
 })
@@ -67,5 +89,6 @@ export const {
     openCreateQuestionDialog,
     closeCreateQuestionDialog,
     startCreatingNewQuestion,
-    finishCreatingNewQuestion
+    finishCreatingNewQuestion,
+    changeAuthorFilter
 } = questionEditorPageSlice.actions;

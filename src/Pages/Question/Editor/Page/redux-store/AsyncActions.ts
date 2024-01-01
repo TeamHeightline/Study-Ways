@@ -17,3 +17,10 @@ export const loadQuestionsThunk = createAsyncThunk(
         }).then(res => res.data)
     }
 )
+
+export const loadAuthorsThunk = createAsyncThunk(
+    'questionEditorPage/loadAuthors',
+    async () => {
+        return axiosClient.get('/page/question-editor-page/authors').then(res => res.data)
+    }
+)

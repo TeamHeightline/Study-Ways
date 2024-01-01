@@ -21,7 +21,7 @@ const SearchingElementsEditor = React.lazy(() => import("../../Pages/Themes/Edit
 const QuestionSequenceMainEditor = React.lazy(() => import("../../Pages/QuestionSequence/Editor/EditorPage/QuestionSequenceMainEditor"))
 const MainCourseEditor = React.lazy(() => import("../../Pages/Course/CourseEditorPage/MainCourseEditor"))
 
-const QuestionEditor = React.lazy(() => import("../../Pages/Question/Editor/Page/UI/question-editor-page").then(module => ({default: module.QuestionEditorPage})))
+const QuestionEditor = React.lazy(() => import("../../Pages/Question/Editor/Page/UI").then(module => ({default: module.Index})))
 const StatisticV2 = React.lazy(() => import("../../Pages/Statistic/V2/StatisticV2").then(module => ({default: module.StatisticV2})))
 const CardEditorV2 = React.lazy(() => import("../../Pages/Cards/Editor/EditorPageV2/Page").then(module => ({default: module.EditorPage})))
 const CheckQuestion = React.lazy(() => import("../../Pages/CheckQuestion/Page/UI/check-question-page"))

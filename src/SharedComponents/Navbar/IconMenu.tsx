@@ -20,9 +20,10 @@ const IconMenu = observer(() => {
             <Stack direction={"row"} spacing={2}>
                 <HelpArticleByURL/>
 
+                <NavbarMenu/>
+
                 {UserStorage.isLogin ?
                     <>
-                        <NavbarMenu/>
                         <PersonalMenu/>
                         {/*<NotificationButtonForNavbar/>*/}
                     </>

@@ -9,6 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import haveStatus from "../../Store/UserStore/utils/HaveStatus";
 import HomeIcon from "@mui/icons-material/Home";
 import AppsIcon from "@mui/icons-material/Apps";
+import {UserStorage} from "../../Store/UserStore/UserStore";
 
 interface INavbarMenuProps extends PaperProps {
 
@@ -70,6 +71,7 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
                     </MenuItem>
 
                     <MenuItem
+                        disabled={!UserStorage.isLogin}
                         onClick={() => {
                             handleClose()
                             navigate('/all-questions')

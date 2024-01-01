@@ -20,36 +20,10 @@ import {useAuth0} from "@auth0/auth0-react";
 import SeoData from "./seo-data";
 import axiosClient from "./ServerLayer/QueryLayer/config";
 import AppRoutes from "./Routers/PublicRouter";
+import AppHook from "./app.hook";
 
 const App = observer(() => {
-    const {
-        isLoading,
-        isAuthenticated,
-        getAccessTokenSilently
-    } = useAuth0();
-
-
-    useEffect(() => {
-        if (isAuthenticated) {
-            getAccessTokenSilently({
-                audience: `sw-backend-identifier`,
-                scope: "read:current_user",
-            }).then((user_token) => {
-                ClientStorage.changeToken(user_token)
-
-                axiosClient.interceptors.request.use((config: any) => {
-                    config.headers.common["authorization"] = "Bearer " + user_token;
-                    config.headers.post["authorization"] = "Bearer " + user_token;
-                    return config;
-                })
-
-                UserStorage.reloadUser()
-            })
-        } else {
-            ClientStorage.changeToken("")
-        }
-
-    }, [isAuthenticated, isLoading])
+    const {isLoading} = AppHook();
 
     if (isLoading) {
         return <Grid container justifyContent={"center"}

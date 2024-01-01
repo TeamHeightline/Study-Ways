@@ -21,6 +21,7 @@ import SeoData from "./seo-data";
 import axiosClient from "./ServerLayer/QueryLayer/config";
 import AppRoutes from "./Routers/PublicRouter";
 import AppHook from "./app.hook";
+import RouteChangeTracker from "./SharedComponents/GoogleAnalitics";
 
 const App = observer(() => {
     const {isLoading} = AppHook();
@@ -37,6 +38,7 @@ const App = observer(() => {
         <>
             <ApolloProvider client={ClientStorage.client}>
                 <Router>
+                    <RouteChangeTracker/>
                     <Navibar/>
                     <SeoData/>
                     <AppRoutes/>

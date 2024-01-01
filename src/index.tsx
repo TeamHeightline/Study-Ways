@@ -19,6 +19,9 @@ import reduxStore from "./ReduxStore/RootStore";
 import {createRoot} from "react-dom/client";
 import {LocalizationProvider} from '@mui/x-date-pickers'
 import {AdapterMoment} from '@mui/x-date-pickers/AdapterMoment';
+import ReactGA from 'react-ga';
+
+ReactGA.initialize('G-W81CQGKLR7');
 
 
 configure({

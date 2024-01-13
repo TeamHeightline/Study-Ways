@@ -19,6 +19,12 @@ export interface ICourseData {
     course_data: CourseLine[],
     cards_cardcourseimage?: {
         image: string
+    },
+    users_customuser: {
+        users_userprofile: {
+            firstname: string,
+            lastname: string,
+        }
     }
 }
 

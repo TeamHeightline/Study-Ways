@@ -17,79 +17,87 @@ interface ICourseMicroViewProps extends React.HTMLAttributes<HTMLDivElement> {
 const colors = [blue, amber, red, cyan, green, lime, indigo, yellow, teal, purple, orange];
 
 export default function CourseByData({courseData, coursePosition, onChangePosition}: ICourseMicroViewProps) {
-    const [isOpen, setIsOpen] = React.useState(false);
 
     const courseColor = colors[courseData.id % colors.length];
     const colorAfterCorrection = darken(courseColor[300], 0.25)
-    const colorAfterCorrectionWithAlpha = alpha(colorAfterCorrection, 0.42)
+
+    function openCourse() {
+        if (!onChangePosition) return
+
+        function findFirstNonEmptyCourseElementPosition(course: ICourseData): {
+            page: number;
+            line: number;
+            position: number
+        } | null {
+            for (let lineIndex = 0; lineIndex < course.course_data.length; lineIndex++) {
+                for (let pageIndex = 0; pageIndex < course.course_data[lineIndex].SameLine.length; pageIndex++) {
+                    for (let positionIndex = 0; positionIndex < course.course_data[lineIndex].SameLine[pageIndex].CourseFragment.length; positionIndex++) {
+                        if (course.course_data[lineIndex].SameLine[pageIndex].CourseFragment[positionIndex].CourseElement.id !== null &&
+                            course.course_data[lineIndex].SameLine[pageIndex].CourseFragment[positionIndex].CourseElement.id !== "") {
+                            return {
+                                page: pageIndex,
+                                line: lineIndex,
+                                position: positionIndex
+                            }; // Возвращаем позицию первого непустого элемента
+                        }
+                    }
+                }
+            }
+            return null; // Если ничего не найдено
+        }
+
+        const positionOfFirstElement = findFirstNonEmptyCourseElementPosition(courseData)
+        if (!positionOfFirstElement) {
+            return;
+        }
+        console.log(positionOfFirstElement)
+
+        onChangePosition({
+            activePage: positionOfFirstElement.page + 1,
+            selectedPage: positionOfFirstElement.page + 1,
+            selectedRow: positionOfFirstElement.line,
+            selectedIndex: positionOfFirstElement.position,
+        })
+    }
 
     return (
         <>
             <Card variant="outlined"
+                  onClick={openCourse}
                   sx={{
                       borderRadius: "12px",
-                      boxShadow: `0 0 42px 0 ${colorAfterCorrectionWithAlpha}`,
                       width: 360,
+                      display: 'flex',
+                      flexDirection: 'row',
+                      minHeight: '150px',
                   }}
             >
-                <Card
-                    onClick={() => setIsOpen(!isOpen)}
-                    sx={{
-                        height: 170,
-                        padding: 0,
-                        backgroundColor: colorAfterCorrection,
-                        borderRadius: "12px",
-                        boxShadow: `0 0 42px 0 ${colorAfterCorrectionWithAlpha}`,
-                    }}
-                    variant="elevation">
-                    <CardActionArea>
-                        <Stack direction="row" alignItems="stretch">
-                            <Box sx={{
-                                height: 171,
-                                width: 170,
-                                padding: 0,
-                                backgroundSize: "cover",
-                                backgroundPosition: "center",
-                                backgroundImage: courseData?.cards_cardcourseimage?.image ? `url(${FILE_URL}/cards-course-images/course/${courseData.id}_small), url(${REST_SERVER_URL}/page/course/resize-course-image?image_url=${FILE_URL}/${courseData?.cards_cardcourseimage?.image}&course_id=${courseData.id})` : "none",
-                                cacheControl: "public,max-age=31536000,immutable",
-                                loading: "lazy",
-                                decoding: "async"
-
-                            }}>
-                                <Box sx={{
-                                    height: 171,
-                                    width: 170,
-                                }}/>
-                            </Box>
-                            <Stack direction={"column"} sx={{p: 1}}>
-                                <Stack direction={"column"} justifyContent={"space-between"} sx={{height: 155}}>
-                                    <Typography variant={"h6"} sx={{fontSize: "1.15rem", wordSpace: "pre-wrap"}}>
-                                        {courseData.name}
-                                    </Typography>
-                                    <Stack alignItems={"end"} sx={{width: 174}}>
-                                        <IconButton onClick={() => setIsOpen(!isOpen)}>
-                                            <KeyboardArrowDownIcon/>
-                                        </IconButton>
-                                    </Stack>
-                                </Stack>
-                            </Stack>
-                        </Stack>
-                    </CardActionArea>
-                </Card>
-
-                <Collapse in={isOpen} unmountOnExit>
-                    <Box sx={{
-                        p: 0,
-                        width: 360,
-                        borderTop: "none",
-                        borderTopLeftRadius: "none",
-                        borderTopRightRadius: "none"
-                    }}>
-
-                        <CourseNavigation courseData={courseData} coursePosition={coursePosition}
-                                          onChangePosition={onChangePosition}/>
+                <Box sx={{
+                    width: '5px',
+                    backgroundColor: colorAfterCorrection,
+                    flexShrink: 0,
+                }}/>
+                <CardActionArea sx={{
+                    flexGrow: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    borderTopLeftRadius: 0,
+                    borderBottomLeftRadius: 0
+                }}>
+                    <Stack sx={{p: 2, width: '100%'}}>
+                        <Typography variant="h6" sx={{fontSize: "1.15rem"}}>
+                            {courseData.name}
+                        </Typography>
+                    </Stack>
+                    <Box sx={{p: 2, alignSelf: 'flex-end'}}>
+                        <Typography variant="caption" sx={{fontSize: "0.75rem", textAlign: 'right'}}>
+                            {courseData?.users_customuser?.users_userprofile?.firstname || ""}
+                            {" "}
+                            {courseData?.users_customuser?.users_userprofile?.lastname || ""}
+                        </Typography>
                     </Box>
-                </Collapse>
+                </CardActionArea>
             </Card>
             {
                 coursePosition &&

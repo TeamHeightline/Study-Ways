@@ -1,13 +1,10 @@
-import * as Actions from "./actions";
 import {getExamResults} from "../../../../ServerLayer/QueryLayer/exam.query";
+import {createAsyncThunk} from "@reduxjs/toolkit";
 
-export const loadExamResultsAsync = (exam_id: number) => async (dispatch: any) => {
-    dispatch(Actions.startLoadingExamResults())
-    return getExamResults(exam_id)
-        .then((users_results) => {
-            dispatch(Actions.examResultsLoadSuccess(users_results))
-        })
-        .catch((error) => {
-            dispatch(Actions.examResultsLoadFail(error))
-        })
-}
+
+export const loadExamResultsAsync = createAsyncThunk(
+    'examResults/load',
+    async (exam_id: number, {dispatch}) => {
+        return getExamResults(exam_id);
+    }
+);

@@ -15,6 +15,7 @@ export default function UiExamTableHead({...props}: IUIExamsTableHeadProps) {
         <TableHead>
             <TableRow>
                 <TableCell/>
+                <TableCell/>
                 <TableCell>email пользователя</TableCell>
                 <TableCell>Фамилия и имя</TableCell>
                 {examResults && examResults[0]?.question_statuses?.map((question_status) => {

@@ -11,7 +11,7 @@ import UIExamUrls from "./ui-exam-urls";
 import {useSelector} from "react-redux";
 import {loadExamDataThunk} from "../redux-store/async-actions";
 import AutoSaveModule from "./auto-save-module";
-import ExamResultsByID from "../../../ExamResultsByID/UI/exam-results-by-id";
+import Index from "../../../ExamResultsByID/UI";
 import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
 import {RootState, useAppDispatch} from "../../../../../ReduxStore/RootStore";
 import UIAccessModeSelector from "./ui-access-mode-selector";
@@ -107,7 +107,7 @@ const ExamByID = observer(({exam_id, ...props}: IExamByIDProps) => {
             </Stack>
             <Divider>Статистика</Divider>
             {exam_id &&
-                <ExamResultsByID exam_id={Number(exam_id)}/>}
+                <Index exam_id={Number(exam_id)}/>}
         </Paper>
     )
 })

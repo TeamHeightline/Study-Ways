@@ -8,7 +8,7 @@ import {observer} from "mobx-react";
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import PersonalMenu from "./PersonalMenu";
 import HelpArticleByURL from "../../Pages/HelpArticle/HelpArticleByURL";
-
+import LoginIcon from '@mui/icons-material/Login';
 
 const IconMenu = observer(() => {
     const navigate = useNavigate();
@@ -31,7 +31,7 @@ const IconMenu = observer(() => {
                     <IconButton sx={{mx: 2}} onClick={() => {
                         loginWithPopup()
                     }}>
-                        <VpnKeyIcon/>
+                        <LoginIcon/>
                     </IconButton>}
 
 

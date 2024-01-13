@@ -6,6 +6,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import React from "react";
 import {IExamResult} from "../../../../ServerLayer/Types/exam.types";
 import UIExamEachAttemptTable from "./ui-exam-each-attempt-table";
+import BlockIcon from '@mui/icons-material/Block';
 
 interface IUIExamResultTableRowProps extends PaperProps {
     exam_result: IExamResult
@@ -13,6 +14,8 @@ interface IUIExamResultTableRowProps extends PaperProps {
 
 export default function UIExamResultTableRow({exam_result, ...props}: IUIExamResultTableRowProps) {
     const [isOpen, setIsOpen] = React.useState(false);
+
+
     return (
         <React.Fragment>
             <TableRow>
@@ -23,6 +26,14 @@ export default function UIExamResultTableRow({exam_result, ...props}: IUIExamRes
                         {isOpen ?
                             <KeyboardArrowUpIcon/> :
                             <KeyboardArrowDownIcon/>}
+                    </IconButton>
+                </TableCell>
+                <TableCell>
+                    <IconButton size="small"
+                                color={"error"}
+                                onClick={() => setIsOpen(!isOpen)}
+                    >
+                        <BlockIcon/>
                     </IconButton>
                 </TableCell>
                 <TableCell>{exam_result?.users_customuser?.username}</TableCell>

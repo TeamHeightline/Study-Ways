@@ -6,21 +6,22 @@ import {loadExamResultsAsync} from "../redux-store/async-actions";
 import UiExamTableHead from "./ui-exam-table-head";
 import UIExamsResultsTableBody from "./ui-exam-resuls-table-body";
 import UIAutoUpdateFlag from "./ui-auto-update-flag";
-import {changeExamID, createArrayForChart, createExamResultsOrderBySum} from "../redux-store/actions";
+// import {changeExamID, createArrayForChart, createExamResultsOrderBySum} from "../redux-store/actions";
 import UIExamFinalResultChart from "./ui-exam-final-result-chart";
 import ShowResultsBySumFlag from "./ui-show-results-by-sum-flag";
 import {RootState} from "../../../../ReduxStore/RootStore";
+import {changeExamId, createArrayForChart, createExamResultsOrderBySum} from "../redux-store/reducer";
 
 interface IExamResultsByIDProps extends PaperProps {
     exam_id: number;
 }
 
-export default function ExamResultsByID({exam_id, ...props}: IExamResultsByIDProps) {
+export default function Index({exam_id, ...props}: IExamResultsByIDProps) {
     const dispatch: any = useDispatch();
     const examResults = useSelector((state: RootState) => state?.examResultsByIDReducer?.exam_results)
 
     useEffect(() => {
-        dispatch(changeExamID(exam_id));
+        dispatch(changeExamId(exam_id));
         dispatch(loadExamResultsAsync(exam_id));
     }, [exam_id])
 

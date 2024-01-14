@@ -20,7 +20,7 @@ import {gql} from "graphql.macro";
 import {useQuery} from "@apollo/client";
 import {SERVER_BASE_URL} from "../../../settings";
 import urlParser from "js-video-url-parser";
-import CardMicroView from "../../Cards/CardView/CardMicroView";
+import CardMicroView from "../../Cards/CardMicroView";
 import InfoIcon from '@mui/icons-material/Info';
 import EditIcon from '@mui/icons-material/Edit';
 import {alpha} from "@mui/material/styles";

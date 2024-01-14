@@ -2,7 +2,7 @@ import {Box, Typography} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../ReduxStore/RootStore";
-import CardMicroView from "../../../../Pages/Cards/CardView/CardMicroView";
+import CardMicroView from "../../../../Pages/Cards/CardMicroView";
 import {useNavigate} from "react-router-dom";
 
 interface INotificationContentProps extends BoxProps {

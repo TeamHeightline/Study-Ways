@@ -4,7 +4,7 @@ import {UserStorage} from "../../../Store/UserStore/UserStore";
 import {useEffect} from "react";
 import {loadCardBookmarks} from "../Store/async-actions";
 import {useAppDispatch, useAppSelector} from "../../../ReduxStore/RootStore";
-import CardMicroView from "../../Cards/CardView/CardMicroView";
+import CardMicroView from "../../Cards/CardMicroView";
 import {useNavigate} from "react-router-dom";
 
 interface ICardBookmarksPageProps extends BoxProps {

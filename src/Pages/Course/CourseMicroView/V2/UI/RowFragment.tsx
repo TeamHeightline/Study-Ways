@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Box, IconButton, Popover, Stack} from "@mui/material";
-import CardMicroView from "../../../../Cards/CardView/CardMicroView";
+import CardMicroView from "../../../../Cards/CardMicroView";
 import {observer} from "mobx-react";
 import {CourseMicroStoreByID} from "../Store/CourseMicroStoreByID";
 import {useNavigate} from "react-router-dom";

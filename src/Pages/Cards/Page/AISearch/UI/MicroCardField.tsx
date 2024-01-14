@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import {Box, Grid} from "@mui/material";
-import CardMicroView from "../../../CardView/CardMicroView";
+import CardMicroView from "../../../CardMicroView";
 
 interface IMicoCardsFieldProps extends React.HTMLAttributes<HTMLDivElement> {
     cards_id: number[] | string[],

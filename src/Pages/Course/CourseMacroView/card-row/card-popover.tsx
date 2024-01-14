@@ -1,6 +1,6 @@
 import {Box, Popover} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
-import CardMicroView from "../../../Cards/CardView/CardMicroView";
+import CardMicroView from "../../../Cards/CardMicroView";
 import React from "react";
 
 interface ICardPopoverProps extends BoxProps {

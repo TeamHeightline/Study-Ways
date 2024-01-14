@@ -2,7 +2,7 @@ import Grid from "@mui/material/Grid/Grid";
 import {observer} from "mobx-react";
 import React from 'react';
 import {CSSObject} from "../Store/CardSelectorStore";
-import CardMicroView from "../../CardView/CardMicroView";
+import CardMicroView from "../../CardMicroView";
 import {CreateCard} from "./CreateCard";
 import {Box} from "@mui/material";
 

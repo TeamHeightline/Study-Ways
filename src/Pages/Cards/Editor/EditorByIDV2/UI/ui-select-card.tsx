@@ -3,7 +3,7 @@ import React from 'react';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import {CESObject} from "../Store/CardEditorStorage";
-import CardMicroView from "../../../CardView/CardMicroView";
+import CardMicroView from "../../../CardMicroView";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import ClearIcon from "@mui/icons-material/Clear";
 import TransparentTooltip from "../../../../../CustomHooks/TransparentTooltip";

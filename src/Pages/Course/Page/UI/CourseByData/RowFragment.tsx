@@ -4,7 +4,7 @@ import {observer} from "mobx-react";
 
 import NoiseControlOffIcon from '@mui/icons-material/NoiseControlOff';
 import {CourseElement, ICoursePosition} from "./types";
-import CardMicroView from "../../../../Cards/CardView/CardMicroView";
+import CardMicroView from "../../../../Cards/CardMicroView";
 
 
 interface RowFragmentI {

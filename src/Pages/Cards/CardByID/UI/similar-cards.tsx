@@ -3,7 +3,7 @@ import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Grid, Paper, Stack, Typography} from "@mui/material";
 import {CardByIDStore} from "../Store/CardByIDStore";
-import CardMicroView from "../../CardView/CardMicroView";
+import CardMicroView from "../../CardMicroView";
 import {useNavigate} from "react-router-dom";
 
 

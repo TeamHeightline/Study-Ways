@@ -13,6 +13,8 @@ import cardBookmarksSlice from "../Pages/CardBookmarks/Store/card-bookmarks-slic
 import helpArticleEditorPageSlice from "../Pages/HelpArticle/EditorPage/redux-store";
 import helpArticleByURLSlice from "../Pages/HelpArticle/HelpArticleByURL/redux-store"
 import userGroupEditorPageSlice from "../Pages/UserGroups/EditorPage/store";
+import cardMicroViewSlice from "../Pages/Cards/CardMicroView/store"
+
 import {userGroupApi} from "../Pages/UserGroups/EditorPage/store/api";
 
 enableMapSet()
@@ -30,6 +32,7 @@ export const RootReducer = combineReducers({
     helpArticleEditor: helpArticleEditorPageSlice,
     helpArticleByURL: helpArticleByURLSlice,
     userGroupEditor: userGroupEditorPageSlice,
+    cardMicroView: cardMicroViewSlice,
     [userGroupApi.reducerPath]: userGroupApi.reducer,
 });
 

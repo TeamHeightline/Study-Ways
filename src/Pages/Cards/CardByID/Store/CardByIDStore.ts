@@ -10,7 +10,7 @@ import {
     REMOVE_CARD_FROM_BOOKMARK,
     SET_RATING
 } from "./Query";
-import {SERVER_BASE_URL} from "../../../../settings";
+import {FILE_URL, SERVER_BASE_URL} from "../../../../settings";
 import {ICourseLine} from "../../../Course/EditCourseByID/EditCourseByID";
 import {positionDataI} from "../../../Course/CourseMicroView/V2/Store/CourseMicroStoreByID";
 import React, {RefObject} from "react";
@@ -22,10 +22,15 @@ import recombee from 'recombee-js-api-client';
 
 export class CardByIDStore {
     constructor(id?: number) {
+        this.id = id
+        this.loadCardData()
+
         makeAutoObservable(this)
-        autorun(() => this.loadCardData())
-        autorun(() => this.getCardImageURL())
-        autorun(() => this.getAllCoursesData())
+        reaction(() => this?.id, () => this.loadCardData())
+        reaction(() => this?.card_data?.id, () => this.getCardImageURL())
+
+        this.getAllCoursesData()
+        // autorun(() => this.getCardImageURL())
         autorun(() => this.collectFindInCourseNotification())
         autorun(() => this.updateRatingAndISBookmarked())
         autorun(() => this.loadThemesAncestors())
@@ -46,7 +51,6 @@ export class CardByIDStore {
             this.is_test_in_card_closed = false
         })
 
-        this.id = id
     }
 
     is_test_in_card_closed = false
@@ -61,7 +65,7 @@ export class CardByIDStore {
         }
     }
 
-    loadCardData(useCache = true) {
+    loadCardData() {
         if (this.id) {
             try {
                 this.clientStorage.client.query<Query>({
@@ -69,16 +73,13 @@ export class CardByIDStore {
                     variables: {
                         id: this.id
                     },
-                    fetchPolicy: useCache ? "cache-first" : "network-only",
+                    fetchPolicy: "network-only",
                 })
                     .then((response) => response.data.cardById)
                     .then((card_data) => {
                         if (card_data && this.id == Number(card_data?.id)) {
                             this.card_data = card_data
 
-                        }
-                        if (useCache) {
-                            this.loadCardData(false)
                         }
                     })
             } catch (e) {
@@ -145,7 +146,7 @@ export class CardByIDStore {
 
     get defaultCardImageURL() {
         if (this?.card_data?.id) {
-            return ("https://storage.googleapis.com/sw-files/cards-images/card/" + this?.card_data?.id)
+            return (FILE_URL + "/cards-images/card/" + this?.card_data?.id)
         } else {
             return ("")
         }
@@ -165,11 +166,11 @@ export class CardByIDStore {
         }
     }
 
-    getCardImageURL = (useCache = true) => {
+    getCardImageURL = () => {
         const card_id_for_request = Number(this?.card_data?.id)
         if (card_id_for_request) {
             fetch(SERVER_BASE_URL + "/cardfiles/card?id=" + Number(card_id_for_request),
-                {cache: useCache ? "force-cache" : "default"})
+                {cache: "default"})
                 .then((response) => response.json())
                 .then((data) => {
                     if (card_id_for_request == Number(this?.card_data?.id)) {
@@ -178,27 +179,21 @@ export class CardByIDStore {
                             card_id: card_id_for_request
                         }
                     }
-                    if (useCache) {
-                        this.getCardImageURL(false)
-                    }
                 })
                 .catch(() => void (0))
         }
     }
 
-    getAllCoursesData(useCache = true) {
+    getAllCoursesData() {
         this.clientStorage.client.query({
             query: GET_ALL_COURSE,
-            fetchPolicy: useCache ? "cache-only" : "network-only",
+            fetchPolicy: "network-only",
             variables: {}
         })
             .then((response) => response.data.cardCourse)
             .then((courses_data) => {
                 if (courses_data !== toJS(this.allCoursesData)) {
                     this.allCoursesData = courses_data
-                }
-                if (useCache) {
-                    this.getAllCoursesData(false)
                 }
             })
             .catch((e) => console.log(e))
@@ -259,7 +254,7 @@ export class CardByIDStore {
             })
                 .then((response) => response?.data?.removeCardFromBookmark)
                 .then(() => {
-                    this.loadCardData(false)
+                    this.loadCardData()
                 })
                 .catch((e) => console.log(e))
 
@@ -276,7 +271,7 @@ export class CardByIDStore {
                 .then((response) => response?.data?.addCardToBookmark)
                 .then((response) => {
                     if (response?.ok) {
-                        this.loadCardData(false)
+                        this.loadCardData()
                     }
                 })
                 .catch((e) => console.log(e))
@@ -295,7 +290,7 @@ export class CardByIDStore {
                 .then((response) => response?.data?.setCardRating)
                 .then((response) => {
                     if (response?.ok) {
-                        this.loadCardData(false)
+                        this.loadCardData()
                     }
                 })
                 .catch((e) => console.log(e))

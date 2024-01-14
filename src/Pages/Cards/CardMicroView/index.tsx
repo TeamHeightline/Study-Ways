@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import {Box, CardActionArea, Chip, Divider, Skeleton, Stack, Tooltip} from "@mui/material";
-import {useQuery} from "@apollo/client";
+import {Box, CardActionArea, Chip, Skeleton, Stack, Tooltip} from "@mui/material";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import HttpIcon from '@mui/icons-material/Http';
 import ImageIcon from '@mui/icons-material/Image';
@@ -13,13 +12,11 @@ import SchoolIcon from '@mui/icons-material/School';
 import BiotechIcon from '@mui/icons-material/Biotech';
 import ArchitectureIcon from '@mui/icons-material/Architecture';
 import FunctionsIcon from '@mui/icons-material/Functions';
-import {GET_CARD_FOR_MICRO_VIEW_BY_ID} from "./UI/Struct"
 import urlParser from "js-video-url-parser";
 import "js-video-url-parser/lib/provider/youtube";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import ThemeStoreObject from "../../../global-theme";
 import ReactPlayer from "react-player";
-import {isMobileHook} from "../../../CustomHooks/isMobileHook";
 import {useAppSelector} from "../../../ReduxStore/RootStore";
 import {CardType} from "./store/type";
 import {FILE_URL} from "../../../settings";
@@ -50,7 +47,7 @@ export default function CardMicroView({
     // }, [isEditNow, isNowEditableCard])
     const card_hash_map = useAppSelector(state => state.cardMicroView.card_hash_map)
 
-    const isMobile = isMobileHook()
+    const isMobile = true
 
     const card_data = card_hash_map[String(cardID)] || null as CardType | null
 
@@ -70,8 +67,8 @@ export default function CardMicroView({
                 <Card variant="outlined"
                       sx={{
                           display: 'flex',
-                          width: "400px",
-                          height: "170px"
+                          width: 300,
+                          height: 340,
                       }}
                       onClick={() => {
                           onChange(cardID)
@@ -87,16 +84,16 @@ export default function CardMicroView({
             <Card variant={isDarkTheme ? "outlined" : "elevation"}
                   sx={{
                       display: 'flex',
-                      width: {xs: 300, md: 400},
-                      height: {xs: 340, md: 170},
-                      // border: "none"
+                      width: 300,
+                      height: 340,
+                      borderRadius: "12px",
                   }}
                   onClick={() => {
                       onChange(cardID)
                   }}>
                 <CardActionArea sx={{height: "100%"}}>
-                    <Stack direction={{xs: "column", md: "row"}}>
-                        <Box>
+                    <Stack direction={"column"}>
+                        <Box sx={{height: 170}}>
                             {Number(card_data.card_content_type) === 0 && card_data?.video_url &&
                                 <div
                                     onPointerEnter={() => {
@@ -121,13 +118,13 @@ export default function CardMicroView({
                                         :
                                         <CardMedia
                                             sx={{
-                                                width: {xs: 300, md: 132},
-                                                height: 170,
+                                                width: 300,
+                                                height: 167,
                                                 cacheControl: "public,max-age=31536000,immutable",
                                                 loading: "lazy",
                                                 decoding: "async",
                                                 backgroundSize: "cover",
-                                                backgroundPosition: "center"
+                                                backgroundPosition: "center",
 
                                             }}
                                             onError={() => void (0)}
@@ -141,8 +138,7 @@ export default function CardMicroView({
                                     Number(card_data.card_content_type) === 2) &&
                                 <CardMedia
                                     sx={{
-                                        // width: 300,
-                                        width: {xs: 300, md: 132},
+                                        width: 300,
                                         height: 170,
                                     }}
                                     onError={() => void (0)}

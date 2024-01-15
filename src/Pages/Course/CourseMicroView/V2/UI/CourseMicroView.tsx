@@ -63,37 +63,9 @@ const CourseMicroView = observer(({
                  overflowX: isMobile ? "auto" : undefined,
                  maxWidth: isMobile ? window.innerWidth - 40 : ""
              }}>
-            <Card style={{padding: 0, width: 550}} variant="outlined">
+            <Card style={{padding: 0, width: 500}} variant="outlined">
 
                 <Stack direction="row" alignItems="stretch">
-                    <Tooltip
-                        title={<div>{courseStore?.courseName?.toUpperCase()}</div>}>
-                        <CardActionArea
-                            sx={{
-                                backgroundSize: "cover",
-                                backgroundPosition: "center",
-                                backgroundImage: courseStore.courseImage ?
-                                    "url(" + courseStore.courseImage + ")" :
-                                    "url('https://storage.googleapis.com/sw-files/cards-course-images/course/'" +
-                                    courseStore.id + ")",
-
-                                cacheControl: "public,max-age=31536000,immutable",
-                                loading: "lazy",
-                                decoding: "async"
-                            }}
-                            onClick={() => {
-                                navigate("/course?" + "id=" + course_id +
-                                    "&activePage=1" +
-                                    "&selectedPage=1" +
-                                    "&selectedRow=0" +
-                                    "&selectedIndex=0")
-                            }}
-                        >
-                            <div style={{
-                                width: 200,
-                            }}/>
-                        </CardActionArea>
-                    </Tooltip>
                     <CourseNavigation courseStore={courseStore}/>
                 </Stack>
             </Card>

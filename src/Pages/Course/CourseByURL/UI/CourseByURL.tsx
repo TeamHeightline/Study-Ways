@@ -37,21 +37,20 @@ const CourseByURL = observer(({...props}: ICourseByURLProps) => {
         <Box>
             <Stack direction={"row"}
                    sx={{width: window.innerWidth * String(activeCardID)?.split(",")?.length}} {...props}>
-                <Stack direction={"column"}>
-                    {!isMobile ?
-                        <CourseMacroView courseID={Number(queryParams.get("id"))} positionData={position_data}
-                                         onCardSelect={changeSelectedCardID}/> :
+                <Box sx={{width: window.innerWidth}}>
+                    <CourseMicroView
+                        onCardSelect={(card_id) => {
+                            changeSelectedCardID(card_id)
+                        }}
+                        course_id={Number(queryParams.get("id"))}
+                        position_data={position_data}
+                        showArrowNavigation
+                    />
 
-                        <CourseMicroView
-                            onCardSelect={(card_id) => {
-                                changeSelectedCardID(card_id)
-                            }}
-                            course_id={Number(queryParams.get("id"))}
-                            position_data={position_data}
-                            showArrowNavigation
-                        />}
-                    <CardByID card_id={Number(String(activeCardID)?.split(",")[0])}/>
-                </Stack>
+                    <CardByID is_hidden_go_back_button is_hidden_navigation
+                              card_id={Number(String(activeCardID)?.split(",")[0])}/>
+                </Box>
+
                 {String(activeCardID)?.split(",").map((card_id, index) => {
                     if (index > 0) {
                         return (

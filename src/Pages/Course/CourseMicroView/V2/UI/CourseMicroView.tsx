@@ -64,10 +64,7 @@ const CourseMicroView = observer(({
                  maxWidth: isMobile ? window.innerWidth - 40 : ""
              }}>
             <Card style={{padding: 0, width: 500}} variant="outlined">
-
-                <Stack direction="row" alignItems="stretch">
-                    <CourseNavigation courseStore={courseStore}/>
-                </Stack>
+                <CourseNavigation courseStore={courseStore}/>
             </Card>
             {/*{showArrowNavigation && <ArrowNavigation courseStore={courseStore}/>}*/}
 

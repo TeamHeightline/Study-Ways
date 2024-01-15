@@ -22,7 +22,7 @@ const CourseNavigation = observer(({courseStore}: CourseNavigationProps) => {
             <div>
                 <Typography
                     variant={"subtitle2"}
-                    sx={{p: 1}}>
+                    sx={{p: 1, width: 500}}>
                     {courseStore?.courseName}
                 </Typography>
                 <Divider/>
@@ -33,7 +33,7 @@ const CourseNavigation = observer(({courseStore}: CourseNavigationProps) => {
                         )
                     })}
 
-                    <Box sx={{width: '500px'}}>
+                    <Box sx={{width: 500}}>
                         <Pagination
                             sx={{p: 1, width: '100%'}}
 

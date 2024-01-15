@@ -19,7 +19,7 @@ const CardTheme = observer(({card_store, ...props}: ICardThemeProps) => {
         <Paper elevation={0} {...props}>
             {isShowTheme &&
                 <Stack direction={"row"}>
-                    <AccountTreeIcon/>
+                    <AccountTreeIcon sx={{mr: 1}}/>
                     {themeArray?.map((theme) => {
                         return (
                             <ThemeWithAncestor

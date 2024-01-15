@@ -15,13 +15,10 @@ const ThemeWithAncestor = observer(({themeObject, card_store, ...props}: IThemeW
     return (
         <Paper elevation={0} {...props}>
             <Tooltip
-                title={
-                    <Typography>
-                        {card_store
-                            .onThemeHover(String(themeObject.id))
-                            ?.map((theme) => theme?.text)
-                            ?.join(" / ")}
-                    </Typography>}>
+                title={card_store
+                    .onThemeHover(String(themeObject.id))
+                    ?.map((theme) => theme?.text)
+                    ?.join(" / ")}>
                 <Typography sx={{hyphens: "auto"}}>
                     {themeObject.text}
                 </Typography>

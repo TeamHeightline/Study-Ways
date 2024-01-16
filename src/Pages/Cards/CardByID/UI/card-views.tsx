@@ -12,21 +12,25 @@ interface ICardViewsProps extends BoxProps {
 export default function CardViews({card_id, ...props}: ICardViewsProps) {
     const [views, setViews] = useState<null | number>(null);
     useEffect(() => {
-        axiosClient.get('/page/card-page/card-views/' + card_id)
-            .then((response) => {
-                if (response.data) {
-                    setViews(response.data)
-                }
-            })
+        if (card_id) {
+            axiosClient.get('/page/card-page/card-views/' + card_id)
+                .then((response) => {
+                    if (response.data) {
+                        setViews(response.data)
+                    }
+                })
+        }
     }, [card_id])
 
     useEffect(() => {
-        axiosClient.get('/page/card-page/card-views/' + card_id)
-            .then((response) => {
-                if (response.data) {
-                    setViews(response.data)
-                }
-            })
+        if (card_id) {
+            axiosClient.get('/page/card-page/card-views/' + card_id)
+                .then((response) => {
+                    if (response.data) {
+                        setViews(response.data)
+                    }
+                })
+        }
     }, [])
 
     return (

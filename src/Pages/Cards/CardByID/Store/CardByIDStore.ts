@@ -36,16 +36,20 @@ export class CardByIDStore {
         autorun(() => this.loadThemesAncestors())
         autorun(() => this.loadSimilarCards())
         reaction(() => this.id, () => {
-            // @ts-ignore
-            recombeeClient.send(new recombee.AddDetailView(UserStorage.userIDForRecombee, this.id, {
-                'cascadeCreate': true
-            }));
+            if (this.id && UserStorage.userIDForRecombee) {
+                // @ts-ignore
+                recombeeClient.send(new recombee.AddDetailView(UserStorage.userIDForRecombee, this.id, {
+                    'cascadeCreate': true
+                }));
+            }
         })
         reaction(() => UserStorage.userIDForRecombee, () => {
-            // @ts-ignore
-            recombeeClient.send(new recombee.AddDetailView(UserStorage.userIDForRecombee, this.id, {
-                'cascadeCreate': true
-            }));
+            if (this.id && UserStorage.userIDForRecombee) {
+                // @ts-ignore
+                recombeeClient.send(new recombee.AddDetailView(UserStorage.userIDForRecombee, this.id, {
+                    'cascadeCreate': true
+                }));
+            }
         })
         reaction(() => this.id, () => {
             this.is_test_in_card_closed = false
@@ -66,7 +70,7 @@ export class CardByIDStore {
     }
 
     loadCardData() {
-        if (this.id) {
+        if (Number(this?.id)) {
             try {
                 this.clientStorage.client.query<Query>({
                     query: LOAD_CARD_DATA_BY_ID,

@@ -29,7 +29,11 @@ export default function UIQuestionText({...props}: IUIQuestionTextProps) {
 
     return (
         <Grid item xs={12} md={6}
-              style={{height: isMobile ? window.innerWidth - 100 : 500, width: "100%"}}>
+              style={{
+                  height: isMobile ? "100%" : 500,
+                  width: "100%",
+                  minHeight: isMobile ? window.innerWidth - 100 : 500
+              }}>
             <UiComebackLaterDialog isOpenComeBackLaterDialog={isOpenComeBackLaterDialog}
                                    setIsOpenComeBackLaterDialog={setIsOpenComeBackLaterDialog}/>
             <CardContent sx={{height: "100%"}}>

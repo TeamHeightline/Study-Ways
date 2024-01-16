@@ -25,7 +25,7 @@ export default function UIQuestion({...props}: IUIQuestionProps) {
             <Card variant="outlined"
                   sx={{
                       padding: 0,
-                      maxHeight: isMobile ? window.innerWidth * 2 : 510,
+                      maxHeight: isMobile ? "100%" : 510,
                       overflowY: "auto",
                       width: "100%"
                   }}>

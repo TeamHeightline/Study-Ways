@@ -4,6 +4,7 @@ import {useSelector} from "react-redux";
 import {RootState, useAppDispatch} from "../../../../ReduxStore/RootStore";
 import {removeOneMinute} from "../redux-store/ExamPlayerSlice";
 import useInterval from "./ui-use-interval";
+import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 
 interface IUIExamNameProps extends PaperProps {
 
@@ -12,6 +13,8 @@ interface IUIExamNameProps extends PaperProps {
 export default function UIExamName({...props}: IUIExamNameProps) {
     const examName = useSelector((state: RootState) => state?.examPlayer?.exam_data?.name)
     const dispatch = useAppDispatch()
+    const isMobile = isMobileHook()
+
 
     useInterval(() => {
         dispatch(removeOneMinute())
@@ -20,7 +23,7 @@ export default function UIExamName({...props}: IUIExamNameProps) {
     return (
         <Paper elevation={0} {...props}>
             <Stack alignItems={"center"}>
-                <Typography variant={"h2"}>
+                <Typography variant={isMobile ? "body1" : "h2"}>
                     {examName}
                 </Typography>
             </Stack>

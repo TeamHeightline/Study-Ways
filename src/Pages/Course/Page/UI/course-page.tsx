@@ -3,7 +3,7 @@ import {BoxProps} from "@mui/material/Box/Box";
 import React, {useEffect} from "react";
 import {RootState, useAppDispatch} from "../../../../ReduxStore/RootStore";
 import {useSelector} from "react-redux";
-import CourseByData from "./CourseByData/CourseMicroView";
+import CourseByData from "./CourseByData";
 import {Helmet} from "react-helmet";
 import {loadCourseDataThunk} from "../redux-store/async-functions";
 import {useNavigate} from "react-router-dom";

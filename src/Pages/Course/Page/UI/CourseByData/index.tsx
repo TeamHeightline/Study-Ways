@@ -60,12 +60,15 @@ export default function CourseByData({courseData, coursePosition, onChangePositi
         })
     }
 
+    const isCourseHasImage = !!courseData?.cards_cardcourseimage?.image
+    const courseImageUrl = FILE_URL + "/" + courseData?.cards_cardcourseimage?.image
+
     return (
         <>
             <Card variant="outlined"
                   onClick={openCourse}
                   sx={{
-                      borderRadius: "12px",
+                      borderRadius: 1.5,
                       width: 360,
                       display: 'flex',
                       flexDirection: 'row',
@@ -85,10 +88,26 @@ export default function CourseByData({courseData, coursePosition, onChangePositi
                     borderTopLeftRadius: 0,
                     borderBottomLeftRadius: 0
                 }}>
-                    <Stack sx={{p: 2, width: '100%'}}>
+                    <Stack sx={{p: 2, width: '360px'}}
+                           spacing={1}
+                           direction={"row"}
+                           justifyContent={"space-between"}>
                         <Typography variant="h6" sx={{fontSize: "1.15rem"}}>
                             {courseData.name}
                         </Typography>
+                        {isCourseHasImage &&
+                            <Box>
+                                <Box sx={{
+                                    height: "100px",
+                                    width: "100px",
+                                    borderRadius: 2,
+                                    backgroundColor: "black",
+                                    backgroundImage: `url(${courseImageUrl})`,
+                                    backgroundSize: "cover",
+                                    backgroundPosition: "center",
+                                    display: "block"
+                                }}/>
+                            </Box>}
                     </Stack>
                     <Box sx={{p: 2, alignSelf: 'flex-end'}}>
                         <Typography variant="caption" sx={{fontSize: "0.75rem", textAlign: 'right'}}>

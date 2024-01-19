@@ -5,11 +5,11 @@ import {UserStorage} from "../../../../../Store/UserStore/UserStore";
 
 export async function getAutocompleteCardDataAsync(searchString: string | undefined, filterString: string | undefined = undefined, callBackFn?: (data: any) => void, numberOfCards: number = 10) {
     console.log(searchString)
-    if (searchString) {
+    if (searchString && UserStorage.userIDForRecombee) {
         // @ts-ignore
         recombeeClient.send(new recombee.SearchItems(
-                UserStorage.userIDForRecombee,
-                searchString || undefined,
+                String(UserStorage.userIDForRecombee),
+                searchString,
                 numberOfCards,
                 {
                     'scenario': 'Search-Card',

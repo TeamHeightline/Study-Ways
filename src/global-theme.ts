@@ -101,24 +101,6 @@ class ThemeStore {
                         root: {
                             fontFamily: "Nunito, sans-serif"
                         },
-                        h6: {
-                            fontWeight: "bold"
-                        },
-                        h5: {
-                            fontWeight: "bold"
-                        },
-                        h4: {
-                            fontWeight: "bold"
-                        },
-                        h3: {
-                            fontWeight: "bold"
-                        },
-                        h2: {
-                            fontWeight: "bold"
-                        },
-                        h1: {
-                            fontWeight: "bold"
-                        }
                     }
                 },
                 MuiButton: this.isOffButtonShiny ? {} : {

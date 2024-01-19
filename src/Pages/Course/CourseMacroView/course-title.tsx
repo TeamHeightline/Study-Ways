@@ -6,10 +6,10 @@ interface ICourseTitleProps extends BoxProps {
 }
 
 export default function CourseTitle({courseData, ...props}: ICourseTitleProps) {
-    
+
     return (
         <Box {...props}>
-            <Typography variant={"h5"} sx={{p: 1}}>
+            <Typography variant={"h5"} sx={{p: 0.5}}>
                 {courseData?.name.replace(/\[.*?\]/g, '')}
             </Typography>
         </Box>

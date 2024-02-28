@@ -1,9 +1,12 @@
-import React, {useState} from 'react'
-import {Button, CardActionArea, Container, Grid} from "@mui/material";
+import React, {useEffect, useState} from 'react'
+import {Box, Button, Card, CardActionArea, Container, Grid, Stack, Typography} from "@mui/material";
 import {gql} from "graphql.macro";
 import {useMutation, useQuery} from "@apollo/client";
 import EditCourseByID, {CourseLines} from "../EditCourseByID/EditCourseByID";
-import CourseMicroView from '../CourseMicroView/V2/UI/CourseMicroView';
+import {useSelector} from "react-redux";
+import {RootState, useAppDispatch} from "../../../ReduxStore/RootStore";
+import {loadCourseDataThunk} from "../Page/redux-store/async-functions";
+import {FILE_URL} from "../../../settings";
 
 
 const CREATE_COURSE_WITH_DEFAULT_VALUE = gql`
@@ -30,6 +33,10 @@ const GET_OWN_COURSE = gql`
 export default function MainCourseEditor() {
     const [isEditCourseNow, setIsEditCourseNow] = useState(false)
     const [selectedCourseID, setSelectedCourseID] = useState<any>()
+    const courses = useSelector((state: RootState) => state.coursePage.courses_data);
+    const dispatch = useAppDispatch()
+
+
     const [create_course] = useMutation(CREATE_COURSE_WITH_DEFAULT_VALUE,
         {
             variables: {
@@ -37,7 +44,11 @@ export default function MainCourseEditor() {
             }
         })
     const {data: own_course_data, refetch} = useQuery(GET_OWN_COURSE)
-    // console.log(own_course_data)
+
+    useEffect(() => {
+        dispatch(loadCourseDataThunk())
+    }, [])
+
     if (isEditCourseNow) {
         return (
             <EditCourseByID course_id={selectedCourseID} onChange={(data) => {
@@ -49,6 +60,10 @@ export default function MainCourseEditor() {
         )
     }
 
+
+    const myCoursesID = own_course_data?.me.cardcourseSet.map((course) => course.id)
+    const myCoursesData = courses?.filter((course) => myCoursesID?.includes(course.id))
+
     return (
         <div>
             <Container>
@@ -59,23 +74,61 @@ export default function MainCourseEditor() {
                     Создать новый курс
                 </Button>
                 <Grid container justifyContent="space-evenly" sx={{pt: 2}} style={{overflow: "auto"}}>
-                    {own_course_data?.me.cardcourseSet.map((course) => {
+                    {myCoursesData?.map((courseData) => {
+                        const isCourseHasImage = !!courseData?.cards_cardcourseimage?.image
+                        const courseImageUrl = FILE_URL + "/" + courseData?.cards_cardcourseimage?.image
                         return (
-                            <Grid item xs={"auto"} key={"CourseID" + course.id}>
-                                <CardActionArea
-                                    key={"CourseID" + course.id}
-                                    onClick={() => {
-                                        setSelectedCourseID(course.id)
-                                        setIsEditCourseNow(true)
-                                    }}>
-                                    <div style={{pointerEvents: 'none'}}>
-                                        <CourseMicroView
-                                            aria-disabled={true}
-                                            course_id={Number(course.id)}
-                                        />
-                                    </div>
+                            <Card variant="outlined"
+                                  onClick={() => {
+                                      setSelectedCourseID(courseData.id)
+                                      setIsEditCourseNow(true)
+                                  }}
+                                  sx={{
+                                      borderRadius: 1.5,
+                                      width: 360,
+                                      display: 'flex',
+                                      flexDirection: 'row',
+                                      minHeight: '150px',
+                                  }}
+                            >
+                                <CardActionArea sx={{
+                                    flexGrow: 1,
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'space-between',
+                                    borderTopLeftRadius: 0,
+                                    borderBottomLeftRadius: 0
+                                }}>
+                                    <Stack sx={{p: 2, width: '360px'}}
+                                           spacing={1}
+                                           direction={"row"}
+                                           justifyContent={"space-between"}>
+                                        <Typography variant="h6" sx={{fontSize: "1.15rem"}}>
+                                            {courseData.name}
+                                        </Typography>
+                                        {isCourseHasImage &&
+                                            <Box>
+                                                <Box sx={{
+                                                    height: "100px",
+                                                    width: "100px",
+                                                    borderRadius: 2,
+                                                    backgroundColor: "black",
+                                                    backgroundImage: `url(${courseImageUrl})`,
+                                                    backgroundSize: "cover",
+                                                    backgroundPosition: "center",
+                                                    display: "block"
+                                                }}/>
+                                            </Box>}
+                                    </Stack>
+                                    <Box sx={{p: 2, alignSelf: 'flex-end'}}>
+                                        <Typography variant="caption" sx={{fontSize: "0.75rem", textAlign: 'right'}}>
+                                            {courseData?.users_customuser?.users_userprofile?.firstname || ""}
+                                            {" "}
+                                            {courseData?.users_customuser?.users_userprofile?.lastname || ""}
+                                        </Typography>
+                                    </Box>
                                 </CardActionArea>
-                            </Grid>
+                            </Card>
                         )
                     })}
                 </Grid>

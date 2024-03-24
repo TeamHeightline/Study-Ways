@@ -61,8 +61,9 @@ export default function MainCourseEditor() {
     }
 
 
-    const myCoursesID = own_course_data?.me.cardcourseSet.map((course) => course.id)
-    const myCoursesData = courses?.filter((course) => myCoursesID?.includes(course.id))
+    const myCoursesID = own_course_data?.me.cardcourseSet.map((course) => Number(course.id))
+    const myCoursesData = courses?.filter((course) => myCoursesID?.includes(Number(course.id)))
+
 
     return (
         <div>

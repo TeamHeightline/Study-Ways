@@ -40,9 +40,9 @@ Pythod Django, в последствии замененный на Express js, T
 
 ![courses.png](screenshots%2Fcourses.png)
 
-![cards.png](screenshots%2Fcards.png)
+![cards_2.png](screenshots%2Fcards_2.png)
 
-![Снимок экрана 2023-10-22 в 13.58.47.png](screenshots%2F%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%202023-10-22%20%D0%B2%2013.58.47.png)
+![in_course.png](screenshots%2Fin_course.png)
 
 ![Снимок экрана 2023-10-22 в 14.00.04.png](screenshots%2F%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%202023-10-22%20%D0%B2%2014.00.04.png)
 

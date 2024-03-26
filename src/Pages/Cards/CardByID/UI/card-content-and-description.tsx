@@ -5,6 +5,7 @@ import {Grid, Paper} from "@mui/material";
 import CardMainContent from "./card-main-content";
 import {CardByIDStore} from "../Store/CardByIDStore";
 import CardDescription from "./card-description";
+import CardGoToResource from "./card-go-to-resourse";
 
 
 interface ICardContentAndDescriptionProps extends PaperProps {
@@ -21,6 +22,7 @@ const CardContentAndDescription = observer(({card_store, ...props}: ICardContent
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <CardDescription card_store={card_store}/>
+                    <CardGoToResource card_store={card_store}/>
                 </Grid>
             </Grid>
         </Paper>

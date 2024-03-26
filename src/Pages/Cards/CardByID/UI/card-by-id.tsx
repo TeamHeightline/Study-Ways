@@ -9,7 +9,7 @@ import CardNavigationRatingFind from "./card-navigation-rating-find-in-course";
 import CourseMicroView from "../../../Course/CourseMicroView/V2/UI/CourseMicroView";
 import SimilarCards from "./similar-cards";
 import CardBrowserIndexing from "./card-browser-indexing";
-import CardResourceIframe from "./card-resourse-iframe";
+import CardGoToResource from "./card-go-to-resourse";
 import CardHistoryDrawer from "../../../CardHistory/UI/card-history-drawer";
 import CardViews from "./card-views";
 import useWindowDimensions from "../../../../CustomHooks/useWindowDimensions";
@@ -55,7 +55,6 @@ const CardByID = observer(({
             <CardHistoryDrawer/>
             <CardNavigationRatingFind card_store={cardStore} sx={{pt: 1}}/>
             {/*<TestAfterCard card_store={cardStore} sx={{pt: 1}}/>*/}
-            <CardResourceIframe card_store={cardStore}/>
 
             <SimilarCards card_store={cardStore} sx={{pt: 1}}/>
 

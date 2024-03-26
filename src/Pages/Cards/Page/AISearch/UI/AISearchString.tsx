@@ -24,7 +24,7 @@ export const AISearchString = observer(() => {
 
     return (
         <Grid container justifyContent={"center"}>
-            <Grid item xs={12} md={6} sx={{pb: 2}}>
+            <Grid item xs={12} md={6} sx={{pb: 2, p: {xs: 1, md: 0}}}>
                 <Stack direction={"row"} spacing={2} sx={{width: "100%"}} alignItems={"center"}>
                     <Autocomplete
                         id="card-search"
@@ -54,7 +54,7 @@ export const AISearchString = observer(() => {
                         </IconButton>
                     </div>
                 </Stack>
-                <Stack direction={{xs: "column", md: "row"}} sx={{mt: 2, width: "100%"}} spacing={{xs: 2, md: 4}}>
+                <Stack direction={{xs: "column", lg: "row"}} sx={{mt: 2, width: "100%"}} spacing={{xs: 2}}>
                     <AIThemeFilter/>
                     <AIAuthorSelector/>
                     <AIHardLevelFilter/>

@@ -40,8 +40,6 @@ export const CardSelector = observer(({
                 <ConnectedThemes/>
                 <HardLevel/>
                 <ContentType/>
-                <div/>
-                <div/>
             </Stack>
             <MicroCardField showCreateNewCard={showCreateNewCard}/>
             <Pages/>

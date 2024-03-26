@@ -11,12 +11,13 @@ interface IMicoCardsFieldProps extends React.HTMLAttributes<HTMLDivElement> {
 export const MicoCardsField = observer(({cards_id, onCardSelect, ...props}: IMicoCardsFieldProps) => {
     return (
         <Box {...props} sx={{overflow: "auto"}}>
-            <Grid container spacing={2} justifyContent="space-evenly">
+            <Grid container spacing={2} justifyContent="center" sx={{p: {xs: 1, md: 0}}}>
                 {cards_id?.map((card_id) => {
                     return (
                         <Grid item
                               key={card_id + "CardKey"}
                               xs={12}
+                              sm={6}
                               md={"auto"}
                               onClick={() => {
                                   onCardSelect(card_id)

@@ -84,7 +84,7 @@ export default function CardMicroView({
             <Card variant={isDarkTheme ? "outlined" : "elevation"}
                   sx={{
                       display: 'flex',
-                      width: 300,
+                      width: {sm: 300, xs: "100%"},
                       height: 340,
                       borderRadius: "12px",
                   }}
@@ -113,12 +113,12 @@ export default function CardMicroView({
                                                      autoplay
                                                      url={card_data?.video_url}
                                                      height={170}
-                                                     width={isMobile ? 300 : 132}
+                                                     width={isMobile ? "100%" : 132}
                                         />
                                         :
                                         <CardMedia
                                             sx={{
-                                                width: 300,
+                                                width: {sm: 300, xs: "100%"},
                                                 height: 167,
                                                 cacheControl: "public,max-age=31536000,immutable",
                                                 loading: "lazy",
@@ -138,7 +138,7 @@ export default function CardMicroView({
                                     Number(card_data.card_content_type) === 2) &&
                                 <CardMedia
                                     sx={{
-                                        width: 300,
+                                        width: {sm: 300, xs: "100%"},
                                         height: 170,
                                     }}
                                     onError={() => void (0)}

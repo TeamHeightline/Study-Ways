@@ -23,7 +23,7 @@ const CardMainContent = observer(({card_store, ...props}: ICardMainContentProps)
     return (
         <Box>
             <GoToTestButton card_store={card_store}/>
-            <Card variant={"outlined"} sx={{height: {xs: "100%", md: 540}}} {...props}>
+            <Card variant={"outlined"} sx={{height: {xs: "53vw", md: 540}}} {...props}>
                 {isYoutubeContentType &&
                     <YoutubeContent card_store={card_store}/>}
                 {isShowImageContent &&

@@ -31,8 +31,8 @@ const YoutubeContent = observer(({card_store, ...props}: IYoutubeContentProps) =
                     right: 0
                 }}>
                     {showVideo &&
-                        <ReactPlayer width="auto"
-                                     height={isMobile ? 200 : 540}
+                        <ReactPlayer width={isMobile ? "95vw" : "auto"}
+                                     height={isMobile ? "53vw" : 540}
                                      controls
                                      url={youtubeVideoURL}
                                      onEnded={onEndVideoWatch}

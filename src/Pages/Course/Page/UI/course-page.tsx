@@ -29,12 +29,12 @@ export default function CoursePage({...props}: ICoursePageProps) {
             <UISearch/>
             <Grid container
                   sx={{pt: 2}}
-                  justifyContent={"space-evenly"}
-                  spacing={4}
+                  justifyContent={"center"}
+                  spacing={2}
                   rowSpacing={2}>
                 {courses?.map((course_data) => {
                     return (
-                        <Grid item key={course_data.id}>
+                        <Grid item key={course_data.id} xl={3} md={4} sm={6} xs={12}>
                             <CourseByData
                                 courseData={course_data}
                                 onChangePosition={(position) => {

@@ -69,10 +69,10 @@ export default function CourseByData({courseData, coursePosition, onChangePositi
                   onClick={openCourse}
                   sx={{
                       borderRadius: 1.5,
-                      width: 360,
+                      width: "100%",
+                      minHeight: 200,
                       display: 'flex',
                       flexDirection: 'row',
-                      minHeight: '150px',
                   }}
             >
                 <Box sx={{
@@ -88,7 +88,7 @@ export default function CourseByData({courseData, coursePosition, onChangePositi
                     borderTopLeftRadius: 0,
                     borderBottomLeftRadius: 0
                 }}>
-                    <Stack sx={{p: 2, width: '360px'}}
+                    <Stack sx={{p: 2, width: '100%'}}
                            spacing={1}
                            direction={"row"}
                            justifyContent={"space-between"}>

@@ -24,11 +24,14 @@ const CardImage = observer(({card_store, ...props}: ICardImageProps) => {
     return (
         <Card elevation={0} {...props}
               sx={{
-                  backgroundSize: "contain",
+                  backgroundSize: "cover",
+                  backgroundPositionX: "center",
+                  backgroundPositionY: "center",
                   backgroundRepeat: "no-repeat",
                   backgroundPosition: "center",
-                  width: "100%",
-                  height: {xs: 400, md: 540},
+                  width: {md: "100%", xs: "95vw"},
+                  height: {xs: 200, md: 540},
+                  // backgroundSize: "cover",
                   backgroundImage: card_image,
               }}>
             {isClickableImage &&

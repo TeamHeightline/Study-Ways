@@ -22,7 +22,7 @@ const GoToTestButton = observer(({card_store, ...props}: IGoToTestButtonProps) =
     return (
         <Paper elevation={0} {...props}>
             {card_store.card_data?.isCardUseTestInCard && card_store.card_data?.testInCard?.id &&
-                <Button color={"error"} fullWidth variant={"contained"} onClick={onGoToTestButtonClick}>
+                <Button sx={{mb: 1}} color={"error"} fullWidth variant={"contained"} onClick={onGoToTestButtonClick}>
                     К тесту
                 </Button>}
         </Paper>

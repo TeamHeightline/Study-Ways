@@ -28,7 +28,8 @@ const SimilarCards = observer(({card_store, ...props}: ISimilarCardsProps) => {
             <Grid container spacing={2} justifyContent={"space-around"}>
                 {card_store.similarCardsID?.map((cardID) =>
                     <Grid item key={cardID}>
-                        <CardMicroView cardID={Number(cardID)} onClick={onCardClick(cardID)}/>
+                        <CardMicroView cardID={Number(cardID)} onClick={onCardClick(cardID)} onChange={() => {
+                        }}/>
                     </Grid>
                 )}
             </Grid>

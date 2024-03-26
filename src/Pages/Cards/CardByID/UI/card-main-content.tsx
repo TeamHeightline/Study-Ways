@@ -6,6 +6,7 @@ import {CardByIDStore} from "../Store/CardByIDStore";
 import YoutubeContent from "./youtube-content";
 import CardImage from "./card-image";
 import GoToTestButton from "./go-to-test-button";
+import Card from "@mui/material/Card";
 
 
 interface ICardMainContentProps extends PaperProps {
@@ -22,13 +23,13 @@ const CardMainContent = observer(({card_store, ...props}: ICardMainContentProps)
     return (
         <Box>
             <GoToTestButton card_store={card_store}/>
-            <Paper elevation={0} sx={{height: {xs: 200, md: 540}}} {...props}>
+            <Card variant={"outlined"} sx={{height: {xs: "100%", md: 540}}} {...props}>
                 {isYoutubeContentType &&
                     <YoutubeContent card_store={card_store}/>}
                 {isShowImageContent &&
                     <CardImage card_store={card_store}/>
                 }
-            </Paper>
+            </Card>
         </Box>
     )
 })

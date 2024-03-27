@@ -2,6 +2,7 @@
 //10 августа, документация ОЧЕНЬ сильно устарела, вернее сказать, она в принципе ни как не связана с реальностью
 //22 января - проект переписывается на новую архитектуру, селекторы выделены в независимый слой, вся логика в сторах
 //8 июня - проект уже как минимум месяц пишется исключительно на Redux, MobX оказался плохим выбором
+// 27 марта 2024 - решил, что буду улучшать проект по 10 минут каждый рабочий день
 
 import React from 'react';
 import './App.css';
@@ -18,7 +19,6 @@ import {CircularProgress, Grid} from "@mui/material";
 import SeoData from "./seo-data";
 import AppRoutes from "./Routers/PublicRouter";
 import AppHook from "./app.hook";
-import RouteChangeTracker from "./SharedComponents/GoogleAnalitics";
 import {useLoadCardsDataForMicroView} from "./Pages/Cards/CardMicroView/store/hooks";
 
 const App = observer(() => {
@@ -37,7 +37,6 @@ const App = observer(() => {
         <>
             <ApolloProvider client={ClientStorage.client}>
                 <Router>
-                    <RouteChangeTracker/>
                     <Navibar/>
                     <SeoData/>
                     <AppRoutes/>

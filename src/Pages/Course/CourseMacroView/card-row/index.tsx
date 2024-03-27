@@ -73,6 +73,10 @@ export default function CardRow({
 
     const open = Boolean(anchorEl);
 
+    if (course_items.filter((item) => !isEmptyCardItem(item)).length === 0) {
+        return null
+    }
+
     return (
         <Box {...props}>
 

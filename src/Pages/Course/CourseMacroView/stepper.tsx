@@ -11,7 +11,7 @@ interface ICourseSliderProps extends StackProps {
     courseData: any
 }
 
-export default function CourseSlider({activePage, setActivePage, courseData, ...props}: ICourseSliderProps) {
+export default function Stepper({activePage, setActivePage, courseData, ...props}: ICourseSliderProps) {
 
     return (
         <Box sx={{p: 1}} {...props}>

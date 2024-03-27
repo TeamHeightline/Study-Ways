@@ -5,11 +5,11 @@ interface ICourseTitleProps extends BoxProps {
     courseData: any
 }
 
-export default function CourseTitle({courseData, ...props}: ICourseTitleProps) {
+export default function Title({courseData, ...props}: ICourseTitleProps) {
 
     return (
         <Box {...props}>
-            <Typography variant={"h5"} sx={{p: 0.5}}>
+            <Typography variant={"h5"}>
                 {courseData?.name.replace(/\[.*?\]/g, '')}
             </Typography>
         </Box>

@@ -7,7 +7,7 @@ interface ICourseImageProps extends BoxProps {
     HEIGHT_OF_COURSE_MACRO_VIEW: number
 }
 
-export default function CourseImage({courseData, courseID, HEIGHT_OF_COURSE_MACRO_VIEW, ...props}: ICourseImageProps) {
+export default function Image({courseData, courseID, HEIGHT_OF_COURSE_MACRO_VIEW, ...props}: ICourseImageProps) {
     const courseUrl = courseData?.cards_cardcourseimage?.image ?
         "url(https://storage.googleapis.com/study-ways-files/" + courseData.cards_cardcourseimage.image + ")"
         :

@@ -31,8 +31,8 @@ export default function CardPopover({open, anchorEl, handlePopoverClose, hovered
             >
                 <div>
 
-                    {hoveredItemID && String(hoveredItemID)?.split(",")?.map((cardID) =>
-                        <CardMicroView cardID={Number(cardID)}/>)}
+                    {hoveredItemID && String(hoveredItemID)?.split(",")?.map((cardID, index) =>
+                        <CardMicroView key={cardID + "___" + index} cardID={Number(cardID)}/>)}
                 </div>
 
             </Popover>

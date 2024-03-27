@@ -33,15 +33,17 @@ export default function CardViews({card_id, ...props}: ICardViewsProps) {
         }
     }, [])
 
+    if (views === null) {
+        return null
+    }
+
     return (
         <Box {...props}>
             <Stack direction={"row"} spacing={1} alignItems={"center"}>
                 <VisibilityIcon/>
-                {views === null ? <CircularProgress size={20}/> :
-                    <Typography>
-                        {views}
-                    </Typography>}
-
+                <Typography>
+                    {views}
+                </Typography>
             </Stack>
         </Box>
     )

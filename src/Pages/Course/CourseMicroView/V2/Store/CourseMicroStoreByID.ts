@@ -130,7 +130,6 @@ export class CourseMicroStoreByID {
                             if (matches && matches[1]) {
                                 this.mainLineIndex = Number(matches[1]) - 1
                             }
-                            console.log(this.mainLineIndex)
                         }
                     })
 

@@ -57,7 +57,7 @@ const CourseByURL = observer(({...props}: ICourseByURLProps) => {
                                   is_hidden_go_back_button
                                   is_hidden_similar_cards
                                   card_id={Number(card_id)}
-                                  key={card_id + "_" + index}/>
+                                  key={card_id + "___" + index}/>
 
                     )
                 })}

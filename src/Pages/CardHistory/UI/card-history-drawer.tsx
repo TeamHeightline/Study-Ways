@@ -49,8 +49,8 @@ export default function CardHistoryDrawer({...props}: ICardHistoryDrawerProps) {
             <SwipeableDrawer open={isOpen} onOpen={openHistoryDrawer} onClose={closeHistoryDrawer}
                              anchor={isMobile ? "bottom" : "right"} sx={{width: {xs: 300, md: 340}}}>
                 <Stack direction={"column"} spacing={1} sx={{mt: {md: 8}, width: {xs: 300, md: 340}}}>
-                    {recent_card_id_array?.map((card_id) =>
-                        <CardMicroView cardID={card_id} key={card_id} onClick={() => {
+                    {recent_card_id_array?.map((card_id, index) =>
+                        <CardMicroView cardID={card_id} key={card_id + "____" + index} onClick={() => {
                             navigate("/card/" + card_id)
                             closeHistoryDrawer()
                         }}/>

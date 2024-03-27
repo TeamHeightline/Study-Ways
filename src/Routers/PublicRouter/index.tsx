@@ -108,9 +108,11 @@ export default function PublicRouter({...props}: IPublicRouterProps) {
                     <Routes>
                         {routes.map((route) => {
                             return (
-                                <Route path={route.path} element={<Suspense fallback={<div/>}>
-                                    {route.component}
-                                </Suspense>}/>
+                                <Route path={route.path}
+                                       key={route.path}
+                                       element={<Suspense fallback={<div/>}>
+                                           {route.component}
+                                       </Suspense>}/>
                             )
                         })}
                     </Routes>

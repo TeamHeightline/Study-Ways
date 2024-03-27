@@ -150,7 +150,8 @@ export default function CardMicroView({
                             <Stack direction={"column"} justifyContent="space-between"
                                    sx={{p: 1, height: "170px"}}>
                                 <Box sx={{display: "flex", flexDirection: "column", height: "100%"}}>
-                                    <Typography variant="body2" sx={{display: "flex", alignItems: "center"}}>
+                                    <Typography variant="body2" component={"div"}
+                                                sx={{display: "flex", alignItems: "center"}}>
                                         ID: {card_data?.id}
                                         {Number(card_data.card_content_type) === 0 &&
                                             <Chip id={"YouTube-icon"}

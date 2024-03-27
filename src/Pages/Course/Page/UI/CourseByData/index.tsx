@@ -50,7 +50,7 @@ export default function CourseByData({courseData, coursePosition, onChangePositi
         if (!positionOfFirstElement) {
             return;
         }
-        console.log(positionOfFirstElement)
+
 
         onChangePosition({
             activePage: positionOfFirstElement.page + 1,

@@ -93,7 +93,7 @@ export default function CardRow({
 
                     if (isLinkItem(item)) {
                         return (
-                            <Box>
+                            <Box key={itemIndex + "___" + item.id + "___" + index}>
                                 <LinkElement size={size} courseLink={item.course_link}/>
                             </Box>
                         )
@@ -101,7 +101,7 @@ export default function CardRow({
 
                     if (isEmptyCardItem(item)) {
                         return (
-                            <Box>
+                            <Box key={itemIndex + "___" + index}>
                                 <EmptyElement size={size}/>
                             </Box>
                         )
@@ -109,12 +109,19 @@ export default function CardRow({
 
                     return (
                         <Box
+                            key={itemIndex + "___" + item.id + "___" + index}
                             onMouseEnter={(e) => {
                                 cardItemHandleMouseEnter(e, item)
                             }}
                             onMouseLeave={handlePopoverClose}>
-                            <CardItem card_id={item.id} size={size} rowIndex={index} itemIndex={itemIndex}
-                                      positionData={positionData} activePage={activePage} courseID={courseID}
+                            <CardItem card_id={item.id}
+
+                                      size={size}
+                                      rowIndex={index}
+                                      itemIndex={itemIndex}
+                                      positionData={positionData}
+                                      activePage={activePage}
+                                      courseID={courseID}
                                       viewedCardIDs={viewedCardIDs}/>
                         </Box>
                     )

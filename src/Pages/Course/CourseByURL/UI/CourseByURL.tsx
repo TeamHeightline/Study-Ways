@@ -50,22 +50,17 @@ const CourseByURL = observer(({...props}: ICourseByURLProps) => {
                         showArrowNavigation
                     />}
             </Box>
-            <Stack direction={"row"}
-                   sx={{width: window.innerWidth * String(activeCardID)?.split(",")?.length}} {...props}>
-                <Box sx={{width: window.innerWidth}}>
-                    <CardByID is_hidden_go_back_button is_hidden_navigation
-                              card_id={Number(String(activeCardID)?.split(",")[0])}/>
-                </Box>
+            <Stack direction={"column"}{...props}>
                 {String(activeCardID)?.split(",").map((card_id, index) => {
-                    if (index > 0) {
-                        return (
-                            <CardByID is_hidden_navigation is_hidden_go_back_button card_id={Number(card_id)}
-                                      key={card_id + "_" + index}/>
-                        )
-                    }
+                    return (
+                        <CardByID is_hidden_navigation
+                                  is_hidden_go_back_button
+                                  is_hidden_similar_cards
+                                  card_id={Number(card_id)}
+                                  key={card_id + "_" + index}/>
+
+                    )
                 })}
-
-
             </Stack>
         </Box>
     )

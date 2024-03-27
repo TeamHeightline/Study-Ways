@@ -13,7 +13,7 @@ import CardGoToResource from "./card-go-to-resourse";
 import CardHistoryDrawer from "../../../CardHistory/UI/card-history-drawer";
 import CardViews from "./card-views";
 import useWindowDimensions from "../../../../CustomHooks/useWindowDimensions";
-import {Box} from "@mui/material";
+import {Box, Grid} from "@mui/material";
 import TestBeforeCard from "./test-before-card";
 
 
@@ -22,6 +22,7 @@ interface ICardByIDProps extends PaperProps {
     course_navigation?: ReturnType<typeof CourseMicroView>,
     is_hidden_go_back_button?: boolean,
     is_hidden_navigation?: boolean,
+    is_hidden_similar_cards?: boolean
 }
 
 const CardByID = observer(({
@@ -29,6 +30,7 @@ const CardByID = observer(({
                                course_navigation,
                                is_hidden_go_back_button = false,
                                is_hidden_navigation = false,
+                               is_hidden_similar_cards = false,
                                ...props
                            }: ICardByIDProps) => {
     const [cardStore] = useState(new CardByIDStore(card_id))
@@ -39,26 +41,31 @@ const CardByID = observer(({
     }, [card_id])
 
     return (
-        <Box sx={{pt: 2, pl: 2, pr: 2, maxWidth: width}} {...props}>
-            <CardBrowserIndexing card_store={cardStore}/>
-            {!is_hidden_go_back_button &&
-                <GoBackButton sx={{pb: 1}}/>}
-            <TitleAndNavigation
-                is_hidden_navigation={is_hidden_navigation}
-                sx={{pt: 1}}
-                card_store={cardStore}
-                course_navigation={course_navigation}
-            />
-            <CardContentAndDescription card_store={cardStore} sx={{pt: 1}}/>
-            <TestBeforeCard card_store={cardStore}/>
-            <CardViews card_id={card_id}/>
-            <CardHistoryDrawer/>
-            <CardNavigationRatingFind card_store={cardStore} sx={{pt: 1}}/>
-            {/*<TestAfterCard card_store={cardStore} sx={{pt: 1}}/>*/}
+        <Grid container justifyContent={"center"}>
+            <Grid item xs={12} lg={10}>
+                <Box sx={{pt: 2, pl: 2, pr: 2, maxWidth: width}} {...props}>
+                    <CardBrowserIndexing card_store={cardStore}/>
+                    {!is_hidden_go_back_button &&
+                        <GoBackButton sx={{pb: 1}}/>}
+                    <TitleAndNavigation
+                        is_hidden_navigation={is_hidden_navigation}
+                        sx={{pt: 1}}
+                        card_store={cardStore}
+                        course_navigation={course_navigation}
+                    />
+                    <CardContentAndDescription card_store={cardStore} sx={{pt: 1}}/>
+                    <TestBeforeCard card_store={cardStore}/>
+                    <CardViews card_id={card_id}/>
+                    <CardHistoryDrawer/>
+                    <CardNavigationRatingFind card_store={cardStore} sx={{pt: 1}}/>
+                    {/*<TestAfterCard card_store={cardStore} sx={{pt: 1}}/>*/}
 
-            <SimilarCards card_store={cardStore} sx={{pt: 1}}/>
+                    {!is_hidden_similar_cards &&
+                        <SimilarCards card_store={cardStore} sx={{pt: 1}}/>}
 
-        </Box>
+                </Box>
+            </Grid>
+        </Grid>
     )
 })
 

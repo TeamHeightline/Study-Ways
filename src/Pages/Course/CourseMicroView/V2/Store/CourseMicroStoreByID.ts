@@ -126,7 +126,7 @@ export class CourseMicroStoreByID {
                         if (course_data && course_data.id) {
                             this.changeCourseName(course_data.name)
                             this.courseData = course_data.courseData
-                            const matches = course_data.name.match(/\[(.*?)\]/)
+                            const matches = (course_data?.name || "").match(/\[(.*?)\]/)
                             if (matches && matches[1]) {
                                 this.mainLineIndex = Number(matches[1]) - 1
                             }

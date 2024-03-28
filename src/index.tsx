@@ -13,7 +13,6 @@ import 'antd/dist/antd.dark.min.css';
 import ThemeStoreObject from "./global-theme";
 import {Auth0Provider} from "@auth0/auth0-react";
 import {observer} from "mobx-react";
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import {Provider} from "react-redux";
 import reduxStore from "./ReduxStore/RootStore";
 import {createRoot} from "react-dom/client";
@@ -59,7 +58,5 @@ const AppWithAllProviders = observer(() => {
 const container = document.getElementById('root');
 const root = createRoot(container);
 root.render(<AppWithAllProviders/>);
-
-serviceWorkerRegistration.unregister();
 
 reportWebVitals();

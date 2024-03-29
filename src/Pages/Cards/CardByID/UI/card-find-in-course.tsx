@@ -22,7 +22,7 @@ const CardFindInCourse = observer(({card_store, ...props}: ICardFindInCourseProp
 
     return (
         <Paper elevation={0} {...props}>
-            <Alert severity="success" variant="outlined" sx={{maxWidth: 550}}>
+            <Alert severity="info" variant="outlined" sx={{maxWidth: 550}}>
                 <AlertTitle>
                     {card_store.findInCourseArrayForUI?.length == 1 ?
                         "Этот ресурс встречается в курсе:" :
@@ -30,30 +30,27 @@ const CardFindInCourse = observer(({card_store, ...props}: ICardFindInCourseProp
                 </AlertTitle>
                 {card_store.findInCourseArrayForUI?.map((course) => {
                     return (
-                        <Stack direction={"column"}>
-                            <Stack direction={"row"} alignItems={"center"} justifyContent={"start"}>
-                                <Button title={"Перейти"}
-                                        color={"info"}
-                                        onClick={() => {
-                                            if (pathname == "/course") {
-                                                navigate("/course?" + "id=" + course.course_id +
-                                                    "&activePage=" + course.position.activePage +
-                                                    "&selectedPage=" + course.position.selectedPage +
-                                                    "&selectedRow=" + course.position.selectedRow +
-                                                    "&selectedIndex=" + course.position.selectedIndex)
-                                            } else {
-                                                navigate("/course?" + "id=" + course.course_id +
-                                                    "&activePage=" + course.position.activePage +
-                                                    "&selectedPage=" + course.position.selectedPage +
-                                                    "&selectedRow=" + course.position.selectedRow +
-                                                    "&selectedIndex=" + course.position.selectedIndex)
-                                            }
-                                        }}>
-                                    Перейти
-                                </Button>
-                                <Typography variant={"body2"}>{course.course_name}</Typography>
-                            </Stack>
-                        </Stack>)
+                        <Button title={"Перейти"}
+                                sx={{textAlign: "start"}}
+                                color={"info"}
+                                onClick={() => {
+                                    if (pathname == "/course") {
+                                        navigate("/course?" + "id=" + course.course_id +
+                                            "&activePage=" + course.position.activePage +
+                                            "&selectedPage=" + course.position.selectedPage +
+                                            "&selectedRow=" + course.position.selectedRow +
+                                            "&selectedIndex=" + course.position.selectedIndex)
+                                    } else {
+                                        navigate("/course?" + "id=" + course.course_id +
+                                            "&activePage=" + course.position.activePage +
+                                            "&selectedPage=" + course.position.selectedPage +
+                                            "&selectedRow=" + course.position.selectedRow +
+                                            "&selectedIndex=" + course.position.selectedIndex)
+                                    }
+                                }}>
+                            {course.course_name}
+                        </Button>
+                    )
                 })}
             </Alert>
         </Paper>

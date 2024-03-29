@@ -14,6 +14,7 @@ import CardViews from "./card-views";
 import useWindowDimensions from "../../../../CustomHooks/useWindowDimensions";
 import {Box, Grid} from "@mui/material";
 import TestBeforeCard from "./test-before-card";
+import CardDescription from "./card-description";
 
 
 interface ICardByIDProps extends PaperProps {
@@ -40,31 +41,28 @@ const CardByID = observer(({
     }, [card_id])
 
     return (
-        <Grid container justifyContent={"center"}>
-            <Grid item xs={12} lg={10}>
-                <Box sx={{pt: 2, pl: 2, pr: 2, maxWidth: width}} {...props}>
-                    <CardBrowserIndexing card_store={cardStore}/>
-                    {!is_hidden_go_back_button &&
-                        <GoBackButton sx={{pb: 1}}/>}
-                    <TitleAndNavigation
-                        is_hidden_navigation={is_hidden_navigation}
-                        sx={{pt: 1}}
-                        card_store={cardStore}
-                        course_navigation={course_navigation}
-                    />
-                    <CardContentAndDescription card_store={cardStore} sx={{pt: 1}}/>
-                    <TestBeforeCard card_store={cardStore}/>
-                    <CardViews card_id={card_id}/>
-                    <CardHistoryDrawer/>
-                    <CardNavigationRatingFind card_store={cardStore} sx={{pt: 1}}/>
-                    {/*<TestAfterCard card_store={cardStore} sx={{pt: 1}}/>*/}
 
-                    {!is_hidden_similar_cards &&
-                        <SimilarCards card_store={cardStore} sx={{pt: 1}}/>}
+        <Box sx={{pt: 2, pl: 2, pr: 2, maxWidth: width}} {...props}>
+            <CardBrowserIndexing card_store={cardStore}/>
+            {!is_hidden_go_back_button &&
+                <GoBackButton sx={{pb: 1}}/>}
+            <TitleAndNavigation
+                is_hidden_navigation={is_hidden_navigation}
+                sx={{pt: 1}}
+                card_store={cardStore}
+                course_navigation={course_navigation}
+            />
+            <CardContentAndDescription card_store={cardStore} sx={{pt: 1}}/>
+            <CardViews card_id={card_id}/>
 
-                </Box>
-            </Grid>
-        </Grid>
+            <CardNavigationRatingFind card_store={cardStore} sx={{pt: 1}}/>
+            {/*<TestAfterCard card_store={cardStore} sx={{pt: 1}}/>*/}
+
+            {!is_hidden_similar_cards &&
+                <SimilarCards card_store={cardStore} sx={{pt: 1}}/>}
+
+        </Box>
+
     )
 })
 

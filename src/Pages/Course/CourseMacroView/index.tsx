@@ -57,44 +57,42 @@ export default function CourseMacroView({courseID, positionData, onCardSelect, .
     return (
         <Box {...props}>
 
-            <Grid container justifyContent={"center"}>
-                <Grid item xs={12} lg={10}>
-                    <Stack direction={"row"} spacing={1}>
-                        <Image courseData={courseData} courseID={courseID}
-                               HEIGHT_OF_COURSE_MACRO_VIEW={200}/>
-                        <Box>
-                            <Title courseData={courseData}/>
-                            <Description/>
-                        </Box>
-                    </Stack>
 
-                    <Box sx={{
-                        width: (CARD_WIDTH + CARD_PADDING) * NUMBER_OF_CARD + ADDITIONAL_SPACE,
-                        overflow: "auto",
-                        p: 1
-                    }}>
-                        <Stack sx={{width: (CARD_WIDTH + CARD_PADDING) * NUMBER_OF_CARD}} spacing={1}>
-                            <CardRow index={0} activePage={activePage} courseData={courseData}
-                                     CARD_WIDTH={CARD_WIDTH} course_main_line_index={course_main_line_index}
-                                     positionData={positionData} courseID={courseID} viewedCardIDs={viewedCardIDs}/>
+            <Stack direction={"row"} spacing={1}>
+                <Image courseData={courseData} courseID={courseID}
+                       HEIGHT_OF_COURSE_MACRO_VIEW={200}/>
+                <Box>
+                    <Title courseData={courseData}/>
+                    <Description/>
+                </Box>
+            </Stack>
 
-                            <CardRow index={1} activePage={activePage} courseData={courseData}
-                                     CARD_WIDTH={CARD_WIDTH} course_main_line_index={course_main_line_index}
-                                     positionData={positionData} courseID={courseID} viewedCardIDs={viewedCardIDs}/>
+            <Box sx={{
+                width: (CARD_WIDTH + CARD_PADDING) * NUMBER_OF_CARD + ADDITIONAL_SPACE,
+                overflow: "auto",
+                p: 1
+            }}>
+                <Stack sx={{width: (CARD_WIDTH + CARD_PADDING) * NUMBER_OF_CARD}} spacing={1}>
+                    <CardRow index={0} activePage={activePage} courseData={courseData}
+                             CARD_WIDTH={CARD_WIDTH} course_main_line_index={course_main_line_index}
+                             positionData={positionData} courseID={courseID} viewedCardIDs={viewedCardIDs}/>
 
-                            <CardRow index={2} activePage={activePage} courseData={courseData}
-                                     CARD_WIDTH={CARD_WIDTH} course_main_line_index={course_main_line_index}
-                                     positionData={positionData} courseID={courseID} viewedCardIDs={viewedCardIDs}/>
+                    <CardRow index={1} activePage={activePage} courseData={courseData}
+                             CARD_WIDTH={CARD_WIDTH} course_main_line_index={course_main_line_index}
+                             positionData={positionData} courseID={courseID} viewedCardIDs={viewedCardIDs}/>
 
-                            <CardRow index={3} activePage={activePage} courseData={courseData}
-                                     CARD_WIDTH={CARD_WIDTH} course_main_line_index={course_main_line_index}
-                                     positionData={positionData} courseID={courseID} viewedCardIDs={viewedCardIDs}/>
-                        </Stack>
-                    </Box>
-                    <Stepper activePage={activePage} setActivePage={setActivePage}
-                             courseData={courseData}/>
-                </Grid>
-            </Grid>
+                    <CardRow index={2} activePage={activePage} courseData={courseData}
+                             CARD_WIDTH={CARD_WIDTH} course_main_line_index={course_main_line_index}
+                             positionData={positionData} courseID={courseID} viewedCardIDs={viewedCardIDs}/>
+
+                    <CardRow index={3} activePage={activePage} courseData={courseData}
+                             CARD_WIDTH={CARD_WIDTH} course_main_line_index={course_main_line_index}
+                             positionData={positionData} courseID={courseID} viewedCardIDs={viewedCardIDs}/>
+                </Stack>
+            </Box>
+            <Stepper activePage={activePage} setActivePage={setActivePage}
+                     courseData={courseData}/>
+
         </Box>
     )
 }

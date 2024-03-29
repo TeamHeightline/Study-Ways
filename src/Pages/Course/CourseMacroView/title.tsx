@@ -10,7 +10,7 @@ export default function Title({courseData, ...props}: ICourseTitleProps) {
     return (
         <Box {...props}>
             <Typography variant={"h5"}>
-                {courseData?.name.replace(/\[.*?\]/g, '')}
+                {(courseData?.name || "").replace(/\[.*?\]/g, '')}
             </Typography>
         </Box>
     )

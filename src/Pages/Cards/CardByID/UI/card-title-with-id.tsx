@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import {CardByIDStore} from "../Store/CardByIDStore";
-import {Stack, Typography} from "@mui/material";
+import {Chip, Stack, Typography} from "@mui/material";
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
 
 interface ICardTitleProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -15,21 +15,12 @@ const CardTitleWithId = observer(({card_store, ...props}: ICardTitleProps) => {
     const card_id = card_store?.card_data?.id
 
     return (
-        <Stack direction={{xs: "column", md: "row"}}>
-            <Typography
-                // sx={{hyphens: "auto"}}
-                // component={'span'}
-                // id={"card-title"}
-                variant={isMobile ? "h6" : "h4"}>
-                {title}
-            </Typography>
-            <Typography
-                component={'span'}
-                // id={"card-id"}
-                variant={isMobile ? "subtitle2" : "subtitle1"}>
-                {card_id}
-            </Typography>
-        </Stack>
+        <Typography
+            component={"div"}
+            variant={"h5"}>
+            {title}
+            <Chip sx={{ml: 1}} label={card_id} variant={"outlined"} color={"info"} size={"small"}/>
+        </Typography>
     )
 })
 

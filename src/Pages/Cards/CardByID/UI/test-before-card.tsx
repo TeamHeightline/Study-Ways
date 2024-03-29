@@ -26,7 +26,7 @@ const TestBeforeCard = observer(({card_store, ...props}: ITestBeforeCardProps) =
     const is_test_in_card_closed = card_store.is_test_in_card_closed
 
     const is_hide_this_alert = !(!is_test_in_card_closed && isCardHaveTestBeforeCard)
-    
+
 
     if (is_hide_this_alert) return null
 
@@ -47,7 +47,7 @@ const TestBeforeCard = observer(({card_store, ...props}: ITestBeforeCardProps) =
                         Пройти тест
                     </Button>
                     <Button onClick={closeAlert}>
-                        Продолжить просмотр карточки
+                        Скрыть
                     </Button>
                 </Stack>
             </Alert>

@@ -29,7 +29,6 @@ const CardNavigationRatingFind = observer(({card_store, ...props}: ICardNavigati
                             <CardRating card_store={card_store}/>
                             <CardBookmark card_store={card_store}/>
                         </Stack>}
-                    <CardFindInCourse card_store={card_store}/>
                 </Grid>
             </Grid>
         </Paper>

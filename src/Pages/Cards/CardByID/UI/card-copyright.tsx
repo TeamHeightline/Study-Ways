@@ -15,9 +15,9 @@ const CardCopyright = observer(({card_store, ...props}: ICardCopyrightProps) => 
     return (
         <div {...props}>
             {showCopyright &&
-                <Typography variant="h6" sx={{hyphens: "auto", display: "flex", alignItems: "center"}}>
+                <Typography variant="body2" sx={{hyphens: "auto", display: "flex", alignItems: "center"}}>
                     <Tooltip title={"Правообладателем изложенного материала является: " + copyright}>
-                        <CopyrightIcon sx={{mr: 1}}/>
+                        <CopyrightIcon sx={{mr: 1}} fontSize={"small"}/>
                     </Tooltip>
                     {copyright}
                 </Typography>}

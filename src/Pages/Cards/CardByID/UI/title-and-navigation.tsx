@@ -35,8 +35,10 @@ const TitleAndNavigation = observer(({
                     <DefaultCardNavigation card_store={card_store}/>}
                 <Stack direction={"column"}>
                     <CardTitleWithId card_store={card_store}/>
-                    <CardCopyright card_store={card_store}/>
-                    <CardTheme card_store={card_store}/>
+                    <Stack direction={{sx: "column", md: "row"}} spacing={1}>
+                        <CardCopyright card_store={card_store}/>
+                        <CardTheme card_store={card_store}/>
+                    </Stack>
                 </Stack>
             </Stack>
         </Paper>

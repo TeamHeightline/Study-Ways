@@ -37,14 +37,6 @@ export default function CardMicroView({
                                       }: ICardMicroViewProps) {
     const [onVideoHover, setOnVideoHover] = useState(false)
 
-    // useEffect(() => {
-    //     if (isNowEditableCard) {
-    //         if (refetch) {
-    //             refetch()
-    //
-    //         }
-    //     }
-    // }, [isEditNow, isNowEditableCard])
     const card_hash_map = useAppSelector(state => state.cardMicroView.card_hash_map)
 
     const isMobile = true
@@ -71,7 +63,7 @@ export default function CardMicroView({
                           height: 340,
                       }}
                       onClick={() => {
-                          onChange(cardID)
+                          onChange && onChange(cardID)
                       }}>
                     <Skeleton variant="rectangular" width={130} height={170}/>
                 </Card>
@@ -89,7 +81,7 @@ export default function CardMicroView({
                       borderRadius: "12px",
                   }}
                   onClick={() => {
-                      onChange(cardID)
+                      onChange && onChange(cardID)
                   }}>
                 <CardActionArea sx={{height: "100%"}}>
                     <Stack direction={"column"}>

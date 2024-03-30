@@ -14,8 +14,8 @@ interface IYoutubeContentProps extends PaperProps {
 }
 
 const YoutubeContent = observer(({card_store, ...props}: IYoutubeContentProps) => {
-    const youtubeVideoURL = String(card_store?.card_data?.videoUrl)
-    const showVideo = youtubeVideoURL !== "null"
+    const youtubeVideoURL = card_store?.card_data?.videoUrl || ""
+    const showVideo = !!youtubeVideoURL
     const isMobile = isMobileHook()
     const onEndVideoWatch = () => {
         card_store.isOpenGoToTestDialogAfterVideo = true

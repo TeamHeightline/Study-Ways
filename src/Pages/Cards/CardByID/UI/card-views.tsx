@@ -19,19 +19,11 @@ export default function CardViews({card_id, ...props}: ICardViewsProps) {
                         setViews(response.data)
                     }
                 })
+                .catch(() => {
+                })
         }
     }, [card_id])
 
-    useEffect(() => {
-        if (card_id) {
-            axiosClient.get('/page/card-page/card-views/' + card_id)
-                .then((response) => {
-                    if (response.data) {
-                        setViews(response.data)
-                    }
-                })
-        }
-    }, [])
 
     if (views === null) {
         return null

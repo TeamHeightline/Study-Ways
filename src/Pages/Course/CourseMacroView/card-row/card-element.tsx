@@ -116,7 +116,7 @@ export default function CardItem({
     }
 
     const imageSrc = cardData.card_content_type === 0 ?
-        "https://img.youtube.com/vi/" + urlParser.parse(cardData.video_url)?.id + "/hqdefault.jpg" :
+        "https://img.youtube.com/vi/" + urlParser.parse(cardData?.video_url || "")?.id + "/hqdefault.jpg" :
         "https://storage.googleapis.com/study-ways-files/" + cardData.cards_cardimage?.image
 
 

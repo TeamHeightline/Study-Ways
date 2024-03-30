@@ -129,7 +129,7 @@ export default function CardMicroView({
                                             }}
                                             onError={() => void (0)}
                                             image={
-                                                "https://img.youtube.com/vi/" + urlParser.parse(card_data?.video_url)?.id + "/hqdefault.jpg"
+                                                "https://img.youtube.com/vi/" + urlParser.parse(card_data?.video_url || "")?.id + "/hqdefault.jpg"
                                             }
                                         />}
                                 </div>

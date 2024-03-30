@@ -9,6 +9,7 @@ import CardGoToResource from "./card-go-to-resourse";
 import TestBeforeCard from "./test-before-card";
 import CardHistoryDrawer from "../../../CardHistory/UI/card-history-drawer";
 import CardFindInCourse from "./card-find-in-course";
+import {UserStorage} from "../../../../Store/UserStore/UserStore";
 
 
 interface ICardContentAndDescriptionProps extends PaperProps {
@@ -29,7 +30,8 @@ const CardContentAndDescription = observer(({card_store, ...props}: ICardContent
                         <TestBeforeCard card_store={card_store}/>
                         <CardFindInCourse card_store={card_store}/>
                         <CardGoToResource card_store={card_store}/>
-                        <CardHistoryDrawer/>
+                        {UserStorage.isLogin &&
+                            <CardHistoryDrawer/>}
                     </Stack>
                 </Grid>
             </Grid>

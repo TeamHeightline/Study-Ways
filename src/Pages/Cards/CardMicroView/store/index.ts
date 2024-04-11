@@ -11,7 +11,7 @@ const cardMicroViewSlice = createSlice({
     extraReducers: builder =>
         builder
             .addCase(loadAllCardsData.fulfilled, (state, action) => {
-                //state.card_hash_map = action.payload
+                state.card_hash_map = action.payload
             })
 })
 

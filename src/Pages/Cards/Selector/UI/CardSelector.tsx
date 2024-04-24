@@ -8,6 +8,8 @@ import {HardLevel} from "./HardLevel";
 import {ContentType} from "./ContentType";
 import {ConnectedThemes} from "./ConnectedThemes";
 import {Pages} from "./Pages";
+import {loadAllCardsData} from "../../CardMicroView/store/async-actions";
+import {useAppDispatch} from "../../../../ReduxStore/RootStore";
 
 interface ICardSelectorProps extends React.HTMLAttributes<HTMLDivElement> {
     mode?: "onlyCreatedByMe" | "standard";
@@ -21,6 +23,12 @@ export const CardSelector = observer(({
                                           showCreateNewCard,
                                           ...props
                                       }: ICardSelectorProps) => {
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(loadAllCardsData())
+    }, []);
+
     useEffect(() => CSSObject.setMode(mode), [mode])
     useEffect(() => {
         if (CSSObject.selectedCardID) {

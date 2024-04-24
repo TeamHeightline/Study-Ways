@@ -113,7 +113,8 @@ class CardEditorStorage {
                     })
                         .then((response) => {
                             this.stateOfSave = true
-                            console.log(response)
+
+                            axiosClient.post("/page/edit-card-by-id/clear-card-cache")
                         })
 
                 } catch (e) {

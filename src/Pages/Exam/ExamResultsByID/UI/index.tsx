@@ -11,6 +11,7 @@ import UIExamFinalResultChart from "./ui-exam-final-result-chart";
 import ShowResultsBySumFlag from "./ui-show-results-by-sum-flag";
 import {RootState} from "../../../../ReduxStore/RootStore";
 import {changeExamId, createArrayForChart, createExamResultsOrderBySum} from "../redux-store/reducer";
+import UiExcelExport from "./ui-excell-export";
 
 interface IExamResultsByIDProps extends PaperProps {
     exam_id: number;
@@ -32,7 +33,8 @@ export default function Index({exam_id, ...props}: IExamResultsByIDProps) {
     return (
         <Paper elevation={0} {...props}>
             <UIExamFinalResultChart/>
-            <Stack alignItems="end">
+            <Stack direction={"row"} justifyContent="space-between" alignItems={"end"} sx={{mb: 1}}>
+                <UiExcelExport/>
                 <Stack alignItems="start">
                     <UIAutoUpdateFlag/>
                     <ShowResultsBySumFlag/>

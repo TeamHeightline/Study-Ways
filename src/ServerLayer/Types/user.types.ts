@@ -7,6 +7,7 @@ export interface IUserprofile {
     "firstname": string,
     "lastname": string,
     "avatar_src": string,
+    group: string,
     users_educationorganization: users_educationorganization
 }
 

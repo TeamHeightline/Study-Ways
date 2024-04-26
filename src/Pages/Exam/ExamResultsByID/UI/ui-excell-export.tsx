@@ -19,6 +19,7 @@ export default function UiExcelExport() {
 
     const columns = [
         'email пользователя',
+        'Группа',
         'Фамилия',
         "Имя",
         'Сумма',
@@ -26,6 +27,7 @@ export default function UiExcelExport() {
     ]
     const data = examResultsOrderBySum.map((exam_result) => ([
         exam_result?.users_customuser?.username,
+        exam_result?.users_customuser?.users_userprofile?.group,
         exam_result?.users_customuser?.users_userprofile?.lastname,
         exam_result?.users_customuser?.users_userprofile?.firstname,
         exam_result?.sumOfAllPasses,

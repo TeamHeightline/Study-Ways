@@ -37,6 +37,7 @@ export default function UIExamResultTableRow({exam_result, ...props}: IUIExamRes
                     </IconButton>
                 </TableCell>
                 <TableCell>{exam_result?.users_customuser?.username}</TableCell>
+                <TableCell>{exam_result?.users_customuser?.users_userprofile?.group || ""}</TableCell>
                 <TableCell>
                     {exam_result?.users_customuser?.users_userprofile?.firstname + " "}
                     {exam_result?.users_customuser?.users_userprofile?.lastname}

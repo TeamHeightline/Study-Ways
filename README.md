@@ -40,7 +40,7 @@ Pythod Django, в последствии замененный на Express js, T
 
 ![courses_2.png](screenshots%2Fcourses_2.png)
 
-![cards_2.png](screenshots%2Fcards_2.png)
+![cards_3.png](screenshots%2Fcards_3.png)
 
 ![in_course_3.png](screenshots%2Fin_course_3.png)
 

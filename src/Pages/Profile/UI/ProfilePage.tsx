@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React, {useEffect} from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {
-    Avatar,
+    Avatar, Box,
     CircularProgress,
     FormControl,
     InputLabel,
@@ -67,7 +67,7 @@ const ProfilePage = observer(({...props}: IProfilePageProps) => {
         <Paper elevation={0} {...props}>
             <Stack justifyContent={"center"} alignItems={"center"}>
                 <Stack direction={"column"} spacing={2} alignItems={"center"}>
-                    <Stack direction={isMobile ? "column" : "row"} spacing={8} sx={{pt: 8, px: 1}}
+                    <Stack direction={isMobile ? "column" : "row"} spacing={8} sx={{pt: 8, px: 1, pb: 4}}
                            alignItems={"center"}>
                         <Stack direction={"column"} justifyContent={"center"}>
                             <Avatar
@@ -80,29 +80,37 @@ const ProfilePage = observer(({...props}: IProfilePageProps) => {
                                 {profileData?.users_customuser?.username || ''}
                             </Typography>
                         </Stack>
-                        <Stack direction={"column"} spacing={2}>
-                            <Stack direction={"row"} spacing={0.1}>
+                        <Stack direction={"column"} spacing={2} sx={{width: {xs: "95vw", md: "100%"}}}>
+                            <Stack direction={{md: "row", sm: "column"}} columnGap={0.1} rowGap={1}>
                                 <TextField
-                                    sx={{"& .MuiFilledInput-root": {borderTopRightRadius: 0}}}
+                                    sx={{
+                                        "& .MuiFilledInput-root": {
+                                            borderTopRightRadius: {md: 0, sm: undefined},
+                                        }
+                                    }}
                                     value={profileData?.firstname || ""}
                                     onChange={(e) => changeField({key: "firstname", value: e.target.value})}
                                     id={"first_name"}
                                     label={"Имя"}
                                     variant={"filled"}/>
                                 <TextField
-                                    sx={{"& .MuiFilledInput-root": {borderTopLeftRadius: 0}}}
+                                    sx={{
+                                        "& .MuiFilledInput-root": {
+                                            borderTopLeftRadius: {md: 0, sm: undefined},
+                                        }
+                                    }}
                                     value={profileData?.lastname || ""}
                                     onChange={(e) => changeField({key: "lastname", value: e.target.value})}
                                     id={"last_name"}
                                     label={"Фамилия"}
                                     variant={"filled"}/>
                             </Stack>
-                            <Stack direction={"row"} spacing={0.1}>
+                            <Stack direction={{md: "row", sm: "column"}} rowGap={1}>
                                 <FormControl fullWidth
                                              sx={{
                                                  "& .MuiOutlinedInput-root": {
-                                                     borderTopRightRadius: 0,
-                                                     borderBottomRightRadius: 0
+                                                     borderTopRightRadius: {md: 0, sm: undefined},
+                                                     borderBottomRightRadius: {md: 0, sm: undefined},
                                                  }
                                              }}>
                                     <InputLabel>Учебное заведение</InputLabel>
@@ -117,13 +125,16 @@ const ProfilePage = observer(({...props}: IProfilePageProps) => {
                                         <MenuItem value={4}>ИТМО</MenuItem>
                                     </Select>
                                 </FormControl>
+
                                 <TextField
                                     sx={{
                                         "& .MuiOutlinedInput-root": {
-                                            borderTopLeftRadius: 0,
-                                            borderBottomLeftRadius: 0
-                                        }, width: 200
+                                            borderTopLeftRadius: {md: 0, sm: undefined},
+                                            borderBottomLeftRadius: {md: 0, sm: undefined},
+                                        },
+                                        width: 200,
                                     }}
+                                    fullWidth
                                     value={profileData?.group || ""}
                                     onChange={(e) => changeField({key: "group", value: e.target.value})}
                                     id={"last_name"}

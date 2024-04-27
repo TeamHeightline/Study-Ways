@@ -73,17 +73,18 @@ export default function CardMicroView({
     return (
         <div
             {...props}>
-            <Card variant={isDarkTheme ? "outlined" : "elevation"}
+            <Card variant={"elevation"}
                   sx={{
                       display: 'flex',
-                      width: {sm: 300, xs: "100%"},
-                      height: 340,
-                      borderRadius: "12px",
+                      width: {sm: 340, xs: "100%"},
+                      height: 360,
+                      borderRadius: "24px",
+                      // bg: "palette.gray"
                   }}
                   onClick={() => {
                       onChange && onChange(cardID)
                   }}>
-                <CardActionArea sx={{height: "100%"}}>
+                <CardActionArea sx={{height: "100%", p: 2}}>
                     <Stack direction={"column"}>
                         <Box sx={{height: 170}}>
                             {Number(card_data.card_content_type) === 0 && card_data?.video_url &&
@@ -117,6 +118,7 @@ export default function CardMicroView({
                                                 decoding: "async",
                                                 backgroundSize: "cover",
                                                 backgroundPosition: "center",
+                                                borderRadius: "24px"
 
                                             }}
                                             onError={() => void (0)}
@@ -132,6 +134,7 @@ export default function CardMicroView({
                                     sx={{
                                         width: {sm: 300, xs: "100%"},
                                         height: 170,
+                                        borderRadius: "24px"
                                     }}
                                     onError={() => void (0)}
                                     image={FILE_URL + "/" + card_data?.cards_cardimage?.image}

@@ -3,7 +3,7 @@ import React, {useEffect} from 'react';
 import {MicroCardField} from "./MicroCardField";
 import {CleverSearching} from "./CleverSearching";
 import {CSSObject} from "../Store/CardSelectorStore";
-import {Stack} from "@mui/material";
+import {Box, Stack} from "@mui/material";
 import {HardLevel} from "./HardLevel";
 import {ContentType} from "./ContentType";
 import {ConnectedThemes} from "./ConnectedThemes";
@@ -42,14 +42,16 @@ export const CardSelector = observer(({
     return (
         <div {...props}>
             <CleverSearching/>
-            <Stack sx={{pt: 2, pr: 4, pl: 4, pb: 1}}
+            <Stack sx={{pt: 2, pr: 4, pl: 4, mb: 2}}
                    direction={{xs: 'column', md: 'row'}}
                    spacing={{xs: 1, md: 4}}>
                 <ConnectedThemes/>
                 <HardLevel/>
                 <ContentType/>
             </Stack>
-            <MicroCardField showCreateNewCard={showCreateNewCard}/>
+            <Box sx={{mt: 2}}>
+                <MicroCardField showCreateNewCard={showCreateNewCard}/>
+            </Box>
             <Pages/>
         </div>
     )

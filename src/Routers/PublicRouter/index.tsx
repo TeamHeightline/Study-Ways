@@ -8,17 +8,17 @@ import CardByURL from "../../Pages/Cards/CardByURL/UI/card-by-url";
 import ProfilePage from "../../Pages/Profile/UI/ProfilePage";
 import CardByID from "../../Pages/Cards/CardByID/UI/card-by-id";
 
-const EditorsRouter = React.lazy(() => import("../../Routers/EditorRouter/EditorsRouter").then(module => ({default: module.EditorsRouter})))
-const MainCardPublicView = React.lazy(() => import("../../Pages/Cards/Page/MainCardPublicView").then(module => ({default: module.MainCardPublicView})))
-const QSPlayerByID = React.lazy(() => import("../../Pages/QuestionSequence/Public/QSPlayerByID").then(module => ({default: module.QSPlayerByID})))
-const ImageQuestion = React.lazy(() => import("../../Pages/Question/QuestionByID/UI/QuestionByID").then(module => ({default: module.QuestionByID})))
-const SelfStatistic = React.lazy(() => import("../../Pages/SimpleSelfStatistic/UI/self-statistic-page").then(module => ({default: module.SelfStatisticPage})))
-const CoursePage = React.lazy(() => import("../../Pages/Course/Page/UI/course-page"))
-const CourseByURL = React.lazy(() => import("../../Pages/Course/CourseByURL/UI/CourseByURL"))
-const ExamByUID = React.lazy(() => import("../../Pages/Exam/ExamByUid/UI/exam-by-uid-page"))
-const RecentCardsPage = React.lazy(() => import("../../Pages/RecentCards/UI/recent-cards-page"))
-const BookmarksPage = React.lazy(() => import("../../Pages/CardBookmarks/UI/card-bookmarks-page"))
-const MainUserQuestionPage = React.lazy(() => import("../../Pages/Question/QuestionsPage/MainUserQuestionPage").then(module => ({default: module.MainUserQuestionPage})))
+import {EditorsRouter} from "../../Routers/EditorRouter/EditorsRouter";
+import {MainCardPublicView} from "../../Pages/Cards/Page/MainCardPublicView";
+import {QSPlayerByID} from "../../Pages/QuestionSequence/Public/QSPlayerByID";
+import {QuestionByID} from "../../Pages/Question/QuestionByID/UI/QuestionByID";
+import {SelfStatisticPage} from "../../Pages/SimpleSelfStatistic/UI/self-statistic-page";
+import CoursePage from "../../Pages/Course/Page/UI/course-page";
+import CourseByURL from "../../Pages/Course/CourseByURL/UI/CourseByURL";
+import ExamByUID from "../../Pages/Exam/ExamByUid/UI/exam-by-uid-page";
+import RecentCardsPage from "../../Pages/RecentCards/UI/recent-cards-page";
+import BookmarksPage from "../../Pages/CardBookmarks/UI/card-bookmarks-page";
+import {MainUserQuestionPage} from "../../Pages/Question/QuestionsPage/MainUserQuestionPage";
 
 interface IPublicRouterProps {
 
@@ -43,7 +43,7 @@ const routes = [
     },
     {
         path: "/iq/:id",
-        component: <ImageQuestion/>
+        component: <QuestionByID/>
     },
     {
         path: "/qs/:id",
@@ -63,7 +63,7 @@ const routes = [
     },
     {
         path: "/selfstatistic",
-        component: <SelfStatistic/>
+        component: <SelfStatisticPage/>
     },
     {
         path: "/courses",

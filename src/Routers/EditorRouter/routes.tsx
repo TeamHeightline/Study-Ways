@@ -13,18 +13,17 @@ import GroupIcon from '@mui/icons-material/Group';
 import UserGroupsEditor from "../../Pages/UserGroups/EditorPage/UI";
 import InfoIcon from "@mui/icons-material/Info";
 
-const ExamEditorPage = React.lazy(() => import("../../Pages/Exam/EditorPage/Page/UI/exam-editor-page"))
+import ExamEditorPage from "../../Pages/Exam/EditorPage/Page/UI/exam-editor-page";
 
+import StatusEditorPage from "../../Pages/StatusEditor/UI/StatusEditorPage";
+import SearchingElementsEditor from "../../Pages/Themes/EditorPage/ThemesEditor";
+import QuestionSequenceMainEditor from "../../Pages/QuestionSequence/Editor/EditorPage/QuestionSequenceMainEditor";
+import MainCourseEditor from "../../Pages/Course/CourseEditorPage/MainCourseEditor";
 
-const StatusEditorPage = React.lazy(() => import("../../Pages/StatusEditor/UI/StatusEditorPage"));
-const SearchingElementsEditor = React.lazy(() => import("../../Pages/Themes/EditorPage/ThemesEditor"))
-const QuestionSequenceMainEditor = React.lazy(() => import("../../Pages/QuestionSequence/Editor/EditorPage/QuestionSequenceMainEditor"))
-const MainCourseEditor = React.lazy(() => import("../../Pages/Course/CourseEditorPage/MainCourseEditor"))
-
-const QuestionEditor = React.lazy(() => import("../../Pages/Question/Editor/Page/UI").then(module => ({default: module.Index})))
-const StatisticV2 = React.lazy(() => import("../../Pages/Statistic/V2/StatisticV2").then(module => ({default: module.StatisticV2})))
-const CardEditorV2 = React.lazy(() => import("../../Pages/Cards/Editor/EditorPageV2/Page").then(module => ({default: module.EditorPage})))
-const CheckQuestion = React.lazy(() => import("../../Pages/CheckQuestion/Page/UI/check-question-page"))
+import {Index as QuestionEditor} from "../../Pages/Question/Editor/Page/UI";
+import {StatisticV2 as StatisticV2} from "../../Pages/Statistic/V2/StatisticV2";
+import {EditorPage as CardEditorV2} from "../../Pages/Cards/Editor/EditorPageV2/Page";
+import CheckQuestion from "../../Pages/CheckQuestion/Page/UI/check-question-page";
 
 
 export const privateRoutes = [

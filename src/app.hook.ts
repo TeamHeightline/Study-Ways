@@ -45,9 +45,9 @@ export default function AppHook() {
             // Вызовите updateToken при монтировании компонента
             updateToken();
             //Интервал для регулярного обновления токена
-            const intervalId = setInterval(updateToken, 1000 * 60 * 15); // каждые 15 минут
+            // const intervalId = setInterval(updateToken, 1000 * 60 * 15); // каждые 15 минут
 
-            return () => clearInterval(intervalId); // Очистка при размонтировании
+            // return () => clearInterval(intervalId); // Очистка при размонтировании
         }
     }, [isAuthenticated]);
 

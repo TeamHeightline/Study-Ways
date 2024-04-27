@@ -4,6 +4,7 @@ import {Card, Typography} from "@mui/material";
 import {CKEditor} from '@ckeditor/ckeditor5-react'
 import {CESObject} from "../Store/CardEditorStorage";
 import './ui-rich-text-editor-style.css'
+import './rich-text-styles.css'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 interface IRichTextEditorProps extends React.HTMLAttributes<HTMLDivElement> {

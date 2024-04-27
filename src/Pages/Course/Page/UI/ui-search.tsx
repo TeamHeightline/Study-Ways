@@ -34,7 +34,6 @@ export default function UISearch({...props}: IUISearchProps) {
                         onChange={handleSearch}
                         sx={{ml: 1, flex: 1}}
                         placeholder="Поиск курсов"
-                        inputProps={{'aria-label': 'search google maps'}}
                     />
                     <IconButton type="button" sx={{p: '10px'}} aria-label="search" onClick={onSearchButtonClick}>
                         <SearchIcon/>

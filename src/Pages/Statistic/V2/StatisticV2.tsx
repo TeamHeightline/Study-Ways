@@ -1,13 +1,24 @@
 import {observer} from "mobx-react";
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Sequences} from "../../QuestionSequence/Selector/UI/Sequences";
 import {Route, Routes, useNavigate} from "react-router-dom";
 import {Finder} from "./question-finder/UI/Finder";
 import {FinderTabs} from "./question-finder/UI/FinderTabs";
+import {SASObject} from "./show-statistic-for-selected-questions/statistic-selector/Store/SelectAttemptStore";
 
 
 export const StatisticV2 = observer(() => {
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const pooling = setInterval(() => {
+            SASObject.loadAttemptFromServer()
+        }, 7000)
+
+        return () => {
+            clearInterval(pooling)
+        }
+    }, []);
 
 
     return (

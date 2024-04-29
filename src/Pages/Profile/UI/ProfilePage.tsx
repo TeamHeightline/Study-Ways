@@ -12,6 +12,7 @@ import {
     Stack,
     TextField
 } from "@mui/material";
+import PersonIcon from '@mui/icons-material/Person';
 import {UserStorage} from "../../../Store/UserStore/UserStore";
 import {LoadingButton} from "@mui/lab";
 import SaveIcon from '@mui/icons-material/Save';
@@ -74,7 +75,7 @@ const ProfilePage = observer(({...props}: IProfilePageProps) => {
                                 sx={{width: 200, height: 200}}
                                 src={profileData?.avatar_src || ""}
                             >
-                                {(profileData?.firstname?.slice(0.1) || "") + (profileData?.lastname?.slice(0.1) || "")}
+                                <PersonIcon sx={{fontSize: "100px"}}/>
                             </Avatar>
                             <Typography variant={"subtitle1"} align={"center"}>
                                 {profileData?.users_customuser?.username || ''}

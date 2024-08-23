@@ -13,14 +13,20 @@ interface ICoursePageProps extends BoxProps {
 
 }
 
+const DEFAULT_COURSE_TITLE = "Название курса по умолчанию"
+
 export default function CoursePage({...props}: ICoursePageProps) {
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
 
     const courses = useSelector((state: RootState) => state.coursePage.courses_data);
+
     useEffect(() => {
         dispatch(loadCourseDataThunk())
     }, [])
+
+    const coursesWithContent = courses.filter((course) => course.name !== DEFAULT_COURSE_TITLE)
+
     return (
         <Box {...props} sx={{overflow: "auto"}}>
             <Helmet>
@@ -32,7 +38,7 @@ export default function CoursePage({...props}: ICoursePageProps) {
                   justifyContent={"center"}
                   spacing={2}
                   rowSpacing={2}>
-                {courses?.map((course_data) => {
+                {coursesWithContent?.map((course_data) => {
                     return (
                         <Grid item key={course_data.id} xl={3} md={4} sm={6} xs={12}>
                             <CourseByData

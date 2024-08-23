@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import {observer} from "mobx-react";
 import IconMenu from "./IconMenu";
 import {alpha, styled} from '@mui/material/styles';
+import {Box} from "@mui/material";
 
 const BlurredAppBar = styled(AppBar)(
     ({theme}) => `
@@ -22,19 +23,17 @@ const BlurredAppBar = styled(AppBar)(
 )
 
 export const Navibar = observer(() => {
-    const {width} = useWindowDimensions();
     const navigate = useNavigate();
 
     return (
         <BlurredAppBar position="fixed" sx={{height: 48}}>
-            <Toolbar variant="dense" sx={{justifyContent: {xs: "space-around", md: "none"}}}>
-
+            <Toolbar variant="dense" sx={{justifyContent: {xs: "center", md: "space-between"}}}>
                 <Typography variant="h6"
-                            sx={{color: "white", flexGrow: 1, display: {xs: "none", md: "block"}}}
+                            sx={{color: "white", display: {xs: "none", md: "block"}, cursor: "pointer"}}
                             onClick={() => {
                                 navigate("/courses")
                             }}>
-                    {width >= 765 ? "Study Ways" : "SW"}
+                    Study Ways
                 </Typography>
                 <IconMenu/>
             </Toolbar>

@@ -15,7 +15,6 @@ import FunctionsIcon from '@mui/icons-material/Functions';
 import urlParser from "js-video-url-parser";
 import "js-video-url-parser/lib/provider/youtube";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import ThemeStoreObject from "../../../global-theme";
 import ReactPlayer from "react-player";
 import {useAppSelector} from "../../../ReduxStore/RootStore";
 import {CardType} from "./store/type";
@@ -49,23 +48,47 @@ export default function CardMicroView({
 
     const showTheme = !!themesText
     const showAuthor = !!authorName.split(" ").join("")
-    const isDarkTheme = ThemeStoreObject.mode === "dark";
-
 
     if (!card_data) {
         return (
-            // <Spinner animation="border" variant="success" className=" offset-6 mt-5"/>
             <div {...props} id={"CMV-loading-skeleton"}>
                 <Card variant="outlined"
                       sx={{
-                          display: 'flex',
-                          width: 300,
+                          width: {sm: 340, xs: "100%"},
                           height: 340,
+                          borderRadius: "24px"
                       }}
                       onClick={() => {
                           onChange && onChange(cardID)
                       }}>
-                    <Skeleton variant="rectangular" width={130} height={170}/>
+                    <Stack sx={{p: 2, flexGrow: 1, height: 340}} justifyContent={"space-between"}>
+                        <Box>
+                            <Skeleton variant="rectangular"
+                                      width={"100%"}
+                                      height={170}
+                                      sx={{borderRadius: "24px"}}
+                            />
+                            <Skeleton variant="rectangular"
+                                      width={"100%"}
+                                      height={30}
+                                      sx={{borderRadius: "8px", mt: 2}}
+                            />
+                        </Box>
+
+                        <Stack spacing={1}>
+                            <Skeleton variant="rectangular"
+                                      width={"100%"}
+                                      height={20}
+                                      sx={{borderRadius: "8px"}}
+                            />
+                            <Skeleton variant="rectangular"
+                                      width={"100%"}
+                                      height={20}
+                                      sx={{borderRadius: "8px"}}
+                            />
+                        </Stack>
+
+                    </Stack>
                 </Card>
             </div>
         );

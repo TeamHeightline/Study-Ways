@@ -108,10 +108,10 @@ export const MainUserQuestionPage = observer(() => {
         )
     }
     return (
-        <Stack direction={"column"} sx={{pl: 4}}>
+        <Stack direction={"column"} sx={{pl: {md: 4}}}>
             <Button
                 fullWidth
-                sx={{maxWidth: 300}}
+                sx={{maxWidth: 300, mb: 1}}
                 variant="outlined" color="primary"
                 onClick={() => {
                     QuestionPageStorage.closeQuestion()

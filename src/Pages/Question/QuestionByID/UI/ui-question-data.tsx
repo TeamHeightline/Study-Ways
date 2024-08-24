@@ -28,31 +28,29 @@ export default function UiQuestionData(props: any) {
         }
     })
 
-    return <Paper elevation={0}>
+    return <Paper elevation={0} sx={{px: {sm: 1}}}>
         {(!isMobile || props.ignoreAspectRatio) &&
             <Card variant="outlined"
                   sx={{
                       padding: 0,
-                      maxHeight: isMobile ? window.innerWidth * 2 : 510,
+                      minHeight: {xs: "100%", md: 510},
                       overflowY: "auto",
                       width: "100%"
                   }}>
                 <Grid container justifyContent={"center"}>
                     {props.questionImgUrl &&
-                        <Grid item xs={12} md={6}>
+                        <Grid item xs={12} md={6} sx={{flexGrow: 1, display: "flex"}}>
                             <CardMedia
                                 style={{
-                                    height: isMobile ? window.innerWidth - 100 : 500,
                                     backgroundSize: "contain",
-                                    maxHeight: isMobile ? window.innerWidth : 500,
-                                    overflowY: "auto",
-                                    width: "100%"
+                                    minWidth: "100%",
+                                    minHeight: "100%",
+                                    aspectRatio: 16 / 9
                                 }}
                                 image={props.questionImgUrl}
                             />
                         </Grid>}
-                    <Grid item xs={12} md={6}
-                          style={{height: isMobile ? window.innerWidth - 100 : 500, width: "100%"}}>
+                    <Grid item xs={12} md={6} sx={{height: {xs: "100%", md: 500}, width: "100%"}}>
                         <CardContent sx={{height: "100%"}}>
                             <Grid sx={{height: "100%"}} container alignItems="center">
                                 <Grid item xs={12} spacing={2}>
@@ -69,7 +67,7 @@ export default function UiQuestionData(props: any) {
                                             onClick={props.onClick}>
                                             Назад
                                         </Button>}
-                                    <Stack direction={"row"} spacing={1}>
+                                    <Stack direction={"row"} spacing={1} sx={{mt: 1}}>
                                         <Button
                                             disabled={disableCheckButton}
                                             variant="contained" color="primary"

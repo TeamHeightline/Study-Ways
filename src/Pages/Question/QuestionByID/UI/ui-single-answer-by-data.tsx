@@ -29,7 +29,7 @@ const UISingleAnswerByData = observer(({
                   sx={{
                       backgroundColor: isSelected ? "#2296F3" : "",
                       display: 'flex',
-                      width: 385,
+                      width: {md: 385, xs: "100%"},
                       height: 400,
                   }}
                   onClick={onAnswerClick}

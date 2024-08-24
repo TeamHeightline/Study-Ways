@@ -25,7 +25,7 @@ const UIAnswers = observer(({questionStore, ...props}: IUIAnswersProps) => {
                                sx={{height: isMobile ? questionStore?.answersArray * 410 : "", pt: 2}}>
                             {questionStore?.answersArray.map((answer, aIndex) => {
                                 return (
-                                    <Box sx={{mb: 2}} key={answer.id}>
+                                    <Box sx={{mb: 2, px: {xs: 1}}} key={answer.id}>
                                         <UISingleAnswerByData
                                             text={answer.answerText}
                                             imageURL={answer.answerImageUrl}

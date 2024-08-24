@@ -38,16 +38,16 @@ export default function CardBookmarksPage({...props}: ICardBookmarksPageProps) {
     }
 
     return (
-        <Box {...props}>
+        <Box {...props} sx={{p: 2}}>
             <Stack alignItems={"center"}>
                 <Typography variant={"h3"} sx={{mt: 3}}>
                     Карточки, добавленные в закладки
                 </Typography>
             </Stack>
-            <Grid container spacing={2} justifyContent={"space-around"}>
+            <Grid container spacing={2}>
                 {card_bookmarks_id_array?.map((card_id, index) => {
                     return (
-                        <Grid item key={index + "_" + card_id}>
+                        <Grid item md={4} lg={3} xs={12} key={index + "_" + card_id}>
                             <CardMicroView cardID={card_id} onClick={() => {
                                 navigate("/card/" + card_id)
                             }}/>

@@ -21,15 +21,16 @@ import recombee from 'recombee-js-api-client';
 
 
 export class CardByIDStore {
-    constructor(id?: number) {
-        this.id = id
-        this.loadCardData()
-
+    constructor() {
         makeAutoObservable(this)
+
+        this.loadCardData()
+        this.getAllCoursesData()
+        console.log('new store')
+
         reaction(() => this?.id, () => this.loadCardData())
         reaction(() => this?.card_data?.id, () => this.getCardImageURL())
 
-        this.getAllCoursesData()
         // autorun(() => this.getCardImageURL())
         autorun(() => this.collectFindInCourseNotification())
         autorun(() => this.updateRatingAndISBookmarked())
@@ -319,6 +320,8 @@ export class CardByIDStore {
 
 
 }
+
+export const cardByIDStore = new CardByIDStore()
 
 
 type ThemeAncestorMap = Map<string, UnstructuredThemesNode[]>;

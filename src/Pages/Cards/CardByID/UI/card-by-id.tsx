@@ -12,6 +12,7 @@ import CardBrowserIndexing from "./card-browser-indexing";
 import CardViews from "./card-views";
 import useWindowDimensions from "../../../../CustomHooks/useWindowDimensions";
 import {Box} from "@mui/material";
+import TestAfterCard from "./test-after-card";
 
 
 interface ICardByIDProps extends PaperProps {
@@ -52,7 +53,7 @@ const CardByID = observer(({
             <CardViews card_id={card_id}/>
 
             <CardNavigationRatingFind card_store={cardByIDStore} sx={{pt: 1}}/>
-            {/*<TestAfterCard card_store={cardByIDStore}/>*/}
+            <TestAfterCard card_store={cardByIDStore}/>
 
             {!is_hidden_similar_cards &&
                 <SimilarCards card_store={cardByIDStore} sx={{pt: 1}}/>}

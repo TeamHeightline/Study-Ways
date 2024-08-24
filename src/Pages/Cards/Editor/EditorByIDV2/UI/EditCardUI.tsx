@@ -12,7 +12,6 @@ import {CESObject} from "../Store/CardEditorStorage";
 import {UiYoutubeVideo} from "./ui-youtube-video";
 import {UiUploadImage} from "./ui-upload-image";
 import {UiRichTextEditor} from "./ui-rich-text-editor";
-import {UiTagField} from "./ui-tag-field";
 import {UiArrowNavigation} from "./ui-arrow-navigation";
 import {UiTestInCard} from "./ui-test-in-card";
 import {UiTestBeforeCard} from "./ui-test-before-card";
@@ -84,9 +83,6 @@ const EditCardUI = observer(({...props}: IEditCardUIProps) => {
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <UiRichTextEditor/>
-                </Grid>
-                <Grid item xs={12}>
-                    <UiTagField/>
                 </Grid>
 
                 <Grid item xs={12} md={6}>

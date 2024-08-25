@@ -41,7 +41,7 @@ export const AISearchString = observer(() => {
                             <TextField
                                 {...params}
                                 fullWidth
-                                label="Поиск на основе личных предпочтений"
+                                label="AI поиск"
                                 variant="outlined"/>}
                     />
                     <div>

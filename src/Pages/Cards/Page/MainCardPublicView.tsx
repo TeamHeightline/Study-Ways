@@ -8,6 +8,7 @@ import {useNavigate} from "react-router-dom";
 import {AIRoutes} from "./AISwitch";
 import {AICardSelector} from "./AISearch/UI/AICardSelector";
 import useQueryParams from "../../../CustomHooks/useQueryParams";
+import {Box} from "@mui/material";
 
 export const MainCardPublicView = observer(() => {
     const navigate = useNavigate();
@@ -22,15 +23,15 @@ export const MainCardPublicView = observer(() => {
                 </title>
             </Helmet>
             <AIRoutes/>
-            {queryParams.get("searchType") == "AISearch" &&
-                <AICardSelector onCardSelect={(card_id) => {
-                    navigate("/card/" + card_id)
-                }}/>}
-            {queryParams.get("searchType") == "DSearch" &&
-                <CardSelector onCardSelect={(card_id) => {
-                    navigate("/card/" + card_id)
-                }}/>
-            }
+            <Box sx={{mt: 1}}>
+                {queryParams.get("searchType") == "AISearch" ?
+                    <AICardSelector onCardSelect={(card_id) => {
+                        navigate("/card/" + card_id)
+                    }}/> :
+                    <CardSelector onCardSelect={(card_id) => {
+                        navigate("/card/" + card_id)
+                    }}/>}
+            </Box>
         </div>
     );
 })

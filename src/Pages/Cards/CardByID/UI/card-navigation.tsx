@@ -15,24 +15,16 @@ interface ICardNavigationRatingFindProps extends PaperProps {
 
 }
 
-const CardNavigationRatingFind = observer(({card_store, ...props}: ICardNavigationRatingFindProps) => {
-    const {isAuthenticated} = useAuth0();
+const AuthorNavigation = observer(({card_store, ...props}: ICardNavigationRatingFindProps) => {
     return (
         <Paper elevation={0} {...props}>
             <Grid container>
                 <Grid item xs={12} md={6}>
                     <CardAuthorNavigation card_store={card_store}/>
                 </Grid>
-                <Grid item xs={12} md={6}>
-                    {isAuthenticated &&
-                        <Stack direction={"row"} alignItems={"center"}>
-                            <CardRating card_store={card_store}/>
-                            <CardBookmark card_store={card_store}/>
-                        </Stack>}
-                </Grid>
             </Grid>
         </Paper>
     )
 })
 
-export default CardNavigationRatingFind
+export default AuthorNavigation

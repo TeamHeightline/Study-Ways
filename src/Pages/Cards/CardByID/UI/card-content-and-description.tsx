@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {Grid, Paper, Stack} from "@mui/material";
+import {Box, Grid, Paper, Stack} from "@mui/material";
 import CardMainContent from "./card-main-content";
 import {CardByIDStore} from "../Store/CardByIDStore";
 import CardDescription from "./card-description";
@@ -10,6 +10,10 @@ import TestBeforeCard from "./test-before-card";
 import CardHistoryDrawer from "../../../CardHistory/UI/card-history-drawer";
 import CardFindInCourse from "./card-find-in-course";
 import {UserStorage} from "../../../../Store/UserStore/UserStore";
+import CardRating from "./card-rating";
+import CardBookmark from "./card-bookmark";
+import {useAuth0} from "@auth0/auth0-react";
+import CardViews from "./card-views";
 
 
 interface ICardContentAndDescriptionProps extends PaperProps {
@@ -18,11 +22,23 @@ interface ICardContentAndDescriptionProps extends PaperProps {
 }
 
 const CardContentAndDescription = observer(({card_store, ...props}: ICardContentAndDescriptionProps) => {
+    const {isAuthenticated} = useAuth0();
+
     return (
         <Paper elevation={0} {...props}>
             <Grid container spacing={1}>
                 <Grid item xs={12} md={8}>
                     <CardMainContent card_store={card_store}/>
+                    <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"}>
+                        <CardViews card_id={card_store.id}/>
+                        <Box>
+                            {isAuthenticated &&
+                                <Stack direction={"row"} alignItems={"center"}>
+                                    <CardRating card_store={card_store}/>
+                                    <CardBookmark card_store={card_store}/>
+                                </Stack>}
+                        </Box>
+                    </Stack>
                     <CardDescription card_store={card_store}/>
                 </Grid>
                 <Grid item xs={12} md={4}>

@@ -5,7 +5,7 @@ import GoBackButton from "./go-back-button";
 import TitleAndNavigation from "./title-and-navigation";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import CardContentAndDescription from "./card-content-and-description";
-import CardNavigationRatingFind from "./card-navigation-rating-find-in-course";
+import AuthorNavigation from "./card-navigation";
 import CourseMicroView from "../../../Course/CourseMicroView/V2/UI/CourseMicroView";
 import SimilarCards from "./similar-cards";
 import CardBrowserIndexing from "./card-browser-indexing";
@@ -50,9 +50,8 @@ const CardByID = observer(({
                 course_navigation={course_navigation}
             />
             <CardContentAndDescription card_store={cardByIDStore} sx={{pt: 1}}/>
-            <CardViews card_id={card_id}/>
 
-            <CardNavigationRatingFind card_store={cardByIDStore} sx={{pt: 1}}/>
+            <AuthorNavigation card_store={cardByIDStore} sx={{pt: 1}}/>
             <TestAfterCard card_store={cardByIDStore}/>
 
             {!is_hidden_similar_cards &&

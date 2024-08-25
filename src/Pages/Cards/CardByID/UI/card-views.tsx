@@ -26,7 +26,7 @@ export default function CardViews({card_id, ...props}: ICardViewsProps) {
 
 
     if (views === null) {
-        return null
+        return <Box/>
     }
 
     return (

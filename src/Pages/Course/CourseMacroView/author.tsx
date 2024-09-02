@@ -1,5 +1,4 @@
-import {Box, Stack, Typography} from "@mui/material";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import {Box, Typography} from "@mui/material";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import React from "react";
 import {useNavigate} from "react-router-dom";

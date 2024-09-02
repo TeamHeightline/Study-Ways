@@ -28,7 +28,7 @@ export const Cards = observer(() => {
                 Карточки автора
             </Typography>
 
-            <Stack direction={'row'} spacing={2} sx={{overflowX: 'auto'}}>
+            <Stack direction={'row'} spacing={2} sx={{overflowX: 'auto', mt: 1}}>
                 {cardIDArray.map(id => (
                     <Box key={id} sx={{minWidth: {xs: 300, md: "initial"}}}>
                         <CardMicroView cardID={id} onClick={onCardClick(id)}/>

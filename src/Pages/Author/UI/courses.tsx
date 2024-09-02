@@ -39,7 +39,7 @@ export const Courses = observer(() => {
             <Typography variant={'h4'}>
                 Курсы автора
             </Typography>
-            <Stack direction={'row'} spacing={2} sx={{overflowX: 'auto',}}>
+            <Stack direction={'row'} spacing={2} sx={{overflowX: 'auto', mt: 1}}>
                 {authorCoursesData.map((courseData) => (
                     <Box key={courseData.id} sx={{width: {xs: 100 + 'vw', sm: 600}}}>
                         <CourseByData

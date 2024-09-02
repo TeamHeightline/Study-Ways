@@ -24,7 +24,6 @@ export const Author = observer(() => {
         handleSetAuthorID()
     }, []);
 
-    console.log(authorPageStore.pageData)
 
     if (authorPageStore.is_loading) {
         return <Loading/>

@@ -10,6 +10,7 @@ import CourseMicroView from "../../../Course/CourseMicroView/V2/UI/CourseMicroVi
 import {PaperProps} from "@mui/material/Paper/Paper";
 import Paper from "@mui/material/Paper";
 import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
+import {CardAuthor} from "./card-author";
 
 interface ITitleAndNavigationProps extends PaperProps {
     course_navigation?: ReturnType<typeof CourseMicroView>
@@ -35,6 +36,7 @@ const TitleAndNavigation = observer(({
                     <DefaultCardNavigation card_store={card_store}/>}
                 <Stack direction={"column"}>
                     <CardTitleWithId card_store={card_store}/>
+                    <CardAuthor card_store={card_store}/>
                     <Stack direction={{sx: "column", md: "row"}} spacing={1}>
                         <CardCopyright card_store={card_store}/>
                         <CardTheme card_store={card_store}/>

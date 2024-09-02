@@ -10,6 +10,7 @@ import CourseByData from "../../Course/Page/UI/CourseByData";
 
 export const Courses = observer(() => {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
 
     const authorCourses = toJS(authorPageStore.pageData?.cards_cardcourse) || []
     const coursesData = useSelector((state: RootState) => state.coursePage.courses_data);
@@ -42,6 +43,13 @@ export const Courses = observer(() => {
                 {authorCoursesData.map((courseData) => (
                     <Box key={courseData.id} sx={{width: {xs: 100 + 'vw', sm: 600}}}>
                         <CourseByData
+                            onChangePosition={(position) => {
+                                navigate("/course?" + "id=" + courseData.id +
+                                    "&activePage=" + position.activePage +
+                                    "&selectedPage=" + position.activePage +
+                                    "&selectedRow=" + position.selectedRow +
+                                    "&selectedIndex=" + position.selectedIndex)
+                            }}
                             courseData={courseData}
                         />
                     </Box>
@@ -53,3 +61,4 @@ export const Courses = observer(() => {
 import {DEFAULT_COURSE_TITLE} from "../../Course/Page/UI/course-page";
 
 import {Box, Stack, Typography} from "@mui/material";
+import {useNavigate} from "react-router-dom";

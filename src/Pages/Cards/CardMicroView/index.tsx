@@ -199,7 +199,12 @@ export default function CardMicroView({
 
                                     <Typography
                                         variant={"subtitle2"}
-                                        sx={{flexGrow: 1, overflow: "hidden"}}>
+                                        sx={{
+                                            flexGrow: 1,
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            maxHeight: 90
+                                        }}>
                                         {card_data?.title}
                                     </Typography>
                                 </Box>

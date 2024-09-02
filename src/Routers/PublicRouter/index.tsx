@@ -19,6 +19,7 @@ import ExamByUID from "../../Pages/Exam/ExamByUid/UI/exam-by-uid-page";
 import RecentCardsPage from "../../Pages/RecentCards/UI/recent-cards-page";
 import BookmarksPage from "../../Pages/CardBookmarks/UI/card-bookmarks-page";
 import {MainUserQuestionPage} from "../../Pages/Question/QuestionsPage/MainUserQuestionPage";
+import Author from "../../Pages/Author";
 
 interface IPublicRouterProps {
 
@@ -88,6 +89,10 @@ const routes = [
     {
         path: `/all-questions/*`,
         component: <MainUserQuestionPage/>,
+    },
+    {
+        path: '/author/:id',
+        component: <Author/>
     },
     {
         path: "/",

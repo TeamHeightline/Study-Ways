@@ -13,7 +13,7 @@ interface ICoursePageProps extends BoxProps {
 
 }
 
-const DEFAULT_COURSE_TITLE = "Название курса по умолчанию"
+export const DEFAULT_COURSE_TITLE = "Название курса по умолчанию"
 
 export default function CoursePage({...props}: ICoursePageProps) {
     const dispatch = useAppDispatch()

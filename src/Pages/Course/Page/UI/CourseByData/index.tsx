@@ -70,7 +70,8 @@ export default function CourseByData({courseData, coursePosition, onChangePositi
                   sx={{
                       borderRadius: 1.5,
                       width: "100%",
-                      minHeight: 200,
+                      minHeight: 225,
+                      aspectRatio: 2,
                       display: 'flex',
                       flexDirection: 'row',
                   }}

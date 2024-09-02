@@ -7,7 +7,7 @@ import Image from "./image";
 import Stepper from "./stepper";
 import CardRow from "./card-row";
 import Title from "./title";
-import Description from "./description";
+import Author from "./author";
 
 interface ICourseMacroViewProps extends BoxProps {
     courseID: number
@@ -63,7 +63,7 @@ export default function CourseMacroView({courseID, positionData, onCardSelect, .
                        HEIGHT_OF_COURSE_MACRO_VIEW={200}/>
                 <Box>
                     <Title courseData={courseData}/>
-                    <Description/>
+                    <Author courseData={courseData}/>
                 </Box>
             </Stack>
 

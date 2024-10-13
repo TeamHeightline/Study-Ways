@@ -8,7 +8,7 @@ import CardByURL from "../../Pages/Cards/CardByURL/UI/card-by-url";
 import ProfilePage from "../../Pages/Profile/UI/ProfilePage";
 import CardByID from "../../Pages/Cards/CardByID/UI/card-by-id";
 
-import {EditorsRouter} from "../../Routers/EditorRouter/EditorsRouter";
+import {EditorsRouter} from "../EditorRouter/EditorsRouter";
 import {MainCardPublicView} from "../../Pages/Cards/Page/MainCardPublicView";
 import {QSPlayerByID} from "../../Pages/QuestionSequence/Public/QSPlayerByID";
 import {QuestionByID} from "../../Pages/Question/QuestionByID/UI/QuestionByID";
@@ -20,6 +20,7 @@ import RecentCardsPage from "../../Pages/RecentCards/UI/recent-cards-page";
 import BookmarksPage from "../../Pages/CardBookmarks/UI/card-bookmarks-page";
 import {MainUserQuestionPage} from "../../Pages/Question/QuestionsPage/MainUserQuestionPage";
 import Author from "../../Pages/Author";
+import {AiCourse} from "../../Pages/AICourse/ui/ai-course";
 
 interface IPublicRouterProps {
 
@@ -95,6 +96,10 @@ const routes = [
         component: <Author/>
     },
     {
+        path: '/ai-course',
+        component: <AiCourse/>
+    },
+    {
         path: "/",
         component: <CardByID card_id={2677}/>
     }
@@ -104,20 +109,23 @@ export default function PublicRouter({...props}: IPublicRouterProps) {
     return (
         <>
             <div style={{paddingTop: 48}}>
-                <Suspense fallback={<Grid container justifyContent={"center"}
-                                          sx={{pt: 4}}><CircularProgress/></Grid>}>
+                <Suspense fallback={
+                    <Grid container justifyContent={"center"} sx={{pt: 4}}>
+                        <CircularProgress/>
+                    </Grid>}>
 
                     <RequireLogInAlert/>
-                    {/*<ProfileNotification/>*/}
 
                     <Routes>
                         {routes.map((route) => {
                             return (
                                 <Route path={route.path}
                                        key={route.path}
-                                       element={<Suspense fallback={<div/>}>
-                                           {route.component}
-                                       </Suspense>}/>
+                                       element={
+                                           <Suspense fallback={<div/>}>
+                                               {route.component}
+                                           </Suspense>
+                                       }/>
                             )
                         })}
                     </Routes>

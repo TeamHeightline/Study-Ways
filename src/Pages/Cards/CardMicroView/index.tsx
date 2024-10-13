@@ -203,7 +203,8 @@ export default function CardMicroView({
                                             flexGrow: 1,
                                             overflow: "hidden",
                                             textOverflow: "ellipsis",
-                                            maxHeight: 90
+                                            maxHeight: 90,
+                                            textAlign: 'start'
                                         }}>
                                         {card_data?.title}
                                     </Typography>

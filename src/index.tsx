@@ -17,40 +17,50 @@ import reduxStore from "./ReduxStore/RootStore";
 import {createRoot} from "react-dom/client";
 import {LocalizationProvider} from '@mui/x-date-pickers'
 import {AdapterMoment} from '@mui/x-date-pickers/AdapterMoment';
+import {ReactFlowProvider} from "@xyflow/react";
+import {
+    QueryClient,
+    QueryClientProvider
+} from '@tanstack/react-query'
 
 
 configure({
     enforceActions: "never",
 })
 
+const queryClient = new QueryClient()
 
 //Этот файл полностью посвящен тому, чтобы создать темную тему во все проекте.
 //Для Material UI мы создаем ThemeProvider, для AntDesign - импортируем темную тему
 const AppWithAllProviders = observer(() => {
 
     return (
-        <LocalizationProvider dateAdapter={AdapterMoment}>
-            <Provider store={reduxStore}>
-                <Auth0Provider
-                    domain="dev-xjng6xd9.us.auth0.com"
-                    clientId="SJ055fS1pu4cnBi8zmWkUpu3LTolh2Oj"
-                    redirectUri={window.location.origin}
-                    audience="sw-backend-identifier"
-                    scope="read:current_user update:current_user_metadata"
-                >
-                    <ThemeProvider theme={ThemeStoreObject.theme}>
-                        <CssBaseline/>
-                        {/*<style>{'body {background-color: #0A1929}'}</style>*/}
-                        <DndProvider backend={HTML5Backend}>
-                            <div>
-                                <App/>
-                            </div>
-                        </DndProvider>
+        <QueryClientProvider client={queryClient}>
+            <ReactFlowProvider>
+                <LocalizationProvider dateAdapter={AdapterMoment}>
+                    <Provider store={reduxStore}>
+                        <Auth0Provider
+                            domain="dev-xjng6xd9.us.auth0.com"
+                            clientId="SJ055fS1pu4cnBi8zmWkUpu3LTolh2Oj"
+                            redirectUri={window.location.origin}
+                            audience="sw-backend-identifier"
+                            scope="read:current_user update:current_user_metadata"
+                        >
+                            <ThemeProvider theme={ThemeStoreObject.theme}>
+                                <CssBaseline/>
+                                {/*<style>{'body {background-color: #0A1929}'}</style>*/}
+                                <DndProvider backend={HTML5Backend}>
+                                    <div>
+                                        <App/>
+                                    </div>
+                                </DndProvider>
 
-                    </ThemeProvider>
-                </Auth0Provider>
-            </Provider>
-        </LocalizationProvider>
+                            </ThemeProvider>
+                        </Auth0Provider>
+                    </Provider>
+                </LocalizationProvider>
+            </ReactFlowProvider>
+        </QueryClientProvider>
     )
 })
 

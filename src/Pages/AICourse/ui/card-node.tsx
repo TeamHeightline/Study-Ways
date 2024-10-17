@@ -27,7 +27,7 @@ export const CardNode = observer((props: IProps) => {
         }
         AICourseStore.setDefaultCardID(cardID)
     }, []);
-    
+
     const isSelected = String(cardID) === String(selectedCardId)
 
     return (
@@ -36,7 +36,8 @@ export const CardNode = observer((props: IProps) => {
             <div onClick={handleClick}
                  style={{
                      border: isSelected ? '1px solid #f50057' : 'none',
-                     borderRadius: 24
+                     borderRadius: 24,
+                     width: 350
                  }}
             >
                 <CardMicroView cardID={cardID}/>

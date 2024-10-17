@@ -29,6 +29,8 @@ class Store {
 
     isDefaultCardsLoaded = false
 
+    cardIDMap: Record<string, boolean> = {}
+
     onSearch = () => {
         this.isSearchButtonClicked = true
         getCardsBySearch(this.searchString)
@@ -41,8 +43,10 @@ class Store {
     loadNextCards = (cardID: number) => {
         getNextCards(cardID)
             .then((nextCardIds) => {
-                this.generateNextNodes(cardID, nextCardIds)
-                this.generateEdgesForNextNode(cardID, nextCardIds)
+                const newCardIDs = this.filterNotCreatedCards(nextCardIds)
+                this.addNewCards(nextCardIds)
+                this.generateNextNodes(cardID, newCardIDs)
+                this.generateEdgesForNextNode(cardID, newCardIDs)
                 this.reLayout()
             })
     }
@@ -115,6 +119,16 @@ class Store {
         }
         node.position = {x: 0, y: 0}
         this.nodes = [node]
+    }
+
+    filterNotCreatedCards = (cardIDArray: number[]) => {
+        return cardIDArray.filter((cardID) => !this.cardIDMap?.[cardID])
+    }
+
+    addNewCards = (cardIDArray: number[]) => {
+        cardIDArray.forEach((cardID) => {
+            this.cardIDMap[cardID] = true
+        })
     }
 
 

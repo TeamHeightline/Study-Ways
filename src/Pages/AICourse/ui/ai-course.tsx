@@ -1,13 +1,15 @@
 import {observer} from "mobx-react";
 import {Search} from "./search";
 import {Flow} from "./map";
-import {Box, CircularProgress, Stack, Zoom} from "@mui/material";
+import {Box, CircularProgress, Fade, Stack, Zoom} from "@mui/material";
 import {useState} from "react";
 import {getCardsBySearch} from "../model/api";
 import {useQuery} from "@tanstack/react-query";
 import CardByID from "../../Cards/CardByID/UI/card-by-id";
 import {AICourseStore} from "../model/store";
 import {toJS} from "mobx";
+import {useUpdateNodeInternals} from "@xyflow/react";
+
 
 export const AiCourse = observer(() => {
     const cardID = toJS(AICourseStore.selectedCardId)
@@ -36,11 +38,11 @@ export const AiCourse = observer(() => {
             <Stack justifyContent={'center'} alignItems={'center'} sx={{p: 1}}>
                 <Search/>
             </Stack>
-            <Zoom in timeout={1000}>
+            <Fade in timeout={1000}>
                 <div>
                     <Flow/>
                 </div>
-            </Zoom>
+            </Fade>
             {cardID && <CardByID card_id={cardID}
                                  is_hidden_navigation={true}
                                  is_hidden_similar_cards={true}

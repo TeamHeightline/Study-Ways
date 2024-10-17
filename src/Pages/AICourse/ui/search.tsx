@@ -13,6 +13,10 @@ export const Search = observer(() => {
         <Fade in timeout={1000}>
             <Paper
                 component="form"
+                onSubmit={(event) => {
+                    event.preventDefault()
+                    AICourseStore.onSearch()
+                }}
                 sx={{
                     p: '2px 4px',
                     display: 'flex',

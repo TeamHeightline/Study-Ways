@@ -1,5 +1,5 @@
 import {Node} from "@xyflow/react/dist/esm/types";
-import {DEFAULT_NODE_PREFIX, OFFSET_FOR_FIRST_CARDS} from "../model/const";
+import {OFFSET_FOR_FIRST_CARDS} from "../model/const";
 
 export function generateNextNodes(rootCardPosition: { x: number, y: number }, cardIDArray: number[]): Node[] {
     return cardIDArray.map((cardID, index): Node => {

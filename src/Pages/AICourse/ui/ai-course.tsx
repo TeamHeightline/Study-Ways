@@ -1,14 +1,10 @@
 import {observer} from "mobx-react";
 import {Search} from "./search";
 import {Flow} from "./map";
-import {Box, CircularProgress, Fade, Stack, Zoom} from "@mui/material";
-import {useState} from "react";
-import {getCardsBySearch} from "../model/api";
-import {useQuery} from "@tanstack/react-query";
+import {Box, CircularProgress, Fade, Stack} from "@mui/material";
 import CardByID from "../../Cards/CardByID/UI/card-by-id";
 import {AICourseStore} from "../model/store";
 import {toJS} from "mobx";
-import {useUpdateNodeInternals} from "@xyflow/react";
 
 
 export const AiCourse = observer(() => {

@@ -1,4 +1,4 @@
-import {DEFAULT_NODE_PREFIX, OFFSET_FOR_FIRST_CARDS} from "../model/const";
+import {OFFSET_FOR_FIRST_CARDS} from "../model/const";
 import {Node} from "@xyflow/react/dist/esm/types";
 
 export function generateInitialNodes(cardIDArray: number[]): Node[] {

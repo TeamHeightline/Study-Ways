@@ -1,9 +1,6 @@
 import {observer} from "mobx-react";
-import {useQuery} from '@tanstack/react-query'
-import {getCardsBySearch} from "../model/api";
 import {Fade, IconButton, InputBase, Paper} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import {useState} from "react";
 import {AICourseStore} from "../model/store";
 
 export const Search = observer(() => {

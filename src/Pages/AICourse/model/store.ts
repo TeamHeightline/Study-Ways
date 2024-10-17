@@ -2,8 +2,6 @@ import {makeAutoObservable, toJS} from "mobx";
 import {getCardsBySearch, getNextCards} from "./api";
 import {Edge, Node} from "@xyflow/react/dist/esm/types";
 import {generateInitialNodes} from "../utils/generateInitialNodes";
-import cardById from "../../Cards/CardByID/UI/card-by-id";
-import {DEFAULT_NODE_PREFIX, OFFSET_FOR_FIRST_CARDS} from "./const";
 import {generateNextNodes} from "../utils/generateNextNodes";
 import {generateEdgesForNextNodes} from "../utils/generateEdgesForNextNodes";
 import {getLayoutedElements} from "../utils/getLayoutElements";

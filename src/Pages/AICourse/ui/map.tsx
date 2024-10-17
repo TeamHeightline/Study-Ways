@@ -1,10 +1,8 @@
 import {toJS} from "mobx";
 import {observer} from "mobx-react";
-import {useCallback, useEffect} from 'react';
+import {useCallback} from 'react';
 import {applyEdgeChanges, applyNodeChanges, Background, Controls, ReactFlow, useReactFlow} from "@xyflow/react";
 import '@xyflow/react/dist/style.css';
-
-import {getLayoutedElements} from "../utils/getLayoutElements";
 import {CardNode} from "./card-node";
 import {AICourseStore} from "../model/store";
 
@@ -31,14 +29,6 @@ const Flow = observer((props: IProps) => {
         [],
     );
 
-
-    useEffect(() => {
-            // window.requestAnimationFrame(() => {
-            //     fitView();
-            // });
-        },
-        [nodes.length],
-    )
 
     return (
         <div style={{height: '80vh', width: '100vw'}}>

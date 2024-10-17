@@ -5,13 +5,15 @@ import {UserStorage} from "../../../Store/UserStore/UserStore";
 
 const NUMBER_OF_NEXT_CARDS = 3
 
+const NUMBER_OF_DEFAULT_CARDS = 5
+
 export async function getCardsBySearch(searchString: string): Promise<number[]> {
     return new Promise((res, rej) => {
         // @ts-ignore
         recombeeClient.send(new recombee.SearchItems(
                 String(UserStorage.userIDForRecombee),
                 searchString,
-                NUMBER_OF_NEXT_CARDS,
+                NUMBER_OF_DEFAULT_CARDS,
                 {
                     'scenario': 'Search-Card',
                     'returnProperties': true,

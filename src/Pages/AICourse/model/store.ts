@@ -25,9 +25,17 @@ class Store {
 
     selectedCardId: null | number = null
 
+    isSearchButtonClicked = false
+
+    isDefaultCardsLoaded = false
+
     onSearch = () => {
+        this.isSearchButtonClicked = true
         getCardsBySearch(this.searchString)
-            .then(this.setDefaultCardIDs)
+            .then((data) => {
+                this.isDefaultCardsLoaded = true
+                this.setDefaultCardIDs(data)
+            })
     }
 
     loadNextCards = (cardID: number) => {

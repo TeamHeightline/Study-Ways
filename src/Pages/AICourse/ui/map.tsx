@@ -41,7 +41,7 @@ const Flow = observer((props: IProps) => {
     )
 
     return (
-        <div style={{height: '60vh', width: '100vw'}}>
+        <div style={{height: '80vh', width: '100vw'}}>
             <ReactFlow
                 // maxZoom={100}
                 // minZoom={0.0000005}

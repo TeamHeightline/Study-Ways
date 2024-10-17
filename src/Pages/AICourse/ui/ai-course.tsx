@@ -30,7 +30,7 @@ export const AiCourse = observer(() => {
     }
 
     return (
-        <Box>
+        <Box sx={{overflowX: 'hidden'}}>
             <Stack justifyContent={'center'} alignItems={'center'} sx={{p: 1}}>
                 <Search/>
             </Stack>

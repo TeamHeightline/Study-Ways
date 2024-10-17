@@ -3,7 +3,7 @@ import recombeeClient from "../../../Store/RecombeeClient/recombee-client";
 import recombee, {RecommendItemsToItem} from 'recombee-js-api-client';
 import {UserStorage} from "../../../Store/UserStore/UserStore";
 
-const NUMBER_OF_CARDS = 5
+const NUMBER_OF_NEXT_CARDS = 3
 
 export async function getCardsBySearch(searchString: string): Promise<number[]> {
     return new Promise((res, rej) => {
@@ -11,7 +11,7 @@ export async function getCardsBySearch(searchString: string): Promise<number[]> 
         recombeeClient.send(new recombee.SearchItems(
                 String(UserStorage.userIDForRecombee),
                 searchString,
-                NUMBER_OF_CARDS,
+                NUMBER_OF_NEXT_CARDS,
                 {
                     'scenario': 'Search-Card',
                     'returnProperties': true,
@@ -32,7 +32,7 @@ export async function getCardsBySearch(searchString: string): Promise<number[]> 
 
 export async function getNextCards(cardID: number): Promise<number[]> {
     return new Promise((res, rej) => {
-        recombeeClient.send(new RecommendItemsToItem(String(cardID), String(UserStorage.userIDForRecombee), NUMBER_OF_CARDS),
+        recombeeClient.send(new RecommendItemsToItem(String(cardID), String(UserStorage.userIDForRecombee), NUMBER_OF_NEXT_CARDS),
             (err, matches) => {
                 if (err) {
                     rej(err)

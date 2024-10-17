@@ -33,8 +33,7 @@ const Flow = observer((props: IProps) => {
     return (
         <div style={{height: '80vh', width: '100vw'}}>
             <ReactFlow
-                // maxZoom={100}
-                // minZoom={0.0000005}
+                minZoom={0.25}
                 nodeTypes={nodeTypes}
                 nodes={nodes}
                 onNodesChange={onNodesChange}

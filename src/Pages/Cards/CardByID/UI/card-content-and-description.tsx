@@ -27,7 +27,7 @@ const CardContentAndDescription = observer(({card_store, ...props}: ICardContent
     return (
         <Paper elevation={0} {...props}>
             <Grid container spacing={1}>
-                <Grid item xs={12} md={8}>
+                <Grid item xs={12} md={6}>
                     <CardMainContent card_store={card_store}/>
                     <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"}>
                         <CardViews card_id={card_store.id}/>
@@ -39,15 +39,15 @@ const CardContentAndDescription = observer(({card_store, ...props}: ICardContent
                                 </Stack>}
                         </Box>
                     </Stack>
-                    <CardDescription card_store={card_store}/>
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={6}>
                     <Stack direction={"column"} spacing={1}>
                         <TestBeforeCard card_store={card_store}/>
-                        <CardFindInCourse card_store={card_store}/>
                         <CardGoToResource card_store={card_store}/>
                         {UserStorage.isLogin &&
                             <CardHistoryDrawer/>}
+                        <CardDescription card_store={card_store}/>
+                        <CardFindInCourse card_store={card_store}/>
                     </Stack>
                 </Grid>
             </Grid>

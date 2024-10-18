@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {Box, Divider, IconButton, ListItemIcon, MenuItem, Popover, Tooltip} from "@mui/material";
+import {Box, Button, Divider, IconButton, ListItemIcon, MenuItem, Popover, Tooltip} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import EditIcon from '@mui/icons-material/Edit';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
@@ -10,14 +10,16 @@ import haveStatus from "../../Store/UserStore/utils/HaveStatus";
 import HomeIcon from "@mui/icons-material/Home";
 import AppsIcon from "@mui/icons-material/Apps";
 import {UserStorage} from "../../Store/UserStore/UserStore";
+import {isMobileHook} from "../../CustomHooks/isMobileHook";
 
 interface INavbarMenuProps extends PaperProps {
 
 }
 
-const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
+const PagesMenu = observer(({...props}: INavbarMenuProps) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const navigate = useNavigate();
+    const isMobile = isMobileHook()
 
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -30,12 +32,9 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
 
     return (
         <>
-
-            <Tooltip title={"Меню"}>
-                <IconButton onClick={handleMenu}>
-                    <MenuIcon/>
-                </IconButton>
-            </Tooltip>
+            <Button startIcon={<MenuIcon/>} sx={{color: 'white'}} onClick={handleMenu}>
+                Меню
+            </Button>
             <Popover
                 open={!!anchorEl}
                 anchorEl={anchorEl}
@@ -79,7 +78,7 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
                         <ListItemIcon>
                             <QuestionMarkIcon fontSize="small"/>
                         </ListItemIcon>
-                        Вопросы
+                        Тесты
                     </MenuItem>
                     <Divider/>
                     <MenuItem
@@ -95,9 +94,8 @@ const NavbarMenu = observer(({...props}: INavbarMenuProps) => {
                     </MenuItem>
                 </Box>
             </Popover>
-
         </>
     )
 })
 
-export default NavbarMenu
+export default PagesMenu

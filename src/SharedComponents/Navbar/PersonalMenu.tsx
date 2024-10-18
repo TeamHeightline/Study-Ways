@@ -1,19 +1,17 @@
-import {Box, Divider, IconButton, ListItemIcon, MenuItem, Popover, Tooltip} from "@mui/material";
+import {Box, Button, Divider, ListItemIcon, MenuItem, Popover} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
 import React from "react";
 import {UserStorage} from "../../Store/UserStore/UserStore";
 import StackedLineChartIcon from "@mui/icons-material/StackedLineChart";
 import {useNavigate} from "react-router-dom";
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import HomeIcon from '@mui/icons-material/Home';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
-import HistoryIcon from '@mui/icons-material/History';
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import ThemeStoreObject from "../../global-theme";
 import NightlightIcon from "@mui/icons-material/Nightlight";
 import {DarkMode} from "@mui/icons-material";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import LogoutIcon from "@mui/icons-material/Logout";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import {useAuth0} from "@auth0/auth0-react";
 
 interface IPersonalMenuProps extends BoxProps {
@@ -25,6 +23,7 @@ export default function PersonalMenu({...props}: IPersonalMenuProps) {
     const navigate = useNavigate();
     const {logout, isAuthenticated} = useAuth0();
 
+
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -35,12 +34,9 @@ export default function PersonalMenu({...props}: IPersonalMenuProps) {
 
     return (
         <Box {...props}>
-            <Tooltip title={"Личная активность"}>
-                <IconButton onClick={handleMenu}>
-                    <AccountBoxIcon/>
-                </IconButton>
-            </Tooltip>
-
+            <Button startIcon={<AccountCircleIcon/>} sx={{color: 'white'}} onClick={handleMenu}>
+                Аккаунт
+            </Button>
             <Popover
                 open={!!anchorEl}
                 anchorEl={anchorEl}
@@ -63,8 +59,6 @@ export default function PersonalMenu({...props}: IPersonalMenuProps) {
                         </ListItemIcon>
                         Профиль
                     </MenuItem>
-
-
                     <MenuItem disabled={!UserStorage.isLogin}
                               onClick={() => {
                                   handleClose()
@@ -85,7 +79,6 @@ export default function PersonalMenu({...props}: IPersonalMenuProps) {
                         </ListItemIcon>
                         Закладки
                     </MenuItem>
-
                     <Divider/>
                     <MenuItem
                         onClick={ThemeStoreObject.changeMode}
@@ -113,7 +106,6 @@ export default function PersonalMenu({...props}: IPersonalMenuProps) {
                         </ListItemIcon>
                         Выйти
                     </MenuItem>
-
                 </Box>
             </Popover>
         </Box>

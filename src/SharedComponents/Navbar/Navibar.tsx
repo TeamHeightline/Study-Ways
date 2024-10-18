@@ -1,16 +1,11 @@
-// Мы в панели навигации, ВСЕ ПЕРЕХОДЫ СДЕЛАНЫ ЧЕРЕЗ LINK, никаких href, иначе все приложение
-// будет перегружаться
-
 import {useNavigate} from 'react-router-dom';
-import useWindowDimensions from "../../CustomHooks/useWindowDimensions";
 import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import {observer} from "mobx-react";
-import IconMenu from "./IconMenu";
+import Menu from "./Menu";
 import {alpha, styled} from '@mui/material/styles';
-import {Box} from "@mui/material";
 
 const BlurredAppBar = styled(AppBar)(
     ({theme}) => `
@@ -35,7 +30,7 @@ export const Navibar = observer(() => {
                             }}>
                     Study Ways
                 </Typography>
-                <IconMenu/>
+                <Menu/>
             </Toolbar>
         </BlurredAppBar>
     );

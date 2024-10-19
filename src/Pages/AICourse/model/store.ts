@@ -29,6 +29,8 @@ class Store {
 
     cardIDMap: Record<string, boolean> = {}
 
+    cardWithGeneratedAncestors: Record<string, boolean> = {}
+
     onSearch = () => {
         this.isSearchButtonClicked = true
         getCardsBySearch(this.searchString)
@@ -39,12 +41,17 @@ class Store {
     }
 
     loadNextCards = (cardID: number) => {
+        if (this.isCardHaveAncestors(cardID)) {
+            return
+        }
+
         getNextCards(cardID)
             .then((nextCardIds) => {
                 const newCardIDs = this.filterNotCreatedCards(nextCardIds)
                 this.addNewCards(nextCardIds)
                 this.generateNextNodes(cardID, newCardIDs)
                 this.generateEdgesForNextNode(cardID, newCardIDs)
+                this.addCardWithGeneratedAncestors(cardID)
                 this.reLayout()
             })
     }
@@ -108,6 +115,7 @@ class Store {
     }
 
     setDefaultCardID = (cardID: number) => {
+        
         this.selectedDefaultCardID = cardID
 
         const node = this.nodes
@@ -127,6 +135,14 @@ class Store {
         cardIDArray.forEach((cardID) => {
             this.cardIDMap[cardID] = true
         })
+    }
+
+    addCardWithGeneratedAncestors = (cardID: number) => {
+        this.cardWithGeneratedAncestors[cardID] = true
+    }
+
+    isCardHaveAncestors = (cardID: number) => {
+        return this.cardWithGeneratedAncestors.hasOwnProperty(cardID)
     }
 
 

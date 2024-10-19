@@ -115,7 +115,10 @@ class Store {
     }
 
     setDefaultCardID = (cardID: number) => {
-        
+        if (this.selectedDefaultCardID) {
+            return;
+        }
+
         this.selectedDefaultCardID = cardID
 
         const node = this.nodes

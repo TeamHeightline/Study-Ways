@@ -47,8 +47,11 @@ class Store {
 
         getNextCards(cardID)
             .then((nextCardIds) => {
-                const newCardIDs = this.filterNotCreatedCards(nextCardIds)
-                this.addNewCards(nextCardIds)
+                const newCardIDs = this.filterNotCreatedCards(toJS(nextCardIds))
+                if (!newCardIDs) {
+                    return
+                }
+                this.addNewCards(newCardIDs)
                 this.generateNextNodes(cardID, newCardIDs)
                 this.generateEdgesForNextNode(cardID, newCardIDs)
                 this.addCardWithGeneratedAncestors(cardID)
@@ -131,7 +134,7 @@ class Store {
     }
 
     filterNotCreatedCards = (cardIDArray: number[]) => {
-        return cardIDArray.filter((cardID) => !this.cardIDMap?.[cardID])
+        return cardIDArray.filter((cardID) => !this.cardIDMap?.[cardID] && cardID !== this.selectedDefaultCardID)
     }
 
     addNewCards = (cardIDArray: number[]) => {

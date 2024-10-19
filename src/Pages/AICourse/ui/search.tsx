@@ -33,8 +33,16 @@ export const Search = observer(() => {
                 <InputBase
                     onChange={setSearchString}
                     value={searchString}
-                    sx={{ml: 1, flex: 1}}
+                    sx={{
+                        ml: 1, flex: 1,
+                        'input': {
+                            '&::placeholder': {
+                                opacity: 0.7
+                            }
+                        }
+                    }}
                     placeholder="О чем будет курс?"
+
                 />
                 <IconButton type="button" sx={{p: '10px'}} aria-label="search" onClick={() => {
                     AICourseStore.onSearch()

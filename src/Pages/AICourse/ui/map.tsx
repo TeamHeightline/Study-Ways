@@ -5,6 +5,7 @@ import {Background, Controls, ReactFlow, useReactFlow} from "@xyflow/react";
 import '@xyflow/react/dist/style.css';
 import {CardNode} from "./card-node";
 import {AICourseStore} from "../model/store";
+import {isMobileHook} from "../../../CustomHooks/isMobileHook";
 
 
 interface IProps {
@@ -16,10 +17,17 @@ const nodeTypes = {cardNode: CardNode}
 const NODE_CENTER_OFFSET_LEFT = 600
 const NODE_CENTER_OFFSET_BOTTOM = 300
 
+const PC_ZOOM = 0.5
+const PC_MAX_ZOOM = 0.25
+
+const MOBILE_ZOOM = 0.3
+const MOBILE_MAX_ZOOM = 0.15
+
 const Flow = observer((props: IProps) => {
     const nodes = toJS(AICourseStore.nodes)
     const edges = toJS(AICourseStore.edges)
     const selectedNodeID = toJS(AICourseStore.selectedCardId)
+    const isMobile = isMobileHook()
 
     const {setCenter} = useReactFlow();
 
@@ -30,7 +38,7 @@ const Flow = observer((props: IProps) => {
         }
         const x = selectedNode.position.x + NODE_CENTER_OFFSET_LEFT
         const y = selectedNode.position.y + NODE_CENTER_OFFSET_BOTTOM
-        const zoom = 0.5
+        const zoom = isMobile ? MOBILE_ZOOM : PC_ZOOM
         setCenter(x, y, {zoom, duration: 1000})
 
     }, [selectedNodeID, nodes.length]);
@@ -39,7 +47,7 @@ const Flow = observer((props: IProps) => {
     return (
         <div style={{height: '75svh', width: '100vw'}}>
             <ReactFlow
-                minZoom={0.25}
+                minZoom={isMobile ? MOBILE_MAX_ZOOM : PC_MAX_ZOOM}
                 nodeTypes={nodeTypes}
                 nodes={nodes}
                 edges={edges}

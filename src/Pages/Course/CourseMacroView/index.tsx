@@ -35,10 +35,13 @@ export default function CourseMacroView({courseID, positionData, onCardSelect, .
 
     useEffect(() => {
         if (onCardSelect) {
-            const cardID = courseData?.course_data?.[Number(positionData.selectedRow)]
-                .SameLine?.[Number(positionData.selectedPage) - 1]
-                .CourseFragment?.[Number(positionData.selectedIndex)]?.CourseElement?.id
+            const cardID = courseData?.course_data?.[Number(positionData?.selectedRow)]
+                ?.SameLine?.[Number(positionData.selectedPage) - 1]
+                ?.CourseFragment?.[Number(positionData?.selectedIndex)]?.CourseElement?.id
 
+            if (!cardID) {
+                return
+            }
             onCardSelect(cardID)
             setViewedCardIds(viewedCardIDs.add(cardID))
         }

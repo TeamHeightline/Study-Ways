@@ -36,25 +36,13 @@ const Flow = observer((props: IProps) => {
     }, [selectedNodeID, nodes.length]);
 
 
-    const onNodesChange = useCallback(
-        (changes) => AICourseStore.setUINodes((nds) => applyNodeChanges(changes, nds)),
-        [],
-    );
-    const onEdgesChange = useCallback(
-        (changes) => AICourseStore.setUiEdges((eds) => applyEdgeChanges(changes, eds)),
-        [],
-    );
-
-
     return (
         <div style={{height: '75svh', width: '100vw'}}>
             <ReactFlow
                 minZoom={0.25}
                 nodeTypes={nodeTypes}
                 nodes={nodes}
-                onNodesChange={onNodesChange}
                 edges={edges}
-                onEdgesChange={onEdgesChange}
                 fitView
             >
                 <Background/>

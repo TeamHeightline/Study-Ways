@@ -86,14 +86,6 @@ class Store {
         this.nodes = generateInitialNodes(this.defaultCardIDs)
     }
 
-
-    setUINodes = (callBackFn: (nodes: Node[]) => Node[]) => {
-        this.setNodes(callBackFn(this.nodes))
-    }
-    setUiEdges = (callBackFn: (nodes: Edge[]) => Edge[]) => {
-        this.setEdges(callBackFn(this.edges))
-    }
-
     clearNodes = () => {
         this.setNodes([])
     }

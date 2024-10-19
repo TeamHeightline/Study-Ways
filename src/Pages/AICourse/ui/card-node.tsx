@@ -36,8 +36,7 @@ export const CardNode = observer((props: IProps) => {
             <div onClick={handleClick}
                  style={{
                      border: isSelected ? '1px solid #f50057' : 'none',
-                     borderRadius: 24,
-                     width: 350
+                     borderRadius: 24
                  }}
             >
                 <CardMicroView cardID={cardID}/>

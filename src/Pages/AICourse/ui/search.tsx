@@ -16,7 +16,7 @@ export const Search = observer(() => {
     }
     return (
         <Fade in timeout={1000}>
-            <Box sx={{px: 1, width: '100%'}}>
+            <Box sx={{px: 1, width: '100%', display: 'flex', justifyContent: 'center'}}>
                 <Paper
                     component="form"
                     onSubmit={(event) => {

@@ -1,7 +1,7 @@
 import {toJS} from "mobx";
 import {observer} from "mobx-react";
-import {useCallback, useEffect} from 'react';
-import {applyEdgeChanges, applyNodeChanges, Background, Controls, ReactFlow, useReactFlow} from "@xyflow/react";
+import {useEffect} from 'react';
+import {Background, Controls, ReactFlow, useReactFlow} from "@xyflow/react";
 import '@xyflow/react/dist/style.css';
 import {CardNode} from "./card-node";
 import {AICourseStore} from "../model/store";

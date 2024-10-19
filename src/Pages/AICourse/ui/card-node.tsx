@@ -14,6 +14,8 @@ interface IProps {
     }
 }
 
+const CARD_WIDTH = 342
+
 export const CardNode = observer((props: IProps) => {
     const {cardID, isDefaultCard} = props.data.value
 
@@ -36,7 +38,8 @@ export const CardNode = observer((props: IProps) => {
             <div onClick={handleClick}
                  style={{
                      border: isSelected ? '1px solid #f50057' : 'none',
-                     borderRadius: 24
+                     borderRadius: 24,
+                     width: CARD_WIDTH
                  }}
             >
                 <CardMicroView cardID={cardID}/>

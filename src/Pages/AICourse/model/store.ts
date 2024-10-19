@@ -33,6 +33,7 @@ class Store {
 
     onSearch = () => {
         this.isSearchButtonClicked = true
+        this.selectedDefaultCardID = null
         getCardsBySearch(this.searchString)
             .then((data) => {
                 this.isDefaultCardsLoaded = true

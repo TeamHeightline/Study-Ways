@@ -47,6 +47,7 @@ const CardFindInCourse = observer(({card_store, ...props}: ICardFindInCourseProp
                                             "&selectedRow=" + course.position.selectedRow +
                                             "&selectedIndex=" + course.position.selectedIndex)
                                     }
+                                    window.scrollTo({top: 0, behavior: 'smooth'});
                                 }}>
                             {course.course_name}
                         </Button>

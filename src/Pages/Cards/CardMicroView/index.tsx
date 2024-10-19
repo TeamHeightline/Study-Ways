@@ -34,12 +34,8 @@ export default function CardMicroView({
                                           onChange,
                                           ...props
                                       }: ICardMicroViewProps) {
-    const [onVideoHover, setOnVideoHover] = useState(false)
-
     const card_hash_map = useAppSelector(state => state.cardMicroView.card_hash_map)
-
-    const isMobile = true
-
+    
     const card_data = card_hash_map[String(cardID)] || null as CardType | null
 
     const themesText = card_data?.cards_card_connected_theme?.[0]?.cards_unstructuredtheme.text
@@ -111,44 +107,24 @@ export default function CardMicroView({
                     <Stack direction={"column"}>
                         <Box sx={{height: 170}}>
                             {Number(card_data.card_content_type) === 0 && card_data?.video_url &&
-                                <div
-                                    onPointerEnter={() => {
-                                        setOnVideoHover(true)
-                                    }}
-                                    onMouseEnter={() => {
-                                        setOnVideoHover(true)
-                                    }}
-                                    onPointerLeave={() => {
-                                        setOnVideoHover(false)
-                                    }}
-                                    onMouseLeave={() => {
-                                        setOnVideoHover(false)
-                                    }}>
-                                    {onVideoHover ?
-                                        <ReactPlayer controls
-                                                     autoplay
-                                                     url={card_data?.video_url}
-                                                     height={170}
-                                                     width={isMobile ? "100%" : 132}
-                                        />
-                                        :
-                                        <CardMedia
-                                            sx={{
-                                                width: {sm: 300, xs: "100%"},
-                                                height: 167,
-                                                cacheControl: "public,max-age=31536000,immutable",
-                                                loading: "lazy",
-                                                decoding: "async",
-                                                backgroundSize: "cover",
-                                                backgroundPosition: "center",
-                                                borderRadius: "24px"
+                                <div>
+                                    <CardMedia
+                                        sx={{
+                                            width: {sm: 300, xs: "100%"},
+                                            height: 167,
+                                            cacheControl: "public,max-age=31536000,immutable",
+                                            loading: "lazy",
+                                            decoding: "async",
+                                            backgroundSize: "cover",
+                                            backgroundPosition: "center",
+                                            borderRadius: "24px"
 
-                                            }}
-                                            onError={() => void (0)}
-                                            image={
-                                                "https://img.youtube.com/vi/" + urlParser.parse(card_data?.video_url || "")?.id + "/hqdefault.jpg"
-                                            }
-                                        />}
+                                        }}
+                                        onError={() => void (0)}
+                                        image={
+                                            "https://img.youtube.com/vi/" + urlParser.parse(card_data?.video_url || "")?.id + "/hqdefault.jpg"
+                                        }
+                                    />
                                 </div>
                             }
                             {(Number(card_data.card_content_type) === 1 ||

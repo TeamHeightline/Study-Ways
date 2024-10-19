@@ -26,9 +26,11 @@ export const MainCardPublicView = observer(() => {
             <Box sx={{mt: 1}}>
                 {queryParams.get("searchType") == "AISearch" ?
                     <AICardSelector onCardSelect={(card_id) => {
+                        window.scrollTo({top: 0, behavior: 'smooth'});
                         navigate("/card/" + card_id)
                     }}/> :
                     <CardSelector onCardSelect={(card_id) => {
+                        window.scrollTo({top: 0, behavior: 'smooth'});
                         navigate("/card/" + card_id)
                     }}/>}
             </Box>

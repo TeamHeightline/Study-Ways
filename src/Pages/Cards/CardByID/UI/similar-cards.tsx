@@ -16,7 +16,7 @@ const SimilarCards = observer(({card_store, ...props}: ISimilarCardsProps) => {
     const navigate = useNavigate()
 
     const onCardClick = (cardID) => () => {
-        window.scrollTo(0, 0);
+        window.scrollTo({top: 0, behavior: 'smooth'});
         navigate("/card/" + cardID)
     }
     return (

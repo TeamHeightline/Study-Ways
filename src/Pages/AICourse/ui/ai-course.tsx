@@ -6,6 +6,7 @@ import CardByID from "../../Cards/CardByID/UI/card-by-id";
 import {AICourseStore} from "../model/store";
 import {toJS} from "mobx";
 import {AnimatedTitle} from "./animated-title";
+import {CardsNotLoadedIndicator} from "./cards-not-loaded-indicator";
 
 
 export const AiCourse = observer(() => {
@@ -19,6 +20,7 @@ export const AiCourse = observer(() => {
             <Stack sx={{height: '80dvh', width: '100vw'}} alignItems={'center'} justifyContent={'center'}>
                 <AnimatedTitle/>
                 <Search/>
+                <CardsNotLoadedIndicator/>
             </Stack>
         )
     }

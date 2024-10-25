@@ -45,6 +45,7 @@ const AppWithAllProviders = observer(() => {
                             redirectUri={window.location.origin}
                             audience="sw-backend-identifier"
                             scope="read:current_user update:current_user_metadata"
+                            cacheLocation="localstorage"
                         >
                             <ThemeProvider theme={ThemeStoreObject.theme}>
                                 <CssBaseline/>

@@ -129,9 +129,11 @@ export default function EditCourseByID({course_id, ...props}: any) {
         }
     };
 
-    function addCourseFragment() {
+    function addCoursePage() {
         const newCourseLinesData = CourseLinesData.slice()
 
+        // Итерируемся по каждой строке и добавляем массив пустых элементов в конец строки
+        // На каждой странице 10 элементов
         CourseLinesData.map((line, lIndex) => {
 
             const newRow = line.SameLine.slice()
@@ -146,6 +148,29 @@ export default function EditCourseByID({course_id, ...props}: any) {
         setCourseLineData(newCourseLinesData)
         setRerender(!rerender)
         autoSave()
+    }
+
+    function addCourseLine(isTopOrBottom: boolean) {
+        const numberOfPages = CourseLinesData?.[0]?.SameLine?.length
+        if (!numberOfPages) {
+            return
+        }
+
+        const arrayForIterations = Array.from(Array(numberOfPages))
+
+        function generateLine() {
+            return fragment
+        }
+
+        const newLine: ICourseLine = {SameLine: arrayForIterations.map(generateLine)}
+
+        if (isTopOrBottom) {
+            const newCourse: CourseData = [newLine, ...CourseLinesData]
+            setCourseLineData(newCourse)
+        } else {
+            const newCourse: CourseData = [...CourseLinesData, newLine]
+            setCourseLineData(newCourse)
+        }
     }
 
 
@@ -193,7 +218,7 @@ export default function EditCourseByID({course_id, ...props}: any) {
             </Stack>
 
             {CourseLinesData.length !== 0 &&
-                <Stack direction={"row"} alignItems={"flex-end"} sx={{mt: 2}}>
+                <Stack direction={"row"} alignItems={"flex-end"} sx={{mt: 2}} spacing={2}>
                     <Grid item xs={12} md={'auto'}>
                         <Pagination
                             count={CourseLinesData[0].SameLine.length} shape="rounded"
@@ -204,11 +229,17 @@ export default function EditCourseByID({course_id, ...props}: any) {
                     </Grid>
                     <Grid item xs={12} md={1} sx={{mt: 1}}>
                         <ButtonGroup style={{zoom: "109%"}}>
-                            <Button onClick={() => addCourseFragment()}>
+                            <Button onClick={() => addCoursePage()}>
                                 <AddIcon/>
                             </Button>
                         </ButtonGroup>
                     </Grid>
+                    <Button onClick={() => addCourseLine(true)} variant={"contained"}>
+                        Добавить строку сверху
+                    </Button>
+                    <Button onClick={() => addCourseLine(false)} variant={"contained"}>
+                        Добавить строку снизу
+                    </Button>
                 </Stack>}
             <Box sx={{overflow: "auto", mb: 1}}>
                 {CourseLinesData.length !== 0 && CourseLinesData.map((line, lIndex) => {
@@ -217,7 +248,8 @@ export default function EditCourseByID({course_id, ...props}: any) {
                             editCard={(item_id) => {
                                 navigate("/editor/course/card/" + item_id)
                             }}
-                            key={lIndex + "course" + props.cIndex} row={line} lIndex={lIndex}
+                            key={lIndex + "course" + "number_of_lines" + CourseLinesData.length + props.cIndex}
+                            row={line} lIndex={lIndex}
                             cIndex={props.cIndex}
                             openPageIndex={openPageIndex}
                             updateCourseRow={new_row => {
@@ -253,14 +285,14 @@ export default function EditCourseByID({course_id, ...props}: any) {
                         {stateOfSave === 2 &&
                             "Курс: сохранен"}
                         {cardStateOfSave === 0 && " | Карточка: не сохранена"}
-                        {cardStateOfSave === 1 && " | Карточка: сохранияется"}
+                        {cardStateOfSave === 1 && " | Карточка: сохраняется"}
                         {cardStateOfSave === 2 && " | Карточка: сохранена"}
                     </Alert> :
                     <Alert severity="info">
                         {stateOfSave === 0 &&
                             "Курс: не сохранен"}
                         {stateOfSave === 1 &&
-                            "Курс: сохранияется"}
+                            "Курс: сохраняется"}
                         {stateOfSave === 2 &&
                             "Курс: сохранен"}
                     </Alert>

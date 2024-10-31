@@ -46,11 +46,7 @@ export class CourseMicroStoreByID {
     //------Стрелочная навигация и получение ID карточки--------------
 
     get_card_id_by_position(selected_position: positionDataI): number | null {
-        if (selected_position &&
-            Number(selected_position.selectedIndex) >= 0 &&
-            Number(selected_position.selectedIndex) <= 9 &&
-            Number(selected_position.selectedRow) >= 0 &&
-            Number(selected_position.selectedRow) <= 3) {
+        if (selected_position) {
             try {
                 return (this.course[Number(selected_position.selectedRow)]
                     .SameLine[Number(selected_position.selectedPage) - 1]

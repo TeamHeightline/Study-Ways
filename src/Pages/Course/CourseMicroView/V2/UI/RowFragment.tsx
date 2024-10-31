@@ -22,6 +22,7 @@ import ThemeStoreObject from "../../../../../global-theme";
 import {alpha} from "@mui/material/styles";
 import {useAppSelector} from "../../../../../ReduxStore/RootStore";
 import Typography from "@mui/material/Typography";
+import {toJS} from "mobx";
 
 interface RowFragmentI {
     CRI: number,
@@ -86,7 +87,7 @@ const RowFragment = observer(({CRI, courseStore}: RowFragmentI) => {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    borderColor: colors[CRI]
+                    borderColor: CRI < 4 ? colors[CRI] : colors[colors.length - 1]
                 }}>
                     <Typography variant={"body1"} sx={{}}>
                         {CRI + 1}

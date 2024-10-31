@@ -76,21 +76,11 @@ export default function CourseMacroView({courseID, positionData, onCardSelect, .
                 p: 1
             }}>
                 <Stack sx={{width: (CARD_WIDTH + CARD_PADDING) * NUMBER_OF_CARD}} spacing={1}>
-                    <CardRow index={0} activePage={activePage} courseData={courseData}
-                             CARD_WIDTH={CARD_WIDTH} course_main_line_index={course_main_line_index}
-                             positionData={positionData} courseID={courseID} viewedCardIDs={viewedCardIDs}/>
-
-                    <CardRow index={1} activePage={activePage} courseData={courseData}
-                             CARD_WIDTH={CARD_WIDTH} course_main_line_index={course_main_line_index}
-                             positionData={positionData} courseID={courseID} viewedCardIDs={viewedCardIDs}/>
-
-                    <CardRow index={2} activePage={activePage} courseData={courseData}
-                             CARD_WIDTH={CARD_WIDTH} course_main_line_index={course_main_line_index}
-                             positionData={positionData} courseID={courseID} viewedCardIDs={viewedCardIDs}/>
-
-                    <CardRow index={3} activePage={activePage} courseData={courseData}
-                             CARD_WIDTH={CARD_WIDTH} course_main_line_index={course_main_line_index}
-                             positionData={positionData} courseID={courseID} viewedCardIDs={viewedCardIDs}/>
+                    {courseData.course_data?.map((line, index) => (
+                        <CardRow key={index} index={index} activePage={activePage} courseData={courseData}
+                                 CARD_WIDTH={CARD_WIDTH} course_main_line_index={course_main_line_index}
+                                 positionData={positionData} courseID={courseID} viewedCardIDs={viewedCardIDs}/>
+                    ))}
                 </Stack>
             </Box>
             <Stepper activePage={activePage} setActivePage={setActivePage}

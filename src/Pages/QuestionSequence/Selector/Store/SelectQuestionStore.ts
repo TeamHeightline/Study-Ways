@@ -1,27 +1,28 @@
 import {autorun, makeAutoObservable, toJS} from "mobx";
-import {ClientStorage} from "../../../../Store/ApolloStorage/ClientStorage";
+import {ClientStorage} from "../../../../Shared/Store/ApolloStorage/ClientStorage";
 import {ALL_QUESTION_SEQUENCES} from "./Query";
 import {Query, QuestionSequenceNode} from "../../../../SchemaTypes";
 
-class SelectQuestionStore{
+class SelectQuestionStore {
     constructor() {
         makeAutoObservable(this)
-        autorun(()=> this.loadQuestionSequences())
+        autorun(() => this.loadQuestionSequences())
 
     }
+
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
     clientStorage = ClientStorage
 
-    loadQuestionSequences(){
-        try{
+    loadQuestionSequences() {
+        try {
             this.clientStorage.client.query<Query>({query: ALL_QUESTION_SEQUENCES})
                 .then((response) => response.data.questionSequence)
                 .then((sequences: any) => {
-                    if(sequences){
+                    if (sequences) {
                         this.sequenceArrayForDisplay = sequences
                     }
                 })
-        }catch (e) {
+        } catch (e) {
             console.log(e)
         }
     }
@@ -32,13 +33,13 @@ class SelectQuestionStore{
 
     sequenceHasBeenSelected = false
 
-    sequenceHandler(sequence_id){
+    sequenceHandler(sequence_id) {
         this.selectedSequenceID = sequence_id
         this.sequenceHasBeenSelected = true
     }
 
-    get selectedQuestions(): number[]{
-        return(toJS(this.sequenceArrayForDisplay.find((sequence) => Number(sequence?.id) == this.selectedSequenceID))?.sequenceData.sequence)
+    get selectedQuestions(): number[] {
+        return (toJS(this.sequenceArrayForDisplay.find((sequence) => Number(sequence?.id) == this.selectedSequenceID))?.sequenceData.sequence)
     }
 }
 

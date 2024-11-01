@@ -1,5 +1,5 @@
-import {IExamDataWithQSData} from "../../../../../ServerLayer/Types/exam.types";
-import {sequenceDataI} from "../../../../../ServerLayer/Types/question-sequence.type";
+import {IExamDataWithQSData} from "../../../../../Shared/ServerLayer/Types/exam.types";
+import {sequenceDataI} from "../../../../../Shared/ServerLayer/Types/question-sequence.type";
 
 export const initialState = {
     exams: [] as IExamDataWithQSData[],

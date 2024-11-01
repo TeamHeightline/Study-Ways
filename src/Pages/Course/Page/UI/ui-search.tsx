@@ -1,7 +1,7 @@
 import {Box, IconButton, InputBase, Paper, Stack} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
 import SearchIcon from '@mui/icons-material/Search';
-import {useAppDispatch, useAppSelector} from "../../../../ReduxStore/RootStore";
+import {useAppDispatch, useAppSelector} from "../../../../App/ReduxStore/RootStore";
 import {setSearchString} from "../redux-store/course-page-slice";
 import {loadCourseDataThunk} from "../redux-store/async-functions";
 

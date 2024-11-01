@@ -10,8 +10,8 @@ import {
     startLoadingMyExam,
     startLoadingQSData
 } from "./actions";
-import {createExam, loadMyExams} from "../../../../../ServerLayer/QueryLayer/exam.query";
-import {getQSByID} from "../../../../../ServerLayer/QueryLayer/question-sequence.query";
+import {createExam, loadMyExams} from "../../../../../Shared/ServerLayer/QueryLayer/exam.query";
+import {getQSByID} from "../../../../../Shared/ServerLayer/QueryLayer/question-sequence.query";
 
 export const loadMyExamsAsync = () => async (dispatch) => {
     dispatch(startLoadingMyExam());

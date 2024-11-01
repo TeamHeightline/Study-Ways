@@ -1,6 +1,6 @@
 import {Box, Checkbox, FormControlLabel, Stack} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
-import {useAppDispatch, useAppSelector} from "../../../ReduxStore/RootStore";
+import {useAppDispatch, useAppSelector} from "../../../App/ReduxStore/RootStore";
 import {setIsHideDuplicates} from "../Store/recent-card-slice";
 
 interface IUIIsHideDuplicatesProps extends BoxProps {

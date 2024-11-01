@@ -3,7 +3,7 @@ import {PaperProps} from "@mui/material/Paper/Paper";
 import {useSelector} from "react-redux";
 import {useEffect} from "react";
 import {updateExamThunk} from "../redux-store/async-actions";
-import {RootState, useAppDispatch} from "../../../../../ReduxStore/RootStore";
+import {RootState, useAppDispatch} from "../../../../../App/ReduxStore/RootStore";
 import {prepareForUpdateExamData} from "../redux-store/examEditorSlice";
 
 interface IAutoSaveModuleProps extends PaperProps {

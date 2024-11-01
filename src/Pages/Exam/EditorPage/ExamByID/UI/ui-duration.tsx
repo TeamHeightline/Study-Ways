@@ -3,7 +3,7 @@ import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {FormControl, InputLabel, MenuItem, Paper, Select, Stack, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
-import {RootState, useAppDispatch} from "../../../../../ReduxStore/RootStore";
+import {RootState, useAppDispatch} from "../../../../../App/ReduxStore/RootStore";
 import {changeExamMinutes} from "../redux-store/examEditorSlice";
 
 

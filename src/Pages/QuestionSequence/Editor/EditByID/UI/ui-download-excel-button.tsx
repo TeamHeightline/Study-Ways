@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Button, Paper} from "@mui/material";
-import {getExcelDownloadUrl} from "../../../../../ServerLayer/QueryLayer/statistic.query";
+import {getExcelDownloadUrl} from "../../../../../Shared/ServerLayer/QueryLayer/statistic.query";
 import editQSStore from "../store/edit-question-sequence-sore";
 
 interface IUIDownloadExcelButtonProps extends PaperProps {

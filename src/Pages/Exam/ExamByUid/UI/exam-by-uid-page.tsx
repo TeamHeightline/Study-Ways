@@ -4,9 +4,9 @@ import {loadExamDataThunk, openExamPageThunk} from "../redux-store/AsyncActions"
 import UIExamName from "./ui-exam-name";
 import UIExamQuestionProgress from "./mini-question-selector/ui-exam-questions-progress";
 import QuestionPlayer from "./question-player/question-player";
-import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
-import {UserStorage} from "../../../../Store/UserStore/UserStore";
-import {useAppDispatch, useAppSelector} from "../../../../ReduxStore/RootStore";
+import {isMobileHook} from "../../../../Shared/CustomHooks/isMobileHook";
+import {UserStorage} from "../../../../Shared/Store/UserStore/UserStore";
+import {useAppDispatch, useAppSelector} from "../../../../App/ReduxStore/RootStore";
 import {useParams} from "react-router-dom";
 import {observer} from "mobx-react";
 import UIAccessPassword from "./ui-access-password";

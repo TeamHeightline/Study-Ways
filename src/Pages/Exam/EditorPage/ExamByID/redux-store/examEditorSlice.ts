@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {loadExamDataThunk, loadQSDataThunk, updateExamThunk} from "./async-actions";
-import {sequenceDataI} from "../../../../../ServerLayer/Types/question-sequence.type";
+import {sequenceDataI} from "../../../../../Shared/ServerLayer/Types/question-sequence.type";
 import CryptoJS from "crypto-js";
 
 const examEditorSlice = createSlice({

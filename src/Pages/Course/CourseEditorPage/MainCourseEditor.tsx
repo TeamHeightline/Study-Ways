@@ -4,7 +4,7 @@ import {gql} from "graphql.macro";
 import {useMutation, useQuery} from "@apollo/client";
 import EditCourseByID, {CourseLines} from "../EditCourseByID/EditCourseByID";
 import {useSelector} from "react-redux";
-import {RootState, useAppDispatch} from "../../../ReduxStore/RootStore";
+import {RootState, useAppDispatch} from "../../../App/ReduxStore/RootStore";
 import {loadCourseDataThunk} from "../Page/redux-store/async-functions";
 import {FILE_URL} from "../../../settings";
 

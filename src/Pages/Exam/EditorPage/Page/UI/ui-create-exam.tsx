@@ -4,7 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import {useDispatch} from "react-redux";
 import {changeIsOpenCreateExamDialog} from "../redux-store/actions";
 import UICreateExamDialog from "./ui-create-exam-dialog";
-import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../../Shared/CustomHooks/isMobileHook";
 
 interface IUICreateExamProps extends PaperProps {
 

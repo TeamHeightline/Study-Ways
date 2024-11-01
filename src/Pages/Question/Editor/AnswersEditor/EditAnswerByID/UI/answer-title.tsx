@@ -3,7 +3,7 @@ import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {ClickAwayListener, Paper, Stack, Typography} from "@mui/material";
 import {EditAnswerByIdStore} from "../Store/edit-answer-by-id-store";
-import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../../../Shared/CustomHooks/isMobileHook";
 import TitleOnlyInExam from "./title-only-in-exam";
 import TitleIsRequired from "./title-is-required";
 import TitleEditableText from "./title-editable-text";

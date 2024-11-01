@@ -1,10 +1,10 @@
 import {Paper, Table, TableBody, TableCell, TableContainer, TableRow} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {useSelector} from "react-redux";
-import {IBasicUserInformation} from "../../../ServerLayer/Types/user.types";
+import {IBasicUserInformation} from "../../../Shared/ServerLayer/Types/user.types";
 import UIUserProfileHead from "./ui-user-tablse-head";
 import UIUserStatusCell from "./ui-user-status-cell";
-import {RootState, useAppDispatch} from "../../../ReduxStore/RootStore";
+import {RootState, useAppDispatch} from "../../../App/ReduxStore/RootStore";
 import {changeSelectedUser} from "../redux-store/StatusEditorSlice";
 
 interface IUIAllUsersProps extends PaperProps {

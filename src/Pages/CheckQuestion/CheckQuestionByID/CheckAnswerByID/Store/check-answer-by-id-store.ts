@@ -1,8 +1,8 @@
 import {autorun, makeAutoObservable} from "mobx";
 import {AnswerNode, Query} from "../../../../../SchemaTypes";
-import {ClientStorage} from "../../../../../Store/ApolloStorage/ClientStorage";
+import {ClientStorage} from "../../../../../Shared/Store/ApolloStorage/ClientStorage";
 import {AnswerDataByID} from "./query";
-import axiosClient from "../../../../../ServerLayer/QueryLayer/config";
+import axiosClient from "../../../../../Shared/ServerLayer/QueryLayer/config";
 
 export class CheckAnswerByIdStore {
     constructor(answerID) {

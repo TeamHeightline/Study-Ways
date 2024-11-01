@@ -1,5 +1,5 @@
-import {getQSByID} from "../../../../../ServerLayer/QueryLayer/question-sequence.query";
-import {loadExamByID, updateExam} from "../../../../../ServerLayer/QueryLayer/exam.query";
+import {getQSByID} from "../../../../../Shared/ServerLayer/QueryLayer/question-sequence.query";
+import {loadExamByID, updateExam} from "../../../../../Shared/ServerLayer/QueryLayer/exam.query";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 
 

@@ -2,7 +2,7 @@ import {Box, IconButton} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
 import {getArticles} from "./redux-store/async-actions";
 import React, {useEffect, useState} from 'react'
-import {useAppDispatch, useAppSelector} from "../../../ReduxStore/RootStore";
+import {useAppDispatch, useAppSelector} from "../../../App/ReduxStore/RootStore";
 import {useLocation} from "react-router-dom";
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import ContentDialog from "./UI/content-dialog";

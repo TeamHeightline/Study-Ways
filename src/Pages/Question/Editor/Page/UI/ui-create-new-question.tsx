@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import {Button} from "@mui/material";
 import React from "react";
-import {useAppDispatch} from "../../../../../ReduxStore/RootStore";
+import {useAppDispatch} from "../../../../../App/ReduxStore/RootStore";
 import {openCreateQuestionDialog} from "../redux-store/QuestionEditorPageSlice";
 import AddIcon from '@mui/icons-material/Add';
 

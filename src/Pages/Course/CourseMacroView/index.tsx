@@ -1,7 +1,7 @@
 import {Box, Card, Divider, Grid, Stack} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
 import {useEffect, useState} from "react";
-import axiosClient from "../../../ServerLayer/QueryLayer/config";
+import axiosClient from "../../../Shared/ServerLayer/QueryLayer/config";
 import {positionDataI} from "../CourseMicroView/V2/Store/CourseMicroStoreByID";
 import Image from "./image";
 import Stepper from "./stepper";

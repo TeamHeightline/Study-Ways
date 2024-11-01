@@ -9,7 +9,7 @@ import CardGoToResource from "./card-go-to-resourse";
 import TestBeforeCard from "./test-before-card";
 import CardHistoryDrawer from "../../../CardHistory/UI/card-history-drawer";
 import CardFindInCourse from "./card-find-in-course";
-import {UserStorage} from "../../../../Store/UserStore/UserStore";
+import {UserStorage} from "../../../../Shared/Store/UserStore/UserStore";
 import CardRating from "./card-rating";
 import CardBookmark from "./card-bookmark";
 import {useAuth0} from "@auth0/auth0-react";

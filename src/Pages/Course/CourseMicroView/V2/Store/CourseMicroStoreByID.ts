@@ -1,6 +1,6 @@
 import {autorun, makeAutoObservable, toJS} from "mobx";
 import {SERVER_BASE_URL} from "../../../../../settings";
-import {ClientStorage} from "../../../../../Store/ApolloStorage/ClientStorage";
+import {ClientStorage} from "../../../../../Shared/Store/ApolloStorage/ClientStorage";
 import {GET_COURSE_DATA_BY_ID} from "../UI/Query";
 import {CourseLines} from "../../../EditCourseByID/EditCourseByID";
 

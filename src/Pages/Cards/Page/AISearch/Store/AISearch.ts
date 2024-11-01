@@ -1,10 +1,10 @@
 import {makeAutoObservable, reaction, toJS} from "mobx";
-import {ClientStorage} from "../../../../../Store/ApolloStorage/ClientStorage";
+import {ClientStorage} from "../../../../../Shared/Store/ApolloStorage/ClientStorage";
 import {getAutocompleteCardDataAsync, selectRecommendedCardReport} from "./Query";
 import {UnstructuredThemesNode} from "../../../../../SchemaTypes";
 import {GET_CONNECTED_THEME} from "../../../Selector/Store/Query";
 import {cardContentType} from "../../../Selector/Store/CardSelectorStore";
-import axiosClient from "../../../../../ServerLayer/QueryLayer/config";
+import axiosClient from "../../../../../Shared/ServerLayer/QueryLayer/config";
 
 class AISearch {
     constructor() {

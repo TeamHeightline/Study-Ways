@@ -1,7 +1,7 @@
 import {autorun, makeAutoObservable, toJS} from "mobx";
-import {ClientStorage} from "../../../../Store/ApolloStorage/ClientStorage";
+import {ClientStorage} from "../../../../Shared/Store/ApolloStorage/ClientStorage";
 import {CREATE_NEW_CARD, GET_CARD_ID_BY_SEARCHING_PARAMS, GET_CONNECTED_THEME} from "./Query";
-import {UserStorage} from "../../../../Store/UserStore/UserStore";
+import {UserStorage} from "../../../../Shared/Store/UserStore/UserStore";
 import {CardCardContentType, CardHardLevel, Mutation, UnstructuredThemesNode} from "../../../../SchemaTypes";
 
 

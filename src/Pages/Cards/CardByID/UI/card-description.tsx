@@ -3,7 +3,7 @@ import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Paper} from "@mui/material";
 import {CardByIDStore} from "../Store/CardByIDStore";
-import useWindowDimensions from "../../../../CustomHooks/useWindowDimensions";
+import useWindowDimensions from "../../../../Shared/CustomHooks/useWindowDimensions";
 
 
 interface ICardDescriptionProps extends PaperProps {

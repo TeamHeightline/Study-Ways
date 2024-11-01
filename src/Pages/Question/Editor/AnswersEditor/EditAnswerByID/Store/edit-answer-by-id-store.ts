@@ -1,6 +1,6 @@
 import {autorun, makeAutoObservable, reaction, toJS} from "mobx";
-import {ClientStorage} from "../../../../../../Store/ApolloStorage/ClientStorage";
-import {UserStorage} from "../../../../../../Store/UserStore/UserStore";
+import {ClientStorage} from "../../../../../../Shared/Store/ApolloStorage/ClientStorage";
+import {UserStorage} from "../../../../../../Shared/Store/UserStore/UserStore";
 import {CREATE_NEW_ANSWER_BASED_ON_DATA, LOAD_ANSWER_BY_ID, UPDATE_ANSWER} from "./Query";
 import {AnswerHardLevelOfAnswer, AnswerNode, Mutation} from "../../../../../../SchemaTypes";
 import {
@@ -10,7 +10,7 @@ import {
 import {computedFn} from "mobx-utils";
 import {SERVER_BASE_URL} from "../../../../../../settings";
 import {QuestionEditorStorage} from "../../../QuestionEditor/Store/QuestionEditorStorage";
-import axiosClient from "../../../../../../ServerLayer/QueryLayer/config";
+import axiosClient from "../../../../../../Shared/ServerLayer/QueryLayer/config";
 
 export class EditAnswerByIdStore {
     constructor(answer_id?: number) {

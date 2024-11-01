@@ -1,4 +1,4 @@
-import {getExamResults} from "../../../../ServerLayer/QueryLayer/exam.query";
+import {getExamResults} from "../../../../Shared/ServerLayer/QueryLayer/exam.query";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 
 

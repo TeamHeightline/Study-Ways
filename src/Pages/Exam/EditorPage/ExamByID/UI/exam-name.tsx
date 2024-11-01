@@ -4,7 +4,7 @@ import {PaperProps} from "@mui/material/Paper/Paper";
 import {Paper, TextField} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {changeExamName} from "../redux-store/examEditorSlice";
-import {RootState} from "../../../../../ReduxStore/RootStore";
+import {RootState} from "../../../../../App/ReduxStore/RootStore";
 
 
 interface IExamNameProps extends PaperProps {

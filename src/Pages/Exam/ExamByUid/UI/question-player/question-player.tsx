@@ -6,7 +6,7 @@ import {loadQuestionDataThunk, saveDetailStatisticThunk} from "../../redux-store
 import UIQuestion from "./ui-question";
 import UIAnswers from "./ui-answers";
 import UIHelpText from "./ui-help-text";
-import {RootState} from "../../../../../ReduxStore/RootStore";
+import {RootState} from "../../../../../App/ReduxStore/RootStore";
 
 interface IQuestionPlayerProps extends PaperProps {
 

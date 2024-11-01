@@ -1,5 +1,5 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import axiosClient from "../../../../../ServerLayer/QueryLayer/config";
+import axiosClient from "../../../../../Shared/ServerLayer/QueryLayer/config";
 
 type loadQuestionsThunkType = {
     ordering_by_created_at: "asc" | "desc",

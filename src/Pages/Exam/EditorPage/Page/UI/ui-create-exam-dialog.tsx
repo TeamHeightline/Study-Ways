@@ -8,7 +8,7 @@ import UIQuestionSequenceSelector from "./ui-question-sequence-selector";
 import {createExamAsync} from "../redux-store/async-actions";
 import {useNavigate} from "react-router-dom";
 import {LoadingButton} from "@mui/lab";
-import {RootState} from "../../../../../ReduxStore/RootStore";
+import {RootState} from "../../../../../App/ReduxStore/RootStore";
 
 interface IUICreateExamDialogProps extends PaperProps {
 

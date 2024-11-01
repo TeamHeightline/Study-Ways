@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {CardByIDStore} from "../Store/CardByIDStore";
 import {Chip, Stack, Typography} from "@mui/material";
-import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../Shared/CustomHooks/isMobileHook";
 
 interface ICardTitleProps extends React.HTMLAttributes<HTMLDivElement> {
     card_store: CardByIDStore

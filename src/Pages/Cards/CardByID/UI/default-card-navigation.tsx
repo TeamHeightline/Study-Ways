@@ -3,7 +3,7 @@ import React from 'react';
 import {Button, ButtonGroup, Stack} from "@mui/material";
 import KeyboardArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardArrowLeftOutlined";
 import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
-import {UserStorage} from "../../../../Store/UserStore/UserStore";
+import {UserStorage} from "../../../../Shared/Store/UserStore/UserStore";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import {useNavigate} from "react-router-dom";

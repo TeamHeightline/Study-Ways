@@ -3,11 +3,11 @@ import {PaperProps} from "@mui/material/Paper/Paper";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import React, {useState} from "react";
-import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../../Shared/CustomHooks/isMobileHook";
 import {useDispatch, useSelector} from "react-redux";
 import {checkAnswers} from "../../redux-store/ExamPlayerSlice";
 import UiComebackLaterDialog from "./ui-come-back-later-dialog";
-import {RootState, useAppSelector} from "../../../../../ReduxStore/RootStore";
+import {RootState, useAppSelector} from "../../../../../App/ReduxStore/RootStore";
 
 interface IUIQuestionTextProps extends PaperProps {
 

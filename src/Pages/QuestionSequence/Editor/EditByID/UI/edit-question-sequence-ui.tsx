@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React, {useEffect} from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Button, CircularProgress, Divider, Paper, Stack, Typography} from "@mui/material";
-import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../../Shared/CustomHooks/isMobileHook";
 import editQSStore from "../store/edit-question-sequence-sore";
 import UIQSName from "./ui-qs-name";
 import UIQSDescription from "./ui-qs-description";

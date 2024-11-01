@@ -1,6 +1,6 @@
 import type {PayloadAction} from '@reduxjs/toolkit'
 import {createSlice} from '@reduxjs/toolkit'
-import {IBasicUserInformation} from "../../../ServerLayer/Types/user.types";
+import {IBasicUserInformation} from "../../../Shared/ServerLayer/Types/user.types";
 import {loadAllUsersAsync, searchUserAsync, updateUserStatusAsync} from './AsyncActions';
 
 const initialState = {

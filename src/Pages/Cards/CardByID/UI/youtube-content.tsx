@@ -4,7 +4,7 @@ import {PaperProps} from "@mui/material/Paper/Paper";
 import {Paper} from "@mui/material";
 import {CardByIDStore} from "../Store/CardByIDStore";
 import ReactPlayer from "react-player";
-import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../Shared/CustomHooks/isMobileHook";
 import GoToTestDialog from "./go-to-test-dialog";
 
 

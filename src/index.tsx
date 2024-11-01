@@ -13,7 +13,7 @@ import ThemeStoreObject from "./global-theme";
 import {Auth0Provider} from "@auth0/auth0-react";
 import {observer} from "mobx-react";
 import {Provider} from "react-redux";
-import reduxStore from "./ReduxStore/RootStore";
+import reduxStore from "./App/ReduxStore/RootStore";
 import {createRoot} from "react-dom/client";
 import {LocalizationProvider} from '@mui/x-date-pickers'
 import {AdapterMoment} from '@mui/x-date-pickers/AdapterMoment';

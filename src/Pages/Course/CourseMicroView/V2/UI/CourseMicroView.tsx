@@ -4,7 +4,7 @@ import {CourseMicroStoreByID, positionDataI} from "../Store/CourseMicroStoreByID
 import {Card, CardActionArea, Stack, Tooltip} from "@mui/material";
 import CourseNavigation from "./CourseNavigation";
 import {useNavigate} from "react-router-dom";
-import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../../Shared/CustomHooks/isMobileHook";
 
 interface ICourseMicroViewProps extends React.HTMLAttributes<HTMLDivElement> {
     course_id: number,

@@ -1,6 +1,6 @@
 import {Alert, Box, Stack, TextField} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
-import {useAppDispatch, useAppSelector} from "../../../../ReduxStore/RootStore";
+import {useAppDispatch, useAppSelector} from "../../../../App/ReduxStore/RootStore";
 import {setAccessPassword} from "../redux-store/ExamPlayerSlice";
 
 interface IUIAccessPasswordProps extends BoxProps {

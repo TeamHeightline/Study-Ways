@@ -1,6 +1,6 @@
 import {Box, Button} from "@mui/material";
 import {useSelector} from "react-redux";
-import {RootState} from "../../../../ReduxStore/RootStore";
+import {RootState} from "../../../../App/ReduxStore/RootStore";
 import CreateExcelFile from "../utils/create-excel-file";
 import DownloadIcon from '@mui/icons-material/Download';
 

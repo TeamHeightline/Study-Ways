@@ -5,7 +5,7 @@ import {Background, Controls, ReactFlow, useReactFlow} from "@xyflow/react";
 import '@xyflow/react/dist/style.css';
 import {CardNode} from "./card-node";
 import {AICourseStore} from "../model/store";
-import {isMobileHook} from "../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../Shared/CustomHooks/isMobileHook";
 
 
 interface IProps {

@@ -1,7 +1,7 @@
 import {Box, Checkbox, FormControlLabel} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
 import React from "react";
-import {RootState, useAppDispatch} from "../../../../../ReduxStore/RootStore";
+import {RootState, useAppDispatch} from "../../../../../App/ReduxStore/RootStore";
 import {useSelector} from "react-redux";
 import {changeIsEnableHelpText} from "../redux-store/examEditorSlice";
 

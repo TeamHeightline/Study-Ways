@@ -7,7 +7,7 @@ import {CardSelector} from "../Selector/UI/CardSelector";
 import {useNavigate} from "react-router-dom";
 import {AIRoutes} from "./AISwitch";
 import {AICardSelector} from "./AISearch/UI/AICardSelector";
-import useQueryParams from "../../../CustomHooks/useQueryParams";
+import useQueryParams from "../../../Shared/CustomHooks/useQueryParams";
 import {Box} from "@mui/material";
 
 export const MainCardPublicView = observer(() => {

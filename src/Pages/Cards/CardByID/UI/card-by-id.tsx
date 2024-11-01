@@ -10,7 +10,7 @@ import CourseMicroView from "../../../Course/CourseMicroView/V2/UI/CourseMicroVi
 import SimilarCards from "./similar-cards";
 import CardBrowserIndexing from "./card-browser-indexing";
 import CardViews from "./card-views";
-import useWindowDimensions from "../../../../CustomHooks/useWindowDimensions";
+import useWindowDimensions from "../../../../Shared/CustomHooks/useWindowDimensions";
 import {Box} from "@mui/material";
 import TestAfterCard from "./test-after-card";
 

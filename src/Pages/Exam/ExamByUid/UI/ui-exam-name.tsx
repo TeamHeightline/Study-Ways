@@ -1,10 +1,10 @@
 import {Paper, Stack, Typography} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {useSelector} from "react-redux";
-import {RootState, useAppDispatch} from "../../../../ReduxStore/RootStore";
+import {RootState, useAppDispatch} from "../../../../App/ReduxStore/RootStore";
 import {removeOneMinute} from "../redux-store/ExamPlayerSlice";
 import useInterval from "./ui-use-interval";
-import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../Shared/CustomHooks/isMobileHook";
 
 interface IUIExamNameProps extends PaperProps {
 

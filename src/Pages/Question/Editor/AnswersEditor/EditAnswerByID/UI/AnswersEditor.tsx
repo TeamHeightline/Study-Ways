@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import EditAnswerByID from "./edit-answer-by-id";
 import {Grid, Stack} from "@mui/material";
 import TotalAnswersStatistic from "./total-answers-statistic";
-import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../../../Shared/CustomHooks/isMobileHook";
 
 
 export const AnswersEditor = observer(() => {

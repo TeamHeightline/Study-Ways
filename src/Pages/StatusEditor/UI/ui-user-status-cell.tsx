@@ -1,6 +1,6 @@
 import {TableCell} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {IBasicUserInformation} from "../../../ServerLayer/Types/user.types";
+import {IBasicUserInformation} from "../../../Shared/ServerLayer/Types/user.types";
 
 interface IUIUserStatusCellProps extends PaperProps {
     user: IBasicUserInformation

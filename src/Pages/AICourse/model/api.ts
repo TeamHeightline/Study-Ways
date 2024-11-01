@@ -1,7 +1,7 @@
-import recombeeClient from "../../../Store/RecombeeClient/recombee-client";
+import recombeeClient from "../../../Shared/Store/RecombeeClient/recombee-client";
 // @ts-ignore
 import recombee, {RecommendItemsToItem} from 'recombee-js-api-client';
-import {UserStorage} from "../../../Store/UserStore/UserStore";
+import {UserStorage} from "../../../Shared/Store/UserStore/UserStore";
 
 const NUMBER_OF_NEXT_CARDS = 3
 

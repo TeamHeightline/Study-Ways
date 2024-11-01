@@ -1,7 +1,7 @@
 // @ts-ignore
 import recombee from 'recombee-js-api-client';
-import recombeeClient from "../../../../../Store/RecombeeClient/recombee-client";
-import {UserStorage} from "../../../../../Store/UserStore/UserStore";
+import recombeeClient from "../../../../../Shared/Store/RecombeeClient/recombee-client";
+import {UserStorage} from "../../../../../Shared/Store/UserStore/UserStore";
 
 export async function getAutocompleteCardDataAsync(searchString: string | undefined, filterString: string | undefined = undefined, callBackFn?: (data: any) => void, numberOfCards: number = 10) {
     console.log(searchString)

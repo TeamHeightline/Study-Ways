@@ -1,5 +1,5 @@
 import {autorun, makeAutoObservable, toJS} from "mobx";
-import {ClientStorage} from "../../../../../../Store/ApolloStorage/ClientStorage";
+import {ClientStorage} from "../../../../../../Shared/Store/ApolloStorage/ClientStorage";
 import {GET_QUESTION_TEXT_BY_ID, LOAD_ATTEMPTS_ID} from "./Query";
 import {Query, QuestionNode} from "../../../../../../SchemaTypes";
 

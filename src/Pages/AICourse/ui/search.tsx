@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import {Box, Fade, IconButton, InputBase, Paper} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import {AICourseStore} from "../model/store";
-import {useAppSelector} from "../../../ReduxStore/RootStore";
+import {useAppSelector} from "../../../App/ReduxStore/RootStore";
 
 export const Search = observer(() => {
     const card_hash_map = useAppSelector(state => state.cardMicroView.card_hash_map)

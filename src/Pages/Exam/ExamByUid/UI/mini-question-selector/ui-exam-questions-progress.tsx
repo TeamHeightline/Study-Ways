@@ -5,8 +5,8 @@ import UIQuestionButtonFactory from "./ui-question-button-factory";
 import {changeSelectedQuestionId} from "../../redux-store/ExamPlayerSlice";
 import {useEffect} from "react";
 import {IQuestionStatus} from "../../redux-store/InitialState";
-import {updateQuestionProgress} from "../../../../../ServerLayer/QueryLayer/exam.query";
-import {RootState, useAppSelector} from "../../../../../ReduxStore/RootStore";
+import {updateQuestionProgress} from "../../../../../Shared/ServerLayer/QueryLayer/exam.query";
+import {RootState, useAppSelector} from "../../../../../App/ReduxStore/RootStore";
 
 interface IUIExamQuestionProgressProps extends PaperProps {
 

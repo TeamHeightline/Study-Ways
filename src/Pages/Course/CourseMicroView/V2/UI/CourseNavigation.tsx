@@ -4,7 +4,7 @@ import {Box, Divider, Pagination, Stack, Typography} from '@mui/material';
 import {CourseMicroStoreByID} from "../Store/CourseMicroStoreByID";
 import {observer} from "mobx-react";
 import RowFragment from "./RowFragment";
-import axiosClient from "../../../../../ServerLayer/QueryLayer/config";
+import axiosClient from "../../../../../Shared/ServerLayer/QueryLayer/config";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import {useNavigate} from "react-router-dom";
 

@@ -13,12 +13,12 @@ import {
     TextField
 } from "@mui/material";
 import PersonIcon from '@mui/icons-material/Person';
-import {UserStorage} from "../../../Store/UserStore/UserStore";
+import {UserStorage} from "../../../Shared/Store/UserStore/UserStore";
 import {LoadingButton} from "@mui/lab";
 import SaveIcon from '@mui/icons-material/Save';
-import {isMobileHook} from "../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../Shared/CustomHooks/isMobileHook";
 import Typography from "@mui/material/Typography";
-import {useAppDispatch, useAppSelector} from "../../../ReduxStore/RootStore";
+import {useAppDispatch, useAppSelector} from "../../../App/ReduxStore/RootStore";
 import {loadMyProfile, updateProfile} from "../redux-store/async-acrions";
 import {changeProfileData} from "../redux-store";
 import {IProfile} from "../redux-store/types";

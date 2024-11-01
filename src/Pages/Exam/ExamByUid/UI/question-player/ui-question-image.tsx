@@ -2,10 +2,10 @@ import {Grid} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import CardMedia from "@mui/material/CardMedia";
 import React from "react";
-import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../../Shared/CustomHooks/isMobileHook";
 import {useSelector} from "react-redux";
 import {FILE_URL} from "../../../../../settings";
-import {RootState} from "../../../../../ReduxStore/RootStore";
+import {RootState} from "../../../../../App/ReduxStore/RootStore";
 
 interface IUIQuestionImageProps extends PaperProps {
 }

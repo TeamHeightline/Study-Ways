@@ -15,7 +15,7 @@ import {
     TextField,
     Typography
 } from '@mui/material';
-import {isMobileHook} from "../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../Shared/CustomHooks/isMobileHook";
 import AddIcon from '@mui/icons-material/Add';
 import {SERVER_BASE_URL} from "../../../settings";
 import {EditorPage} from "../../Cards/Editor/EditorPageV2/Page";

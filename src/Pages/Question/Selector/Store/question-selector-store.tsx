@@ -1,6 +1,6 @@
 import {autorun, makeAutoObservable} from "mobx";
 import {Query} from "../../../../SchemaTypes";
-import {ClientStorage} from "../../../../Store/ApolloStorage/ClientStorage";
+import {ClientStorage} from "../../../../Shared/Store/ApolloStorage/ClientStorage";
 import {
     GET_MY_QUESTIONS_ID_ARRAY,
     GET_QUESTIONS_ID_ARRAY_FOY_USER,

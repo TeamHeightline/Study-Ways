@@ -1,6 +1,6 @@
 import {TableCell, TableRow} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {IExamDataWithQSData} from "../../../../../ServerLayer/Types/exam.types";
+import {IExamDataWithQSData} from "../../../../../Shared/ServerLayer/Types/exam.types";
 import {useNavigate} from "react-router-dom";
 
 interface IUIExamSelectorRowProps extends PaperProps {

@@ -1,13 +1,13 @@
 import {Box, Button, Stack, SwipeableDrawer} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
 import React, {useEffect, useState} from "react";
-import {UserStorage} from "../../../Store/UserStore/UserStore";
+import {UserStorage} from "../../../Shared/Store/UserStore/UserStore";
 import {loadRecentCardsThunk} from "../../RecentCards/Store/async-actions";
-import {useAppDispatch, useAppSelector} from "../../../ReduxStore/RootStore";
+import {useAppDispatch, useAppSelector} from "../../../App/ReduxStore/RootStore";
 import CardMicroView from "../../Cards/CardMicroView";
 import {useNavigate} from "react-router-dom";
 import HistoryIcon from "@mui/icons-material/History";
-import {isMobileHook} from "../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../Shared/CustomHooks/isMobileHook";
 
 interface ICardHistoryDrawerProps extends BoxProps {
 

@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React from 'react';
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
-import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../../Shared/CustomHooks/isMobileHook";
 import {useNavigate} from "react-router-dom";
 
 interface IFinderTabsProps extends React.HTMLAttributes<HTMLDivElement> {

@@ -6,7 +6,7 @@ import {CESObject} from "../Store/CardEditorStorage";
 import CardMicroView from "../../../CardMicroView";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import ClearIcon from "@mui/icons-material/Clear";
-import TransparentTooltip from "../../../../../CustomHooks/TransparentTooltip";
+import TransparentTooltip from "../../../../../Shared/CustomHooks/TransparentTooltip";
 
 interface ISelectCardProps extends React.HTMLAttributes<HTMLDivElement> {
     card_direction: "cardBefore" | "cardDown" | "cardNext" | "cardUp"

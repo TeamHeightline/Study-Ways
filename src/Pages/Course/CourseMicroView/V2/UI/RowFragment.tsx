@@ -6,7 +6,7 @@ import {CourseMicroStoreByID} from "../Store/CourseMicroStoreByID";
 import {useNavigate} from "react-router-dom";
 
 import NoiseControlOffIcon from '@mui/icons-material/NoiseControlOff';
-import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../../Shared/CustomHooks/isMobileHook";
 
 import LooksTwoIcon from '@mui/icons-material/LooksTwo';
 import Looks3Icon from '@mui/icons-material/Looks3';
@@ -20,7 +20,7 @@ import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import ForkRightIcon from '@mui/icons-material/ForkRight';
 import ThemeStoreObject from "../../../../../global-theme";
 import {alpha} from "@mui/material/styles";
-import {useAppSelector} from "../../../../../ReduxStore/RootStore";
+import {useAppSelector} from "../../../../../App/ReduxStore/RootStore";
 import Typography from "@mui/material/Typography";
 import {toJS} from "mobx";
 

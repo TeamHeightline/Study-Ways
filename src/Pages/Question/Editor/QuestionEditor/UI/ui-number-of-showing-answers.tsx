@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {FormControl, MenuItem, Stack, TextField, Typography} from "@mui/material";
 import {QuestionEditorStorage} from "../Store/QuestionEditorStorage";
-import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../../Shared/CustomHooks/isMobileHook";
 
 export const UiNumberOfShowingAnswers = observer(() => {
     const isMobile = isMobileHook()

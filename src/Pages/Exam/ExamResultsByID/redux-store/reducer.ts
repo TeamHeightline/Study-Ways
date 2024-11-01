@@ -1,6 +1,6 @@
 import {initialState} from "./initial-state";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IExamResult} from "../../../../ServerLayer/Types/exam.types";
+import {IExamResult} from "../../../../Shared/ServerLayer/Types/exam.types";
 import {loadExamResultsAsync} from "./async-actions";
 
 const examResultsSlice = createSlice({

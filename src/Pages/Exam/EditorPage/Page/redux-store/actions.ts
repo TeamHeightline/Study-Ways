@@ -14,7 +14,7 @@ import {
     START_LOADING_MY_EXAMS,
     START_LOADING_QS_DATA
 } from "./action-types";
-import {IExamDataWithQSData} from "../../../../../ServerLayer/Types/exam.types";
+import {IExamDataWithQSData} from "../../../../../Shared/ServerLayer/Types/exam.types";
 
 export const startLoadingMyExam = () => action(START_LOADING_MY_EXAMS);
 export const loadMyExamsSuccess = (exams: IExamDataWithQSData[]) => action(LOAD_MY_EXAMS_SUCCESS, {exams});

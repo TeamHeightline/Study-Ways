@@ -1,4 +1,4 @@
-import {useAppDispatch} from "../../../../ReduxStore/RootStore";
+import {useAppDispatch} from "../../../../App/ReduxStore/RootStore";
 import {useEffect} from "react";
 import {loadAllCardsData} from "./async-actions";
 

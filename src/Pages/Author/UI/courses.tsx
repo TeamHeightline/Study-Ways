@@ -3,7 +3,7 @@ import {toJS} from "mobx";
 import {authorPageStore} from "../Store/store";
 import React, {useEffect} from "react";
 import {loadCourseDataThunk} from "../../Course/Page/redux-store/async-functions";
-import {RootState, useAppDispatch} from "../../../ReduxStore/RootStore";
+import {RootState, useAppDispatch} from "../../../App/ReduxStore/RootStore";
 import {useSelector} from "react-redux";
 import {ICourseData} from "../../Course/Page/redux-store/types";
 import CourseByData from "../../Course/Page/UI/CourseByData";

@@ -1,8 +1,8 @@
 import {shuffle} from "lodash"
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {loadExamDataThunk, loadQuestionDataThunk, openExamPageThunk, saveDetailStatisticThunk} from "./AsyncActions";
-import {IQuestionWithAnswers} from "../../../../ServerLayer/Types/question.type";
-import {IDetailStatistic} from "../../../../ServerLayer/Types/detail-statistic.types";
+import {IQuestionWithAnswers} from "../../../../Shared/ServerLayer/Types/question.type";
+import {IDetailStatistic} from "../../../../Shared/ServerLayer/Types/detail-statistic.types";
 import CryptoJS from "crypto-js";
 
 import {IExamData, initialState, IQuestionStatus} from "./InitialState";

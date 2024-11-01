@@ -1,10 +1,10 @@
-import {loadExamOnOpenData} from "../../../../ServerLayer/QueryLayer/exam.query";
-import {loadQuestionByID} from "../../../../ServerLayer/QueryLayer/question.query";
-import {createDetailStatistic} from "../../../../ServerLayer/QueryLayer/detail-statistic.query";
-import {UserStorage} from "../../../../Store/UserStore/UserStore";
+import {loadExamOnOpenData} from "../../../../Shared/ServerLayer/QueryLayer/exam.query";
+import {loadQuestionByID} from "../../../../Shared/ServerLayer/QueryLayer/question.query";
+import {createDetailStatistic} from "../../../../Shared/ServerLayer/QueryLayer/detail-statistic.query";
+import {UserStorage} from "../../../../Shared/Store/UserStore/UserStore";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {initialState} from "./InitialState";
-import axiosClient from "../../../../ServerLayer/QueryLayer/config";
+import axiosClient from "../../../../Shared/ServerLayer/QueryLayer/config";
 
 
 const emptyStatistic = {

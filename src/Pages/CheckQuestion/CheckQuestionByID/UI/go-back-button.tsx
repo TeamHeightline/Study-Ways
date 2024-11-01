@@ -4,7 +4,7 @@ import {PaperProps} from "@mui/material/Paper/Paper";
 import {Button, Paper} from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {useNavigate} from "react-router-dom";
-import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../Shared/CustomHooks/isMobileHook";
 
 
 interface IGoBackButtonProps extends PaperProps {

@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import React, {useEffect} from 'react';
 import {useAuth0} from "@auth0/auth0-react";
-import {ClientStorage} from "../../Store/ApolloStorage/ClientStorage";
+import {ClientStorage} from "../../Shared/Store/ApolloStorage/ClientStorage";
 
 interface IAuth0LogoutProps extends React.HTMLAttributes<HTMLDivElement> {
 

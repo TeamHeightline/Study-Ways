@@ -3,7 +3,7 @@ import {BoxProps} from "@mui/material/Box/Box";
 import {observer} from "mobx-react";
 import React from "react";
 import {QuestionPlayerStore} from "../Store/QuestionPlayerStore";
-import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../Shared/CustomHooks/isMobileHook";
 import UISingleAnswerByData from "./ui-single-answer-by-data";
 import UIUserMarkAndActionButtons from "./ui-user-mark-and-action-buttons";
 

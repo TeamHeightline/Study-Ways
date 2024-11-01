@@ -6,7 +6,7 @@
 
 import React from 'react';
 import './App.css';
-import {Navibar} from './SharedComponents/Navbar/Navibar';
+import {Navibar} from './App/SharedComponents/Navbar/Navibar';
 
 
 import {BrowserRouter as Router} from "react-router-dom";
@@ -14,10 +14,10 @@ import {BrowserRouter as Router} from "react-router-dom";
 
 import {ApolloProvider} from "@apollo/client";
 import {observer} from "mobx-react"
-import {ClientStorage} from "./Store/ApolloStorage/ClientStorage";
+import {ClientStorage} from "./Shared/Store/ApolloStorage/ClientStorage";
 import {CircularProgress, Grid} from "@mui/material";
 import SeoData from "./seo-data";
-import AppRoutes from "./Routers/PublicRouter";
+import AppRoutes from "./App/Routers/PublicRouter";
 import AppHook from "./app.hook";
 import {useLoadCardsDataForMicroView} from "./Pages/Cards/CardMicroView/store/hooks";
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import {Grid, Stack, Typography} from "@mui/material";
 import ThemeEditor from "../ThemeTree/ThemeEditor";
-import {isMobileHook} from "../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../Shared/CustomHooks/isMobileHook";
 
 export default function ThemesEditor({...props}: any) {
     const isMobile = isMobileHook()

@@ -3,7 +3,7 @@ import React from 'react';
 import Switch from '@mui/material/Switch';
 import {Stack, ToggleButton, ToggleButtonGroup, Typography} from "@mui/material";
 import {Navigate, Route, Routes, useLocation, useNavigate} from "react-router-dom";
-import useQueryParams from "../../../CustomHooks/useQueryParams";
+import useQueryParams from "../../../Shared/CustomHooks/useQueryParams";
 
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import SearchIcon from '@mui/icons-material/Search';

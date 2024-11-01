@@ -1,6 +1,6 @@
 import {makeAutoObservable, reaction, toJS} from "mobx";
-import {ClientStorage} from "../../../../../Store/ApolloStorage/ClientStorage";
-import {UserStorage} from "../../../../../Store/UserStore/UserStore";
+import {ClientStorage} from "../../../../../Shared/Store/ApolloStorage/ClientStorage";
+import {UserStorage} from "../../../../../Shared/Store/UserStore/UserStore";
 import {
     GET_CARD_DATA_BY_ID,
     GET_CONNECTED_THEMES,
@@ -22,8 +22,8 @@ import {SERVER_BASE_URL} from "../../../../../settings";
 import message from "antd/es/message";
 import "js-video-url-parser/lib/provider/youtube";
 import urlParser from "js-video-url-parser";
-import axiosClient from "../../../../../ServerLayer/QueryLayer/config";
-import haveStatus from "../../../../../Store/UserStore/utils/HaveStatus";
+import axiosClient from "../../../../../Shared/ServerLayer/QueryLayer/config";
+import haveStatus from "../../../../../Shared/Store/UserStore/utils/HaveStatus";
 
 
 export type card_object_fields = keyof CardNode

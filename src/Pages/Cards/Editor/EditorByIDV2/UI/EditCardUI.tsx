@@ -15,7 +15,7 @@ import {UiRichTextEditor} from "./ui-rich-text-editor";
 import {UiArrowNavigation} from "./ui-arrow-navigation";
 import {UiTestInCard} from "./ui-test-in-card";
 import {UiTestBeforeCard} from "./ui-test-before-card";
-import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../../Shared/CustomHooks/isMobileHook";
 import UICreateButton from "./ui-create-copy-button";
 import UICreateCopyDialog from "./ui-create-copy-dialog";
 

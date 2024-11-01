@@ -1,7 +1,7 @@
 import {autorun, makeAutoObservable, toJS} from "mobx";
-import {ClientStorage} from "../../../Store/ApolloStorage/ClientStorage";
+import {ClientStorage} from "../../../Shared/Store/ApolloStorage/ClientStorage";
 import {GET_QUESTION_TEXT_BY_ID, LOAD_ATTEMPT_BY_ID} from "./Query";
-import {UserStorage} from "../../../Store/UserStore/UserStore";
+import {UserStorage} from "../../../Shared/Store/UserStore/UserStore";
 
 export class DetailStatisticStoreByID {
     constructor(id?: number) {

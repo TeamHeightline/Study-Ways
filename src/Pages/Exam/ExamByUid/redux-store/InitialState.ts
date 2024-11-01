@@ -1,5 +1,5 @@
-import {IQuestionWithAnswers} from "../../../../ServerLayer/Types/question.type";
-import {IStatistic} from "../../../../ServerLayer/Types/detail-statistic.types";
+import {IQuestionWithAnswers} from "../../../../Shared/ServerLayer/Types/question.type";
+import {IStatistic} from "../../../../Shared/ServerLayer/Types/detail-statistic.types";
 
 export interface IQuestionStatus {
     "id": number,

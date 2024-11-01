@@ -1,7 +1,7 @@
 import {Box, CircularProgress, Stack, Typography} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import axiosClient from "../../../../ServerLayer/QueryLayer/config";
+import axiosClient from "../../../../Shared/ServerLayer/QueryLayer/config";
 import {useEffect, useState} from "react";
 
 interface ICardViewsProps extends BoxProps {

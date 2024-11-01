@@ -1,5 +1,5 @@
 import {gql} from "@apollo/client";
-import axiosClient from "../../../../../ServerLayer/QueryLayer/config";
+import axiosClient from "../../../../../Shared/ServerLayer/QueryLayer/config";
 
 export const CREATE_DEEP_QUESTION_COPY = gql`
     mutation CREATE_DEEP_QUESTION_COPY($questionId: Int!){

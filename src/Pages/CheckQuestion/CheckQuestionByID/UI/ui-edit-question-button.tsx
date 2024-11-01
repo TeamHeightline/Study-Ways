@@ -3,7 +3,7 @@ import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Button, Paper} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
-import {UserStorage} from "../../../../Store/UserStore/UserStore";
+import {UserStorage} from "../../../../Shared/Store/UserStore/UserStore";
 import {useNavigate} from "react-router-dom";
 
 interface IUIEditQuestionButtonProps extends PaperProps {

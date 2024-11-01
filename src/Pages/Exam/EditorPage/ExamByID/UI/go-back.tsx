@@ -2,11 +2,11 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {Button} from "@mui/material";
 import {useNavigate} from "react-router-dom";
-import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../../Shared/CustomHooks/isMobileHook";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {ButtonProps} from "@mui/material/Button/Button";
 import {useSelector} from "react-redux";
-import {RootState} from "../../../../../ReduxStore/RootStore";
+import {RootState} from "../../../../../App/ReduxStore/RootStore";
 
 
 interface IGoBackButtonProps extends ButtonProps {

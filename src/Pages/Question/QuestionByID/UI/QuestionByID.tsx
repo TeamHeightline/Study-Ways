@@ -6,8 +6,8 @@ import UiQuestionData from "./ui-question-data";
 import {Box, CircularProgress, Stack} from '@mui/material';
 
 import {useLocation, useParams} from "react-router-dom";
-import {RequireLogInAlert} from "../../../../SharedComponents/Notifications/RequireLogInAlert";
-import {UserStorage} from "../../../../Store/UserStore/UserStore";
+import {RequireLogInAlert} from "../../../../App/SharedComponents/Notifications/RequireLogInAlert";
+import {UserStorage} from "../../../../Shared/Store/UserStore/UserStore";
 
 import UiCreateAnswerErrorReport from "./ui-create-answer-error-report";
 import UISelectHardLevel from "./ui-select-hard-level";

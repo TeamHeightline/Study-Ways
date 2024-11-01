@@ -9,7 +9,7 @@ import UIAutoUpdateFlag from "./ui-auto-update-flag";
 // import {changeExamID, createArrayForChart, createExamResultsOrderBySum} from "../redux-store/actions";
 import UIExamFinalResultChart from "./ui-exam-final-result-chart";
 import ShowResultsBySumFlag from "./ui-show-results-by-sum-flag";
-import {RootState} from "../../../../ReduxStore/RootStore";
+import {RootState} from "../../../../App/ReduxStore/RootStore";
 import {changeExamId, createArrayForChart, createExamResultsOrderBySum} from "../redux-store/reducer";
 import UiExcelExport from "./ui-excell-export";
 

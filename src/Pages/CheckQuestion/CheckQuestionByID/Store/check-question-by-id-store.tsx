@@ -1,7 +1,7 @@
 import {autorun, makeAutoObservable} from "mobx";
 import {Query} from "../../../../SchemaTypes";
 import {LoadAnswersIDArrayByQuestionID} from "./query";
-import {ClientStorage} from "../../../../Store/ApolloStorage/ClientStorage";
+import {ClientStorage} from "../../../../Shared/Store/ApolloStorage/ClientStorage";
 
 export class CheckQuestionByIdStore {
     constructor(question_id?: string) {

@@ -1,5 +1,5 @@
 import {makeAutoObservable, reaction, toJS} from "mobx";
-import {ClientStorage} from "../../../../../Store/ApolloStorage/ClientStorage";
+import {ClientStorage} from "../../../../../Shared/Store/ApolloStorage/ClientStorage";
 import {
     CREATE_DEEP_QUESTION_COPY,
     CREATE_NEW_ANSWER,
@@ -21,9 +21,9 @@ import {
 } from "../../../../../SchemaTypes";
 import {sort} from "fast-sort";
 import {Answer, answerStoreType} from "./AnswersStorage";
-import {UserStorage} from "../../../../../Store/UserStore/UserStore";
+import {UserStorage} from "../../../../../Shared/Store/UserStore/UserStore";
 import {SERVER_BASE_URL} from "../../../../../settings";
-import axiosClient from "../../../../../ServerLayer/QueryLayer/config";
+import axiosClient from "../../../../../Shared/ServerLayer/QueryLayer/config";
 
 export enum variantsOfStateOfSave {
     SAVED = "SAVED",

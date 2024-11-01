@@ -15,7 +15,7 @@ import Switch from "@mui/material/Switch";
 import Collapse from "@mui/material/Collapse";
 import {QuestionByID} from "../QuestionByID/UI/QuestionByID";
 import {observer} from "mobx-react";
-import {QuestionPageStorage} from "../../../Store/PublicStorage/QuestionPage/QuestionPageStore";
+import {QuestionPageStorage} from "../../../Shared/Store/PublicStorage/QuestionPage/QuestionPageStore";
 import {toJS} from "mobx";
 
 export const MainUserQuestionPage = observer(() => {

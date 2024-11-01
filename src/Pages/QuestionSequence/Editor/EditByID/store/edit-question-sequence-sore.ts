@@ -1,8 +1,8 @@
 import {makeAutoObservable, reaction, toJS} from "mobx";
-import {sequenceDataI} from "../../../../../ServerLayer/Types/question-sequence.type";
-import {getQSByID, updateQS} from "../../../../../ServerLayer/QueryLayer/question-sequence.query";
-import {IQuestionPreviewData, QuestionAuthorI} from "../../../../../ServerLayer/Types/question.type";
-import {loadAllQuestions, loadQuestionAuthors} from "../../../../../ServerLayer/QueryLayer/question.query";
+import {sequenceDataI} from "../../../../../Shared/ServerLayer/Types/question-sequence.type";
+import {getQSByID, updateQS} from "../../../../../Shared/ServerLayer/QueryLayer/question-sequence.query";
+import {IQuestionPreviewData, QuestionAuthorI} from "../../../../../Shared/ServerLayer/Types/question.type";
+import {loadAllQuestions, loadQuestionAuthors} from "../../../../../Shared/ServerLayer/QueryLayer/question.query";
 
 class EditQuestionSequenceSoreClass {
     constructor() {

@@ -3,7 +3,7 @@ import {BoxProps} from "@mui/material/Box/Box";
 import CardItem from "./card-element";
 import React, {useState} from "react";
 import EmptyElement from "./empty-element";
-import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../Shared/CustomHooks/isMobileHook";
 import CardPopover from "./card-popover";
 import {positionDataI} from "../../CourseMicroView/V2/Store/CourseMicroStoreByID";
 import LinkElement from "./link-element";

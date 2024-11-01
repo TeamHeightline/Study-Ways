@@ -1,5 +1,5 @@
 import {observer} from "mobx-react";
-import {useAppSelector} from "../../../../ReduxStore/RootStore";
+import {useAppSelector} from "../../../../App/ReduxStore/RootStore";
 import {CardType} from "../../CardMicroView/store/type";
 import {CardByIDStore} from "../Store/CardByIDStore";
 import {toJS} from "mobx";

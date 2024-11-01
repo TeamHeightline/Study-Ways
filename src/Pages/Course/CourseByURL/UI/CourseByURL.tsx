@@ -1,12 +1,12 @@
 import {observer} from "mobx-react";
 import React, {useState} from 'react';
-import useQueryParams from "../../../../CustomHooks/useQueryParams";
+import useQueryParams from "../../../../Shared/CustomHooks/useQueryParams";
 import {positionDataI} from "../../CourseMicroView/V2/Store/CourseMicroStoreByID";
 import CourseMicroView from "../../CourseMicroView/V2/UI/CourseMicroView";
 import CardByID from "../../../Cards/CardByID/UI/card-by-id";
 import {Box, Stack} from "@mui/material";
 import CourseMacroView from "../../CourseMacroView";
-import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../Shared/CustomHooks/isMobileHook";
 
 interface ICourseByURLProps extends React.HTMLAttributes<HTMLDivElement> {
 

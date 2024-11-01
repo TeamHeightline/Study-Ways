@@ -1,6 +1,6 @@
 import {Box, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
-import {RootState, useAppDispatch} from "../../../../../ReduxStore/RootStore";
+import {RootState, useAppDispatch} from "../../../../../App/ReduxStore/RootStore";
 import {useSelector} from "react-redux";
 import {changeMaxQuestionAttempts} from "../redux-store/examEditorSlice";
 

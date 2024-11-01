@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Paper, Stack, Typography} from "@mui/material";
-import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../../../Shared/CustomHooks/isMobileHook";
 import {EditAnswerByIdStore} from "../Store/edit-answer-by-id-store";
 import AnswerText from "./answer-text";
 import IconButton from "@mui/material/IconButton";

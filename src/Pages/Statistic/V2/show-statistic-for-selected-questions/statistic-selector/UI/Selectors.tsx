@@ -7,19 +7,21 @@ import {UserName} from "./UserName";
 import {AfterTime} from "./AfterTime";
 import {SpecificQuestion} from "./SpecificQuestion";
 import {SASObject} from "../Store/SelectAttemptStore";
-import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../../../Shared/CustomHooks/isMobileHook";
 
-interface ISelectorsProps extends React.HTMLAttributes<HTMLDivElement>{
+interface ISelectorsProps extends React.HTMLAttributes<HTMLDivElement> {
     selectedQuestions: number[]
 }
-export const Selectors = observer(({selectedQuestions, ...props}: ISelectorsProps) =>{
+
+export const Selectors = observer(({selectedQuestions, ...props}: ISelectorsProps) => {
     const isMobile = isMobileHook()
-    useEffect(()=>{
+    useEffect(() => {
         SASObject.changeSelectedQuestions(selectedQuestions)
     }, [selectedQuestions])
-    return(
+    return (
         <div {...props}>
-            <Stack direction={isMobile ? "column" : "row"} spacing={1} justifyContent="space-evenly" sx={{pt: 2, mb:1}}>
+            <Stack direction={isMobile ? "column" : "row"} spacing={1} justifyContent="space-evenly"
+                   sx={{pt: 2, mb: 1}}>
                 <UserName/>
                 <SpecificQuestion/>
                 <ExamMode/>

@@ -1,13 +1,15 @@
 import {makeAutoObservable, reaction, toJS} from "mobx";
-import {ClientStorage} from "../../../../Store/ApolloStorage/ClientStorage";
-import {GET_ENCRYPT_QUESTION_DATA_BY_ID} from "../../../../Store/PublicStorage/QSPage/QuestionSequencePlayer/Struct";
-import {SameAnswerNode} from "../../../../Store/PublicStorage/QSPage/QuestionSequencePlayer/SameAnswerNode";
+import {ClientStorage} from "../../../../Shared/Store/ApolloStorage/ClientStorage";
+import {
+    GET_ENCRYPT_QUESTION_DATA_BY_ID
+} from "../../../../Shared/Store/PublicStorage/QSPage/QuestionSequencePlayer/Struct";
+import {SameAnswerNode} from "../../../../Shared/Store/PublicStorage/QSPage/QuestionSequencePlayer/SameAnswerNode";
 import {shuffle} from "lodash"
-import {UserStorage} from "../../../../Store/UserStore/UserStore";
+import {UserStorage} from "../../../../Shared/Store/UserStore/UserStore";
 import CryptoJS from 'crypto-js'
 import {SERVER_BASE_URL} from "../../../../settings";
-import axiosClient from "../../../../ServerLayer/QueryLayer/config";
-import {createDetailStatistic} from "../../../../ServerLayer/QueryLayer/detail-statistic.query";
+import axiosClient from "../../../../Shared/ServerLayer/QueryLayer/config";
+import {createDetailStatistic} from "../../../../Shared/ServerLayer/QueryLayer/detail-statistic.query";
 
 export class QuestionPlayerStore {
     constructor(ownStore, questionID) {

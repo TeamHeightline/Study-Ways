@@ -3,7 +3,7 @@ import {BoxProps} from "@mui/material/Box/Box";
 import {IHelpArticle} from "../redux-store/types";
 import ReactPlayer from "react-player";
 import React from "react";
-import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../Shared/CustomHooks/isMobileHook";
 
 interface IContentDialogProps extends BoxProps {
     isOpen: boolean,

@@ -1,6 +1,6 @@
 import {autorun, makeAutoObservable} from "mobx";
 import {Query} from "../../../../SchemaTypes";
-import {ClientStorage} from "../../../../Store/ApolloStorage/ClientStorage";
+import {ClientStorage} from "../../../../Shared/Store/ApolloStorage/ClientStorage";
 import {GET_QUESTION_NANO_VIEW_BY_ID} from "../../Selector/Store/query";
 import React from "react";
 

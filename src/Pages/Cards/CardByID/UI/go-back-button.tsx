@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {Button, IconButton, Stack, Tooltip} from "@mui/material";
 import {useLocation, useNavigate} from "react-router-dom";
-import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../Shared/CustomHooks/isMobileHook";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {ButtonProps} from "@mui/material/Button/Button";
 import HomeIcon from "@mui/icons-material/Home";

@@ -2,8 +2,8 @@ import {Card, Chip, Paper, Stack, Typography} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import React, {useEffect} from "react";
 import {useSelector} from "react-redux";
-import {sequenceDataI} from "../../../../../ServerLayer/Types/question-sequence.type";
-import {RootState, useAppDispatch} from "../../../../../ReduxStore/RootStore";
+import {sequenceDataI} from "../../../../../Shared/ServerLayer/Types/question-sequence.type";
+import {RootState, useAppDispatch} from "../../../../../App/ReduxStore/RootStore";
 import {loadQSDataThunk} from "../redux-store/async-actions";
 
 interface ISelectedQSByDataProps extends PaperProps {

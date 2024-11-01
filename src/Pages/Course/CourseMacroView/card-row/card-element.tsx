@@ -1,7 +1,7 @@
 import {Box, Card, Skeleton, Stack} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
 import React, {useEffect, useState} from "react";
-import axiosClient from "../../../../ServerLayer/QueryLayer/config";
+import axiosClient from "../../../../Shared/ServerLayer/QueryLayer/config";
 import urlParser from "js-video-url-parser";
 import CardMedia from "@mui/material/CardMedia";
 import LooksTwoIcon from "@mui/icons-material/LooksTwo";

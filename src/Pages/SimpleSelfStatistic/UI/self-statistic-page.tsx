@@ -2,9 +2,9 @@ import {observer} from "mobx-react";
 import React, {useEffect} from 'react';
 import {SSSSObject} from "../Store/SimpleSelfStatisticStorage";
 import {ShowStatisticTable} from "../../Statistic/V2/show-statistic-for-selected-questions/ShowStatisticTable";
-import {UserStorage} from "../../../Store/UserStore/UserStore";
+import {UserStorage} from "../../../Shared/Store/UserStore/UserStore";
 import {Pagination, Stack} from "@mui/material";
-import {RequireLogInAlert} from "../../../SharedComponents/Notifications/RequireLogInAlert";
+import {RequireLogInAlert} from "../../../App/SharedComponents/Notifications/RequireLogInAlert";
 
 interface ISelfStatisticPageProps extends React.HTMLAttributes<HTMLDivElement> {
 

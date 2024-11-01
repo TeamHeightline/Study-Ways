@@ -1,8 +1,8 @@
 import {useAuth0} from "@auth0/auth0-react";
-import {ClientStorage} from "./Store/ApolloStorage/ClientStorage";
-import axiosClient from "./ServerLayer/QueryLayer/config";
+import {ClientStorage} from "./Shared/Store/ApolloStorage/ClientStorage";
+import axiosClient from "./Shared/ServerLayer/QueryLayer/config";
 import {useEffect} from "react";
-import {UserStorage} from "./Store/UserStore/UserStore";
+import {UserStorage} from "./Shared/Store/UserStore/UserStore";
 
 export default function AppHook() {
     const {

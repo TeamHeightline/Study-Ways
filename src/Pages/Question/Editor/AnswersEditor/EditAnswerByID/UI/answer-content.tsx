@@ -3,7 +3,7 @@ import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Collapse, Grid, Paper, Stack} from "@mui/material";
 import {EditAnswerByIdStore} from "../Store/edit-answer-by-id-store";
-import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../../../Shared/CustomHooks/isMobileHook";
 import AnswerText from "./answer-text";
 import AnswerHelpTextV1 from "./answer-help-text-v1";
 import AnswerVideoURL from "./answer-video-url";

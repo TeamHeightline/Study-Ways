@@ -1,4 +1,4 @@
-import {IExamResult} from "../../../../ServerLayer/Types/exam.types";
+import {IExamResult} from "../../../../Shared/ServerLayer/Types/exam.types";
 
 export const initialState = {
     exam_id: null as number | null,

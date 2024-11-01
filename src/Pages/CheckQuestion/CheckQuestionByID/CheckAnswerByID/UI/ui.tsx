@@ -8,7 +8,7 @@ import UIHelpTextV1 from "./ui-help-text-v1";
 import UIHelpTextV2 from "./ui-help-text-v2";
 import UIHelpTextV3 from "./ui-help-text-v3";
 import UIAnswerNumber from "./ui-answer-number";
-import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../../Shared/CustomHooks/isMobileHook";
 import UICreateErrorReport from "./ui-create-error-report";
 import UICreateErrorReportDialog from "./ui-create-error-report-dialog";
 import UIAnswerReportSaveMessage from "./ui-answer-report-save-message";

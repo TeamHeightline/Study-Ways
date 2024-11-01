@@ -2,7 +2,7 @@ import {Collapse, TableCell, TableRow} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {ShowStatisticTable} from "../../../Statistic/V2/show-statistic-for-selected-questions/ShowStatisticTable";
 import React from "react";
-import {IExamResult} from "../../../../ServerLayer/Types/exam.types";
+import {IExamResult} from "../../../../Shared/ServerLayer/Types/exam.types";
 
 interface IUIExamEachAttemptTableProps extends PaperProps {
     exam_result: IExamResult,

@@ -3,7 +3,7 @@ import {PaperProps} from "@mui/material/Paper/Paper";
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {saveDetailStatisticThunk} from "../../redux-store/AsyncActions";
-import {RootState, useAppSelector} from "../../../../../ReduxStore/RootStore";
+import {RootState, useAppSelector} from "../../../../../App/ReduxStore/RootStore";
 
 interface IUiComebackLaterDialogProps extends PaperProps {
     isOpenComeBackLaterDialog: boolean,

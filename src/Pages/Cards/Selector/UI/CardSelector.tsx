@@ -9,7 +9,7 @@ import {ContentType} from "./ContentType";
 import {ConnectedThemes} from "./ConnectedThemes";
 import {Pages} from "./Pages";
 import {loadAllCardsData} from "../../CardMicroView/store/async-actions";
-import {useAppDispatch} from "../../../../ReduxStore/RootStore";
+import {useAppDispatch} from "../../../../App/ReduxStore/RootStore";
 
 interface ICardSelectorProps extends React.HTMLAttributes<HTMLDivElement> {
     mode?: "onlyCreatedByMe" | "standard";

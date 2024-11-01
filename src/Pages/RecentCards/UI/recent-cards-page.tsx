@@ -1,9 +1,9 @@
 import {Box, CircularProgress, Grid, Stack, Typography} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
-import {useAppDispatch, useAppSelector} from "../../../ReduxStore/RootStore";
+import {useAppDispatch, useAppSelector} from "../../../App/ReduxStore/RootStore";
 import CardMicroView from "../../Cards/CardMicroView";
 import {useEffect} from "react";
-import {UserStorage} from "../../../Store/UserStore/UserStore";
+import {UserStorage} from "../../../Shared/Store/UserStore/UserStore";
 import {loadRecentCardsThunk} from "../Store/async-actions";
 import UIIsHideDuplicates from "./ui-is-hide-duplicates";
 import {useNavigate} from "react-router-dom";

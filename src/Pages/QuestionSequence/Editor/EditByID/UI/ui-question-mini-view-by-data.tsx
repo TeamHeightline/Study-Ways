@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Card, CardActionArea, Grid, Paper, Stack, Tooltip, Typography} from "@mui/material";
-import {IQuestionPreviewData} from "../../../../../ServerLayer/Types/question.type";
+import {IQuestionPreviewData} from "../../../../../Shared/ServerLayer/Types/question.type";
 
 
 interface IUIQuestionMiniViewByDataProps extends PaperProps {

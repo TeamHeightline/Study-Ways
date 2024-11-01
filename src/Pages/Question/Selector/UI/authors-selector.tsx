@@ -3,7 +3,7 @@ import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {FormControl, InputLabel, MenuItem, Paper, Select} from "@mui/material";
 import QSSObject from "../Store/question-selector-store";
-import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../Shared/CustomHooks/isMobileHook";
 
 
 interface IAuthorSelectorProps extends PaperProps {

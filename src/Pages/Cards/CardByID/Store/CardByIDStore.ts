@@ -1,6 +1,6 @@
 import {autorun, makeAutoObservable, reaction, toJS} from "mobx";
 import {CardCourseNode, CardNode, Mutation, Query, UnstructuredThemesNode} from "../../../../SchemaTypes";
-import {ClientStorage} from "../../../../Store/ApolloStorage/ClientStorage";
+import {ClientStorage} from "../../../../Shared/Store/ApolloStorage/ClientStorage";
 import {
     ADD_TO_BOOKMARK,
     GET_ALL_COURSE,
@@ -14,8 +14,8 @@ import {FILE_URL, SERVER_BASE_URL} from "../../../../settings";
 import {ICourseLine} from "../../../Course/EditCourseByID/EditCourseByID";
 import {positionDataI} from "../../../Course/CourseMicroView/V2/Store/CourseMicroStoreByID";
 import React, {RefObject} from "react";
-import recombeeClient from "../../../../Store/RecombeeClient/recombee-client";
-import {UserStorage} from "../../../../Store/UserStore/UserStore";
+import recombeeClient from "../../../../Shared/Store/RecombeeClient/recombee-client";
+import {UserStorage} from "../../../../Shared/Store/UserStore/UserStore";
 // @ts-ignore
 import recombee from 'recombee-js-api-client';
 

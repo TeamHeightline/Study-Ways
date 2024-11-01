@@ -17,7 +17,7 @@ import {
     Typography
 } from "@mui/material";
 import {observer} from "mobx-react";
-import {QSPlayerStore} from "../../../Store/PublicStorage/QSPage/QuestionSequencePlayer/QSPlayerStore";
+import {QSPlayerStore} from "../../../Shared/Store/PublicStorage/QSPage/QuestionSequencePlayer/QSPlayerStore";
 import UiQuestionData from "../../Question/QuestionByID/UI/ui-question-data";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -25,10 +25,10 @@ import CardContent from "@mui/material/CardContent";
 import {ArgumentAxis, BarSeries, Chart, SplineSeries, Title, ValueAxis} from '@devexpress/dx-react-chart-material-ui';
 import {useLocation, useParams} from "react-router-dom";
 import '../../../index.css'
-import {isMobileHook} from "../../../CustomHooks/isMobileHook";
-import {RequireLogInAlert} from "../../../SharedComponents/Notifications/RequireLogInAlert";
+import {isMobileHook} from "../../../Shared/CustomHooks/isMobileHook";
+import {RequireLogInAlert} from "../../../App/SharedComponents/Notifications/RequireLogInAlert";
 import SchoolIcon from '@mui/icons-material/School';
-import {UserStorage} from "../../../Store/UserStore/UserStore";
+import {UserStorage} from "../../../Shared/Store/UserStore/UserStore";
 
 const processedStore = new QSPlayerStore()
 

@@ -10,7 +10,7 @@ import {UiQuestionPreview} from "./ui-question-preview";
 import {AnswersEditor} from "../../AnswersEditor/EditAnswerByID/UI/AnswersEditor";
 import {CreateNewAnswer} from "./ui-create-new-answer";
 import React, {useEffect} from "react";
-import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../../Shared/CustomHooks/isMobileHook";
 import UiAdditionalActions from "./ui-additional-actions";
 import ConnectedThemeSelector from "./ui-connected-theme-selector";
 import {useNavigate} from "react-router-dom";

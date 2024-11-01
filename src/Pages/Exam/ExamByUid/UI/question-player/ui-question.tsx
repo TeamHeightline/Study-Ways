@@ -2,7 +2,7 @@ import {Grid, Paper} from "@mui/material";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import Card from "@mui/material/Card";
 import React from "react";
-import {isMobileHook} from "../../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../../Shared/CustomHooks/isMobileHook";
 import UIQuestionImage from "./ui-question-image";
 import UIQuestionText from "./ui-question-text";
 

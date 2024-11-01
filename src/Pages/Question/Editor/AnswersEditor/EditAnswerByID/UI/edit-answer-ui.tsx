@@ -10,7 +10,7 @@ import IsEditAnswer from "./is-edit-answer";
 import AnswerContent from "./answer-content";
 import AnswerPreview from "./answer-preview";
 import {EditAnswerByIdStore} from "../Store/edit-answer-by-id-store";
-import {isMobileHook} from "../../../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../../../Shared/CustomHooks/isMobileHook";
 import UIAnswerErrorsButton from "./answer-errors-button";
 import AnswerErrorDialog from "./answe-error-dialog";
 import AnswerErrorClosedMessage from "./answer-error-closed-message";

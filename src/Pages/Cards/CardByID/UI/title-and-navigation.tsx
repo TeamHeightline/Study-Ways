@@ -9,7 +9,7 @@ import CardTheme from "./card-theme";
 import CourseMicroView from "../../../Course/CourseMicroView/V2/UI/CourseMicroView";
 import {PaperProps} from "@mui/material/Paper/Paper";
 import Paper from "@mui/material/Paper";
-import {isMobileHook} from "../../../../CustomHooks/isMobileHook";
+import {isMobileHook} from "../../../../Shared/CustomHooks/isMobileHook";
 import {CardAuthor} from "./card-author";
 
 interface ITitleAndNavigationProps extends PaperProps {

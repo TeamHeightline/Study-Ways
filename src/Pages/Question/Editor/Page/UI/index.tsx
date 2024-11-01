@@ -3,7 +3,7 @@ import {Badge, Card, CardActionArea, Grid, Stack, Typography} from "@mui/materia
 import {observer} from "mobx-react";
 import {UiCreateNewQuestion} from "./ui-create-new-question";
 import Paper from "@mui/material/Paper";
-import {RootState, useAppDispatch} from "../../../../../ReduxStore/RootStore";
+import {RootState, useAppDispatch} from "../../../../../App/ReduxStore/RootStore";
 import {loadAuthorsThunk, loadQuestionsThunk} from "../redux-store/AsyncActions";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
@@ -11,7 +11,7 @@ import HideNotFilledQuestions from "./ui-hide-not-filled-questions";
 import UIOrderingByCreatedAt from "./ui-ordering-by-created-at";
 import UICreateNewQuestionDialog from "./ui-create-new-question-dialog";
 import AuthorSelector from "./author-selector";
-import {UserStorage} from "../../../../../Store/UserStore/UserStore";
+import {UserStorage} from "../../../../../Shared/Store/UserStore/UserStore";
 
 export const Index = observer(() => {
     const dispatch = useAppDispatch()

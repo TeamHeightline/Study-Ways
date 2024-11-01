@@ -1,5 +1,5 @@
 import {makeAutoObservable, reaction, toJS} from "mobx";
-import axiosClient from "../../../ServerLayer/QueryLayer/config";
+import axiosClient from "../../../Shared/ServerLayer/QueryLayer/config";
 import {AuthorData} from "./types";
 
 class AuthorPageStore {

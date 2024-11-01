@@ -1,6 +1,6 @@
-import {RootState, useAppDispatch} from "../../../../../ReduxStore/RootStore";
+import {RootState, useAppDispatch} from "../../../../../App/ReduxStore/RootStore";
 import {useSelector} from "react-redux";
-import {UserStorage} from "../../../../../Store/UserStore/UserStore";
+import {UserStorage} from "../../../../../Shared/Store/UserStore/UserStore";
 import {Box, Divider, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent} from "@mui/material";
 import React from "react";
 import {changeAuthorFilter} from "../redux-store/QuestionEditorPageSlice";

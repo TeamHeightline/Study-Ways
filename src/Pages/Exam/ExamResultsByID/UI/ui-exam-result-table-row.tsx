@@ -4,7 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import React from "react";
-import {IExamResult} from "../../../../ServerLayer/Types/exam.types";
+import {IExamResult} from "../../../../Shared/ServerLayer/Types/exam.types";
 import UIExamEachAttemptTable from "./ui-exam-each-attempt-table";
 import BlockIcon from '@mui/icons-material/Block';
 

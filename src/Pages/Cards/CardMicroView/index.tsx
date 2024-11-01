@@ -16,7 +16,7 @@ import urlParser from "js-video-url-parser";
 import "js-video-url-parser/lib/provider/youtube";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import ReactPlayer from "react-player";
-import {useAppSelector} from "../../../ReduxStore/RootStore";
+import {useAppSelector} from "../../../App/ReduxStore/RootStore";
 import {CardType} from "./store/type";
 import {FILE_URL} from "../../../settings";
 

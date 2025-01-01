@@ -9,6 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import haveStatus from "../../../Shared/Store/UserStore/utils/HaveStatus";
 import HomeIcon from "@mui/icons-material/Home";
 import AppsIcon from "@mui/icons-material/Apps";
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import {UserStorage} from "../../../Shared/Store/UserStore/UserStore";
 import {isMobileHook} from "../../../Shared/CustomHooks/isMobileHook";
 
@@ -56,6 +57,17 @@ const PagesMenu = observer(({...props}: INavbarMenuProps) => {
                             <HomeIcon fontSize="small"/>
                         </ListItemIcon>
                         Курсы
+                    </MenuItem>
+
+                    <MenuItem
+                        onClick={() => {
+                            handleClose()
+                            navigate('/ai-course')
+                        }}>
+                        <ListItemIcon>
+                            <AutoAwesomeIcon fontSize="small"/>
+                        </ListItemIcon>
+                        AI курсы
                     </MenuItem>
 
                     <MenuItem

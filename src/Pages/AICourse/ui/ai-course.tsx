@@ -17,7 +17,7 @@ export const AiCourse = observer(() => {
 
     if (!isSearchButtonClicked) {
         return (
-            <Stack sx={{height: '80dvh', width: '100vw'}} alignItems={'center'} justifyContent={'center'}>
+            <Stack sx={{height: '80dvh'}} alignItems={'center'} justifyContent={'center'}>
                 <AnimatedTitle/>
                 <Search/>
                 <CardsNotLoadedIndicator/>
@@ -27,7 +27,7 @@ export const AiCourse = observer(() => {
 
     if (!isDefaultCardsLoaded) {
         return (
-            <Stack sx={{height: '90dvh', width: '100vw'}} alignItems={'center'} justifyContent={'center'}>
+            <Stack sx={{height: '90dvh'}} alignItems={'center'} justifyContent={'center'}>
                 <CircularProgress/>
             </Stack>
         )

@@ -10,7 +10,7 @@ export const CardsNotLoadedIndicator = observer(() => {
 
     return (
         <Fade in={isCardsNotLoaded} timeout={500}>
-            <Box sx={{width: '100%', mt: 1, px: 1}}>
+            <Box sx={{width: '100%', mt: 1, px: 1, maxWidth: 700}}>
                 <Typography variant={'caption'}>
                     Загрузка необходимых данных
                 </Typography>

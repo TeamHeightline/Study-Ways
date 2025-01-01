@@ -15,6 +15,7 @@ const BlurredAppBar = styled(AppBar)(
   box-shadow: none;
   z-index: ${theme.zIndex.drawer + 1};
   display: flex;
+  align-items: center
 `,
 )
 

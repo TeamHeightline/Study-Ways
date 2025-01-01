@@ -25,7 +25,12 @@ export const Navibar = observer(() => {
     return (
         <BlurredAppBar position="fixed" sx={{height: 48}}>
             <Toolbar variant="dense"
-                     sx={{justifyContent: {xs: "center", md: "space-between"}, flex: 1, width: '100%', maxWidth: 1200}}>
+                     sx={(theme) => ({
+                         justifyContent: {xs: "center", md: "space-between"},
+                         flex: 1,
+                         width: '100%',
+                         maxWidth: theme.breakpoints.values.xl
+                     })}>
                 <Typography variant="h6"
                             sx={{color: "white", display: {xs: "none", md: "block"}, cursor: "pointer"}}
                             onClick={() => {

@@ -14,6 +14,7 @@ const BlurredAppBar = styled(AppBar)(
   backdrop-filter: blur(10px);
   box-shadow: none;
   z-index: ${theme.zIndex.drawer + 1};
+  display: flex;
 `,
 )
 
@@ -22,7 +23,8 @@ export const Navibar = observer(() => {
 
     return (
         <BlurredAppBar position="fixed" sx={{height: 48}}>
-            <Toolbar variant="dense" sx={{justifyContent: {xs: "center", md: "space-between"}}}>
+            <Toolbar variant="dense"
+                     sx={{justifyContent: {xs: "center", md: "space-between"}, flex: 1, width: '100%', maxWidth: 1200}}>
                 <Typography variant="h6"
                             sx={{color: "white", display: {xs: "none", md: "block"}, cursor: "pointer"}}
                             onClick={() => {

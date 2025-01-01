@@ -1,7 +1,7 @@
 import React, {Suspense} from "react";
 import {CircularProgress, Grid} from "@mui/material";
 import {RequireLogInAlert} from "../../SharedComponents/Notifications/RequireLogInAlert";
-import {Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 import Auth0Login from "../../../Pages/Auth0/auth0-login";
 import Auth0AfterLogin from "../../../Pages/Auth0/auth0-after-login";
 import CardByURL from "../../../Pages/Cards/CardByURL/UI/card-by-url";
@@ -101,7 +101,7 @@ const routes = [
     },
     {
         path: "/",
-        component: <CardByID card_id={2677}/>
+        component: <Navigate to="/courses" replace/>
     }
 
 ]

@@ -18,6 +18,7 @@ import {UiTestBeforeCard} from "./ui-test-before-card";
 import {isMobileHook} from "../../../../../Shared/CustomHooks/isMobileHook";
 import UICreateButton from "./ui-create-copy-button";
 import UICreateCopyDialog from "./ui-create-copy-dialog";
+import {SaveNotification} from "./save-notification";
 
 interface IEditCardUIProps extends React.HTMLAttributes<HTMLDivElement> {
 
@@ -42,7 +43,10 @@ const EditCardUI = observer(({...props}: IEditCardUIProps) => {
                     <UiCloseButton/>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <ID/>
+                    <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                        <ID/>
+                        <SaveNotification/>
+                    </Stack>
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <Stack direction={"row"} spacing={2}>
@@ -74,10 +78,10 @@ const EditCardUI = observer(({...props}: IEditCardUIProps) => {
                 </Grid>
 
                 <Grid item xs={12} md={6}>
-                    <Collapse in={CESObject.getField("cardContentType", "A_0") === "A_0"}>
+                    <Collapse in={CESObject.getField("card_content_type", 0) === 0}>
                         <UiYoutubeVideo/>
                     </Collapse>
-                    <Collapse in={!(CESObject.getField("cardContentType", "A_0") === "A_0")}>
+                    <Collapse in={!(CESObject.getField("card_content_type", 0) === 0)}>
                         <UiUploadImage/>
                     </Collapse>
                 </Grid>
@@ -90,19 +94,16 @@ const EditCardUI = observer(({...props}: IEditCardUIProps) => {
                 </Grid>
                 <Grid item container xs={12} md={6} spacing={4}>
                     <Grid item xs={12} md={6}>
-                        <Collapse in={CESObject.getField("isCardUseTestInCard", false)}>
+                        <Collapse in={CESObject.getField("test_in_card_id", false)}>
                             <UiTestInCard/>
                         </Collapse>
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <Collapse in={CESObject.getField("isCardUseTestBeforeCard", false)}>
+                        <Collapse in={CESObject.getField("test_before_card_id", false)}>
                             <UiTestBeforeCard/>
                         </Collapse>
                     </Grid>
-
                 </Grid>
-
-
             </Grid>
         </div>
     )

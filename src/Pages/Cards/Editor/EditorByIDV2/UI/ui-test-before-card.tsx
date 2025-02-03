@@ -16,8 +16,8 @@ export const UiTestBeforeCard = observer(({...props}: ITestBeforeCardProps) => {
                     type="number"
                     label="ID вопроса перед карточкой"
                     variant={"outlined"}
-                    value={CESObject.getField("testBeforeCard", '')}
-                    onChange={CESObject.changeField("testBeforeCard")}
+                    value={CESObject.getField("test_before_card_id", '')}
+                    onChange={CESObject.changeField("test_before_card_id")}
                 />
                 {CESObject.testBeforeCardData &&
                     <div>

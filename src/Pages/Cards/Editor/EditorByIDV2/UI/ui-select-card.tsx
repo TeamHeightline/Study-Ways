@@ -9,7 +9,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import TransparentTooltip from "../../../../../Shared/CustomHooks/TransparentTooltip";
 
 interface ISelectCardProps extends React.HTMLAttributes<HTMLDivElement> {
-    card_direction: "cardBefore" | "cardDown" | "cardNext" | "cardUp"
+    card_direction: "card_before_id" | "card_down_id" | "card_next_id" | "card_up_id"
 }
 
 
@@ -35,7 +35,7 @@ export const UiSelectCard = observer(({card_direction, ...props}: ISelectCardPro
                     <IconButton
                         // sx={{ml: 2}}
                         onClick={() => {
-                            CESObject.changeFieldByValue(card_direction, undefined)
+                            CESObject.changeFieldByValue(card_direction, null)
                         }}
                         size="small"
                         disabled={!CESObject.getField(card_direction, "")}>

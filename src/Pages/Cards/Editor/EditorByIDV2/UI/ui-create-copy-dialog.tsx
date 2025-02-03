@@ -24,7 +24,7 @@ const UICreateCopyDialog = observer(({...props}: IUICreateCopyDialogProps) => {
                 const newCardID = res?.data?.id
                 if (oldCardID && newCardID) {
                     const oldUrl = location.pathname
-                    const newUrl = oldUrl.replace(oldCardID, newCardID)
+                    const newUrl = oldUrl.replace(String(oldCardID), newCardID)
                     navigate(newUrl)
                 }
             })

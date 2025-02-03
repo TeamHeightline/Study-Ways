@@ -1,46 +1,30 @@
 import {makeAutoObservable, reaction, toJS} from "mobx";
 import {ClientStorage} from "../../../../../Shared/Store/ApolloStorage/ClientStorage";
-import {UserStorage} from "../../../../../Shared/Store/UserStore/UserStore";
-import {
-    GET_CARD_DATA_BY_ID,
-    GET_CONNECTED_THEMES,
-    GET_MY_CARD_AUTHOR,
-    GET_QUESTION_TEXT_BY_ID,
-    UPDATE_CARD
-} from "./Struct";
-import {
-    CardAuthorNode,
-    CardNode,
-    Mutation,
-    Query,
-    QuestionNode,
-    UnstructuredThemesNode
-} from "../../../../../SchemaTypes";
+import {GET_CONNECTED_THEMES, GET_MY_CARD_AUTHOR, GET_QUESTION_TEXT_BY_ID, UPDATE_CARD} from "./Struct";
+import {CardAuthorNode, Mutation, Query, QuestionNode, UnstructuredThemesNode} from "../../../../../SchemaTypes";
 import {computedFn} from "mobx-utils"
-import {sort} from "fast-sort";
 import {SERVER_BASE_URL} from "../../../../../settings";
 import message from "antd/es/message";
 import "js-video-url-parser/lib/provider/youtube";
 import urlParser from "js-video-url-parser";
 import axiosClient from "../../../../../Shared/ServerLayer/QueryLayer/config";
 import haveStatus from "../../../../../Shared/Store/UserStore/utils/HaveStatus";
+import {getCardData} from "../API/get-card-data";
+import {ICardDataInStore} from "../TYPES/card-data-in-store";
+import {saveCard} from "../API/save-card";
 
-
-export type card_object_fields = keyof CardNode
 
 class CardEditorStorage {
     constructor() {
         makeAutoObservable(this)
-        reaction(() => this.getField("testInCard", ''), () => this.loadTestInCardText())
-        reaction(() => this.getField("testBeforeCard", ''), () => this.loadTestBeforeCardText())
+        reaction(() => this.getField("test_in_card_id", ''), () => this.loadTestInCardText())
+        reaction(() => this.getField("test_before_card_id", ''), () => this.loadTestBeforeCardText())
         reaction(() => toJS(this.card_object), () => this.autoSave())
         reaction(() => toJS(this.TagArray), () => this.autoSave())
     }
 
     //Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
     clientStorage = ClientStorage
-    //доступ к данным о пользователе, чтобы можно было проверять уровень доступа
-    userStorage = UserStorage
 
     cardDataLoaded = false
 
@@ -49,31 +33,15 @@ class CardEditorStorage {
             this.cardDataLoaded = false
             if (haveStatus(["ADMIN", "TEACHER", "CARD_EDITOR"])) {
                 this.loadConnectedThemes()
-                this.clientStorage.client.query({
-                    query: GET_CARD_DATA_BY_ID, fetchPolicy: "network-only",
-                    variables: {id: id}
-                })
-                    .then((response) => (response.data.cardById))
+
+                getCardData(Number(id))
                     .then((card_data) => {
 
-                        //--------для полей, содержащих массивы, делаем дополнительную загрузку уже только айдишников
-                        const author = card_data?.author?.map((author) => author.id)
-                        const connectedTheme = card_data?.connectedTheme?.map((theme: UnstructuredThemesNode) => theme.id)
+                        //----- достаем id тем через промежуточную таблицу
+                        const connectedTheme = card_data?.cards_card_connected_theme?.map((theme) => theme.unstructuredtheme_id)
                         //----------------------------------------------------------------
 
-                        //-для объектов-----------------------------------
-                        const cardBefore = card_data?.cardBefore?.id
-                        const cardDown = card_data?.cardDown?.id
-                        const cardNext = card_data?.cardNext?.id
-                        const cardUp = card_data?.cardUp?.id
-                        const testInCard = card_data.testInCard?.id
-                        const testBeforeCard = card_data.testBeforeCard?.id
-
-                        //----------------------------------------------------------------
-                        this.card_object = {
-                            ...card_data, connectedTheme, author, cardBefore, cardDown, cardNext,
-                            cardUp, testInCard, testBeforeCard
-                        }
+                        this.card_object = {...card_data, connectedTheme}
                         this.cardDataLoaded = true
                         this.get_card_image()
                     })
@@ -92,6 +60,7 @@ class CardEditorStorage {
             this.stateOfSave = false
             clearTimeout(this.savingTimer)
             this.savingTimer = setTimeout(() => {
+                // TODO заблочено на время переписывания работы с данными
                 this.saveDataOnServer()
             }, 2000)
         }
@@ -99,29 +68,15 @@ class CardEditorStorage {
 
     saveDataOnServer(editor_context = this, card_object = this.card_object) {
         const data_object = toJS(card_object)
-        if (haveStatus(["ADMIN", "TEACHER", "CARD_EDITOR"])) {
-            if (card_object) {
-                try {
-                    this.clientStorage.client.mutate<Mutation>({
-                        mutation: UPDATE_CARD, variables: {
-                            ...data_object,
-                            tagField: toJS(editor_context.TagArray)?.join(","),
-                            cardContentType: card_object?.cardContentType ? String(card_object?.cardContentType).slice(2, 3) : 0,
-                            hardLevel: card_object?.hardLevel ? String(card_object?.hardLevel).slice(2, 3) : 0
-
-                        }
-                    })
-                        .then((response) => {
-                            this.stateOfSave = true
-
-                            axiosClient.post("/page/edit-card-by-id/clear-card-cache")
-                        })
-
-                } catch (e) {
-                    console.log(e)
-                }
-            }
+        if (!haveStatus(["ADMIN", "TEACHER", "CARD_EDITOR"]) || !data_object) {
+            return
         }
+        saveCard(data_object)
+            .then((response) => {
+                this.stateOfSave = true
+                axiosClient.post("/page/edit-card-by-id/clear-card-cache")
+            })
+            .catch(console.log)
     }
 
     // ---------------------раздел работы с авторами карточек---------------------------------------
@@ -139,31 +94,26 @@ class CardEditorStorage {
         }
     }
 
-    get allMyCardAuthors() {
-        if (this.all_my_card_authors) {
-            return (sort(toJS(this.all_my_card_authors ? this.all_my_card_authors : [])).desc((author) => author.id))
-        }
-    }
 
     //----------------------раздел работы с данными в самом редакторе ------------------------------
 
-    card_object?: CardObjectForStore = undefined
+    card_object?: ICardDataInStore
 
     //Умный Getter позволяет получать кэшированные значения сразу для все полей объекта, принимает поле и дефолтное значение
-    getField = computedFn((field_name: card_object_fields, default_value: string | number | boolean | [] = "",
+    getField = computedFn((field_name: keyof ICardDataInStore, default_value: string | number | boolean | [] = "",
                            card_object = this.card_object) => {
         return (card_object && card_object[field_name]) ? card_object[field_name] : default_value
     })
     //number в field - это грязный хак, чтобы не было ошибки из строчки с присвоением, как только TS видит что используются
     //конкретные ключи, начинает сразу говорить, что это never тип
-    changeField = (field: card_object_fields | number, eventField: "value" | "checked" = "value",
+    changeField = (field: keyof ICardDataInStore | number, eventField: "value" | "checked" = "value",
                    card_object = this.card_object) => ({target}) => {
         if (card_object && field in card_object) {
             card_object[field] = target[eventField]
         }
     }
 
-    changeFieldByValue(field: card_object_fields | number, value: string | number | boolean | string[] | undefined,
+    changeFieldByValue(field: keyof ICardDataInStore | number, value: string | number | boolean | string[] | undefined | null,
                        card_object = this.card_object) {
         if (card_object && field in card_object) {
             card_object[field] = value
@@ -172,7 +122,7 @@ class CardEditorStorage {
         }
     }
 
-    //-----------------Работа с ссылкой на видео
+    //-----------------Работа со ссылкой на видео
 
     changeYoutubeUrl = (e) => {
         if (this.card_object && 'videoUrl' in this.card_object) {
@@ -191,28 +141,6 @@ class CardEditorStorage {
             this.card_object.videoUrl = unified_url
         }
     }
-
-
-    //----------------------------------------------------------------
-    urlValidation(arrow_url) {
-        if (!arrow_url) {
-            return true
-        }
-        try {
-            const url = new URL(arrow_url);
-            return url.protocol === "http:" || url.protocol === "https:";
-        } catch (_) {
-            return false;
-        }
-    }
-
-    validateUrlField = computedFn((fieldName: card_object_fields, card_object: CardObjectForStore | undefined = this.card_object) => {
-        if (card_object && fieldName in card_object) {
-            return (
-                this.urlValidation(card_object[fieldName])
-            )
-        }
-    })
 
 
     //---------------ИЗОБРАЖЕНИЕ КАРТОЧКИ----------------------------------------------
@@ -266,33 +194,19 @@ class CardEditorStorage {
     }
 
     //----------------------------------------------------------------
-    //Теги
-    get CheckThatTagFieldNotEmpty() {
-        return (this.card_object?.tagField && this.card_object?.tagField?.length !== 1
-            && this?.card_object?.tagField[0] !== "")
-    }
-
-    get DefaultTagValue(): string[] | undefined {
-        return this.CheckThatTagFieldNotEmpty ?
-            this.getField("tagField", []).split(",") : []
-    }
-
-    updateTagField(newValue) {
-        this.TagArray = newValue
-    }
 
     TagArray?: string[] = undefined
 
     //----------------------------------------------------------------
     //Валидация ссылки
     get UrlValidation() {
-        if (this.getField("siteUrl", "").length == 0) {
+        if (this.getField("site_url", "").length == 0) {
             return true
         } else {
             let url;
 
             try {
-                url = new URL(this.getField("siteUrl", ""));
+                url = new URL(this.getField("site_url", ""));
             } catch (_) {
                 return false;
             }
@@ -338,11 +252,11 @@ class CardEditorStorage {
 
     loadTestInCardText() {
         if (haveStatus(["ADMIN", "TEACHER", "CARD_EDITOR"])) {
-            if (this.getField("testInCard", '')) {
+            if (this.getField("test_in_card_id", '')) {
                 try {
                     this.clientStorage.client.query<Query>({
                         query: GET_QUESTION_TEXT_BY_ID, variables: {
-                            id: this.getField("testInCard", '')
+                            id: this.getField("test_in_card_id", '')
                         }
                     })
                         .then((response) => response.data.questionById)
@@ -359,11 +273,11 @@ class CardEditorStorage {
 
     loadTestBeforeCardText() {
         if (haveStatus(["ADMIN", "TEACHER", "CARD_EDITOR"])) {
-            if (this.getField("testBeforeCard", '')) {
+            if (this.getField("test_before_card_id", '')) {
                 try {
                     this.clientStorage.client.query<Query>({
                         query: GET_QUESTION_TEXT_BY_ID, variables: {
-                            id: this.getField("testBeforeCard", '')
+                            id: this.getField("test_before_card_id", '')
                         }
                     })
                         .then((response) => response.data.questionById)
@@ -377,9 +291,9 @@ class CardEditorStorage {
     }
 
     //-------Работа с выбором карточки --------------------
-    arrowForCardIsSelecting: "" | "cardBefore" | "cardDown" | "cardNext" | "cardUp" = ""
+    arrowForCardIsSelecting: "" | "card_before_id" | "card_down_id" | "card_next_id" | "card_up_id" = ""
 
-    onStartSelectCard = (card_direction: "cardBefore" | "cardDown" | "cardNext" | "cardUp") => {
+    onStartSelectCard = (card_direction: "card_before_id" | "card_down_id" | "card_next_id" | "card_up_id") => {
         this.arrowForCardIsSelecting = card_direction
     }
     onCloseSelectCard = () => {
@@ -409,6 +323,7 @@ class CardEditorStorage {
     createCopyCard = async () => {
         if (!!this?.card_object?.id) {
             this.isPendingCreateCopy = true
+            /// TODO разобраться с темами и проверить работоспособность в целом
             const copyCard = await axiosClient.post("/page/edit-card-by-id/create-card-copy/" + this.card_object.id)
             this.isPendingCreateCopy = false
             this.isOpenCopyCardDialog = false
@@ -429,5 +344,4 @@ export type object_properties_to_array_mapper<MainObject> = {
             string[]
         : MainObject[Field]
 }
-type CardObjectForStore = object_properties_to_array_mapper<RemoveTypename<CardNode>>
 export const CESObject = new CardEditorStorage()

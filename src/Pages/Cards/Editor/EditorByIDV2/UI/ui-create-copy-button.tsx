@@ -14,7 +14,9 @@ const UICreateButton = observer(({...props}: IUICreateButtonProps) => {
     return (
         <Paper elevation={0} {...props}>
             <Tooltip title={"Создать копию"}>
-                <IconButton onClick={() => CESObject.openCopyCardDialog()}>
+                <IconButton
+                    disabled={!CESObject.stateOfSave}
+                    onClick={() => CESObject.openCopyCardDialog()}>
                     <ContentCopyIcon/>
                 </IconButton>
             </Tooltip>

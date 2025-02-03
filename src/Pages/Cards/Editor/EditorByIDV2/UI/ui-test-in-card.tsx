@@ -15,8 +15,8 @@ export const UiTestInCard = observer(({...props}: ITestInCardProps) => {
                     type="number"
                     label="ID вопроса внутри карточки"
                     variant={"outlined"}
-                    value={CESObject.getField("testInCard", '')}
-                    onChange={CESObject.changeField("testInCard")}
+                    value={CESObject.getField("test_in_card_id", '')}
+                    onChange={CESObject.changeField("test_in_card_id")}
                 />
                 {CESObject.testInCardData &&
                     <div>

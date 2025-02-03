@@ -51,12 +51,12 @@ export const UiUploadImage = observer(({...props}: IUploadImageProps) => {
                     </Typography>
                 </Stack>
             </Dragger>
-            <Collapse in={CESObject.getField("cardContentType", "A_0") === "A_1"}>
+            <Collapse in={CESObject.getField("card_content_type", 0) === 1}>
                 <Paper elevation={0} sx={{pt: 2}}>
                     <TextField
-                        onChange={CESObject.changeField("siteUrl")}
+                        onChange={CESObject.changeField("site_url")}
                         error={!CESObject.UrlValidation}
-                        value={CESObject.getField("siteUrl", "")}
+                        value={CESObject.getField("site_url", "")}
                         fullWidth label={"Ссылка на внешний ресурс"}
                     />
                 </Paper>

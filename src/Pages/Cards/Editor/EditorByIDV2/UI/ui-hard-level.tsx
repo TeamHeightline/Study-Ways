@@ -1,6 +1,6 @@
 import {observer} from "mobx-react";
 import React from 'react';
-import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {FormControl, InputLabel, MenuItem, Select, Stack} from "@mui/material";
 import {CardHardLevel} from "../../../../../SchemaTypes";
 import ArchitectureIcon from "@mui/icons-material/Architecture";
 import FunctionsIcon from "@mui/icons-material/Functions";
@@ -18,29 +18,52 @@ export const HardLevel = observer(({...props}: IHardLevelProps) => {
         <div {...props}>
             <FormControl variant="filled" fullWidth>
                 <InputLabel>Уровень сложности</InputLabel>
-                <Select value={CESObject.getField("hardLevel", CardHardLevel.A_2)}
-                        onChange={CESObject.changeField("hardLevel")}
+                <Select value={CESObject.getField("hard_level", 2)}
+                        onChange={CESObject.changeField("hard_level")}
                         fullWidth
                         label={"Уровень сложности"}>
-                    <MenuItem value={CardHardLevel.A_0}>
-                        <ArchitectureIcon style={{marginRight: 12}} fontSize="small"/>
-                        Выпускникам школ
+                    <MenuItem value={0}>
+                        <Stack direction={'row'} alignItems={'center'} spacing={1}>
+                            <ArchitectureIcon fontSize="small"/>
+                            <div>
+                                Выпускникам школ
+                            </div>
+                        </Stack>
                     </MenuItem>
-                    <MenuItem value={CardHardLevel.A_1}>
-                        <FunctionsIcon style={{marginRight: 12}} fontSize="small"/>
-                        Успешным лицеистам и гимназистам
+                    <MenuItem value={1}>
+                        <Stack direction={'row'} alignItems={'center'} spacing={1}>
+                            <FunctionsIcon fontSize="small"/>
+                            <div style={{
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis'
+                            }}>
+                                Успешным лицеистам и гимназистам
+                            </div>
+                        </Stack>
                     </MenuItem>
-                    <MenuItem value={CardHardLevel.A_2}>
-                        <SchoolIcon style={{marginRight: 12}} fontSize="small"/>
-                        Рядовым студентам
+                    <MenuItem value={2}>
+                        <Stack direction={'row'} alignItems={'center'} spacing={1}>
+                            <SchoolIcon fontSize="small"/>
+                            <div>
+                                Рядовым студентам
+                            </div>
+                        </Stack>
                     </MenuItem>
-                    <MenuItem value={CardHardLevel.A_3}>
-                        <ScienceIcon style={{marginRight: 12}} fontSize="small"/>
-                        Будущим специалистам
+                    <MenuItem value={3}>
+                        <Stack direction={'row'} alignItems={'center'} spacing={1}>
+                            <ScienceIcon fontSize="small"/>
+                            <div>
+                                Будущим специалистам
+                            </div>
+                        </Stack>
                     </MenuItem>
-                    <MenuItem value={CardHardLevel.A_4}>
-                        <BiotechIcon style={{marginRight: 12}} fontSize="small"/>
-                        Специалистам (Real Science)
+                    <MenuItem value={4}>
+                        <Stack direction={'row'} alignItems={'center'} spacing={1}>
+                            <BiotechIcon fontSize="small"/>
+                            <div>
+                                Специалистам (Real Science)
+                            </div>
+                        </Stack>
                     </MenuItem>
                 </Select>
             </FormControl>

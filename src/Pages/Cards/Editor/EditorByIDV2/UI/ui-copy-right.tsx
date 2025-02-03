@@ -11,7 +11,7 @@ interface ICopyRightProps extends React.HTMLAttributes<HTMLDivElement> {
 export const UiCopyRight = observer(({...props}: ICopyRightProps) => {
     return (
         <div {...props}>
-            <Collapse in={CESObject.getField("isCardUseCopyright", false)}>
+            <Collapse in={CESObject.getField("is_card_use_copyright", false)}>
                 <TextField
                     variant="outlined"
                     label="Авторские права принадлежат: "

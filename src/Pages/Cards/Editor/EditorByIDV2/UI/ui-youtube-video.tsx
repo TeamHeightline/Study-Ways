@@ -16,7 +16,7 @@ export const UiYoutubeVideo = observer(({...props}: IYouTubeVideoProps) => {
     return (
         <div {...props}>
             <ReactPlayer controls
-                         url={CESObject.getField("videoUrl", "")}
+                         url={CESObject.getField("video_url", "")}
                          height={isMobile ? window.innerWidth / 16 * 9 : 384}
                          width="100%"
             />
@@ -25,12 +25,12 @@ export const UiYoutubeVideo = observer(({...props}: IYouTubeVideoProps) => {
                 label="Ссылка на видео на Youtube"
                 fullWidth
                 variant="filled"
-                value={CESObject.getField("videoUrl", "")}
+                value={CESObject.getField("video_url", "")}
                 onChange={CESObject.changeYoutubeUrl}
-                error={CESObject.getField("videoUrl", "") !== "" &&
-                    urlParser.parse(CESObject.getField("videoUrl", ""))?.provider == undefined}
-                helperText={CESObject.getField("videoUrl", "") !== "" &&
-                urlParser.parse(CESObject.getField("videoUrl", ""))?.provider == undefined ?
+                error={CESObject.getField("video_url", "") !== "" &&
+                    urlParser.parse(CESObject.getField("video_url", ""))?.provider == undefined}
+                helperText={CESObject.getField("video_url", "") !== "" &&
+                urlParser.parse(CESObject.getField("video_url", ""))?.provider == undefined ?
                     "Ссылка не распознана как видео-источник" : ""}
             />
 

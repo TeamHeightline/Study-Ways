@@ -1,10 +1,7 @@
 import {observer} from "mobx-react";
 import React, {useState} from 'react';
-import ReactPlayer from "react-player";
-import {Button, ButtonGroup, Stack, TextField, ToggleButton, ToggleButtonGroup} from "@mui/material";
-import {isMobileHook} from "../../../../../Shared/CustomHooks/isMobileHook";
+import {Stack, ToggleButton, ToggleButtonGroup} from "@mui/material";
 import {CESObject} from "../Store/CardEditorStorage";
-import urlParser from "js-video-url-parser";
 import "js-video-url-parser/lib/provider/youtube";
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import {UiYoutube} from "./ui-youtube";
@@ -15,8 +12,13 @@ interface IYouTubeVideoProps extends React.HTMLAttributes<HTMLDivElement> {
 
 }
 
+function getDefaultVideoMode() {
+    const isHaveVKVideo = !!CESObject.getField("vk_video_url", "")
+    return isHaveVKVideo ? 'VK' : 'Youtube'
+}
+
 export const UiVideo = observer(({...props}: IYouTubeVideoProps) => {
-    const [videoHosting, setVideoHosting] = useState<'VK' | 'Youtube' | 'Rutube'>('VK')
+    const [videoHosting, setVideoHosting] = useState<'VK' | 'Youtube' | 'Rutube'>(() => getDefaultVideoMode())
 
     return (
         <div {...props}>

@@ -1,6 +1,6 @@
 import {observer} from "mobx-react";
 import {CESObject} from "../Store/CardEditorStorage";
-import {TextField} from "@mui/material";
+import {Alert, AlertTitle, Card, TextField} from "@mui/material";
 import React from "react";
 import {isMobileHook} from "../../../../../Shared/CustomHooks/isMobileHook";
 
@@ -10,6 +10,9 @@ function getIframeURL(vkVideoURL) {
         return ''
     }
     const oidAndID = vkVideoURL.split('/video')[1]
+    if (!oidAndID) {
+        return ''
+    }
     const oid = oidAndID.split('_')[0]
     const id = oidAndID.split('_')[1]
 
@@ -19,20 +22,30 @@ function getIframeURL(vkVideoURL) {
 export const UiVkVideo = observer(() => {
     const isMobile = isMobileHook()
     const value = CESObject.getField("vk_video_url", "")
-
+    const iFrameUrl = getIframeURL(value)
     return (
         <div>
-            <iframe src={getIframeURL(value)} width="100%"
-                    height={isMobile ? window.innerWidth / 16 * 9 : 384}
-                    allow="autoplay; encrypted-media; fullscreen; picture-in-picture;" frameBorder="0"
-                    allowFullScreen></iframe>
+            {!!iFrameUrl ?
+                <iframe src={getIframeURL(value)} width="100%"
+                        height={isMobile ? window.innerWidth / 16 * 9 : 384}
+                        allow="autoplay; encrypted-media; fullscreen; picture-in-picture;" frameBorder="0"
+                        allowFullScreen></iframe> :
+
+                <Card variant={'outlined'} sx={{height: isMobile ? window.innerWidth / 16 * 9 : 390}}>
+                    <Alert severity={'info'} variant={'outlined'}>
+                        <AlertTitle>Внимание</AlertTitle>
+                        Ссылка на видео VK должна быть вида https://vkvideo.ru/video4604580_456240803
+                    </Alert>
+                </Card>
+
+            }
             <TextField
                 sx={{mt: 1}}
                 label="Ссылка на VK video"
                 fullWidth
                 variant="filled"
                 onChange={CESObject.changeField("vk_video_url")}
-                value={value}
+                value={CESObject.getField("vk_video_url", "")}
             />
         </div>
     )

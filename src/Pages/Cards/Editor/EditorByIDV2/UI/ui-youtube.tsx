@@ -1,21 +1,18 @@
 import {observer} from "mobx-react";
-import React from 'react';
 import ReactPlayer from "react-player";
-import {TextField} from "@mui/material";
-import {isMobileHook} from "../../../../../Shared/CustomHooks/isMobileHook";
 import {CESObject} from "../Store/CardEditorStorage";
+import {TextField} from "@mui/material";
 import urlParser from "js-video-url-parser";
-import "js-video-url-parser/lib/provider/youtube";
+import React from "react";
+import {isMobileHook} from "../../../../../Shared/CustomHooks/isMobileHook";
 
-interface IYouTubeVideoProps extends React.HTMLAttributes<HTMLDivElement> {
-
-}
-
-export const UiYoutubeVideo = observer(({...props}: IYouTubeVideoProps) => {
+export const UiYoutube = observer(() => {
     const isMobile = isMobileHook()
+
     return (
-        <div {...props}>
+        <>
             <ReactPlayer controls
+                         style={{marginTop: 8}}
                          url={CESObject.getField("video_url", "")}
                          height={isMobile ? window.innerWidth / 16 * 9 : 384}
                          width="100%"
@@ -33,7 +30,6 @@ export const UiYoutubeVideo = observer(({...props}: IYouTubeVideoProps) => {
                 urlParser.parse(CESObject.getField("video_url", ""))?.provider == undefined ?
                     "Ссылка не распознана как видео-источник" : ""}
             />
-
-        </div>
+        </>
     )
 })

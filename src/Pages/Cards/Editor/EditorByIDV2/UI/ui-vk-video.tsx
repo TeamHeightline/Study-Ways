@@ -1,0 +1,39 @@
+import {observer} from "mobx-react";
+import {CESObject} from "../Store/CardEditorStorage";
+import {TextField} from "@mui/material";
+import React from "react";
+import {isMobileHook} from "../../../../../Shared/CustomHooks/isMobileHook";
+
+
+function getIframeURL(vkVideoURL) {
+    if (!vkVideoURL) {
+        return ''
+    }
+    const oidAndID = vkVideoURL.split('/video')[1]
+    const oid = oidAndID.split('_')[0]
+    const id = oidAndID.split('_')[1]
+
+    return `https://vk.com/video_ext.php?oid=${oid}&id=${id}&hd=2`
+}
+
+export const UiVkVideo = observer(() => {
+    const isMobile = isMobileHook()
+    const value = CESObject.getField("vk_video_url", "")
+
+    return (
+        <div>
+            <iframe src={getIframeURL(value)} width="100%"
+                    height={isMobile ? window.innerWidth / 16 * 9 : 384}
+                    allow="autoplay; encrypted-media; fullscreen; picture-in-picture;" frameBorder="0"
+                    allowFullScreen></iframe>
+            <TextField
+                sx={{mt: 1}}
+                label="Ссылка на VK video"
+                fullWidth
+                variant="filled"
+                onChange={CESObject.changeField("vk_video_url")}
+                value={value}
+            />
+        </div>
+    )
+})

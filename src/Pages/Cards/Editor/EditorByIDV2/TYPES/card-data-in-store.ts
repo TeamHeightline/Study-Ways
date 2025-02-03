@@ -3,6 +3,7 @@ export interface ICardByID {
     title: string
     text: string
     video_url: string
+    vk_video_url: string
     site_url: string
     created_by_id: number
     additional_text: string

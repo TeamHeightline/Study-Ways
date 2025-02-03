@@ -9,7 +9,7 @@ import {HardLevel} from "./ui-hard-level";
 import {UiConnectedThemeSelector} from "./ui-connected-theme-selector";
 import {UiCopyRight} from "./ui-copy-right";
 import {CESObject} from "../Store/CardEditorStorage";
-import {UiYoutubeVideo} from "./ui-youtube-video";
+import {UiVideo} from "./ui-video";
 import {UiUploadImage} from "./ui-upload-image";
 import {UiRichTextEditor} from "./ui-rich-text-editor";
 import {UiArrowNavigation} from "./ui-arrow-navigation";
@@ -79,7 +79,7 @@ const EditCardUI = observer(({...props}: IEditCardUIProps) => {
 
                 <Grid item xs={12} md={6}>
                     <Collapse in={CESObject.getField("card_content_type", 0) === 0}>
-                        <UiYoutubeVideo/>
+                        <UiVideo/>
                     </Collapse>
                     <Collapse in={!(CESObject.getField("card_content_type", 0) === 0)}>
                         <UiUploadImage/>

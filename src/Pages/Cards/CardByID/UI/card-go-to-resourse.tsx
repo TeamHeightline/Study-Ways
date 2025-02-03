@@ -11,7 +11,7 @@ interface ICardResourceIframeProps extends PaperProps {
 }
 
 const CardGoToResource = observer(({card_store, ...props}: ICardResourceIframeProps) => {
-    if (!card_store.card_data?.siteUrl) {
+    if (!card_store.card_data?.site_url) {
         return null
     }
     return (
@@ -21,7 +21,7 @@ const CardGoToResource = observer(({card_store, ...props}: ICardResourceIframePr
             variant="outlined"
             color="success"
             onClick={() => {
-                window.open(card_store.card_data?.siteUrl, '_blank')
+                window.open(card_store.card_data?.site_url, '_blank')
             }}>
             Перейти на ресурс, указанный в карточке.
         </Button>

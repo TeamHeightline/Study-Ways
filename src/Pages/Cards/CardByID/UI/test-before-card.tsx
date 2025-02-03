@@ -18,10 +18,10 @@ const TestBeforeCard = observer(({card_store, ...props}: ITestBeforeCardProps) =
     }
 
     const onGoToTest = () => {
-        navigate("/iq/" + card_store.card_data?.testBeforeCard?.id)
+        navigate("/iq/" + card_store.card_data?.test_before_card_id)
     }
 
-    const isCardHaveTestBeforeCard = card_store.card_data?.testBeforeCard?.id && card_store.card_data?.isCardUseTestBeforeCard
+    const isCardHaveTestBeforeCard = card_store.card_data?.test_before_card_id && card_store.card_data?.is_card_use_test_before_card
 
     const is_test_in_card_closed = card_store.is_test_in_card_closed
 

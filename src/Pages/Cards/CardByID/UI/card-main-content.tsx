@@ -14,9 +14,9 @@ interface ICardMainContentProps extends PaperProps {
 }
 
 const CardMainContent = observer(({card_store, ...props}: ICardMainContentProps) => {
-    const isYoutubeContentType = card_store?.card_data?.cardContentType == "A_0"
-    const isRemoteResourceContentType = card_store?.card_data?.cardContentType == "A_1"
-    const isSimpleImageContentType = card_store?.card_data?.cardContentType == "A_2"
+    const isYoutubeContentType = card_store?.card_data?.card_content_type == 0
+    const isRemoteResourceContentType = card_store?.card_data?.card_content_type == 1
+    const isSimpleImageContentType = card_store?.card_data?.card_content_type == 2
 
     const isShowImageContent = isRemoteResourceContentType || isSimpleImageContentType
 

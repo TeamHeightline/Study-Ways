@@ -16,12 +16,12 @@ const GoToTestButton = observer(({card_store, ...props}: IGoToTestButtonProps) =
     const navigate = useNavigate()
 
     const onGoToTestButtonClick = () => {
-        navigate("/iq/" + card_store.card_data?.testInCard?.id)
+        navigate("/iq/" + card_store.card_data?.test_in_card_id)
     }
 
     return (
         <Paper elevation={0} {...props}>
-            {card_store.card_data?.isCardUseTestInCard && card_store.card_data?.testInCard?.id &&
+            {card_store.card_data?.is_card_use_test_in_card && card_store.card_data?.test_in_card_id &&
                 <Button sx={{mb: 1}} color={"error"} fullWidth variant={"contained"} onClick={onGoToTestButtonClick}>
                     К тесту
                 </Button>}

@@ -11,8 +11,8 @@ interface ICardThemeProps extends PaperProps {
 }
 
 const CardTheme = observer(({card_store, ...props}: ICardThemeProps) => {
-    const isShowTheme = !!card_store?.card_data?.connectedTheme[0]?.id
-    const themeArray = card_store?.card_data?.connectedTheme
+    const isShowTheme = !!card_store?.card_data?.cards_card_connected_theme[0]?.unstructuredtheme_id
+    const themeIDArray = card_store?.card_data?.cards_card_connected_theme?.map((theme) => theme.cards_unstructuredtheme)
 
 
     return (
@@ -20,11 +20,11 @@ const CardTheme = observer(({card_store, ...props}: ICardThemeProps) => {
             {isShowTheme &&
                 <Stack direction={"row"}>
                     <AccountTreeIcon sx={{mr: 1}} fontSize={"small"}/>
-                    {themeArray?.map((theme) => {
+                    {themeIDArray?.map((theme) => {
                         return (
                             <ThemeWithAncestor
                                 key={theme.id + "ThemeKey"}
-                                themeObject={theme}
+                                theme={theme}
                                 card_store={card_store}/>
                         )
                     })}

@@ -1,12 +1,11 @@
 import {autorun, makeAutoObservable, reaction, toJS} from "mobx";
-import {CardCourseNode, CardNode, Mutation, Query, UnstructuredThemesNode} from "../../../../SchemaTypes";
+import {CardCourseNode, Mutation, UnstructuredThemesNode} from "../../../../SchemaTypes";
 import {ClientStorage} from "../../../../Shared/Store/ApolloStorage/ClientStorage";
 import {
     ADD_TO_BOOKMARK,
     GET_ALL_COURSE,
     GET_SIMILAR_CARDS_ID_ARRAY,
     GET_THEME_ANCESTORS,
-    LOAD_CARD_DATA_BY_ID,
     REMOVE_CARD_FROM_BOOKMARK,
     SET_RATING
 } from "./Query";
@@ -18,6 +17,8 @@ import recombeeClient from "../../../../Shared/Store/RecombeeClient/recombee-cli
 import {UserStorage} from "../../../../Shared/Store/UserStore/UserStore";
 // @ts-ignore
 import recombee from 'recombee-js-api-client';
+import {getCardDataById} from "../API/get-card-data-by-id";
+import {ICardData} from "../TYPES/card-data";
 
 
 export class CardByIDStore {
@@ -33,7 +34,7 @@ export class CardByIDStore {
 
         // autorun(() => this.getCardImageURL())
         autorun(() => this.collectFindInCourseNotification())
-        autorun(() => this.updateRatingAndISBookmarked())
+        // autorun(() => this.updateRatingAndISBookmarked())
         autorun(() => this.loadThemesAncestors())
         autorun(() => this.loadSimilarCards())
         reaction(() => this.id, () => {
@@ -61,7 +62,7 @@ export class CardByIDStore {
     is_test_in_card_closed = false
     clientStorage = ClientStorage
     id?: number
-    card_data?: CardNode
+    card_data?: ICardData
     changeID = (new_card_id?: number | string) => {
         if (new_card_id) {
             this.id = Number(new_card_id)
@@ -71,27 +72,33 @@ export class CardByIDStore {
     }
 
     loadCardData() {
-        if (Number(this?.id)) {
-            try {
-                this.clientStorage.client.query<Query>({
-                    query: LOAD_CARD_DATA_BY_ID,
-                    variables: {
-                        id: this.id
-                    },
-                    fetchPolicy: "network-only",
-                })
-                    .then((response) => response.data.cardById)
-                    .then((card_data) => {
-                        if (card_data && this.id == Number(card_data?.id)) {
-                            this.card_data = card_data
-
-                        }
-                    })
-            } catch (e) {
-                console.log(e)
-            }
-
+        if (!this?.id) {
+            return
         }
+
+        // this.clientStorage.client.query<Query>({
+        //     query: LOAD_CARD_DATA_BY_ID,
+        //     variables: {
+        //         id: this.id
+        //     },
+        //     fetchPolicy: "network-only",
+        // })
+        //     .then((response) => response.data.cardById)
+        //     .then((card_data) => {
+        //         if (card_data && this.id == Number(card_data?.id)) {
+        //             this.card_data = card_data
+        //
+        //         }
+        //     })
+        //     .catch(console.log)
+
+        getCardDataById(this.id)
+            .then(data => {
+                console.log('data', data)
+                if (data && this.id == Number(data?.id)) {
+                    this.card_data = data
+                }
+            })
     }
 
     loadSimilarCards() {
@@ -135,8 +142,8 @@ export class CardByIDStore {
     themesAncestorsMap: ThemeAncestorMap = new Map()
 
     loadThemesAncestors = () => {
-        this.card_data?.connectedTheme.map((theme) => {
-            this.getAncestorForTheme(Number(theme.id))
+        this.card_data?.cards_card_connected_theme.map((theme) => {
+            this.getAncestorForTheme(Number(theme.unstructuredtheme_id))
         })
     }
 
@@ -241,14 +248,14 @@ export class CardByIDStore {
         }
     }
 
-    clickToBookmarkIcon = () => {
-        this.isBookmarked = !this.isBookmarked
-        if (this.card_data?.isBookmarked) {
-            this.removeCardFromBookmark()
-        } else {
-            this.addToBookmark()
-        }
-    }
+    // clickToBookmarkIcon = () => {
+    //     this.isBookmarked = !this.isBookmarked
+    //     if (this.card_data?.isBookmarked) {
+    //         this.removeCardFromBookmark()
+    //     } else {
+    //         this.addToBookmark()
+    //     }
+    // }
 
     removeCardFromBookmark = () => {
         if (this.card_data?.id) {
@@ -306,14 +313,14 @@ export class CardByIDStore {
     rating?: number
     isBookmarked = false
 
-    updateRatingAndISBookmarked() {
-        if (this.card_data) {
-            if (this.card_data.rating) {
-                this.rating = this.card_data.rating
-            }
-            this.isBookmarked = Boolean(this.card_data.isBookmarked)
-        }
-    }
+    // updateRatingAndISBookmarked() {
+    //     if (this.card_data) {
+    //         if (this.card_data.rating) {
+    //             this.rating = this.card_data.rating
+    //         }
+    //         this.isBookmarked = Boolean(this.card_data.isBookmarked)
+    //     }
+    // }
 
     isOpenGoToTestDialogAfterVideo = false
     testElementRef = React.createRef() as RefObject<HTMLDivElement>

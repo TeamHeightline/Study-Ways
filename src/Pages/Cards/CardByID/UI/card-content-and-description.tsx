@@ -10,8 +10,6 @@ import TestBeforeCard from "./test-before-card";
 import CardHistoryDrawer from "../../../CardHistory/UI/card-history-drawer";
 import CardFindInCourse from "./card-find-in-course";
 import {UserStorage} from "../../../../Shared/Store/UserStore/UserStore";
-import CardRating from "./card-rating";
-import CardBookmark from "./card-bookmark";
 import {useAuth0} from "@auth0/auth0-react";
 import CardViews from "./card-views";
 
@@ -32,11 +30,11 @@ const CardContentAndDescription = observer(({card_store, ...props}: ICardContent
                     <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"}>
                         <CardViews card_id={card_store.id}/>
                         <Box>
-                            {isAuthenticated &&
-                                <Stack direction={"row"} alignItems={"center"}>
-                                    <CardRating card_store={card_store}/>
-                                    <CardBookmark card_store={card_store}/>
-                                </Stack>}
+                            {/*{isAuthenticated &&*/}
+                            {/*    <Stack direction={"row"} alignItems={"center"}>*/}
+                            {/*        <CardRating card_store={card_store}/>*/}
+                            {/*        <CardBookmark card_store={card_store}/>*/}
+                            {/*    </Stack>}*/}
                         </Box>
                     </Stack>
                 </Grid>

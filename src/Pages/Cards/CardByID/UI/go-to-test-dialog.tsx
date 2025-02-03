@@ -18,7 +18,7 @@ const GoToTestDialog = observer(({card_store}: IProps) => {
 
     const onGoToTestButtonClick = () => {
         console.log("testing time")
-        navigate("/iq/" + card_store.card_data?.testInCard?.id)
+        navigate("/iq/" + card_store.card_data?.test_in_card_id)
     }
 
     return (

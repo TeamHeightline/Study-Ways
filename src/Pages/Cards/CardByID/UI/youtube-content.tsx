@@ -22,7 +22,7 @@ function getVkVideoIframeUrl(defaultVideoURL: string) {
 }
 
 const YoutubeContent = observer(({card_store, ...props}: IYoutubeContentProps) => {
-    const youtubeVideoURL = card_store?.card_data?.videoUrl || ""
+    const youtubeVideoURL = card_store?.card_data?.video_url || ""
     const showVideo = !!youtubeVideoURL
     const isMobile = isMobileHook()
 
@@ -34,7 +34,7 @@ const YoutubeContent = observer(({card_store, ...props}: IYoutubeContentProps) =
         card_store.isOpenGoToTestDialogAfterVideo = true
     }
 
-    const test_after_card_id = card_store.card_data?.testInCard?.id
+    const test_after_card_id = card_store.card_data?.test_in_card_id
 
     return (
         <Paper elevation={0} {...props}>
@@ -62,7 +62,7 @@ const YoutubeContent = observer(({card_store, ...props}: IYoutubeContentProps) =
                             /> : null
                     }
                 </div>
-                {card_store.card_data?.isCardUseTestInCard && card_store.isOpenGoToTestDialogAfterVideo && test_after_card_id &&
+                {card_store.card_data?.is_card_use_test_in_card && card_store.isOpenGoToTestDialogAfterVideo && test_after_card_id &&
                     <div style={{
                         position: "absolute", left: 0,
                         right: 0, zIndex: 1

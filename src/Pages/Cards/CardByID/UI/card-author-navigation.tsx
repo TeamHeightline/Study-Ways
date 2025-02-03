@@ -16,12 +16,12 @@ interface ICardAuthorNavigationProps extends PaperProps {
 }
 
 const CardAuthorNavigation = observer(({card_store, ...props}: ICardAuthorNavigationProps) => {
-    const cardBeforeID = card_store.card_data?.cardBefore?.id
-    const cardDownID = card_store.card_data?.cardDown?.id
-    const cardUpID = card_store.card_data?.cardUp?.id
-    const cardNextID = card_store.card_data?.cardNext?.id
+    const cardBeforeID = card_store.card_data?.card_before_id
+    const cardDownID = card_store.card_data?.card_down_id
+    const cardUpID = card_store.card_data?.card_up_id
+    const cardNextID = card_store.card_data?.card_next_id
 
-    const isNavigationEnabled = card_store.card_data?.isCardUseArrowNavigation
+    const isNavigationEnabled = card_store.card_data?.is_card_use_arrow_navigation
 
     const isShowNavigation = isNavigationEnabled &&
         (cardNextID || cardNextID || cardDownID || cardBeforeID)

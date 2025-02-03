@@ -14,8 +14,8 @@ interface ICardImageProps extends PaperProps {
 
 const CardImage = observer(({card_store, ...props}: ICardImageProps) => {
     const card_image = "url(" + card_store.cardImageURLForUI + ")"
-    const isRemoteResourceContentType = card_store?.card_data?.cardContentType == "A_1"
-    const remoteResourceURL = String(card_store.card_data?.siteUrl)
+    const isRemoteResourceContentType = card_store?.card_data?.card_content_type == 1
+    const remoteResourceURL = String(card_store.card_data?.site_url)
 
     const isClickableImage = isRemoteResourceContentType && remoteResourceURL
     const goToRemoteResource = () => {

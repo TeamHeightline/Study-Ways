@@ -12,13 +12,13 @@ interface ITestAfterCardProps extends PaperProps {
 }
 
 const TestAfterCard = observer(({card_store, ...props}: ITestAfterCardProps) => {
-    const testAfterCardID = card_store.card_data?.testInCard?.id
+    const testAfterCardID = card_store.card_data?.test_in_card_id
     const navigate = useNavigate()
     const onGoToTest = () => {
         navigate("/iq/" + testAfterCardID)
     }
 
-    const isCardHaveTestAfterCard = testAfterCardID && card_store.card_data?.isCardUseTestInCard
+    const isCardHaveTestAfterCard = testAfterCardID && card_store.card_data?.test_in_card_id
 
 
     if (!isCardHaveTestAfterCard) return null

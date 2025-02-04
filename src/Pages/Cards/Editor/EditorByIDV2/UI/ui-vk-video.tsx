@@ -1,6 +1,6 @@
 import {observer} from "mobx-react";
 import {CESObject} from "../Store/CardEditorStorage";
-import {Alert, AlertTitle, Card, TextField} from "@mui/material";
+import {Alert, AlertTitle, Card, Stack, TextField} from "@mui/material";
 import React from "react";
 import {isMobileHook} from "../../../../../Shared/CustomHooks/isMobileHook";
 
@@ -31,11 +31,18 @@ export const UiVkVideo = observer(() => {
                         allow="autoplay; encrypted-media; fullscreen; picture-in-picture;" frameBorder="0"
                         allowFullScreen></iframe> :
 
-                <Card variant={'outlined'} sx={{height: isMobile ? window.innerWidth / 16 * 9 : 390}}>
-                    <Alert severity={'info'} variant={'outlined'}>
-                        <AlertTitle>Внимание</AlertTitle>
-                        Ссылка на видео VK должна быть вида https://vkvideo.ru/video4604580_456240803
-                    </Alert>
+                <Card variant={'outlined'} sx={{
+                    height: isMobile ? window.innerWidth / 16 * 9 : 390,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}>
+                    <div style={{width: '75%'}}>
+                        <Alert severity={'info'} variant={'outlined'}>
+                            <AlertTitle>Внимание</AlertTitle>
+                            Ссылка на видео VK должна быть вида https://vkvideo.ru/video4604580_456240803
+                        </Alert>
+                    </div>
                 </Card>
 
             }

@@ -23,19 +23,7 @@ export const UiVideo = observer(({...props}: IYouTubeVideoProps) => {
     return (
         <div {...props}>
             <Stack direction={'row'} spacing={1}>
-                <Stack sx={{justifyContent: 'center'}}>
-                    <ToggleButtonGroup
-                        exclusive
-                        size={'small'}
-                        orientation={'vertical'}
-                        onChange={(e, value) => setVideoHosting(value)}
-                        value={videoHosting}>
-                        <ToggleButton value="VK">VK</ToggleButton>
-                        <ToggleButton value="Youtube"><YouTubeIcon/></ToggleButton>
-                        <ToggleButton value="Rutube">RU</ToggleButton>
-                    </ToggleButtonGroup>
-                </Stack>
-                <div style={{width: '100%', display: 'flex', flexDirection: 'column'}}>
+                <div style={{width: '100%', display: 'flex', flexDirection: 'column', position: 'relative'}}>
                     {
                         videoHosting === 'VK' ?
                             <UiVkVideo/> :
@@ -43,6 +31,21 @@ export const UiVideo = observer(({...props}: IYouTubeVideoProps) => {
                                 <UiYoutube/> :
                                 <UiRutube/>
                     }
+                    <ToggleButtonGroup
+                        sx={{
+                            position: 'absolute',
+                            left: -60,
+                            top: 'calc(50% - 28px)',
+                            transform: 'translate(0%, -50%)'
+                        }}
+                        exclusive
+                        orientation={'vertical'}
+                        onChange={(e, value) => setVideoHosting(value)}
+                        value={videoHosting}>
+                        <ToggleButton value="VK">VK</ToggleButton>
+                        <ToggleButton value="Youtube"><YouTubeIcon/></ToggleButton>
+                        <ToggleButton value="Rutube">RU</ToggleButton>
+                    </ToggleButtonGroup>
                 </div>
             </Stack>
 

@@ -37,10 +37,12 @@ export const UiVkVideo = observer(() => {
                     alignItems: 'center',
                     justifyContent: 'center'
                 }}>
-                    <div style={{width: '75%'}}>
+                    <div style={{width: '75%',}}>
                         <Alert severity={'info'} variant={'outlined'}>
                             <AlertTitle>Внимание</AlertTitle>
-                            Ссылка на видео VK должна быть вида https://vkvideo.ru/video4604580_456240803
+                            <div style={{textOverflow: 'ellipsis', overflow: 'hidden'}}>
+                                Ссылка на видео VK должна быть вида https://vkvideo.ru/video4604580_456240803
+                            </div>
                         </Alert>
                     </div>
                 </Card>

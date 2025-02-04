@@ -3,7 +3,7 @@ import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
 import {Box, Paper} from "@mui/material";
 import {CardByIDStore} from "../Store/CardByIDStore";
-import YoutubeContent from "./youtube-content";
+import VideoContent from "./video-content";
 import CardImage from "./card-image";
 import GoToTestButton from "./go-to-test-button";
 import Card from "@mui/material/Card";
@@ -23,13 +23,13 @@ const CardMainContent = observer(({card_store, ...props}: ICardMainContentProps)
     return (
         <Box>
             <GoToTestButton card_store={card_store}/>
-            <Card variant={"outlined"} sx={{height: {xs: "53vw", md: 540}}} {...props}>
+            <Box sx={{height: {xs: "53vw", md: 540}}} {...props}>
                 {isYoutubeContentType &&
-                    <YoutubeContent card_store={card_store}/>}
+                    <VideoContent card_store={card_store}/>}
                 {isShowImageContent &&
                     <CardImage card_store={card_store}/>
                 }
-            </Card>
+            </Box>
         </Box>
     )
 })

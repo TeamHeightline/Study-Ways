@@ -13,7 +13,9 @@ export const EditorPage = observer(({...props}: IEditorPageProps) => {
     const navigate = useNavigate();
 
     return (
-        <Paper elevation={0} sx={{pl: 4}} {...props}>
+        <Paper elevation={0}
+               sx={{pl: {md: 4}, px: {xs: 1, md: 0}}}
+               {...props}>
             <Routes>
                 <Route path={`/card/:id`}
                        element={<EditCardByUrl  {...props}/>}/>

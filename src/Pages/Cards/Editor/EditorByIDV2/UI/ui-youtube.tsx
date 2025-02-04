@@ -19,16 +19,16 @@ export const UiYoutube = observer(() => {
             />
             <TextField
                 sx={{mt: 1}}
-                label="Ссылка на видео на Youtube"
+                label="Ссылка на Youtube видео"
                 fullWidth
                 variant="filled"
                 value={CESObject.getField("video_url", "")}
-                onChange={CESObject.changeYoutubeUrl}
+                onChange={CESObject.changeField("video_url")}
                 error={CESObject.getField("video_url", "") !== "" &&
                     urlParser.parse(CESObject.getField("video_url", ""))?.provider == undefined}
                 helperText={CESObject.getField("video_url", "") !== "" &&
                 urlParser.parse(CESObject.getField("video_url", ""))?.provider == undefined ?
-                    "Ссылка не распознана как видео-источник" : ""}
+                    "Не распознано как ссылка на youtube" : ""}
             />
         </>
     )

@@ -24,7 +24,7 @@ const CardContentAndDescription = observer(({card_store, ...props}: ICardContent
 
     return (
         <Paper elevation={0} {...props}>
-            <Grid container spacing={1}>
+            <Grid container spacing={4}>
                 <Grid item xs={12} md={6}>
                     <CardMainContent card_store={card_store}/>
                     <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"}>

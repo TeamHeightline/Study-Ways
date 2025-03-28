@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Button, CircularProgress, MenuItem, Select, Stack, Typography} from "@mui/material";
+import {Button, Card, CardActionArea, CircularProgress, Grid, MenuItem, Select, Stack, Typography} from "@mui/material";
 import {observer} from "mobx-react";
 import {QuestionPageStorage} from "./Store/QuestionPageStore";
 import {toJS} from "mobx";
@@ -9,13 +9,6 @@ export const MainUserQuestionPage = observer(() => {
     useEffect(() => QuestionPageStorage.getQuestionData(), [])
 
     const navigate = useNavigate();
-
-    function handleStartQuestion() {
-        if (!QuestionPageStorage.selectedQuestionID) {
-            return
-        }
-        navigate('/iq/' + QuestionPageStorage.selectedQuestionID)
-    }
 
 
     if (!QuestionPageStorage.dataHasBeenDelivered) {
@@ -28,34 +21,38 @@ export const MainUserQuestionPage = observer(() => {
 
     return (
         <div>
-            <Stack alignItems={"center"} sx={{pt: 4}}>
-                <div style={{maxWidth: 400, width: '100%'}}>
-                    <Stack direction={"column"} alignItems={"center"}>
-                        <Typography variant={"h4"}>
-                            Выберите вопрос
-                        </Typography>
-                    </Stack>
-
-                    <Select
-                        sx={{mt: 2}}
-                        fullWidth
-                        value={QuestionPageStorage.selectedQuestionID}
-                        onChange={QuestionPageStorage.changeSelectedQuestionID}>
-                        {toJS(QuestionPageStorage.questionsData).map((question) => {
-                            return (<MenuItem key={question?.id}
-                                              value={question?.id}>
-                                {"ID: " + question?.id + " " + question?.text}
-                            </MenuItem>)
-                        })}
-                    </Select>
-                    <Button fullWidth variant="contained" color="primary" sx={{mt: 2}}
-                            size={"large"}
-                            disabled={!QuestionPageStorage.selectedQuestionID}
-                            onClick={handleStartQuestion}>
-                        Начать тест
-                    </Button>
-                </div>
+            <Stack direction={"column"} alignItems={"center"}>
+                <Typography variant={"h4"}>
+                    Выберите вопрос
+                </Typography>
             </Stack>
+            <Grid container spacing={2} justifyContent="space-between" sx={{mt: 1, p: 1}}>
+                {toJS(QuestionPageStorage.questionsData).map((question) => {
+                    return (
+                        <Grid item key={question.id} sx={{width: "100%",}} xs={12} md={4} lg={3}>
+                            <Card
+                                sx={{height: 160, width: "100%", overflow: 'hidden', borderRadius: '20px'}}
+                            >
+                                <CardActionArea sx={{p: 3}}
+                                                onClick={() => navigate("/iq/" + question.id)}>
+                                    <div style={{
+                                        height: 112,
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                    }}>
+                                        <Typography>
+                                            {"ID: " + question.id}
+                                        </Typography>
+                                        <Typography>
+                                            {question?.text}
+                                        </Typography>
+                                    </div>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>
+                    )
+                })}
+            </Grid>
         </div>
     )
 })

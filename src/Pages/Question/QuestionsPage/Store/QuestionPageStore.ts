@@ -1,9 +1,22 @@
 import {makeAutoObservable, toJS} from "mobx";
-import {ClientStorage} from "../../ApolloStorage/ClientStorage";
-import {GET_ALL_QUESTIONS} from "./Struct";
+import {ClientStorage} from "../../../../Shared/Store/ApolloStorage/ClientStorage";
 import {some} from "lodash";
 import {Maybe, QuestionNode, QuestionThemesNode} from "../../../../SchemaTypes";
 import {sort} from "fast-sort";
+import axiosClient from "../../../../Shared/ServerLayer/QueryLayer/config";
+
+// import {GET_ALL_QUESTIONS} from "./Struct";
+interface IAuthor {
+    user_id: number
+    firstname: string
+    lastname: string
+}
+
+interface IQuestion {
+    id: number
+    text: string
+    users_userprofile?: IAuthor
+}
 
 class QuestionPage {
     constructor() {
@@ -14,7 +27,7 @@ class QuestionPage {
     clientStorage = ClientStorage
 
     //Данные обо всех вопросах
-    questionsData: Maybe<QuestionNode>[] = []
+    questionsData: IQuestion[] = []
 
     //Флаг, предназначенный отслеживать момент, когда данные придут с сервера
     dataHasBeenDelivered = false
@@ -52,47 +65,23 @@ class QuestionPage {
     getQuestionData() {
 
         //Функция для удаления вопросов, которые называются "Новый вопрос"
-        function removeQuestionsTatNotFilled(questions: Maybe<QuestionNode>[]) {
-            const questionsCopyWitchoutUnfilledQuestions: Maybe<QuestionNode>[] = []
-            questions?.map((question) => {
-                if (question?.text !== "Новый вопрос") {
-                    questionsCopyWitchoutUnfilledQuestions.push(question)
-                }
-            })
-            return (questionsCopyWitchoutUnfilledQuestions)
+        function removeQuestionsTatNotFilled(questions: IQuestion[]) {
+            return questions?.filter((question) => question?.text !== "Новый вопрос")
         }
 
-        this.clientStorage.client.query({query: GET_ALL_QUESTIONS, fetchPolicy: "network-only"})
-            .then((response) => {
-                this.questionsData = removeQuestionsTatNotFilled(response.data.question)
-                this.dataHasBeenDelivered = true
-            })
+
+        axiosClient.get('page/question-page//all-questions')
+            .then(res => {
+                    this.questionsData = removeQuestionsTatNotFilled(res.data)
+                    console.log(res.data)
+                    this.dataHasBeenDelivered = true
+                }
+            )
     }
 
     //Использовать ли фильтрацию по темам и авторам
     useSearchByThemeOrAuthor = false
 
-    //Handle функция для useSearchByThemeOrAuthor
-    changeUseSearchByThemeOrAuthor = (e) => {
-        this.useSearchByThemeOrAuthor = e.target.checked
-    }
-
-    //Вычисляет авторов для фильтрации
-    get authorsForSelect() {
-        if (!this.dataHasBeenDelivered) {
-            return []
-        }
-        const authors: any = []
-        toJS(this.questionsData).map((sameQuestion) => {
-            sameQuestion?.author.map(async (sameAuthor) => {
-                if (!some(authors, sameAuthor)) {
-                    authors.push(sameAuthor)
-                }
-            })
-        })
-        this.selectedAuthorID = authors[0].id
-        return (authors)
-    }
 
     //ID выбранного автора
     selectedAuthorID = 0
@@ -109,15 +98,15 @@ class QuestionPage {
             return []
         }
         const questionsAfterSelectedAuthor: any = []
-        toJS(this.questionsData)?.map((sameQuestion) => {
-            let newQuestionHasBeenAddedToArray = false
-            sameQuestion?.author?.forEach((sameAuthor) => {
-                if (!newQuestionHasBeenAddedToArray && Number(sameAuthor?.id) === Number(this.selectedAuthorID)) {
-                    questionsAfterSelectedAuthor.push(sameQuestion)
-                    newQuestionHasBeenAddedToArray = true
-                }
-            })
-        })
+        // toJS(this.questionsData)?.map((sameQuestion) => {
+        //     let newQuestionHasBeenAddedToArray = false
+        //     sameQuestion?.author?.forEach((sameAuthor) => {
+        //         if (!newQuestionHasBeenAddedToArray && Number(sameAuthor?.id) === Number(this.selectedAuthorID)) {
+        //             questionsAfterSelectedAuthor.push(sameQuestion)
+        //             newQuestionHasBeenAddedToArray = true
+        //         }
+        //     })
+        // })
         return (questionsAfterSelectedAuthor)
     }
 
@@ -143,10 +132,6 @@ class QuestionPage {
     //ID выбранной темы
     selectedThemeID = 0
 
-    //Функция для изменения выбранной темы
-    changeSelectedTheme = (e) => {
-        this.selectedThemeID = e.target.value
-    }
 
     //Вопросы после выборе темы (вопросы оставшиеся после всех фильтраций)
     get QuestionsAfterSelectTheme() {

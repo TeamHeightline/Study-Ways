@@ -23,7 +23,6 @@ const UISelectHardLevel = observer(({questionStore, ...props}: IUISelectHardLeve
                             style={{marginTop: 12}}
                             defaultValue={"0"}
                             fullWidth
-                            label={"_"}
                             onChange={(e) => questionStore?.changeHardLevelOfHelpText(e.target.value)}
                             variant="outlined">
                             <MenuItem value={"0"}>Легкий</MenuItem>

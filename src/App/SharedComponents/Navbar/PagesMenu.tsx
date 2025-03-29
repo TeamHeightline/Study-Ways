@@ -1,7 +1,7 @@
 import {observer} from "mobx-react";
 import React from 'react';
 import {PaperProps} from "@mui/material/Paper/Paper";
-import {Box, Button, Divider, IconButton, ListItemIcon, MenuItem, Popover, Tooltip} from "@mui/material";
+import {Badge, Box, Button, Divider, IconButton, ListItemIcon, MenuItem, Popover, Tooltip} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import EditIcon from '@mui/icons-material/Edit';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
@@ -12,6 +12,7 @@ import AppsIcon from "@mui/icons-material/Apps";
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import {UserStorage} from "../../../Shared/Store/UserStore/UserStore";
 import {isMobileHook} from "../../../Shared/CustomHooks/isMobileHook";
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 interface INavbarMenuProps extends PaperProps {
 
@@ -89,7 +90,10 @@ const PagesMenu = observer(({...props}: INavbarMenuProps) => {
                         <ListItemIcon>
                             <QuestionMarkIcon fontSize="small"/>
                         </ListItemIcon>
-                        Тесты
+                        <Badge color="secondary" badgeContent={'new'}
+                               invisible={haveStatus(["ADMIN", "TEACHER", ", CARD_EDITOR"])}>
+                            Тесты
+                        </Badge>
                     </MenuItem>
                     <Divider/>
                     <MenuItem

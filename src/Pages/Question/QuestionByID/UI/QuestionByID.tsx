@@ -15,6 +15,7 @@ import UIAnswers from "./ui-answers";
 import UIStatistic from "./ui-statistic";
 import UIHelpText from "./ui-help-text";
 import UIAnswerReportSuccessSavedMessage from "./ui-answer-report-success-saved-message";
+import {NoAnswers} from "./no-answers";
 
 
 export const QuestionByID = observer((props: any) => {
@@ -53,11 +54,17 @@ export const QuestionByID = observer((props: any) => {
         return <RequireLogInAlert requireShow/>
     }
 
-    if (!questionStore?.answersArray?.length) {
+    if (!questionStore?.isDataLoaded) {
         return (
             <Stack alignItems={"center"}>
                 <CircularProgress/>
             </Stack>
+        )
+    }
+
+    if (!questionStore?.answersArray?.length) {
+        return (
+            <NoAnswers/>
         )
     }
 

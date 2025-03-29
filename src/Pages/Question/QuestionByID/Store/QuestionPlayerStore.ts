@@ -240,10 +240,12 @@ export class QuestionPlayerStore {
             .catch(() => this.questionImageUrl = '')
     }
 
+    isDataLoaded = false
 
     //Функция для загрузки данных о вопросе с сервера
     loadQuestionDataFromServer() {
         if (this.questionID) {
+            this.isDataLoaded = false
             this.clientStorage.client.query({
                 query: GET_ENCRYPT_QUESTION_DATA_BY_ID,
                 variables: {
@@ -291,6 +293,7 @@ export class QuestionPlayerStore {
 
                     this.answersArray = __AnswersArray
                     this.userMarks = Array(__AnswersArray.length).fill('none')
+                    this.isDataLoaded = true
                 })
 
         }

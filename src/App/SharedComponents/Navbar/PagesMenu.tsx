@@ -82,7 +82,6 @@ const PagesMenu = observer(({...props}: INavbarMenuProps) => {
                     </MenuItem>
 
                     <MenuItem
-                        disabled={!UserStorage.isLogin}
                         onClick={() => {
                             handleClose()
                             navigate('/all-questions')

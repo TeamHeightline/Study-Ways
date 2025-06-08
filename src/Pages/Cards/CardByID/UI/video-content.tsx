@@ -65,7 +65,12 @@ const VideoContent = observer(({card_store}: IYoutubeContentProps) => {
                     size={isMobile ? 'small' : 'medium'}
                     exclusive
                     orientation={'vertical'}
-                    onChange={(e, value) => setVideoHosting(value)}
+                    onChange={(e, value) => {
+                        if (!value) {
+                            return
+                        }
+                        setVideoHosting(value)
+                    }}
                     value={videoHosting}>
                     <ToggleButton value="VK" disabled={!isHaveVKVideo}>VK</ToggleButton>
                     <ToggleButton value="Youtube" disabled={!isHaveYoutubeVideo}><YouTubeIcon/></ToggleButton>

@@ -1,6 +1,6 @@
 import {Box, Stack} from "@mui/material";
 import {BoxProps} from "@mui/material/Box/Box";
-import CardItem from "./card-element";
+import CardItem from "./card-element/card-element";
 import React, {useState} from "react";
 import EmptyElement from "./empty-element";
 import {isMobileHook} from "../../../../Shared/CustomHooks/isMobileHook";

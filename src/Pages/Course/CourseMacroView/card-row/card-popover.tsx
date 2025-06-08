@@ -28,6 +28,7 @@ export default function CardPopover({open, anchorEl, handlePopoverClose, hovered
 
                 onClose={handlePopoverClose}
                 disableRestoreFocus
+                disableScrollLock
             >
                 <div>
 

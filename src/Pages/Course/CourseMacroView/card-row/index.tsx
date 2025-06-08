@@ -7,6 +7,8 @@ import {isMobileHook} from "../../../../Shared/CustomHooks/isMobileHook";
 import CardPopover from "./card-popover";
 import {positionDataI} from "../../CourseMicroView/V2/Store/CourseMicroStoreByID";
 import LinkElement from "./link-element";
+import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
+
 
 interface ICardRowProps extends BoxProps {
     courseData: any,
@@ -70,6 +72,7 @@ export default function CardRow({
         width: CARD_WIDTH,
         height: CARD_WIDTH / 16 * 9
     }
+    const nodeConnector = {height: 40, width: 24}
 
     const open = Boolean(anchorEl);
 
@@ -83,7 +86,8 @@ export default function CardRow({
             <CardPopover open={open} handlePopoverClose={handlePopoverClose} hoveredItemID={hoveredItemID}
                          anchorEl={anchorEl}/>
 
-            <Stack direction={"row"} spacing={1} sx={{
+            <Stack direction={"row"} sx={{
+                alignItems: 'start',
                 width: (CARD_WIDTH + 11.5) * 10,
                 backgroundColor: index === course_main_line_index ? "rgba(33, 150, 243, 0.3)" : "none",
                 border: index === course_main_line_index ? "1px solid rgb(33, 150, 243)" : "1px solid rgba(0, 0, 0, 0)",
@@ -93,7 +97,8 @@ export default function CardRow({
 
                     if (isLinkItem(item)) {
                         return (
-                            <Box key={itemIndex + "___" + item.id + "___" + index}>
+                            <Box key={itemIndex + "___" + item.id + "___" + index}
+                                 sx={{width: size.width + nodeConnector.width}}>
                                 <LinkElement size={size} courseLink={item.course_link}/>
                             </Box>
                         )
@@ -102,13 +107,21 @@ export default function CardRow({
                     if (isEmptyCardItem(item)) {
                         return (
                             <Box key={itemIndex + "___" + index}>
-                                <EmptyElement size={size}/>
+                                <EmptyElement size={{...size, width: size.width + nodeConnector.width}}/>
                             </Box>
                         )
                     }
 
+                    const isNextCardExist = !!course_items?.[itemIndex + 1]?.id
+
                     return (
                         <Box
+                            sx={{
+                                display: "flex",
+                                alignItems: 'center',
+                                justifyContent: "center",
+                                width: size.width + nodeConnector.width
+                            }}
                             key={itemIndex + "___" + item.id + "___" + index}
                             onMouseEnter={(e) => {
                                 cardItemHandleMouseEnter(e, item)
@@ -123,6 +136,10 @@ export default function CardRow({
                                       activePage={activePage}
                                       courseID={courseID}
                                       viewedCardIDs={viewedCardIDs}/>
+                            {item.id && isNextCardExist ?
+                                <Box sx={{height: nodeConnector.height}}>
+                                    <HorizontalRuleIcon/>
+                                </Box> : <Box sx={{width: nodeConnector.width}}/>}
                         </Box>
                     )
                 })}

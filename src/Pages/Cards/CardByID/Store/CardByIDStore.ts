@@ -21,12 +21,42 @@ import {getCardDataById} from "../API/get-card-data-by-id";
 import {ICardData} from "../TYPES/card-data";
 
 
+class CourseDataCache {
+    constructor() {
+        makeAutoObservable(this)
+    }
+
+    clientStorage = ClientStorage
+
+    getAllCoursesData() {
+        if (!!this.allCoursesData?.length && this.allCoursesData?.length > 0) {
+            return
+        }
+        this.clientStorage.client.query({
+            query: GET_ALL_COURSE,
+            fetchPolicy: "network-only",
+            variables: {}
+        })
+            .then((response) => response.data.cardCourse)
+            .then((courses_data) => {
+                if (courses_data !== toJS(this.allCoursesData)) {
+                    this.allCoursesData = courses_data
+                }
+            })
+            .catch((e) => console.log(e))
+    }
+
+    allCoursesData?: CardCourseNode[]
+}
+
+const courseDataCache = new CourseDataCache()
+
 export class CardByIDStore {
     constructor() {
         makeAutoObservable(this)
 
         this.loadCardData()
-        this.getAllCoursesData()
+        courseDataCache.getAllCoursesData()
         console.log('new store')
 
         reaction(() => this?.id, () => this.loadCardData())
@@ -196,22 +226,6 @@ export class CardByIDStore {
         }
     }
 
-    getAllCoursesData() {
-        this.clientStorage.client.query({
-            query: GET_ALL_COURSE,
-            fetchPolicy: "network-only",
-            variables: {}
-        })
-            .then((response) => response.data.cardCourse)
-            .then((courses_data) => {
-                if (courses_data !== toJS(this.allCoursesData)) {
-                    this.allCoursesData = courses_data
-                }
-            })
-            .catch((e) => console.log(e))
-    }
-
-    allCoursesData?: CardCourseNode[]
 
     findInCourseArray: IFindInCourseNotification = []
 
@@ -223,7 +237,7 @@ export class CardByIDStore {
         const active_card_id = this.card_data?.id
         if (active_card_id) {
             const __findInCourseNotification: IFindInCourseNotification = []
-            this.allCoursesData?.map((course) => {
+            courseDataCache.allCoursesData?.map((course) => {
                 course?.courseData?.map((course_line: ICourseLine, lIndex) => {
                     course_line.SameLine?.map((fragment, fIndex) => {
                         fragment.CourseFragment?.map((element, bIndex) => {

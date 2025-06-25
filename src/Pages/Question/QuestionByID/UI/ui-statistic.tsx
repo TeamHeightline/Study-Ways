@@ -31,33 +31,25 @@ const UIStatistic = observer(({questionStore, restartQuestion, ...props}: IUISta
             <Stack direction={"row"} sx={{pt: 2}}>
                 {/*
                     // @ts-ignore*/}
-                <Chart data={questionStore?.ArrayForShowNumberOfWrongAnswers}>
+                <Chart data={questionStore?.chartDataNumberOfWrongAnswers}>
                     <Title text="Количество ошибок на каждой из попыток"/>
-                    <ArgumentAxis showGrid={true}/>
-                    <ValueAxis/>
                     <BarSeries
                         valueField="numberOfWrongAnswers"
                         argumentField="numberOfPasses"
                     />
-                    <SplineSeries
-                        valueField="numberOfWrongAnswers"
-                        argumentField="numberOfPasses"
-                    />
+                    <ArgumentAxis showGrid={true}/>
+                    <ValueAxis/>
                 </Chart>
                 {/*
                     // @ts-ignore*/}
-                <Chart data={questionStore?.ArrayForShowAnswerPoints}>
+                <Chart data={questionStore?.chartDataArrayForShowAnswerPoints}>
+                    <Title text="Количество баллов на каждой из попыток"/>
                     <BarSeries
-                        valueField="answerPoints"
-                        argumentField="numberOfPasses"
-                    />
-                    <SplineSeries
                         valueField="answerPoints"
                         argumentField="numberOfPasses"
                     />
                     <ArgumentAxis showGrid={true}/>
                     <ValueAxis/>
-                    <Title text="Количество баллов на каждой из попыток"/>
                 </Chart>
             </Stack>
         </Box>

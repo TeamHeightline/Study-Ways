@@ -173,8 +173,8 @@ export class QuestionPlayerStore {
     }
 
     //Массив данные из которого будут использованы чтобы отобразить график количества неправильных ответов на каждой из поыпыток
-    get ArrayForShowNumberOfWrongAnswers() {
-        const showArray: any = []
+    get ArrayForShowNumberOfWrongAnswers(): { numberOfPasses: number, numberOfWrongAnswers: number }[] {
+        const showArray: { numberOfPasses: number, numberOfWrongAnswers: number }[] = []
         toJS(this.historyOfWrongSelectedAnswers)?.forEach((attempt, aIndex: any) => {
             showArray.push({numberOfPasses: aIndex, numberOfWrongAnswers: attempt.length})
         })
@@ -183,8 +183,9 @@ export class QuestionPlayerStore {
         )
     }
 
-    get ArrayForShowWrongAnswers() {
-        const showArray: any = []
+
+    get ArrayForShowWrongAnswers(): { numberOfPasses: number, numberOfWrongAnswers: number }[] {
+        const showArray: { numberOfPasses: number, numberOfWrongAnswers: number }[] = []
         toJS(this.historyOfWrongSelectedAnswers)?.forEach((attempt, aIndex: any) => {
             showArray.push({numberOfPasses: aIndex, numberOfWrongAnswers: attempt})
         })
@@ -194,12 +195,27 @@ export class QuestionPlayerStore {
     }
 
     //Массив для отображения графика баллов на каждой из попыток
-    get ArrayForShowAnswerPoints() {
-        const showArray: any = []
+    get ArrayForShowAnswerPoints(): { numberOfPasses: number, answerPoints: number }[] {
+        const showArray: { numberOfPasses: number, answerPoints: number }[] = []
         toJS(this.historyOfAnswerPoints)?.forEach((attempt, aIndex: any) => {
             showArray.push({numberOfPasses: aIndex, answerPoints: attempt})
         })
         return (showArray)
+    }
+
+
+    get chartDataNumberOfWrongAnswers(): { numberOfPasses: string, numberOfWrongAnswers: number }[] {
+        return this.ArrayForShowNumberOfWrongAnswers.map((item) => ({
+            numberOfPasses: String(item.numberOfPasses),
+            numberOfWrongAnswers: item.numberOfWrongAnswers
+        }))
+    }
+
+    get chartDataArrayForShowAnswerPoints(): { numberOfPasses: string, answerPoints: number }[] {
+        return this.ArrayForShowAnswerPoints.map((item) => ({
+            numberOfPasses: String(item.numberOfPasses),
+            answerPoints: item.answerPoints
+        }))
     }
 
     //Флаг экзаменационного режима

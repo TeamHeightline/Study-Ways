@@ -1,19 +1,16 @@
-import {createAsyncThunk} from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosClient from "../../../Shared/ServerLayer/QueryLayer/config";
 
-export const loadMyProfile = createAsyncThunk("loadMyProfile",
-    async () => {
-        return axiosClient.get<IProfile>("/page/profile/my-profile")
-            .then((res) => res.data)
-    })
+export const loadMyProfile = createAsyncThunk("loadMyProfile", async () =>
+  axiosClient.get<IProfile>("/page/profile/my-profile").then((res) => res.data),
+);
 
-import {IProfile} from "./types";
-
+import { IProfile } from "./types";
 
 export const updateProfile = createAsyncThunk(
-    "updateProfile",
-    async (profileData: IProfile) => {
-        return axiosClient.post("/page/profile/update-profile", {profileData})
-            .then((res) => res.data)
-    }
-)
+  "updateProfile",
+  async (profileData: IProfile) =>
+    axiosClient
+      .post("/page/profile/update-profile", { profileData })
+      .then((res) => res.data),
+);

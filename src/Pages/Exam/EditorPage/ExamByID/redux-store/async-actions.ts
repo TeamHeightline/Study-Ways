@@ -1,26 +1,24 @@
-import {getQSByID} from "../../../../../Shared/ServerLayer/QueryLayer/question-sequence.query";
-import {loadExamByID, updateExam} from "../../../../../Shared/ServerLayer/QueryLayer/exam.query";
-import {createAsyncThunk} from "@reduxjs/toolkit";
-
+import { getQSByID } from "../../../../../Shared/ServerLayer/QueryLayer/question-sequence.query";
+import {
+  loadExamByID,
+  updateExam,
+} from "../../../../../Shared/ServerLayer/QueryLayer/exam.query";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const loadQSDataThunk = createAsyncThunk(
-    'examEditor/loadQSData',
-    async (qsID: string) => {
-        return getQSByID(qsID)
-    }
-)
+  "examEditor/loadQSData",
+  async (qsID: string) => getQSByID(qsID),
+);
 
 export const loadExamDataThunk = createAsyncThunk(
-    'examEditor/loadExamData',
-    async (examID: string) => {
-        return loadExamByID(examID)
-    }
-)
+  "examEditor/loadExamData",
+  async (examID: string) => loadExamByID(examID),
+);
 
 export const updateExamThunk = createAsyncThunk(
-    'examEditor/updateExam',
-    async (examData: any) => {
-        const {id, ...examDataWithoutID} = examData;
-        return updateExam(id, examDataWithoutID)
-    }
-)
+  "examEditor/updateExam",
+  async (examData: any) => {
+    const { id, ...examDataWithoutID } = examData;
+    return updateExam(id, examDataWithoutID);
+  },
+);

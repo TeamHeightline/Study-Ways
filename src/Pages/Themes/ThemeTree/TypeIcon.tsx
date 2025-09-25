@@ -15,9 +15,13 @@ export const TypeIcon: React.FC<Props> = (props: any) => {
   }
 
   switch (props.fileType) {
-    case "image": return <ImageIcon />;
-    case "csv": return <ListAltIcon />;
-    case "text": return <DescriptionIcon />;
-    default: return null;
+    case "image":
+      return <ImageIcon />;
+    case "csv":
+      return <ListAltIcon />;
+    case "text":
+      return <DescriptionIcon />;
+    default:
+      return null;
   }
 };

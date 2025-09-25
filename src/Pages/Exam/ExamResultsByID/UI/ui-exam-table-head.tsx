@@ -1,37 +1,40 @@
-import {TableCell, TableHead, TableRow, Tooltip, Typography} from "@mui/material";
-import {PaperProps} from "@mui/material/Paper/Paper";
-import {useSelector} from "react-redux";
+import {
+  TableCell,
+  TableHead,
+  TableRow,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import { PaperProps } from "@mui/material/Paper/Paper";
+import { useSelector } from "react-redux";
 import React from "react";
-import {RootState} from "../../../../App/ReduxStore/RootStore";
+import { RootState } from "../../../../App/ReduxStore/RootStore";
 
-interface IUIExamsTableHeadProps extends PaperProps {
+type IUIExamsTableHeadProps = PaperProps;
 
-}
+export default function UiExamTableHead({ ...props }: IUIExamsTableHeadProps) {
+  const examResults = useSelector(
+    (state: RootState) => state?.examResultsByIDReducer?.exam_results,
+  );
 
-export default function UiExamTableHead({...props}: IUIExamsTableHeadProps) {
-    const examResults = useSelector((state: RootState) => state?.examResultsByIDReducer?.exam_results)
-
-    return (
-        <TableHead>
-            <TableRow>
-                <TableCell/>
-                <TableCell/>
-                <TableCell>email пользователя</TableCell>
-                <TableCell>Группа</TableCell>
-                <TableCell>Фамилия и имя</TableCell>
-                {examResults && examResults[0]?.question_statuses?.map((question_status) => {
-                    return (
-                        <TableCell key={question_status.question_id}>
-                            <Tooltip title={question_status?.usertests_question?.text || ""}>
-                                <Typography>
-                                    Вопрос №{question_status.question_id}
-                                </Typography>
-                            </Tooltip>
-                        </TableCell>
-                    )
-                })}
-                <TableCell>Сумма баллов</TableCell>
-            </TableRow>
-        </TableHead>
-    )
+  return (
+    <TableHead>
+      <TableRow>
+        <TableCell />
+        <TableCell />
+        <TableCell>email пользователя</TableCell>
+        <TableCell>Группа</TableCell>
+        <TableCell>Фамилия и имя</TableCell>
+        {examResults &&
+          examResults[0]?.question_statuses?.map((question_status) => (
+            <TableCell key={question_status.question_id}>
+              <Tooltip title={question_status?.usertests_question?.text || ""}>
+                <Typography>Вопрос №{question_status.question_id}</Typography>
+              </Tooltip>
+            </TableCell>
+          ))}
+        <TableCell>Сумма баллов</TableCell>
+      </TableRow>
+    </TableHead>
+  );
 }

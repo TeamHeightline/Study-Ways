@@ -1,31 +1,29 @@
-import {observer} from "mobx-react";
-import React from 'react';
-import {PaperProps} from "@mui/material/Paper/Paper";
-import {InputLabel, MenuItem, Select} from "@mui/material";
+import { observer } from "mobx-react";
+import React from "react";
+import { PaperProps } from "@mui/material/Paper/Paper";
+import { InputLabel, MenuItem, Select } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
-import {EditAnswerByIdStore} from "../Store/edit-answer-by-id-store";
-
+import { EditAnswerByIdStore } from "../Store/edit-answer-by-id-store";
 
 interface IAnswerIsTrueProps extends PaperProps {
-    answer_object: EditAnswerByIdStore
-
+  answer_object: EditAnswerByIdStore;
 }
 
-const AnswerIsTrue = observer(({answer_object, ...props}: IAnswerIsTrueProps) => {
-    return (
-        <FormControl fullWidth>
-            <InputLabel sx={{pt: 2}}>Ответ верный/неверный</InputLabel>
-            <Select
-                fullWidth
-                variant={"filled"}
-                value={answer_object.isTrue}
-                onChange={answer_object.changeIsTrue}
-            >
-                <MenuItem value="true">Верный</MenuItem>
-                <MenuItem value="false">Неверный</MenuItem>
-            </Select>
-        </FormControl>
-    )
-})
+const AnswerIsTrue = observer(
+  ({ answer_object, ...props }: IAnswerIsTrueProps) => (
+    <FormControl fullWidth>
+      <InputLabel sx={{ pt: 2 }}>Ответ верный/неверный</InputLabel>
+      <Select
+        fullWidth
+        variant={"filled"}
+        value={answer_object.isTrue}
+        onChange={answer_object.changeIsTrue}
+      >
+        <MenuItem value="true">Верный</MenuItem>
+        <MenuItem value="false">Неверный</MenuItem>
+      </Select>
+    </FormControl>
+  ),
+);
 
-export default AnswerIsTrue
+export default AnswerIsTrue;

@@ -1,16 +1,18 @@
-import {Box, Checkbox, FormControlLabel} from "@mui/material";
-import {BoxProps} from "@mui/material/Box/Box";
+import { Box, Checkbox, FormControlLabel } from "@mui/material";
+import { BoxProps } from "@mui/material/Box/Box";
 import React from "react";
 
-interface IUIIsEnableStartAndFinishTimeProps extends BoxProps {
+type IUIIsEnableStartAndFinishTimeProps = BoxProps;
 
-}
-
-export default function UIIsEnableStartAndFinishTime({...props}: IUIIsEnableStartAndFinishTimeProps) {
-    return (
-        <Box {...props}>
-            <FormControlLabel control={<Checkbox defaultChecked/>} label="Начало и конец в определенное время"/>
-
-        </Box>
-    )
+export default function UIIsEnableStartAndFinishTime({
+  ...props
+}: IUIIsEnableStartAndFinishTimeProps) {
+  return (
+    <Box {...props}>
+      <FormControlLabel
+        control={<Checkbox defaultChecked />}
+        label="Начало и конец в определенное время"
+      />
+    </Box>
+  );
 }

@@ -1,3 +1,3 @@
-import {Author} from "./UI";
+import { Author } from "./UI";
 
-export default Author
+export default Author;

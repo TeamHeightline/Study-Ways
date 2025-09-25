@@ -1,4 +1,3 @@
-
 export const oldCode = `<!DOCTYPE html>
 <html lang="en">
 <meta charset="UTF-8">
@@ -35,8 +34,8 @@ margin-top:46px">
   </div>
 </div>
 </body>
-</html>`
-export const oldCode2=`
+</html>`;
+export const oldCode2 = `
 <html>
  <head><title>ReactLearn</title>
    <script src="https://unpkg.com/@babel/standalone/babel.js"></script> 
@@ -62,4 +61,4 @@ export const oldCode2=`
      r(<List/>, document.querySelector('.cont'));
     </script>
  </body>
-</html>`
+</html>`;

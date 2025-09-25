@@ -1,7 +1,7 @@
 .app {
   height: 100%;
-  background-color: #1A202C;
-  color : #ffffff;
+  background-color: #1a202c;
+  color: #ffffff;
 }
 
 .treeRoot {
@@ -17,5 +17,5 @@
 }
 
 .dropTarget {
-  background-color: #1A202C;
+  background-color: #1a202c;
 }

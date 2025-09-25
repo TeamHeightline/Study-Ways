@@ -1,25 +1,24 @@
-import {observer} from "mobx-react";
-import React from 'react';
-import {PaperProps} from "@mui/material/Paper/Paper";
-import {Paper} from "@mui/material";
-import {useParams} from "react-router-dom";
+import { observer } from "mobx-react";
+import React from "react";
+import { PaperProps } from "@mui/material/Paper/Paper";
+import { Paper } from "@mui/material";
+import { useParams } from "react-router-dom";
 import CheckQuestionByID from "../../CheckQuestionByID/UI/check-question-by-id";
 
+type ICheckQuestionByURLProps = PaperProps;
 
-interface ICheckQuestionByURLProps extends PaperProps {
-
-}
-
-const CheckQuestionByURL = observer(({...props}: ICheckQuestionByURLProps) => {
-    const {id} = useParams();
+const CheckQuestionByURL = observer(
+  ({ ...props }: ICheckQuestionByURLProps) => {
+    const { id } = useParams();
     if (!id) {
-        return <div/>
+      return <div />;
     }
     return (
-        <Paper elevation={0} {...props}>
-            <CheckQuestionByID question_id={id}/>
-        </Paper>
-    )
-})
+      <Paper elevation={0} {...props}>
+        <CheckQuestionByID question_id={id} />
+      </Paper>
+    );
+  },
+);
 
-export default CheckQuestionByURL
+export default CheckQuestionByURL;

@@ -1,17 +1,16 @@
-import {Box, Typography} from "@mui/material";
-import {BoxProps} from "@mui/material/Box/Box";
+import { Box, Typography } from "@mui/material";
+import { BoxProps } from "@mui/material/Box/Box";
 
 interface ICourseTitleProps extends BoxProps {
-    courseData: any
+  courseData: any;
 }
 
-export default function Title({courseData, ...props}: ICourseTitleProps) {
-
-    return (
-        <Box {...props}>
-            <Typography variant={"h3"}>
-                {(courseData?.name || "").replace(/\[.*?\]/g, '')}
-            </Typography>
-        </Box>
-    )
+export default function Title({ courseData, ...props }: ICourseTitleProps) {
+  return (
+    <Box {...props}>
+      <Typography variant={"h3"}>
+        {(courseData?.name || "").replace(/\[.*?\]/g, "")}
+      </Typography>
+    </Box>
+  );
 }

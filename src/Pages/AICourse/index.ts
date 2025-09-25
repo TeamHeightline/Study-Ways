@@ -1,1 +1,1 @@
-export {AiCourse} from './ui/ai-course'
+export { AiCourse } from "./ui/ai-course";

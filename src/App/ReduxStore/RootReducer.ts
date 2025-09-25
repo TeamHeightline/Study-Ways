@@ -1,8 +1,8 @@
 import ExamPlayerReducer from "../../Pages/Exam/ExamByUid/redux-store/ExamPlayerSlice";
-import {enableMapSet} from 'immer'
-import {examEditorPageReducer} from "../../Pages/Exam/EditorPage/Page/redux-store/reducer";
+import { enableMapSet } from "immer";
+import { examEditorPageReducer } from "../../Pages/Exam/EditorPage/Page/redux-store/reducer";
 import examResultsByIDReducer from "../../Pages/Exam/ExamResultsByID/redux-store/reducer";
-import {combineReducers} from '@reduxjs/toolkit'
+import { combineReducers } from "@reduxjs/toolkit";
 import StatusEditorSlice from "../../Pages/StatusEditor/redux-store/StatusEditorSlice";
 import NotificationSlice from "../SharedComponents/Navbar/Notification/redux-store/NotificationSlice";
 import coursePageSlice from "../../Pages/Course/Page/redux-store/course-page-slice";
@@ -11,32 +11,29 @@ import questionEditorPageSlice from "../../Pages/Question/Editor/Page/redux-stor
 import recentCardSlice from "../../Pages/RecentCards/Store/recent-card-slice";
 import cardBookmarksSlice from "../../Pages/CardBookmarks/Store/card-bookmarks-slice";
 import helpArticleEditorPageSlice from "../../Pages/HelpArticle/EditorPage/redux-store";
-import helpArticleByURLSlice from "../../Pages/HelpArticle/HelpArticleByURL/redux-store"
+import helpArticleByURLSlice from "../../Pages/HelpArticle/HelpArticleByURL/redux-store";
 import userGroupEditorPageSlice from "../../Pages/UserGroups/EditorPage/store";
-import cardMicroViewSlice from "../../Pages/Cards/CardMicroView/store"
-import profileSlice from '../../Pages/Profile/redux-store'
+import cardMicroViewSlice from "../../Pages/Cards/CardMicroView/store";
+import profileSlice from "../../Pages/Profile/redux-store";
 
+import { userGroupApi } from "../../Pages/UserGroups/EditorPage/store/api";
 
-import {userGroupApi} from "../../Pages/UserGroups/EditorPage/store/api";
-
-enableMapSet()
+enableMapSet();
 export const RootReducer = combineReducers({
-    examEditorPageReducer,
-    examResultsByIDReducer,
-    examPlayer: ExamPlayerReducer,
-    examEditor: examEditorSlice,
-    statusEditor: StatusEditorSlice,
-    notification: NotificationSlice,
-    coursePage: coursePageSlice,
-    questionEditorPage: questionEditorPageSlice,
-    recentCards: recentCardSlice,
-    cardBookmarks: cardBookmarksSlice,
-    helpArticleEditor: helpArticleEditorPageSlice,
-    helpArticleByURL: helpArticleByURLSlice,
-    userGroupEditor: userGroupEditorPageSlice,
-    cardMicroView: cardMicroViewSlice,
-    [userGroupApi.reducerPath]: userGroupApi.reducer,
-    profile: profileSlice
+  examEditorPageReducer,
+  examResultsByIDReducer,
+  examPlayer: ExamPlayerReducer,
+  examEditor: examEditorSlice,
+  statusEditor: StatusEditorSlice,
+  notification: NotificationSlice,
+  coursePage: coursePageSlice,
+  questionEditorPage: questionEditorPageSlice,
+  recentCards: recentCardSlice,
+  cardBookmarks: cardBookmarksSlice,
+  helpArticleEditor: helpArticleEditorPageSlice,
+  helpArticleByURL: helpArticleByURLSlice,
+  userGroupEditor: userGroupEditorPageSlice,
+  cardMicroView: cardMicroViewSlice,
+  [userGroupApi.reducerPath]: userGroupApi.reducer,
+  profile: profileSlice,
 });
-
-

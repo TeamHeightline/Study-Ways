@@ -1,18 +1,15 @@
-import {observer} from "mobx-react";
-import React from 'react';
-import {EditCardByID} from "../EditorByIDV2/UI/EditCardByID";
-import {useParams} from "react-router-dom";
+import { observer } from "mobx-react";
+import React from "react";
+import { EditCardByID } from "../EditorByIDV2/UI/EditCardByID";
+import { useParams } from "react-router-dom";
 
+interface ComponentProp {}
 
-interface ComponentProp {
-
-}
-
-export const EditCardByUrl = observer(({...props}: ComponentProp) => {
-    const {id} = useParams();
-    return (
-        <div {...props}>
-            <EditCardByID id={id}/>
-        </div>
-    )
-})
+export const EditCardByUrl = observer(({ ...props }: ComponentProp) => {
+  const { id } = useParams();
+  return (
+    <div {...props}>
+      <EditCardByID id={id} />
+    </div>
+  );
+});

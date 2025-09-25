@@ -1,20 +1,18 @@
-import {makeAutoObservable} from "mobx";
+import { makeAutoObservable } from "mobx";
 
 export class Answer {
+  id = null;
+  isDeleted = false;
 
-    id = null
-    isDeleted = false
-
-    constructor(store, answer?) {
-        makeAutoObservable(this, {})
-        if (answer) {
-            this.id = answer?.id
-            this.isDeleted = answer?.isDeleted
-        }
+  constructor(store, answer?) {
+    makeAutoObservable(this, {});
+    if (answer) {
+      this.id = answer?.id;
+      this.isDeleted = answer?.isDeleted;
     }
+  }
 }
 
+const answerStoreObject = new Answer(undefined);
 
-const answerStoreObject = new Answer(undefined)
-
-export type answerStoreType = typeof answerStoreObject
+export type answerStoreType = typeof answerStoreObject;

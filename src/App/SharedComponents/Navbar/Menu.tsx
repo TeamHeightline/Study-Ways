@@ -1,20 +1,18 @@
-import {Stack} from "@mui/material";
-import {UserStorage} from "../../../Shared/Store/UserStore/UserStore";
+import { Stack } from "@mui/material";
+import { UserStorage } from "../../../Shared/Store/UserStore/UserStore";
 import PagesMenu from "./PagesMenu";
 import React from "react";
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 import PersonalMenu from "./PersonalMenu";
-import {LoginButton} from "./LoginButton";
+import { LoginButton } from "./LoginButton";
 
-const Menu = observer(() => {
-    return (
-        <Stack direction={"row"} sx={{backdropFilter: "none"}}>
-            <Stack direction={"row"} spacing={2}>
-                <PagesMenu/>
-                {UserStorage.isLogin ? <PersonalMenu/> : <LoginButton/>}
-            </Stack>
-        </Stack>
-    )
-})
+const Menu = observer(() => (
+  <Stack direction={"row"} sx={{ backdropFilter: "none" }}>
+    <Stack direction={"row"} spacing={2}>
+      <PagesMenu />
+      {UserStorage.isLogin ? <PersonalMenu /> : <LoginButton />}
+    </Stack>
+  </Stack>
+));
 
-export default Menu
+export default Menu;

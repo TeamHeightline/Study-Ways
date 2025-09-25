@@ -1,14 +1,8 @@
-import {observer} from "mobx-react";
-import React from 'react';
+import { observer } from "mobx-react";
+import React from "react";
 
-interface IAfterAndBeforeQuestionProps extends React.HTMLAttributes<HTMLDivElement> {
+type IAfterAndBeforeQuestionProps = React.HTMLAttributes<HTMLDivElement>;
 
-}
-
-export const AfterAndBeforeQuestion = observer(({...props}: IAfterAndBeforeQuestionProps) => {
-    return (
-        <div {...props}>
-
-        </div>
-    )
-})
+export const AfterAndBeforeQuestion = observer(
+  ({ ...props }: IAfterAndBeforeQuestionProps) => <div {...props}></div>,
+);

@@ -22,7 +22,8 @@
     "noEmit": true
   },
   "include": [
-    "src"
+    "src",
+    "global.d.ts"
   ],
   "exclude": [
     "src/ckeditor5-custom-build",

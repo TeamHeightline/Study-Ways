@@ -102,7 +102,7 @@ class CardEditorStorage {
     //Умный Getter позволяет получать кэшированные значения сразу для все полей объекта, принимает поле и дефолтное значение
     getField = computedFn((field_name: keyof ICardDataInStore, default_value: string | number | boolean | [] = "",
                            card_object = this.card_object) => {
-        return (card_object && card_object[field_name]) ? card_object[field_name] : default_value
+        return card_object?.[field_name] ?? default_value
     })
     //number в field - это грязный хак, чтобы не было ошибки из строчки с присвоением, как только TS видит что используются
     //конкретные ключи, начинает сразу говорить, что это never тип

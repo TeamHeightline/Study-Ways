@@ -1,13 +1,13 @@
-import { observer } from "mobx-react";
-import React, { Fragment, useEffect, useState } from "react";
-import TableRow from "@mui/material/TableRow";
-import TableCell from "@mui/material/TableCell";
-import IconButton from "@mui/material/IconButton";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { DetailStatisticStoreByID } from "../Store/DetailStatisticStoreByID";
-import { Avatar, Skeleton, Stack, Tooltip } from "@mui/material";
-import { ChartAndStepByStepStatistic } from "./ChartAndStepByStepStatistic";
+import { observer } from 'mobx-react';
+import React, { Fragment, useEffect, useState } from 'react';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
+import IconButton from '@mui/material/IconButton';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { DetailStatisticStoreByID } from '../Store/DetailStatisticStoreByID';
+import { Avatar, Skeleton, Stack, Tooltip } from '@mui/material';
+import { ChartAndStepByStepStatistic } from './ChartAndStepByStepStatistic';
 
 interface IDetailStatisticByIDProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -23,14 +23,14 @@ export const DetailStatisticByID = observer(
       statisticByIDStore.changeAttemptID(attempt_id);
     }, [attempt_id]);
     const textColor = statisticByIDStore.dataForRow.questionHasBeenCompleted
-      ? ""
-      : "warning.main";
+      ? ''
+      : 'warning.main';
     if (statisticByIDStore.loadingData) {
       return (
         <TableRow>
           {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((indexForKey) => (
             <TableCell key={`${indexForKey}SkeletonKey`}>
-              <Skeleton variant="text" width={"100%"} height={"100%"} />
+              <Skeleton variant="text" width={'100%'} height={'100%'} />
             </TableCell>
           ))}
         </TableRow>
@@ -61,10 +61,10 @@ export const DetailStatisticByID = observer(
             {statisticByIDStore.dataForRow.username}
           </TableCell>
           <TableCell sx={{ color: textColor }}>
-            <Stack direction={"row"} justifyContent={"end"} spacing={2}>
+            <Stack direction={'row'} justifyContent={'end'} spacing={2}>
               <div>
-                {statisticByIDStore.dataForRow?.firstname || ""}{" "}
-                {statisticByIDStore.dataForRow?.lastname || ""}
+                {statisticByIDStore.dataForRow?.firstname || ''}{' '}
+                {statisticByIDStore.dataForRow?.lastname || ''}
               </div>
               {statisticByIDStore.dataForRow.avatarSrc && (
                 <Avatar

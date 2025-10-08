@@ -1,7 +1,7 @@
-import { observer } from "mobx-react";
-import { QuestionEditorStorage } from "../Store/QuestionEditorStorage";
-import { Button } from "@mui/material";
-import React from "react";
+import { observer } from 'mobx-react';
+import { QuestionEditorStorage } from '../Store/QuestionEditorStorage';
+import { Button } from '@mui/material';
+import React from 'react';
 
 export const CreateNewAnswer = observer(() => (
   <>

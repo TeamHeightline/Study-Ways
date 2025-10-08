@@ -1,6 +1,6 @@
-import { Box } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import { CardByIDStore } from "../Store/CardByIDStore";
+import { Box } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import { CardByIDStore } from '../Store/CardByIDStore';
 
 interface ITestBeforeCardOpenDialogProps extends BoxProps {
   card_store: CardByIDStore;

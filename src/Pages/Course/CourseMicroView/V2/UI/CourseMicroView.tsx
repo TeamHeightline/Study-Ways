@@ -1,13 +1,13 @@
-import { observer } from "mobx-react";
-import React, { useEffect, useState } from "react";
+import { observer } from 'mobx-react';
+import React, { useEffect, useState } from 'react';
 import {
   CourseMicroStoreByID,
   positionDataI,
-} from "../Store/CourseMicroStoreByID";
-import { Card, CardActionArea, Stack, Tooltip } from "@mui/material";
-import CourseNavigation from "./CourseNavigation";
-import { useNavigate } from "react-router-dom";
-import { isMobileHook } from "../../../../../Shared/CustomHooks/isMobileHook";
+} from '../Store/CourseMicroStoreByID';
+import { Card, CardActionArea, Stack, Tooltip } from '@mui/material';
+import CourseNavigation from './CourseNavigation';
+import { useNavigate } from 'react-router-dom';
+import { isMobileHook } from '../../../../../Shared/CustomHooks/isMobileHook';
 
 interface ICourseMicroViewProps extends React.HTMLAttributes<HTMLDivElement> {
   course_id: number;
@@ -72,8 +72,8 @@ const CourseMicroView = observer(
         {...props}
         style={{
           padding: 0,
-          overflowX: isMobile ? "auto" : undefined,
-          maxWidth: isMobile ? window.innerWidth - 40 : "",
+          overflowX: isMobile ? 'auto' : undefined,
+          maxWidth: isMobile ? window.innerWidth - 40 : '',
         }}
       >
         <Card style={{ padding: 0, width: 500 }} variant="outlined">

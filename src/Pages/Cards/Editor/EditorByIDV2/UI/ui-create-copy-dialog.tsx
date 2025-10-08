@@ -1,6 +1,6 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
 import {
   Button,
   Dialog,
@@ -9,12 +9,12 @@ import {
   DialogContentText,
   DialogTitle,
   Paper,
-} from "@mui/material";
-import { CESObject } from "../Store/CardEditorStorage";
-import CloseIcon from "@mui/icons-material/Close";
-import AddIcon from "@mui/icons-material/Add";
-import { LoadingButton } from "@mui/lab";
-import { useLocation, useNavigate } from "react-router-dom";
+} from '@mui/material';
+import { CESObject } from '../Store/CardEditorStorage';
+import CloseIcon from '@mui/icons-material/Close';
+import AddIcon from '@mui/icons-material/Add';
+import { LoadingButton } from '@mui/lab';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 type IUICreateCopyDialogProps = PaperProps;
 
@@ -41,7 +41,7 @@ const UICreateCopyDialog = observer(
           open={CESObject.isOpenCopyCardDialog}
           onClose={CESObject.closeCopyCardDialog}
         >
-          <DialogTitle>{"Создать копию?"}</DialogTitle>
+          <DialogTitle>{'Создать копию?'}</DialogTitle>
           <DialogContent>
             <DialogContentText>
               Вы уверены, что хотите создать копию данной карточки? Если вы
@@ -51,7 +51,7 @@ const UICreateCopyDialog = observer(
           </DialogContent>
           <DialogActions>
             <Button
-              color={"error"}
+              color={'error'}
               onClick={CESObject.closeCopyCardDialog}
               startIcon={<CloseIcon />}
             >

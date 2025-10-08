@@ -1,9 +1,9 @@
 import {
   RootState,
   useAppDispatch,
-} from "../../../../../App/ReduxStore/RootStore";
-import { useSelector } from "react-redux";
-import { UserStorage } from "../../../../../Shared/Store/UserStore/UserStore";
+} from '../../../../../App/ReduxStore/RootStore';
+import { useSelector } from 'react-redux';
+import { UserStorage } from '../../../../../Shared/Store/UserStore/UserStore';
 import {
   Box,
   Divider,
@@ -12,9 +12,9 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
-} from "@mui/material";
-import React from "react";
-import { changeAuthorFilter } from "../redux-store/QuestionEditorPageSlice";
+} from '@mui/material';
+import React from 'react';
+import { changeAuthorFilter } from '../redux-store/QuestionEditorPageSlice';
 
 export default function AuthorSelector() {
   const dispatch = useAppDispatch();
@@ -29,7 +29,7 @@ export default function AuthorSelector() {
     dispatch(changeAuthorFilter(event.target.value));
   }
 
-  if (UserStorage.userAccessLevel !== "ADMIN") {
+  if (UserStorage.userAccessLevel !== 'ADMIN') {
     return null;
   }
 
@@ -42,8 +42,8 @@ export default function AuthorSelector() {
         label="Автор"
         onChange={handleChange}
       >
-        <MenuItem value={"my"}>Мои</MenuItem>
-        <MenuItem value={"all"}>Все</MenuItem>
+        <MenuItem value={'my'}>Мои</MenuItem>
+        <MenuItem value={'all'}>Все</MenuItem>
         <Divider />
         {authors?.map((author) => (
           <MenuItem key={author.id} value={String(author.id)}>

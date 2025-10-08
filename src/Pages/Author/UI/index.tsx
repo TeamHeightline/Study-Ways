@@ -1,10 +1,10 @@
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
-import { authorPageStore } from "../Store/store";
-import AuthorNotFound from "./author-not-found";
-import { observer } from "mobx-react";
-import Loading from "./loading";
-import { AuthorPage } from "./author-page";
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { authorPageStore } from '../Store/store';
+import AuthorNotFound from './author-not-found';
+import { observer } from 'mobx-react';
+import Loading from './loading';
+import { AuthorPage } from './author-page';
 
 export const Author = observer(() => {
   const { id } = useParams();

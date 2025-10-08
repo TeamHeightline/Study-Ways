@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Button, Dialog } from "@mui/material";
-import { Sequences } from "../../../../QuestionSequence/Selector/UI/Sequences";
-import { useDispatch, useSelector } from "react-redux";
-import { loadQSData } from "../redux-store/async-actions";
-import { changeExamQSIDForCreate } from "../redux-store/actions";
-import SelectedQSByData from "./ui-seleced-qs-by-data";
-import { RootState } from "../../../../../App/ReduxStore/RootStore";
+import React, { useEffect } from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Button, Dialog } from '@mui/material';
+import { Sequences } from '../../../../QuestionSequence/Selector/UI/Sequences';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadQSData } from '../redux-store/async-actions';
+import { changeExamQSIDForCreate } from '../redux-store/actions';
+import SelectedQSByData from './ui-seleced-qs-by-data';
+import { RootState } from '../../../../../App/ReduxStore/RootStore';
 
 type IUIQuestionSequenceSelectorProps = PaperProps;
 
@@ -44,8 +44,8 @@ export default function UIQuestionSequenceSelector({
   return (
     <>
       <Button
-        variant={"outlined"}
-        color={"primary"}
+        variant={'outlined'}
+        color={'primary'}
         onClick={handleOpen}
         sx={{ mt: 1 }}
       >

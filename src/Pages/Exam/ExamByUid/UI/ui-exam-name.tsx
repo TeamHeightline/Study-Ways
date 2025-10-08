@@ -1,13 +1,13 @@
-import { Paper, Stack, Typography } from "@mui/material";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { useSelector } from "react-redux";
+import { Paper, Stack, Typography } from '@mui/material';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { useSelector } from 'react-redux';
 import {
   RootState,
   useAppDispatch,
-} from "../../../../App/ReduxStore/RootStore";
-import { removeOneMinute } from "../redux-store/ExamPlayerSlice";
-import useInterval from "./ui-use-interval";
-import { isMobileHook } from "../../../../Shared/CustomHooks/isMobileHook";
+} from '../../../../App/ReduxStore/RootStore';
+import { removeOneMinute } from '../redux-store/ExamPlayerSlice';
+import useInterval from './ui-use-interval';
+import { isMobileHook } from '../../../../Shared/CustomHooks/isMobileHook';
 
 type IUIExamNameProps = PaperProps;
 
@@ -24,8 +24,8 @@ export default function UIExamName({ ...props }: IUIExamNameProps) {
 
   return (
     <Paper elevation={0} {...props}>
-      <Stack alignItems={"center"}>
-        <Typography variant={isMobile ? "body1" : "h2"}>{examName}</Typography>
+      <Stack alignItems={'center'}>
+        <Typography variant={isMobile ? 'body1' : 'h2'}>{examName}</Typography>
       </Stack>
     </Paper>
   );

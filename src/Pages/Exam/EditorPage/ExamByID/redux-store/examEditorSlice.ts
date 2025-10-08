@@ -1,14 +1,14 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   loadExamDataThunk,
   loadQSDataThunk,
   updateExamThunk,
-} from "./async-actions";
-import { sequenceDataI } from "../../../../../Shared/ServerLayer/Types/question-sequence.type";
-import CryptoJS from "crypto-js";
+} from './async-actions';
+import { sequenceDataI } from '../../../../../Shared/ServerLayer/Types/question-sequence.type';
+import CryptoJS from 'crypto-js';
 
 const examEditorSlice = createSlice({
-  name: "examEditor",
+  name: 'examEditor',
   initialState: {
     selected_qs_data: null as null | sequenceDataI,
     selected_qs_data_loading: true,
@@ -22,12 +22,12 @@ const examEditorSlice = createSlice({
     update_exam_loading: false,
     update_exam_error: null,
 
-    original_password: "",
+    original_password: '',
   },
   reducers: {
     changeAccessMode: (
       state,
-      action: PayloadAction<IExamData["access_mode"]>,
+      action: PayloadAction<IExamData['access_mode']>,
     ) => {
       if (state.exam_data) {
         state.exam_data.access_mode = action.payload;
@@ -38,7 +38,7 @@ const examEditorSlice = createSlice({
         state.exam_data.name = action.payload;
       }
     },
-    changeExamMinutes: (state, action: PayloadAction<IExamData["minutes"]>) => {
+    changeExamMinutes: (state, action: PayloadAction<IExamData['minutes']>) => {
       if (state.exam_data) {
         state.exam_data.minutes = action.payload;
       }
@@ -54,7 +54,7 @@ const examEditorSlice = createSlice({
     },
     changeHelpTextLevel: (
       state,
-      action: PayloadAction<IExamData["help_text_level"]>,
+      action: PayloadAction<IExamData['help_text_level']>,
     ) => {
       if (state.exam_data) {
         state.exam_data.help_text_level = action.payload;
@@ -68,7 +68,7 @@ const examEditorSlice = createSlice({
     },
     changeMaxQuestionAttempts: (
       state,
-      action: PayloadAction<IExamData["max_question_attempts"]>,
+      action: PayloadAction<IExamData['max_question_attempts']>,
     ) => {
       if (state.exam_data) {
         state.exam_data.max_question_attempts = action.payload;
@@ -123,7 +123,7 @@ const examEditorSlice = createSlice({
       if (action?.payload?.password) {
         state.original_password = CryptoJS.AES.decrypt(
           action.payload.password,
-          "sw-secret-key",
+          'sw-secret-key',
         ).toString(CryptoJS.enc.Utf8);
       }
       state.exam_data_loading = false;
@@ -152,7 +152,7 @@ export interface IExamData {
   name: string;
   start_at: string;
   end_at: string;
-  access_mode: "manual" | "timeInterval" | "open" | "closed" | "password";
+  access_mode: 'manual' | 'timeInterval' | 'open' | 'closed' | 'password';
   uid: string;
   created_by_id: string;
   minutes: number;

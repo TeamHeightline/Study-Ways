@@ -1,5 +1,5 @@
-import { IQuestionWithAnswers } from "../../../../Shared/ServerLayer/Types/question.type";
-import { IStatistic } from "../../../../Shared/ServerLayer/Types/detail-statistic.types";
+import { IQuestionWithAnswers } from '../../../../Shared/ServerLayer/Types/question.type';
+import { IStatistic } from '../../../../Shared/ServerLayer/Types/detail-statistic.types';
 
 export interface IQuestionStatus {
   id: number;
@@ -33,7 +33,7 @@ export const initialState = {
   selected_question_id: null as number | null,
   exam_data: null as IExamData | null,
   selected_question_data: null as IQuestionWithAnswers | null,
-  help_text: "",
+  help_text: '',
   loading_selected_question_data: true,
   selected_answers_id: new Set(),
   max_sum_of_points: 0,
@@ -41,7 +41,7 @@ export const initialState = {
   is_question_completed: false,
   await_statistic_save: false,
   is_statistic_save_error: false,
-  access_password: "",
+  access_password: '',
   is_password_check_passed: false,
   remaining_minutes: 100,
   remaining_attempts: 100,

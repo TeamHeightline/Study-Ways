@@ -1,13 +1,13 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
 import {
   Checkbox,
   FormControlLabel,
   FormHelperText,
   Paper,
-} from "@mui/material";
-import { EditAnswerByIdStore } from "../Store/edit-answer-by-id-store";
+} from '@mui/material';
+import { EditAnswerByIdStore } from '../Store/edit-answer-by-id-store';
 
 interface IAnswerIsRequiredProps extends PaperProps {
   answer_object: EditAnswerByIdStore;

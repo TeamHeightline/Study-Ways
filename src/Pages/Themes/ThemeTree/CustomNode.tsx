@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import Typography from "@mui/material/Typography";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import { Collapse, Stack } from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import Typography from '@mui/material/Typography';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import { Collapse, Stack } from '@mui/material';
 
 export const CustomNode = (props: any) => {
   const [startOpenAnimation, setStartOpenAnimation] = useState(false);
@@ -21,7 +21,7 @@ export const CustomNode = (props: any) => {
   return (
     <Collapse in={props.isOpen || startOpenAnimation}>
       <Stack
-        direction={"row"}
+        direction={'row'}
         onClick={() => props.setSelectedThemeID(props.node.id)}
       >
         {props.node.droppable && (
@@ -33,7 +33,7 @@ export const CustomNode = (props: any) => {
           variant="body1"
           sx={{
             backgroundColor:
-              props.node.id == props.selectedThemeID ? "primary.main" : "",
+              props.node.id == props.selectedThemeID ? 'primary.main' : '',
           }}
         >
           {props.node.text}

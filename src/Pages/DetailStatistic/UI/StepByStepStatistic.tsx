@@ -1,14 +1,14 @@
-import { observer } from "mobx-react";
-import React from "react";
-import TableRow from "@mui/material/TableRow";
-import TableCell from "@mui/material/TableCell";
-import IconButton from "@mui/material/IconButton";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { toJS } from "mobx";
-import { Collapse, Stack, TableBody } from "@mui/material";
-import { DSSObjectType, rowType } from "../Store/DetailStatisticStoreByID";
-import { WrongAnswerByID } from "./WrongAnswerByID";
+import { observer } from 'mobx-react';
+import React from 'react';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
+import IconButton from '@mui/material/IconButton';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { toJS } from 'mobx';
+import { Collapse, Stack, TableBody } from '@mui/material';
+import { DSSObjectType, rowType } from '../Store/DetailStatisticStoreByID';
+import { WrongAnswerByID } from './WrongAnswerByID';
 
 type props = {
   row: rowType;
@@ -64,7 +64,7 @@ export const StepByStepStatistic = observer(
               }}
             >
               <Collapse in={statisticByIDStore.openedSteps.has(aIndex)}>
-                <Stack direction={"row"} overflow={"auto"}>
+                <Stack direction={'row'} overflow={'auto'}>
                   {toJS(
                     row.ArrayForShowWrongAnswers[
                       Number(attempt.numberOfPasses) - 1

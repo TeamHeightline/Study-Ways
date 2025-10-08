@@ -1,4 +1,4 @@
-import { gql } from "graphql.macro";
+import { gql } from 'graphql.macro';
 
 export const one_question_struct = {
   question_id: null, // ID вопроса

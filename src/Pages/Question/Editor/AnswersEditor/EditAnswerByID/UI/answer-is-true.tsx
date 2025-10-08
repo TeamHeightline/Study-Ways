@@ -1,9 +1,9 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { InputLabel, MenuItem, Select } from "@mui/material";
-import FormControl from "@mui/material/FormControl";
-import { EditAnswerByIdStore } from "../Store/edit-answer-by-id-store";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { InputLabel, MenuItem, Select } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import { EditAnswerByIdStore } from '../Store/edit-answer-by-id-store';
 
 interface IAnswerIsTrueProps extends PaperProps {
   answer_object: EditAnswerByIdStore;
@@ -15,7 +15,7 @@ const AnswerIsTrue = observer(
       <InputLabel sx={{ pt: 2 }}>Ответ верный/неверный</InputLabel>
       <Select
         fullWidth
-        variant={"filled"}
+        variant={'filled'}
         value={answer_object.isTrue}
         onChange={answer_object.changeIsTrue}
       >

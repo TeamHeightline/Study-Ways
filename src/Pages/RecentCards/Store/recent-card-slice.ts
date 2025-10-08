@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { loadRecentCardsThunk } from "./async-actions";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { loadRecentCardsThunk } from './async-actions';
 
 const initialState = {
   recent_card_id_array: [] as number[],
@@ -9,7 +9,7 @@ const initialState = {
 };
 
 const recentCardSlice = createSlice({
-  name: "recentCardPage",
+  name: 'recentCardPage',
   initialState,
   reducers: {
     setIsHideDuplicates: (state, action: PayloadAction<boolean>) => {

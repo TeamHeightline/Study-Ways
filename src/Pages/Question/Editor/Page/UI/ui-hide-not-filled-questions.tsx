@@ -1,11 +1,11 @@
-import { Box, Checkbox, FormControlLabel } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import { useSelector } from "react-redux";
+import { Box, Checkbox, FormControlLabel } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import { useSelector } from 'react-redux';
 import {
   RootState,
   useAppDispatch,
-} from "../../../../../App/ReduxStore/RootStore";
-import { changeShowOnlyFilledQuestions } from "../redux-store/QuestionEditorPageSlice";
+} from '../../../../../App/ReduxStore/RootStore';
+import { changeShowOnlyFilledQuestions } from '../redux-store/QuestionEditorPageSlice';
 
 type IHideNotFilledQuestionsProps = BoxProps;
 

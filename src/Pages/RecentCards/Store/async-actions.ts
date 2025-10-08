@@ -1,11 +1,11 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import axiosClient from "../../../Shared/ServerLayer/QueryLayer/config";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import axiosClient from '../../../Shared/ServerLayer/QueryLayer/config';
 
 export const loadRecentCardsThunk = createAsyncThunk(
-  "recentCardPage/loadRecentCards",
+  'recentCardPage/loadRecentCards',
   async (number_of_cards?: number) =>
     axiosClient
-      .get("page/personal-cabinet/my-card-history", {
+      .get('page/personal-cabinet/my-card-history', {
         data: {
           number_of_cards,
         },

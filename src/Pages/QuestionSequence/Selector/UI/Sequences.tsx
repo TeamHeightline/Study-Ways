@@ -1,8 +1,8 @@
-import { observer } from "mobx-react";
-import React from "react";
+import { observer } from 'mobx-react';
+import React from 'react';
 
-import { Card, CardActionArea, Grid, Stack, Typography } from "@mui/material";
-import { SQSObject } from "../Store/SelectQuestionStore";
+import { Card, CardActionArea, Grid, Stack, Typography } from '@mui/material';
+import { SQSObject } from '../Store/SelectQuestionStore';
 
 interface ISequencesProps extends React.HTMLAttributes<HTMLDivElement> {
   onSelectQS: (qs_id: number) => void;
@@ -16,7 +16,7 @@ export const Sequences = observer(
         xs={12}
         sx={{ pt: 2, pl: 6, pr: 2 }}
         rowSpacing={3}
-        justifyContent={"space-evenly"}
+        justifyContent={'space-evenly'}
         columnSpacing={8}
       >
         {SQSObject.sequenceArrayForDisplay?.map((sequence) => (
@@ -41,19 +41,19 @@ export const Sequences = observer(
                 <Typography sx={{ pl: 2 }}>
                   {sequence?.description
                     ? `Описание: ${sequence?.description}`
-                    : "Описание отсутствует"}
+                    : 'Описание отсутствует'}
                 </Typography>
 
                 <Stack
-                  sx={{ pl: 2, pr: 2, mb: 2, pt: 1, overflowY: "auto" }}
+                  sx={{ pl: 2, pr: 2, mb: 2, pt: 1, overflowY: 'auto' }}
                   spacing={2}
-                  direction={"row"}
+                  direction={'row'}
                 >
                   {sequence?.sequenceData?.sequence?.map(
                     (question_id, qIndex) => (
                       <Card
                         sx={{ pl: 1, pr: 1 }}
-                        style={{ borderColor: "#2296F3" }}
+                        style={{ borderColor: '#2296F3' }}
                         variant="outlined"
                         key={`${sequence?.id}SequenceKey${qIndex}QuestionKey`}
                       >

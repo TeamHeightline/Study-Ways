@@ -1,10 +1,10 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Button, Grid } from "@mui/material";
-import editQSStore from "../store/edit-question-sequence-sore";
-import UIQuestionMiniViewByData from "./ui-question-mini-view-by-data";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Button, Grid } from '@mui/material';
+import editQSStore from '../store/edit-question-sequence-sore';
+import UIQuestionMiniViewByData from './ui-question-mini-view-by-data';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type IUiSelectedQuestionsProps = PaperProps;
 
@@ -30,8 +30,8 @@ const UiSelectedQuestions = observer(
                       editQSStore.removeSelectedQuestion(questionIndex)
                     }
                     sx={{ mt: 1 }}
-                    variant={"outlined"}
-                    color={"secondary"}
+                    variant={'outlined'}
+                    color={'secondary'}
                     startIcon={<DeleteIcon />}
                   >
                     Удалить

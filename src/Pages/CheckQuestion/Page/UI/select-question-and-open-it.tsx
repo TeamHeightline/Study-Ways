@@ -1,9 +1,9 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Paper } from "@mui/material";
-import QuestionSelector from "../../../Question/Selector/UI/question-selector";
-import { useLocation, useNavigate } from "react-router-dom";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Paper } from '@mui/material';
+import QuestionSelector from '../../../Question/Selector/UI/question-selector';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 type ISelectQuestionAndOpenItProps = PaperProps;
 

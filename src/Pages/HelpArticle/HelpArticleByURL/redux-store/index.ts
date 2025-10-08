@@ -1,9 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { getArticles } from "./async-actions";
-import { IHelpArticle } from "./types";
+import { createSlice } from '@reduxjs/toolkit';
+import { getArticles } from './async-actions';
+import { IHelpArticle } from './types';
 
 const helpArticleByURLSlice = createSlice({
-  name: "articleByURL",
+  name: 'articleByURL',
   initialState: {
     articles: [] as IHelpArticle[],
   },

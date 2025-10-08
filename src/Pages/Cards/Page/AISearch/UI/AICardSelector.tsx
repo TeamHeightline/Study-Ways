@@ -1,9 +1,9 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { AISObject } from "../Store/AISearch";
-import { MicoCardsField } from "./MicroCardField";
-import { AISearchString } from "./AISearchString";
-import { Box } from "@mui/material";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { AISObject } from '../Store/AISearch';
+import { MicoCardsField } from './MicroCardField';
+import { AISearchString } from './AISearchString';
+import { Box } from '@mui/material';
 
 interface IAIHomePageProps extends React.HTMLAttributes<HTMLDivElement> {
   onCardSelect: (card_id: number) => void;

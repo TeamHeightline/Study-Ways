@@ -1,8 +1,8 @@
-import { Box, CircularProgress, Stack, Typography } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import axiosClient from "../../../../Shared/ServerLayer/QueryLayer/config";
-import { useEffect, useState } from "react";
+import { Box, CircularProgress, Stack, Typography } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import axiosClient from '../../../../Shared/ServerLayer/QueryLayer/config';
+import { useEffect, useState } from 'react';
 
 interface ICardViewsProps extends BoxProps {
   card_id?: number;
@@ -29,7 +29,7 @@ export default function CardViews({ card_id, ...props }: ICardViewsProps) {
 
   return (
     <Box {...props}>
-      <Stack direction={"row"} spacing={1} alignItems={"center"}>
+      <Stack direction={'row'} spacing={1} alignItems={'center'}>
         <VisibilityIcon />
         <Typography>{views}</Typography>
       </Stack>

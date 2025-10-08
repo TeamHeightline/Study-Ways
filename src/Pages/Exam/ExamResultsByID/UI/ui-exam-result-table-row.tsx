@@ -1,12 +1,12 @@
-import { TableCell, TableRow } from "@mui/material";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import IconButton from "@mui/material/IconButton";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import React from "react";
-import { IExamResult } from "../../../../Shared/ServerLayer/Types/exam.types";
-import UIExamEachAttemptTable from "./ui-exam-each-attempt-table";
-import BlockIcon from "@mui/icons-material/Block";
+import { TableCell, TableRow } from '@mui/material';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import IconButton from '@mui/material/IconButton';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import React from 'react';
+import { IExamResult } from '../../../../Shared/ServerLayer/Types/exam.types';
+import UIExamEachAttemptTable from './ui-exam-each-attempt-table';
+import BlockIcon from '@mui/icons-material/Block';
 
 interface IUIExamResultTableRowProps extends PaperProps {
   exam_result: IExamResult;
@@ -29,7 +29,7 @@ export default function UIExamResultTableRow({
         <TableCell>
           <IconButton
             size="small"
-            color={"error"}
+            color={'error'}
             onClick={() => setIsOpen(!isOpen)}
           >
             <BlockIcon />
@@ -37,7 +37,7 @@ export default function UIExamResultTableRow({
         </TableCell>
         <TableCell>{exam_result?.users_customuser?.username}</TableCell>
         <TableCell>
-          {exam_result?.users_customuser?.users_userprofile?.group || ""}
+          {exam_result?.users_customuser?.users_userprofile?.group || ''}
         </TableCell>
         <TableCell>
           {`${exam_result?.users_customuser?.users_userprofile?.firstname} `}

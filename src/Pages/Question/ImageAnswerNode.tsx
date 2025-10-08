@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import Card from "@mui/material/Card";
-import { CardActionArea } from "@mui/material";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import axios from "axios";
-import { SERVER_BASE_URL } from "../../settings";
+import React, { useEffect, useState } from 'react';
+import Card from '@mui/material/Card';
+import { CardActionArea } from '@mui/material';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import axios from 'axios';
+import { SERVER_BASE_URL } from '../../settings';
 
 export default function ImageAnswerNode(props: any) {
-  const [answerImgUrl, setAnswerImgUrl] = useState("");
+  const [answerImgUrl, setAnswerImgUrl] = useState('');
   const [urlHasBeenPassed, setUrlHasBeenPassed] = useState(false);
   const [isSelected, changeIsSelected] = useState(false);
   const fetchData = async () => {
@@ -27,10 +27,10 @@ export default function ImageAnswerNode(props: any) {
   }, [props.answerIndex]);
   let borderColor =
     props?.selected && props?.selected?.indexOf(props?.answer?.id) !== -1
-      ? "#71c3ef"
-      : "";
+      ? '#71c3ef'
+      : '';
   if (props.borderIsTrueStrategy) {
-    borderColor = props.answer.isTrue ? "#2196f3" : "#f50057";
+    borderColor = props.answer.isTrue ? '#2196f3' : '#f50057';
   }
 
   return (
@@ -39,7 +39,7 @@ export default function ImageAnswerNode(props: any) {
       <Card
         variant="outlined"
         sx={{
-          display: "flex",
+          display: 'flex',
           width: 385,
           height: 400,
           backgroundColor: borderColor,

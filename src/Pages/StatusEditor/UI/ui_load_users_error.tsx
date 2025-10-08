@@ -1,7 +1,7 @@
-import { Alert, Box } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import { RootState } from "../../../App/ReduxStore/RootStore";
-import { useSelector } from "react-redux";
+import { Alert, Box } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import { RootState } from '../../../App/ReduxStore/RootStore';
+import { useSelector } from 'react-redux';
 
 type IUILoadUsersFailProps = BoxProps;
 
@@ -12,7 +12,7 @@ export default function UILoadUsersFail({ ...props }: IUILoadUsersFailProps) {
   return (
     <Box {...props}>
       {is_users_loading_error && (
-        <Alert severity={"error"}>Ошибка загрузки пользователей</Alert>
+        <Alert severity={'error'}>Ошибка загрузки пользователей</Alert>
       )}
     </Box>
   );

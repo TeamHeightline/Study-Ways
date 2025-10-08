@@ -1,9 +1,9 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { InputLabel, MenuItem, Select } from "@mui/material";
-import FormControl from "@mui/material/FormControl";
-import { EditAnswerByIdStore } from "../Store/edit-answer-by-id-store";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { InputLabel, MenuItem, Select } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import { EditAnswerByIdStore } from '../Store/edit-answer-by-id-store';
 
 interface IAnswerHardLevelProps extends PaperProps {
   answer_object: EditAnswerByIdStore;
@@ -14,8 +14,8 @@ const AnswerHardLevel = observer(
     <FormControl fullWidth>
       <InputLabel>Сложность ответа</InputLabel>
       <Select
-        value={answer_object.getField("hardLevelOfAnswer")}
-        onChange={answer_object.changeField("hardLevelOfAnswer")}
+        value={answer_object.getField('hardLevelOfAnswer')}
+        onChange={answer_object.changeField('hardLevelOfAnswer')}
       >
         <MenuItem value="EASY">Очевидный</MenuItem>
         <MenuItem value="MEDIUM">Нормальный</MenuItem>

@@ -1,17 +1,17 @@
-import React, { Suspense } from "react";
-import { Alert, Box, CircularProgress, Grid } from "@mui/material";
-import AlertTitle from "@mui/material/AlertTitle";
-import { observer } from "mobx-react";
-import { Route, Routes } from "react-router-dom";
-import { isMobileHook } from "../../../Shared/CustomHooks/isMobileHook";
-import RouterMenu from "./router-menu";
-import haveStatus from "../../../Shared/Store/UserStore/utils/HaveStatus";
-import { privateRoutes } from "./routes";
+import React, { Suspense } from 'react';
+import { Alert, Box, CircularProgress, Grid } from '@mui/material';
+import AlertTitle from '@mui/material/AlertTitle';
+import { observer } from 'mobx-react';
+import { Route, Routes } from 'react-router-dom';
+import { isMobileHook } from '../../../Shared/CustomHooks/isMobileHook';
+import RouterMenu from './router-menu';
+import haveStatus from '../../../Shared/Store/UserStore/utils/HaveStatus';
+import { privateRoutes } from './routes';
 
 export const EditorsRouter = observer(() => {
   const isMobile = isMobileHook();
 
-  if (!haveStatus(["ADMIN", "TEACHER", "CARD_EDITOR"])) {
+  if (!haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR'])) {
     return (
       <Alert severity="error">
         <AlertTitle>Доступ ограничен</AlertTitle>
@@ -33,7 +33,7 @@ export const EditorsRouter = observer(() => {
                 element={
                   <Suspense
                     fallback={
-                      <Grid container justifyContent={"center"} sx={{ pt: 4 }}>
+                      <Grid container justifyContent={'center'} sx={{ pt: 4 }}>
                         <CircularProgress />
                       </Grid>
                     }

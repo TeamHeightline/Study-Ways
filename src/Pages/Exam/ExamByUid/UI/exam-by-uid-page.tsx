@@ -1,21 +1,21 @@
-import { Alert, CircularProgress, Paper, Stack } from "@mui/material";
-import { useEffect } from "react";
+import { Alert, CircularProgress, Paper, Stack } from '@mui/material';
+import { useEffect } from 'react';
 import {
   loadExamDataThunk,
   openExamPageThunk,
-} from "../redux-store/AsyncActions";
-import UIExamName from "./ui-exam-name";
-import UIExamQuestionProgress from "./mini-question-selector/ui-exam-questions-progress";
-import QuestionPlayer from "./question-player/question-player";
-import { isMobileHook } from "../../../../Shared/CustomHooks/isMobileHook";
-import { UserStorage } from "../../../../Shared/Store/UserStore/UserStore";
+} from '../redux-store/AsyncActions';
+import UIExamName from './ui-exam-name';
+import UIExamQuestionProgress from './mini-question-selector/ui-exam-questions-progress';
+import QuestionPlayer from './question-player/question-player';
+import { isMobileHook } from '../../../../Shared/CustomHooks/isMobileHook';
+import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../../../App/ReduxStore/RootStore";
-import { useParams } from "react-router-dom";
-import { observer } from "mobx-react";
-import UIAccessPassword from "./ui-access-password";
+} from '../../../../App/ReduxStore/RootStore';
+import { useParams } from 'react-router-dom';
+import { observer } from 'mobx-react';
+import UIAccessPassword from './ui-access-password';
 
 const ExamByUIDPge = observer(({ ...props }) => {
   const isMobile = isMobileHook();
@@ -51,12 +51,12 @@ const ExamByUIDPge = observer(({ ...props }) => {
     );
   }
   if (remaining_minutes < 0) {
-    return <Alert severity={"error"}>Время экзамена закончилось</Alert>;
+    return <Alert severity={'error'}>Время экзамена закончилось</Alert>;
   }
 
-  if (access_mode === "closed") {
+  if (access_mode === 'closed') {
     return (
-      <Alert severity={"info"}>
+      <Alert severity={'info'}>
         Преподаватель еще не открыл доступ для этого экзамена, для новой попытки
         входа обновите страницу
       </Alert>

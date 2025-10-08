@@ -1,10 +1,10 @@
-import { QuestionEditorStorage } from "../Store/QuestionEditorStorage";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Routes from "@mui/material/Switch";
-import { Collapse } from "@mui/material";
-import UiQuestionData from "../../../QuestionByID/UI/ui-question-data";
-import React from "react";
-import { observer } from "mobx-react";
+import { QuestionEditorStorage } from '../Store/QuestionEditorStorage';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Routes from '@mui/material/Switch';
+import { Collapse } from '@mui/material';
+import UiQuestionData from '../../../QuestionByID/UI/ui-question-data';
+import React from 'react';
+import { observer } from 'mobx-react';
 
 export const UiQuestionPreview = observer(() => (
   <>

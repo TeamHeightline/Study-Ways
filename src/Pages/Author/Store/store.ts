@@ -1,6 +1,6 @@
-import { makeAutoObservable, reaction, toJS } from "mobx";
-import axiosClient from "../../../Shared/ServerLayer/QueryLayer/config";
-import { AuthorData } from "./types";
+import { makeAutoObservable, reaction, toJS } from 'mobx';
+import axiosClient from '../../../Shared/ServerLayer/QueryLayer/config';
+import { AuthorData } from './types';
 
 class AuthorPageStore {
   constructor() {

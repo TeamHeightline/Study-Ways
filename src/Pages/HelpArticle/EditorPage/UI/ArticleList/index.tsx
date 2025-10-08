@@ -8,18 +8,18 @@ import {
   Typography,
   Divider,
   IconButton,
-} from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
+} from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../../../../App/ReduxStore/RootStore";
-import LinkIcon from "@mui/icons-material/Link";
-import { IHelpArticle } from "../../../HelpArticleByURL/redux-store/types";
-import { openEditDialog } from "../../redux-store";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { deleteHelpArticle } from "../../redux-store/async-actions";
-import { getArticles } from "../../../HelpArticleByURL/redux-store/async-actions";
+} from '../../../../../App/ReduxStore/RootStore';
+import LinkIcon from '@mui/icons-material/Link';
+import { IHelpArticle } from '../../../HelpArticleByURL/redux-store/types';
+import { openEditDialog } from '../../redux-store';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { deleteHelpArticle } from '../../redux-store/async-actions';
+import { getArticles } from '../../../HelpArticleByURL/redux-store/async-actions';
 
 type IHelpArticleListProps = BoxProps;
 
@@ -40,7 +40,7 @@ export default function HelpArticleList({ ...props }: IHelpArticleListProps) {
 
   return (
     <Box {...props}>
-      <Box sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+      <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
         <List>
           {articles.map((article, index) => {
             const isLast = index === articles.length - 1;
@@ -63,9 +63,9 @@ export default function HelpArticleList({ ...props }: IHelpArticleListProps) {
                       primary={article.title}
                       secondary={
                         <Stack
-                          alignItems={"center"}
+                          alignItems={'center'}
                           spacing={1}
-                          direction={"row"}
+                          direction={'row'}
                         >
                           <LinkIcon />
                           <Typography>{article.url}</Typography>

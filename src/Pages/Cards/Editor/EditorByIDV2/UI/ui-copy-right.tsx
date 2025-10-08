@@ -1,14 +1,14 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { Collapse, InputAdornment, TextField } from "@mui/material";
-import CopyrightIcon from "@mui/icons-material/Copyright";
-import { CESObject } from "../Store/CardEditorStorage";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { Collapse, InputAdornment, TextField } from '@mui/material';
+import CopyrightIcon from '@mui/icons-material/Copyright';
+import { CESObject } from '../Store/CardEditorStorage';
 
 type ICopyRightProps = React.HTMLAttributes<HTMLDivElement>;
 
 export const UiCopyRight = observer(({ ...props }: ICopyRightProps) => (
   <div {...props}>
-    <Collapse in={CESObject.getField("is_card_use_copyright", false)}>
+    <Collapse in={CESObject.getField('is_card_use_copyright', false)}>
       <TextField
         variant="outlined"
         label="Авторские права принадлежат: "
@@ -21,8 +21,8 @@ export const UiCopyRight = observer(({ ...props }: ICopyRightProps) => (
             </InputAdornment>
           ),
         }}
-        value={CESObject.getField("copyright", "")}
-        onChange={CESObject.changeField("copyright")}
+        value={CESObject.getField('copyright', '')}
+        onChange={CESObject.changeField('copyright')}
       />
     </Collapse>
   </div>

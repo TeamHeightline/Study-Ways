@@ -1,9 +1,9 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Dialog, Paper } from "@mui/material";
-import editQSStore from "../store/edit-question-sequence-sore";
-import CheckQuestionByID from "../../../../CheckQuestion/CheckQuestionByID/UI/check-question-by-id";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Dialog, Paper } from '@mui/material';
+import editQSStore from '../store/edit-question-sequence-sore';
+import CheckQuestionByID from '../../../../CheckQuestion/CheckQuestionByID/UI/check-question-by-id';
 
 type IUICheckQuestionProps = PaperProps;
 
@@ -13,7 +13,7 @@ const UICheckQuestion = observer(({ ...props }: IUICheckQuestionProps) => (
       open={editQSStore.checkQuestionID != null}
       onClose={() => (editQSStore.checkQuestionID = null)}
       fullWidth={true}
-      maxWidth={"lg"}
+      maxWidth={'lg'}
     >
       {editQSStore.checkQuestionID && (
         <CheckQuestionByID question_id={editQSStore.checkQuestionID} />

@@ -1,20 +1,20 @@
-import { Box, Grid } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import React, { useEffect } from "react";
+import { Box, Grid } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import React, { useEffect } from 'react';
 import {
   RootState,
   useAppDispatch,
-} from "../../../../App/ReduxStore/RootStore";
-import { useSelector } from "react-redux";
-import CourseByData from "./CourseByData";
-import { Helmet } from "react-helmet";
-import { loadCourseDataThunk } from "../redux-store/async-functions";
-import { useNavigate } from "react-router-dom";
-import UISearch from "./ui-search";
+} from '../../../../App/ReduxStore/RootStore';
+import { useSelector } from 'react-redux';
+import CourseByData from './CourseByData';
+import { Helmet } from 'react-helmet';
+import { loadCourseDataThunk } from '../redux-store/async-functions';
+import { useNavigate } from 'react-router-dom';
+import UISearch from './ui-search';
 
 type ICoursePageProps = BoxProps;
 
-export const DEFAULT_COURSE_TITLE = "Название курса по умолчанию";
+export const DEFAULT_COURSE_TITLE = 'Название курса по умолчанию';
 
 export default function CoursePage({ ...props }: ICoursePageProps) {
   const dispatch = useAppDispatch();
@@ -33,7 +33,7 @@ export default function CoursePage({ ...props }: ICoursePageProps) {
   );
 
   return (
-    <Box {...props} sx={{ overflow: "auto" }}>
+    <Box {...props} sx={{ overflow: 'auto' }}>
       <Helmet>
         <title>Курсы</title>
       </Helmet>
@@ -41,7 +41,7 @@ export default function CoursePage({ ...props }: ICoursePageProps) {
       <Grid
         container
         sx={{ pt: 2 }}
-        justifyContent={"center"}
+        justifyContent={'center'}
         spacing={2}
         rowSpacing={2}
       >
@@ -50,9 +50,9 @@ export default function CoursePage({ ...props }: ICoursePageProps) {
             <CourseByData
               courseData={course_data}
               onChangePosition={(position) => {
-                if (location.pathname === "/course") {
+                if (location.pathname === '/course') {
                   navigate(
-                    "/course?" +
+                    '/course?' +
                       `id=${course_data.id}&activePage=${
                         position.activePage
                       }&selectedPage=${position.activePage}&selectedRow=${
@@ -62,7 +62,7 @@ export default function CoursePage({ ...props }: ICoursePageProps) {
                   );
                 } else {
                   navigate(
-                    "/course?" +
+                    '/course?' +
                       `id=${course_data.id}&activePage=${
                         position.activePage
                       }&selectedPage=${position.activePage}&selectedRow=${

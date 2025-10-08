@@ -1,6 +1,6 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
 import {
   Badge,
   Box,
@@ -11,18 +11,18 @@ import {
   MenuItem,
   Popover,
   Tooltip,
-} from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import EditIcon from "@mui/icons-material/Edit";
-import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
-import MenuIcon from "@mui/icons-material/Menu";
-import haveStatus from "../../../Shared/Store/UserStore/utils/HaveStatus";
-import HomeIcon from "@mui/icons-material/Home";
-import AppsIcon from "@mui/icons-material/Apps";
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import { UserStorage } from "../../../Shared/Store/UserStore/UserStore";
-import { isMobileHook } from "../../../Shared/CustomHooks/isMobileHook";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import EditIcon from '@mui/icons-material/Edit';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import MenuIcon from '@mui/icons-material/Menu';
+import haveStatus from '../../../Shared/Store/UserStore/utils/HaveStatus';
+import HomeIcon from '@mui/icons-material/Home';
+import AppsIcon from '@mui/icons-material/Apps';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
+import { isMobileHook } from '../../../Shared/CustomHooks/isMobileHook';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 type INavbarMenuProps = PaperProps;
 
@@ -43,7 +43,7 @@ const PagesMenu = observer(({ ...props }: INavbarMenuProps) => {
     <>
       <Button
         startIcon={<MenuIcon />}
-        sx={{ color: "white" }}
+        sx={{ color: 'white' }}
         onClick={handleMenu}
       >
         Меню
@@ -53,15 +53,15 @@ const PagesMenu = observer(({ ...props }: INavbarMenuProps) => {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
+          vertical: 'bottom',
+          horizontal: 'left',
         }}
       >
         <Box sx={{ py: 1 }}>
           <MenuItem
             onClick={() => {
               handleClose();
-              navigate("/courses");
+              navigate('/courses');
             }}
           >
             <ListItemIcon>
@@ -73,7 +73,7 @@ const PagesMenu = observer(({ ...props }: INavbarMenuProps) => {
           <MenuItem
             onClick={() => {
               handleClose();
-              navigate("/ai-course");
+              navigate('/ai-course');
             }}
           >
             <ListItemIcon>
@@ -85,7 +85,7 @@ const PagesMenu = observer(({ ...props }: INavbarMenuProps) => {
           <MenuItem
             onClick={() => {
               handleClose();
-              navigate("/cards");
+              navigate('/cards');
             }}
           >
             <ListItemIcon>
@@ -97,7 +97,7 @@ const PagesMenu = observer(({ ...props }: INavbarMenuProps) => {
           <MenuItem
             onClick={() => {
               handleClose();
-              navigate("/all-questions");
+              navigate('/all-questions');
             }}
           >
             <ListItemIcon>
@@ -105,18 +105,18 @@ const PagesMenu = observer(({ ...props }: INavbarMenuProps) => {
             </ListItemIcon>
             <Badge
               color="secondary"
-              badgeContent={"new"}
-              invisible={haveStatus(["ADMIN", "TEACHER", ", CARD_EDITOR"])}
+              badgeContent={'new'}
+              invisible={haveStatus(['ADMIN', 'TEACHER', ', CARD_EDITOR'])}
             >
               Тесты
             </Badge>
           </MenuItem>
           <Divider />
           <MenuItem
-            disabled={!haveStatus(["ADMIN", "TEACHER", "CARD_EDITOR"])}
+            disabled={!haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR'])}
             onClick={() => {
               handleClose();
-              navigate("/editor");
+              navigate('/editor');
             }}
           >
             <ListItemIcon>

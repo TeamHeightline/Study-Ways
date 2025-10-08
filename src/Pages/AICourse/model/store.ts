@@ -1,17 +1,17 @@
-import { makeAutoObservable, toJS } from "mobx";
-import { getCardsBySearch, getNextCards } from "./api";
-import { Edge, Node } from "@xyflow/react/dist/esm/types";
-import { generateInitialNodes } from "../utils/generateInitialNodes";
-import { generateNextNodes } from "../utils/generateNextNodes";
-import { generateEdgesForNextNodes } from "../utils/generateEdgesForNextNodes";
-import { getLayoutedElements } from "../utils/getLayoutElements";
+import { makeAutoObservable, toJS } from 'mobx';
+import { getCardsBySearch, getNextCards } from './api';
+import { Edge, Node } from '@xyflow/react/dist/esm/types';
+import { generateInitialNodes } from '../utils/generateInitialNodes';
+import { generateNextNodes } from '../utils/generateNextNodes';
+import { generateEdgesForNextNodes } from '../utils/generateEdgesForNextNodes';
+import { getLayoutedElements } from '../utils/getLayoutElements';
 
 class Store {
   constructor() {
     makeAutoObservable(this);
   }
 
-  searchString = "";
+  searchString = '';
   defaultCardIDs: number[] = [];
 
   nodes: Node[] = [];
@@ -78,7 +78,7 @@ class Store {
     const { nodes, edges } = getLayoutedElements(
       toJS(this.nodes),
       toJS(this.edges),
-      { direction: "LR" },
+      { direction: 'LR' },
     );
     this.nodes = nodes;
     this.edges = edges;

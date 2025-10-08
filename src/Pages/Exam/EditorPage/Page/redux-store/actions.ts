@@ -1,4 +1,4 @@
-import { action } from "typesafe-actions";
+import { action } from 'typesafe-actions';
 import {
   CHANGE_EXAM_NAME_FOR_CREATE,
   CHANGE_EXAM_QS_ID_FOR_CREATE,
@@ -13,8 +13,8 @@ import {
   LOAD_QS_DATA_SUCCESS,
   START_LOADING_MY_EXAMS,
   START_LOADING_QS_DATA,
-} from "./action-types";
-import { IExamDataWithQSData } from "../../../../../Shared/ServerLayer/Types/exam.types";
+} from './action-types';
+import { IExamDataWithQSData } from '../../../../../Shared/ServerLayer/Types/exam.types';
 
 export const startLoadingMyExam = () => action(START_LOADING_MY_EXAMS);
 export const loadMyExamsSuccess = (exams: IExamDataWithQSData[]) =>

@@ -1,10 +1,10 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Button, Paper } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useNavigate } from "react-router-dom";
-import { isMobileHook } from "../../../../Shared/CustomHooks/isMobileHook";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Button, Paper } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from 'react-router-dom';
+import { isMobileHook } from '../../../../Shared/CustomHooks/isMobileHook';
 
 type IGoBackButtonProps = PaperProps;
 
@@ -14,7 +14,7 @@ const GoBackButton = observer(({ ...props }: IGoBackButtonProps) => {
   return (
     <Paper elevation={0} {...props}>
       <Button
-        sx={{ minWidth: isMobile ? "" : 300 }}
+        sx={{ minWidth: isMobile ? '' : 300 }}
         fullWidth={isMobile}
         startIcon={<ArrowBackIcon />}
         variant="outlined"

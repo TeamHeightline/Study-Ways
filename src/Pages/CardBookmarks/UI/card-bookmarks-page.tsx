@@ -1,14 +1,14 @@
-import { Box, CircularProgress, Grid, Stack, Typography } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import { UserStorage } from "../../../Shared/Store/UserStore/UserStore";
-import { useEffect } from "react";
-import { loadCardBookmarks } from "../Store/async-actions";
+import { Box, CircularProgress, Grid, Stack, Typography } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
+import { useEffect } from 'react';
+import { loadCardBookmarks } from '../Store/async-actions';
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../../App/ReduxStore/RootStore";
-import CardMicroView from "../../Cards/CardMicroView";
-import { useNavigate } from "react-router-dom";
+} from '../../../App/ReduxStore/RootStore';
+import CardMicroView from '../../Cards/CardMicroView';
+import { useNavigate } from 'react-router-dom';
 
 type ICardBookmarksPageProps = BoxProps;
 
@@ -37,7 +37,7 @@ export default function CardBookmarksPage({
 
   if (is_loading_card_bookmarks) {
     return (
-      <Stack alignItems={"center"}>
+      <Stack alignItems={'center'}>
         <CircularProgress />
       </Stack>
     );
@@ -45,8 +45,8 @@ export default function CardBookmarksPage({
 
   return (
     <Box {...props} sx={{ p: 2 }}>
-      <Stack alignItems={"center"}>
-        <Typography variant={"h3"} sx={{ mt: 3 }}>
+      <Stack alignItems={'center'}>
+        <Typography variant={'h3'} sx={{ mt: 3 }}>
           Карточки, добавленные в закладки
         </Typography>
       </Stack>

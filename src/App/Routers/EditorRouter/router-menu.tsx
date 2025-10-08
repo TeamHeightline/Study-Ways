@@ -1,6 +1,6 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
 import {
   Box,
   Button,
@@ -9,25 +9,25 @@ import {
   Paper,
   Tooltip,
   Typography,
-} from "@mui/material";
-import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import Divider from "@mui/material/Divider";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import MenuIcon from "@mui/icons-material/Menu";
-import { useNavigate } from "react-router-dom";
-import { isMobileHook } from "../../../Shared/CustomHooks/isMobileHook";
-import { privateRoutes } from "./routes";
-import haveStatus from "../../../Shared/Store/UserStore/utils/HaveStatus";
+} from '@mui/material';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import Divider from '@mui/material/Divider';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import MenuIcon from '@mui/icons-material/Menu';
+import { useNavigate } from 'react-router-dom';
+import { isMobileHook } from '../../../Shared/CustomHooks/isMobileHook';
+import { privateRoutes } from './routes';
+import haveStatus from '../../../Shared/Store/UserStore/utils/HaveStatus';
 
 type IRouterMenuProps = PaperProps;
 
-const EDITOR_URL_PREFIX = "/editor/";
+const EDITOR_URL_PREFIX = '/editor/';
 const RouterMenu = observer(({ ...props }: IRouterMenuProps) => {
   const navigate = useNavigate();
   const [isOpen, setOpen] = React.useState(false);
@@ -40,16 +40,16 @@ const RouterMenu = observer(({ ...props }: IRouterMenuProps) => {
   return (
     <Paper elevation={0} {...props}>
       <Drawer
-        variant={"permanent"}
+        variant={'permanent'}
         open={isOpen}
         onClose={() => setOpen(!isOpen)}
       >
         <Box
           sx={(theme) => ({
-            pt: "50px",
+            pt: '50px',
             width: isOpen ? 250 : isMobile ? 0 : 85,
-            overflowX: "hidden",
-            transition: theme.transitions.create("width", {
+            overflowX: 'hidden',
+            transition: theme.transitions.create('width', {
               easing: theme.transitions.easing.sharp,
               duration: theme.transitions.duration.leavingScreen,
             }),
@@ -82,7 +82,7 @@ const RouterMenu = observer(({ ...props }: IRouterMenuProps) => {
                     >
                       <ListItemButton>
                         <ListItemIcon>{route.icon}</ListItemIcon>
-                        <ListItemText primary={isOpen ? route.title : ""} />
+                        <ListItemText primary={isOpen ? route.title : ''} />
                       </ListItemButton>
                     </ListItem>
                   </Tooltip>

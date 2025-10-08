@@ -4,11 +4,11 @@ import {
   TableRow,
   Tooltip,
   Typography,
-} from "@mui/material";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { useSelector } from "react-redux";
-import React from "react";
-import { RootState } from "../../../../App/ReduxStore/RootStore";
+} from '@mui/material';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { useSelector } from 'react-redux';
+import React from 'react';
+import { RootState } from '../../../../App/ReduxStore/RootStore';
 
 type IUIExamsTableHeadProps = PaperProps;
 
@@ -28,7 +28,7 @@ export default function UiExamTableHead({ ...props }: IUIExamsTableHeadProps) {
         {examResults &&
           examResults[0]?.question_statuses?.map((question_status) => (
             <TableCell key={question_status.question_id}>
-              <Tooltip title={question_status?.usertests_question?.text || ""}>
+              <Tooltip title={question_status?.usertests_question?.text || ''}>
                 <Typography>Вопрос №{question_status.question_id}</Typography>
               </Tooltip>
             </TableCell>

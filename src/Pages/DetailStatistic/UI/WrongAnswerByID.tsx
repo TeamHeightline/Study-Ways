@@ -1,13 +1,13 @@
-import { observer } from "mobx-react";
-import React, { useEffect, useState } from "react";
-import { useQuery } from "@apollo/client";
-import { GET_WRONG_ANSWERS } from "../Store/Query";
-import { Card, Grow, Typography } from "@mui/material";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import { Query } from "../../../SchemaTypes";
-import { SERVER_BASE_URL } from "../../../settings";
-import Paper from "@mui/material/Paper";
+import { observer } from 'mobx-react';
+import React, { useEffect, useState } from 'react';
+import { useQuery } from '@apollo/client';
+import { GET_WRONG_ANSWERS } from '../Store/Query';
+import { Card, Grow, Typography } from '@mui/material';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import { Query } from '../../../SchemaTypes';
+import { SERVER_BASE_URL } from '../../../settings';
+import Paper from '@mui/material/Paper';
 
 interface IWrongAnswerByIDProps extends React.HTMLAttributes<HTMLDivElement> {
   answer_id: string | number;
@@ -50,8 +50,8 @@ export const WrongAnswerByID = observer(
             sx={{ width: 385, height: 400 }}
             style={{
               borderColor: answer_data?.answerById?.isTrue
-                ? "#2296F3"
-                : "#f50057",
+                ? '#2296F3'
+                : '#f50057',
             }}
           >
             {answerImageUrl && (

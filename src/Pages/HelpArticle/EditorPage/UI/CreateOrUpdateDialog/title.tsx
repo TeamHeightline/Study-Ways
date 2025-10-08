@@ -1,11 +1,11 @@
-import { Box, Stack, TextField } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
+import { Box, Stack, TextField } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../../../../App/ReduxStore/RootStore";
-import { changeCreateArticleData } from "../../redux-store";
-import TitleIcon from "@mui/icons-material/Title";
+} from '../../../../../App/ReduxStore/RootStore';
+import { changeCreateArticleData } from '../../redux-store';
+import TitleIcon from '@mui/icons-material/Title';
 
 type ITitleProps = BoxProps;
 
@@ -16,10 +16,10 @@ export default function Title({ ...props }: ITitleProps) {
   const dispatch = useAppDispatch();
 
   function handleChange(e) {
-    const value = e.target.value || "";
+    const value = e.target.value || '';
     dispatch(
       changeCreateArticleData({
-        field: "title",
+        field: 'title',
         value,
       }),
     );
@@ -27,15 +27,15 @@ export default function Title({ ...props }: ITitleProps) {
 
   return (
     <Box {...props}>
-      <Stack direction={"row"} sx={{ mt: 1 }} spacing={1} alignItems={"center"}>
+      <Stack direction={'row'} sx={{ mt: 1 }} spacing={1} alignItems={'center'}>
         <TitleIcon fontSize="large" />
 
         <TextField
           value={title}
           onChange={handleChange}
-          variant={"outlined"}
+          variant={'outlined'}
           sx={{ width: 550 }}
-          label={"Заголовок справки"}
+          label={'Заголовок справки'}
         ></TextField>
       </Stack>
     </Box>

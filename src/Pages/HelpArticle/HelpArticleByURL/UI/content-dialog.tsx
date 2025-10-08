@@ -1,9 +1,9 @@
-import { Box, Dialog, DialogContent, DialogTitle } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import { IHelpArticle } from "../redux-store/types";
-import ReactPlayer from "react-player";
-import React from "react";
-import { isMobileHook } from "../../../../Shared/CustomHooks/isMobileHook";
+import { Box, Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import { IHelpArticle } from '../redux-store/types';
+import ReactPlayer from 'react-player';
+import React from 'react';
+import { isMobileHook } from '../../../../Shared/CustomHooks/isMobileHook';
 
 interface IContentDialogProps extends BoxProps {
   isOpen: boolean;
@@ -20,7 +20,7 @@ export default function ContentDialog({
   const isMobile = isMobileHook();
   return (
     <Box {...props}>
-      <Dialog open={isOpen} onClose={onClose} fullWidth maxWidth={"md"}>
+      <Dialog open={isOpen} onClose={onClose} fullWidth maxWidth={'md'}>
         <DialogTitle>{article.title}</DialogTitle>
         <DialogContent>
           {article?.video_url && (

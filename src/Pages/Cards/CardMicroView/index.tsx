@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import React, { useState } from 'react';
+import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import {
   Box,
   CardActionArea,
@@ -10,22 +10,22 @@ import {
   Skeleton,
   Stack,
   Tooltip,
-} from "@mui/material";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-import HttpIcon from "@mui/icons-material/Http";
-import ImageIcon from "@mui/icons-material/Image";
-import ScienceIcon from "@mui/icons-material/Science";
-import SchoolIcon from "@mui/icons-material/School";
-import BiotechIcon from "@mui/icons-material/Biotech";
-import ArchitectureIcon from "@mui/icons-material/Architecture";
-import FunctionsIcon from "@mui/icons-material/Functions";
-import urlParser from "js-video-url-parser";
-import "js-video-url-parser/lib/provider/youtube";
-import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import ReactPlayer from "react-player";
-import { useAppSelector } from "../../../App/ReduxStore/RootStore";
-import { CardType } from "./store/type";
-import { FILE_URL } from "../../../settings";
+} from '@mui/material';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import HttpIcon from '@mui/icons-material/Http';
+import ImageIcon from '@mui/icons-material/Image';
+import ScienceIcon from '@mui/icons-material/Science';
+import SchoolIcon from '@mui/icons-material/School';
+import BiotechIcon from '@mui/icons-material/Biotech';
+import ArchitectureIcon from '@mui/icons-material/Architecture';
+import FunctionsIcon from '@mui/icons-material/Functions';
+import urlParser from 'js-video-url-parser';
+import 'js-video-url-parser/lib/provider/youtube';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import ReactPlayer from 'react-player';
+import { useAppSelector } from '../../../App/ReduxStore/RootStore';
+import { CardType } from './store/type';
+import { FILE_URL } from '../../../settings';
 
 interface ICardMicroViewProps extends React.HTMLAttributes<HTMLDivElement> {
   cardID: number;
@@ -53,17 +53,17 @@ export default function CardMicroView({
   const authorName = `${card_data?.users_customuser?.users_userprofile?.firstname} ${card_data?.users_customuser?.users_userprofile?.lastname}`;
 
   const showTheme = !!themesText;
-  const showAuthor = !!authorName.split(" ").join("");
+  const showAuthor = !!authorName.split(' ').join('');
 
   if (!card_data) {
     return (
-      <div {...props} id={"CMV-loading-skeleton"}>
+      <div {...props} id={'CMV-loading-skeleton'}>
         <Card
           variant="outlined"
           sx={{
-            width: { sm: 340, xs: "100%" },
+            width: { sm: 340, xs: '100%' },
             height: 340,
-            borderRadius: "24px",
+            borderRadius: '24px',
           }}
           onClick={() => {
             onChange && onChange(cardID);
@@ -71,35 +71,35 @@ export default function CardMicroView({
         >
           <Stack
             sx={{ p: 2, flexGrow: 1, height: 340 }}
-            justifyContent={"space-between"}
+            justifyContent={'space-between'}
           >
             <Box>
               <Skeleton
                 variant="rectangular"
-                width={"100%"}
+                width={'100%'}
                 height={170}
-                sx={{ borderRadius: "24px" }}
+                sx={{ borderRadius: '24px' }}
               />
               <Skeleton
                 variant="rectangular"
-                width={"100%"}
+                width={'100%'}
                 height={30}
-                sx={{ borderRadius: "8px", mt: 2 }}
+                sx={{ borderRadius: '8px', mt: 2 }}
               />
             </Box>
 
             <Stack spacing={1}>
               <Skeleton
                 variant="rectangular"
-                width={"100%"}
+                width={'100%'}
                 height={20}
-                sx={{ borderRadius: "8px" }}
+                sx={{ borderRadius: '8px' }}
               />
               <Skeleton
                 variant="rectangular"
-                width={"100%"}
+                width={'100%'}
                 height={20}
-                sx={{ borderRadius: "8px" }}
+                sx={{ borderRadius: '8px' }}
               />
             </Stack>
           </Stack>
@@ -110,37 +110,37 @@ export default function CardMicroView({
   return (
     <div {...props}>
       <Card
-        variant={"elevation"}
+        variant={'elevation'}
         sx={{
-          display: "flex",
-          width: { sm: 340, xs: "100%" },
+          display: 'flex',
+          width: { sm: 340, xs: '100%' },
           height: 360,
-          borderRadius: "24px",
+          borderRadius: '24px',
           // bg: "palette.gray"
         }}
         onClick={() => {
           onChange && onChange(cardID);
         }}
       >
-        <CardActionArea sx={{ height: "100%", p: 2 }}>
-          <Stack direction={"column"}>
+        <CardActionArea sx={{ height: '100%', p: 2 }}>
+          <Stack direction={'column'}>
             <Box sx={{ height: 170 }}>
               {Number(card_data.card_content_type) === 0 &&
                 card_data?.video_url && (
                   <div>
                     <CardMedia
                       sx={{
-                        width: { sm: 300, xs: "100%" },
+                        width: { sm: 300, xs: '100%' },
                         height: 167,
-                        cacheControl: "public,max-age=31536000,immutable",
-                        loading: "lazy",
-                        decoding: "async",
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                        borderRadius: "24px",
+                        cacheControl: 'public,max-age=31536000,immutable',
+                        loading: 'lazy',
+                        decoding: 'async',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        borderRadius: '24px',
                       }}
                       onError={() => void 0}
-                      image={`https://img.youtube.com/vi/${urlParser.parse(card_data?.video_url || "")?.id}/hqdefault.jpg`}
+                      image={`https://img.youtube.com/vi/${urlParser.parse(card_data?.video_url || '')?.id}/hqdefault.jpg`}
                     />
                   </div>
                 )}
@@ -148,37 +148,37 @@ export default function CardMicroView({
                 Number(card_data.card_content_type) === 2) && (
                 <CardMedia
                   sx={{
-                    width: { sm: 300, xs: "100%" },
+                    width: { sm: 300, xs: '100%' },
                     height: 170,
-                    borderRadius: "24px",
+                    borderRadius: '24px',
                   }}
                   onError={() => void 0}
                   image={`${FILE_URL}/${card_data?.cards_cardimage?.image}`}
                 />
               )}
             </Box>
-            <Box sx={{ height: "100%" }}>
+            <Box sx={{ height: '100%' }}>
               <Stack
-                direction={"column"}
+                direction={'column'}
                 justifyContent="space-between"
-                sx={{ p: 1, height: "170px" }}
+                sx={{ p: 1, height: '170px' }}
               >
                 <Box
                   sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    height: "100%",
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100%',
                   }}
                 >
                   <Typography
                     variant="body2"
-                    component={"div"}
-                    sx={{ display: "flex", alignItems: "center" }}
+                    component={'div'}
+                    sx={{ display: 'flex', alignItems: 'center' }}
                   >
                     ID: {card_data?.id}
                     {Number(card_data.card_content_type) === 0 && (
                       <Chip
-                        id={"YouTube-icon"}
+                        id={'YouTube-icon'}
                         style={{ marginLeft: 12 }}
                         size="small"
                         variant="outlined"
@@ -237,13 +237,13 @@ export default function CardMicroView({
                   </Typography>
 
                   <Typography
-                    variant={"subtitle2"}
+                    variant={'subtitle2'}
                     sx={{
                       flexGrow: 1,
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
                       maxHeight: 90,
-                      textAlign: "start",
+                      textAlign: 'start',
                     }}
                   >
                     {card_data?.title}
@@ -255,19 +255,19 @@ export default function CardMicroView({
                     <Typography
                       variant="caption"
                       sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        overflow: "hidden",
-                        WebkitBoxOrient: "vertical",
+                        display: 'flex',
+                        alignItems: 'center',
+                        overflow: 'hidden',
+                        WebkitBoxOrient: 'vertical',
                         WebkitLineClamp: 1,
-                        whiteSpace: "nowrap",
-                        textOverflow: "ellipsis",
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
                       }}
                     >
                       <Tooltip
                         title={`Эту карточку можно найти в теме: ${themesText}`}
                       >
-                        <AccountTreeIcon fontSize={"small"} sx={{ mr: 1 }} />
+                        <AccountTreeIcon fontSize={'small'} sx={{ mr: 1 }} />
                       </Tooltip>
                       {themesText}
                     </Typography>
@@ -277,16 +277,16 @@ export default function CardMicroView({
                     <Typography
                       variant="caption"
                       sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        overflow: "hidden",
-                        WebkitBoxOrient: "vertical",
+                        display: 'flex',
+                        alignItems: 'center',
+                        overflow: 'hidden',
+                        WebkitBoxOrient: 'vertical',
                         WebkitLineClamp: 1,
-                        whiteSpace: "nowrap",
-                        textOverflow: "ellipsis",
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
                       }}
                     >
-                      <AccountBoxIcon fontSize={"small"} sx={{ mr: 1 }} />
+                      <AccountBoxIcon fontSize={'small'} sx={{ mr: 1 }} />
                       {authorName}
                     </Typography>
                   )}

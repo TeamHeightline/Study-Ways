@@ -1,12 +1,12 @@
-import Stack from "@mui/material/Stack";
-import React, { useState } from "react";
-import EditCourseItem from "./EditCourseItem";
+import Stack from '@mui/material/Stack';
+import React, { useState } from 'react';
+import EditCourseItem from './EditCourseItem';
 
 export default function CourseFragment({ fragment, ...props }: any) {
   const [Fragment, setFragment] = useState(fragment.CourseFragment);
   return (
     <div style={{ width: 3000 }}>
-      <Stack direction={"row"} spacing={2}>
+      <Stack direction={'row'} spacing={2}>
         {Fragment.map((item, iIndex) => (
           // <Col span={2} key={iIndex+ "Fragment" + props.fIndex + "row" + props.lIndex + "course" + props.cIndex} >
           <EditCourseItem

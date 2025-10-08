@@ -1,13 +1,13 @@
-import { Box, Card, Typography } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import React, { useEffect, useState } from "react";
-import axiosClient from "../../../../../Shared/ServerLayer/QueryLayer/config";
-import urlParser from "js-video-url-parser";
-import CardMedia from "@mui/material/CardMedia";
-import { positionDataI } from "../../../CourseMicroView/V2/Store/CourseMicroStoreByID";
-import { useNavigate } from "react-router-dom";
-import MultipleCards from "./multiple-cards";
-import NotLoaded from "./not-loaded";
+import { Box, Card, Typography } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import React, { useEffect, useState } from 'react';
+import axiosClient from '../../../../../Shared/ServerLayer/QueryLayer/config';
+import urlParser from 'js-video-url-parser';
+import CardMedia from '@mui/material/CardMedia';
+import { positionDataI } from '../../../CourseMicroView/V2/Store/CourseMicroStoreByID';
+import { useNavigate } from 'react-router-dom';
+import MultipleCards from './multiple-cards';
+import NotLoaded from './not-loaded';
 
 interface ISingleCardProps extends BoxProps {
   card_id: string;
@@ -58,7 +58,7 @@ export default function CardItem({
 
   function handleNavigateToItem() {
     navigate(
-      "/course?" +
+      '/course?' +
         `id=${courseID}&activePage=${activePage}&selectedPage=${
           activePage
         }&selectedRow=${rowIndex}&selectedIndex=${itemIndex}`,
@@ -73,21 +73,21 @@ export default function CardItem({
   const isViewed = viewedCardIDs.has(card_id);
 
   const border = isSelected
-    ? "1px solid rgb(245 0 87)"
+    ? '1px solid rgb(245 0 87)'
     : isViewed
-      ? "1px solid rgba(33, 150, 243, 1)"
-      : "1px solid rgba(255, 255, 255, 0.23)";
+      ? '1px solid rgba(33, 150, 243, 1)'
+      : '1px solid rgba(255, 255, 255, 0.23)';
 
-  const numberOfElements = card_id?.split(",").length;
+  const numberOfElements = card_id?.split(',').length;
 
   const imageSrc =
     cardData?.card_content_type === 0
-      ? `https://img.youtube.com/vi/${urlParser.parse(cardData?.video_url || "")?.id}/hqdefault.jpg`
+      ? `https://img.youtube.com/vi/${urlParser.parse(cardData?.video_url || '')?.id}/hqdefault.jpg`
       : `https://storage.googleapis.com/study-ways-files/${cardData?.cards_cardimage?.image}`;
 
   return (
     <Box sx={{ width: size.width }} onClick={handleNavigateToItem}>
-      <Card variant={"outlined"} sx={{ border }}>
+      <Card variant={'outlined'} sx={{ border }}>
         {numberOfElements > 1 ? (
           <MultipleCards numberOfElements={numberOfElements} size={size} />
         ) : !cardData ? (
@@ -97,23 +97,23 @@ export default function CardItem({
             image={imageSrc}
             sx={{
               ...size,
-              cacheControl: "public,max-age=31536000,immutable",
-              loading: "lazy",
-              decoding: "async",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
+              cacheControl: 'public,max-age=31536000,immutable',
+              loading: 'lazy',
+              decoding: 'async',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
             }}
           />
         )}
       </Card>
       <Typography
-        variant={"caption"}
+        variant={'caption'}
         sx={{
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          display: "-webkit-box",
-          WebkitLineClamp: "2",
-          WebkitBoxOrient: "vertical",
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          display: '-webkit-box',
+          WebkitLineClamp: '2',
+          WebkitBoxOrient: 'vertical',
           lineHeight: 1.2,
         }}
       >

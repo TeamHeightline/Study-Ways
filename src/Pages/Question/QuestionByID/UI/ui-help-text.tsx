@@ -1,8 +1,8 @@
-import { Alert, Box } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import { observer } from "mobx-react";
-import { QuestionPlayerStore } from "../Store/QuestionPlayerStore";
-import React from "react";
+import { Alert, Box } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import { observer } from 'mobx-react';
+import { QuestionPlayerStore } from '../Store/QuestionPlayerStore';
+import React from 'react';
 
 interface IUIHelpTextProps extends BoxProps {
   questionStore: QuestionPlayerStore;

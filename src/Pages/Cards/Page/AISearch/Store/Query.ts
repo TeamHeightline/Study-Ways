@@ -1,7 +1,7 @@
 // @ts-ignore
-import recombee from "recombee-js-api-client";
-import recombeeClient from "../../../../../Shared/Store/RecombeeClient/recombee-client";
-import {UserStorage} from "../../../../../Shared/Store/UserStore/UserStore";
+import recombee from 'recombee-js-api-client';
+import recombeeClient from '../../../../../Shared/Store/RecombeeClient/recombee-client';
+import { UserStorage } from '../../../../../Shared/Store/UserStore/UserStore';
 
 export async function getAutocompleteCardDataAsync(
   searchString: string | undefined,
@@ -19,10 +19,10 @@ export async function getAutocompleteCardDataAsync(
         searchString,
         numberOfCards,
         {
-          scenario: "Search-Card",
+          scenario: 'Search-Card',
           returnProperties: true,
           cascadeCreate: true,
-          includedProperties: ["title"],
+          includedProperties: ['title'],
           filter: filterString || undefined,
         },
       ),
@@ -35,7 +35,7 @@ export async function getAutocompleteCardDataAsync(
       },
     );
   } else {
-    getRecommendedItemToUser("-1", filterString, callBackFn, numberOfCards);
+    getRecommendedItemToUser('-1', filterString, callBackFn, numberOfCards);
   }
 }
 
@@ -51,7 +51,7 @@ export async function getRecommendedItemToUser(
     new recombee.RecommendItemsToUser(userId, numberOfCards, {
       returnProperties: true,
       cascadeCreate: true,
-      includedProperties: ["title"],
+      includedProperties: ['title'],
       filter: filterString || undefined,
     }),
     (err, matches) => {

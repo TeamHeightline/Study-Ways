@@ -5,21 +5,21 @@ import {
   ListItemIcon,
   MenuItem,
   Popover,
-} from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import React from "react";
-import { UserStorage } from "../../../Shared/Store/UserStore/UserStore";
-import StackedLineChartIcon from "@mui/icons-material/StackedLineChart";
-import { useNavigate } from "react-router-dom";
-import BookmarksIcon from "@mui/icons-material/Bookmarks";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import ThemeStoreObject from "../../../global-theme";
-import NightlightIcon from "@mui/icons-material/Nightlight";
-import { DarkMode } from "@mui/icons-material";
-import LightModeIcon from "@mui/icons-material/LightMode";
-import LogoutIcon from "@mui/icons-material/Logout";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useAuth0 } from "@auth0/auth0-react";
+} from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import React from 'react';
+import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
+import StackedLineChartIcon from '@mui/icons-material/StackedLineChart';
+import { useNavigate } from 'react-router-dom';
+import BookmarksIcon from '@mui/icons-material/Bookmarks';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import ThemeStoreObject from '../../../global-theme';
+import NightlightIcon from '@mui/icons-material/Nightlight';
+import { DarkMode } from '@mui/icons-material';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import LogoutIcon from '@mui/icons-material/Logout';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useAuth0 } from '@auth0/auth0-react';
 
 type IPersonalMenuProps = BoxProps;
 
@@ -40,7 +40,7 @@ export default function PersonalMenu({ ...props }: IPersonalMenuProps) {
     <Box {...props}>
       <Button
         startIcon={<AccountCircleIcon />}
-        sx={{ color: "white" }}
+        sx={{ color: 'white' }}
         onClick={handleMenu}
       >
         Аккаунт
@@ -50,8 +50,8 @@ export default function PersonalMenu({ ...props }: IPersonalMenuProps) {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
+          vertical: 'bottom',
+          horizontal: 'left',
         }}
       >
         <Box sx={{ py: 1 }}>
@@ -59,7 +59,7 @@ export default function PersonalMenu({ ...props }: IPersonalMenuProps) {
             disabled={!UserStorage.isLogin}
             onClick={() => {
               handleClose();
-              navigate("/profile");
+              navigate('/profile');
             }}
           >
             <ListItemIcon>
@@ -71,7 +71,7 @@ export default function PersonalMenu({ ...props }: IPersonalMenuProps) {
             disabled={!UserStorage.isLogin}
             onClick={() => {
               handleClose();
-              navigate("/selfstatistic");
+              navigate('/selfstatistic');
             }}
           >
             <ListItemIcon>
@@ -83,7 +83,7 @@ export default function PersonalMenu({ ...props }: IPersonalMenuProps) {
             disabled={!UserStorage.isLogin}
             onClick={() => {
               handleClose();
-              navigate("/bookmarks");
+              navigate('/bookmarks');
             }}
           >
             <ListItemIcon>
@@ -94,13 +94,13 @@ export default function PersonalMenu({ ...props }: IPersonalMenuProps) {
           <Divider />
           <MenuItem onClick={ThemeStoreObject.changeMode}>
             <ListItemIcon>
-              {ThemeStoreObject.mode === "light" && (
+              {ThemeStoreObject.mode === 'light' && (
                 <NightlightIcon fontSize="small" />
               )}
-              {ThemeStoreObject.mode === "dark" && (
+              {ThemeStoreObject.mode === 'dark' && (
                 <DarkMode fontSize="small" />
               )}
-              {ThemeStoreObject.mode === "dark2" && (
+              {ThemeStoreObject.mode === 'dark2' && (
                 <LightModeIcon fontSize="small" />
               )}
             </ListItemIcon>

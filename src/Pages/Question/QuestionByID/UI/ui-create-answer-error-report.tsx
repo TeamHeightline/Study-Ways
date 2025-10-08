@@ -8,13 +8,13 @@ import {
   DialogTitle,
   Stack,
   TextField,
-} from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import { observer } from "mobx-react";
-import { QuestionPlayerStore } from "../Store/QuestionPlayerStore";
-import UISingleAnswerByData from "./ui-single-answer-by-data";
-import CloseIcon from "@mui/icons-material/Close";
-import SendIcon from "@mui/icons-material/Send";
+} from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import { observer } from 'mobx-react';
+import { QuestionPlayerStore } from '../Store/QuestionPlayerStore';
+import UISingleAnswerByData from './ui-single-answer-by-data';
+import CloseIcon from '@mui/icons-material/Close';
+import SendIcon from '@mui/icons-material/Send';
 
 interface ICreateErrorInAnswerReportProps extends BoxProps {
   questionStore: QuestionPlayerStore;
@@ -43,7 +43,7 @@ const UiCreateAnswerErrorReport = observer(
             <DialogContentText>
               Опишите максимально развернуто в чем состоит ошибка
             </DialogContentText>
-            <Stack alignItems={"center"} sx={{ mt: 2 }}>
+            <Stack alignItems={'center'} sx={{ mt: 2 }}>
               <UISingleAnswerByData
                 text={selectedAnswer.answerText}
                 imageURL={selectedAnswer.answerImageUrl}
@@ -66,7 +66,7 @@ const UiCreateAnswerErrorReport = observer(
           <DialogActions>
             <Button
               onClick={questionStore.onCloseAnswerReportDialog}
-              color={"error"}
+              color={'error'}
               endIcon={<CloseIcon />}
             >
               Отмена

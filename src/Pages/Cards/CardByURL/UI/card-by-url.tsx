@@ -1,7 +1,7 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { useParams } from "react-router-dom";
-import CardByID from "../../CardByID/UI/card-by-id";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import CardByID from '../../CardByID/UI/card-by-id';
 
 interface ICardByURLProps {}
 

@@ -1,10 +1,10 @@
-import { makeAutoObservable, reaction } from "mobx";
-import { ClientStorage } from "../../../ApolloStorage/ClientStorage";
-import { UserStorage } from "../../../UserStore/UserStore";
-import { GET_QS_DATA_BY_ID } from "./Struct";
-import { Query } from "../../../../../SchemaTypes";
-import { QuestionPlayerStore } from "../../../../../Pages/Question/QuestionByID/Store/QuestionPlayerStore";
-import { shuffle } from "lodash";
+import { makeAutoObservable, reaction } from 'mobx';
+import { ClientStorage } from '../../../ApolloStorage/ClientStorage';
+import { UserStorage } from '../../../UserStore/UserStore';
+import { GET_QS_DATA_BY_ID } from './Struct';
+import { Query } from '../../../../../SchemaTypes';
+import { QuestionPlayerStore } from '../../../../../Pages/Question/QuestionByID/Store/QuestionPlayerStore';
+import { shuffle } from 'lodash';
 
 export class QSPlayerStore {
   constructor() {
@@ -38,7 +38,7 @@ export class QSPlayerStore {
   // Параметры серии вопросов ----------------------------
 
   // Название серии вопросов
-  name = "";
+  name = '';
 
   // Режим экзамена
   isUseExamMode = false;
@@ -50,7 +50,7 @@ export class QSPlayerStore {
   selectedQuestionIndex = 0;
 
   // Уровень сложности подсказок
-  hardLevelOfHelpText = "0";
+  hardLevelOfHelpText = '0';
 
   // обработчик изменений сложности подсказки
   changeHardLevelOfHelpText(newHardLevelOfHelpText) {
@@ -85,7 +85,7 @@ export class QSPlayerStore {
           variables: {
             id: Number(this.questionSequenceID),
           },
-          fetchPolicy: "network-only",
+          fetchPolicy: 'network-only',
         })
         .then((data) => {
           this.name = String(data?.data?.questionSequenceById?.name);

@@ -1,14 +1,14 @@
-import { NodeModel, Tree } from "@minoru/react-dnd-treeview";
-import { CustomNode } from "./CustomNode";
-import { CustomDragPreview } from "./CustomDragPreview";
-import styles from "./App.module.css";
-import { Placeholder } from "./Placeholder";
-import { Card } from "@mui/material";
-import React, { memo, useEffect, useState } from "react";
-import { differenceWith } from "lodash";
-import { useMutation } from "@apollo/client";
-import { Mutation } from "../../../SchemaTypes";
-import { UpdateTheme } from "./Struct";
+import { NodeModel, Tree } from '@minoru/react-dnd-treeview';
+import { CustomNode } from './CustomNode';
+import { CustomDragPreview } from './CustomDragPreview';
+import styles from './App.module.css';
+import { Placeholder } from './Placeholder';
+import { Card } from '@mui/material';
+import React, { memo, useEffect, useState } from 'react';
+import { differenceWith } from 'lodash';
+import { useMutation } from '@apollo/client';
+import { Mutation } from '../../../SchemaTypes';
+import { UpdateTheme } from './Struct';
 
 type IThemeTreeViewProps = {
   treeData?: NodeModel[];
@@ -29,7 +29,7 @@ export const ThemeTreeView = memo(function ThemeTreeView({
     id: number;
     parent: number;
     text: string;
-  }>({ id: 0, parent: 0, text: "_" });
+  }>({ id: 0, parent: 0, text: '_' });
 
   useEffect(() => {
     if (updateData.id !== 0) {
@@ -60,7 +60,7 @@ export const ThemeTreeView = memo(function ThemeTreeView({
     void 0;
   }, [manualUpdate]);
   return (
-    <Card variant="outlined" style={{ height: 650, overflow: "auto" }}>
+    <Card variant="outlined" style={{ height: 650, overflow: 'auto' }}>
       <Tree
         tree={treeData || []}
         rootId={0}

@@ -1,7 +1,7 @@
-import { autorun, makeAutoObservable, toJS } from "mobx";
-import { ClientStorage } from "../../../../../../Shared/Store/ApolloStorage/ClientStorage";
-import { GET_QUESTION_TEXT_BY_ID, LOAD_ATTEMPTS_ID } from "./Query";
-import { Query, QuestionNode } from "../../../../../../SchemaTypes";
+import { autorun, makeAutoObservable, toJS } from 'mobx';
+import { ClientStorage } from '../../../../../../Shared/Store/ApolloStorage/ClientStorage';
+import { GET_QUESTION_TEXT_BY_ID, LOAD_ATTEMPTS_ID } from './Query';
+import { Query, QuestionNode } from '../../../../../../SchemaTypes';
 
 class SelectAttemptStoreS {
   constructor() {
@@ -34,12 +34,12 @@ class SelectAttemptStoreS {
 
   loadingAttempts = true;
   page = 1;
-  userName = "";
+  userName = '';
   afterTime: Date = this.todayTimeWithZeroHours();
   onlyInExam = false;
   onlyInQs = false;
 
-  specificQuestion = "-1";
+  specificQuestion = '-1';
   totalPages = 1;
 
   changePage = (e: any, value: number) => {
@@ -53,7 +53,7 @@ class SelectAttemptStoreS {
   };
 
   get QuestionArrayForSearch() {
-    if (this.specificQuestion != "-1") {
+    if (this.specificQuestion != '-1') {
       return [this.specificQuestion];
     } else {
       return toJS(this.selectedQuestions);
@@ -108,7 +108,7 @@ class SelectAttemptStoreS {
         this.clientStorage.client
           .query({
             query: LOAD_ATTEMPTS_ID,
-            fetchPolicy: "network-only",
+            fetchPolicy: 'network-only',
             variables: {
               page: this.page,
               questions: this.QuestionArrayForSearch,

@@ -1,15 +1,15 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Button, Paper } from "@mui/material";
-import { getExcelDownloadUrl } from "../../../../../Shared/ServerLayer/QueryLayer/statistic.query";
-import editQSStore from "../store/edit-question-sequence-sore";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Button, Paper } from '@mui/material';
+import { getExcelDownloadUrl } from '../../../../../Shared/ServerLayer/QueryLayer/statistic.query';
+import editQSStore from '../store/edit-question-sequence-sore';
 
 type IUIDownloadExcelButtonProps = PaperProps;
 
 const UIDownloadExcelButton = observer(
   ({ ...props }: IUIDownloadExcelButtonProps) => {
-    const [excelDownloadUrl, setExcelDownloadUrl] = React.useState<string>("");
+    const [excelDownloadUrl, setExcelDownloadUrl] = React.useState<string>('');
 
     async function createUrl() {
       if (editQSStore.qsData?.id) {

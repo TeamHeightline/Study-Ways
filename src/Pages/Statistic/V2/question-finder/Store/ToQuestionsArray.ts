@@ -1,7 +1,7 @@
-import { makeAutoObservable } from "mobx";
-import { ClientStorage } from "../../../../../Shared/Store/ApolloStorage/ClientStorage";
-import { GET_ALL_QUESTIONS_ID, GET_QUESTIONS_FROM_QS_BY_ID } from "./Query";
-import { Query } from "../../../../../SchemaTypes";
+import { makeAutoObservable } from 'mobx';
+import { ClientStorage } from '../../../../../Shared/Store/ApolloStorage/ClientStorage';
+import { GET_ALL_QUESTIONS_ID, GET_QUESTIONS_FROM_QS_BY_ID } from './Query';
+import { Query } from '../../../../../SchemaTypes';
 
 class ToQuestionsArray {
   constructor() {
@@ -35,7 +35,7 @@ class ToQuestionsArray {
       this.clientStorage.client
         .query<Query>({
           query: GET_ALL_QUESTIONS_ID,
-          fetchPolicy: "network-only",
+          fetchPolicy: 'network-only',
           variables: {},
         })
         .then((response) => response.data.question)

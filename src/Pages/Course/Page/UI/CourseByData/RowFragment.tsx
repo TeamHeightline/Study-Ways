@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { IconButton, Popover, Stack } from "@mui/material";
-import { observer } from "mobx-react";
+import React, { useState } from 'react';
+import { IconButton, Popover, Stack } from '@mui/material';
+import { observer } from 'mobx-react';
 
-import NoiseControlOffIcon from "@mui/icons-material/NoiseControlOff";
-import { CourseElement, ICoursePosition } from "./types";
-import CardMicroView from "../../../../Cards/CardMicroView";
+import NoiseControlOffIcon from '@mui/icons-material/NoiseControlOff';
+import { CourseElement, ICoursePosition } from './types';
+import CardMicroView from '../../../../Cards/CardMicroView';
 
 interface RowFragmentI {
   courseRow: any;
@@ -44,7 +44,7 @@ const RowFragment = observer(
         <Popover
           id="mouse-over-popover"
           sx={{
-            pointerEvents: "none",
+            pointerEvents: 'none',
             ml: 4,
             mt: 6,
           }}
@@ -52,19 +52,19 @@ const RowFragment = observer(
           open={open}
           anchorEl={anchorEl}
           anchorOrigin={{
-            vertical: "top",
-            horizontal: "center",
+            vertical: 'top',
+            horizontal: 'center',
           }}
           onClose={handlePopoverClose}
           disableRestoreFocus
         >
           {hoveredItemID &&
             String(hoveredItemID)
-              ?.split(",")
+              ?.split(',')
               ?.map((cardID) => <CardMicroView cardID={Number(cardID)} />)}
         </Popover>
 
-        <Stack direction={"row"}>
+        <Stack direction={'row'}>
           {courseRow.SameLine[activePage - 1]?.CourseFragment?.map(
             (element: CourseElement, eIndex: number) => {
               if (!element?.CourseElement?.id) {
@@ -79,7 +79,7 @@ const RowFragment = observer(
                 <IconButton
                   size="small"
                   key={`RealCard${activePage} ${eIndex}`}
-                  sx={{ backgroundColor: "transparent" }}
+                  sx={{ backgroundColor: 'transparent' }}
                   edge="start"
                   onMouseEnter={(e) => {
                     setHoveredItemID(Number(element?.CourseElement?.id));
@@ -102,7 +102,7 @@ const RowFragment = observer(
                     }
                   }}
                   style={{
-                    opacity: !element?.CourseElement?.id ? "0%" : "100%",
+                    opacity: !element?.CourseElement?.id ? '0%' : '100%',
                   }}
                   disabled={!element?.CourseElement?.id}
                   color={
@@ -110,8 +110,8 @@ const RowFragment = observer(
                     positionData.selectedRow == rowIndex &&
                     positionData.selectedPage == activePage &&
                     positionData.selectedIndex == eIndex
-                      ? "secondary"
-                      : "primary"
+                      ? 'secondary'
+                      : 'primary'
                   }
                 >
                   <NoiseControlOffIcon />

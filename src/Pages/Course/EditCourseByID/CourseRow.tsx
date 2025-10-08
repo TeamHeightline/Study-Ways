@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import CourseFragment from "./CourseFragment";
-import { Box } from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import CourseFragment from './CourseFragment';
+import { Box } from '@mui/material';
 
 export default function CourseRow({ row, openPageIndex, ...props }: any) {
   const [RowState, setRow] = useState(row.SameLine);

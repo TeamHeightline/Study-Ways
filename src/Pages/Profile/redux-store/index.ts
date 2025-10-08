@@ -1,9 +1,9 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { loadMyProfile, updateProfile } from "./async-acrions";
-import { IProfile } from "./types";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { loadMyProfile, updateProfile } from './async-acrions';
+import { IProfile } from './types';
 
 const profileSlice = createSlice({
-  name: "profileSlice",
+  name: 'profileSlice',
   initialState: {
     profileData: null as null | IProfile,
     pending: true,

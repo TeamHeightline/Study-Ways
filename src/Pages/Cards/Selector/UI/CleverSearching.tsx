@@ -1,7 +1,7 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { Grid, TextField } from "@mui/material";
-import { CSSObject } from "../Store/CardSelectorStore";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { Grid, TextField } from '@mui/material';
+import { CSSObject } from '../Store/CardSelectorStore';
 
 type ICleverSearchingProps = React.HTMLAttributes<HTMLDivElement>;
 

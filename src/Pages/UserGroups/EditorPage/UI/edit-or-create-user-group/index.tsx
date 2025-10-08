@@ -1,5 +1,5 @@
-import { Box } from "@mui/material";
-import { useAppSelector } from "../../../../../App/ReduxStore/RootStore";
+import { Box } from '@mui/material';
+import { useAppSelector } from '../../../../../App/ReduxStore/RootStore';
 
 export default function EditOrCreateUserGroupDialog() {
   const data = useAppSelector(

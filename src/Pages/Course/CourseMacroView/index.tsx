@@ -1,13 +1,13 @@
-import { Box, Card, Divider, Grid, Stack } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import { useEffect, useState } from "react";
-import axiosClient from "../../../Shared/ServerLayer/QueryLayer/config";
-import { positionDataI } from "../CourseMicroView/V2/Store/CourseMicroStoreByID";
-import Image from "./image";
-import Stepper from "./stepper";
-import CardRow from "./card-row";
-import Title from "./title";
-import Author from "./author";
+import { Box, Card, Divider, Grid, Stack } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import { useEffect, useState } from 'react';
+import axiosClient from '../../../Shared/ServerLayer/QueryLayer/config';
+import { positionDataI } from '../CourseMicroView/V2/Store/CourseMicroStoreByID';
+import Image from './image';
+import Stepper from './stepper';
+import CardRow from './card-row';
+import Title from './title';
+import Author from './author';
 
 interface ICourseMacroViewProps extends BoxProps {
   courseID: number;
@@ -62,11 +62,11 @@ export default function CourseMacroView({
     return <Box {...props} />;
   }
   const course_main_line_index =
-    Number((courseData?.name || "").match(/\[(.*?)\]/)?.[1]) - 1;
+    Number((courseData?.name || '').match(/\[(.*?)\]/)?.[1]) - 1;
 
   return (
     <Box {...props}>
-      <Stack direction={"row"} spacing={1}>
+      <Stack direction={'row'} spacing={1}>
         <Image
           courseData={courseData}
           courseID={courseID}
@@ -82,7 +82,7 @@ export default function CourseMacroView({
         sx={{
           width:
             (CARD_WIDTH + CARD_PADDING) * NUMBER_OF_CARD + ADDITIONAL_SPACE,
-          overflow: "auto",
+          overflow: 'auto',
           p: 1,
         }}
       >

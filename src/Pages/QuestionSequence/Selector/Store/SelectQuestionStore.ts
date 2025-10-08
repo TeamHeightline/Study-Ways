@@ -1,7 +1,7 @@
-import { autorun, makeAutoObservable, toJS } from "mobx";
-import { ClientStorage } from "../../../../Shared/Store/ApolloStorage/ClientStorage";
-import { ALL_QUESTION_SEQUENCES } from "./Query";
-import { Query, QuestionSequenceNode } from "../../../../SchemaTypes";
+import { autorun, makeAutoObservable, toJS } from 'mobx';
+import { ClientStorage } from '../../../../Shared/Store/ApolloStorage/ClientStorage';
+import { ALL_QUESTION_SEQUENCES } from './Query';
+import { Query, QuestionSequenceNode } from '../../../../SchemaTypes';
 
 class SelectQuestionStore {
   constructor() {

@@ -1,5 +1,5 @@
-import { makeAutoObservable, reaction, toJS } from "mobx";
-import { ClientStorage } from "../../../../../Shared/Store/ApolloStorage/ClientStorage";
+import { makeAutoObservable, reaction, toJS } from 'mobx';
+import { ClientStorage } from '../../../../../Shared/Store/ApolloStorage/ClientStorage';
 import {
   CREATE_DEEP_QUESTION_COPY,
   CREATE_NEW_ANSWER,
@@ -8,7 +8,7 @@ import {
   GET_QUESTION_DATA_BY_ID,
   MY_QUESTIONS_BASIC_DATA,
   THEMES_AND_AUTHORS_FOR_QUESTION,
-} from "./Struct";
+} from './Struct';
 import {
   AnswerNode,
   Maybe,
@@ -18,17 +18,17 @@ import {
   QuestionNode,
   QuestionThemesNode,
   UnstructuredThemesNode,
-} from "../../../../../SchemaTypes";
-import { sort } from "fast-sort";
-import { Answer, answerStoreType } from "./AnswersStorage";
-import { UserStorage } from "../../../../../Shared/Store/UserStore/UserStore";
-import { SERVER_BASE_URL } from "../../../../../settings";
-import axiosClient from "../../../../../Shared/ServerLayer/QueryLayer/config";
+} from '../../../../../SchemaTypes';
+import { sort } from 'fast-sort';
+import { Answer, answerStoreType } from './AnswersStorage';
+import { UserStorage } from '../../../../../Shared/Store/UserStore/UserStore';
+import { SERVER_BASE_URL } from '../../../../../settings';
+import axiosClient from '../../../../../Shared/ServerLayer/QueryLayer/config';
 
 export enum variantsOfStateOfSave {
-  SAVED = "SAVED",
-  SAVING = "SAVING",
-  ERROR = "ERROR",
+  SAVED = 'SAVED',
+  SAVING = 'SAVING',
+  ERROR = 'ERROR',
 }
 
 class QuestionEditor {
@@ -88,7 +88,7 @@ class QuestionEditor {
     this.clientStorage.client
       .query<Query>({
         query: GET_CONNECTED_THEMES,
-        fetchPolicy: "network-only",
+        fetchPolicy: 'network-only',
       })
       .then((res) => res.data.unstructuredTheme)
       .then((themes) => {
@@ -192,13 +192,13 @@ class QuestionEditor {
   // Функция для получения данных о всех вопросов с сервера
   loadQuestionAuthorsAndThemes() {
     if (
-      this.userStorage.userAccessLevel === "TEACHER" ||
-      this.userStorage.userAccessLevel === "ADMIN"
+      this.userStorage.userAccessLevel === 'TEACHER' ||
+      this.userStorage.userAccessLevel === 'ADMIN'
     ) {
       this.clientStorage.client
         .query({
           query: THEMES_AND_AUTHORS_FOR_QUESTION,
-          fetchPolicy: "network-only",
+          fetchPolicy: 'network-only',
         })
         .then((response) => {
           this.allThemesForQuestion = sort(response?.data?.questionThemes).desc(
@@ -218,11 +218,11 @@ class QuestionEditor {
   loadBasicQuestionData() {
     this.loadingBasicQuestionData = true;
     if (
-      this.userStorage.userAccessLevel === "TEACHER" ||
-      this.userStorage.userAccessLevel === "ADMIN"
+      this.userStorage.userAccessLevel === 'TEACHER' ||
+      this.userStorage.userAccessLevel === 'ADMIN'
     ) {
       this.clientStorage.client
-        .query({ query: MY_QUESTIONS_BASIC_DATA, fetchPolicy: "network-only" })
+        .query({ query: MY_QUESTIONS_BASIC_DATA, fetchPolicy: 'network-only' })
         .then((response) => response?.data?.me?.questionSet)
         .then((questionsArray: QuestionNode[] | undefined) => {
           if (questionsArray) {
@@ -243,13 +243,13 @@ class QuestionEditor {
     this.clearAllStatisticData();
 
     if (
-      this.userStorage.userAccessLevel === "TEACHER" ||
-      this.userStorage.userAccessLevel === "ADMIN"
+      this.userStorage.userAccessLevel === 'TEACHER' ||
+      this.userStorage.userAccessLevel === 'ADMIN'
     ) {
       this.clientStorage.client
         .query<Query>({
           query: GET_QUESTION_DATA_BY_ID,
-          fetchPolicy: "network-only",
+          fetchPolicy: 'network-only',
           variables: { id },
         })
         .then((response) => response.data.questionById)
@@ -317,18 +317,18 @@ class QuestionEditor {
       .then((jResponse) => {
         this.selectedQuestionImageURL = jResponse[0].image;
       })
-      .catch(() => (this.selectedQuestionImageURL = ""));
+      .catch(() => (this.selectedQuestionImageURL = ''));
   }
 
   // Функция для загрузки нового изображения на сервер (обработчик нажатия на кнопку для загрузки изображения)
   uploadNewQuestionImage(event) {
     const formData = new FormData();
-    formData.append("image", event.target.files[0]);
-    formData.append("owner_question", String(this.selectedQuestionID));
+    formData.append('image', event.target.files[0]);
+    formData.append('owner_question', String(this.selectedQuestionID));
     fetch(
       `${SERVER_BASE_URL}/files/question?update_id=${String(this.selectedQuestionID)}`,
       {
-        method: "POST",
+        method: 'POST',
         body: formData,
       },
     )
@@ -349,11 +349,11 @@ class QuestionEditor {
   // Функция для сохранения даных на сервере
   saveDataOnServer() {
     if (
-      this.userStorage.userAccessLevel === "TEACHER" ||
-      this.userStorage.userAccessLevel === "ADMIN"
+      this.userStorage.userAccessLevel === 'TEACHER' ||
+      this.userStorage.userAccessLevel === 'ADMIN'
     ) {
       axiosClient
-        .post("/page/edit-question-by-id/update-question", {
+        .post('/page/edit-question-by-id/update-question', {
           id: this.selectedQuestionID,
           connected_theme_id: Number(this.selectedConnectedTheme),
           text: this.selectedQuestionText,
@@ -396,10 +396,10 @@ class QuestionEditor {
   selectedQuestionID = 0;
 
   // Текст выбранного вопроса
-  selectedQuestionText: string | undefined = "";
+  selectedQuestionText: string | undefined = '';
 
   // Ссылка на видео для выбранного вопроса
-  selectedQuestionVideoUrl: string | undefined = "";
+  selectedQuestionVideoUrl: string | undefined = '';
 
   // Темы выбранного вопроса
   selectedQuestionThemesArray: string[] = [];
@@ -408,10 +408,10 @@ class QuestionEditor {
   selectedQuestionAuthorsArray: string[] = [];
 
   // Ссылка на изображение для вопроса
-  selectedQuestionImageURL = "";
+  selectedQuestionImageURL = '';
 
   // Количество отображаемых ответов
-  selectedQuestionNumberOfShowingAnswers = "8";
+  selectedQuestionNumberOfShowingAnswers = '8';
 
   // Геттеры для полей вопроса ------------------------
 
@@ -427,7 +427,7 @@ class QuestionEditor {
 
   // Геттер имени фотографии вопроса (приводит ссылку к красивому виду)
   get QuestionImageName() {
-    return this.selectedQuestionImageURL.slice(70).split("?")[0];
+    return this.selectedQuestionImageURL.slice(70).split('?')[0];
   }
 
   // Раздел ответов ----------------------------------------------------------

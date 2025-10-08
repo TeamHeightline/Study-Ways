@@ -1,9 +1,9 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Collapse, Paper } from "@mui/material";
-import ImageAnswerNode from "../../../../ImageAnswerNode";
-import { EditAnswerByIdStore } from "../Store/edit-answer-by-id-store";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Collapse, Paper } from '@mui/material';
+import ImageAnswerNode from '../../../../ImageAnswerNode';
+import { EditAnswerByIdStore } from '../Store/edit-answer-by-id-store';
 
 interface IAnswerPreviewProps extends PaperProps {
   answer_object: EditAnswerByIdStore;
@@ -22,8 +22,8 @@ const AnswerPreview = observer(
               void 0;
             }}
             answer={{
-              text: answer_object.getField("text"),
-              id: answer_object.getField("id"),
+              text: answer_object.getField('text'),
+              id: answer_object.getField('id'),
             }}
           />
         </div>

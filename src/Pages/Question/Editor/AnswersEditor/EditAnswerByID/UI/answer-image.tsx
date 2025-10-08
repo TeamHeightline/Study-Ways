@@ -1,6 +1,6 @@
-import { observer } from "mobx-react";
-import React, { useState } from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
+import { observer } from 'mobx-react';
+import React, { useState } from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
 import {
   Button,
   Dialog,
@@ -10,10 +10,10 @@ import {
   DialogTitle,
   Paper,
   Stack,
-} from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import ClearIcon from "@mui/icons-material/Clear";
-import { EditAnswerByIdStore } from "../Store/edit-answer-by-id-store";
+} from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import ClearIcon from '@mui/icons-material/Clear';
+import { EditAnswerByIdStore } from '../Store/edit-answer-by-id-store';
 
 interface IAnswerImageProps extends PaperProps {
   answer_object: EditAnswerByIdStore;
@@ -32,9 +32,9 @@ const AnswerImage = observer(
     const isImageDeleted = answer_object.answer_object?.isImageDeleted;
     return (
       <Paper elevation={0} {...props}>
-        <Stack direction={"row"} alignItems={"center"}>
+        <Stack direction={'row'} alignItems={'center'}>
           <Button
-            size={"small"}
+            size={'small'}
             color="primary"
             variant="outlined"
             component="label"
@@ -68,7 +68,7 @@ const AnswerImage = observer(
         </div>
 
         <Dialog open={isOpenDeleteDialog} onClose={closeDeleteDialog}>
-          <DialogTitle>{"Удалить изображение для ответа?"}</DialogTitle>
+          <DialogTitle>{'Удалить изображение для ответа?'}</DialogTitle>
           <DialogContent>
             <DialogContentText>
               Это действие невозможно отменить, изображение останется в файловом
@@ -84,8 +84,8 @@ const AnswerImage = observer(
                   closeDeleteDialog();
                 }
               }}
-              variant={"outlined"}
-              color={"secondary"}
+              variant={'outlined'}
+              color={'secondary'}
             >
               Удалить
             </Button>

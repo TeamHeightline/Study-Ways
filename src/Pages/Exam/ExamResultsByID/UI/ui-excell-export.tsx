@@ -1,8 +1,8 @@
-import { Box, Button } from "@mui/material";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../App/ReduxStore/RootStore";
-import CreateExcelFile from "../utils/create-excel-file";
-import DownloadIcon from "@mui/icons-material/Download";
+import { Box, Button } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../App/ReduxStore/RootStore';
+import CreateExcelFile from '../utils/create-excel-file';
+import DownloadIcon from '@mui/icons-material/Download';
 
 export default function UiExcelExport() {
   const exam_id = useSelector(
@@ -25,11 +25,11 @@ export default function UiExcelExport() {
     ?.map((question_id) => `Вопрос №${question_id}`);
 
   const columns = [
-    "email пользователя",
-    "Группа",
-    "Фамилия",
-    "Имя",
-    "Сумма",
+    'email пользователя',
+    'Группа',
+    'Фамилия',
+    'Имя',
+    'Сумма',
     ...questions_array,
   ];
   const data = examResultsOrderBySum.map((exam_result) => [
@@ -52,8 +52,8 @@ export default function UiExcelExport() {
   return (
     <Box>
       <Button
-        color={"primary"}
-        variant={"contained"}
+        color={'primary'}
+        variant={'contained'}
         onClick={onClick}
         endIcon={<DownloadIcon />}
       >

@@ -1,21 +1,21 @@
-import { action, autorun, makeObservable, observable } from "mobx";
-import { setContext } from "@apollo/client/link/context";
+import { action, autorun, makeObservable, observable } from 'mobx';
+import { setContext } from '@apollo/client/link/context';
 import {
   ApolloClient,
   ApolloLink,
   HttpLink,
   InMemoryCache,
   NormalizedCacheObject,
-} from "@apollo/client";
+} from '@apollo/client';
 
-import { onError } from "apollo-link-error";
-import { SERVER_BASE_URL } from "../../../settings";
+import { onError } from 'apollo-link-error';
+import { SERVER_BASE_URL } from '../../../settings';
 
 class Client {
   // Токен авторизации, самая важная вещь в проекте!
   // При запуске Auth0 проверяет залогинен ли пользователь,
   // если да, ставит токен, если нет - ''
-  token = "";
+  token = '';
 
   // Клиент аполло, обновляется автоматически
   client: ApolloClient<NormalizedCacheObject> = this.UpdatedApolloClient();
@@ -46,7 +46,7 @@ class Client {
   UpdatedApolloClient() {
     const authLink: any = setContext((_, { headers }) => {
       // процесс создания авторизационного заголовка
-      if (this.token !== "") {
+      if (this.token !== '') {
         return {
           headers: {
             ...headers,
@@ -81,7 +81,7 @@ class Client {
       link: ApolloLink.from([errorLink, authLink, httpLink]),
       cache,
       defaultOptions: {
-        mutate: { errorPolicy: "ignore" },
+        mutate: { errorPolicy: 'ignore' },
       },
     });
     // Новый клиент собран и расшеривается между всеми, кто его использует

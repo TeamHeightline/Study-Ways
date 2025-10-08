@@ -1,14 +1,14 @@
-import { Box, Card, Stack, Typography } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
+import { Box, Card, Stack, Typography } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../../../../App/ReduxStore/RootStore";
-import { changeCreateArticleData } from "../../redux-store";
-import React from "react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import TextSnippetIcon from "@mui/icons-material/TextSnippet";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
+} from '../../../../../App/ReduxStore/RootStore';
+import { changeCreateArticleData } from '../../redux-store';
+import React from 'react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import TextSnippetIcon from '@mui/icons-material/TextSnippet';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
 
 type ITitleProps = BoxProps;
 
@@ -19,10 +19,10 @@ export default function Content({ ...props }: ITitleProps) {
   const dispatch = useAppDispatch();
 
   function handleChange(event, editor) {
-    const value = editor.getData() || "";
+    const value = editor.getData() || '';
     dispatch(
       changeCreateArticleData({
-        field: "content",
+        field: 'content',
         value,
       }),
     );
@@ -30,16 +30,16 @@ export default function Content({ ...props }: ITitleProps) {
 
   return (
     <Box {...props}>
-      <Stack direction={"row"} sx={{ mt: 1 }} spacing={1} alignItems={"center"}>
+      <Stack direction={'row'} sx={{ mt: 1 }} spacing={1} alignItems={'center'}>
         <TextSnippetIcon fontSize="large" />
 
-        <Stack direction={"column"} spacing={1}>
+        <Stack direction={'column'} spacing={1}>
           <Card
-            style={{ borderColor: "#2296F3", color: "black" }}
+            style={{ borderColor: '#2296F3', color: 'black' }}
             variant="outlined"
           >
             <div
-              style={{ maxHeight: 440, overflowY: "auto", overflowX: "hidden" }}
+              style={{ maxHeight: 440, overflowY: 'auto', overflowX: 'hidden' }}
             >
               <CKEditor
                 editor={ClassicEditor}

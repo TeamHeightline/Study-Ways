@@ -1,27 +1,27 @@
 // @ts-nocheck
 
-import React from "react";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { DndProvider } from "react-dnd";
-import { configure } from "mobx";
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import "antd/dist/antd.dark.min.css";
-import ThemeStoreObject from "./global-theme";
-import { Auth0Provider } from "@auth0/auth0-react";
-import { observer } from "mobx-react";
-import { Provider } from "react-redux";
-import reduxStore from "./App/ReduxStore/RootStore";
-import { createRoot } from "react-dom/client";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import { ReactFlowProvider } from "@xyflow/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import React from 'react';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
+import { configure } from 'mobx';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import 'antd/dist/antd.dark.min.css';
+import ThemeStoreObject from './global-theme';
+import { Auth0Provider } from '@auth0/auth0-react';
+import { observer } from 'mobx-react';
+import { Provider } from 'react-redux';
+import reduxStore from './App/ReduxStore/RootStore';
+import { createRoot } from 'react-dom/client';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { ReactFlowProvider } from '@xyflow/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 configure({
-  enforceActions: "never",
+  enforceActions: 'never',
 });
 
 const queryClient = new QueryClient();
@@ -57,7 +57,7 @@ const AppWithAllProviders = observer(() => (
   </QueryClientProvider>
 ));
 
-const container = document.getElementById("root");
+const container = document.getElementById('root');
 const root = createRoot(container);
 root.render(<AppWithAllProviders />);
 

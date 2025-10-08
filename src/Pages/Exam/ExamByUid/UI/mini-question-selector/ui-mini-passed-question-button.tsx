@@ -1,7 +1,7 @@
-import { Chip, Grid } from "@mui/material";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import DoneIcon from "@mui/icons-material/Done";
-import { useDispatch } from "react-redux";
+import { Chip, Grid } from '@mui/material';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import DoneIcon from '@mui/icons-material/Done';
+import { useDispatch } from 'react-redux';
 
 interface IUIMiniPassedQuestionButtonProps extends PaperProps {
   questionIndex: number;
@@ -18,8 +18,8 @@ export default function UIMiniPassedQuestionButton({
     <Grid item xs={4}>
       <Chip
         label={`Вопрос ${questionIndex}`}
-        variant={"outlined"}
-        color={"success"}
+        variant={'outlined'}
+        color={'success'}
         disabled
         icon={<DoneIcon />}
       />

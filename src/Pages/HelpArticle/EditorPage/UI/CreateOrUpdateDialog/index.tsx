@@ -5,26 +5,26 @@ import {
   DialogActions,
   DialogTitle,
   DialogContent,
-} from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
+} from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../../../../App/ReduxStore/RootStore";
-import { closeCreateDialog } from "../../redux-store";
-import CloseIcon from "@mui/icons-material/Close";
-import { LoadingButton } from "@mui/lab";
-import AddIcon from "@mui/icons-material/Add";
-import React from "react";
+} from '../../../../../App/ReduxStore/RootStore';
+import { closeCreateDialog } from '../../redux-store';
+import CloseIcon from '@mui/icons-material/Close';
+import { LoadingButton } from '@mui/lab';
+import AddIcon from '@mui/icons-material/Add';
+import React from 'react';
 import {
   createHelpArticle,
   updateHelpArticle,
-} from "../../redux-store/async-actions";
-import URL from "./url";
-import Title from "./title";
-import VideoUrl from "./video-url";
-import Content from "./content";
-import { getArticles } from "../../../HelpArticleByURL/redux-store/async-actions";
+} from '../../redux-store/async-actions';
+import URL from './url';
+import Title from './title';
+import VideoUrl from './video-url';
+import Content from './content';
+import { getArticles } from '../../../HelpArticleByURL/redux-store/async-actions';
 
 type ICreateHelpArticleDialogProps = BoxProps;
 
@@ -64,12 +64,12 @@ export default function CreateHelpArticleDialog({
     <Box {...props}>
       <Dialog
         fullWidth
-        maxWidth={"md"}
+        maxWidth={'md'}
         open={is_open_create_dialog}
         onClose={handleClose}
       >
         <DialogTitle>
-          {isEditDialog ? "Редактирование справки" : "Создание справки"}
+          {isEditDialog ? 'Редактирование справки' : 'Создание справки'}
         </DialogTitle>
         <DialogContent>
           <URL />
@@ -79,7 +79,7 @@ export default function CreateHelpArticleDialog({
         </DialogContent>
         <DialogActions>
           <Button
-            color={"error"}
+            color={'error'}
             onClick={handleClose}
             startIcon={<CloseIcon />}
           >
@@ -92,7 +92,7 @@ export default function CreateHelpArticleDialog({
             autoFocus
             startIcon={<AddIcon />}
           >
-            {isEditDialog ? "Сохранить" : "Создать"}
+            {isEditDialog ? 'Сохранить' : 'Создать'}
           </LoadingButton>
         </DialogActions>
       </Dialog>

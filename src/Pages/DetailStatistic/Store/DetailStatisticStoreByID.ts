@@ -1,7 +1,7 @@
-import { autorun, makeAutoObservable, toJS } from "mobx";
-import { ClientStorage } from "../../../Shared/Store/ApolloStorage/ClientStorage";
-import { GET_QUESTION_TEXT_BY_ID, LOAD_ATTEMPT_BY_ID } from "./Query";
-import { UserStorage } from "../../../Shared/Store/UserStore/UserStore";
+import { autorun, makeAutoObservable, toJS } from 'mobx';
+import { ClientStorage } from '../../../Shared/Store/ApolloStorage/ClientStorage';
+import { GET_QUESTION_TEXT_BY_ID, LOAD_ATTEMPT_BY_ID } from './Query';
+import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 
 export class DetailStatisticStoreByID {
   constructor(id?: number) {
@@ -36,7 +36,7 @@ export class DetailStatisticStoreByID {
             this.attemptData = attemptData;
 
             if (attemptData.userName === null) {
-              this.attemptData.userName = "Анонимный пользователь";
+              this.attemptData.userName = 'Анонимный пользователь';
             }
           });
       } catch (e) {
@@ -45,12 +45,12 @@ export class DetailStatisticStoreByID {
     }
   }
 
-  questionText = "";
+  questionText = '';
 
   get QuestionTextForStatistic() {
     if (
-      this.userStorage.userAccessLevel === "ADMIN" ||
-      this.userStorage.userAccessLevel === "TEACHER"
+      this.userStorage.userAccessLevel === 'ADMIN' ||
+      this.userStorage.userAccessLevel === 'TEACHER'
     ) {
       return this.questionText;
     } else {
@@ -140,7 +140,7 @@ export class DetailStatisticStoreByID {
           __sumOfWrongAnswers /
           (Number(this.attemptData?.statistic?.numberOfPasses) - 1)
         ).toFixed(1)
-      : "Ошибок нет";
+      : 'Ошибок нет';
   }
 
   // Максимальное число баллов для того набора ответов, который попался ученику
@@ -184,7 +184,7 @@ export class DetailStatisticStoreByID {
       !this?.attemptData?.maxSumOfAnswersPoint &&
       !this.attemptData?.questionHasBeenCompleted
     ) {
-      return "Невозможно рассчитать";
+      return 'Невозможно рассчитать';
     } else {
       return result;
     }
@@ -193,16 +193,16 @@ export class DetailStatisticStoreByID {
 
   get FormattedCreatedAt() {
     if (!this?.attemptData?.createdAt) {
-      return "Дата не сохранена";
+      return 'Дата не сохранена';
     }
     const createdAtDate = new Date(
       Date.parse(this.attemptData?.createdAt),
-    ).toLocaleString("ru", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
+    ).toLocaleString('ru', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
     });
     return String(createdAtDate);
   }
@@ -228,8 +228,8 @@ export class DetailStatisticStoreByID {
 
   get ShowStepByStepStatistic() {
     return (
-      this.userStorage.userAccessLevel == "ADMIN" ||
-      this.userStorage.userAccessLevel == "TEACHER"
+      this.userStorage.userAccessLevel == 'ADMIN' ||
+      this.userStorage.userAccessLevel == 'TEACHER'
     );
   }
 
@@ -249,7 +249,7 @@ export class DetailStatisticStoreByID {
       lastname: this?.attemptData?.authorizedUser?.userprofile?.lastname,
       firstname: this?.attemptData?.authorizedUser?.userprofile?.firstname,
       avatarSrc: this?.attemptData?.authorizedUser?.userprofile?.avatarSrc,
-      isLogin: this?.attemptData?.isLogin ? "да" : "нет",
+      isLogin: this?.attemptData?.isLogin ? 'да' : 'нет',
       numberOfPasses: this?.attemptData?.statistic?.numberOfPasses,
       arithmeticMeanNumberOfWrongAnswer:
         this?.arithmeticMeanNumberOfWrongAnswer,
@@ -275,4 +275,4 @@ export class DetailStatisticStoreByID {
 
 export const DetailStatisticStoreByIDObject = new DetailStatisticStoreByID();
 export type DSSObjectType = typeof DetailStatisticStoreByIDObject;
-export type rowType = (typeof DetailStatisticStoreByIDObject)["dataForRow"];
+export type rowType = (typeof DetailStatisticStoreByIDObject)['dataForRow'];

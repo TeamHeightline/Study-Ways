@@ -1,7 +1,7 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Helmet } from "react-helmet";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Helmet } from 'react-helmet';
 
 type ISeoDataProps = PaperProps;
 

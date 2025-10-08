@@ -1,6 +1,6 @@
-import { Box, Checkbox, FormControlLabel } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import React from "react";
+import { Box, Checkbox, FormControlLabel } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import React from 'react';
 
 type IUIIsEnableStartAndFinishTimeProps = BoxProps;
 

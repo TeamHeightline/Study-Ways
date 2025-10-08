@@ -1,5 +1,5 @@
-import { TableCell, TableHead, TableRow } from "@mui/material";
-import { PaperProps } from "@mui/material/Paper/Paper";
+import { TableCell, TableHead, TableRow } from '@mui/material';
+import { PaperProps } from '@mui/material/Paper/Paper';
 
 type IUIExamSelectorTableHeadProps = PaperProps;
 

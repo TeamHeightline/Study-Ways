@@ -1,6 +1,6 @@
-import { Autocomplete, TextField } from "@mui/material";
-import { useEffect } from "react";
-import { AISObject } from "../Store/AISearch";
+import { Autocomplete, TextField } from '@mui/material';
+import { useEffect } from 'react';
+import { AISObject } from '../Store/AISearch';
 
 export default function AIAuthorSelector(props) {
   useEffect(() => {
@@ -9,7 +9,7 @@ export default function AIAuthorSelector(props) {
   return (
     <Autocomplete
       disablePortal
-      size={"small"}
+      size={'small'}
       onChange={(event, value) => {
         AISObject.changeCardAuthor(value);
       }}

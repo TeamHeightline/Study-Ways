@@ -1,8 +1,8 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { TextField } from "@mui/material";
-import { EditAnswerByIdStore } from "../Store/edit-answer-by-id-store";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { TextField } from '@mui/material';
+import { EditAnswerByIdStore } from '../Store/edit-answer-by-id-store';
 
 interface IAnswerHelpTextV2Props extends PaperProps {
   answer_object: EditAnswerByIdStore;
@@ -11,13 +11,13 @@ interface IAnswerHelpTextV2Props extends PaperProps {
 const AnswerHelpTextV3 = observer(
   ({ answer_object, ...props }: IAnswerHelpTextV2Props) => (
     <TextField
-      variant={"outlined"}
+      variant={'outlined'}
       label="Подсказка для усложненного уровня"
       multiline
       fullWidth
       maxRows={7}
-      value={answer_object.getField("helpTextv3")}
-      onChange={answer_object.changeField("helpTextv3")}
+      value={answer_object.getField('helpTextv3')}
+      onChange={answer_object.changeField('helpTextv3')}
     />
   ),
 );

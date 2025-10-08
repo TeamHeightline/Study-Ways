@@ -1,8 +1,8 @@
-import { observer } from "mobx-react";
-import { TextField } from "@mui/material";
-import { QuestionEditorStorage } from "../Store/QuestionEditorStorage";
-import FormControl from "@mui/material/FormControl";
-import React from "react";
+import { observer } from 'mobx-react';
+import { TextField } from '@mui/material';
+import { QuestionEditorStorage } from '../Store/QuestionEditorStorage';
+import FormControl from '@mui/material/FormControl';
+import React from 'react';
 
 export const UiVideoUrl = observer(() => (
   <FormControl className="col-12">

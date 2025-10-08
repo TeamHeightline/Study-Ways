@@ -1,15 +1,15 @@
-import { Box, CircularProgress, Grid, Stack, Typography } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
+import { Box, CircularProgress, Grid, Stack, Typography } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../../App/ReduxStore/RootStore";
-import CardMicroView from "../../Cards/CardMicroView";
-import { useEffect } from "react";
-import { UserStorage } from "../../../Shared/Store/UserStore/UserStore";
-import { loadRecentCardsThunk } from "../Store/async-actions";
-import UIIsHideDuplicates from "./ui-is-hide-duplicates";
-import { useNavigate } from "react-router-dom";
+} from '../../../App/ReduxStore/RootStore';
+import CardMicroView from '../../Cards/CardMicroView';
+import { useEffect } from 'react';
+import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
+import { loadRecentCardsThunk } from '../Store/async-actions';
+import UIIsHideDuplicates from './ui-is-hide-duplicates';
+import { useNavigate } from 'react-router-dom';
 
 type IRecentCardsPageProps = BoxProps;
 
@@ -42,7 +42,7 @@ export default function RecentCardsPage({ ...props }: IRecentCardsPageProps) {
 
   if (is_loading_recent_card_id_array) {
     return (
-      <Stack alignItems={"center"}>
+      <Stack alignItems={'center'}>
         <CircularProgress />
       </Stack>
     );
@@ -53,13 +53,13 @@ export default function RecentCardsPage({ ...props }: IRecentCardsPageProps) {
     : recent_card_id_array;
   return (
     <Box {...props}>
-      <Stack alignItems={"center"}>
-        <Typography variant={"h3"} sx={{ mt: 3 }}>
+      <Stack alignItems={'center'}>
+        <Typography variant={'h3'} sx={{ mt: 3 }}>
           Недавно просмотренные карточки
         </Typography>
       </Stack>
       <UIIsHideDuplicates />
-      <Grid container spacing={2} justifyContent={"space-around"}>
+      <Grid container spacing={2} justifyContent={'space-around'}>
         {cards_id_array?.map((card_id, index) => (
           <Grid item key={`${index}_${card_id}`}>
             <CardMicroView

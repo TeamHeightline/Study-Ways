@@ -1,6 +1,6 @@
-import { observer } from "mobx-react";
-import { Box, Fade, LinearProgress, Typography } from "@mui/material";
-import { useAppSelector } from "../../../App/ReduxStore/RootStore";
+import { observer } from 'mobx-react';
+import { Box, Fade, LinearProgress, Typography } from '@mui/material';
+import { useAppSelector } from '../../../App/ReduxStore/RootStore';
 
 export const CardsNotLoadedIndicator = observer(() => {
   const card_hash_map = useAppSelector(
@@ -11,8 +11,8 @@ export const CardsNotLoadedIndicator = observer(() => {
 
   return (
     <Fade in={isCardsNotLoaded} timeout={500}>
-      <Box sx={{ width: "100%", mt: 1, px: 1, maxWidth: 700 }}>
-        <Typography variant={"caption"}>Загрузка необходимых данных</Typography>
+      <Box sx={{ width: '100%', mt: 1, px: 1, maxWidth: 700 }}>
+        <Typography variant={'caption'}>Загрузка необходимых данных</Typography>
         <LinearProgress />
       </Box>
     </Fade>

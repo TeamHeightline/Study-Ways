@@ -1,9 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { loadAllCardsData } from "./async-actions";
-import { CardHashMap } from "./type";
+import { createSlice } from '@reduxjs/toolkit';
+import { loadAllCardsData } from './async-actions';
+import { CardHashMap } from './type';
 
 const cardMicroViewSlice = createSlice({
-  name: "CardMicroView",
+  name: 'CardMicroView',
   initialState: {
     card_hash_map: {} as CardHashMap,
   },

@@ -1,8 +1,8 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import axiosClient from "../../../../Shared/ServerLayer/QueryLayer/config";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import axiosClient from '../../../../Shared/ServerLayer/QueryLayer/config';
 
 export const getArticles = createAsyncThunk(
-  "articleByURL/getArticles",
+  'articleByURL/getArticles',
   async () =>
-    axiosClient.get("page/help-article/get-articles").then((res) => res.data),
+    axiosClient.get('page/help-article/get-articles').then((res) => res.data),
 );

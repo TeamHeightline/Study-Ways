@@ -1,9 +1,9 @@
-import { Box, Card, CardActionArea, Typography } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import { observer } from "mobx-react";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import React from "react";
+import { Box, Card, CardActionArea, Typography } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import { observer } from 'mobx-react';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import React from 'react';
 
 interface IUISingleAnswerByDataProps extends BoxProps {
   text?: string;
@@ -26,9 +26,9 @@ const UISingleAnswerByData = observer(
       <Card
         variant="outlined"
         sx={{
-          backgroundColor: isSelected ? "#2296F3" : "",
-          display: "flex",
-          width: { md: 385, xs: "100%" },
+          backgroundColor: isSelected ? '#2296F3' : '',
+          display: 'flex',
+          width: { md: 385, xs: '100%' },
           height: 400,
         }}
         onClick={onAnswerClick}
@@ -42,7 +42,7 @@ const UISingleAnswerByData = observer(
             />
           )}
           {text && (
-            <CardContent sx={{ mb: 2, overflow: "auto" }}>
+            <CardContent sx={{ mb: 2, overflow: 'auto' }}>
               <Typography
                 variant="body1"
                 color="textSecondary"

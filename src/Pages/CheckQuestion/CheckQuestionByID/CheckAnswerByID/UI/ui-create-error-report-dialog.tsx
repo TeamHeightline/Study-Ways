@@ -1,6 +1,6 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
 import {
   Button,
   Dialog,
@@ -11,11 +11,11 @@ import {
   Paper,
   Stack,
   TextField,
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import SendIcon from "@mui/icons-material/Send";
-import { CheckAnswerByIdStore } from "../Store/check-answer-by-id-store";
-import ImageAnswerNode from "../../../../Question/ImageAnswerNode";
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import SendIcon from '@mui/icons-material/Send';
+import { CheckAnswerByIdStore } from '../Store/check-answer-by-id-store';
+import ImageAnswerNode from '../../../../Question/ImageAnswerNode';
 
 interface IUICreateErrorReportDialogProps extends PaperProps {
   answerStore: CheckAnswerByIdStore;
@@ -33,7 +33,7 @@ const UICreateErrorReportDialog = observer(
           <DialogContentText>
             Опишите максимально развернуто в чем состоит ошибка
           </DialogContentText>
-          <Stack alignItems={"center"} sx={{ mt: 2 }}>
+          <Stack alignItems={'center'} sx={{ mt: 2 }}>
             {answerStore?.answerData && (
               <ImageAnswerNode
                 answer={answerStore.answerData}
@@ -60,7 +60,7 @@ const UICreateErrorReportDialog = observer(
         <DialogActions>
           <Button
             onClick={answerStore.closeAnswerReportDialog}
-            color={"error"}
+            color={'error'}
             endIcon={<CloseIcon />}
           >
             Отмена

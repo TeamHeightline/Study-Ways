@@ -1,15 +1,15 @@
-import { observer } from "mobx-react";
-import React from "react";
-import Paper from "@mui/material/Paper";
-import TableContainer from "@mui/material/TableContainer";
-import Table from "@mui/material/Table";
-import TableRow from "@mui/material/TableRow";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TableBody from "@mui/material/TableBody";
-import { DetailStatisticByID } from "../../../DetailStatistic/UI/DetailStatisticByID";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Stack } from "@mui/material";
+import { observer } from 'mobx-react';
+import React from 'react';
+import Paper from '@mui/material/Paper';
+import TableContainer from '@mui/material/TableContainer';
+import Table from '@mui/material/Table';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableBody from '@mui/material/TableBody';
+import { DetailStatisticByID } from '../../../DetailStatistic/UI/DetailStatisticByID';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Stack } from '@mui/material';
 
 interface IShowStatisticTableProps extends PaperProps {
   attempt_id_array: number[] | string[];
@@ -23,13 +23,13 @@ export const ShowStatisticTable = observer(
     stickyHeader = false,
     pageChanger,
   }: IShowStatisticTableProps) => (
-    <Stack direction={"column"} sx={{ width: "100%", overflow: "hidden" }}>
+    <Stack direction={'column'} sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer
         component={Paper}
         sx={{
-          height: "auto",
-          overflowY: "auto",
-          maxHeight: stickyHeader ? window.innerHeight - 80 : "",
+          height: 'auto',
+          overflowY: 'auto',
+          maxHeight: stickyHeader ? window.innerHeight - 80 : '',
         }}
       >
         <Table
@@ -41,7 +41,7 @@ export const ShowStatisticTable = observer(
             <TableRow>
               <TableCell />
               <TableCell>Email пользователя</TableCell>
-              <TableCell>{"Имя и фамилия \n (из профиля)"}</TableCell>
+              <TableCell>{'Имя и фамилия \n (из профиля)'}</TableCell>
               <TableCell>ID вопроса </TableCell>
               <TableCell>Количество попыток</TableCell>
               <TableCell>Среднее количество ошибок</TableCell>

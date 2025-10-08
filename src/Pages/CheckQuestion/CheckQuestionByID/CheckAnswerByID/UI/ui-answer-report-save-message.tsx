@@ -1,8 +1,8 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Alert, Paper, Snackbar } from "@mui/material";
-import { CheckAnswerByIdStore } from "../Store/check-answer-by-id-store";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Alert, Paper, Snackbar } from '@mui/material';
+import { CheckAnswerByIdStore } from '../Store/check-answer-by-id-store';
 
 interface IUIAnswerReportSaveMessageProps extends PaperProps {
   answerStore: CheckAnswerByIdStore;
@@ -20,14 +20,14 @@ const UIAnswerReportSaveMessage = observer(
           {answerStore?.answerReportSavedMessageArray?.map(
             (isSuccess, index) => (
               <Alert
-                severity={isSuccess ? "success" : "error"}
-                sx={{ width: "100%" }}
+                severity={isSuccess ? 'success' : 'error'}
+                sx={{ width: '100%' }}
                 key={index}
-                variant={"filled"}
+                variant={'filled'}
               >
                 {isSuccess
-                  ? "Отчет об ошибке отправлен"
-                  : "Ошибка при отправке отчета об ошибке"}
+                  ? 'Отчет об ошибке отправлен'
+                  : 'Ошибка при отправке отчета об ошибке'}
               </Alert>
             ),
           )}

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import CourseRow from "./CourseRow";
-import { gql } from "graphql.macro";
-import { useMutation, useQuery } from "@apollo/client";
+import React, { useEffect, useState } from 'react';
+import CourseRow from './CourseRow';
+import { gql } from 'graphql.macro';
+import { useMutation, useQuery } from '@apollo/client';
 import {
   Alert,
   Box,
@@ -14,13 +14,13 @@ import {
   Stack,
   TextField,
   Typography,
-} from "@mui/material";
-import { isMobileHook } from "../../../Shared/CustomHooks/isMobileHook";
-import AddIcon from "@mui/icons-material/Add";
-import { SERVER_BASE_URL } from "../../../settings";
-import { EditorPage } from "../../Cards/Editor/EditorPageV2/Page";
-import SearchIcon from "@mui/icons-material/Search";
-import { Route, Routes, useNavigate, useParams } from "react-router-dom";
+} from '@mui/material';
+import { isMobileHook } from '../../../Shared/CustomHooks/isMobileHook';
+import AddIcon from '@mui/icons-material/Add';
+import { SERVER_BASE_URL } from '../../../settings';
+import { EditorPage } from '../../Cards/Editor/EditorPageV2/Page';
+import SearchIcon from '@mui/icons-material/Search';
+import { Route, Routes, useNavigate, useParams } from 'react-router-dom';
 
 const GET_COURSE_BY_ID = gql`
   query GET_COURSE_BY_ID($id: ID!) {
@@ -47,9 +47,9 @@ const UPDATE_COURSE_DATA = gql`
   }
 `;
 export default function EditCourseByID({ course_id, ...props }: any) {
-  const [cardCourseImageName, setCardCourseImageName] = useState("");
+  const [cardCourseImageName, setCardCourseImageName] = useState('');
   const [CourseLinesData, setCourseLineData] = useState<any>([]);
-  const [courseName, setCourseName] = useState("");
+  const [courseName, setCourseName] = useState('');
   const [openPageIndex, setOpenPageIndex] = useState(1); // пагинация работает с элемента под номером 1
   const [autoSaveTimer, changeAutoSaveTimer] = useState<any>();
   const [isCardEditNow] = useState(false);
@@ -88,7 +88,7 @@ export default function EditCourseByID({ course_id, ...props }: any) {
     changeAutoSaveTimer(
       setTimeout(() => {
         setStateOfSave(1);
-        console.log("-----autosave-------");
+        console.log('-----autosave-------');
         update_course();
       }, 4000),
     );
@@ -96,19 +96,19 @@ export default function EditCourseByID({ course_id, ...props }: any) {
   const handleSubmissionCardCourseImage = (img: any) => {
     const formData = new FormData();
 
-    formData.append("image", img);
-    formData.append("card_course", course_id);
+    formData.append('image', img);
+    formData.append('card_course', course_id);
     fetch(`${SERVER_BASE_URL}/cardfiles/course?update_id=${course_id}`, {
-      method: "POST",
+      method: 'POST',
       body: formData,
     })
       .then((response) => response.json())
       .then((result) => {
-        console.log("Success:", result);
-        setCardCourseImageName(result.image.slice(74).split("?")[0]);
+        console.log('Success:', result);
+        setCardCourseImageName(result.image.slice(74).split('?')[0]);
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error('Error:', error);
       });
   };
 
@@ -116,11 +116,11 @@ export default function EditCourseByID({ course_id, ...props }: any) {
     fetch(`${SERVER_BASE_URL}/cardfiles/course?id=${course_id}`)
       .then((response) => response.json())
       .then((result) => {
-        console.log("Success:", result);
-        setCardCourseImageName(result[0].image.slice(74).split("?")[0]);
+        console.log('Success:', result);
+        setCardCourseImageName(result[0].image.slice(74).split('?')[0]);
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error('Error:', error);
       });
   }
 
@@ -179,7 +179,7 @@ export default function EditCourseByID({ course_id, ...props }: any) {
 
   if (!course_data) {
     return (
-      <Stack alignItems={"center"}>
+      <Stack alignItems={'center'}>
         <CircularProgress />
       </Stack>
     );
@@ -187,13 +187,13 @@ export default function EditCourseByID({ course_id, ...props }: any) {
 
   return (
     <Box sx={{ pl: { xs: 0, md: 4 }, mt: { xs: 0, md: 2 } }}>
-      <Stack direction={"column"} sx={{ maxWidth: 300 }} spacing={1}>
+      <Stack direction={'column'} sx={{ maxWidth: 300 }} spacing={1}>
         {course_id && (
           <Button
             variant="outlined"
             color="primary"
             onClick={() => {
-              props.onChange("goBack");
+              props.onChange('goBack');
             }}
           >
             Назад
@@ -242,39 +242,39 @@ export default function EditCourseByID({ course_id, ...props }: any) {
 
       {CourseLinesData.length !== 0 && (
         <Stack
-          direction={"row"}
-          alignItems={"flex-end"}
+          direction={'row'}
+          alignItems={'flex-end'}
           sx={{ mt: 2 }}
           spacing={2}
         >
-          <Grid item xs={12} md={"auto"}>
+          <Grid item xs={12} md={'auto'}>
             <Pagination
               count={CourseLinesData[0].SameLine.length}
               shape="rounded"
               onChange={(e, value) => {
                 setOpenPageIndex(value);
               }}
-              size={isMobile ? "small" : "large"}
+              size={isMobile ? 'small' : 'large'}
               variant="outlined"
               color="secondary"
             />
           </Grid>
           <Grid item xs={12} md={1} sx={{ mt: 1 }}>
-            <ButtonGroup style={{ zoom: "109%" }}>
+            <ButtonGroup style={{ zoom: '109%' }}>
               <Button onClick={() => addCoursePage()}>
                 <AddIcon />
               </Button>
             </ButtonGroup>
           </Grid>
-          <Button onClick={() => addCourseLine(true)} variant={"contained"}>
+          <Button onClick={() => addCourseLine(true)} variant={'contained'}>
             Добавить строку сверху
           </Button>
-          <Button onClick={() => addCourseLine(false)} variant={"contained"}>
+          <Button onClick={() => addCourseLine(false)} variant={'contained'}>
             Добавить строку снизу
           </Button>
         </Stack>
       )}
-      <Box sx={{ overflow: "auto", mb: 1 }}>
+      <Box sx={{ overflow: 'auto', mb: 1 }}>
         {CourseLinesData.length !== 0 &&
           CourseLinesData.map((line, lIndex) => (
             <CourseRow
@@ -303,13 +303,13 @@ export default function EditCourseByID({ course_id, ...props }: any) {
       </Box>
       <Routes>
         <Route
-          path={"card/:id"}
+          path={'card/:id'}
           element={
             <Button
               startIcon={<SearchIcon />}
-              variant={"contained"}
+              variant={'contained'}
               onClick={() => {
-                navigate("/editor/course");
+                navigate('/editor/course');
               }}
             >
               К поиску карточек
@@ -321,18 +321,18 @@ export default function EditCourseByID({ course_id, ...props }: any) {
       <Snackbar open={true}>
         {isCardEditNow ? (
           <Alert severity="info">
-            {stateOfSave === 0 && "Курс: не сохранен"}
-            {stateOfSave === 1 && "Курс: сохранияется"}
-            {stateOfSave === 2 && "Курс: сохранен"}
-            {cardStateOfSave === 0 && " | Карточка: не сохранена"}
-            {cardStateOfSave === 1 && " | Карточка: сохраняется"}
-            {cardStateOfSave === 2 && " | Карточка: сохранена"}
+            {stateOfSave === 0 && 'Курс: не сохранен'}
+            {stateOfSave === 1 && 'Курс: сохранияется'}
+            {stateOfSave === 2 && 'Курс: сохранен'}
+            {cardStateOfSave === 0 && ' | Карточка: не сохранена'}
+            {cardStateOfSave === 1 && ' | Карточка: сохраняется'}
+            {cardStateOfSave === 2 && ' | Карточка: сохранена'}
           </Alert>
         ) : (
           <Alert severity="info">
-            {stateOfSave === 0 && "Курс: не сохранен"}
-            {stateOfSave === 1 && "Курс: сохраняется"}
-            {stateOfSave === 2 && "Курс: сохранен"}
+            {stateOfSave === 0 && 'Курс: не сохранен'}
+            {stateOfSave === 1 && 'Курс: сохраняется'}
+            {stateOfSave === 2 && 'Курс: сохранен'}
           </Alert>
         )}
       </Snackbar>

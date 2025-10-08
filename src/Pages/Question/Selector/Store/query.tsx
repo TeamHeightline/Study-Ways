@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const GET_MY_QUESTIONS_ID_ARRAY = gql`
   query GET_MY_QUESTIONS_ID_ARRAY($page: Int!) {

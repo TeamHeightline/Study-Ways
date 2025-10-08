@@ -1,13 +1,13 @@
-import { Box, IconButton, Stack, Typography } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { Box, IconButton, Stack, Typography } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import {
   RootState,
   useAppDispatch,
-} from "../../../../../App/ReduxStore/RootStore";
-import { useSelector } from "react-redux";
-import { changeOrderingByCreatedAt } from "../redux-store/QuestionEditorPageSlice";
+} from '../../../../../App/ReduxStore/RootStore';
+import { useSelector } from 'react-redux';
+import { changeOrderingByCreatedAt } from '../redux-store/QuestionEditorPageSlice';
 
 type IUIOrderingByCreatedAtProps = BoxProps;
 
@@ -20,18 +20,18 @@ export default function UIOrderingByCreatedAt({
   const dispatch = useAppDispatch();
   return (
     <Box {...props}>
-      <Stack direction={"row"} alignItems={"center"}>
+      <Stack direction={'row'} alignItems={'center'}>
         <IconButton
-          size={"small"}
+          size={'small'}
           onClick={() => dispatch(changeOrderingByCreatedAt())}
         >
-          {ordering_by_created_at === "asc" ? (
+          {ordering_by_created_at === 'asc' ? (
             <ArrowDropUpIcon />
           ) : (
             <ArrowDropDownIcon />
           )}
         </IconButton>
-        <Typography variant={"body2"}>Сортировать по дате создания</Typography>
+        <Typography variant={'body2'}>Сортировать по дате создания</Typography>
       </Stack>
     </Box>
   );

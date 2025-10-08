@@ -1,15 +1,15 @@
-import { Card, Grid, Paper, Typography } from "@mui/material";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { useDispatch, useSelector } from "react-redux";
-import UIQuestionButtonFactory from "./ui-question-button-factory";
-import { changeSelectedQuestionId } from "../../redux-store/ExamPlayerSlice";
-import { useEffect } from "react";
-import { IQuestionStatus } from "../../redux-store/InitialState";
-import { updateQuestionProgress } from "../../../../../Shared/ServerLayer/QueryLayer/exam.query";
+import { Card, Grid, Paper, Typography } from '@mui/material';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { useDispatch, useSelector } from 'react-redux';
+import UIQuestionButtonFactory from './ui-question-button-factory';
+import { changeSelectedQuestionId } from '../../redux-store/ExamPlayerSlice';
+import { useEffect } from 'react';
+import { IQuestionStatus } from '../../redux-store/InitialState';
+import { updateQuestionProgress } from '../../../../../Shared/ServerLayer/QueryLayer/exam.query';
 import {
   RootState,
   useAppSelector,
-} from "../../../../../App/ReduxStore/RootStore";
+} from '../../../../../App/ReduxStore/RootStore';
 
 type IUIExamQuestionProgressProps = PaperProps;
 
@@ -59,10 +59,10 @@ export default function UIExamQuestionProgress({
   return (
     <Paper elevation={0} {...props}>
       <Card
-        variant={"outlined"}
-        sx={{ p: 2, maxWidth: 440, mt: 2, zoom: "115%" }}
+        variant={'outlined'}
+        sx={{ p: 2, maxWidth: 440, mt: 2, zoom: '115%' }}
       >
-        <Grid container spacing={2} justifyContent={"evenly"}>
+        <Grid container spacing={2} justifyContent={'evenly'}>
           {questionStatuses?.map((questionStatus, index) => (
             <UIQuestionButtonFactory
               questionIndex={index}
@@ -71,7 +71,7 @@ export default function UIExamQuestionProgress({
           ))}
         </Grid>
       </Card>
-      <Typography variant={"h6"}>
+      <Typography variant={'h6'}>
         Осталось минут: {remaining_minutes}
       </Typography>
     </Paper>

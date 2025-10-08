@@ -1,4 +1,4 @@
-import { gql } from "graphql.macro";
+import { gql } from 'graphql.macro';
 
 export const GET_ALL_UNSTRUCTURED_THEME = gql`
   query GET_ALL_UNSTRUCTURED_THEME {

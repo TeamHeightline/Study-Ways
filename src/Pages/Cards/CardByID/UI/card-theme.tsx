@@ -1,10 +1,10 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Paper, Stack } from "@mui/material";
-import { CardByIDStore } from "../Store/CardByIDStore";
-import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import ThemeWithAncestor from "./theme-with-ancestor";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Paper, Stack } from '@mui/material';
+import { CardByIDStore } from '../Store/CardByIDStore';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import ThemeWithAncestor from './theme-with-ancestor';
 
 interface ICardThemeProps extends PaperProps {
   card_store: CardByIDStore;
@@ -21,8 +21,8 @@ const CardTheme = observer(({ card_store, ...props }: ICardThemeProps) => {
   return (
     <Paper elevation={0} {...props}>
       {isShowTheme && (
-        <Stack direction={"row"}>
-          <AccountTreeIcon sx={{ mr: 1 }} fontSize={"small"} />
+        <Stack direction={'row'}>
+          <AccountTreeIcon sx={{ mr: 1 }} fontSize={'small'} />
           {themeIDArray?.map((theme) => (
             <ThemeWithAncestor
               key={`${theme.id}ThemeKey`}

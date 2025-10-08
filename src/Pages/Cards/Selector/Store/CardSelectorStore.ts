@@ -1,17 +1,17 @@
-import { autorun, makeAutoObservable, toJS } from "mobx";
-import { ClientStorage } from "../../../../Shared/Store/ApolloStorage/ClientStorage";
+import { autorun, makeAutoObservable, toJS } from 'mobx';
+import { ClientStorage } from '../../../../Shared/Store/ApolloStorage/ClientStorage';
 import {
   CREATE_NEW_CARD,
   GET_CARD_ID_BY_SEARCHING_PARAMS,
   GET_CONNECTED_THEME,
-} from "./Query";
-import { UserStorage } from "../../../../Shared/Store/UserStore/UserStore";
+} from './Query';
+import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
 import {
   CardCardContentType,
   CardHardLevel,
   Mutation,
   UnstructuredThemesNode,
-} from "../../../../SchemaTypes";
+} from '../../../../SchemaTypes';
 
 export class CardSelectorStore {
   constructor() {
@@ -48,7 +48,7 @@ export class CardSelectorStore {
 
   activePage = 1;
   maxPages = 1;
-  searching_string = "";
+  searching_string = '';
 
   changeActivePage = (e: any, value: number) => {
     this.activePage = value;
@@ -60,18 +60,18 @@ export class CardSelectorStore {
 
   cards_id_array: string[] = [];
 
-  mode?: "onlyCreatedByMe" | "standard" = undefined;
+  mode?: 'onlyCreatedByMe' | 'standard' = undefined;
 
   setMode(new_mode) {
     this.mode = new_mode;
   }
 
-  hardLevel: hardLevelTypes = "undefined";
+  hardLevel: hardLevelTypes = 'undefined';
   changeHardLevel = (e) => {
     this.hardLevel = e.target.value;
   };
 
-  contentType: cardContentType = "undefined";
+  contentType: cardContentType = 'undefined';
   changeContentType = (e) => {
     this.contentType = e.target.value;
   };
@@ -92,7 +92,7 @@ export class CardSelectorStore {
       this.clientStorage.client
         .query({
           query: GET_CONNECTED_THEME,
-          fetchPolicy: useCache ? "cache-first" : "network-only",
+          fetchPolicy: useCache ? 'cache-first' : 'network-only',
           variables: {},
         })
         .then((response) => response.data.unstructuredTheme)
@@ -120,26 +120,26 @@ export class CardSelectorStore {
     if (this.mode) {
       const filters = {};
       if (this.searching_string.length > 2) {
-        filters["smartSearchString"] = this.searching_string;
+        filters['smartSearchString'] = this.searching_string;
       }
-      if (this.mode == "onlyCreatedByMe") {
-        filters["createdByMe"] = true;
+      if (this.mode == 'onlyCreatedByMe') {
+        filters['createdByMe'] = true;
       }
-      if (this.hardLevel !== "undefined") {
-        filters["cardHardLevel"] = Number(this.hardLevel.slice(2, 3));
+      if (this.hardLevel !== 'undefined') {
+        filters['cardHardLevel'] = Number(this.hardLevel.slice(2, 3));
       }
-      if (this.contentType !== "undefined") {
-        filters["cardType"] = Number(this.contentType.slice(2, 3));
+      if (this.contentType !== 'undefined') {
+        filters['cardType'] = Number(this.contentType.slice(2, 3));
       }
       if (this.cardConnectedTheme) {
-        filters["connectedTheme"] = this.cardConnectedTheme;
+        filters['connectedTheme'] = this.cardConnectedTheme;
       }
 
       try {
         this.clientStorage.client
           .query({
             query: GET_CARD_ID_BY_SEARCHING_PARAMS,
-            fetchPolicy: "network-only",
+            fetchPolicy: 'network-only',
             variables: {
               activePage: this.activePage,
               ...filters,
@@ -149,7 +149,7 @@ export class CardSelectorStore {
           .then((searching_data) => {
             if (searching_data) {
               if (searching_data?.IDs) {
-                if (this.mode == "onlyCreatedByMe") {
+                if (this.mode == 'onlyCreatedByMe') {
                   this.my_cards_activePage = Number(searching_data.activePage);
                   this.my_cards_maxPages = Number(searching_data.numPages);
                   this.my_cards_cards_id_array = searching_data?.IDs;
@@ -171,7 +171,7 @@ export class CardSelectorStore {
   my_cards_cards_id_array: string[] = [];
 
   get cards_id_array_for_selector() {
-    if (this.mode == "onlyCreatedByMe") {
+    if (this.mode == 'onlyCreatedByMe') {
       return toJS(this.my_cards_cards_id_array);
     } else {
       return toJS(this.cards_id_array);
@@ -179,7 +179,7 @@ export class CardSelectorStore {
   }
 
   get activePage_for_selector() {
-    if (this.mode == "onlyCreatedByMe") {
+    if (this.mode == 'onlyCreatedByMe') {
       return this.my_cards_activePage;
     } else {
       return this.activePage;
@@ -187,7 +187,7 @@ export class CardSelectorStore {
   }
 
   get maxPages_for_selector() {
-    if (this.mode == "onlyCreatedByMe") {
+    if (this.mode == 'onlyCreatedByMe') {
       return this.my_cards_maxPages;
     } else {
       return this.maxPages;
@@ -195,7 +195,7 @@ export class CardSelectorStore {
   }
 }
 
-type hardLevelTypes = CardHardLevel | "undefined";
-export type cardContentType = CardCardContentType | "undefined";
+type hardLevelTypes = CardHardLevel | 'undefined';
+export type cardContentType = CardCardContentType | 'undefined';
 
 export const CSSObject = new CardSelectorStore();

@@ -1,11 +1,11 @@
-import { observer } from "mobx-react";
-import React, { useEffect } from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Grid, Paper } from "@mui/material";
-import QSSObject from "../Store/question-selector-store";
-import QuestionNanoViewByID from "../../QuestionNanoViewByID/UI/question-nano-view-by-id";
-import AuthorSelector from "./authors-selector";
-import QuestionPagination from "./question-pagination";
+import { observer } from 'mobx-react';
+import React, { useEffect } from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Grid, Paper } from '@mui/material';
+import QSSObject from '../Store/question-selector-store';
+import QuestionNanoViewByID from '../../QuestionNanoViewByID/UI/question-nano-view-by-id';
+import AuthorSelector from './authors-selector';
+import QuestionPagination from './question-pagination';
 
 interface IQuestionSelectorProps extends PaperProps {
   onQuestionSelect: (question_id: string) => void;

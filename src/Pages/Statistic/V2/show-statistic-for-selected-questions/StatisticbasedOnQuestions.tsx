@@ -1,10 +1,10 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { CloseButton } from "./statistic-selector/UI/CloseButton";
-import { Selectors } from "./statistic-selector/UI/Selectors";
-import { ShowStatisticTable } from "./ShowStatisticTable";
-import { Pages } from "./statistic-selector/UI/Pages";
-import { SASObject } from "./statistic-selector/Store/SelectAttemptStore";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { CloseButton } from './statistic-selector/UI/CloseButton';
+import { Selectors } from './statistic-selector/UI/Selectors';
+import { ShowStatisticTable } from './ShowStatisticTable';
+import { Pages } from './statistic-selector/UI/Pages';
+import { SASObject } from './statistic-selector/Store/SelectAttemptStore';
 
 interface IStatisticBasedOnQuestionsProps
   extends React.HTMLAttributes<HTMLDivElement> {

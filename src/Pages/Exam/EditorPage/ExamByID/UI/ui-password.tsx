@@ -1,17 +1,17 @@
-import { Box, IconButton, InputAdornment, TextField } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import { useEffect, useState } from "react";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Box, IconButton, InputAdornment, TextField } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import { useEffect, useState } from 'react';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
   RootState,
   useAppDispatch,
-} from "../../../../../App/ReduxStore/RootStore";
-import { useSelector } from "react-redux";
+} from '../../../../../App/ReduxStore/RootStore';
+import { useSelector } from 'react-redux';
 import {
   changeOriginalPassword,
   changePassword,
-} from "../redux-store/examEditorSlice";
-import CryptoJS from "crypto-js";
+} from '../redux-store/examEditorSlice';
+import CryptoJS from 'crypto-js';
 
 type IUIPasswordProps = BoxProps;
 
@@ -24,7 +24,7 @@ export default function UIPassword({ ...props }: IUIPasswordProps) {
     ) || false;
   const original_password =
     useSelector((state: RootState) => state?.examEditor?.original_password) ||
-    "";
+    '';
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
@@ -33,7 +33,7 @@ export default function UIPassword({ ...props }: IUIPasswordProps) {
   useEffect(() => {
     const encryptedPassword = CryptoJS.AES.encrypt(
       original_password,
-      "sw-secret-key",
+      'sw-secret-key',
     ).toString();
     dispatch(changePassword(encryptedPassword));
   }, [original_password]);
@@ -43,9 +43,9 @@ export default function UIPassword({ ...props }: IUIPasswordProps) {
       <TextField
         label="Пароль"
         variant="standard"
-        type={showPassword ? "text" : "password"}
+        type={showPassword ? 'text' : 'password'}
         fullWidth
-        id={"exam-password"}
+        id={'exam-password'}
         value={original_password}
         onChange={(e) => {
           dispatch(changeOriginalPassword(e.target.value));

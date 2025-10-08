@@ -1,6 +1,6 @@
-import React from "react";
-import { NodeModel } from "@minoru/react-dnd-treeview";
-import styles from "./Placeholder.module.css";
+import React from 'react';
+import { NodeModel } from '@minoru/react-dnd-treeview';
+import styles from './Placeholder.module.css';
 
 type Props = {
   node: NodeModel;

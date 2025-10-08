@@ -6,23 +6,23 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
+} from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
 import {
   RootState,
   useAppDispatch,
-} from "../../../../../App/ReduxStore/RootStore";
-import { useSelector } from "react-redux";
+} from '../../../../../App/ReduxStore/RootStore';
+import { useSelector } from 'react-redux';
 import {
   closeCreateQuestionDialog,
   finishCreatingNewQuestion,
   startCreatingNewQuestion,
-} from "../redux-store/QuestionEditorPageSlice";
-import CloseIcon from "@mui/icons-material/Close";
-import AddIcon from "@mui/icons-material/Add";
-import { LoadingButton } from "@mui/lab";
-import { QuestionEditorStorage } from "../../QuestionEditor/Store/QuestionEditorStorage";
-import { useNavigate } from "react-router-dom";
+} from '../redux-store/QuestionEditorPageSlice';
+import CloseIcon from '@mui/icons-material/Close';
+import AddIcon from '@mui/icons-material/Add';
+import { LoadingButton } from '@mui/lab';
+import { QuestionEditorStorage } from '../../QuestionEditor/Store/QuestionEditorStorage';
+import { useNavigate } from 'react-router-dom';
 
 type IUICreateNewQuestionDialogProps = BoxProps;
 
@@ -56,7 +56,7 @@ export default function UICreateNewQuestionDialog({
   return (
     <Box {...props}>
       <Dialog open={is_open_create_question_dialog} onClose={handleClose}>
-        <DialogTitle>{"Создать новый вопрос?"}</DialogTitle>
+        <DialogTitle>{'Создать новый вопрос?'}</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Вы уверенны, что хотите создать новый вопрос? Если вы нажмете ОК, то
@@ -64,7 +64,7 @@ export default function UICreateNewQuestionDialog({
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color={"error"} endIcon={<CloseIcon />}>
+          <Button onClick={handleClose} color={'error'} endIcon={<CloseIcon />}>
             Отмена
           </Button>
           <LoadingButton

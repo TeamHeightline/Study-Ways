@@ -1,9 +1,9 @@
-import { useCallback } from "react";
-import { Handle, Position } from "@xyflow/react";
-import CardMicroView from "../../Cards/CardMicroView";
-import { observer } from "mobx-react";
-import { AICourseStore } from "../model/store";
-import { toJS } from "mobx";
+import { useCallback } from 'react';
+import { Handle, Position } from '@xyflow/react';
+import CardMicroView from '../../Cards/CardMicroView';
+import { observer } from 'mobx-react';
+import { AICourseStore } from '../model/store';
+import { toJS } from 'mobx';
 
 interface IProps {
   data: {
@@ -38,7 +38,7 @@ export const CardNode = observer((props: IProps) => {
       <div
         onClick={handleClick}
         style={{
-          border: isSelected ? "1px solid #f50057" : "none",
+          border: isSelected ? '1px solid #f50057' : 'none',
           borderRadius: 24,
           width: CARD_WIDTH,
         }}

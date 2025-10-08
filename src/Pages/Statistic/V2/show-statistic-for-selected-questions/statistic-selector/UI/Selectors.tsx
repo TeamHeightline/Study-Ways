@@ -1,13 +1,13 @@
-import { observer } from "mobx-react";
-import React, { useEffect } from "react";
-import { Stack } from "@mui/material";
-import { ExamMode } from "./ExamMode";
-import { QSMode } from "./QSMode";
-import { UserName } from "./UserName";
-import { AfterTime } from "./AfterTime";
-import { SpecificQuestion } from "./SpecificQuestion";
-import { SASObject } from "../Store/SelectAttemptStore";
-import { isMobileHook } from "../../../../../../Shared/CustomHooks/isMobileHook";
+import { observer } from 'mobx-react';
+import React, { useEffect } from 'react';
+import { Stack } from '@mui/material';
+import { ExamMode } from './ExamMode';
+import { QSMode } from './QSMode';
+import { UserName } from './UserName';
+import { AfterTime } from './AfterTime';
+import { SpecificQuestion } from './SpecificQuestion';
+import { SASObject } from '../Store/SelectAttemptStore';
+import { isMobileHook } from '../../../../../../Shared/CustomHooks/isMobileHook';
 
 interface ISelectorsProps extends React.HTMLAttributes<HTMLDivElement> {
   selectedQuestions: number[];
@@ -22,7 +22,7 @@ export const Selectors = observer(
     return (
       <div {...props}>
         <Stack
-          direction={isMobile ? "column" : "row"}
+          direction={isMobile ? 'column' : 'row'}
           spacing={1}
           justifyContent="space-evenly"
           sx={{ pt: 2, mb: 1 }}

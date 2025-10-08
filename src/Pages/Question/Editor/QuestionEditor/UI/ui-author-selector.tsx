@@ -1,13 +1,13 @@
-import { observer } from "mobx-react";
-import InputLabel from "@mui/material/InputLabel";
-import Input from "@mui/material/Input";
-import { MenuProps } from "./Struct";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import React from "react";
-import { QuestionEditorStorage } from "../Store/QuestionEditorStorage";
-import { toJS } from "mobx";
-import { Select } from "@mui/material";
+import { observer } from 'mobx-react';
+import InputLabel from '@mui/material/InputLabel';
+import Input from '@mui/material/Input';
+import { MenuProps } from './Struct';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import React from 'react';
+import { QuestionEditorStorage } from '../Store/QuestionEditorStorage';
+import { toJS } from 'mobx';
+import { Select } from '@mui/material';
 
 export const AuthorSelector = observer(() => (
   <FormControl className="col-12">

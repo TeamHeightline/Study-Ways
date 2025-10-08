@@ -1,8 +1,8 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { EditAnswerByIdStore } from "../Store/edit-answer-by-id-store";
-import EditAnswerUI from "./edit-answer-ui";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { EditAnswerByIdStore } from '../Store/edit-answer-by-id-store';
+import EditAnswerUI from './edit-answer-ui';
 
 interface IEditAnswerByIDProps extends PaperProps {
   answer_id: number;

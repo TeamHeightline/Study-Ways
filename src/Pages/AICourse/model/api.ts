@@ -1,7 +1,7 @@
-import recombeeClient from "../../../Shared/Store/RecombeeClient/recombee-client";
+import recombeeClient from '../../../Shared/Store/RecombeeClient/recombee-client';
 // @ts-ignore
-import recombee, {RecommendItemsToItem} from "recombee-js-api-client";
-import {UserStorage} from "../../../Shared/Store/UserStore/UserStore";
+import recombee, { RecommendItemsToItem } from 'recombee-js-api-client';
+import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 
 const NUMBER_OF_NEXT_CARDS = 3;
 
@@ -19,10 +19,10 @@ export async function getCardsBySearch(
         searchString,
         NUMBER_OF_DEFAULT_CARDS,
         {
-          scenario: "Search-Card",
+          scenario: 'Search-Card',
           returnProperties: true,
           cascadeCreate: true,
-          includedProperties: ["title"],
+          includedProperties: ['title'],
         },
       ),
       (err, matches) => {

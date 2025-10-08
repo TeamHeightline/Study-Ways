@@ -1,10 +1,10 @@
-import { FormControlLabel, Paper, Switch } from "@mui/material";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { useState } from "react";
-import { useInterval } from "./use-interval";
-import { useDispatch, useSelector } from "react-redux";
-import { loadExamResultsAsync } from "../redux-store/async-actions";
-import { RootState } from "../../../../App/ReduxStore/RootStore";
+import { FormControlLabel, Paper, Switch } from '@mui/material';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { useState } from 'react';
+import { useInterval } from './use-interval';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadExamResultsAsync } from '../redux-store/async-actions';
+import { RootState } from '../../../../App/ReduxStore/RootStore';
 
 type IUIAutoUpdateFlagProps = PaperProps;
 

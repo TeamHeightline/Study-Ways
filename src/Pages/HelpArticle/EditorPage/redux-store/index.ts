@@ -1,11 +1,11 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   createHelpArticle,
   deleteHelpArticle,
   updateHelpArticle,
-} from "./async-actions";
-import { IHelpArticle } from "../../HelpArticleByURL/redux-store/types";
-import { getArticles } from "../../HelpArticleByURL/redux-store/async-actions";
+} from './async-actions';
+import { IHelpArticle } from '../../HelpArticleByURL/redux-store/types';
+import { getArticles } from '../../HelpArticleByURL/redux-store/async-actions';
 
 interface ICreateOrUpdateArticle {
   id?: string;
@@ -16,13 +16,13 @@ interface ICreateOrUpdateArticle {
 }
 
 const default_create_or_update_article_data: ICreateOrUpdateArticle = {
-  title: "",
-  url: "",
-  content: "",
-  video_url: "",
+  title: '',
+  url: '',
+  content: '',
+  video_url: '',
 };
 const helpArticleEditorPageSlice = createSlice({
-  name: "helpArticleEditorPage",
+  name: 'helpArticleEditorPage',
   initialState: {
     is_open_create_dialog: false,
     is_loading_create_article: false,

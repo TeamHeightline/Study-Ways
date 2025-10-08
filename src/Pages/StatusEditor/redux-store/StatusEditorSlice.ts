@@ -1,24 +1,24 @@
-import type { PayloadAction } from "@reduxjs/toolkit";
-import { createSlice } from "@reduxjs/toolkit";
-import { IBasicUserInformation } from "../../../Shared/ServerLayer/Types/user.types";
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import { IBasicUserInformation } from '../../../Shared/ServerLayer/Types/user.types';
 import {
   loadAllUsersAsync,
   searchUserAsync,
   updateUserStatusAsync,
-} from "./AsyncActions";
+} from './AsyncActions';
 
 const initialState = {
   is_users_loading: true,
   is_users_loading_error: false,
   users: [] as IBasicUserInformation[],
-  searchString: "",
+  searchString: '',
   selectedUser: null as IBasicUserInformation | null,
   pending_update_user_status: false,
   update_user_status_error: false,
 };
 
 const statusEditorSlice = createSlice({
-  name: "statusEditor",
+  name: 'statusEditor',
   initialState,
   reducers: {
     changeSearchString: (state, action: PayloadAction<string>) => {
@@ -37,7 +37,7 @@ const statusEditorSlice = createSlice({
     },
     changeSelectedUserStatus: (
       state,
-      action: PayloadAction<"STUDENT" | "ADMIN" | "TEACHER">,
+      action: PayloadAction<'STUDENT' | 'ADMIN' | 'TEACHER'>,
     ) => {
       if (state.selectedUser) {
         state.selectedUser.user_access_level = action.payload;

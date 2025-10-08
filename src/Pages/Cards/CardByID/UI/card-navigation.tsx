@@ -1,9 +1,9 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Grid, Paper } from "@mui/material";
-import { CardByIDStore } from "../Store/CardByIDStore";
-import CardAuthorNavigation from "./card-author-navigation";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Grid, Paper } from '@mui/material';
+import { CardByIDStore } from '../Store/CardByIDStore';
+import CardAuthorNavigation from './card-author-navigation';
 
 interface ICardNavigationRatingFindProps extends PaperProps {
   card_store: CardByIDStore;

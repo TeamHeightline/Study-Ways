@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { loadAuthorsThunk, loadQuestionsThunk } from "./AsyncActions";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { loadAuthorsThunk, loadQuestionsThunk } from './AsyncActions';
 
 interface IQuestion {
   id: number;
@@ -22,20 +22,20 @@ const initialState = {
 
   authors: [] as IAuthors[],
 
-  author_filter: "my" as "my" | "all" | string,
+  author_filter: 'my' as 'my' | 'all' | string,
 
   is_pending_questions: true,
   is_loading_questions_error: false,
 
   show_only_filled_questions: false,
-  ordering_by_created_at: "desc" as "asc" | "desc",
+  ordering_by_created_at: 'desc' as 'asc' | 'desc',
 
   is_open_create_question_dialog: false,
   is_new_question_now_creating: false,
 };
 
 const questionEditorPageSlice = createSlice({
-  name: "questionEditorPage",
+  name: 'questionEditorPage',
   initialState,
   reducers: {
     changeShowOnlyFilledQuestions: (state) => {
@@ -43,7 +43,7 @@ const questionEditorPageSlice = createSlice({
     },
     changeOrderingByCreatedAt: (state) => {
       state.ordering_by_created_at =
-        state.ordering_by_created_at === "asc" ? "desc" : "asc";
+        state.ordering_by_created_at === 'asc' ? 'desc' : 'asc';
     },
     openCreateQuestionDialog: (state) => {
       state.is_open_create_question_dialog = true;

@@ -1,6 +1,6 @@
-import { Alert, Box, Button, Stack } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import { observer } from "mobx-react";
+import { Alert, Box, Button, Stack } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import { observer } from 'mobx-react';
 import {
   ArgumentAxis,
   BarSeries,
@@ -8,9 +8,9 @@ import {
   SplineSeries,
   Title,
   ValueAxis,
-} from "@devexpress/dx-react-chart-material-ui";
-import React from "react";
-import { QuestionPlayerStore } from "../Store/QuestionPlayerStore";
+} from '@devexpress/dx-react-chart-material-ui';
+import React from 'react';
+import { QuestionPlayerStore } from '../Store/QuestionPlayerStore';
 
 interface IUIStatisticProps extends BoxProps {
   questionStore: QuestionPlayerStore;
@@ -22,22 +22,22 @@ const UIStatistic = observer(
     // @ts-ignore
     <Box {...props}>
       <Alert
-        severity={questionStore?.isAcceptDefeat ? "error" : "info"}
+        severity={questionStore?.isAcceptDefeat ? 'error' : 'info'}
         variant="filled"
         sx={{ mt: 2 }}
       >
         {questionStore?.isAcceptDefeat
-          ? "Вы сдались.     " +
+          ? 'Вы сдались.     ' +
             `Количество попыток - ${questionStore?.numberOfPasses}`
-          : "Вы прошли этот вопрос.     " +
+          : 'Вы прошли этот вопрос.     ' +
             `Количество попыток - ${questionStore?.numberOfPasses}`}
       </Alert>
-      <Stack alignItems={"center"} sx={{ pt: 2 }}>
-        <Button variant={"contained"} color="primary" onClick={restartQuestion}>
+      <Stack alignItems={'center'} sx={{ pt: 2 }}>
+        <Button variant={'contained'} color="primary" onClick={restartQuestion}>
           Пройти тест заново
         </Button>
       </Stack>
-      <Stack direction={"row"} sx={{ pt: 2 }}>
+      <Stack direction={'row'} sx={{ pt: 2 }}>
         {/*
                     // @ts-ignore*/}
         <Chart data={questionStore?.chartDataNumberOfWrongAnswers}>

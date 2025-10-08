@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const LOAD_ATTEMPT_BY_ID = gql`
   query LOAD_ATTEMPT_BY_ID($ID: ID!) {

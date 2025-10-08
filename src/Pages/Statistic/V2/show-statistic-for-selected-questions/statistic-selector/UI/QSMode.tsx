@@ -1,7 +1,7 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { FormControlLabel, Switch } from "@mui/material";
-import { SASObject } from "../Store/SelectAttemptStore";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { FormControlLabel, Switch } from '@mui/material';
+import { SASObject } from '../Store/SelectAttemptStore';
 
 type IQSModeProps = React.HTMLAttributes<HTMLDivElement>;
 export const QSMode = observer(({ ...props }: IQSModeProps) => (

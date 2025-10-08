@@ -1,5 +1,5 @@
-import { Box, Card } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
+import { Box, Card } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
 
 interface ICourseImageProps extends BoxProps {
   courseData: any;
@@ -19,12 +19,12 @@ export default function Image({
   return (
     <Box {...props}>
       <Card
-        variant={"outlined"}
+        variant={'outlined'}
         sx={{
           width: HEIGHT_OF_COURSE_MACRO_VIEW,
           height: HEIGHT_OF_COURSE_MACRO_VIEW,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
           backgroundImage: courseUrl,
         }}
       />

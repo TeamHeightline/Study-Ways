@@ -1,8 +1,8 @@
-import { Paper } from "@mui/material";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import UIExamSelector from "./ui-exam-selector";
-import { Route, Routes } from "react-router-dom";
-import ExamEditorByURL from "../../ExamByURL/ExamByURL";
+import { Paper } from '@mui/material';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import UIExamSelector from './ui-exam-selector';
+import { Route, Routes } from 'react-router-dom';
+import ExamEditorByURL from '../../ExamByURL/ExamByURL';
 
 type IExamEditorPageProps = PaperProps;
 
@@ -11,7 +11,7 @@ export default function ExamEditorPage({ ...props }: IExamEditorPageProps) {
     <Paper elevation={0} {...props}>
       <Routes>
         <Route
-          path={"/select/:examID"}
+          path={'/select/:examID'}
           element={
             <div>
               <ExamEditorByURL />
@@ -19,7 +19,7 @@ export default function ExamEditorPage({ ...props }: IExamEditorPageProps) {
           }
         />
         <Route
-          path={"/*"}
+          path={'/*'}
           element={
             <div>
               <UIExamSelector />

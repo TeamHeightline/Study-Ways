@@ -1,17 +1,17 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { isMobileHook } from "../../../../Shared/CustomHooks/isMobileHook";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { isMobileHook } from '../../../../Shared/CustomHooks/isMobileHook';
 
 function getIframeURL(vkVideoURL) {
   if (!vkVideoURL) {
-    return "";
+    return '';
   }
-  const oidAndID = vkVideoURL.split("/video")[1];
+  const oidAndID = vkVideoURL.split('/video')[1];
   if (!oidAndID) {
-    return "";
+    return '';
   }
-  const oid = oidAndID.split("_")[0];
-  const id = oidAndID.split("_")[1];
+  const oid = oidAndID.split('_')[0];
+  const id = oidAndID.split('_')[1];
 
   return `https://vk.com/video_ext.php?oid=${oid}&id=${id}&hd=2`;
 }
@@ -29,8 +29,8 @@ export const VkVideoContent = observer((props: Props) => {
       src={getIframeURL(videoURL)}
       style={{
         flex: 1,
-        width: isMobile ? "95vw" : "auto",
-        height: isMobile ? "53vw" : 540,
+        width: isMobile ? '95vw' : 'auto',
+        height: isMobile ? '53vw' : 540,
       }}
       allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
       frameBorder="0"

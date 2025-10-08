@@ -1,8 +1,8 @@
-import { autorun, makeAutoObservable, toJS } from "mobx";
-import { SERVER_BASE_URL } from "../../../../../settings";
-import { ClientStorage } from "../../../../../Shared/Store/ApolloStorage/ClientStorage";
-import { GET_COURSE_DATA_BY_ID } from "../UI/Query";
-import { CourseLines } from "../../../EditCourseByID/EditCourseByID";
+import { autorun, makeAutoObservable, toJS } from 'mobx';
+import { SERVER_BASE_URL } from '../../../../../settings';
+import { ClientStorage } from '../../../../../Shared/Store/ApolloStorage/ClientStorage';
+import { GET_COURSE_DATA_BY_ID } from '../UI/Query';
+import { CourseLines } from '../../../EditCourseByID/EditCourseByID';
 
 export interface positionDataI {
   activePage: number;
@@ -59,24 +59,24 @@ export class CourseMicroStoreByID {
     }
   }
 
-  getPositionByArrow = (arrow: "Back" | "Down" | "Up" | "Next") => {
+  getPositionByArrow = (arrow: 'Back' | 'Down' | 'Up' | 'Next') => {
     const scannedPosition = toJS(this.positionData);
-    if (arrow == "Back") {
+    if (arrow == 'Back') {
       scannedPosition.selectedIndex = Number(scannedPosition.selectedIndex) - 1;
     }
-    if (arrow == "Down") {
+    if (arrow == 'Down') {
       scannedPosition.selectedRow = Number(scannedPosition.selectedRow) + 1;
     }
-    if (arrow == "Up") {
+    if (arrow == 'Up') {
       scannedPosition.selectedRow = Number(scannedPosition.selectedRow) - 1;
     }
-    if (arrow == "Next") {
+    if (arrow == 'Next') {
       scannedPosition.selectedIndex = Number(scannedPosition.selectedIndex) + 1;
     }
     return scannedPosition;
   };
 
-  getCardIDByArrow(arrow: "Back" | "Down" | "Up" | "Next") {
+  getCardIDByArrow(arrow: 'Back' | 'Down' | 'Up' | 'Next') {
     const scannedPosition = this.getPositionByArrow(arrow);
     return this.get_card_id_by_position(scannedPosition);
   }
@@ -100,9 +100,9 @@ export class CourseMicroStoreByID {
 
   changeCourseName = (course_name?: string) => {
     if (course_name) {
-      this.courseName = course_name.replace(/\[.*?\]/g, "");
+      this.courseName = course_name.replace(/\[.*?\]/g, '');
     } else {
-      this.courseName = "Название курса по умолчанию";
+      this.courseName = 'Название курса по умолчанию';
     }
   };
 
@@ -112,7 +112,7 @@ export class CourseMicroStoreByID {
         this.clientStorage.client
           .query({
             query: GET_COURSE_DATA_BY_ID,
-            fetchPolicy: "network-only",
+            fetchPolicy: 'network-only',
             variables: {
               id: this.id,
             },
@@ -122,7 +122,7 @@ export class CourseMicroStoreByID {
             if (course_data && course_data.id) {
               this.changeCourseName(course_data.name);
               this.courseData = course_data.courseData;
-              const matches = (course_data?.name || "").match(/\[(.*?)\]/);
+              const matches = (course_data?.name || '').match(/\[(.*?)\]/);
               if (matches && matches[1]) {
                 this.mainLineIndex = Number(matches[1]) - 1;
               }

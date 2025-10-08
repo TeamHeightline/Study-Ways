@@ -1,16 +1,16 @@
-import { Box, Button, Stack, SwipeableDrawer } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import React, { useEffect, useState } from "react";
-import { UserStorage } from "../../../Shared/Store/UserStore/UserStore";
-import { loadRecentCardsThunk } from "../../RecentCards/Store/async-actions";
+import { Box, Button, Stack, SwipeableDrawer } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import React, { useEffect, useState } from 'react';
+import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
+import { loadRecentCardsThunk } from '../../RecentCards/Store/async-actions';
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../../App/ReduxStore/RootStore";
-import CardMicroView from "../../Cards/CardMicroView";
-import { useNavigate } from "react-router-dom";
-import HistoryIcon from "@mui/icons-material/History";
-import { isMobileHook } from "../../../Shared/CustomHooks/isMobileHook";
+} from '../../../App/ReduxStore/RootStore';
+import CardMicroView from '../../Cards/CardMicroView';
+import { useNavigate } from 'react-router-dom';
+import HistoryIcon from '@mui/icons-material/History';
+import { isMobileHook } from '../../../Shared/CustomHooks/isMobileHook';
 
 type ICardHistoryDrawerProps = BoxProps;
 
@@ -49,7 +49,7 @@ export default function CardHistoryDrawer({
     <Box>
       <Button
         onClick={openHistoryDrawer}
-        variant={"contained"}
+        variant={'contained'}
         startIcon={<HistoryIcon />}
       >
         История
@@ -58,11 +58,11 @@ export default function CardHistoryDrawer({
         open={isOpen}
         onOpen={openHistoryDrawer}
         onClose={closeHistoryDrawer}
-        anchor={isMobile ? "bottom" : "right"}
+        anchor={isMobile ? 'bottom' : 'right'}
         sx={{ width: { xs: 300, md: 340 } }}
       >
         <Stack
-          direction={"column"}
+          direction={'column'}
           spacing={1}
           sx={{ mt: { md: 8 }, width: { xs: 300, md: 340 } }}
         >

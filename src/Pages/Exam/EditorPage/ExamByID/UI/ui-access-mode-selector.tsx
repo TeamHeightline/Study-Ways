@@ -1,13 +1,13 @@
-import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
+import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import {
   RootState,
   useAppDispatch,
-} from "../../../../../App/ReduxStore/RootStore";
-import { useSelector } from "react-redux";
-import { changeAccessMode } from "../redux-store/examEditorSlice";
+} from '../../../../../App/ReduxStore/RootStore';
+import { useSelector } from 'react-redux';
+import { changeAccessMode } from '../redux-store/examEditorSlice';
 
 type IUIAccessModeSelectorProps = BoxProps;
 
@@ -24,7 +24,7 @@ export default function UIAccessModeSelector({
         <InputLabel>Тип доступа</InputLabel>
         <Select
           label="Тип доступа"
-          value={accessMode || "open"}
+          value={accessMode || 'open'}
           onChange={(e) => {
             const newValue = e.target.value as typeof accessMode;
             if (newValue) {
@@ -32,12 +32,12 @@ export default function UIAccessModeSelector({
             }
           }}
         >
-          <MenuItem value={"open"}>
+          <MenuItem value={'open'}>
             <CheckIcon sx={{ mr: 2 }} fontSize="small" />
             Открытый
           </MenuItem>
 
-          <MenuItem value={"closed"}>
+          <MenuItem value={'closed'}>
             <CloseIcon sx={{ mr: 2 }} fontSize="small" />
             Закрытый
           </MenuItem>

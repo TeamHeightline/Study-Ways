@@ -1,9 +1,9 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Paper } from "@mui/material";
-import { useParams } from "react-router-dom";
-import CheckQuestionByID from "../../CheckQuestionByID/UI/check-question-by-id";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Paper } from '@mui/material';
+import { useParams } from 'react-router-dom';
+import CheckQuestionByID from '../../CheckQuestionByID/UI/check-question-by-id';
 
 type ICheckQuestionByURLProps = PaperProps;
 

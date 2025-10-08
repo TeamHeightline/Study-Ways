@@ -1,13 +1,13 @@
-import { makeAutoObservable, reaction, toJS } from "mobx";
-import { ClientStorage } from "../../../../Shared/Store/ApolloStorage/ClientStorage";
-import { GET_ENCRYPT_QUESTION_DATA_BY_ID } from "../../../../Shared/Store/PublicStorage/QSPage/QuestionSequencePlayer/Struct";
-import { SameAnswerNode } from "../../../../Shared/Store/PublicStorage/QSPage/QuestionSequencePlayer/SameAnswerNode";
-import { shuffle } from "lodash";
-import { UserStorage } from "../../../../Shared/Store/UserStore/UserStore";
-import CryptoJS from "crypto-js";
-import { SERVER_BASE_URL } from "../../../../settings";
-import axiosClient from "../../../../Shared/ServerLayer/QueryLayer/config";
-import { createDetailStatistic } from "../../../../Shared/ServerLayer/QueryLayer/detail-statistic.query";
+import { makeAutoObservable, reaction, toJS } from 'mobx';
+import { ClientStorage } from '../../../../Shared/Store/ApolloStorage/ClientStorage';
+import { GET_ENCRYPT_QUESTION_DATA_BY_ID } from '../../../../Shared/Store/PublicStorage/QSPage/QuestionSequencePlayer/Struct';
+import { SameAnswerNode } from '../../../../Shared/Store/PublicStorage/QSPage/QuestionSequencePlayer/SameAnswerNode';
+import { shuffle } from 'lodash';
+import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
+import CryptoJS from 'crypto-js';
+import { SERVER_BASE_URL } from '../../../../settings';
+import axiosClient from '../../../../Shared/ServerLayer/QueryLayer/config';
+import { createDetailStatistic } from '../../../../Shared/ServerLayer/QueryLayer/detail-statistic.query';
 
 export class QuestionPlayerStore {
   constructor(ownStore, questionID) {
@@ -68,10 +68,10 @@ export class QuestionPlayerStore {
   clientStorage = ClientStorage;
 
   // Текст вопроса
-  questionText = "";
+  questionText = '';
 
   // Ссылка на видео вопрос
-  questionVideoUrl = "";
+  questionVideoUrl = '';
 
   // Массив всех ответов
   answersArray: any = [];
@@ -89,7 +89,7 @@ export class QuestionPlayerStore {
   }
 
   // Уровень сложности подсказок
-  hardLevelOfHelpText = "0";
+  hardLevelOfHelpText = '0';
 
   // обработчик изменений сложности подсказки
   changeHardLevelOfHelpText(newHardLevelOfHelpText) {
@@ -110,7 +110,7 @@ export class QuestionPlayerStore {
   numberOfPasses = 0;
 
   // Ссылка на фото для вопроса
-  questionImageUrl = "";
+  questionImageUrl = '';
 
   // Была ли хоть раз вызвана проверка на ошибку
   oneTimeCheckError = false;
@@ -153,9 +153,9 @@ export class QuestionPlayerStore {
       ) {
         __errorArray.push(answer.id);
 
-        if (answer.hardLevelOfAnswer == "EASY") {
+        if (answer.hardLevelOfAnswer == 'EASY') {
           __sumOfLoosedAnswerPoints += 15;
-        } else if (answer.hardLevelOfAnswer == "MEDIUM") {
+        } else if (answer.hardLevelOfAnswer == 'MEDIUM') {
           __sumOfLoosedAnswerPoints += 10;
         } else {
           __sumOfLoosedAnswerPoints += 5;
@@ -166,9 +166,9 @@ export class QuestionPlayerStore {
           indexOfMostWantedError = aIndex;
         }
       } else {
-        if (answer.hardLevelOfAnswer == "EASY") {
+        if (answer.hardLevelOfAnswer == 'EASY') {
           __sumOfGotAnswerPoints += 5;
-        } else if (answer.hardLevelOfAnswer == "MEDIUM") {
+        } else if (answer.hardLevelOfAnswer == 'MEDIUM') {
           __sumOfGotAnswerPoints += 10;
         } else {
           __sumOfGotAnswerPoints += 15;
@@ -276,18 +276,18 @@ export class QuestionPlayerStore {
       Number(this.numberOfSelectAnswersOnThisPass) == 0 &&
       this.numberOfPasses == 1
     ) {
-      return "Среди предложенных вариантов ответа есть хотя бы один правильный, проверьте еще раз";
+      return 'Среди предложенных вариантов ответа есть хотя бы один правильный, проверьте еще раз';
     }
     // if(this.ownStore?.isUseExamMode || this.isUseExamMode){
     //     return ("Вы допустили одну или более ошибок")
     // }
-    if (this.hardLevelOfHelpText == "0") {
+    if (this.hardLevelOfHelpText == '0') {
       return this.answersArray[this.IndexOfMostWantedError].helpTextv1;
     }
-    if (this.hardLevelOfHelpText == "1") {
+    if (this.hardLevelOfHelpText == '1') {
       return this.answersArray[this.IndexOfMostWantedError].helpTextv2;
     }
-    if (this.hardLevelOfHelpText == "2") {
+    if (this.hardLevelOfHelpText == '2') {
       return this.answersArray[this.IndexOfMostWantedError].helpTextv3;
     }
   }
@@ -299,7 +299,7 @@ export class QuestionPlayerStore {
       .then((jResponse) => {
         this.questionImageUrl = jResponse[0].image;
       })
-      .catch(() => (this.questionImageUrl = ""));
+      .catch(() => (this.questionImageUrl = ''));
   }
 
   isDataLoaded = false;
@@ -315,7 +315,7 @@ export class QuestionPlayerStore {
             id: this.questionID,
             examMode: this.isUseExamMode || this?.ownStore?.isUseExamMode,
           },
-          fetchPolicy: "network-only",
+          fetchPolicy: 'network-only',
         })
         .then((data) => {
           let __decrypt_question: any = {};
@@ -363,9 +363,9 @@ export class QuestionPlayerStore {
               : __notRequiredAnswersForDisplay;
           __answersForDisplay = shuffle(__answersForDisplay);
           __answersForDisplay.map((answer) => {
-            if (answer.hard_level_of_answer == "EASY") {
+            if (answer.hard_level_of_answer == 'EASY') {
               __maxSumOfAnswerPoints += 5;
-            } else if (answer.hard_level_of_answer == "MEDIUM") {
+            } else if (answer.hard_level_of_answer == 'MEDIUM') {
               __maxSumOfAnswerPoints += 10;
             } else {
               __maxSumOfAnswerPoints += 15;
@@ -387,7 +387,7 @@ export class QuestionPlayerStore {
           });
 
           this.answersArray = __AnswersArray;
-          this.userMarks = Array(__AnswersArray.length).fill("none");
+          this.userMarks = Array(__AnswersArray.length).fill('none');
           this.isDataLoaded = true;
         });
     }
@@ -407,7 +407,7 @@ export class QuestionPlayerStore {
   saveDetailStatistic() {
     createDetailStatistic({
       question_id: Number(this.questionID),
-      user_name: UserStorage?.username || "Анонимный пользователь",
+      user_name: UserStorage?.username || 'Анонимный пользователь',
       is_login: UserStorage.isLogin,
       question_has_been_completed: this?.questionHasBeenCompleted,
       statistic: {
@@ -433,18 +433,18 @@ export class QuestionPlayerStore {
   userMarks: IUserMark[] = [];
 
   onQuestionButtonClick = (index: number) => {
-    if (this.userMarks[index] == "unknown" || this.userMarks[index] == "none") {
-      this.userMarks[index] = "false";
+    if (this.userMarks[index] == 'unknown' || this.userMarks[index] == 'none') {
+      this.userMarks[index] = 'false';
     } else {
-      this.userMarks[index] = "none";
+      this.userMarks[index] = 'none';
     }
   };
 
   onUnknownButtonClick = (index: number) => {
-    if (this.userMarks[index] == "false" || this.userMarks[index] == "none") {
-      this.userMarks[index] = "unknown";
+    if (this.userMarks[index] == 'false' || this.userMarks[index] == 'none') {
+      this.userMarks[index] = 'unknown';
     } else {
-      this.userMarks[index] = "none";
+      this.userMarks[index] = 'none';
     }
   };
 
@@ -456,10 +456,10 @@ export class QuestionPlayerStore {
 
   onCloseAnswerReportDialog = () => {
     this.answerIndexForCreateErrorReport = undefined;
-    this.answerReportText = "";
+    this.answerReportText = '';
   };
 
-  answerReportText = "";
+  answerReportText = '';
   changeAnswerReportText = (e) => {
     this.answerReportText = e.target.value;
   };
@@ -471,7 +471,7 @@ export class QuestionPlayerStore {
   saveAnswerReport = () => {
     if (this.answerReportText && this.answerIndexForCreateErrorReport) {
       axiosClient
-        .post("/page/question-page/create-answer-report", {
+        .post('/page/question-page/create-answer-report', {
           report_data: {
             answer_id:
               this.answersArray[this.answerIndexForCreateErrorReport].id,
@@ -502,4 +502,4 @@ export class QuestionPlayerStore {
   };
 }
 
-type IUserMark = "false" | "none" | "unknown"; // false - неверно, none - не отвечено, unknown - неуверен
+type IUserMark = 'false' | 'none' | 'unknown'; // false - неверно, none - не отвечено, unknown - неуверен

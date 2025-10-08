@@ -1,21 +1,21 @@
 // @ts-nocheck
-import React, { useEffect, useState } from "react";
-import { observer } from "mobx-react";
-import { QuestionPlayerStore } from "../Store/QuestionPlayerStore";
-import UiQuestionData from "./ui-question-data";
-import { Box, CircularProgress, Stack } from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
+import { QuestionPlayerStore } from '../Store/QuestionPlayerStore';
+import UiQuestionData from './ui-question-data';
+import { Box, CircularProgress, Stack } from '@mui/material';
 
-import { useLocation, useParams } from "react-router-dom";
-import { RequireLogInAlert } from "../../../../App/SharedComponents/Notifications/RequireLogInAlert";
-import { UserStorage } from "../../../../Shared/Store/UserStore/UserStore";
+import { useLocation, useParams } from 'react-router-dom';
+import { RequireLogInAlert } from '../../../../App/SharedComponents/Notifications/RequireLogInAlert';
+import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
 
-import UiCreateAnswerErrorReport from "./ui-create-answer-error-report";
-import UISelectHardLevel from "./ui-select-hard-level";
-import UIAnswers from "./ui-answers";
-import UIStatistic from "./ui-statistic";
-import UIHelpText from "./ui-help-text";
-import UIAnswerReportSuccessSavedMessage from "./ui-answer-report-success-saved-message";
-import { NoAnswers } from "./no-answers";
+import UiCreateAnswerErrorReport from './ui-create-answer-error-report';
+import UISelectHardLevel from './ui-select-hard-level';
+import UIAnswers from './ui-answers';
+import UIStatistic from './ui-statistic';
+import UIHelpText from './ui-help-text';
+import UIAnswerReportSuccessSavedMessage from './ui-answer-report-success-saved-message';
+import { NoAnswers } from './no-answers';
 
 export const QuestionByID = observer((props: any) => {
   const slug = useLocation();
@@ -27,7 +27,7 @@ export const QuestionByID = observer((props: any) => {
   );
 
   useEffect(() => {
-    if (slug?.search === "?exam=true") {
+    if (slug?.search === '?exam=true') {
       questionStore?.changeIsUseExamMode(true);
     }
 
@@ -57,7 +57,7 @@ export const QuestionByID = observer((props: any) => {
 
   if (!questionStore?.isDataLoaded) {
     return (
-      <Stack alignItems={"center"}>
+      <Stack alignItems={'center'}>
         <CircularProgress />
       </Stack>
     );

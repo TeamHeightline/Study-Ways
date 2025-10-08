@@ -1,8 +1,8 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Paper, TextField } from "@mui/material";
-import editQSStore from "../store/edit-question-sequence-sore";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Paper, TextField } from '@mui/material';
+import editQSStore from '../store/edit-question-sequence-sore';
 
 type IUIQSNameProps = PaperProps;
 

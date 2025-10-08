@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const GET_CARD_ID_BY_SEARCHING_PARAMS = gql`
   query GET_CARD_ID_BY_SEARCHING_PARAMS(

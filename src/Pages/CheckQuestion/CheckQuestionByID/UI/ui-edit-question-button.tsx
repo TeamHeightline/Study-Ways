@@ -1,10 +1,10 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Button, Paper } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import { UserStorage } from "../../../../Shared/Store/UserStore/UserStore";
-import { useNavigate } from "react-router-dom";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Button, Paper } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
+import { useNavigate } from 'react-router-dom';
 
 interface IUIEditQuestionButtonProps extends PaperProps {
   question_id?: string;
@@ -18,11 +18,11 @@ const UIEditQuestionButton = observer(
     }
     return (
       <Paper elevation={0} {...props}>
-        {UserStorage.userAccessLevel == "ADMIN" && (
+        {UserStorage.userAccessLevel == 'ADMIN' && (
           <Button
             onClick={() => navigate(`/editor/question/selected/${question_id}`)}
             endIcon={<EditIcon />}
-            variant={"contained"}
+            variant={'contained'}
           >
             Редактировать вопрос
           </Button>

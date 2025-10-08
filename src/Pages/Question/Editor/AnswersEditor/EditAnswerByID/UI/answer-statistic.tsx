@@ -1,8 +1,8 @@
-import { Box, Chip, Tooltip } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import { useEffect, useState } from "react";
-import { getAnswerStatistic } from "../Store/Query";
-import { IAnswerStatistic } from "../Store/type";
+import { Box, Chip, Tooltip } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import { useEffect, useState } from 'react';
+import { getAnswerStatistic } from '../Store/Query';
+import { IAnswerStatistic } from '../Store/type';
 
 interface IAnswerStatisticProps extends BoxProps {
   answer_id: number;
@@ -37,13 +37,13 @@ export default function AnswerStatistic({
   const answerRightSelectPercentRoundedString = `${answerRightSelectPercentRounded.toString()}%`;
   const colorBasedOnPercent =
     answerRightSelectPercentRounded > 70
-      ? "green"
+      ? 'green'
       : answerRightSelectPercentRounded > 50
-        ? "orange"
-        : "red";
+        ? 'orange'
+        : 'red';
   return (
     <Box {...props}>
-      <Tooltip title={"Процент верного выбора/не выбора этого ответ"}>
+      <Tooltip title={'Процент верного выбора/не выбора этого ответ'}>
         <Chip
           label={answerRightSelectPercentRoundedString}
           sx={{ backgroundColor: colorBasedOnPercent }}

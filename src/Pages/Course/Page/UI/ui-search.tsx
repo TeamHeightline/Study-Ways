@@ -1,12 +1,12 @@
-import { Box, IconButton, InputBase, Paper, Stack } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import SearchIcon from "@mui/icons-material/Search";
+import { Box, IconButton, InputBase, Paper, Stack } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import SearchIcon from '@mui/icons-material/Search';
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../../../App/ReduxStore/RootStore";
-import { setSearchString } from "../redux-store/course-page-slice";
-import { loadCourseDataThunk } from "../redux-store/async-functions";
+} from '../../../../App/ReduxStore/RootStore';
+import { setSearchString } from '../redux-store/course-page-slice';
+import { loadCourseDataThunk } from '../redux-store/async-functions';
 
 type IUISearchProps = BoxProps;
 
@@ -25,15 +25,15 @@ export default function UISearch({ ...props }: IUISearchProps) {
 
   return (
     <Box {...props}>
-      <Stack alignItems={"center"}>
+      <Stack alignItems={'center'}>
         <Paper
           component="form"
           sx={{
-            p: "2px 4px",
-            display: "flex",
-            alignItems: "center",
+            p: '2px 4px',
+            display: 'flex',
+            alignItems: 'center',
             maxWidth: 400,
-            width: "100%",
+            width: '100%',
           }}
         >
           <InputBase
@@ -44,7 +44,7 @@ export default function UISearch({ ...props }: IUISearchProps) {
           />
           <IconButton
             type="button"
-            sx={{ p: "10px" }}
+            sx={{ p: '10px' }}
             aria-label="search"
             onClick={onSearchButtonClick}
           >

@@ -1,13 +1,13 @@
-import { Box, Stack } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import CardItem from "./card-element/card-element";
-import React, { useState } from "react";
-import EmptyElement from "./empty-element";
-import { isMobileHook } from "../../../../Shared/CustomHooks/isMobileHook";
-import CardPopover from "./card-popover";
-import { positionDataI } from "../../CourseMicroView/V2/Store/CourseMicroStoreByID";
-import LinkElement from "./link-element";
-import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
+import { Box, Stack } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import CardItem from './card-element/card-element';
+import React, { useState } from 'react';
+import EmptyElement from './empty-element';
+import { isMobileHook } from '../../../../Shared/CustomHooks/isMobileHook';
+import CardPopover from './card-popover';
+import { positionDataI } from '../../CourseMicroView/V2/Store/CourseMicroStoreByID';
+import LinkElement from './link-element';
+import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
 
 interface ICardRowProps extends BoxProps {
   courseData: any;
@@ -23,11 +23,11 @@ interface ICardRowProps extends BoxProps {
 interface ICourseElement {
   id: string;
   course_link: string;
-  type: "course-link" | "card";
+  type: 'course-link' | 'card';
 }
 
 function isLinkItem(item) {
-  return item.type === "course-link";
+  return item.type === 'course-link';
 }
 
 function isEmptyCardItem(item) {
@@ -97,18 +97,18 @@ export default function CardRow({
       />
 
       <Stack
-        direction={"row"}
+        direction={'row'}
         sx={{
-          alignItems: "start",
+          alignItems: 'start',
           width: (CARD_WIDTH + 11.5) * 10,
           backgroundColor:
             index === course_main_line_index
-              ? "rgba(33, 150, 243, 0.3)"
-              : "none",
+              ? 'rgba(33, 150, 243, 0.3)'
+              : 'none',
           border:
             index === course_main_line_index
-              ? "1px solid rgb(33, 150, 243)"
-              : "1px solid rgba(0, 0, 0, 0)",
+              ? '1px solid rgb(33, 150, 243)'
+              : '1px solid rgba(0, 0, 0, 0)',
           pt: 0.5,
           pb: 0.5,
         }}
@@ -140,9 +140,9 @@ export default function CardRow({
           return (
             <Box
               sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 width: size.width + nodeConnector.width,
               }}
               key={`${itemIndex}___${item.id}___${index}`}

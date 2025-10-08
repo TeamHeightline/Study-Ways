@@ -1,15 +1,15 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
 import {
   FormControl,
   InputLabel,
   MenuItem,
   Paper,
   Select,
-} from "@mui/material";
-import QSSObject from "../Store/question-selector-store";
-import { isMobileHook } from "../../../../Shared/CustomHooks/isMobileHook";
+} from '@mui/material';
+import QSSObject from '../Store/question-selector-store';
+import { isMobileHook } from '../../../../Shared/CustomHooks/isMobileHook';
 
 type IAuthorSelectorProps = PaperProps;
 
@@ -25,8 +25,8 @@ const AuthorSelector = observer(({ ...props }: IAuthorSelectorProps) => {
           value={QSSObject.selectedAuthorID}
           onChange={QSSObject.changeSelectedAuthorID}
         >
-          <MenuItem value={"-2"}>Все вопросы</MenuItem>
-          <MenuItem value={"-1"}>Мои вопросы</MenuItem>
+          <MenuItem value={'-2'}>Все вопросы</MenuItem>
+          <MenuItem value={'-1'}>Мои вопросы</MenuItem>
           {QSSObject.usersWithQuestions.map((user) => (
             <MenuItem value={user.id} key={`${user.id}Author`}>
               {user.username}

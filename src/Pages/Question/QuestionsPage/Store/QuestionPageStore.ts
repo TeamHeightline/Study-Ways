@@ -1,5 +1,5 @@
-import { makeAutoObservable } from "mobx";
-import axiosClient from "../../../../Shared/ServerLayer/QueryLayer/config";
+import { makeAutoObservable } from 'mobx';
+import axiosClient from '../../../../Shared/ServerLayer/QueryLayer/config';
 
 interface IQuestion {
   id: number;
@@ -29,10 +29,10 @@ class QuestionPage {
   getQuestionData() {
     // Функция для удаления вопросов, которые называются "Новый вопрос"
     function removeQuestionsTatNotFilled(questions: IQuestion[]) {
-      return questions?.filter((question) => question?.text !== "Новый вопрос");
+      return questions?.filter((question) => question?.text !== 'Новый вопрос');
     }
 
-    axiosClient.get("page/question-page//all-questions").then((res) => {
+    axiosClient.get('page/question-page//all-questions').then((res) => {
       this.questionsData = removeQuestionsTatNotFilled(res.data);
       console.log(res.data);
       this.dataHasBeenDelivered = true;

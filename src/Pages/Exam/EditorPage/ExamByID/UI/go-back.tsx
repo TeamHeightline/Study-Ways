@@ -1,12 +1,12 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { isMobileHook } from "../../../../../Shared/CustomHooks/isMobileHook";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { ButtonProps } from "@mui/material/Button/Button";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../../App/ReduxStore/RootStore";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { isMobileHook } from '../../../../../Shared/CustomHooks/isMobileHook';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { ButtonProps } from '@mui/material/Button/Button';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../../App/ReduxStore/RootStore';
 
 type IGoBackButtonProps = ButtonProps;
 
@@ -19,7 +19,7 @@ const GoBackButton = observer(({ ...props }: IGoBackButtonProps) => {
   return (
     <Button
       {...props}
-      sx={{ minWidth: isMobile ? "" : 300 }}
+      sx={{ minWidth: isMobile ? '' : 300 }}
       fullWidth={isMobile}
       startIcon={<ArrowBackIcon />}
       variant="outlined"

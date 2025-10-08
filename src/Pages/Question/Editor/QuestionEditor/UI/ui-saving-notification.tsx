@@ -1,10 +1,10 @@
-import { observer } from "mobx-react";
+import { observer } from 'mobx-react';
 import {
   QuestionEditorStorage,
   variantsOfStateOfSave,
-} from "../Store/QuestionEditorStorage";
-import { Alert } from "@mui/material";
-import React from "react";
+} from '../Store/QuestionEditorStorage';
+import { Alert } from '@mui/material';
+import React from 'react';
 
 export const SavingNotification = observer(() => (
   <>
@@ -13,17 +13,17 @@ export const SavingNotification = observer(() => (
         variant="outlined"
         severity={
           QuestionEditorStorage.stateOfSave == variantsOfStateOfSave.SAVED
-            ? "success"
+            ? 'success'
             : QuestionEditorStorage.stateOfSave == variantsOfStateOfSave.SAVING
-              ? "info"
-              : "error"
+              ? 'info'
+              : 'error'
         }
       >
         {QuestionEditorStorage.stateOfSave == variantsOfStateOfSave.SAVED
-          ? "Вопрос сохранен"
+          ? 'Вопрос сохранен'
           : QuestionEditorStorage.stateOfSave == variantsOfStateOfSave.SAVING
-            ? "Вопрос не сохранен"
-            : "Ошибка при сохранение"}
+            ? 'Вопрос не сохранен'
+            : 'Ошибка при сохранение'}
       </Alert>
     )}
   </>

@@ -1,10 +1,10 @@
-import {autorun, makeAutoObservable, reaction, toJS} from "mobx";
+import { autorun, makeAutoObservable, reaction, toJS } from 'mobx';
 import {
   CardCourseNode,
   Mutation,
   UnstructuredThemesNode,
-} from "../../../../SchemaTypes";
-import {ClientStorage} from "../../../../Shared/Store/ApolloStorage/ClientStorage";
+} from '../../../../SchemaTypes';
+import { ClientStorage } from '../../../../Shared/Store/ApolloStorage/ClientStorage';
 import {
   ADD_TO_BOOKMARK,
   GET_ALL_COURSE,
@@ -12,17 +12,17 @@ import {
   GET_THEME_ANCESTORS,
   REMOVE_CARD_FROM_BOOKMARK,
   SET_RATING,
-} from "./Query";
-import {FILE_URL, SERVER_BASE_URL} from "../../../../settings";
-import {ICourseLine} from "../../../Course/EditCourseByID/EditCourseByID";
-import {positionDataI} from "../../../Course/CourseMicroView/V2/Store/CourseMicroStoreByID";
-import React, {RefObject} from "react";
-import recombeeClient from "../../../../Shared/Store/RecombeeClient/recombee-client";
-import {UserStorage} from "../../../../Shared/Store/UserStore/UserStore";
+} from './Query';
+import { FILE_URL, SERVER_BASE_URL } from '../../../../settings';
+import { ICourseLine } from '../../../Course/EditCourseByID/EditCourseByID';
+import { positionDataI } from '../../../Course/CourseMicroView/V2/Store/CourseMicroStoreByID';
+import React, { RefObject } from 'react';
+import recombeeClient from '../../../../Shared/Store/RecombeeClient/recombee-client';
+import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
 // @ts-ignore
-import recombee from "recombee-js-api-client";
-import {getCardDataById} from "../API/get-card-data-by-id";
-import {ICardData} from "../TYPES/card-data";
+import recombee from 'recombee-js-api-client';
+import { getCardDataById } from '../API/get-card-data-by-id';
+import { ICardData } from '../TYPES/card-data';
 
 class CourseDataCache {
   constructor() {
@@ -38,7 +38,7 @@ class CourseDataCache {
     this.clientStorage.client
       .query({
         query: GET_ALL_COURSE,
-        fetchPolicy: "network-only",
+        fetchPolicy: 'network-only',
         variables: {},
       })
       .then((response) => response.data.cardCourse)
@@ -61,7 +61,7 @@ export class CardByIDStore {
 
     this.loadCardData();
     courseDataCache.getAllCoursesData();
-    console.log("new store");
+    console.log('new store');
 
     reaction(
       () => this?.id,
@@ -147,7 +147,7 @@ export class CardByIDStore {
     //     .catch(console.log)
 
     getCardDataById(this.id).then((data) => {
-      console.log("data", data);
+      console.log('data', data);
       if (data && this.id == Number(data?.id)) {
         this.card_data = data;
       }
@@ -212,12 +212,12 @@ export class CardByIDStore {
     if (this?.card_data?.id) {
       return `${FILE_URL}/cards-images/card/${this?.card_data?.id}`;
     } else {
-      return "";
+      return '';
     }
   }
 
   cardImageURLFromServer = {
-    url: "",
+    url: '',
     card_id: this.id,
   };
 
@@ -237,7 +237,7 @@ export class CardByIDStore {
     if (card_id_for_request) {
       fetch(
         `${SERVER_BASE_URL}/cardfiles/card?id=${Number(card_id_for_request)}`,
-        {cache: "default"},
+        { cache: 'default' },
       )
         .then((response) => response.json())
         .then((data) => {
@@ -268,7 +268,7 @@ export class CardByIDStore {
             fragment.CourseFragment?.map((element, bIndex) => {
               if (element?.CourseElement?.id == active_card_id) {
                 __findInCourseNotification?.push({
-                  course_name: String(course?.name || "_"),
+                  course_name: String(course?.name || '_'),
                   course_id: String(course?.id),
                   position: {
                     activePage: fIndex + 1,

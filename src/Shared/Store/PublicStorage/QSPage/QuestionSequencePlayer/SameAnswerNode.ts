@@ -1,5 +1,5 @@
-import { makeAutoObservable, reaction } from "mobx";
-import { SERVER_BASE_URL } from "../../../../../settings";
+import { makeAutoObservable, reaction } from 'mobx';
+import { SERVER_BASE_URL } from '../../../../../settings';
 
 export class SameAnswerNode {
   constructor(
@@ -30,16 +30,16 @@ export class SameAnswerNode {
   }
 
   id = 0;
-  answerText = "";
-  answerImageUrl = "";
+  answerText = '';
+  answerImageUrl = '';
   isTrue = false;
   checkQueue = 1000000;
 
-  hardLevelOfAnswer = "EASY";
+  hardLevelOfAnswer = 'EASY';
 
-  helpTextv1 = "";
-  helpTextv2 = "";
-  helpTextv3 = "";
+  helpTextv1 = '';
+  helpTextv2 = '';
+  helpTextv3 = '';
   isImageDeleted = false;
 
   getImageUrlFromServer() {

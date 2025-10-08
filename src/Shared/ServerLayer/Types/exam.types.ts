@@ -1,5 +1,5 @@
-import { sequenceDataI } from "./question-sequence.type";
-import { IUserprofile } from "./user.types";
+import { sequenceDataI } from './question-sequence.type';
+import { IUserprofile } from './user.types';
 
 export interface IExamData {
   id: string;

@@ -1,7 +1,7 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { EditCardByID } from "../EditorByIDV2/UI/EditCardByID";
-import { useParams } from "react-router-dom";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { EditCardByID } from '../EditorByIDV2/UI/EditCardByID';
+import { useParams } from 'react-router-dom';
 
 interface ComponentProp {}
 

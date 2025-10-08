@@ -1,4 +1,4 @@
-import axiosClient from "./config";
+import axiosClient from './config';
 
 export async function getExcelDownloadUrl(qs_id: string) {
   return axiosClient

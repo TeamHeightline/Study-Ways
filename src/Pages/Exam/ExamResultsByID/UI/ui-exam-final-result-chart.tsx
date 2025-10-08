@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { Paper } from "@mui/material";
-import { PaperProps } from "@mui/material/Paper/Paper";
+import { Paper } from '@mui/material';
+import { PaperProps } from '@mui/material/Paper/Paper';
 import {
   ArgumentAxis,
   BarSeries,
@@ -8,10 +8,10 @@ import {
   SplineSeries,
   Title,
   ValueAxis,
-} from "@devexpress/dx-react-chart-material-ui";
-import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../App/ReduxStore/RootStore";
+} from '@devexpress/dx-react-chart-material-ui';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../App/ReduxStore/RootStore';
 
 type IUIExamFinalResultChartProps = PaperProps;
 

@@ -1,19 +1,19 @@
-import { observer } from "mobx-react";
-import React, { useEffect } from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Paper, Stack } from "@mui/material";
-import Skeleton from "@mui/material/Skeleton";
-import AnswerDeleteDialog from "./answer-delete-dialog";
-import AnswerTitle from "./answer-title";
-import AnswerPreviewSwitch from "./answer-preview-switch";
-import IsEditAnswer from "./is-edit-answer";
-import AnswerContent from "./answer-content";
-import AnswerPreview from "./answer-preview";
-import { EditAnswerByIdStore } from "../Store/edit-answer-by-id-store";
-import { isMobileHook } from "../../../../../../Shared/CustomHooks/isMobileHook";
-import UIAnswerErrorsButton from "./answer-errors-button";
-import AnswerErrorDialog from "./answe-error-dialog";
-import AnswerErrorClosedMessage from "./answer-error-closed-message";
+import { observer } from 'mobx-react';
+import React, { useEffect } from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Paper, Stack } from '@mui/material';
+import Skeleton from '@mui/material/Skeleton';
+import AnswerDeleteDialog from './answer-delete-dialog';
+import AnswerTitle from './answer-title';
+import AnswerPreviewSwitch from './answer-preview-switch';
+import IsEditAnswer from './is-edit-answer';
+import AnswerContent from './answer-content';
+import AnswerPreview from './answer-preview';
+import { EditAnswerByIdStore } from '../Store/edit-answer-by-id-store';
+import { isMobileHook } from '../../../../../../Shared/CustomHooks/isMobileHook';
+import UIAnswerErrorsButton from './answer-errors-button';
+import AnswerErrorDialog from './answe-error-dialog';
+import AnswerErrorClosedMessage from './answer-error-closed-message';
 
 interface IEditAnswerUIProps extends PaperProps {
   answerStore: EditAnswerByIdStore;
@@ -30,7 +30,7 @@ const EditAnswerUI = observer(
     if (!answerStore.isAnswerDataLoaded) {
       return (
         <Paper variant="outlined">
-          <Skeleton variant={"rectangular"} sx={{ minHeight: 150 }} />
+          <Skeleton variant={'rectangular'} sx={{ minHeight: 150 }} />
         </Paper>
       );
     }
@@ -48,12 +48,12 @@ const EditAnswerUI = observer(
               answer_index={answer_index}
             />
             <Stack
-              direction={["column", "row"]}
-              justifyContent={"space-between"}
+              direction={['column', 'row']}
+              justifyContent={'space-between'}
             >
               <Stack
-                direction={isMobile ? "column" : "row"}
-                alignItems={"start"}
+                direction={isMobile ? 'column' : 'row'}
+                alignItems={'start'}
               >
                 <AnswerPreviewSwitch answer_object={answerStore} />
                 <IsEditAnswer answer_object={answerStore} />

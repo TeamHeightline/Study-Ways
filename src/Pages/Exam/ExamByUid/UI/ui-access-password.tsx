@@ -1,10 +1,10 @@
-import { Alert, Box, Stack, TextField } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
+import { Alert, Box, Stack, TextField } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../../../App/ReduxStore/RootStore";
-import { setAccessPassword } from "../redux-store/ExamPlayerSlice";
+} from '../../../../App/ReduxStore/RootStore';
+import { setAccessPassword } from '../redux-store/ExamPlayerSlice';
 
 type IUIAccessPasswordProps = BoxProps;
 
@@ -19,9 +19,9 @@ export default function UIAccessPassword({ ...props }: IUIAccessPasswordProps) {
   };
   return (
     <Box {...props}>
-      <Stack alignItems={"center"}>
+      <Stack alignItems={'center'}>
         <Box sx={{ maxWidth: 400 }}>
-          <Alert severity={"warning"} variant={"filled"}>
+          <Alert severity={'warning'} variant={'filled'}>
             Для доступа к этому экзамену необходимо ввести пароль
           </Alert>
           <TextField

@@ -1,6 +1,6 @@
-import { Paper } from "@mui/material";
-import ExamByID from "../ExamByID/UI/exam-by-id-page";
-import { useParams } from "react-router-dom";
+import { Paper } from '@mui/material';
+import ExamByID from '../ExamByID/UI/exam-by-id-page';
+import { useParams } from 'react-router-dom';
 
 interface IExamEditorByURLProps {}
 

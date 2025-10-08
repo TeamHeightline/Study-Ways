@@ -1,9 +1,9 @@
-import Paper from "@mui/material/Paper/Paper";
-import { observer } from "mobx-react";
-import React from "react";
-import { CardSelector } from "../../Selector/UI/CardSelector";
-import { Route, Routes, useNavigate } from "react-router-dom";
-import { EditCardByUrl } from "./EditCardByUrl";
+import Paper from '@mui/material/Paper/Paper';
+import { observer } from 'mobx-react';
+import React from 'react';
+import { CardSelector } from '../../Selector/UI/CardSelector';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import { EditCardByUrl } from './EditCardByUrl';
 
 type IEditorPageProps = React.HTMLAttributes<HTMLDivElement>;
 
@@ -17,14 +17,14 @@ export const EditorPage = observer(({ ...props }: IEditorPageProps) => {
       {...props}
     >
       <Routes>
-        <Route path={"/card/:id"} element={<EditCardByUrl {...props} />} />
+        <Route path={'/card/:id'} element={<EditCardByUrl {...props} />} />
 
         <Route
-          path={"/*"}
+          path={'/*'}
           element={
             <CardSelector
               showCreateNewCard={true}
-              mode={"onlyCreatedByMe"}
+              mode={'onlyCreatedByMe'}
               onCardSelect={(card_id) => navigate(`card/${card_id}`)}
             />
           }

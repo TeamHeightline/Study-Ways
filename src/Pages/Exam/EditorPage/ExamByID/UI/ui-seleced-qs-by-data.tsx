@@ -1,13 +1,13 @@
-import { Card, Chip, Paper, Stack, Typography } from "@mui/material";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { sequenceDataI } from "../../../../../Shared/ServerLayer/Types/question-sequence.type";
+import { Card, Chip, Paper, Stack, Typography } from '@mui/material';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { sequenceDataI } from '../../../../../Shared/ServerLayer/Types/question-sequence.type';
 import {
   RootState,
   useAppDispatch,
-} from "../../../../../App/ReduxStore/RootStore";
-import { loadQSDataThunk } from "../redux-store/async-actions";
+} from '../../../../../App/ReduxStore/RootStore';
+import { loadQSDataThunk } from '../redux-store/async-actions';
 
 type ISelectedQSByDataProps = PaperProps;
 
@@ -42,17 +42,17 @@ export default function SelectedQSByData({ ...props }: ISelectedQSByDataProps) {
         <Typography sx={{ pl: 2 }}>
           {sequenceData?.description
             ? `Описание: ${sequenceData?.description}`
-            : "Описание отсутствует"}
+            : 'Описание отсутствует'}
         </Typography>
 
         <Stack
-          sx={{ pl: 2, pr: 2, mb: 2, pt: 1, overflowY: "auto" }}
+          sx={{ pl: 2, pr: 2, mb: 2, pt: 1, overflowY: 'auto' }}
           spacing={2}
-          direction={"row"}
+          direction={'row'}
         >
           {sequenceData?.sequence_data?.sequence?.map((question_id, qIndex) => (
             <Chip
-              label={question_id || ""}
+              label={question_id || ''}
               variant="outlined"
               key={`${qIndex}QuestionKey`}
             />

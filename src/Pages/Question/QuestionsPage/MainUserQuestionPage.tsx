@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 import {
   Button,
   Card,
@@ -9,11 +9,11 @@ import {
   Select,
   Stack,
   Typography,
-} from "@mui/material";
-import { observer } from "mobx-react";
-import { QuestionPageStorage } from "./Store/QuestionPageStore";
-import { toJS } from "mobx";
-import { useNavigate } from "react-router-dom";
+} from '@mui/material';
+import { observer } from 'mobx-react';
+import { QuestionPageStorage } from './Store/QuestionPageStore';
+import { toJS } from 'mobx';
+import { useNavigate } from 'react-router-dom';
 
 export const MainUserQuestionPage = observer(() => {
   useEffect(() => QuestionPageStorage.getQuestionData(), []);
@@ -22,7 +22,7 @@ export const MainUserQuestionPage = observer(() => {
 
   if (!QuestionPageStorage.dataHasBeenDelivered) {
     return (
-      <Stack alignItems={"center"}>
+      <Stack alignItems={'center'}>
         <CircularProgress />
       </Stack>
     );
@@ -30,8 +30,8 @@ export const MainUserQuestionPage = observer(() => {
 
   return (
     <div>
-      <Stack direction={"column"} alignItems={"center"}>
-        <Typography variant={"h4"}>Выберите вопрос</Typography>
+      <Stack direction={'column'} alignItems={'center'}>
+        <Typography variant={'h4'}>Выберите вопрос</Typography>
       </Stack>
       <Grid
         container
@@ -43,7 +43,7 @@ export const MainUserQuestionPage = observer(() => {
           <Grid
             item
             key={question.id}
-            sx={{ width: "100%" }}
+            sx={{ width: '100%' }}
             xs={12}
             md={4}
             lg={3}
@@ -51,9 +51,9 @@ export const MainUserQuestionPage = observer(() => {
             <Card
               sx={{
                 height: 160,
-                width: "100%",
-                overflow: "hidden",
-                borderRadius: "20px",
+                width: '100%',
+                overflow: 'hidden',
+                borderRadius: '20px',
               }}
             >
               <CardActionArea
@@ -63,8 +63,8 @@ export const MainUserQuestionPage = observer(() => {
                 <div
                   style={{
                     height: 112,
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
                   }}
                 >
                   <Typography>{`ID: ${question.id}`}</Typography>

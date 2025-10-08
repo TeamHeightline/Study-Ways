@@ -1,13 +1,13 @@
-import { Card, CardActionArea, Stack, Typography } from "@mui/material";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import React from "react";
-import { isMobileHook } from "../../../../../Shared/CustomHooks/isMobileHook";
-import { useDispatch, useSelector } from "react-redux";
-import { FILE_URL } from "../../../../../settings";
-import { changeSelectedAnswersId } from "../../redux-store/ExamPlayerSlice";
-import { RootState } from "../../../../../App/ReduxStore/RootStore";
+import { Card, CardActionArea, Stack, Typography } from '@mui/material';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import React from 'react';
+import { isMobileHook } from '../../../../../Shared/CustomHooks/isMobileHook';
+import { useDispatch, useSelector } from 'react-redux';
+import { FILE_URL } from '../../../../../settings';
+import { changeSelectedAnswersId } from '../../redux-store/ExamPlayerSlice';
+import { RootState } from '../../../../../App/ReduxStore/RootStore';
 
 type IUIAnswersProps = PaperProps;
 
@@ -26,14 +26,14 @@ export default function UIAnswers({ ...props }: IUIAnswersProps) {
     dispatch(changeSelectedAnswersId(id));
   };
   return (
-    <div style={{ overflowX: "scroll" }}>
+    <div style={{ overflowX: 'scroll' }}>
       {answersArray && (
         <Stack
-          direction={isMobile ? "column" : "row"}
+          direction={isMobile ? 'column' : 'row'}
           spacing={2}
           sx={{
-            width: isMobile ? "" : answersArray?.length * 410,
-            height: isMobile ? answersArray?.length * 410 : "",
+            width: isMobile ? '' : answersArray?.length * 410,
+            height: isMobile ? answersArray?.length * 410 : '',
             pt: 2,
             pb: 4,
           }}
@@ -44,8 +44,8 @@ export default function UIAnswers({ ...props }: IUIAnswersProps) {
               variant="outlined"
               sx={{
                 backgroundColor: selectedAnswersID?.has(answer?.id)
-                  ? "#2296F3"
-                  : "",
+                  ? '#2296F3'
+                  : '',
                 width: 385,
                 height: 400,
               }}
@@ -53,7 +53,7 @@ export default function UIAnswers({ ...props }: IUIAnswersProps) {
                 selectOrDeselectAnswer(answer.id);
               }}
             >
-              <CardActionArea sx={{ height: "100%" }}>
+              <CardActionArea sx={{ height: '100%' }}>
                 {!answer.is_image_deleted &&
                   answer?.usertests_answerimage?.image && (
                     <CardMedia

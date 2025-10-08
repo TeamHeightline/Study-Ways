@@ -1,8 +1,8 @@
-import { autorun, makeAutoObservable } from "mobx";
-import { AnswerNode, Query } from "../../../../../SchemaTypes";
-import { ClientStorage } from "../../../../../Shared/Store/ApolloStorage/ClientStorage";
-import { AnswerDataByID } from "./query";
-import axiosClient from "../../../../../Shared/ServerLayer/QueryLayer/config";
+import { autorun, makeAutoObservable } from 'mobx';
+import { AnswerNode, Query } from '../../../../../SchemaTypes';
+import { ClientStorage } from '../../../../../Shared/Store/ApolloStorage/ClientStorage';
+import { AnswerDataByID } from './query';
+import axiosClient from '../../../../../Shared/ServerLayer/QueryLayer/config';
 
 export class CheckAnswerByIdStore {
   constructor(answerID) {
@@ -24,7 +24,7 @@ export class CheckAnswerByIdStore {
           variables: {
             answerID: this.answerID,
           },
-          fetchPolicy: "network-only",
+          fetchPolicy: 'network-only',
         })
         .then((response) => response.data.answerById)
         .then((answerByIDResponseObject) => {
@@ -45,10 +45,10 @@ export class CheckAnswerByIdStore {
   };
   closeAnswerReportDialog = () => {
     this.isOpenAnswerReportDialog = false;
-    this.answerReportText = "";
+    this.answerReportText = '';
   };
 
-  answerReportText = "";
+  answerReportText = '';
   changeAnswerReportText = (e) => {
     this.answerReportText = e.target.value;
   };
@@ -56,7 +56,7 @@ export class CheckAnswerByIdStore {
   saveAnswerReport = () => {
     if (this.answerReportText && this.answerID) {
       axiosClient
-        .post("/page/question-page/create-answer-report", {
+        .post('/page/question-page/create-answer-report', {
           report_data: {
             answer_id: Number(this.answerID),
             text: this.answerReportText,

@@ -5,15 +5,15 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from "@mui/material";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { saveDetailStatisticThunk } from "../../redux-store/AsyncActions";
+} from '@mui/material';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { saveDetailStatisticThunk } from '../../redux-store/AsyncActions';
 import {
   RootState,
   useAppSelector,
-} from "../../../../../App/ReduxStore/RootStore";
+} from '../../../../../App/ReduxStore/RootStore';
 
 interface IUiComebackLaterDialogProps extends PaperProps {
   isOpenComeBackLaterDialog: boolean;
@@ -59,7 +59,7 @@ export default function UiComebackLaterDialog({
       onClose={() => setIsOpenComeBackLaterDialog(false)}
       open={isOpenComeBackLaterDialog}
     >
-      <DialogTitle>{"Вы уверены, что хотите сдаться?"}</DialogTitle>
+      <DialogTitle>{'Вы уверены, что хотите сдаться?'}</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Вы уже не сможете вернуться к этому вопросу позже.

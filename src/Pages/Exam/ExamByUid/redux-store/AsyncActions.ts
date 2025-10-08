@@ -1,10 +1,10 @@
-import { loadExamOnOpenData } from "../../../../Shared/ServerLayer/QueryLayer/exam.query";
-import { loadQuestionByID } from "../../../../Shared/ServerLayer/QueryLayer/question.query";
-import { createDetailStatistic } from "../../../../Shared/ServerLayer/QueryLayer/detail-statistic.query";
-import { UserStorage } from "../../../../Shared/Store/UserStore/UserStore";
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { initialState } from "./InitialState";
-import axiosClient from "../../../../Shared/ServerLayer/QueryLayer/config";
+import { loadExamOnOpenData } from '../../../../Shared/ServerLayer/QueryLayer/exam.query';
+import { loadQuestionByID } from '../../../../Shared/ServerLayer/QueryLayer/question.query';
+import { createDetailStatistic } from '../../../../Shared/ServerLayer/QueryLayer/detail-statistic.query';
+import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { initialState } from './InitialState';
+import axiosClient from '../../../../Shared/ServerLayer/QueryLayer/config';
 
 const emptyStatistic = {
   numberOfPasses: 0,
@@ -13,24 +13,24 @@ const emptyStatistic = {
 };
 
 export const loadExamDataThunk = createAsyncThunk(
-  "examPlayer/loadExamData",
+  'examPlayer/loadExamData',
   async (examUID: string) =>
     axiosClient.get(`page/exam-player/exam-data/uid/${examUID}`),
 );
 
 export const loadQuestionDataThunk = createAsyncThunk(
-  "examPlayer/loadQuestionData",
+  'examPlayer/loadQuestionData',
   async (selectedQuestionID: number) =>
     loadQuestionByID(String(selectedQuestionID)),
 );
 
 export const openExamPageThunk = createAsyncThunk(
-  "examPlayer/openExamPage",
+  'examPlayer/openExamPage',
   async (examUID: string) => loadExamOnOpenData(examUID),
 );
 
 export const saveDetailStatisticThunk = createAsyncThunk(
-  "examPlayer/saveDetailStatistic",
+  'examPlayer/saveDetailStatistic',
   async (store: typeof initialState) => {
     if (store.selected_question_id) {
       return createDetailStatistic({

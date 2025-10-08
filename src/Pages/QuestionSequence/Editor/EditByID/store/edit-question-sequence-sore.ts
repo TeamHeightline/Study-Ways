@@ -1,17 +1,17 @@
-import { makeAutoObservable, reaction, toJS } from "mobx";
-import { sequenceDataI } from "../../../../../Shared/ServerLayer/Types/question-sequence.type";
+import { makeAutoObservable, reaction, toJS } from 'mobx';
+import { sequenceDataI } from '../../../../../Shared/ServerLayer/Types/question-sequence.type';
 import {
   getQSByID,
   updateQS,
-} from "../../../../../Shared/ServerLayer/QueryLayer/question-sequence.query";
+} from '../../../../../Shared/ServerLayer/QueryLayer/question-sequence.query';
 import {
   IQuestionPreviewData,
   QuestionAuthorI,
-} from "../../../../../Shared/ServerLayer/Types/question.type";
+} from '../../../../../Shared/ServerLayer/Types/question.type';
 import {
   loadAllQuestions,
   loadQuestionAuthors,
-} from "../../../../../Shared/ServerLayer/QueryLayer/question.query";
+} from '../../../../../Shared/ServerLayer/QueryLayer/question.query';
 
 class EditQuestionSequenceSoreClass {
   constructor() {
@@ -27,17 +27,17 @@ class EditQuestionSequenceSoreClass {
   }
 
   qsData?: sequenceDataI;
-  QuestionSequenceID = "";
+  QuestionSequenceID = '';
   qsDataLoaded = false;
   saveStatus = true;
   questionAuthors: QuestionAuthorI[] = [];
   allQuestions: IQuestionPreviewData[] = [];
-  selectedAuthorID = "-1";
-  searchThemeString = "";
+  selectedAuthorID = '-1';
+  searchThemeString = '';
   checkQuestionID: string | null = null;
 
   get QuestionsAfterSelectAuthor() {
-    if (this.selectedAuthorID == "-1") {
+    if (this.selectedAuthorID == '-1') {
       return this.allQuestions;
     } else {
       return this.allQuestions.filter(

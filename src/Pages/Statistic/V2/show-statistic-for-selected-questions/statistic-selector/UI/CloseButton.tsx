@@ -1,7 +1,7 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 type ICloseButtonProps = React.HTMLAttributes<HTMLDivElement>;
 

@@ -1,10 +1,10 @@
-import axiosClient from "./config";
-import { IQuestionStatus } from "../../../Pages/Exam/ExamByUid/redux-store/InitialState";
+import axiosClient from './config';
+import { IQuestionStatus } from '../../../Pages/Exam/ExamByUid/redux-store/InitialState';
 import {
   IExamData,
   IExamDataWithQSData,
   IExamResult,
-} from "../Types/exam.types";
+} from '../Types/exam.types';
 
 export async function loadExamByID(examID: string) {
   return axiosClient
@@ -34,12 +34,12 @@ export async function updateQuestionProgress(
   questionProgressData: IQuestionStatus,
 ): Promise<IQuestionStatus> {
   return axiosClient
-    .post("/exam/question-progress/update", { questionProgressData })
+    .post('/exam/question-progress/update', { questionProgressData })
     .then((res) => res.data.updatedQuestionStatus);
 }
 
 export async function loadMyExams(): Promise<IExamDataWithQSData[]> {
-  return axiosClient.get("/exam/my-exams").then((res) => res.data.exams);
+  return axiosClient.get('/exam/my-exams').then((res) => res.data.exams);
 }
 
 export async function createExam(
@@ -47,7 +47,7 @@ export async function createExam(
   name: string,
 ): Promise<IExamData> {
   return axiosClient
-    .post("/exam/create", { examData: { question_sequence_id, name } })
+    .post('/exam/create', { examData: { question_sequence_id, name } })
     .then((res) => res.data.createdExam);
 }
 

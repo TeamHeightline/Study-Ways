@@ -1,20 +1,20 @@
-import { observer } from "mobx-react";
-import { Box, Button, Grid, Stack, Typography } from "@mui/material";
-import { QuestionEditorStorage } from "../Store/QuestionEditorStorage";
-import { QuestionText } from "./ui-text";
-import { UiNumberOfShowingAnswers } from "./ui-number-of-showing-answers";
-import { ImageForQuestion } from "./ui-image-for-question";
-import { QuestionSrc } from "./ui-question-src";
-import { SavingNotification } from "./ui-saving-notification";
-import { UiQuestionPreview } from "./ui-question-preview";
-import { AnswersEditor } from "../../AnswersEditor/EditAnswerByID/UI/AnswersEditor";
-import { CreateNewAnswer } from "./ui-create-new-answer";
-import React, { useEffect } from "react";
-import { isMobileHook } from "../../../../../Shared/CustomHooks/isMobileHook";
-import UiAdditionalActions from "./ui-additional-actions";
-import ConnectedThemeSelector from "./ui-connected-theme-selector";
-import { useNavigate } from "react-router-dom";
-import UIQuestionStatistic from "./ui-statistic";
+import { observer } from 'mobx-react';
+import { Box, Button, Grid, Stack, Typography } from '@mui/material';
+import { QuestionEditorStorage } from '../Store/QuestionEditorStorage';
+import { QuestionText } from './ui-text';
+import { UiNumberOfShowingAnswers } from './ui-number-of-showing-answers';
+import { ImageForQuestion } from './ui-image-for-question';
+import { QuestionSrc } from './ui-question-src';
+import { SavingNotification } from './ui-saving-notification';
+import { UiQuestionPreview } from './ui-question-preview';
+import { AnswersEditor } from '../../AnswersEditor/EditAnswerByID/UI/AnswersEditor';
+import { CreateNewAnswer } from './ui-create-new-answer';
+import React, { useEffect } from 'react';
+import { isMobileHook } from '../../../../../Shared/CustomHooks/isMobileHook';
+import UiAdditionalActions from './ui-additional-actions';
+import ConnectedThemeSelector from './ui-connected-theme-selector';
+import { useNavigate } from 'react-router-dom';
+import UIQuestionStatistic from './ui-statistic';
 
 interface IEditQuestionByIDProps {
   questionID?: string;
@@ -51,10 +51,10 @@ export const EditQuestionByID = observer(
           Назад
         </Button>
 
-        <Grid container sx={{ p: { xs: 1, md: 0 } }} justifyContent={"center"}>
+        <Grid container sx={{ p: { xs: 1, md: 0 } }} justifyContent={'center'}>
           <Grid item xs={isMobile ? 12 : 11}>
-            <Stack alignItems={"center"} sx={{ pb: 2 }}>
-              <Typography variant={"h2"}>Редактор вопроса</Typography>
+            <Stack alignItems={'center'} sx={{ pb: 2 }}>
+              <Typography variant={'h2'}>Редактор вопроса</Typography>
             </Stack>
             {QuestionEditorStorage?.questionHasBeenSelected && (
               <Grid container columnSpacing={8} rowSpacing={2}>
@@ -63,7 +63,7 @@ export const EditQuestionByID = observer(
                 </Grid>
                 {QuestionEditorStorage?.AuthorsAndThemesHasBeenLoaded && (
                   <Grid
-                    alignItems={"start"}
+                    alignItems={'start'}
                     item
                     xs={12}
                     md={6}
@@ -71,11 +71,11 @@ export const EditQuestionByID = observer(
                     rowSpacing={2}
                   >
                     <Stack
-                      direction={isMobile ? "column" : "row"}
-                      justifyContent={isMobile ? undefined : "start"}
-                      alignItems={"center"}
+                      direction={isMobile ? 'column' : 'row'}
+                      justifyContent={isMobile ? undefined : 'start'}
+                      alignItems={'center'}
                       spacing={isMobile ? 0 : 2}
-                      sx={{ width: "100%" }}
+                      sx={{ width: '100%' }}
                     >
                       <UiNumberOfShowingAnswers />
                       <UiAdditionalActions />
@@ -93,13 +93,13 @@ export const EditQuestionByID = observer(
               </Grid>
             )}
             <Stack
-              direction={{ xs: "column", sm: "row" }}
-              justifyContent={"space-between"}
+              direction={{ xs: 'column', sm: 'row' }}
+              justifyContent={'space-between'}
               sx={{ mt: 1 }}
               spacing={isMobile ? 0 : 2}
             >
               <ImageForQuestion />
-              <Stack direction={"row"} spacing={1}>
+              <Stack direction={'row'} spacing={1}>
                 <QuestionSrc />
                 <UIQuestionStatistic />
               </Stack>
@@ -112,7 +112,7 @@ export const EditQuestionByID = observer(
         <Box sx={{ p: { xs: 1, md: 0 } }}>
           <AnswersEditor />
         </Box>
-        <Grid container justifyContent={"center"}>
+        <Grid container justifyContent={'center'}>
           <Grid item xs={isMobile ? 12 : 9}>
             <CreateNewAnswer />
           </Grid>

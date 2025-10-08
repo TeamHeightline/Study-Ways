@@ -1,4 +1,4 @@
-import Dagre from "@dagrejs/dagre";
+import Dagre from '@dagrejs/dagre';
 
 export const getLayoutedElements = (nodes, edges, options) => {
   const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));

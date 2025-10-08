@@ -1,5 +1,5 @@
-import { Node } from "@xyflow/react/dist/esm/types";
-import { OFFSET_FOR_FIRST_CARDS } from "../model/const";
+import { Node } from '@xyflow/react/dist/esm/types';
+import { OFFSET_FOR_FIRST_CARDS } from '../model/const';
 
 export function generateNextNodes(
   rootCardPosition: { x: number; y: number },
@@ -13,7 +13,7 @@ export function generateNextNodes(
         x: rootCardPosition.x + OFFSET_FOR_FIRST_CARDS * 2,
         y: rootCardPosition.y + index * OFFSET_FOR_FIRST_CARDS,
       },
-      type: "cardNode",
+      type: 'cardNode',
     }),
   );
 }

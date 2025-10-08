@@ -1,22 +1,22 @@
-import axiosClient from "./Shared/ServerLayer/QueryLayer/config";
-import type { BaseQueryFn } from "@reduxjs/toolkit/query";
-import type { AxiosRequestConfig, AxiosError } from "axios";
+import axiosClient from './Shared/ServerLayer/QueryLayer/config';
+import type { BaseQueryFn } from '@reduxjs/toolkit/query';
+import type { AxiosRequestConfig, AxiosError } from 'axios';
 
 export const axiosBaseQuery =
   (
-    { baseUrl }: { baseUrl: string } = { baseUrl: "" },
+    { baseUrl }: { baseUrl: string } = { baseUrl: '' },
   ): BaseQueryFn<
     {
       url: string;
-      method?: AxiosRequestConfig["method"];
-      data?: AxiosRequestConfig["data"];
-      params?: AxiosRequestConfig["params"];
-      headers?: AxiosRequestConfig["headers"];
+      method?: AxiosRequestConfig['method'];
+      data?: AxiosRequestConfig['data'];
+      params?: AxiosRequestConfig['params'];
+      headers?: AxiosRequestConfig['headers'];
     },
     unknown,
     unknown
   > =>
-  async ({ url, method = "GET", data, params, headers }) => {
+  async ({ url, method = 'GET', data, params, headers }) => {
     try {
       const result = await axiosClient({
         url: baseUrl + url,

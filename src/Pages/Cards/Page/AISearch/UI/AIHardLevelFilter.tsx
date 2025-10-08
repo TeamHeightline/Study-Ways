@@ -1,25 +1,25 @@
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import ArchitectureIcon from "@mui/icons-material/Architecture";
-import FunctionsIcon from "@mui/icons-material/Functions";
-import SchoolIcon from "@mui/icons-material/School";
-import ScienceIcon from "@mui/icons-material/Science";
-import BiotechIcon from "@mui/icons-material/Biotech";
-import React from "react";
-import { AISObject } from "../Store/AISearch";
-import { observer } from "mobx-react";
-import DoneAllIcon from "@mui/icons-material/DoneAll";
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import ArchitectureIcon from '@mui/icons-material/Architecture';
+import FunctionsIcon from '@mui/icons-material/Functions';
+import SchoolIcon from '@mui/icons-material/School';
+import ScienceIcon from '@mui/icons-material/Science';
+import BiotechIcon from '@mui/icons-material/Biotech';
+import React from 'react';
+import { AISObject } from '../Store/AISearch';
+import { observer } from 'mobx-react';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
 
 type IAIHardLevelFilterProps = BoxProps;
 
 const AIHardLevelFilter = observer(({ ...props }: IAIHardLevelFilterProps) => (
-  <FormControl variant="outlined" fullWidth size={"small"}>
+  <FormControl variant="outlined" fullWidth size={'small'}>
     <InputLabel>Уровень сложности</InputLabel>
     <Select
       value={AISObject.hardLevel}
       onChange={AISObject.changeHardLevel}
       fullWidth
-      label={"Уровень сложности"}
+      label={'Уровень сложности'}
     >
       <MenuItem value={-1}>
         <DoneAllIcon style={{ marginRight: 12 }} fontSize="small" />

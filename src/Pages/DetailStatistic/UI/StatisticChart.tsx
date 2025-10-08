@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { observer } from "mobx-react";
-import React from "react";
-import { Grid } from "@mui/material";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { Grid } from '@mui/material';
 import {
   ArgumentAxis,
   BarSeries,
@@ -9,7 +9,7 @@ import {
   SplineSeries,
   Title,
   ValueAxis,
-} from "@devexpress/dx-react-chart-material-ui";
+} from '@devexpress/dx-react-chart-material-ui';
 
 export const StatisticChart = observer(({ row }) => (
   <div>

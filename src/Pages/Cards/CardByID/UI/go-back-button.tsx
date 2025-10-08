@@ -1,11 +1,11 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { Button, IconButton, Stack, Tooltip } from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom";
-import { isMobileHook } from "../../../../Shared/CustomHooks/isMobileHook";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { ButtonProps } from "@mui/material/Button/Button";
-import HomeIcon from "@mui/icons-material/Home";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { Button, IconButton, Stack, Tooltip } from '@mui/material';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { isMobileHook } from '../../../../Shared/CustomHooks/isMobileHook';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { ButtonProps } from '@mui/material/Button/Button';
+import HomeIcon from '@mui/icons-material/Home';
 
 type IGoBackButtonProps = ButtonProps;
 
@@ -14,10 +14,10 @@ const GoBackButton = observer(({ ...props }: IGoBackButtonProps) => {
   const isMobile = isMobileHook();
   const location = useLocation();
   return (
-    <Stack direction={"row"} spacing={1}>
+    <Stack direction={'row'} spacing={1}>
       <Button
         {...props}
-        sx={{ minWidth: isMobile ? "" : 300 }}
+        sx={{ minWidth: isMobile ? '' : 300 }}
         fullWidth={isMobile}
         startIcon={<ArrowBackIcon />}
         variant="outlined"
@@ -28,12 +28,12 @@ const GoBackButton = observer(({ ...props }: IGoBackButtonProps) => {
       >
         Назад
       </Button>
-      {location.pathname === "/course" && (
-        <Tooltip title={"К поиску курсов"}>
+      {location.pathname === '/course' && (
+        <Tooltip title={'К поиску курсов'}>
           <IconButton
-            color={"info"}
+            color={'info'}
             onClick={() => {
-              navigate("/courses");
+              navigate('/courses');
             }}
           >
             <HomeIcon />

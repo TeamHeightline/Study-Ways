@@ -1,7 +1,7 @@
-import { observer } from "mobx-react";
-import React, { useEffect } from "react";
-import { QuestionEditorStorage } from "../Store/QuestionEditorStorage";
-import TreeSelect from "antd/es/tree-select";
+import { observer } from 'mobx-react';
+import React, { useEffect } from 'react';
+import { QuestionEditorStorage } from '../Store/QuestionEditorStorage';
+import TreeSelect from 'antd/es/tree-select';
 
 const { SHOW_CHILD } = TreeSelect;
 
@@ -19,16 +19,16 @@ const ConnectedThemeSelector = observer((props) => {
     disabled: !QuestionEditorStorage.isAllConnectedThemesLoaded,
     showSearch: false,
     showCheckedStrategy: SHOW_CHILD,
-    placeholder: "Выбирите тему вопроса",
+    placeholder: 'Выбирите тему вопроса',
     // bordered: true,
     style: {
-      width: "100%",
+      width: '100%',
     },
   };
 
   return (
     <div>
-      <TreeSelect {...tProps} size={"large"} />
+      <TreeSelect {...tProps} size={'large'} />
     </div>
   );
 });

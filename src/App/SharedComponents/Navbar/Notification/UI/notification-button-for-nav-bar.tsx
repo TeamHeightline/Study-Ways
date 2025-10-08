@@ -1,26 +1,26 @@
-import {Badge, Box, IconButton, Paper, Popover, Tooltip} from "@mui/material";
-import {BoxProps} from "@mui/material/Box/Box";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import {RootState, useAppDispatch} from "../../../../ReduxStore/RootStore";
-import {useEffect, useState} from "react";
-import recombeeClient from "../../../../../Shared/Store/RecombeeClient/recombee-client";
+import { Badge, Box, IconButton, Paper, Popover, Tooltip } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import { RootState, useAppDispatch } from '../../../../ReduxStore/RootStore';
+import { useEffect, useState } from 'react';
+import recombeeClient from '../../../../../Shared/Store/RecombeeClient/recombee-client';
 // @ts-ignore
-import recombee from "recombee-js-api-client";
+import recombee from 'recombee-js-api-client';
 import {
   addNotification,
   closeNotificationWindow,
   INotificationFormat,
   openNotificationWindow,
-} from "../redux-store/NotificationSlice";
-import {useSelector} from "react-redux";
-import NotificationContent from "./notification-content";
-import {UserStorage} from "../../../../../Shared/Store/UserStore/UserStore";
+} from '../redux-store/NotificationSlice';
+import { useSelector } from 'react-redux';
+import NotificationContent from './notification-content';
+import { UserStorage } from '../../../../../Shared/Store/UserStore/UserStore';
 
 type INotificationButtonForNavbarProps = BoxProps;
 
 export default function NotificationButtonForNavbar({
-                                                      ...props
-                                                    }: INotificationButtonForNavbarProps) {
+  ...props
+}: INotificationButtonForNavbarProps) {
   const dispatch = useAppDispatch();
   const number_of_not_viewed_notifications = useSelector(
     (state: RootState) => state.notification.number_of_not_viewed_notifications,
@@ -35,19 +35,18 @@ export default function NotificationButtonForNavbar({
   }
 
   useEffect(() => {
-
     // @ts-ignore
     recombeeClient.send(
       // @ts-ignore
       new recombee.RecommendItemsToUser(UserStorage.userIDForRecombee, 5, {
-        scenario: "On-open-suggestion",
+        scenario: 'On-open-suggestion',
       }),
       (err, matches) => {
         const cardsID = matches?.recomms?.map((recomm) => recomm.id);
         if (cardsID) {
           const notification: INotificationFormat = {
-            text: "Рекомендованные карточки",
-            type: "CARD_SUGGESTION",
+            text: 'Рекомендованные карточки',
+            type: 'CARD_SUGGESTION',
             payload: cardsID,
           };
           dispatch(addNotification(notification));
@@ -57,7 +56,7 @@ export default function NotificationButtonForNavbar({
   }, []);
   return (
     <Box {...props}>
-      <Tooltip title={"Уведомления"}>
+      <Tooltip title={'Уведомления'}>
         <IconButton
           onClick={(event) => {
             setAnchorElement(event.currentTarget);
@@ -68,7 +67,7 @@ export default function NotificationButtonForNavbar({
             color="secondary"
             badgeContent={number_of_not_viewed_notifications}
           >
-            <NotificationsNoneIcon/>
+            <NotificationsNoneIcon />
           </Badge>
         </IconButton>
       </Tooltip>
@@ -79,19 +78,19 @@ export default function NotificationButtonForNavbar({
           anchorEl={anchorElement}
           onClose={handleClose}
           anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left",
+            vertical: 'bottom',
+            horizontal: 'left',
           }}
         >
           <Paper
-            variant={"outlined"}
+            variant={'outlined'}
             sx={{
               height: 320,
-              width: "100%",
+              width: '100%',
               maxWeight: 800,
             }}
           >
-            <NotificationContent/>
+            <NotificationContent />
           </Paper>
         </Popover>
       )}

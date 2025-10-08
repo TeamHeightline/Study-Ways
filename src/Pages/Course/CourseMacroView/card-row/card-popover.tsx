@@ -1,7 +1,7 @@
-import { Box, Popover } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import CardMicroView from "../../../Cards/CardMicroView";
-import React from "react";
+import { Box, Popover } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import CardMicroView from '../../../Cards/CardMicroView';
+import React from 'react';
 
 interface ICardPopoverProps extends BoxProps {
   hoveredItemID: string | undefined;
@@ -22,14 +22,14 @@ export default function CardPopover({
       <Popover
         id="mouse-over-popover"
         sx={{
-          pointerEvents: "none",
+          pointerEvents: 'none',
         }}
         style={{ marginTop: 100 }}
         open={open}
         anchorEl={anchorEl}
         anchorOrigin={{
-          vertical: "top",
-          horizontal: "center",
+          vertical: 'top',
+          horizontal: 'center',
         }}
         onClose={handlePopoverClose}
         disableRestoreFocus
@@ -38,7 +38,7 @@ export default function CardPopover({
         <div>
           {hoveredItemID &&
             String(hoveredItemID)
-              ?.split(",")
+              ?.split(',')
               ?.map((cardID, index) => (
                 <CardMicroView
                   key={`${cardID}___${index}`}

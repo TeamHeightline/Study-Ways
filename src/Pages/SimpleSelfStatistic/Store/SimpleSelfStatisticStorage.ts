@@ -1,8 +1,8 @@
-import { autorun, makeAutoObservable, toJS } from "mobx";
-import { ClientStorage } from "../../../Shared/Store/ApolloStorage/ClientStorage";
-import { Query } from "../../../SchemaTypes";
-import { GET_SELF_STATISTIC_ID } from "./query";
-import { UserStorage } from "../../../Shared/Store/UserStore/UserStore";
+import { autorun, makeAutoObservable, toJS } from 'mobx';
+import { ClientStorage } from '../../../Shared/Store/ApolloStorage/ClientStorage';
+import { Query } from '../../../SchemaTypes';
+import { GET_SELF_STATISTIC_ID } from './query';
+import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 
 class SimpleSelfStatisticStorage {
   constructor() {
@@ -19,7 +19,7 @@ class SimpleSelfStatisticStorage {
         this.clientStorage.client
           .query<Query>({
             query: GET_SELF_STATISTIC_ID,
-            fetchPolicy: "network-only",
+            fetchPolicy: 'network-only',
             variables: {
               page: this.activePage,
             },

@@ -1,26 +1,26 @@
-import { observer } from "mobx-react";
-import { CESObject } from "../Store/CardEditorStorage";
-import { Alert, AlertTitle, Card, Stack, TextField } from "@mui/material";
-import React from "react";
-import { isMobileHook } from "../../../../../Shared/CustomHooks/isMobileHook";
+import { observer } from 'mobx-react';
+import { CESObject } from '../Store/CardEditorStorage';
+import { Alert, AlertTitle, Card, Stack, TextField } from '@mui/material';
+import React from 'react';
+import { isMobileHook } from '../../../../../Shared/CustomHooks/isMobileHook';
 
 function getIframeURL(vkVideoURL) {
   if (!vkVideoURL) {
-    return "";
+    return '';
   }
-  const oidAndID = vkVideoURL.split("/video")[1];
+  const oidAndID = vkVideoURL.split('/video')[1];
   if (!oidAndID) {
-    return "";
+    return '';
   }
-  const oid = oidAndID.split("_")[0];
-  const id = oidAndID.split("_")[1];
+  const oid = oidAndID.split('_')[0];
+  const id = oidAndID.split('_')[1];
 
   return `https://vk.com/video_ext.php?oid=${oid}&id=${id}&hd=2`;
 }
 
 export const UiVkVideo = observer(() => {
   const isMobile = isMobileHook();
-  const value = CESObject.getField("vk_video_url", "");
+  const value = CESObject.getField('vk_video_url', '');
   const iFrameUrl = getIframeURL(value);
   return (
     <div>
@@ -35,18 +35,18 @@ export const UiVkVideo = observer(() => {
         ></iframe>
       ) : (
         <Card
-          variant={"outlined"}
+          variant={'outlined'}
           sx={{
             height: isMobile ? (window.innerWidth / 16) * 9 : 390,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
-          <div style={{ width: "75%" }}>
-            <Alert severity={"info"} variant={"outlined"}>
+          <div style={{ width: '75%' }}>
+            <Alert severity={'info'} variant={'outlined'}>
               <AlertTitle>Внимание</AlertTitle>
-              <div style={{ textOverflow: "ellipsis", overflow: "hidden" }}>
+              <div style={{ textOverflow: 'ellipsis', overflow: 'hidden' }}>
                 Ссылка на видео VK должна быть вида
                 https://vkvideo.ru/video4604580_456240803
               </div>
@@ -59,8 +59,8 @@ export const UiVkVideo = observer(() => {
         label="Ссылка на VK video"
         fullWidth
         variant="filled"
-        onChange={CESObject.changeField("vk_video_url")}
-        value={CESObject.getField("vk_video_url", "")}
+        onChange={CESObject.changeField('vk_video_url')}
+        value={CESObject.getField('vk_video_url', '')}
       />
     </div>
   );

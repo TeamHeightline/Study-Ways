@@ -1,11 +1,11 @@
-import { toJS } from "mobx";
-import { observer } from "mobx-react";
-import { useEffect } from "react";
-import { Background, Controls, ReactFlow, useReactFlow } from "@xyflow/react";
-import "@xyflow/react/dist/style.css";
-import { CardNode } from "./card-node";
-import { AICourseStore } from "../model/store";
-import { isMobileHook } from "../../../Shared/CustomHooks/isMobileHook";
+import { toJS } from 'mobx';
+import { observer } from 'mobx-react';
+import { useEffect } from 'react';
+import { Background, Controls, ReactFlow, useReactFlow } from '@xyflow/react';
+import '@xyflow/react/dist/style.css';
+import { CardNode } from './card-node';
+import { AICourseStore } from '../model/store';
+import { isMobileHook } from '../../../Shared/CustomHooks/isMobileHook';
 
 interface IProps {
   defaultCardsID?: number[];
@@ -44,7 +44,7 @@ const Flow = observer((props: IProps) => {
   }, [selectedNodeID, nodes.length]);
 
   return (
-    <div style={{ height: "75svh", width: "100vw" }}>
+    <div style={{ height: '75svh', width: '100vw' }}>
       <ReactFlow
         minZoom={isMobile ? MOBILE_MAX_ZOOM : PC_MAX_ZOOM}
         nodeTypes={nodeTypes}

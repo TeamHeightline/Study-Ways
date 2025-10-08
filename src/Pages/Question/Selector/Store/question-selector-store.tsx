@@ -1,11 +1,11 @@
-import { autorun, makeAutoObservable } from "mobx";
-import { Query } from "../../../../SchemaTypes";
-import { ClientStorage } from "../../../../Shared/Store/ApolloStorage/ClientStorage";
+import { autorun, makeAutoObservable } from 'mobx';
+import { Query } from '../../../../SchemaTypes';
+import { ClientStorage } from '../../../../Shared/Store/ApolloStorage/ClientStorage';
 import {
   GET_MY_QUESTIONS_ID_ARRAY,
   GET_QUESTIONS_ID_ARRAY_FOY_USER,
   GET_USERS_WITH_QUESTION_CREATOR_STATUS,
-} from "./query";
+} from './query';
 
 class QuestionSelectorStore {
   constructor() {
@@ -38,7 +38,7 @@ class QuestionSelectorStore {
   };
 
   get QuestionsIDArrayForDisplay() {
-    if (this.selectedAuthorID == "-1") {
+    if (this.selectedAuthorID == '-1') {
       return this.myQuestions;
     } else {
       return this.questionsIDForSelectedAuthor;
@@ -56,7 +56,7 @@ class QuestionSelectorStore {
         variables: {
           page: this.activePage,
         },
-        fetchPolicy: useCache ? "cache-only" : "network-only",
+        fetchPolicy: useCache ? 'cache-only' : 'network-only',
       })
       .then((response) => response.data.myQuestionsId)
       .then((my_questions_data) => {
@@ -78,7 +78,7 @@ class QuestionSelectorStore {
     this.clientStorage.client
       .query({
         query: GET_USERS_WITH_QUESTION_CREATOR_STATUS,
-        fetchPolicy: useCache ? "cache-first" : "network-only",
+        fetchPolicy: useCache ? 'cache-first' : 'network-only',
       })
       .then((response) => response.data.userWithQuestion)
       .then((usersWithQuestions) => {
@@ -104,7 +104,7 @@ class QuestionSelectorStore {
             page: this.activePage,
             ownerUserId: this.selectedAuthorID,
           },
-          fetchPolicy: useCache ? "cache-only" : "network-only",
+          fetchPolicy: useCache ? 'cache-only' : 'network-only',
         })
         .then((response) => response.data.questionsId)
         .then((QuestionsIDObject) => {
@@ -134,8 +134,8 @@ class QuestionSelectorStore {
 }
 
 export enum SelectedAuthorVariants {
-  ALLQuestions = "-2",
-  MYQuestions = "-1",
+  ALLQuestions = '-2',
+  MYQuestions = '-1',
 }
 
 export type SelectedAuthorVariantsType = SelectedAuthorVariants | string;

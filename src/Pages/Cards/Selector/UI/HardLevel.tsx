@@ -1,13 +1,13 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { CardHardLevel } from "../../../../SchemaTypes";
-import ArchitectureIcon from "@mui/icons-material/Architecture";
-import FunctionsIcon from "@mui/icons-material/Functions";
-import SchoolIcon from "@mui/icons-material/School";
-import ScienceIcon from "@mui/icons-material/Science";
-import BiotechIcon from "@mui/icons-material/Biotech";
-import { CSSObject } from "../Store/CardSelectorStore";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { CardHardLevel } from '../../../../SchemaTypes';
+import ArchitectureIcon from '@mui/icons-material/Architecture';
+import FunctionsIcon from '@mui/icons-material/Functions';
+import SchoolIcon from '@mui/icons-material/School';
+import ScienceIcon from '@mui/icons-material/Science';
+import BiotechIcon from '@mui/icons-material/Biotech';
+import { CSSObject } from '../Store/CardSelectorStore';
 
 type IHardLevelProps = React.HTMLAttributes<HTMLDivElement>;
 export const HardLevel = observer(({ ...props }: IHardLevelProps) => (
@@ -17,9 +17,9 @@ export const HardLevel = observer(({ ...props }: IHardLevelProps) => (
       value={CSSObject.hardLevel}
       onChange={CSSObject.changeHardLevel}
       fullWidth
-      label={"Уровень сложности"}
+      label={'Уровень сложности'}
     >
-      <MenuItem value={"undefined"}>Все</MenuItem>
+      <MenuItem value={'undefined'}>Все</MenuItem>
       <MenuItem value={CardHardLevel.A_0}>
         <ArchitectureIcon style={{ marginRight: 12 }} fontSize="small" />
         Выпускникам школ

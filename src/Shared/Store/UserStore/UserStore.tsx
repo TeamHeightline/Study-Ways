@@ -1,12 +1,12 @@
-import { makeAutoObservable } from "mobx";
-import React from "react";
-import { ClientStorage } from "../ApolloStorage/ClientStorage";
-import axiosClient from "../../ServerLayer/QueryLayer/config";
+import { makeAutoObservable } from 'mobx';
+import React from 'react';
+import { ClientStorage } from '../ApolloStorage/ClientStorage';
+import axiosClient from '../../ServerLayer/QueryLayer/config';
 
 interface IBasicUserData {
   id: number;
   username: string;
-  user_access_level: "STUDENT" | "TEACHER" | "ADMIN";
+  user_access_level: 'STUDENT' | 'TEACHER' | 'ADMIN';
 }
 
 class User {
@@ -22,19 +22,19 @@ class User {
   }
 
   get userAccessLevel() {
-    return this.user_data?.user_access_level ?? "STUDENT";
+    return this.user_data?.user_access_level ?? 'STUDENT';
   }
 
   get username() {
-    return this.user_data?.username ?? "";
+    return this.user_data?.username ?? '';
   }
 
   get userIDForRecombee() {
-    return this.user_data?.id ?? "-1";
+    return this.user_data?.id ?? '-1';
   }
 
   reloadUser() {
-    axiosClient.get<IBasicUserData>("/page/me/basic-data").then((res) => {
+    axiosClient.get<IBasicUserData>('/page/me/basic-data').then((res) => {
       this.user_data = res.data;
     });
   }

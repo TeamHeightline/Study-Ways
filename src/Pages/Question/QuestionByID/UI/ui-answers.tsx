@@ -1,11 +1,11 @@
-import { Box, Stack } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import { observer } from "mobx-react";
-import React from "react";
-import { QuestionPlayerStore } from "../Store/QuestionPlayerStore";
-import { isMobileHook } from "../../../../Shared/CustomHooks/isMobileHook";
-import UISingleAnswerByData from "./ui-single-answer-by-data";
-import UIUserMarkAndActionButtons from "./ui-user-mark-and-action-buttons";
+import { Box, Stack } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import { observer } from 'mobx-react';
+import React from 'react';
+import { QuestionPlayerStore } from '../Store/QuestionPlayerStore';
+import { isMobileHook } from '../../../../Shared/CustomHooks/isMobileHook';
+import UISingleAnswerByData from './ui-single-answer-by-data';
+import UIUserMarkAndActionButtons from './ui-user-mark-and-action-buttons';
 
 interface IUIAnswersProps extends BoxProps {
   questionStore: QuestionPlayerStore;
@@ -15,19 +15,19 @@ const UIAnswers = observer(({ questionStore, ...props }: IUIAnswersProps) => {
   const isMobile = isMobileHook();
   return (
     <Box {...props}>
-      <div style={{ overflowX: "scroll" }}>
+      <div style={{ overflowX: 'scroll' }}>
         {/* <Row style={{width:  questionStore?.answersArray.length * 410}}>*/}
         <Stack
           style={{
-            width: isMobile ? "" : questionStore?.answersArray.length * 410,
+            width: isMobile ? '' : questionStore?.answersArray.length * 410,
           }}
         >
           {questionStore?.answersArray && (
             <Stack
-              direction={isMobile ? "column" : "row"}
+              direction={isMobile ? 'column' : 'row'}
               spacing={2}
               sx={{
-                height: isMobile ? questionStore?.answersArray * 410 : "",
+                height: isMobile ? questionStore?.answersArray * 410 : '',
                 pt: 2,
               }}
             >

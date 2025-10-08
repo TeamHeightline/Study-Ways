@@ -1,9 +1,9 @@
-import { observer } from "mobx-react";
-import React, { useState } from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Paper } from "@mui/material";
-import { CheckAnswerByIdStore } from "../Store/check-answer-by-id-store";
-import CheckAnswerUI from "./ui";
+import { observer } from 'mobx-react';
+import React, { useState } from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Paper } from '@mui/material';
+import { CheckAnswerByIdStore } from '../Store/check-answer-by-id-store';
+import CheckAnswerUI from './ui';
 
 interface ICheckAnswerIndexProps extends PaperProps {
   answerID: string;

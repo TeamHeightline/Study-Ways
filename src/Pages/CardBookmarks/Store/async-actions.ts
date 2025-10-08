@@ -1,10 +1,10 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import axiosClient from "../../../Shared/ServerLayer/QueryLayer/config";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import axiosClient from '../../../Shared/ServerLayer/QueryLayer/config';
 
 export const loadCardBookmarks = createAsyncThunk(
-  "cardBookmarksSlice/loadCardBookmarks",
+  'cardBookmarksSlice/loadCardBookmarks',
   () =>
     axiosClient
-      .get("page/personal-cabinet/my-bookmarks")
+      .get('page/personal-cabinet/my-bookmarks')
       .then((res) => res.data),
 );

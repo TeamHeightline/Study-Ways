@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import { Paper, Slider, Stack } from "@mui/material";
-import { observer } from "mobx-react";
-import RowFragment from "./RowFragment";
-import { ICourseData, ICoursePosition } from "./types";
+import { Paper, Slider, Stack } from '@mui/material';
+import { observer } from 'mobx-react';
+import RowFragment from './RowFragment';
+import { ICourseData, ICoursePosition } from './types';
 
 type CourseNavigationProps = {
   courseData: ICourseData;
@@ -18,7 +18,7 @@ const CourseNavigation = observer(
 
     // @ts-ignore
     const handleChange = (event, newValue) => {
-      if (typeof newValue === "number") {
+      if (typeof newValue === 'number') {
         setActivePage(newValue);
       }
     };
@@ -26,10 +26,10 @@ const CourseNavigation = observer(
     // @ts-ignore
     // @ts-ignore
     return (
-      <Stack direction={"row"}>
+      <Stack direction={'row'}>
         <Paper
           elevation={0}
-          sx={{ pt: 2, pb: 2, backgroundColor: "transparent" }}
+          sx={{ pt: 2, pb: 2, backgroundColor: 'transparent' }}
         >
           <Slider
             value={activePage}

@@ -1,7 +1,7 @@
-import { Box } from "@mui/material";
-import { useGetUserGroupsQuery } from "../store/api";
-import { useEffect } from "react";
-import CreateButton from "./create-button";
+import { Box } from '@mui/material';
+import { useGetUserGroupsQuery } from '../store/api';
+import { useEffect } from 'react';
+import CreateButton from './create-button';
 
 export default function UserGroupsEditor() {
   const { data, isLoading } = useGetUserGroupsQuery();

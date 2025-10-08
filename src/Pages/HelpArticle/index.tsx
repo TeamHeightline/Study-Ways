@@ -6,10 +6,10 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-} from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import InfoIcon from "@mui/icons-material/Info";
-import { useState } from "react";
+} from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import InfoIcon from '@mui/icons-material/Info';
+import { useState } from 'react';
 
 type IProps = BoxProps;
 

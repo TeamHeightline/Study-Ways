@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { useMutation, useQuery } from "@apollo/client";
-import { Mutation, QuestionSequenceNode } from "../../../../SchemaTypes";
+import React, { useState } from 'react';
+import { useMutation, useQuery } from '@apollo/client';
+import { Mutation, QuestionSequenceNode } from '../../../../SchemaTypes';
 import {
   CREATE_QUESTION_SEQUENCE,
   GET_MY_QUESTION_SEQUENCE,
   question_sequence_struct,
-} from "../Struct";
+} from '../Struct';
 import {
   Button,
   Card,
@@ -16,9 +16,9 @@ import {
   Paper,
   Stack,
   Typography,
-} from "@mui/material";
-import { sort } from "fast-sort";
-import EditQuestionSequenceUI from "../EditByID/UI/edit-question-sequence-ui";
+} from '@mui/material';
+import { sort } from 'fast-sort';
+import EditQuestionSequenceUI from '../EditByID/UI/edit-question-sequence-ui';
 
 export default function QuestionSequenceMainEditor() {
   const {
@@ -44,7 +44,7 @@ export default function QuestionSequenceMainEditor() {
 
   if (!question_sequence_data) {
     return (
-      <Stack alignItems={"center"}>
+      <Stack alignItems={'center'}>
         <CircularProgress />
       </Stack>
     );
@@ -54,7 +54,7 @@ export default function QuestionSequenceMainEditor() {
       <EditQuestionSequenceUI
         qsID={String(activeEditSequenceID)}
         onChange={(data) => {
-          if (data === "goBack") {
+          if (data === 'goBack') {
             refetch_question_sequence_data();
             setIsEditNow(false);
           }
@@ -100,14 +100,14 @@ export default function QuestionSequenceMainEditor() {
                   }}
                 >
                   <CardActionArea>
-                    <Stack direction={"column"} spacing={0.5} sx={{ p: 2 }}>
+                    <Stack direction={'column'} spacing={0.5} sx={{ p: 2 }}>
                       <Typography variant="h6" color="textSecondary">
                         <strong>{`ID: ${sequence?.id}`}</strong>
                       </Typography>
-                      <Typography variant={"body1"}>
+                      <Typography variant={'body1'}>
                         {`Название: ${sequence?.name}`}
                       </Typography>
-                      <Typography variant={"body1"}>
+                      <Typography variant={'body1'}>
                         {`Описание: ${sequence?.description}`}
                       </Typography>
                       <Grid container spacing={1}>
@@ -115,10 +115,10 @@ export default function QuestionSequenceMainEditor() {
                           (question, qIndex) => (
                             <Grid
                               item
-                              xs={"auto"}
+                              xs={'auto'}
                               key={`${sequence?.id}SequenceKey${qIndex}QuestionKey`}
                             >
-                              <Chip label={question} variant={"outlined"} />
+                              <Chip label={question} variant={'outlined'} />
                             </Grid>
                           ),
                         )}

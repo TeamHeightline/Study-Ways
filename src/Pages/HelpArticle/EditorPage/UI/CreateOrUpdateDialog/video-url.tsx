@@ -1,12 +1,12 @@
-import { Box, Stack, TextField } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
+import { Box, Stack, TextField } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../../../../App/ReduxStore/RootStore";
-import { changeCreateArticleData } from "../../redux-store";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-import urlParser from "js-video-url-parser";
+} from '../../../../../App/ReduxStore/RootStore';
+import { changeCreateArticleData } from '../../redux-store';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import urlParser from 'js-video-url-parser';
 
 type ITitleProps = BoxProps;
 
@@ -17,10 +17,10 @@ export default function VideoUrl({ ...props }: ITitleProps) {
   const dispatch = useAppDispatch();
 
   function handleChange(e) {
-    const value = e.target.value || "";
+    const value = e.target.value || '';
     dispatch(
       changeCreateArticleData({
-        field: "video_url",
+        field: 'video_url',
         value,
       }),
     );
@@ -31,18 +31,18 @@ export default function VideoUrl({ ...props }: ITitleProps) {
 
   return (
     <Box {...props}>
-      <Stack direction={"row"} sx={{ mt: 1 }} spacing={1} alignItems={"center"}>
+      <Stack direction={'row'} sx={{ mt: 1 }} spacing={1} alignItems={'center'}>
         <YouTubeIcon fontSize="large" />
 
         <TextField
           value={video_url}
           onChange={handleChange}
-          variant={"outlined"}
+          variant={'outlined'}
           sx={{ width: 550 }}
-          label={"Ссылка на видео"}
+          label={'Ссылка на видео'}
           error={isVideoURLNOTValid}
           helperText={
-            isVideoURLNOTValid ? "Ссылка не распознана как видео-источник" : ""
+            isVideoURLNOTValid ? 'Ссылка не распознана как видео-источник' : ''
           }
         ></TextField>
       </Stack>

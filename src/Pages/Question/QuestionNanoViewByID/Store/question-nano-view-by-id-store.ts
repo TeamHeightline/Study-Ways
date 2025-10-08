@@ -1,8 +1,8 @@
-import { autorun, makeAutoObservable } from "mobx";
-import { Query } from "../../../../SchemaTypes";
-import { ClientStorage } from "../../../../Shared/Store/ApolloStorage/ClientStorage";
-import { GET_QUESTION_NANO_VIEW_BY_ID } from "../../Selector/Store/query";
-import React from "react";
+import { autorun, makeAutoObservable } from 'mobx';
+import { Query } from '../../../../SchemaTypes';
+import { ClientStorage } from '../../../../Shared/Store/ApolloStorage/ClientStorage';
+import { GET_QUESTION_NANO_VIEW_BY_ID } from '../../Selector/Store/query';
+import React from 'react';
 
 export class QuestionNanoViewByIdStore {
   constructor(id?: number) {
@@ -28,7 +28,7 @@ export class QuestionNanoViewByIdStore {
           variables: {
             id: this.id,
           },
-          fetchPolicy: useCache ? "cache-only" : "network-only",
+          fetchPolicy: useCache ? 'cache-only' : 'network-only',
         })
         .then((response) => response.data.questionNanoViewById)
         .then((questionNanoViewData) => {

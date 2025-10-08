@@ -1,11 +1,11 @@
-import { Box, Stack, TextField } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
+import { Box, Stack, TextField } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../../../../App/ReduxStore/RootStore";
-import { changeCreateArticleData } from "../../redux-store";
-import LinkIcon from "@mui/icons-material/Link";
+} from '../../../../../App/ReduxStore/RootStore';
+import { changeCreateArticleData } from '../../redux-store';
+import LinkIcon from '@mui/icons-material/Link';
 
 type IURLProps = BoxProps;
 
@@ -16,7 +16,7 @@ export default function URLInDialog({ ...props }: IURLProps) {
   const dispatch = useAppDispatch();
 
   function handleChange(e) {
-    let value = e.target.value || "";
+    let value = e.target.value || '';
     // От ссылки остается только путь на уровне сайта (то есть вырезается https://www.сайт.com) остается только /путь/к/странице
     // Из ссылки удаляется все, что находится после знака вопроса (то есть все GET параметры)
     try {
@@ -26,7 +26,7 @@ export default function URLInDialog({ ...props }: IURLProps) {
 
     dispatch(
       changeCreateArticleData({
-        field: "url",
+        field: 'url',
         value,
       }),
     );
@@ -34,15 +34,15 @@ export default function URLInDialog({ ...props }: IURLProps) {
 
   return (
     <Box {...props}>
-      <Stack direction={"row"} sx={{ mt: 1 }} spacing={1} alignItems={"center"}>
+      <Stack direction={'row'} sx={{ mt: 1 }} spacing={1} alignItems={'center'}>
         <LinkIcon fontSize="large" />
         <TextField
           value={url}
           onChange={handleChange}
-          variant={"filled"}
+          variant={'filled'}
           sx={{ width: 550 }}
           label={
-            "Относительная ссылка на страницу для которой создается статья"
+            'Относительная ссылка на страницу для которой создается статья'
           }
         ></TextField>
       </Stack>

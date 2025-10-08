@@ -1,24 +1,24 @@
-import { autorun, makeAutoObservable, reaction, toJS } from "mobx";
-import { ClientStorage } from "../../../../../../Shared/Store/ApolloStorage/ClientStorage";
-import { UserStorage } from "../../../../../../Shared/Store/UserStore/UserStore";
+import { autorun, makeAutoObservable, reaction, toJS } from 'mobx';
+import { ClientStorage } from '../../../../../../Shared/Store/ApolloStorage/ClientStorage';
+import { UserStorage } from '../../../../../../Shared/Store/UserStore/UserStore';
 import {
   CREATE_NEW_ANSWER_BASED_ON_DATA,
   LOAD_ANSWER_BY_ID,
   UPDATE_ANSWER,
-} from "./Query";
+} from './Query';
 import {
   AnswerHardLevelOfAnswer,
   AnswerNode,
   Mutation,
-} from "../../../../../../SchemaTypes";
+} from '../../../../../../SchemaTypes';
 import {
   object_properties_to_array_mapper,
   RemoveTypename,
-} from "../../../../../Cards/Editor/EditorByIDV2/Store/CardEditorStorage";
-import { computedFn } from "mobx-utils";
-import { SERVER_BASE_URL } from "../../../../../../settings";
-import { QuestionEditorStorage } from "../../../QuestionEditor/Store/QuestionEditorStorage";
-import axiosClient from "../../../../../../Shared/ServerLayer/QueryLayer/config";
+} from '../../../../../Cards/Editor/EditorByIDV2/Store/CardEditorStorage';
+import { computedFn } from 'mobx-utils';
+import { SERVER_BASE_URL } from '../../../../../../settings';
+import { QuestionEditorStorage } from '../../../QuestionEditor/Store/QuestionEditorStorage';
+import axiosClient from '../../../../../../Shared/ServerLayer/QueryLayer/config';
 
 export class EditAnswerByIdStore {
   constructor(answer_id?: number) {
@@ -67,7 +67,7 @@ export class EditAnswerByIdStore {
   getField = computedFn(
     (
       field_name: answer_object_field | number,
-      default_value: string | number | boolean | [] = "",
+      default_value: string | number | boolean | [] = '',
       answer_object = this.answer_object,
     ) =>
       answer_object && answer_object[field_name]
@@ -78,7 +78,7 @@ export class EditAnswerByIdStore {
   changeField =
     (
       field: answer_object_field | number,
-      eventField: "value" | "checked" = "value",
+      eventField: 'value' | 'checked' = 'value',
       answer_object = this.answer_object,
     ) =>
     ({ target }) => {
@@ -109,7 +109,7 @@ export class EditAnswerByIdStore {
     if (this.answer_object) {
       return String(this.answer_object?.isTrue);
     } else {
-      return "true";
+      return 'true';
     }
   }
 
@@ -126,12 +126,12 @@ export class EditAnswerByIdStore {
 
   changeIsTrue = () => {
     if (this.answer_object) {
-      if (this.answer_object.isTrue == "true") {
-        this.answer_object.isTrue = "false";
-        this.changeBoilerPlateHelpText("false");
+      if (this.answer_object.isTrue == 'true') {
+        this.answer_object.isTrue = 'false';
+        this.changeBoilerPlateHelpText('false');
       } else {
-        this.answer_object.isTrue = "true";
-        this.changeBoilerPlateHelpText("true");
+        this.answer_object.isTrue = 'true';
+        this.changeBoilerPlateHelpText('true');
       }
     }
   };
@@ -176,24 +176,24 @@ export class EditAnswerByIdStore {
     }
   };
 
-  changeBoilerPlateHelpText = (isTrue: "true" | "false") => {
+  changeBoilerPlateHelpText = (isTrue: 'true' | 'false') => {
     for (const i of [1, 2, 3]) {
       if (this.answer_object) {
         const activeHelpText = this.answer_object[`helpTextv${i}`];
-        if (isTrue !== "true") {
+        if (isTrue !== 'true') {
           if (
-            activeHelpText == "Ваш ответ следует дополнить" ||
-            activeHelpText == ""
+            activeHelpText == 'Ваш ответ следует дополнить' ||
+            activeHelpText == ''
           ) {
             this.answer_object[`helpTextv${i}`] =
-              "Вы допустили одну или более ошибок";
+              'Вы допустили одну или более ошибок';
           }
         } else {
           if (
-            activeHelpText == "Вы допустили одну или более ошибок" ||
-            activeHelpText == ""
+            activeHelpText == 'Вы допустили одну или более ошибок' ||
+            activeHelpText == ''
           ) {
-            this.answer_object[`helpTextv${i}`] = "Ваш ответ следует дополнить";
+            this.answer_object[`helpTextv${i}`] = 'Ваш ответ следует дополнить';
           }
         }
       }
@@ -213,7 +213,7 @@ export class EditAnswerByIdStore {
       this.clientStorage.client
         .query({
           query: LOAD_ANSWER_BY_ID,
-          fetchPolicy: "network-only",
+          fetchPolicy: 'network-only',
           variables: {
             answer_id: this.answer_id,
           },
@@ -258,7 +258,7 @@ export class EditAnswerByIdStore {
           mutation: UPDATE_ANSWER,
           variables: {
             ...rawAnswerObject,
-            isTrue: rawAnswerObject.isTrue == "true",
+            isTrue: rawAnswerObject.isTrue == 'true',
           },
         })
         .then((response) => response?.data?.updateAnswer)
@@ -274,13 +274,13 @@ export class EditAnswerByIdStore {
 
   changeCheckQueue = (e) => {
     if (this.answer_object) {
-      this.answer_object.checkQueue = e.target.value.replace(/[^\d]/g, "");
+      this.answer_object.checkQueue = e.target.value.replace(/[^\d]/g, '');
     }
   };
 
   // Изображение ----------------------------------------------------------------
 
-  imageUrl = "";
+  imageUrl = '';
   fakeAnswerIndexForUpdatePreview = 0;
 
   getImageUrlFromServer() {
@@ -298,10 +298,10 @@ export class EditAnswerByIdStore {
   }
 
   get imageName() {
-    if (this.imageUrl === "") {
-      return "";
+    if (this.imageUrl === '') {
+      return '';
     }
-    return this.imageUrl.slice(68).split("?")[0];
+    return this.imageUrl.slice(68).split('?')[0];
   }
 
   updateImage(e) {
@@ -309,10 +309,10 @@ export class EditAnswerByIdStore {
     if (answer_id) {
       const formData = new FormData();
       console.log(e.target.files[0]);
-      formData.append("image", e.target.files[0]);
-      formData.append("owner_answer", String(answer_id));
+      formData.append('image', e.target.files[0]);
+      formData.append('owner_answer', String(answer_id));
       fetch(`${SERVER_BASE_URL}/files/answer?update_id=${String(answer_id)}`, {
-        method: "POST",
+        method: 'POST',
         body: formData,
       })
         .then((response) => response.json())
@@ -338,7 +338,7 @@ export class EditAnswerByIdStore {
       );
       const objectForSave = {
         ...answer_object,
-        isTrue: this.answer_object?.isTrue == "true",
+        isTrue: this.answer_object?.isTrue == 'true',
       };
 
       delete objectForSave?.id;
@@ -436,9 +436,9 @@ type answer_data_with_wrong_is_true_type = object_properties_to_array_mapper<
 >;
 export type answer_data_object = Omit<
   answer_data_with_wrong_is_true_type,
-  "isTrue"
-> & { isTrue: "true" | "false" };
+  'isTrue'
+> & { isTrue: 'true' | 'false' };
 type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
-type answer_data_object_witch_out_id = PartialBy<answer_data_object, "id">;
+type answer_data_object_witch_out_id = PartialBy<answer_data_object, 'id'>;
 export type answer_object_field = keyof answer_data_object;

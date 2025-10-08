@@ -1,9 +1,9 @@
-import { Box, Typography } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../ReduxStore/RootStore";
-import CardMicroView from "../../../../../Pages/Cards/CardMicroView";
-import { useNavigate } from "react-router-dom";
+import { Box, Typography } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../ReduxStore/RootStore';
+import CardMicroView from '../../../../../Pages/Cards/CardMicroView';
+import { useNavigate } from 'react-router-dom';
 
 type INotificationContentProps = BoxProps;
 
@@ -24,8 +24,8 @@ export default function NotificationContent({
     <Box {...props} sx={{ p: 1 }}>
       {reverted_notifications?.map((notification, index) => (
         <Box key={index}>
-          <Typography variant={"h5"}>{notification.text}</Typography>
-          {notification.type === "CARD_SUGGESTION" &&
+          <Typography variant={'h5'}>{notification.text}</Typography>
+          {notification.type === 'CARD_SUGGESTION' &&
             Array.isArray(notification.payload) &&
             notification.payload.map((card_id, index) => (
               <CardMicroView

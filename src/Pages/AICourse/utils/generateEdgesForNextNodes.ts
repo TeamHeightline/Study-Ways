@@ -1,4 +1,4 @@
-import { Edge } from "@xyflow/react/dist/esm/types";
+import { Edge } from '@xyflow/react/dist/esm/types';
 
 export function generateEdgesForNextNodes(
   rootNodeID: number,
@@ -8,6 +8,6 @@ export function generateEdgesForNextNodes(
     id: `${String(rootNodeID)}---${nodeID}`,
     source: String(rootNodeID),
     target: String(nodeID),
-    style: { stroke: "#2196f3" },
+    style: { stroke: '#2196f3' },
   }));
 }

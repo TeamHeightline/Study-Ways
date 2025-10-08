@@ -1,38 +1,38 @@
-import { makeAutoObservable, reaction, toJS } from "mobx";
-import { ClientStorage } from "../../../../../Shared/Store/ApolloStorage/ClientStorage";
+import { makeAutoObservable, reaction, toJS } from 'mobx';
+import { ClientStorage } from '../../../../../Shared/Store/ApolloStorage/ClientStorage';
 import {
   GET_CONNECTED_THEMES,
   GET_MY_CARD_AUTHOR,
   GET_QUESTION_TEXT_BY_ID,
   UPDATE_CARD,
-} from "./Struct";
+} from './Struct';
 import {
   CardAuthorNode,
   Mutation,
   Query,
   QuestionNode,
   UnstructuredThemesNode,
-} from "../../../../../SchemaTypes";
-import { computedFn } from "mobx-utils";
-import { SERVER_BASE_URL } from "../../../../../settings";
-import message from "antd/es/message";
-import "js-video-url-parser/lib/provider/youtube";
-import urlParser from "js-video-url-parser";
-import axiosClient from "../../../../../Shared/ServerLayer/QueryLayer/config";
-import haveStatus from "../../../../../Shared/Store/UserStore/utils/HaveStatus";
-import { getCardData } from "../API/get-card-data";
-import { ICardDataInStore } from "../TYPES/card-data-in-store";
-import { saveCard } from "../API/save-card";
+} from '../../../../../SchemaTypes';
+import { computedFn } from 'mobx-utils';
+import { SERVER_BASE_URL } from '../../../../../settings';
+import message from 'antd/es/message';
+import 'js-video-url-parser/lib/provider/youtube';
+import urlParser from 'js-video-url-parser';
+import axiosClient from '../../../../../Shared/ServerLayer/QueryLayer/config';
+import haveStatus from '../../../../../Shared/Store/UserStore/utils/HaveStatus';
+import { getCardData } from '../API/get-card-data';
+import { ICardDataInStore } from '../TYPES/card-data-in-store';
+import { saveCard } from '../API/save-card';
 
 class CardEditorStorage {
   constructor() {
     makeAutoObservable(this);
     reaction(
-      () => this.getField("test_in_card_id", ""),
+      () => this.getField('test_in_card_id', ''),
       () => this.loadTestInCardText(),
     );
     reaction(
-      () => this.getField("test_before_card_id", ""),
+      () => this.getField('test_before_card_id', ''),
       () => this.loadTestBeforeCardText(),
     );
     reaction(
@@ -53,7 +53,7 @@ class CardEditorStorage {
   loadCardDataFromServer(id: string | number | undefined) {
     if (id) {
       this.cardDataLoaded = false;
-      if (haveStatus(["ADMIN", "TEACHER", "CARD_EDITOR"])) {
+      if (haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR'])) {
         this.loadConnectedThemes();
 
         getCardData(Number(id)).then((card_data) => {
@@ -90,13 +90,13 @@ class CardEditorStorage {
 
   saveDataOnServer(editor_context = this, card_object = this.card_object) {
     const data_object = toJS(card_object);
-    if (!haveStatus(["ADMIN", "TEACHER", "CARD_EDITOR"]) || !data_object) {
+    if (!haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR']) || !data_object) {
       return;
     }
     saveCard(data_object)
       .then((response) => {
         this.stateOfSave = true;
-        axiosClient.post("/page/edit-card-by-id/clear-card-cache");
+        axiosClient.post('/page/edit-card-by-id/clear-card-cache');
       })
       .catch(console.log);
   }
@@ -106,9 +106,9 @@ class CardEditorStorage {
   authorsDataLoaded = false;
 
   loadCardAuthorsFromServer() {
-    if (haveStatus(["ADMIN", "TEACHER", "CARD_EDITOR"])) {
+    if (haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR'])) {
       this.clientStorage.client
-        .query({ query: GET_MY_CARD_AUTHOR, fetchPolicy: "network-only" })
+        .query({ query: GET_MY_CARD_AUTHOR, fetchPolicy: 'network-only' })
         .then((response) => response.data.me.cardauthorSet)
         .then((authors_data) => {
           this.all_my_card_authors = authors_data;
@@ -125,7 +125,7 @@ class CardEditorStorage {
   getField = computedFn(
     (
       field_name: keyof ICardDataInStore,
-      default_value: string | number | boolean | [] = "",
+      default_value: string | number | boolean | [] = '',
       card_object = this.card_object,
     ) => card_object?.[field_name] ?? default_value,
   );
@@ -134,7 +134,7 @@ class CardEditorStorage {
   changeField =
     (
       field: keyof ICardDataInStore | number,
-      eventField: "value" | "checked" = "value",
+      eventField: 'value' | 'checked' = 'value',
       card_object = this.card_object,
     ) =>
     ({ target }) => {
@@ -151,14 +151,14 @@ class CardEditorStorage {
     if (card_object && field in card_object) {
       card_object[field] = value;
     } else {
-      throw "pass unexpected field to changeFieldByValue";
+      throw 'pass unexpected field to changeFieldByValue';
     }
   }
 
   // -----------------Работа со ссылкой на видео
 
   changeYoutubeUrl = (e) => {
-    if (this.card_object && "videoUrl" in this.card_object) {
+    if (this.card_object && 'videoUrl' in this.card_object) {
       const parsed_url = urlParser.parse(e.target.value);
       const unified_url = urlParser.create({
         videoInfo: {
@@ -177,7 +177,7 @@ class CardEditorStorage {
   // ---------------ИЗОБРАЖЕНИЕ КАРТОЧКИ----------------------------------------------
 
   // Ссылка на изображение
-  image_url = "";
+  image_url = '';
   update_image_counter = 0;
 
   get fakeImageUrl() {
@@ -187,10 +187,10 @@ class CardEditorStorage {
   // Загрузка изображения для карточки
   handleUploadImage(e, card_id) {
     const formData = new FormData();
-    formData.append("image", e.file);
-    formData.append("card", String(card_id));
+    formData.append('image', e.file);
+    formData.append('card', String(card_id));
     fetch(`${SERVER_BASE_URL}/cardfiles/card?update_id=${String(card_id)}`, {
-      method: "POST",
+      method: 'POST',
       body: formData,
     })
       .then((response) => response.json())
@@ -201,7 +201,7 @@ class CardEditorStorage {
         this.image_url = result.image;
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error('Error:', error);
         message.error(`${e.file.name} не удалось загрузить`);
       });
   }
@@ -230,18 +230,18 @@ class CardEditorStorage {
   // ----------------------------------------------------------------
   // Валидация ссылки
   get UrlValidation() {
-    if (this.getField("site_url", "").length == 0) {
+    if (this.getField('site_url', '').length == 0) {
       return true;
     } else {
       let url;
 
       try {
-        url = new URL(this.getField("site_url", ""));
+        url = new URL(this.getField('site_url', ''));
       } catch (_) {
         return false;
       }
 
-      return url.protocol === "http:" || url.protocol === "https:";
+      return url.protocol === 'http:' || url.protocol === 'https:';
     }
   }
 
@@ -254,7 +254,7 @@ class CardEditorStorage {
     this.clientStorage.client
       .query({
         query: GET_CONNECTED_THEMES,
-        fetchPolicy: useCache ? "cache-first" : "network-only",
+        fetchPolicy: useCache ? 'cache-first' : 'network-only',
       })
       .then((response) => response.data.unstructuredTheme)
       .then((connectedThemes) => {
@@ -279,14 +279,14 @@ class CardEditorStorage {
   testInCardData?: QuestionNode | null = undefined;
 
   loadTestInCardText() {
-    if (haveStatus(["ADMIN", "TEACHER", "CARD_EDITOR"])) {
-      if (this.getField("test_in_card_id", "")) {
+    if (haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR'])) {
+      if (this.getField('test_in_card_id', '')) {
         try {
           this.clientStorage.client
             .query<Query>({
               query: GET_QUESTION_TEXT_BY_ID,
               variables: {
-                id: this.getField("test_in_card_id", ""),
+                id: this.getField('test_in_card_id', ''),
               },
             })
             .then((response) => response.data.questionById)
@@ -301,14 +301,14 @@ class CardEditorStorage {
   testBeforeCardData?: QuestionNode | null = undefined;
 
   loadTestBeforeCardText() {
-    if (haveStatus(["ADMIN", "TEACHER", "CARD_EDITOR"])) {
-      if (this.getField("test_before_card_id", "")) {
+    if (haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR'])) {
+      if (this.getField('test_before_card_id', '')) {
         try {
           this.clientStorage.client
             .query<Query>({
               query: GET_QUESTION_TEXT_BY_ID,
               variables: {
-                id: this.getField("test_before_card_id", ""),
+                id: this.getField('test_before_card_id', ''),
               },
             })
             .then((response) => response.data.questionById)
@@ -322,26 +322,26 @@ class CardEditorStorage {
 
   // -------Работа с выбором карточки --------------------
   arrowForCardIsSelecting:
-    | ""
-    | "card_before_id"
-    | "card_down_id"
-    | "card_next_id"
-    | "card_up_id" = "";
+    | ''
+    | 'card_before_id'
+    | 'card_down_id'
+    | 'card_next_id'
+    | 'card_up_id' = '';
 
   onStartSelectCard = (
     card_direction:
-      | "card_before_id"
-      | "card_down_id"
-      | "card_next_id"
-      | "card_up_id",
+      | 'card_before_id'
+      | 'card_down_id'
+      | 'card_next_id'
+      | 'card_up_id',
   ) => {
     this.arrowForCardIsSelecting = card_direction;
   };
   onCloseSelectCard = () => {
-    this.arrowForCardIsSelecting = "";
+    this.arrowForCardIsSelecting = '';
   };
   onCardSelect = (card_id: number) => {
-    if (this.arrowForCardIsSelecting !== "") {
+    if (this.arrowForCardIsSelecting !== '') {
       this.changeFieldByValue(this.arrowForCardIsSelecting, card_id);
     }
     this.onCloseSelectCard();
@@ -376,7 +376,7 @@ class CardEditorStorage {
 
 // Мапер, который удаляет из типа __typename, для стрелок, которые являются массивами Card Node, делает тип string, для
 // объектов, которые являются темами, авторами и тд, делает массив строк, чтобы хранить ID[]
-export type RemoveTypename<O> = Omit<O, "__typename">;
+export type RemoveTypename<O> = Omit<O, '__typename'>;
 export type object_properties_to_array_mapper<MainObject> = {
   [Field in keyof MainObject]: MainObject[Field] extends object
     ? MainObject[Field] extends Array<MainObject>

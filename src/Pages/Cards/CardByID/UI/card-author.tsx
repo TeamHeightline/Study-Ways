@@ -1,12 +1,12 @@
-import { observer } from "mobx-react";
-import { useAppSelector } from "../../../../App/ReduxStore/RootStore";
-import { CardType } from "../../CardMicroView/store/type";
-import { CardByIDStore } from "../Store/CardByIDStore";
-import { toJS } from "mobx";
-import { Box, Typography } from "@mui/material";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import { observer } from 'mobx-react';
+import { useAppSelector } from '../../../../App/ReduxStore/RootStore';
+import { CardType } from '../../CardMicroView/store/type';
+import { CardByIDStore } from '../Store/CardByIDStore';
+import { toJS } from 'mobx';
+import { Box, Typography } from '@mui/material';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   card_store: CardByIDStore;
@@ -37,13 +37,13 @@ export const CardAuthor = observer((props: Props) => {
           variant="body1"
           onClick={handleAuthorClick}
           sx={{
-            display: "flex",
-            alignItems: "center",
-            cursor: "pointer",
+            display: 'flex',
+            alignItems: 'center',
+            cursor: 'pointer',
           }}
         >
-          <OpenInNewIcon fontSize={"small"} sx={{ mr: 1 }} />
-          {profile?.firstname || ""} {profile?.lastname || ""}
+          <OpenInNewIcon fontSize={'small'} sx={{ mr: 1 }} />
+          {profile?.firstname || ''} {profile?.lastname || ''}
         </Typography>
       )}
     </Box>

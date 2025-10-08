@@ -1,10 +1,10 @@
-import { Box, Checkbox, FormControlLabel, Stack } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
+import { Box, Checkbox, FormControlLabel, Stack } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../../App/ReduxStore/RootStore";
-import { setIsHideDuplicates } from "../Store/recent-card-slice";
+} from '../../../App/ReduxStore/RootStore';
+import { setIsHideDuplicates } from '../Store/recent-card-slice';
 
 type IUIIsHideDuplicatesProps = BoxProps;
 
@@ -23,7 +23,7 @@ export default function UIIsHideDuplicates({
 
   return (
     <Box {...props}>
-      <Stack alignItems={"end"}>
+      <Stack alignItems={'end'}>
         <FormControlLabel
           control={
             <Checkbox

@@ -1,13 +1,13 @@
-import { Paper } from "@mui/material";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
-import { updateExamThunk } from "../redux-store/async-actions";
+import { Paper } from '@mui/material';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { updateExamThunk } from '../redux-store/async-actions';
 import {
   RootState,
   useAppDispatch,
-} from "../../../../../App/ReduxStore/RootStore";
-import { prepareForUpdateExamData } from "../redux-store/examEditorSlice";
+} from '../../../../../App/ReduxStore/RootStore';
+import { prepareForUpdateExamData } from '../redux-store/examEditorSlice';
 
 type IAutoSaveModuleProps = PaperProps;
 

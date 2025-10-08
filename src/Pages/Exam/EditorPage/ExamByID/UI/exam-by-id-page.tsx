@@ -1,31 +1,31 @@
-import { observer } from "mobx-react";
-import React, { useEffect } from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { CircularProgress, Divider, Paper, Stack } from "@mui/material";
-import GoBackButton from "./go-back";
-import ExamName from "./exam-name";
-import UIPageTitle from "./ui-page-title";
-import UIDuration from "./ui-duration";
-import SelectedQSByData from "./ui-seleced-qs-by-data";
-import UIExamUrls from "./ui-exam-urls";
-import { useSelector } from "react-redux";
-import { loadExamDataThunk } from "../redux-store/async-actions";
-import AutoSaveModule from "./auto-save-module";
-import Index from "../../../ExamResultsByID/UI";
-import { isMobileHook } from "../../../../../Shared/CustomHooks/isMobileHook";
+import { observer } from 'mobx-react';
+import React, { useEffect } from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { CircularProgress, Divider, Paper, Stack } from '@mui/material';
+import GoBackButton from './go-back';
+import ExamName from './exam-name';
+import UIPageTitle from './ui-page-title';
+import UIDuration from './ui-duration';
+import SelectedQSByData from './ui-seleced-qs-by-data';
+import UIExamUrls from './ui-exam-urls';
+import { useSelector } from 'react-redux';
+import { loadExamDataThunk } from '../redux-store/async-actions';
+import AutoSaveModule from './auto-save-module';
+import Index from '../../../ExamResultsByID/UI';
+import { isMobileHook } from '../../../../../Shared/CustomHooks/isMobileHook';
 import {
   RootState,
   useAppDispatch,
-} from "../../../../../App/ReduxStore/RootStore";
-import UIAccessModeSelector from "./ui-access-mode-selector";
-import UIIsEnableHelpText from "./ui-is-enable-help-text";
-import UIHelpTextLevel from "./ui-help-text-level";
-import UIIsEnablePasswordCheck from "./ui-is-enable-password-check";
-import UIPassword from "./ui-password";
-import UIMaxAttemptsForQuestions from "./ui-max-attempts-for-questions";
-import UIIsEnableStartAndFinishTime from "./ui-is-enable-start-and-finish-time";
-import UIStartAndFinishTime from "./ui-start-and-finish-time";
-import UIIsEnableMaxQuestionAttempts from "./ui-is-enable-max-question-attempts";
+} from '../../../../../App/ReduxStore/RootStore';
+import UIAccessModeSelector from './ui-access-mode-selector';
+import UIIsEnableHelpText from './ui-is-enable-help-text';
+import UIHelpTextLevel from './ui-help-text-level';
+import UIIsEnablePasswordCheck from './ui-is-enable-password-check';
+import UIPassword from './ui-password';
+import UIMaxAttemptsForQuestions from './ui-max-attempts-for-questions';
+import UIIsEnableStartAndFinishTime from './ui-is-enable-start-and-finish-time';
+import UIStartAndFinishTime from './ui-start-and-finish-time';
+import UIIsEnableMaxQuestionAttempts from './ui-is-enable-max-question-attempts';
 
 interface IExamByIDProps extends PaperProps {
   exam_id: number;
@@ -44,7 +44,7 @@ const ExamByID = observer(({ exam_id, ...props }: IExamByIDProps) => {
 
   if (Number(loadedExamDataID) !== Number(exam_id)) {
     return (
-      <Stack alignItems={"center"}>
+      <Stack alignItems={'center'}>
         <CircularProgress />
       </Stack>
     );
@@ -54,8 +54,8 @@ const ExamByID = observer(({ exam_id, ...props }: IExamByIDProps) => {
       <AutoSaveModule />
       <UIPageTitle />
       <GoBackButton />
-      <Stack direction={isMobile ? "column" : "row"} spacing={1} sx={{ pb: 2 }}>
-        <Stack direction={"column"} spacing={1} width={isMobile ? "100%" : 400}>
+      <Stack direction={isMobile ? 'column' : 'row'} spacing={1} sx={{ pb: 2 }}>
+        <Stack direction={'column'} spacing={1} width={isMobile ? '100%' : 400}>
           <div>
             <Divider>Настройки</Divider>
           </div>
@@ -66,10 +66,10 @@ const ExamByID = observer(({ exam_id, ...props }: IExamByIDProps) => {
         </Stack>
 
         <div>
-          <Divider orientation={"vertical"} />
+          <Divider orientation={'vertical'} />
         </div>
 
-        <Stack direction={"column"} spacing={1} width={isMobile ? "100%" : 400}>
+        <Stack direction={'column'} spacing={1} width={isMobile ? '100%' : 400}>
           <div>
             <Divider>Сложность </Divider>
           </div>
@@ -82,10 +82,10 @@ const ExamByID = observer(({ exam_id, ...props }: IExamByIDProps) => {
         </Stack>
 
         <div>
-          <Divider orientation={"vertical"} />
+          <Divider orientation={'vertical'} />
         </div>
 
-        <Stack direction={"column"} spacing={1} width={isMobile ? "100%" : 400}>
+        <Stack direction={'column'} spacing={1} width={isMobile ? '100%' : 400}>
           <div>
             <Divider>Ограничение доступа</Divider>
           </div>
@@ -97,10 +97,10 @@ const ExamByID = observer(({ exam_id, ...props }: IExamByIDProps) => {
         </Stack>
 
         <div>
-          <Divider orientation={"vertical"} />
+          <Divider orientation={'vertical'} />
         </div>
 
-        <Stack direction={"column"} spacing={1} width={isMobile ? "100%" : 400}>
+        <Stack direction={'column'} spacing={1} width={isMobile ? '100%' : 400}>
           <div>
             <Divider>Ссылки</Divider>
           </div>

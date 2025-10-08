@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { loadCardBookmarks } from "./async-actions";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { loadCardBookmarks } from './async-actions';
 
 const initialState = {
   is_loading_card_bookmarks: true,
@@ -7,7 +7,7 @@ const initialState = {
 };
 
 const cardBookmarksSlice = createSlice({
-  name: "cardBookmarksSlice",
+  name: 'cardBookmarksSlice',
   initialState,
   reducers: {},
   extraReducers: {

@@ -1,13 +1,13 @@
-import { makeAutoObservable, reaction, toJS } from "mobx";
-import { ClientStorage } from "../../../../../Shared/Store/ApolloStorage/ClientStorage";
+import { makeAutoObservable, reaction, toJS } from 'mobx';
+import { ClientStorage } from '../../../../../Shared/Store/ApolloStorage/ClientStorage';
 import {
   getAutocompleteCardDataAsync,
   selectRecommendedCardReport,
-} from "./Query";
-import { UnstructuredThemesNode } from "../../../../../SchemaTypes";
-import { GET_CONNECTED_THEME } from "../../../Selector/Store/Query";
-import { cardContentType } from "../../../Selector/Store/CardSelectorStore";
-import axiosClient from "../../../../../Shared/ServerLayer/QueryLayer/config";
+} from './Query';
+import { UnstructuredThemesNode } from '../../../../../SchemaTypes';
+import { GET_CONNECTED_THEME } from '../../../Selector/Store/Query';
+import { cardContentType } from '../../../Selector/Store/CardSelectorStore';
+import axiosClient from '../../../../../Shared/ServerLayer/QueryLayer/config';
 
 class AISearch {
   constructor() {
@@ -30,43 +30,43 @@ class AISearch {
   clientStorage = ClientStorage;
 
   loadAutocompleteDefaultData() {
-    getAutocompleteCardDataAsync("", undefined, this.convertMatchToCardData);
+    getAutocompleteCardDataAsync('', undefined, this.convertMatchToCardData);
   }
 
   changeAISearchString = async (value) => {
     this.AISearchString = value;
     this.getAutocompleteCardsData();
   };
-  AISearchString = "";
+  AISearchString = '';
 
   // Фильтры ------------------------------------------------------
   // function for build RrQL filter string
   get AIQueryFilterString() {
-    let queryString = "";
-    if (this.hardLevel != "-1") {
+    let queryString = '';
+    if (this.hardLevel != '-1') {
       queryString += `'hard_level' == ${this.hardLevel}`;
     }
     if (this.themeWithPatentIDArray.length > 0) {
       if (queryString.length > 0) {
-        queryString += " and ";
+        queryString += ' and ';
       }
       const itemInRecombeeStyleString = this.themeWithPatentIDArray
         .map((item) => `"${item}"`)
-        .join(", ");
+        .join(', ');
 
       queryString += `({${itemInRecombeeStyleString}} & 'connected_theme') != {}`;
     }
 
-    if (this.contentType !== "undefined") {
+    if (this.contentType !== 'undefined') {
       if (queryString.length > 0) {
-        queryString += " and ";
+        queryString += ' and ';
       }
       queryString += `'card_content_type' == ${Number(this.contentType)}`;
     }
 
     if (this.selectedCardAuthor !== undefined) {
       if (queryString.length > 0) {
-        queryString += " and ";
+        queryString += ' and ';
       }
       queryString += `'created_by_id' == ${this.selectedCardAuthor}`;
     }
@@ -74,7 +74,7 @@ class AISearch {
     return queryString;
   }
 
-  hardLevel: "-1" | "0" | "1" | "2" | "3" = "-1";
+  hardLevel: '-1' | '0' | '1' | '2' | '3' = '-1';
 
   changeHardLevel = (e) => {
     this.hardLevel = e.target.value;
@@ -97,7 +97,7 @@ class AISearch {
       this.clientStorage.client
         .query({
           query: GET_CONNECTED_THEME,
-          fetchPolicy: "network-only",
+          fetchPolicy: 'network-only',
           variables: {},
         })
         .then((response) => response.data.unstructuredTheme)
@@ -145,7 +145,7 @@ class AISearch {
   cardConnectedTheme?: number;
   themeParentToThemeMap: Map<string, string[]> = new Map();
 
-  contentType: cardContentType = "undefined";
+  contentType: cardContentType = 'undefined';
   changeContentType = (e) => {
     this.contentType = e.target.value;
   };
@@ -192,7 +192,7 @@ class AISearch {
   debounceTimer: any = null;
 
   cardDataForAutocomplete: { label: string; id: number }[] = [];
-  autocompleteRecommendationID = "";
+  autocompleteRecommendationID = '';
 
   getAISearchResult() {
     getAutocompleteCardDataAsync(
@@ -220,7 +220,7 @@ class AISearch {
   cardAuthors: Author[] = [];
 
   loadCardAuthors() {
-    axiosClient.get<Author[]>("/page/card-page/authors").then((res) => {
+    axiosClient.get<Author[]>('/page/card-page/authors').then((res) => {
       this.cardAuthors = res.data;
     });
   }

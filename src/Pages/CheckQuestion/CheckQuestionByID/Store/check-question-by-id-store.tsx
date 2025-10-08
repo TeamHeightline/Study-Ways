@@ -1,7 +1,7 @@
-import { autorun, makeAutoObservable } from "mobx";
-import { Query } from "../../../../SchemaTypes";
-import { LoadAnswersIDArrayByQuestionID } from "./query";
-import { ClientStorage } from "../../../../Shared/Store/ApolloStorage/ClientStorage";
+import { autorun, makeAutoObservable } from 'mobx';
+import { Query } from '../../../../SchemaTypes';
+import { LoadAnswersIDArrayByQuestionID } from './query';
+import { ClientStorage } from '../../../../Shared/Store/ApolloStorage/ClientStorage';
 
 export class CheckQuestionByIdStore {
   constructor(question_id?: string) {
@@ -22,7 +22,7 @@ export class CheckQuestionByIdStore {
           variables: {
             questionId: this.question_id,
           },
-          fetchPolicy: "network-only",
+          fetchPolicy: 'network-only',
         })
         .then((response) => response.data.answersId)
         .then((answerIDResponseObject) => {

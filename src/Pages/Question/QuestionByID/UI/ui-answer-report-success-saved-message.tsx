@@ -1,7 +1,7 @@
-import { Alert, Box, Snackbar } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import { observer } from "mobx-react";
-import { QuestionPlayerStore } from "../Store/QuestionPlayerStore";
+import { Alert, Box, Snackbar } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import { observer } from 'mobx-react';
+import { QuestionPlayerStore } from '../Store/QuestionPlayerStore';
 
 interface IUIAnswerReportSuccessSavedMessageProps extends BoxProps {
   questionStore: QuestionPlayerStore;
@@ -19,14 +19,14 @@ const UIAnswerReportSuccessSavedMessage = observer(
           {questionStore?.answerReportSavedMessageArray?.map(
             (isSuccess, index) => (
               <Alert
-                severity={isSuccess ? "success" : "error"}
-                sx={{ width: "100%" }}
+                severity={isSuccess ? 'success' : 'error'}
+                sx={{ width: '100%' }}
                 key={index}
-                variant={"filled"}
+                variant={'filled'}
               >
                 {isSuccess
-                  ? "Отчет об ошибке отправлен"
-                  : "Ошибка при отправке отчета об ошибке"}
+                  ? 'Отчет об ошибке отправлен'
+                  : 'Ошибка при отправке отчета об ошибке'}
               </Alert>
             ),
           )}

@@ -1,11 +1,11 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Card, CardActionArea, Stack, Typography } from "@mui/material";
-import { CardByIDStore } from "../Store/CardByIDStore";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import FileOpenIcon from "@mui/icons-material/FileOpen";
-import WebIcon from "@mui/icons-material/Web";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Card, CardActionArea, Stack, Typography } from '@mui/material';
+import { CardByIDStore } from '../Store/CardByIDStore';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import FileOpenIcon from '@mui/icons-material/FileOpen';
+import WebIcon from '@mui/icons-material/Web';
 
 interface ICardImageProps extends PaperProps {
   card_store: CardByIDStore;
@@ -19,7 +19,7 @@ const CardImage = observer(({ card_store, ...props }: ICardImageProps) => {
 
   const isClickableImage = isRemoteResourceContentType && remoteResourceURL;
   const goToRemoteResource = () => {
-    window.open(remoteResourceURL, "_blank");
+    window.open(remoteResourceURL, '_blank');
   };
 
   return (
@@ -27,24 +27,24 @@ const CardImage = observer(({ card_store, ...props }: ICardImageProps) => {
       elevation={0}
       {...props}
       sx={{
-        backgroundSize: "cover",
-        backgroundPositionX: "center",
-        backgroundPositionY: "center",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-        width: { md: "100%", xs: "95vw" },
+        backgroundSize: 'cover',
+        backgroundPositionX: 'center',
+        backgroundPositionY: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        width: { md: '100%', xs: '95vw' },
         height: { xs: 200, md: 540 },
         // backgroundSize: "cover",
         backgroundImage: card_image,
-        position: "relative",
+        position: 'relative',
       }}
     >
       {isClickableImage && (
         <CardActionArea
           sx={{
-            width: "100%",
-            height: "100%",
-            backdropFilter: "brightness(40%)",
+            width: '100%',
+            height: '100%',
+            backdropFilter: 'brightness(40%)',
           }}
           onClick={goToRemoteResource}
         />
@@ -52,18 +52,18 @@ const CardImage = observer(({ card_store, ...props }: ICardImageProps) => {
       {isClickableImage && (
         <div
           style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            pointerEvents: "none",
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            pointerEvents: 'none',
           }}
         >
           <Stack
-            direction={"row"}
+            direction={'row'}
             spacing={2}
-            alignItems={"center"}
-            justifyContent={"center"}
+            alignItems={'center'}
+            justifyContent={'center'}
           >
             <FileOpenIcon sx={{ fontSize: 80 }} />
           </Stack>

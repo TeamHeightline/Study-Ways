@@ -5,15 +5,15 @@ import {
   Table,
   TableBody,
   TableContainer,
-} from "@mui/material";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { useEffect } from "react";
-import { loadMyExamsAsync } from "../redux-store/async-actions";
-import { useDispatch, useSelector } from "react-redux";
-import UIExamSelectorTableHead from "./ui-exam-selector-table-head";
-import UIExamSelectorRow from "./ui-exam-selector-row";
-import UICreateExam from "./ui-create-exam";
-import { RootState } from "../../../../../App/ReduxStore/RootStore";
+} from '@mui/material';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { useEffect } from 'react';
+import { loadMyExamsAsync } from '../redux-store/async-actions';
+import { useDispatch, useSelector } from 'react-redux';
+import UIExamSelectorTableHead from './ui-exam-selector-table-head';
+import UIExamSelectorRow from './ui-exam-selector-row';
+import UICreateExam from './ui-create-exam';
+import { RootState } from '../../../../../App/ReduxStore/RootStore';
 
 type IUIExamSelectorProps = PaperProps;
 
@@ -30,7 +30,7 @@ export default function UIExamSelector({ ...props }: IUIExamSelectorProps) {
   }, []);
   if (loading_exams) {
     return (
-      <Stack alignItems={"center"}>
+      <Stack alignItems={'center'}>
         <CircularProgress />
       </Stack>
     );

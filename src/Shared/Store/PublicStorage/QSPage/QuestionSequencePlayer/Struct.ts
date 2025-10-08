@@ -1,4 +1,4 @@
-import { gql } from "graphql.macro";
+import { gql } from 'graphql.macro';
 
 export const GET_QS_DATA_BY_ID = gql`
   query GET_QS_DATA_BY_ID($id: ID!) {

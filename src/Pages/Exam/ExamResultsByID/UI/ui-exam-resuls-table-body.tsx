@@ -1,9 +1,9 @@
-import { TableBody } from "@mui/material";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { useSelector } from "react-redux";
-import React from "react";
-import UIExamResultTableRow from "./ui-exam-result-table-row";
-import { RootState } from "../../../../App/ReduxStore/RootStore";
+import { TableBody } from '@mui/material';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { useSelector } from 'react-redux';
+import React from 'react';
+import UIExamResultTableRow from './ui-exam-result-table-row';
+import { RootState } from '../../../../App/ReduxStore/RootStore';
 
 type IUIExamsResultsTableBodyProps = PaperProps;
 

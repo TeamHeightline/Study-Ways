@@ -1,10 +1,10 @@
-import { observer } from "mobx-react";
-import { Box, Stack, Typography } from "@mui/material";
-import { toJS } from "mobx";
-import { authorPageStore } from "../Store/store";
-import CardMicroView from "../../Cards/CardMicroView";
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import { observer } from 'mobx-react';
+import { Box, Stack, Typography } from '@mui/material';
+import { toJS } from 'mobx';
+import { authorPageStore } from '../Store/store';
+import CardMicroView from '../../Cards/CardMicroView';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const Cards = observer(() => {
   const navigate = useNavigate();
@@ -24,11 +24,11 @@ export const Cards = observer(() => {
 
   return (
     <Box>
-      <Typography variant={"h4"}>Карточки автора</Typography>
+      <Typography variant={'h4'}>Карточки автора</Typography>
 
-      <Stack direction={"row"} spacing={2} sx={{ overflowX: "auto", mt: 1 }}>
+      <Stack direction={'row'} spacing={2} sx={{ overflowX: 'auto', mt: 1 }}>
         {cardIDArray.map((id) => (
-          <Box key={id} sx={{ minWidth: { xs: 300, md: "initial" } }}>
+          <Box key={id} sx={{ minWidth: { xs: 300, md: 'initial' } }}>
             <CardMicroView cardID={id} onClick={onCardClick(id)} />
           </Box>
         ))}

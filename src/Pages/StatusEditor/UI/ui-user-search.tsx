@@ -1,13 +1,13 @@
-import { Button, Grid, Paper, Stack, TextField } from "@mui/material";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { useSelector } from "react-redux";
-import { changeSearchString } from "../redux-store/StatusEditorSlice";
+import { Button, Grid, Paper, Stack, TextField } from '@mui/material';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { useSelector } from 'react-redux';
+import { changeSearchString } from '../redux-store/StatusEditorSlice';
 import {
   loadAllUsersAsync,
   searchUserAsync,
-} from "../redux-store/AsyncActions";
-import { RootState, useAppDispatch } from "../../../App/ReduxStore/RootStore";
-import SearchIcon from "@mui/icons-material/Search";
+} from '../redux-store/AsyncActions';
+import { RootState, useAppDispatch } from '../../../App/ReduxStore/RootStore';
+import SearchIcon from '@mui/icons-material/Search';
 
 type IUIUserSearchProps = PaperProps;
 
@@ -33,7 +33,7 @@ export default function UIUserSearch({ ...props }: IUIUserSearchProps) {
     <Paper elevation={0} {...props}>
       <Grid container>
         <Grid item xs={12} md={6}>
-          <Stack direction={"row"} spacing={1}>
+          <Stack direction={'row'} spacing={1}>
             <TextField
               value={searchText}
               onChange={changeSearchTextHandle}
@@ -44,7 +44,7 @@ export default function UIUserSearch({ ...props }: IUIUserSearchProps) {
             />
             <Button
               onClick={searchUsersHandle}
-              variant={"outlined"}
+              variant={'outlined'}
               startIcon={<SearchIcon />}
             >
               Поиск

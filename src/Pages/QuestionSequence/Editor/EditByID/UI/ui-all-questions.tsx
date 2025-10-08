@@ -1,10 +1,10 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Button, Grid, Paper } from "@mui/material";
-import editQSStore from "../store/edit-question-sequence-sore";
-import UIQuestionMiniViewByData from "./ui-question-mini-view-by-data";
-import AddIcon from "@mui/icons-material/Add";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Button, Grid, Paper } from '@mui/material';
+import editQSStore from '../store/edit-question-sequence-sore';
+import UIQuestionMiniViewByData from './ui-question-mini-view-by-data';
+import AddIcon from '@mui/icons-material/Add';
 
 type IUIAllQuestionsProps = PaperProps;
 
@@ -22,8 +22,8 @@ const UIAllQuestions = observer(({ ...props }: IUIAllQuestionsProps) => (
                 editQSStore.addSelectedQuestion(Number(questionData.id))
               }
               sx={{ mt: 1 }}
-              variant={"outlined"}
-              color={"primary"}
+              variant={'outlined'}
+              color={'primary'}
               startIcon={<AddIcon />}
             >
               Добавить

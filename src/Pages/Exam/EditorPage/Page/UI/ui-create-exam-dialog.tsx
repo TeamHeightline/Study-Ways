@@ -6,20 +6,20 @@ import {
   DialogContentText,
   DialogTitle,
   TextField,
-} from "@mui/material";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { useDispatch, useSelector } from "react-redux";
+} from '@mui/material';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   changeExamNameForCreate,
   closeDialogAndClearCreateData,
-} from "../redux-store/actions";
-import CloseIcon from "@mui/icons-material/Close";
-import AddIcon from "@mui/icons-material/Add";
-import UIQuestionSequenceSelector from "./ui-question-sequence-selector";
-import { createExamAsync } from "../redux-store/async-actions";
-import { useNavigate } from "react-router-dom";
-import { LoadingButton } from "@mui/lab";
-import { RootState } from "../../../../../App/ReduxStore/RootStore";
+} from '../redux-store/actions';
+import CloseIcon from '@mui/icons-material/Close';
+import AddIcon from '@mui/icons-material/Add';
+import UIQuestionSequenceSelector from './ui-question-sequence-selector';
+import { createExamAsync } from '../redux-store/async-actions';
+import { useNavigate } from 'react-router-dom';
+import { LoadingButton } from '@mui/lab';
+import { RootState } from '../../../../../App/ReduxStore/RootStore';
 
 type IUICreateExamDialogProps = PaperProps;
 
@@ -84,7 +84,7 @@ export default function UICreateExamDialog({
         <Button
           onClick={closeCreateExamDialog}
           startIcon={<CloseIcon />}
-          color={"secondary"}
+          color={'secondary'}
         >
           Отмена
         </Button>
@@ -93,7 +93,7 @@ export default function UICreateExamDialog({
           loading={pendingExamCreation}
           disabled={!examName || !examQSID}
           startIcon={<AddIcon />}
-          color={"primary"}
+          color={'primary'}
         >
           Создать
         </LoadingButton>

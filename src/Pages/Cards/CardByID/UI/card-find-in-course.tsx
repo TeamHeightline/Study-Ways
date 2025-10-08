@@ -1,10 +1,10 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Button, Paper, Stack, Typography } from "@mui/material";
-import { Alert, AlertTitle } from "@mui/lab";
-import { CardByIDStore } from "../Store/CardByIDStore";
-import { useLocation, useNavigate } from "react-router-dom";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Button, Paper, Stack, Typography } from '@mui/material';
+import { Alert, AlertTitle } from '@mui/lab';
+import { CardByIDStore } from '../Store/CardByIDStore';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface ICardFindInCourseProps extends PaperProps {
   card_store: CardByIDStore;
@@ -25,18 +25,18 @@ const CardFindInCourse = observer(
         <Alert severity="info" variant="outlined" sx={{ maxWidth: 550 }}>
           <AlertTitle>
             {card_store.findInCourseArrayForUI?.length == 1
-              ? "Этот ресурс встречается в курсе:"
-              : "Этот ресурс встречается в курсах:"}
+              ? 'Этот ресурс встречается в курсе:'
+              : 'Этот ресурс встречается в курсах:'}
           </AlertTitle>
           {card_store.findInCourseArrayForUI?.map((course) => (
             <Button
-              title={"Перейти"}
-              sx={{ textAlign: "start" }}
-              color={"info"}
+              title={'Перейти'}
+              sx={{ textAlign: 'start' }}
+              color={'info'}
               onClick={() => {
-                if (pathname == "/course") {
+                if (pathname == '/course') {
                   navigate(
-                    "/course?" +
+                    '/course?' +
                       `id=${course.course_id}&activePage=${
                         course.position.activePage
                       }&selectedPage=${
@@ -47,7 +47,7 @@ const CardFindInCourse = observer(
                   );
                 } else {
                   navigate(
-                    "/course?" +
+                    '/course?' +
                       `id=${course.course_id}&activePage=${
                         course.position.activePage
                       }&selectedPage=${
@@ -57,7 +57,7 @@ const CardFindInCourse = observer(
                       }&selectedIndex=${course.position.selectedIndex}`,
                   );
                 }
-                window.scrollTo({ top: 0, behavior: "smooth" });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
             >
               {course.course_name}

@@ -1,10 +1,10 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { isMobileHook } from "../../../../../Shared/CustomHooks/isMobileHook";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Button } from "@mui/material";
-import { CESObject } from "../Store/CardEditorStorage";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { isMobileHook } from '../../../../../Shared/CustomHooks/isMobileHook';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Button } from '@mui/material';
+import { CESObject } from '../Store/CardEditorStorage';
 
 type ICloseButtonProps = React.HTMLAttributes<HTMLDivElement>;
 

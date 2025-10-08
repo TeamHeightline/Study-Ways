@@ -1,11 +1,11 @@
-import { useNavigate } from "react-router-dom";
-import React from "react";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import { observer } from "mobx-react";
-import Menu from "./Menu";
-import { alpha, styled } from "@mui/material/styles";
+import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import { observer } from 'mobx-react';
+import Menu from './Menu';
+import { alpha, styled } from '@mui/material/styles';
 
 const BlurredAppBar = styled(AppBar)(
   ({ theme }) => `
@@ -28,21 +28,21 @@ export const Navibar = observer(() => {
       <Toolbar
         variant="dense"
         sx={(theme) => ({
-          justifyContent: { xs: "center", md: "space-between" },
+          justifyContent: { xs: 'center', md: 'space-between' },
           flex: 1,
-          width: "100%",
+          width: '100%',
           maxWidth: theme.breakpoints.values.xl,
         })}
       >
         <Typography
           variant="h6"
           sx={{
-            color: "white",
-            display: { xs: "none", md: "block" },
-            cursor: "pointer",
+            color: 'white',
+            display: { xs: 'none', md: 'block' },
+            cursor: 'pointer',
           }}
           onClick={() => {
-            navigate("/courses");
+            navigate('/courses');
           }}
         >
           Study Ways

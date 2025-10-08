@@ -30,7 +30,7 @@ export interface IAnswer {
   help_textV3: string;
   video_url: string | null;
   check_queue: number;
-  hard_level_of_answer: "MEDIUM" | "HARD" | "EASY";
+  hard_level_of_answer: 'MEDIUM' | 'HARD' | 'EASY';
   created_by_id: number;
   question_id: number;
   is_deleted: boolean;

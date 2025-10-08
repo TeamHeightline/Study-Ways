@@ -6,14 +6,14 @@ import {
   Stack,
   Tooltip,
   Typography,
-} from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import { observer } from "mobx-react";
-import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
-import RemoveIcon from "@mui/icons-material/Remove";
-import ReportIcon from "@mui/icons-material/Report";
-import React from "react";
-import { QuestionPlayerStore } from "../Store/QuestionPlayerStore";
+} from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import { observer } from 'mobx-react';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import RemoveIcon from '@mui/icons-material/Remove';
+import ReportIcon from '@mui/icons-material/Report';
+import React from 'react';
+import { QuestionPlayerStore } from '../Store/QuestionPlayerStore';
 
 interface IUIUserMarkAndActionButtonsProps extends BoxProps {
   questionStore: QuestionPlayerStore;
@@ -32,12 +32,12 @@ const UIUserMarkAndActionButtons = observer(
       <LinearProgress
         color={
           questionStore?.selectedAnswers?.has(answerID)
-            ? "primary"
-            : questionStore.userMarks[answerIndex] === "false"
-              ? "secondary"
-              : questionStore.userMarks[answerIndex] === "unknown"
-                ? "warning"
-                : "inherit"
+            ? 'primary'
+            : questionStore.userMarks[answerIndex] === 'false'
+              ? 'secondary'
+              : questionStore.userMarks[answerIndex] === 'unknown'
+                ? 'warning'
+                : 'inherit'
         }
         variant="determinate"
         value={100}
@@ -46,29 +46,29 @@ const UIUserMarkAndActionButtons = observer(
       <Typography variant="caption" color="textSecondary">
         Пометки для себя (не учитываются при проверке)
       </Typography>
-      <Stack direction={"row"} spacing={1}>
-        <Stack direction={"row"}>
-          <Tooltip title={"Пометить для себя как ответ в котором не уверен"}>
+      <Stack direction={'row'} spacing={1}>
+        <Stack direction={'row'}>
+          <Tooltip title={'Пометить для себя как ответ в котором не уверен'}>
             <IconButton
               onClick={() => questionStore.onUnknownButtonClick(answerIndex)}
             >
-              <QuestionMarkIcon fontSize={"small"} />
+              <QuestionMarkIcon fontSize={'small'} />
             </IconButton>
           </Tooltip>
-          <Tooltip title={"Пометить для себя как неверный ответ"}>
+          <Tooltip title={'Пометить для себя как неверный ответ'}>
             <IconButton
               onClick={() => questionStore.onQuestionButtonClick(answerIndex)}
             >
-              <RemoveIcon fontSize={"small"} />
+              <RemoveIcon fontSize={'small'} />
             </IconButton>
           </Tooltip>
         </Stack>
         <Divider orientation="vertical" flexItem />
-        <Tooltip title={"Сообщить об ошибке в ответе"}>
+        <Tooltip title={'Сообщить об ошибке в ответе'}>
           <IconButton
             onClick={() => questionStore.onReportAnswerButtonClick(answerIndex)}
           >
-            <ReportIcon fontSize={"small"} />
+            <ReportIcon fontSize={'small'} />
           </IconButton>
         </Tooltip>
       </Stack>

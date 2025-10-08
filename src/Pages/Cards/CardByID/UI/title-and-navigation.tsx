@@ -1,16 +1,16 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { CardByIDStore } from "../Store/CardByIDStore";
-import DefaultCardNavigation from "./default-card-navigation";
-import { Stack } from "@mui/material";
-import CardTitleWithId from "./card-title-with-id";
-import CardCopyright from "./card-copyright";
-import CardTheme from "./card-theme";
-import CourseMicroView from "../../../Course/CourseMicroView/V2/UI/CourseMicroView";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import Paper from "@mui/material/Paper";
-import { isMobileHook } from "../../../../Shared/CustomHooks/isMobileHook";
-import { CardAuthor } from "./card-author";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { CardByIDStore } from '../Store/CardByIDStore';
+import DefaultCardNavigation from './default-card-navigation';
+import { Stack } from '@mui/material';
+import CardTitleWithId from './card-title-with-id';
+import CardCopyright from './card-copyright';
+import CardTheme from './card-theme';
+import CourseMicroView from '../../../Course/CourseMicroView/V2/UI/CourseMicroView';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import Paper from '@mui/material/Paper';
+import { isMobileHook } from '../../../../Shared/CustomHooks/isMobileHook';
+import { CardAuthor } from './card-author';
 
 interface ITitleAndNavigationProps extends PaperProps {
   course_navigation?: ReturnType<typeof CourseMicroView>;
@@ -30,7 +30,7 @@ const TitleAndNavigation = observer(
     return (
       <Paper elevation={0} {...props}>
         <Stack
-          direction={openFromCourse && !isMobile ? "row" : "column"}
+          direction={openFromCourse && !isMobile ? 'row' : 'column'}
           spacing={2}
         >
           {openFromCourse
@@ -38,10 +38,10 @@ const TitleAndNavigation = observer(
             : !is_hidden_navigation && (
                 <DefaultCardNavigation card_store={card_store} />
               )}
-          <Stack direction={"column"}>
+          <Stack direction={'column'}>
             <CardTitleWithId card_store={card_store} />
             <CardAuthor card_store={card_store} />
-            <Stack direction={{ sx: "column", md: "row" }} spacing={1}>
+            <Stack direction={{ sx: 'column', md: 'row' }} spacing={1}>
               <CardCopyright card_store={card_store} />
               <CardTheme card_store={card_store} />
             </Stack>

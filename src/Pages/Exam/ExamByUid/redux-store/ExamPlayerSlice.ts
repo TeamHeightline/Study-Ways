@@ -1,24 +1,24 @@
-import { shuffle } from "lodash";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { shuffle } from 'lodash';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   loadExamDataThunk,
   loadQuestionDataThunk,
   openExamPageThunk,
   saveDetailStatisticThunk,
-} from "./AsyncActions";
-import { IQuestionWithAnswers } from "../../../../Shared/ServerLayer/Types/question.type";
-import { IDetailStatistic } from "../../../../Shared/ServerLayer/Types/detail-statistic.types";
-import CryptoJS from "crypto-js";
+} from './AsyncActions';
+import { IQuestionWithAnswers } from '../../../../Shared/ServerLayer/Types/question.type';
+import { IDetailStatistic } from '../../../../Shared/ServerLayer/Types/detail-statistic.types';
+import CryptoJS from 'crypto-js';
 
-import { IExamData, initialState, IQuestionStatus } from "./InitialState";
+import { IExamData, initialState, IQuestionStatus } from './InitialState';
 
 const examPlayerSlicer = createSlice({
-  name: "examPlayer",
+  name: 'examPlayer',
   initialState,
   reducers: {
     changeSelectedQuestionId: (state, action: PayloadAction<number | null>) => {
       state.selected_question_id = action?.payload;
-      state.help_text = "";
+      state.help_text = '';
       state.statistic = null;
       state.is_question_completed = false;
       state.max_sum_of_points = 0;
@@ -61,9 +61,9 @@ const examPlayerSlicer = createSlice({
         ) {
           __errorArray.push(answer.id);
 
-          if (answer.hard_level_of_answer == "EASY") {
+          if (answer.hard_level_of_answer == 'EASY') {
             __sumOfLoosedAnswerPoints += 15;
-          } else if (answer.hard_level_of_answer == "MEDIUM") {
+          } else if (answer.hard_level_of_answer == 'MEDIUM') {
             __sumOfLoosedAnswerPoints += 10;
           } else {
             __sumOfLoosedAnswerPoints += 5;
@@ -74,9 +74,9 @@ const examPlayerSlicer = createSlice({
             indexOfMostWantedError = aIndex;
           }
         } else {
-          if (answer.hard_level_of_answer == "EASY") {
+          if (answer.hard_level_of_answer == 'EASY') {
             __sumOfGotAnswerPoints += 5;
-          } else if (answer.hard_level_of_answer == "MEDIUM") {
+          } else if (answer.hard_level_of_answer == 'MEDIUM') {
             __sumOfGotAnswerPoints += 10;
           } else {
             __sumOfGotAnswerPoints += 15;
@@ -102,7 +102,7 @@ const examPlayerSlicer = createSlice({
 
       state.help_text = String(
         !state?.exam_data?.is_enable_help_text
-          ? "Подсказки отключены"
+          ? 'Подсказки отключены'
           : state?.exam_data?.help_text_level === 0
             ? state.selected_question_data?.usertests_answer[
                 indexOfMostWantedError
@@ -113,7 +113,7 @@ const examPlayerSlicer = createSlice({
                 ]?.help_textV2
               : state.selected_question_data?.usertests_answer[
                   indexOfMostWantedError
-                ]?.help_textV3 || "Автор ответа не указал подсказку",
+                ]?.help_textV3 || 'Автор ответа не указал подсказку',
       );
 
       state.remaining_attempts = state.remaining_attempts - 1;
@@ -123,7 +123,7 @@ const examPlayerSlicer = createSlice({
       // Именно так, потому что нам критически важно нигде (ни в экшене, ни в стейте не отображать реальный пароль)
       const original_password = CryptoJS.AES.decrypt(
         state?.exam_data?.password,
-        "sw-secret-key",
+        'sw-secret-key',
       ).toString(CryptoJS.enc.Utf8);
       if (action.payload === original_password) {
         state.is_password_check_passed = true;
@@ -236,9 +236,9 @@ const examPlayerSlicer = createSlice({
       let max_sum_of_points = 0;
 
       for (const i of __answersForDisplay) {
-        if (i.hard_level_of_answer == "EASY") {
+        if (i.hard_level_of_answer == 'EASY') {
           max_sum_of_points += 5;
-        } else if (i.hard_level_of_answer == "MEDIUM") {
+        } else if (i.hard_level_of_answer == 'MEDIUM') {
           max_sum_of_points += 10;
         } else {
           max_sum_of_points += 15;

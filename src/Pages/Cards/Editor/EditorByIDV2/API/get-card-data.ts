@@ -1,5 +1,5 @@
-import axiosClient from "../../../../../Shared/ServerLayer/QueryLayer/config";
-import { ICardByID } from "../TYPES/card-data-in-store";
+import axiosClient from '../../../../../Shared/ServerLayer/QueryLayer/config';
+import { ICardByID } from '../TYPES/card-data-in-store';
 
 export async function getCardData(cardID: number) {
   return axiosClient

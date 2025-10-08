@@ -1,13 +1,13 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Button, ButtonGroup, Paper } from "@mui/material";
-import KeyboardArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardArrowLeftOutlined";
-import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
-import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
-import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
-import { CardByIDStore } from "../Store/CardByIDStore";
-import { useNavigate } from "react-router-dom";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Button, ButtonGroup, Paper } from '@mui/material';
+import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
+import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
+import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
+import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
+import { CardByIDStore } from '../Store/CardByIDStore';
+import { useNavigate } from 'react-router-dom';
 
 interface ICardAuthorNavigationProps extends PaperProps {
   card_store: CardByIDStore;
@@ -42,7 +42,7 @@ const CardAuthorNavigation = observer(
           size="large"
           color="secondary"
           variant="outlined"
-          id={"author-navigation"}
+          id={'author-navigation'}
         >
           <Button
             disabled={!cardBeforeID}

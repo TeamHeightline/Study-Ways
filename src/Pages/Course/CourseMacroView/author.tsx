@@ -1,7 +1,7 @@
-import { Box, Typography } from "@mui/material";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Box, Typography } from '@mui/material';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   courseData: any;
@@ -27,18 +27,18 @@ export default function Author(props: Props) {
         variant="h5"
         onClick={handleClick}
         sx={{
-          display: "flex",
-          alignItems: "center",
-          overflow: "hidden",
-          WebkitBoxOrient: "vertical",
+          display: 'flex',
+          alignItems: 'center',
+          overflow: 'hidden',
+          WebkitBoxOrient: 'vertical',
           WebkitLineClamp: 1,
-          whiteSpace: "nowrap",
-          textOverflow: "ellipsis",
-          cursor: "pointer",
+          whiteSpace: 'nowrap',
+          textOverflow: 'ellipsis',
+          cursor: 'pointer',
         }}
       >
-        <OpenInNewIcon fontSize={"medium"} sx={{ mr: 1 }} />
-        {profile?.firstname || ""} {profile?.lastname || ""}
+        <OpenInNewIcon fontSize={'medium'} sx={{ mr: 1 }} />
+        {profile?.firstname || ''} {profile?.lastname || ''}
       </Typography>
     </Box>
   );

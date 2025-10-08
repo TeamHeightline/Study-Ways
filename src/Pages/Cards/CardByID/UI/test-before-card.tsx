@@ -1,6 +1,6 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
 import {
   Alert,
   Paper,
@@ -8,9 +8,9 @@ import {
   Button,
   Typography,
   Stack,
-} from "@mui/material";
-import { CardByIDStore } from "../Store/CardByIDStore";
-import { useNavigate } from "react-router-dom";
+} from '@mui/material';
+import { CardByIDStore } from '../Store/CardByIDStore';
+import { useNavigate } from 'react-router-dom';
 
 interface ITestBeforeCardProps extends PaperProps {
   card_store: CardByIDStore;
@@ -44,17 +44,17 @@ const TestBeforeCard = observer(
 
     return (
       <Paper elevation={0} {...props}>
-        <Alert severity={"error"} variant="outlined">
+        <Alert severity={'error'} variant="outlined">
           <AlertTitle>
-            <Typography variant={"h5"}>Тест перед карточкой</Typography>
+            <Typography variant={'h5'}>Тест перед карточкой</Typography>
           </AlertTitle>
-          <Typography variant={"subtitle1"}>
+          <Typography variant={'subtitle1'}>
             Перед тем, как просмотреть данную карточку, советуем пройти тест,
             чтобы проверить, имеются ли у Вас знания, необходимые для ее
             просмотра.
           </Typography>
-          <Stack direction={"row"} spacing={"2"} sx={{ mt: 2 }}>
-            <Button variant={"contained"} onClick={onGoToTest}>
+          <Stack direction={'row'} spacing={'2'} sx={{ mt: 2 }}>
+            <Button variant={'contained'} onClick={onGoToTest}>
               Пройти тест
             </Button>
             <Button onClick={closeAlert}>Скрыть</Button>

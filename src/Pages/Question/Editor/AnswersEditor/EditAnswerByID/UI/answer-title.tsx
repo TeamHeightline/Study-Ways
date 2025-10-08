@@ -1,18 +1,18 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { ClickAwayListener, Paper, Stack, Typography } from "@mui/material";
-import { EditAnswerByIdStore } from "../Store/edit-answer-by-id-store";
-import { isMobileHook } from "../../../../../../Shared/CustomHooks/isMobileHook";
-import TitleOnlyInExam from "./title-only-in-exam";
-import TitleIsRequired from "./title-is-required";
-import TitleEditableText from "./title-editable-text";
-import TitleIsTrue from "./title-is-true";
-import TitleHardLevel from "./title-hard-level";
-import AnswerImage from "./answer-image";
-import TitleIsSaved from "./title-is-saved";
-import TitleSimpleActions from "./title-simple-actions";
-import AnswerStatistic from "./answer-statistic";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { ClickAwayListener, Paper, Stack, Typography } from '@mui/material';
+import { EditAnswerByIdStore } from '../Store/edit-answer-by-id-store';
+import { isMobileHook } from '../../../../../../Shared/CustomHooks/isMobileHook';
+import TitleOnlyInExam from './title-only-in-exam';
+import TitleIsRequired from './title-is-required';
+import TitleEditableText from './title-editable-text';
+import TitleIsTrue from './title-is-true';
+import TitleHardLevel from './title-hard-level';
+import AnswerImage from './answer-image';
+import TitleIsSaved from './title-is-saved';
+import TitleSimpleActions from './title-simple-actions';
+import AnswerStatistic from './answer-statistic';
 
 interface IAnswerTitleProps extends PaperProps {
   answer_object: EditAnswerByIdStore;
@@ -30,9 +30,9 @@ const AnswerTitle = observer(
           onClickAway={answer_object.stopTextEditingInSimpleMode}
         >
           <div>
-            <Stack direction={"row"} justifyContent="space-between">
-              <Stack direction={"row"} spacing={2} alignItems={"center"}>
-                <Typography variant={isMobile ? "body1" : "h6"} color="inherit">
+            <Stack direction={'row'} justifyContent="space-between">
+              <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                <Typography variant={isMobile ? 'body1' : 'h6'} color="inherit">
                   {`№ ${answerNumber}`}
                 </Typography>
                 <TitleIsSaved answer_object={answer_object} />
@@ -42,11 +42,11 @@ const AnswerTitle = observer(
             </Stack>
             <TitleEditableText answer_object={answer_object} />
             <Stack
-              direction={isMobile ? "column" : "row"}
-              justifyContent={"space-between"}
+              direction={isMobile ? 'column' : 'row'}
+              justifyContent={'space-between'}
             >
               <Stack
-                direction={isMobile ? "column" : "row"}
+                direction={isMobile ? 'column' : 'row'}
                 spacing={1}
                 sx={{ pt: 1 }}
               >

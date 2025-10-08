@@ -1,10 +1,10 @@
-import { initialState } from "./initial-state";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IExamResult } from "../../../../Shared/ServerLayer/Types/exam.types";
-import { loadExamResultsAsync } from "./async-actions";
+import { initialState } from './initial-state';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IExamResult } from '../../../../Shared/ServerLayer/Types/exam.types';
+import { loadExamResultsAsync } from './async-actions';
 
 const examResultsSlice = createSlice({
-  name: "examResults",
+  name: 'examResults',
   initialState,
   reducers: {
     changeExamId(state, action: PayloadAction<number>) {

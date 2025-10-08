@@ -1,8 +1,8 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { FormControlLabel, Switch } from "@mui/material";
-import { EditAnswerByIdStore } from "../Store/edit-answer-by-id-store";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { FormControlLabel, Switch } from '@mui/material';
+import { EditAnswerByIdStore } from '../Store/edit-answer-by-id-store';
 
 interface IIsEditAnswerProps extends PaperProps {
   answer_object: EditAnswerByIdStore;

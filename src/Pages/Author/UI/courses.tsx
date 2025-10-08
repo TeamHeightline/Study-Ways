@@ -1,12 +1,12 @@
-import { observer } from "mobx-react";
-import { toJS } from "mobx";
-import { authorPageStore } from "../Store/store";
-import React, { useEffect } from "react";
-import { loadCourseDataThunk } from "../../Course/Page/redux-store/async-functions";
-import { RootState, useAppDispatch } from "../../../App/ReduxStore/RootStore";
-import { useSelector } from "react-redux";
-import { ICourseData } from "../../Course/Page/redux-store/types";
-import CourseByData from "../../Course/Page/UI/CourseByData";
+import { observer } from 'mobx-react';
+import { toJS } from 'mobx';
+import { authorPageStore } from '../Store/store';
+import React, { useEffect } from 'react';
+import { loadCourseDataThunk } from '../../Course/Page/redux-store/async-functions';
+import { RootState, useAppDispatch } from '../../../App/ReduxStore/RootStore';
+import { useSelector } from 'react-redux';
+import { ICourseData } from '../../Course/Page/redux-store/types';
+import CourseByData from '../../Course/Page/UI/CourseByData';
 
 export const Courses = observer(() => {
   const dispatch = useAppDispatch();
@@ -37,14 +37,14 @@ export const Courses = observer(() => {
 
   return (
     <Box>
-      <Typography variant={"h4"}>Курсы автора</Typography>
-      <Stack direction={"row"} spacing={2} sx={{ overflowX: "auto", mt: 1 }}>
+      <Typography variant={'h4'}>Курсы автора</Typography>
+      <Stack direction={'row'} spacing={2} sx={{ overflowX: 'auto', mt: 1 }}>
         {authorCoursesData.map((courseData) => (
           <Box key={courseData.id} sx={{ width: { xs: `${100}vw`, sm: 600 } }}>
             <CourseByData
               onChangePosition={(position) => {
                 navigate(
-                  "/course?" +
+                  '/course?' +
                     `id=${courseData.id}&activePage=${
                       position.activePage
                     }&selectedPage=${position.activePage}&selectedRow=${
@@ -60,7 +60,7 @@ export const Courses = observer(() => {
     </Box>
   );
 });
-import { DEFAULT_COURSE_TITLE } from "../../Course/Page/UI/course-page";
+import { DEFAULT_COURSE_TITLE } from '../../Course/Page/UI/course-page';
 
-import { Box, Stack, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Box, Stack, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';

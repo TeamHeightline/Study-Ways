@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const LOAD_ATTEMPTS_ID = gql`
   query LOAD_ATTEMPTS_ID(

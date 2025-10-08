@@ -1,16 +1,16 @@
-import { observer } from "mobx-react";
-import { Typography } from "@mui/material";
+import { observer } from 'mobx-react';
+import { Typography } from '@mui/material';
 
 export const AnimatedTitle = observer(() => (
   <Typography
-    variant={"h2"}
+    variant={'h2'}
     sx={{
-      fontWeight: "bold",
+      fontWeight: 'bold',
       background:
-        "linear-gradient(to right, rgb(9, 48, 255), rgb(204, 5, 254))",
-      backgroundClip: "text",
-      "webkit-background-clip": "text",
-      "-webkit-text-fill-color": "transparent",
+        'linear-gradient(to right, rgb(9, 48, 255), rgb(204, 5, 254))',
+      backgroundClip: 'text',
+      'webkit-background-clip': 'text',
+      '-webkit-text-fill-color': 'transparent',
     }}
   >
     AI курс

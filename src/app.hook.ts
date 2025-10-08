@@ -1,8 +1,8 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { ClientStorage } from "./Shared/Store/ApolloStorage/ClientStorage";
-import axiosClient from "./Shared/ServerLayer/QueryLayer/config";
-import { useEffect } from "react";
-import { UserStorage } from "./Shared/Store/UserStore/UserStore";
+import { useAuth0 } from '@auth0/auth0-react';
+import { ClientStorage } from './Shared/Store/ApolloStorage/ClientStorage';
+import axiosClient from './Shared/ServerLayer/QueryLayer/config';
+import { useEffect } from 'react';
+import { UserStorage } from './Shared/Store/UserStore/UserStore';
 
 export default function AppHook() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -11,15 +11,15 @@ export default function AppHook() {
   const updateToken = async () => {
     try {
       const token = await getAccessTokenSilently({
-        audience: "sw-backend-identifier",
-        scope: "read:current_user",
+        audience: 'sw-backend-identifier',
+        scope: 'read:current_user',
       });
       // Сохраните обновленный токен в клиентском хранилище
       ClientStorage.changeToken(token);
       // Обновите заголовки запросов для axios
       updateAxiosHeaders(token);
     } catch (error) {
-      console.error("Ошибка обновления токена: ", error);
+      console.error('Ошибка обновления токена: ', error);
       // Обработка ошибок, например, выход пользователя из системы
     }
   };
@@ -27,8 +27,8 @@ export default function AppHook() {
   // Обновление заголовков axios
   const updateAxiosHeaders = (token) => {
     axiosClient.interceptors.request.use((config: any) => {
-      config.headers.common["authorization"] = `Bearer ${token}`;
-      config.headers.post["authorization"] = `Bearer ${token}`;
+      config.headers.common['authorization'] = `Bearer ${token}`;
+      config.headers.post['authorization'] = `Bearer ${token}`;
       return config;
     });
 

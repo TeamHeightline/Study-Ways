@@ -1,14 +1,14 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
 import {
   FormControl,
   InputLabel,
   MenuItem,
   Paper,
   Select,
-} from "@mui/material";
-import editQSStore from "../store/edit-question-sequence-sore";
+} from '@mui/material';
+import editQSStore from '../store/edit-question-sequence-sore';
 
 type IUIAuthorSelectorProps = PaperProps;
 
@@ -21,11 +21,11 @@ const UIAuthorSelector = observer(({ ...props }: IUIAuthorSelectorProps) => (
         label="Автор"
         onChange={editQSStore.changeSelectedAuthorID}
       >
-        <MenuItem value={"-1"}>Все</MenuItem>
+        <MenuItem value={'-1'}>Все</MenuItem>
         {editQSStore.questionAuthors.map((authorObj) => (
           <MenuItem value={authorObj.user_id} key={authorObj.user_id}>
             {authorObj.firstname} {authorObj.lastname}
-            {!authorObj.firstname && !authorObj.lastname && "Неизвестный автор"}
+            {!authorObj.firstname && !authorObj.lastname && 'Неизвестный автор'}
           </MenuItem>
         ))}
       </Select>

@@ -1,5 +1,5 @@
-import React from "react";
-import styles from "./CustomDragPreview.module.css";
+import React from 'react';
+import styles from './CustomDragPreview.module.css';
 
 export const CustomDragPreview = (props: any) => {
   const item = props.monitorProps.item;

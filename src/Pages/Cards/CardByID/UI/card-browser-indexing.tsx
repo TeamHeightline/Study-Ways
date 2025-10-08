@@ -1,8 +1,8 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Helmet } from "react-helmet";
-import { CardByIDStore } from "../Store/CardByIDStore";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Helmet } from 'react-helmet';
+import { CardByIDStore } from '../Store/CardByIDStore';
 
 interface ICardBrowserIndexingProps extends PaperProps {
   card_store: CardByIDStore;

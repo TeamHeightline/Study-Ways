@@ -1,8 +1,8 @@
-import { observer } from "mobx-react";
-import React, { useState } from "react";
-import Button from "@mui/material/Button";
-import { useAuth0 } from "@auth0/auth0-react";
-import { Alert, AlertTitle, Snackbar, Stack } from "@mui/material";
+import { observer } from 'mobx-react';
+import React, { useState } from 'react';
+import Button from '@mui/material/Button';
+import { useAuth0 } from '@auth0/auth0-react';
+import { Alert, AlertTitle, Snackbar, Stack } from '@mui/material';
 
 type LogInNotificationProps = {
   requireShow?: boolean;
@@ -25,20 +25,20 @@ export const RequireLogInAlert = observer(
           autoHideDuration={20000}
           onClose={handleClose}
           anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
+            vertical: 'bottom',
+            horizontal: 'center',
           }}
         >
           <Alert
             onClose={handleClose}
             severity="info"
-            sx={{ width: "100%" }}
+            sx={{ width: '100%' }}
             variant="filled"
             action={
               <Button
                 onClick={loginWithPopup}
-                variant={"outlined"}
-                color={"inherit"}
+                variant={'outlined'}
+                color={'inherit'}
               >
                 Войти
               </Button>
@@ -53,7 +53,7 @@ export const RequireLogInAlert = observer(
     return (
       <div>
         {(isOpen || requireShow) && (
-          <Stack alignItems={"center"} sx={{ width: "100%" }}>
+          <Stack alignItems={'center'} sx={{ width: '100%' }}>
             <Alert
               onClose={handleClose}
               severity="error"
@@ -62,8 +62,8 @@ export const RequireLogInAlert = observer(
               action={
                 <Button
                   onClick={loginWithPopup}
-                  variant={"outlined"}
-                  color={"inherit"}
+                  variant={'outlined'}
+                  color={'inherit'}
                 >
                   Войти
                 </Button>

@@ -1,8 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 export interface INotificationFormat {
   text: string;
-  type: "CARD_SUGGESTION"; // далее будет добавление новых типов нотификаций
+  type: 'CARD_SUGGESTION'; // далее будет добавление новых типов нотификаций
   payload: any;
 }
 
@@ -13,7 +13,7 @@ const initialState = {
 };
 
 const NotificationSlice = createSlice({
-  name: "notification",
+  name: 'notification',
   initialState,
   reducers: {
     addNotification(state, action: { payload: INotificationFormat }) {

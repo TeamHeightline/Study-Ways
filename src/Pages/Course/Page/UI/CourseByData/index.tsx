@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Box,
   Card,
@@ -7,11 +7,11 @@ import {
   IconButton,
   Stack,
   Typography,
-} from "@mui/material";
-import CourseNavigation from "./CourseNavigation";
-import ArrowNavigation from "./ArrowNavigation";
-import { FILE_URL, REST_SERVER_URL } from "../../../../../settings";
-import { ICourseData, ICoursePosition } from "./types";
+} from '@mui/material';
+import CourseNavigation from './CourseNavigation';
+import ArrowNavigation from './ArrowNavigation';
+import { FILE_URL, REST_SERVER_URL } from '../../../../../settings';
+import { ICourseData, ICoursePosition } from './types';
 import {
   amber,
   blue,
@@ -24,9 +24,9 @@ import {
   red,
   teal,
   yellow,
-} from "@mui/material/colors";
-import { alpha, darken } from "@mui/material/styles";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+} from '@mui/material/colors';
+import { alpha, darken } from '@mui/material/styles';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 interface ICourseMicroViewProps extends React.HTMLAttributes<HTMLDivElement> {
   courseData: ICourseData;
@@ -89,7 +89,7 @@ export default function CourseByData({
               ].CourseElement.id !== null &&
               course.course_data[lineIndex].SameLine[pageIndex].CourseFragment[
                 positionIndex
-              ].CourseElement.id !== ""
+              ].CourseElement.id !== ''
             ) {
               return {
                 page: pageIndex,
@@ -127,16 +127,16 @@ export default function CourseByData({
         onClick={openCourse}
         sx={{
           borderRadius: 1.5,
-          width: "100%",
+          width: '100%',
           minHeight: 225,
           aspectRatio: 2,
-          display: "flex",
-          flexDirection: "row",
+          display: 'flex',
+          flexDirection: 'row',
         }}
       >
         <Box
           sx={{
-            width: "5px",
+            width: '5px',
             backgroundColor: colorAfterCorrection,
             flexShrink: 0,
           }}
@@ -144,46 +144,46 @@ export default function CourseByData({
         <CardActionArea
           sx={{
             flexGrow: 1,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
             borderTopLeftRadius: 0,
             borderBottomLeftRadius: 0,
           }}
         >
           <Stack
-            sx={{ p: 2, width: "100%" }}
+            sx={{ p: 2, width: '100%' }}
             spacing={1}
-            direction={"row"}
-            justifyContent={"space-between"}
+            direction={'row'}
+            justifyContent={'space-between'}
           >
-            <Typography variant="h6" sx={{ fontSize: "1.15rem" }}>
+            <Typography variant="h6" sx={{ fontSize: '1.15rem' }}>
               {courseData.name}
             </Typography>
             {isCourseHasImage && (
               <Box>
                 <Box
                   sx={{
-                    height: "100px",
-                    width: "100px",
+                    height: '100px',
+                    width: '100px',
                     borderRadius: 2,
-                    backgroundColor: "black",
+                    backgroundColor: 'black',
                     backgroundImage: `url(${courseImageUrl})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    display: "block",
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    display: 'block',
                   }}
                 />
               </Box>
             )}
           </Stack>
-          <Box sx={{ p: 2, alignSelf: "flex-end" }}>
+          <Box sx={{ p: 2, alignSelf: 'flex-end' }}>
             <Typography
               variant="caption"
-              sx={{ fontSize: "0.75rem", textAlign: "right" }}
+              sx={{ fontSize: '0.75rem', textAlign: 'right' }}
             >
-              {courseData?.users_customuser?.users_userprofile?.firstname || ""}{" "}
-              {courseData?.users_customuser?.users_userprofile?.lastname || ""}
+              {courseData?.users_customuser?.users_userprofile?.firstname || ''}{' '}
+              {courseData?.users_customuser?.users_userprofile?.lastname || ''}
             </Typography>
           </Box>
         </CardActionArea>

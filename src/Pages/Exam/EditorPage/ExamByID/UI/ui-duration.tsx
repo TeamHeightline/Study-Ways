@@ -1,6 +1,6 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
 import {
   FormControl,
   InputLabel,
@@ -9,13 +9,13 @@ import {
   Select,
   Stack,
   Typography,
-} from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+} from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   RootState,
   useAppDispatch,
-} from "../../../../../App/ReduxStore/RootStore";
-import { changeExamMinutes } from "../redux-store/examEditorSlice";
+} from '../../../../../App/ReduxStore/RootStore';
+import { changeExamMinutes } from '../redux-store/examEditorSlice';
 
 type IUIDurationProps = PaperProps;
 
@@ -28,9 +28,9 @@ const UIDuration = observer(({ ...props }: IUIDurationProps) => {
   const hours = Math.floor((Number(examDuration) || 0) / 60);
   return (
     <Paper elevation={0} {...props}>
-      <Stack direction={"row"} spacing={1}>
-        <Stack alignItems={"center"}>
-          <Typography textAlign={"center"}>Длительность экзамена</Typography>
+      <Stack direction={'row'} spacing={1}>
+        <Stack alignItems={'center'}>
+          <Typography textAlign={'center'}>Длительность экзамена</Typography>
         </Stack>
         <FormControl fullWidth>
           <InputLabel>Часы</InputLabel>

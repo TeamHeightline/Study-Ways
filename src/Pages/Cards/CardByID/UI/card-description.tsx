@@ -1,9 +1,9 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { Paper } from "@mui/material";
-import { CardByIDStore } from "../Store/CardByIDStore";
-import useWindowDimensions from "../../../../Shared/CustomHooks/useWindowDimensions";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { Paper } from '@mui/material';
+import { CardByIDStore } from '../Store/CardByIDStore';
+import useWindowDimensions from '../../../../Shared/CustomHooks/useWindowDimensions';
 
 interface ICardDescriptionProps extends PaperProps {
   card_store: CardByIDStore;
@@ -17,7 +17,7 @@ const CardDescription = observer(
     return (
       <Paper
         elevation={0}
-        sx={{ maxWidth: width, overflow: "auto" }}
+        sx={{ maxWidth: width, overflow: 'auto' }}
         {...props}
       >
         {description && (

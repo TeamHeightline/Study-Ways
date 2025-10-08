@@ -1,11 +1,11 @@
-import { Box, Chip, Tooltip } from "@mui/material";
-import { BoxProps } from "@mui/material/Box/Box";
-import { getQuestionStatistic, IQuestionStatistic } from "../Store/Struct";
-import React, { useEffect, useState } from "react";
-import { QuestionEditorStorage } from "../Store/QuestionEditorStorage";
+import { Box, Chip, Tooltip } from '@mui/material';
+import { BoxProps } from '@mui/material/Box/Box';
+import { getQuestionStatistic, IQuestionStatistic } from '../Store/Struct';
+import React, { useEffect, useState } from 'react';
+import { QuestionEditorStorage } from '../Store/QuestionEditorStorage';
 
-import SchoolIcon from "@mui/icons-material/School";
-import ArchitectureIcon from "@mui/icons-material/Architecture";
+import SchoolIcon from '@mui/icons-material/School';
+import ArchitectureIcon from '@mui/icons-material/Architecture';
 
 type IUIQuestionStatisticProps = BoxProps;
 
@@ -30,33 +30,33 @@ export default function UIQuestionStatistic({
   return (
     <Box {...props}>
       {questionStatistic?.training_avg && (
-        <Tooltip title={"Средний балл в тренировочном режиме"}>
+        <Tooltip title={'Средний балл в тренировочном режиме'}>
           <Chip
             label={`${Math.ceil(questionStatistic?.training_avg)}%`}
             icon={<ArchitectureIcon />}
             sx={{
               backgroundColor:
                 questionStatistic.training_avg > 70
-                  ? "green"
+                  ? 'green'
                   : questionStatistic.training_avg > 50
-                    ? "orange"
-                    : "red",
+                    ? 'orange'
+                    : 'red',
             }}
           />
         </Tooltip>
       )}
       {questionStatistic?.exam_avg && (
-        <Tooltip title={"Средний балл в экзаменационном режиме"}>
+        <Tooltip title={'Средний балл в экзаменационном режиме'}>
           <Chip
             label={`${Math.ceil(questionStatistic.exam_avg)}%`}
             icon={<SchoolIcon />}
             sx={{
               backgroundColor:
                 questionStatistic.exam_avg > 70
-                  ? "green"
+                  ? 'green'
                   : questionStatistic.exam_avg > 50
-                    ? "orange"
-                    : "red",
+                    ? 'orange'
+                    : 'red',
             }}
           />
         </Tooltip>

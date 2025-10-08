@@ -1,9 +1,9 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import { IconButton, Paper, Tooltip } from "@mui/material";
-import ReportIcon from "@mui/icons-material/Report";
-import { CheckAnswerByIdStore } from "../Store/check-answer-by-id-store";
+import { observer } from 'mobx-react';
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import { IconButton, Paper, Tooltip } from '@mui/material';
+import ReportIcon from '@mui/icons-material/Report';
+import { CheckAnswerByIdStore } from '../Store/check-answer-by-id-store';
 
 interface IUICreateErrorReportProps extends PaperProps {
   answerStore: CheckAnswerByIdStore;
@@ -12,9 +12,9 @@ interface IUICreateErrorReportProps extends PaperProps {
 const UICreateErrorReport = observer(
   ({ answerStore, ...props }: IUICreateErrorReportProps) => (
     <Paper elevation={0} {...props}>
-      <Tooltip title={"Сообщить об ошибке в ответе"}>
+      <Tooltip title={'Сообщить об ошибке в ответе'}>
         <IconButton onClick={() => answerStore.openAnswerReportDialog()}>
-          <ReportIcon fontSize={"large"} />
+          <ReportIcon fontSize={'large'} />
         </IconButton>
       </Tooltip>
     </Paper>

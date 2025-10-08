@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 import {
   Alert,
   Button,
@@ -15,12 +15,12 @@ import {
   StepLabel,
   Stepper,
   Typography,
-} from "@mui/material";
-import { observer } from "mobx-react";
-import { QSPlayerStore } from "../../../Shared/Store/PublicStorage/QSPage/QuestionSequencePlayer/QSPlayerStore";
-import UiQuestionData from "../../Question/QuestionByID/UI/ui-question-data";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
+} from '@mui/material';
+import { observer } from 'mobx-react';
+import { QSPlayerStore } from '../../../Shared/Store/PublicStorage/QSPage/QuestionSequencePlayer/QSPlayerStore';
+import UiQuestionData from '../../Question/QuestionByID/UI/ui-question-data';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
 
 import {
   ArgumentAxis,
@@ -29,13 +29,13 @@ import {
   SplineSeries,
   Title,
   ValueAxis,
-} from "@devexpress/dx-react-chart-material-ui";
-import { useLocation, useParams } from "react-router-dom";
-import "../../../index.css";
-import { isMobileHook } from "../../../Shared/CustomHooks/isMobileHook";
-import { RequireLogInAlert } from "../../../App/SharedComponents/Notifications/RequireLogInAlert";
-import SchoolIcon from "@mui/icons-material/School";
-import { UserStorage } from "../../../Shared/Store/UserStore/UserStore";
+} from '@devexpress/dx-react-chart-material-ui';
+import { useLocation, useParams } from 'react-router-dom';
+import '../../../index.css';
+import { isMobileHook } from '../../../Shared/CustomHooks/isMobileHook';
+import { RequireLogInAlert } from '../../../App/SharedComponents/Notifications/RequireLogInAlert';
+import SchoolIcon from '@mui/icons-material/School';
+import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 
 const processedStore = new QSPlayerStore();
 
@@ -44,7 +44,7 @@ export const QSPlayerByID = observer(({ ...props }: any) => {
 
   const slug = useLocation();
   useEffect(() => {
-    if (slug.search === "?exam=true") {
+    if (slug.search === '?exam=true') {
       processedStore.isUseExamMode = true;
     }
     processedStore.setQSID(id ? id : props?.id);
@@ -63,7 +63,7 @@ export const QSPlayerByID = observer(({ ...props }: any) => {
 
   if (!processedStore.allDataNasBeenLoaded) {
     return (
-      <Stack alignItems={"center"}>
+      <Stack alignItems={'center'}>
         <CircularProgress />
       </Stack>
     );
@@ -72,19 +72,19 @@ export const QSPlayerByID = observer(({ ...props }: any) => {
 
   return (
     <div>
-      <Typography align={"center"} variant={isMobile ? "h6" : "h4"}>
+      <Typography align={'center'} variant={isMobile ? 'h6' : 'h4'}>
         {processedStore.name}
         {processedStore.isUseExamMode && (
           <Chip
             sx={{ ml: 1 }}
-            color={"secondary"}
+            color={'secondary'}
             icon={<SchoolIcon />}
-            variant={"outlined"}
-            label={"Экзаменационный режим"}
+            variant={'outlined'}
+            label={'Экзаменационный режим'}
           />
         )}
       </Typography>
-      <div style={{ overflowX: "auto" }}>
+      <div style={{ overflowX: 'auto' }}>
         <Stepper
           nonLinear
           alternativeLabel
@@ -105,15 +105,15 @@ export const QSPlayerByID = observer(({ ...props }: any) => {
                       marginLeft: 65,
                       borderColor: processedStore.questionsStoreArray[qIndex]
                         ?.questionHasBeenCompleted
-                        ? "#2296F3"
+                        ? '#2296F3'
                         : processedStore.questionsStoreArray[qIndex]
                               ?.isAcceptDefeat
-                          ? "#F50057"
-                          : "",
+                          ? '#F50057'
+                          : '',
                     }}
                     variant="outlined"
                   >
-                    <CardActionArea style={{ height: "100%", padding: 10 }}>
+                    <CardActionArea style={{ height: '100%', padding: 10 }}>
                       <Typography>{question?.questionText}</Typography>
                     </CardActionArea>
                   </Card>
@@ -140,13 +140,13 @@ export const QSPlayerByID = observer(({ ...props }: any) => {
         >
           <Grid item xs={12} md={3}>
             <Card variant="outlined" style={{ padding: 12 }}>
-              <Typography variant={"h6"}>
+              <Typography variant={'h6'}>
                 Перед началом вопроса выберете уровень сложности:
               </Typography>
               <Select
                 style={{ marginTop: 12 }}
-                defaultValue={"0"}
-                label={""}
+                defaultValue={'0'}
+                label={''}
                 fullWidth
                 // Очень важно, меняем сложность в QS Store, оттуда уже передается в вопросы
                 onChange={(e) =>
@@ -154,9 +154,9 @@ export const QSPlayerByID = observer(({ ...props }: any) => {
                 }
                 variant="outlined"
               >
-                <MenuItem value={"0"}>Легкий</MenuItem>
-                <MenuItem value={"1"}>Средний</MenuItem>
-                <MenuItem value={"2"}>Сложный</MenuItem>
+                <MenuItem value={'0'}>Легкий</MenuItem>
+                <MenuItem value={'1'}>Средний</MenuItem>
+                <MenuItem value={'2'}>Сложный</MenuItem>
               </Select>
               <Button
                 onClick={() => processedStore?.setHardLevelHasBeenSelected()}
@@ -176,7 +176,7 @@ export const QSPlayerByID = observer(({ ...props }: any) => {
         ? processedStore?.activeQuestionStoreInstance
             ?.questionHasBeenStarted && (
             <div>
-              <Grid container justifyContent={"center"}>
+              <Grid container justifyContent={'center'}>
                 {processedStore.selectedQuestionIndex !== null && (
                   <Grid item xs={11}>
                     <UiQuestionData
@@ -219,11 +219,11 @@ export const QSPlayerByID = observer(({ ...props }: any) => {
                   </div>
                 )}
 
-              <div style={{ overflowX: "scroll" }}>
+              <div style={{ overflowX: 'scroll' }}>
                 <Stack
                   style={{
                     width: isMobile
-                      ? ""
+                      ? ''
                       : processedStore.activeQuestionStoreInstance?.answersArray
                           .length * 410,
                   }}
@@ -232,13 +232,13 @@ export const QSPlayerByID = observer(({ ...props }: any) => {
                     processedStore.activeQuestionStoreInstance
                       ?.answersArray && (
                       <Stack
-                        direction={isMobile ? "column" : "row"}
+                        direction={isMobile ? 'column' : 'row'}
                         spacing={2}
                         sx={{
                           height: isMobile
                             ? processedStore.activeQuestionStoreInstance
                                 ?.answersArray.length * 410
-                            : "",
+                            : '',
                           pt: 2,
                         }}
                       >
@@ -249,7 +249,7 @@ export const QSPlayerByID = observer(({ ...props }: any) => {
                               variant="outlined"
                               sx={{
                                 pb: 4,
-                                display: "flex",
+                                display: 'flex',
                                 width: 385,
                                 height: 400,
                               }}
@@ -258,8 +258,8 @@ export const QSPlayerByID = observer(({ ...props }: any) => {
                                   processedStore.activeQuestionStoreInstance?.selectedAnswers?.has(
                                     answer?.id,
                                   )
-                                    ? "#2296F3"
-                                    : "",
+                                    ? '#2296F3'
+                                    : '',
                               }}
                               onClick={() => {
                                 processedStore.activeQuestionStoreInstance.selectAnswerHandleChange(
@@ -311,19 +311,19 @@ export const QSPlayerByID = observer(({ ...props }: any) => {
               <Alert
                 severity={
                   processedStore?.activeQuestionStoreInstance?.isAcceptDefeat
-                    ? "error"
-                    : "info"
+                    ? 'error'
+                    : 'info'
                 }
                 variant="filled"
                 sx={{ mt: 2 }}
               >
                 {processedStore?.activeQuestionStoreInstance?.isAcceptDefeat
-                  ? "Вы сдались. " +
+                  ? 'Вы сдались. ' +
                     `Количество попыток - ${processedStore?.activeQuestionStoreInstance?.numberOfPasses}`
-                  : "Вы прошли этот вопрос. " +
+                  : 'Вы прошли этот вопрос. ' +
                     `Количество попыток - ${processedStore?.activeQuestionStoreInstance?.numberOfPasses}`}
               </Alert>
-              <Stack direction={"row"} sx={{ mt: 1 }}>
+              <Stack direction={'row'} sx={{ mt: 1 }}>
                 <Chart
                   data={
                     processedStore.activeQuestionStoreInstance

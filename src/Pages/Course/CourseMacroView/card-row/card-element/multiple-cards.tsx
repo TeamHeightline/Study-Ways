@@ -1,10 +1,10 @@
-import { Box, Stack } from "@mui/material";
-import LooksTwoIcon from "@mui/icons-material/LooksTwo";
-import Looks3Icon from "@mui/icons-material/Looks3";
-import Looks4Icon from "@mui/icons-material/Looks4";
-import Looks5Icon from "@mui/icons-material/Looks5";
-import Looks6Icon from "@mui/icons-material/Looks6";
-import React from "react";
+import { Box, Stack } from '@mui/material';
+import LooksTwoIcon from '@mui/icons-material/LooksTwo';
+import Looks3Icon from '@mui/icons-material/Looks3';
+import Looks4Icon from '@mui/icons-material/Looks4';
+import Looks5Icon from '@mui/icons-material/Looks5';
+import Looks6Icon from '@mui/icons-material/Looks6';
+import React from 'react';
 
 interface IProps {
   numberOfElements: number;
@@ -17,7 +17,7 @@ interface IProps {
 export default function MultipleCards(props: IProps) {
   const { numberOfElements, size } = props;
   return (
-    <Stack justifyContent={"center"} alignItems={"center"} sx={size}>
+    <Stack justifyContent={'center'} alignItems={'center'} sx={size}>
       {numberOfElements > 1 && (
         <Box>
           {numberOfElements === 2 ? (

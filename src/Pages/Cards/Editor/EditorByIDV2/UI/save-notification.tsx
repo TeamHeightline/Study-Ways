@@ -1,14 +1,14 @@
-import { observer } from "mobx-react";
-import { Alert } from "@mui/material";
-import React from "react";
-import { CESObject } from "../Store/CardEditorStorage";
+import { observer } from 'mobx-react';
+import { Alert } from '@mui/material';
+import React from 'react';
+import { CESObject } from '../Store/CardEditorStorage';
 
 export const SaveNotification = observer(() => (
   <Alert
     // sx={{height: 50}}
     variant="outlined"
-    severity={CESObject.stateOfSave ? "success" : "info"}
+    severity={CESObject.stateOfSave ? 'success' : 'info'}
   >
-    {CESObject.stateOfSave ? "Сохранено" : "Сохранение"}
+    {CESObject.stateOfSave ? 'Сохранено' : 'Сохранение'}
   </Alert>
 ));

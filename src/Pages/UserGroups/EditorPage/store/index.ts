@@ -1,12 +1,12 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UserGroup } from "./types";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { UserGroup } from './types';
 
 const defaultUserGroup = {
-  name: "",
+  name: '',
 };
 
 const userGroupEditorPageSlice = createSlice({
-  name: "userGroupEditorPage",
+  name: 'userGroupEditorPage',
   initialState: {
     is_open_delete_modal: false,
 

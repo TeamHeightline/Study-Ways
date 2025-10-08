@@ -1,8 +1,8 @@
-import { observer } from "mobx-react";
-import React, { useState } from "react";
-import TreeSelect from "antd/es/tree-select";
-import { CESObject } from "../Store/CardEditorStorage";
-import { toJS } from "mobx";
+import { observer } from 'mobx-react';
+import React, { useState } from 'react';
+import TreeSelect from 'antd/es/tree-select';
+import { CESObject } from '../Store/CardEditorStorage';
+import { toJS } from 'mobx';
 
 type IConnectedThemeSelectorProps = React.HTMLAttributes<HTMLDivElement>;
 
@@ -15,7 +15,7 @@ export const UiConnectedThemeSelector = observer(
     );
     const changeValue = (themesArray: string[]) => {
       const uniqThemes = [...new Set(themesArray)];
-      CESObject.changeFieldByValue("connectedTheme", uniqThemes);
+      CESObject.changeFieldByValue('connectedTheme', uniqThemes);
     };
 
     const tProps = {
@@ -27,15 +27,15 @@ export const UiConnectedThemeSelector = observer(
       showSearch: false,
       showCheckedStrategy: SHOW_CHILD,
       disabled: !CESObject.isAllConnectedThemesLoaded,
-      placeholder: "Выберите тему карточки",
+      placeholder: 'Выберите тему карточки',
       // bordered: true,
       style: {
-        width: "100%",
+        width: '100%',
       },
     };
     return (
       <div {...props}>
-        <TreeSelect {...tProps} size={"large"} />
+        <TreeSelect {...tProps} size={'large'} />
       </div>
     );
   },

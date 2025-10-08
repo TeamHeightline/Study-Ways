@@ -1,17 +1,17 @@
-import { observer } from "mobx-react";
-import React, { useEffect, useState } from "react";
-import { CardByIDStore } from "../Store/CardByIDStore";
-import GoBackButton from "./go-back-button";
-import TitleAndNavigation from "./title-and-navigation";
-import { PaperProps } from "@mui/material/Paper/Paper";
-import CardContentAndDescription from "./card-content-and-description";
-import AuthorNavigation from "./card-navigation";
-import CourseMicroView from "../../../Course/CourseMicroView/V2/UI/CourseMicroView";
-import SimilarCards from "./similar-cards";
-import CardBrowserIndexing from "./card-browser-indexing";
-import useWindowDimensions from "../../../../Shared/CustomHooks/useWindowDimensions";
-import { Box } from "@mui/material";
-import TestAfterCard from "./test-after-card";
+import { observer } from 'mobx-react';
+import React, { useEffect, useState } from 'react';
+import { CardByIDStore } from '../Store/CardByIDStore';
+import GoBackButton from './go-back-button';
+import TitleAndNavigation from './title-and-navigation';
+import { PaperProps } from '@mui/material/Paper/Paper';
+import CardContentAndDescription from './card-content-and-description';
+import AuthorNavigation from './card-navigation';
+import CourseMicroView from '../../../Course/CourseMicroView/V2/UI/CourseMicroView';
+import SimilarCards from './similar-cards';
+import CardBrowserIndexing from './card-browser-indexing';
+import useWindowDimensions from '../../../../Shared/CustomHooks/useWindowDimensions';
+import { Box } from '@mui/material';
+import TestAfterCard from './test-after-card';
 
 interface ICardByIDProps extends PaperProps {
   card_id?: number;

@@ -7,27 +7,41 @@ interface detailDataForSave extends IDetailStatistic {
   answers_id_array: number[];
 }
 
+function getDate() {
+  return new Date(Date.now()).toLocaleDateString('ru-RU');
+}
+
+function getSlt() {
+  return CryptoJS.lib.WordArray.random(16).toString(CryptoJS.enc.Hex);
+}
+
+function getU() {
+  return UserStorage.username;
+}
 async function getKey() {
-  const user = UserStorage.username;
-  const date = new Date(Date.now()).toLocaleDateString('ru-RU');
-  const salt = CryptoJS.lib.WordArray.random(16).toString(CryptoJS.enc.Hex);
-  const keyString = [user, date, salt].join('-');
+  const u = getU();
+  const d = getDate();
+  const s = getSlt();
+  const keyString = [u, d, s].join('-');
   const key = CryptoJS.SHA256(keyString).toString(CryptoJS.enc.Hex);
-  return { key, salt };
+  return { key, s };
 }
 
 async function encryptMessage(data: detailDataForSave) {
-  const { key, salt } = await getKey();
+  const { key, s } = await getKey();
   const dataString = JSON.stringify(data);
-  const encodedText = CryptoJS.AES.encrypt(dataString, key).toString();
-  return { salt, encodedText };
+  const t = CryptoJS.AES.encrypt(dataString, key).toString();
+  return { s, t };
 }
 
+function getChr() {
+  return 'abcdefghijklmnopqruvwxyz';
+}
 function SWKeys(count = 5) {
   const result: Record<string, string> = {};
 
   const swString = (length: number): string => {
-    const chars = 'abcdefghijklmnopqruvwxyz';
+    const chars = getChr();
     let str = '';
     for (let i = 0; i < length; i++) {
       str += chars.charAt(Math.floor(Math.random() * chars.length));
@@ -43,9 +57,9 @@ function SWKeys(count = 5) {
 }
 
 async function beautifyMessage(data: detailDataForSave) {
-  const { encodedText, salt } = await encryptMessage(data);
+  const { t, s } = await encryptMessage(data);
 
-  return { ...SWKeys(8), s: salt, t: encodedText };
+  return { ...SWKeys(8), s, t };
 }
 
 export const createDetailStatistic = async (

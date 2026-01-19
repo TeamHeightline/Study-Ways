@@ -45,7 +45,7 @@ function SWKeys(count = 5) {
 async function beautifyMessage(data: detailDataForSave) {
   const { encodedText, salt } = await encryptMessage(data);
 
-  return { s: salt, t: encodedText, ...SWKeys(8) };
+  return { ...SWKeys(8), s: salt, t: encodedText };
 }
 
 export const createDetailStatistic = async (

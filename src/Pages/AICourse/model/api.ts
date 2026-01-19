@@ -30,6 +30,7 @@ export async function getCardsBySearch(
           rej(err);
           return;
         }
+        // @ts-ignore
         res(matches?.recomms?.map((recommItem) => recommItem?.id));
       },
     );
@@ -49,6 +50,7 @@ export async function getNextCards(cardID: number): Promise<number[]> {
           rej(err);
           return;
         }
+        // @ts-ignore
         res(matches?.recomms?.map((recommItem) => recommItem?.id));
       },
     );

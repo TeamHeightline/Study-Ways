@@ -32,7 +32,7 @@ const examPlayerSlicer = createSlice({
         state.selected_answers_id.add(answersId);
       }
     },
-    checkAnswers: (state) => {
+    checkAnswers: state => {
       if (state.statistic == null) {
         state.statistic = {
           numberOfPasses: 0,
@@ -122,6 +122,7 @@ const examPlayerSlicer = createSlice({
       state.access_password = action.payload;
       // Именно так, потому что нам критически важно нигде (ни в экшене, ни в стейте не отображать реальный пароль)
       const original_password = CryptoJS.AES.decrypt(
+        // @ts-ignore
         state?.exam_data?.password,
         'sw-secret-key',
       ).toString(CryptoJS.enc.Utf8);
@@ -129,7 +130,7 @@ const examPlayerSlicer = createSlice({
         state.is_password_check_passed = true;
       }
     },
-    removeOneMinute: (state) => {
+    removeOneMinute: state => {
       state.remaining_minutes = state.remaining_minutes - 1;
     },
   },
@@ -143,7 +144,7 @@ const examPlayerSlicer = createSlice({
       state.remaining_minutes = action.payload.data.minutes || 100;
       state.remaining_attempts = action.payload.data.max_question_attempts;
     },
-    [saveDetailStatisticThunk.pending.type]: (state) => {
+    [saveDetailStatisticThunk.pending.type]: state => {
       state.await_statistic_save = true;
       state.is_statistic_save_error = false;
     },
@@ -152,7 +153,7 @@ const examPlayerSlicer = createSlice({
       action: PayloadAction<IDetailStatistic>,
     ) => {
       const newQuestionStatus = state.question_statuses.find(
-        (questionStatus) =>
+        questionStatus =>
           questionStatus.question_id == action.payload.question_id,
       );
       if (newQuestionStatus) {
@@ -161,12 +162,12 @@ const examPlayerSlicer = createSlice({
       state.await_statistic_save = false;
       state.is_statistic_save_error = false;
     },
-    [saveDetailStatisticThunk.rejected.type]: (state) => {
+    [saveDetailStatisticThunk.rejected.type]: state => {
       state.await_statistic_save = false;
       state.is_statistic_save_error = true;
     },
 
-    [openExamPageThunk.pending.type]: (state) => {
+    [openExamPageThunk.pending.type]: state => {
       state.loading_question_statuses = true;
     },
     [openExamPageThunk.rejected.type]: (state, action: any) => {
@@ -196,7 +197,7 @@ const examPlayerSlicer = createSlice({
         state.selected_question_id = selectedQuestionStatus.question_id;
       }
     },
-    [loadQuestionDataThunk.pending.type]: (state) => {
+    [loadQuestionDataThunk.pending.type]: state => {
       state.loading_selected_question_data = true;
     },
     [loadQuestionDataThunk.fulfilled.type]: (
@@ -209,13 +210,13 @@ const examPlayerSlicer = createSlice({
       // Пересборка ответов, перемешивание, срезание обязательных, добавление необязательных
       const __requiredAnswersForDisplay = shuffle(
         all_answers
-          ?.filter((answer) => !answer.is_deleted)
-          ?.filter((answer) => answer.is_required),
+          ?.filter(answer => !answer.is_deleted)
+          ?.filter(answer => answer.is_required),
       )?.slice(0, questionData?.number_of_showing_answers);
       const __notRequiredAnswersForDisplay = shuffle(
         all_answers
-          ?.filter((answer) => !answer.is_deleted)
-          ?.filter((answer) => !answer.is_required),
+          ?.filter(answer => !answer.is_deleted)
+          ?.filter(answer => !answer.is_required),
       )?.slice(
         0,
         questionData?.number_of_showing_answers -

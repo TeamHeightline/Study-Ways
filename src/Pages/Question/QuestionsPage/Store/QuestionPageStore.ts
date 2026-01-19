@@ -34,7 +34,6 @@ class QuestionPage {
 
     axiosClient.get('page/question-page//all-questions').then((res) => {
       this.questionsData = removeQuestionsTatNotFilled(res.data);
-      console.log(res.data);
       this.dataHasBeenDelivered = true;
     });
   }

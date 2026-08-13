@@ -1,4 +1,4 @@
-import { Paper, Stack, Table, TableContainer } from '@mui/material';
+import { Box, Paper, Stack, Table, TableContainer } from '@mui/material';
 import { PaperProps } from '@mui/material/Paper/Paper';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,6 +16,7 @@ import {
   createExamResultsOrderBySum,
 } from '../redux-store/reducer';
 import UiExcelExport from './ui-excell-export';
+import UiJSONExport from './ui-json-export';
 
 interface IExamResultsByIDProps extends PaperProps {
   exam_id: number;
@@ -45,7 +46,10 @@ export default function Index({ exam_id, ...props }: IExamResultsByIDProps) {
         alignItems={'end'}
         sx={{ mb: 1 }}
       >
-        <UiExcelExport />
+        <Stack direction={'column'} sx={{ gap: 2 }}>
+          <UiExcelExport />
+          <UiJSONExport />
+        </Stack>
         <Stack alignItems="start">
           <UIAutoUpdateFlag />
           <ShowResultsBySumFlag />

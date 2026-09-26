@@ -51,7 +51,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .sw-hero-footnote { display:block; font-size:9px; color:#84907b; margin-top:13px; }
 .sw-path-art { position:relative; min-height:310px; background-image:radial-gradient(#a4b29955 .8px,transparent .8px); background-size:18px 18px; }
 .sw-art-label { position:absolute; right:25px; top:25px; font-size:8px; letter-spacing:1.5px; color:#8c9a83; }
-.sw-path-lines { position:absolute; width:100%; height:100%; inset:0; overflow:visible; }
+.sw-path-lines { position:absolute; width:100%; height:100%; inset:0; overflow:visible; pointer-events:none; }
 .sw-path-lines path { fill:none; stroke:#8ba57b; stroke-width:1.5; stroke-dasharray:5 5; }
 .sw-path-lines .sw-path-branch { stroke:#b7c3a7; }
 .sw-path-node { position:absolute; display:flex; flex-direction:column; gap:9px; }

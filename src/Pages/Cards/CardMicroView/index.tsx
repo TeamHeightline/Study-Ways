@@ -59,6 +59,7 @@ export default function CardMicroView({
     return (
       <div {...props} id={'CMV-loading-skeleton'}>
         <Card
+          className="sw-mini-card sw-mini-card-loading"
           variant="outlined"
           sx={{
             width: { sm: 340, xs: '100%' },
@@ -110,6 +111,7 @@ export default function CardMicroView({
   return (
     <div {...props}>
       <Card
+        className="sw-mini-card"
         variant={'elevation'}
         sx={{
           display: 'flex',
@@ -122,13 +124,14 @@ export default function CardMicroView({
           onChange && onChange(cardID);
         }}
       >
-        <CardActionArea sx={{ height: '100%', p: 2 }}>
+        <CardActionArea className="sw-mini-card-action" sx={{ height: '100%', p: 2 }}>
           <Stack direction={'column'}>
             <Box sx={{ height: 170 }}>
               {Number(card_data.card_content_type) === 0 &&
                 card_data?.video_url && (
                   <div>
                     <CardMedia
+                      className="sw-mini-media"
                       sx={{
                         width: { sm: 300, xs: '100%' },
                         height: 167,
@@ -147,6 +150,7 @@ export default function CardMicroView({
               {(Number(card_data.card_content_type) === 1 ||
                 Number(card_data.card_content_type) === 2) && (
                 <CardMedia
+                  className="sw-mini-media"
                   sx={{
                     width: { sm: 300, xs: '100%' },
                     height: 170,
@@ -173,6 +177,7 @@ export default function CardMicroView({
                   <Typography
                     variant="body2"
                     component={'div'}
+                    className="sw-mini-meta"
                     sx={{ display: 'flex', alignItems: 'center' }}
                   >
                     ID: {card_data?.id}
@@ -238,6 +243,7 @@ export default function CardMicroView({
 
                   <Typography
                     variant={'subtitle2'}
+                    className="sw-mini-title"
                     sx={{
                       flexGrow: 1,
                       overflow: 'hidden',
@@ -254,6 +260,7 @@ export default function CardMicroView({
                   {showTheme && (
                     <Typography
                       variant="caption"
+                      className="sw-mini-theme"
                       sx={{
                         display: 'flex',
                         alignItems: 'center',
@@ -276,6 +283,7 @@ export default function CardMicroView({
                   {showAuthor && (
                     <Typography
                       variant="caption"
+                      className="sw-mini-author"
                       sx={{
                         display: 'flex',
                         alignItems: 'center',

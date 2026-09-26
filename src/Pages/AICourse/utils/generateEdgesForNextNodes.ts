@@ -8,6 +8,6 @@ export function generateEdgesForNextNodes(
     id: `${String(rootNodeID)}---${nodeID}`,
     source: String(rootNodeID),
     target: String(nodeID),
-    style: { stroke: '#2196f3' },
+    style: { stroke: '#77a885', strokeWidth: 2.2 },
   }));
 }

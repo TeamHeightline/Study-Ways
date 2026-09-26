@@ -206,6 +206,25 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .sw-course-link-icon svg { font-size:18px; }
 .sw-course-link-label { color:#4f775b; font-size:8px; font-weight:800; letter-spacing:.5px; text-align:center; }
 .sw-course-link-arrow { position:absolute; right:8px; top:8px; color:#669475; font-size:14px!important; }
+.sw-ai-course-search { border:1px solid #9fc9aa!important; background:linear-gradient(135deg,#eaf6ec 0%,#d5ebda 100%)!important; box-shadow:0 8px 18px #34745220!important; transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease; }
+.sw-ai-course-search:hover { border-color:#6ea781!important; box-shadow:0 10px 22px #3474522b!important; transform:translateY(-1px); }
+.sw-ai-course-search:focus-within { border-color:#347452!important; box-shadow:0 0 0 4px #dceede,0 10px 22px #34745224!important; }
+.sw-ai-course-search .MuiInputBase-input { color:#234b37; }
+.sw-ai-course-search .MuiInputBase-input::placeholder { color:#527261; opacity:1; }
+.sw-ai-course-search .MuiIconButton-root { color:#347452; }
+.sw-ai-course-search .MuiIconButton-root:hover { background:#c5e2ca; }
+.sw-ai-course-title { color:#286346!important; letter-spacing:-1.5px; text-shadow:0 3px 12px #3474521c; }
+.sw-ai-course-flow { background:#f7faf7; }
+.sw-ai-course-flow .react-flow__background pattern circle { fill:#b7d2bd; opacity:.55; }
+.sw-ai-course-flow .react-flow__edge-path { stroke:#77a885!important; stroke-width:2.2!important; }
+.sw-ai-course-flow .react-flow__edge.animated .react-flow__edge-path { stroke:#3f8059; stroke-dasharray:6 5; }
+.sw-ai-course-flow .react-flow__arrowhead { fill:#77a885; stroke:#77a885; }
+.sw-ai-course-flow .react-flow__controls { overflow:hidden; border:1px solid #c8ded0; border-radius:10px; box-shadow:0 5px 14px #284c3917; }
+.sw-ai-course-flow .react-flow__controls-button { width:32px; height:32px; border-color:#d9e8dc; background:#fff; color:#4f7e60; }
+.sw-ai-course-flow .react-flow__controls-button:hover { background:#edf7ee; }
+.sw-ai-card-node { box-sizing:border-box; border:2px solid transparent; border-radius:24px; transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease; }
+.sw-ai-card-node.is-selected { border-color:#3b8059; box-shadow:0 0 0 4px #dceede,0 10px 22px #34745226; transform:translateY(-2px); }
+.sw-ai-card-node .sw-mini-card:hover, .sw-ai-card-node .sw-mini-card:focus-within { transform:none; border-color:#78a587!important; box-shadow:0 10px 22px #284c3920!important; }
 .sw-mini-card { width:340px!important; max-width:100%; height:360px!important; border:1px solid #e1e8e3!important; border-radius:20px!important; background:var(--sw-paper)!important; color:var(--sw-ink)!important; box-shadow:0 5px 18px #284c3910!important; overflow:hidden; transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease; }
 .sw-mini-card:hover, .sw-mini-card:focus-within { transform:translateY(-6px); border-color:#78a587!important; box-shadow:0 15px 30px #284c3926!important; }
 .sw-mini-card-action { color:var(--sw-ink)!important; }

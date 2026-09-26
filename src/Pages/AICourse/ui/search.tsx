@@ -39,9 +39,8 @@ export const Search = observer(() => {
             flexShrink: 0,
             borderRadius: 30,
             height: 45,
-            background:
-              'linear-gradient(to right, rgb(9, 48, 255), rgb(204, 5, 254))',
           }}
+          className="sw-ai-course-search"
         >
           <InputBase
             onChange={setSearchString}

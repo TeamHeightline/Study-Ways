@@ -44,7 +44,7 @@ const Flow = observer((props: IProps) => {
   }, [selectedNodeID, nodes.length]);
 
   return (
-    <div style={{ height: '75svh', width: '100vw' }}>
+    <div className="sw-ai-course-flow" style={{ height: '75svh', width: '100vw' }}>
       <ReactFlow
         minZoom={isMobile ? MOBILE_MAX_ZOOM : PC_MAX_ZOOM}
         nodeTypes={nodeTypes}

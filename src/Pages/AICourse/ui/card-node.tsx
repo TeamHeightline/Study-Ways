@@ -36,10 +36,9 @@ export const CardNode = observer((props: IProps) => {
     <>
       <Handle type="target" position={Position.Left} />
       <div
+        className={`sw-ai-card-node${isSelected ? ' is-selected' : ''}`}
         onClick={handleClick}
         style={{
-          border: isSelected ? '1px solid #f50057' : 'none',
-          borderRadius: 24,
           width: CARD_WIDTH,
         }}
       >

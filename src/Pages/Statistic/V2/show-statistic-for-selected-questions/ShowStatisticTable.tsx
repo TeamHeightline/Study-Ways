@@ -25,6 +25,7 @@ export const ShowStatisticTable = observer(
   }: IShowStatisticTableProps) => (
     <Stack direction={'column'} sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer
+        className="sw-results-table-shell"
         component={Paper}
         sx={{
           height: 'auto',
@@ -35,7 +36,8 @@ export const ShowStatisticTable = observer(
         <Table
           aria-label="collapsible table"
           stickyHeader={stickyHeader}
-          sx={{ minWidth: 1200 }}
+          className="sw-results-table"
+          sx={{ minWidth: 980 }}
         >
           <TableHead>
             <TableRow>

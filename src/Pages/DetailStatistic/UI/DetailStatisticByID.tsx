@@ -106,15 +106,17 @@ export const DetailStatisticByID = observer(
             {statisticByIDStore.dataForRow.FormattedCreatedAt}
           </TableCell>
         </TableRow>
-        <TableRow>
-          <TableCell colSpan={10} sx={{ paddingBottom: 0, paddingTop: 0 }}>
-            <ChartAndStepByStepStatistic
-              statisticByIDStore={statisticByIDStore}
-              row={statisticByIDStore.dataForRow}
-              isOpen={statisticByIDStore.isOpenDetailStatistic}
-            />
-          </TableCell>
-        </TableRow>
+        {statisticByIDStore.isOpenDetailStatistic && (
+          <TableRow>
+            <TableCell colSpan={10} sx={{ paddingBottom: 0, paddingTop: 0 }}>
+              <ChartAndStepByStepStatistic
+                statisticByIDStore={statisticByIDStore}
+                row={statisticByIDStore.dataForRow}
+                isOpen={true}
+              />
+            </TableCell>
+          </TableRow>
+        )}
       </Fragment>
     );
   },

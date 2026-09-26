@@ -21,10 +21,10 @@ type props = {
 
 export const ChartAndStepByStepStatistic = observer(
   ({ row, isOpen, statisticByIDStore }: props) => (
-    <div>
+    <div className="sw-results-detail">
       <Collapse in={isOpen} unmountOnExit>
         <StatisticChart row={row} />
-        <TableContainer component={Paper}>
+        <TableContainer className="sw-results-step-table" component={Paper}>
           <Table aria-label="collapsible table">
             <TableHead>
               <TableRow>

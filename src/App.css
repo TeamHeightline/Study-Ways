@@ -232,6 +232,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .sw-question-card-footer { display:flex; align-items:center; gap:6px; margin-top:auto; padding-top:15px; border-top:1px solid #edf1ed; color:#71927b; font-size:10px; font-weight:700; }
 .sw-question-card-footer svg { margin-left:auto; font-size:18px; color:#43825c; transition:transform .2s ease; }
 .sw-question-card:hover .sw-question-card-footer svg { transform:translateX(3px); }
+.sw-question-panel { width:100%; padding:0!important; background:transparent!important; }
+.sw-question-panel-card { box-sizing:border-box; width:100%!important; margin:0!important; border:1px solid #dfe8e1!important; border-radius:20px!important; background:var(--sw-paper)!important; box-shadow:0 5px 16px #284c390d!important; }
 .sw-question-player-grid { min-height:520px; align-items:stretch; }
 .sw-question-player-grid .sw-question-media-cell { min-height:360px; display:flex; align-items:center; justify-content:center; padding:20px!important; background:#f0f5f1; }
 .sw-question-media { width:100%; min-height:320px; height:100%; max-height:560px; border-radius:14px; background-color:#e4eee6; background-size:contain!important; background-position:center; }

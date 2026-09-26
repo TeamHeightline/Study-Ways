@@ -29,10 +29,11 @@ export default function UiQuestionData(props: any) {
   });
 
   return (
-    <Paper elevation={0} sx={{ px: { sm: 1 } }}>
+    <Paper className="sw-question-panel" elevation={0}>
       {(!isMobile || props.ignoreAspectRatio) && (
-        <Card
-          variant="outlined"
+          <Card
+            className="sw-question-panel-card"
+            variant="outlined"
           sx={{
             padding: 0,
             minHeight: { xs: '100%', md: 510 },

@@ -40,15 +40,14 @@ export default function UiQuestionData(props: any) {
             width: '100%',
           }}
         >
-          <Grid container justifyContent={'center'}>
+          <Grid className="sw-question-player-grid" container justifyContent={'center'}>
             {props.questionImgUrl && (
-              <Grid item xs={12} md={6} sx={{ flexGrow: 1, display: 'flex' }}>
+              <Grid item xs={12} md={7} className="sw-question-media-cell">
                 <CardMedia
+                  className="sw-question-media"
                   style={{
                     backgroundSize: 'contain',
-                    minWidth: '100%',
-                    minHeight: '100%',
-                    aspectRatio: 16 / 9,
+                    backgroundRepeat: 'no-repeat',
                   }}
                   image={props.questionImgUrl}
                 />
@@ -57,20 +56,22 @@ export default function UiQuestionData(props: any) {
             <Grid
               item
               xs={12}
-              md={6}
-              sx={{ height: { xs: '100%', md: 500 }, width: '100%' }}
+              md={props.questionImgUrl ? 5 : 12}
+              className="sw-question-copy-cell"
+              sx={{ width: '100%' }}
             >
-              <CardContent sx={{ height: '100%' }}>
+              <CardContent className="sw-question-copy" sx={{ height: '100%' }}>
                 <Grid sx={{ height: '100%' }} container alignItems="center">
                   <Grid item xs={12} spacing={2}>
-                    <Typography component="h5" variant="h5">
+                    <Typography className="sw-question-copy-title" component="h5" variant="h5">
                       Вопрос
                     </Typography>
                     <Typography
                       variant="body1"
                       color="textSecondary"
                       component="p"
-                      style={{ userSelect: 'none', content: 'Foobar' }}
+                      className="sw-question-copy-text"
+                      style={{ userSelect: 'none' }}
                     >
                       {props.questionData?.questionById?.text
                         ? props.questionData?.questionById?.text

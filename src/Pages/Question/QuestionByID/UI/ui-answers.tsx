@@ -15,7 +15,7 @@ const UIAnswers = observer(({ questionStore, ...props }: IUIAnswersProps) => {
   const isMobile = isMobileHook();
   return (
     <Box {...props}>
-      <div style={{ overflowX: 'scroll' }}>
+      <div className="sw-answers-scroll">
         {/* <Row style={{width:  questionStore?.answersArray.length * 410}}>*/}
         <Stack
           style={{
@@ -24,6 +24,7 @@ const UIAnswers = observer(({ questionStore, ...props }: IUIAnswersProps) => {
         >
           {questionStore?.answersArray && (
             <Stack
+              className="sw-answers-row"
               direction={isMobile ? 'column' : 'row'}
               spacing={2}
               sx={{

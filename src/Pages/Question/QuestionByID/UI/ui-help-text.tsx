@@ -1,4 +1,5 @@
-import { Alert, Box } from '@mui/material';
+import { Alert, AlertTitle, Box } from '@mui/material';
+import TipsAndUpdatesRoundedIcon from '@mui/icons-material/TipsAndUpdatesRounded';
 import { BoxProps } from '@mui/material/Box/Box';
 import { observer } from 'mobx-react';
 import { QuestionPlayerStore } from '../Store/QuestionPlayerStore';
@@ -9,12 +10,18 @@ interface IUIHelpTextProps extends BoxProps {
 }
 
 const UIHelpText = observer(({ questionStore, ...props }: IUIHelpTextProps) => (
-  <Box {...props}>
+  <Box className="sw-question-help-wrap" {...props}>
     {questionStore?.oneTimeCheckError &&
       questionStore?.IndexOfMostWantedError !== -1 && (
         <div>
-          <Alert severity="error" variant="filled" sx={{ mt: 1 }}>
-            {questionStore?.HelpTextForShow}
+          <Alert
+            className="sw-question-help"
+            severity="warning"
+            variant="outlined"
+            icon={<TipsAndUpdatesRoundedIcon />}
+          >
+            <AlertTitle>Подсказка</AlertTitle>
+            <span>{questionStore?.HelpTextForShow}</span>
           </Alert>
         </div>
       )}

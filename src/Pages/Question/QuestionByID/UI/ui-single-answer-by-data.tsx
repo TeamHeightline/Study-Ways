@@ -4,6 +4,8 @@ import { observer } from 'mobx-react';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import React from 'react';
+import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import RadioButtonUncheckedRoundedIcon from '@mui/icons-material/RadioButtonUncheckedRounded';
 
 interface IUISingleAnswerByDataProps extends BoxProps {
   text?: string;
@@ -23,34 +25,19 @@ const UISingleAnswerByData = observer(
     ...props
   }: IUISingleAnswerByDataProps) => (
     <Box {...props}>
-      <Card
-        variant="outlined"
-        sx={{
-          backgroundColor: isSelected ? '#2296F3' : '',
-          display: 'flex',
-          width: { md: 385, xs: '100%' },
-          height: 400,
-        }}
-        onClick={onAnswerClick}
-      >
-        <CardActionArea>
+      <Card className={`sw-answer-card ${isSelected ? 'is-selected' : 'is-unselected'}`} variant="outlined" onClick={onAnswerClick}>
+        <CardActionArea className="sw-answer-card-action">
+          <div className="sw-answer-choice-indicator">{isSelected ? <CheckCircleRoundedIcon /> : <RadioButtonUncheckedRoundedIcon />}<span>{isSelected ? 'Выбрано' : 'Не выбрано'}</span></div>
           {!isImageDeleted && imageURL && (
             <CardMedia
-              style={{ opacity: isSelected ? 0.5 : 1 }}
-              sx={{ height: text ? 240 : 400 }}
+              className="sw-answer-media"
+              style={{ opacity: isSelected ? 0.72 : 1 }}
               image={imageURL}
             />
           )}
           {text && (
-            <CardContent sx={{ mb: 2, overflow: 'auto' }}>
-              <Typography
-                variant="body1"
-                color="textSecondary"
-                component="p"
-                sx={{ pb: 2 }}
-              >
-                {text}
-              </Typography>
+            <CardContent className="sw-answer-content">
+              <Typography className="sw-answer-text" variant="body1" component="p">{text}</Typography>
             </CardContent>
           )}
         </CardActionArea>

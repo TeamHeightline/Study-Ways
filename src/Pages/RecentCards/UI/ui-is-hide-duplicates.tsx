@@ -22,7 +22,7 @@ export default function UIIsHideDuplicates({
   };
 
   return (
-    <Box {...props}>
+      <Box className="sw-card-library-filter" {...props}>
       <Stack alignItems={'end'}>
         <FormControlLabel
           control={

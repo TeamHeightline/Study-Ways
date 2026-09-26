@@ -52,16 +52,16 @@ export default function RecentCardsPage({ ...props }: IRecentCardsPageProps) {
     ? unique_recent_card_id_array
     : recent_card_id_array;
   return (
-    <Box {...props}>
-      <Stack alignItems={'center'}>
-        <Typography variant={'h3'} sx={{ mt: 3 }}>
+    <Box className="sw-learning-page sw-history-page" {...props}>
+      <Stack className="sw-card-library-heading" alignItems="flex-start">
+        <Typography className="sw-card-library-title" variant={'h3'}>
           Недавно просмотренные карточки
         </Typography>
       </Stack>
-      <UIIsHideDuplicates />
-      <Grid container spacing={2} justifyContent={'space-around'}>
+      <UIIsHideDuplicates className="sw-card-library-filter" />
+      <Grid className="sw-card-library-grid" container spacing={2} justifyContent="center">
         {cards_id_array?.map((card_id, index) => (
-          <Grid item key={`${index}_${card_id}`}>
+          <Grid item xs={12} sm={6} md="auto" key={`${index}_${card_id}`}>
             <CardMicroView
               cardID={card_id}
               onClick={() => {

@@ -44,15 +44,15 @@ export default function CardBookmarksPage({
   }
 
   return (
-    <Box {...props} sx={{ p: 2 }}>
-      <Stack alignItems={'center'}>
-        <Typography variant={'h3'} sx={{ mt: 3 }}>
+    <Box className="sw-learning-page sw-bookmarks-page" {...props}>
+      <Stack className="sw-card-library-heading" alignItems="flex-start">
+        <Typography className="sw-card-library-title" variant={'h3'}>
           Карточки, добавленные в закладки
         </Typography>
       </Stack>
-      <Grid container spacing={2}>
+      <Grid className="sw-card-library-grid" container spacing={2} justifyContent="center">
         {card_bookmarks_id_array?.map((card_id, index) => (
-          <Grid item md={4} lg={3} xs={12} key={`${index}_${card_id}`}>
+          <Grid item xs={12} sm={6} md="auto" key={`${index}_${card_id}`}>
             <CardMicroView
               cardID={card_id}
               onClick={() => {

@@ -240,6 +240,19 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .sw-mini-theme .MuiSvgIcon-root { color:#6c9a76; }
 .sw-mini-author .MuiSvgIcon-root { color:#6d8374; }
 .sw-mini-card-loading { padding:0!important; }
+.sw-learning-page { min-height:100%; padding:24px 26px 36px; border-radius:18px; background:linear-gradient(180deg,#fbfdfb 0%,#f5f8f6 100%); }
+.sw-card-library-heading { position:relative; margin:0 auto 20px; padding:7px 0 13px; border:0; background:transparent; box-shadow:none; }
+.sw-card-library-heading::before { content:''; position:absolute; left:0; top:0; width:52px; height:3px; border-radius:0 0 4px 4px; background:#43865e; }
+.sw-card-library-heading::after { display:none; }
+.sw-card-library-title { margin:0!important; color:#294d39!important; font-size:clamp(19px,2.3vw,27px)!important; font-weight:750!important; letter-spacing:-.55px; text-align:left; }
+.sw-card-library-filter { margin:0 auto 16px; padding:0 4px; }
+.sw-card-library-filter .MuiFormControlLabel-root { margin:0; padding:5px 10px 5px 6px; border:1px solid #d8e6dc; border-radius:10px; background:#fff; color:#54705d; box-shadow:0 3px 9px #284c390b; }
+.sw-card-library-filter .MuiCheckbox-root { color:#75a383; padding:7px; }
+.sw-card-library-filter .MuiCheckbox-root.Mui-checked { color:#347452; }
+.sw-card-library-filter .MuiFormControlLabel-label { font-size:12px; font-weight:600; }
+.sw-card-library-grid { width:100%; margin:0!important; }
+.sw-card-library-grid > .MuiGrid-item { display:flex; justify-content:center; padding:8px!important; }
+.sw-card-library-grid .sw-mini-card { width:340px!important; max-width:100%; }
 .sw-question-heading { margin:12px 0 25px!important; color:var(--sw-ink)!important; font-size:clamp(26px,3vw,36px)!important; font-weight:800!important; letter-spacing:-.8px; }
 .sw-question-card { width:100%; min-height:190px; border:1px solid #e1e8e3!important; border-radius:20px!important; background:var(--sw-paper)!important; color:var(--sw-ink)!important; box-shadow:0 5px 16px #284c390d!important; overflow:hidden; transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease; }
 .sw-question-card:hover { transform:translateY(-5px); border-color:#78a587!important; box-shadow:0 14px 27px #284c3922!important; }
@@ -287,6 +300,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .sw-question-help .MuiAlertTitle-root { margin:0 0 4px!important; color:#756126; font-size:12px; font-weight:800; letter-spacing:.35px; }
 @media(max-width:700px) { .sw-answers-scroll { padding:12px 6px 20px; }.sw-answer-card { width:min(385px,calc(100vw - 44px)); height:420px; min-height:420px; }.sw-answer-media { height:190px!important; flex-basis:190px; }.sw-answer-choice-indicator { min-height:40px; } }
 @media(max-width:700px) { .sw-question-help { margin-top:12px; padding:12px 13px!important; }.sw-question-help .MuiAlert-message { font-size:13px; }.sw-question-help .MuiAlert-icon { margin-right:9px; } }
+@media(max-width:600px) { .sw-learning-page { padding:16px 10px 28px; }.sw-card-library-heading { margin-bottom:16px; padding:7px 0 11px; }.sw-card-library-title { font-size:19px!important; }.sw-card-library-grid > .MuiGrid-item { padding:7px!important; }.sw-card-library-filter { margin-bottom:12px; }.sw-card-library-filter .MuiFormControlLabel-label { font-size:11px; } }
 .sw-card-results { padding:12px 10px 24px!important; overflow-x:auto!important; overflow-y:visible!important; }
 .sw-card-results > .MuiGrid-container { padding:0!important; }
 .sw-search-mode-switch { position:relative; z-index:3; margin:26px auto 16px; }

@@ -72,12 +72,6 @@ export default function CardItem({
 
   const isViewed = viewedCardIDs.has(card_id);
 
-  const border = isSelected
-    ? '1px solid rgb(245 0 87)'
-    : isViewed
-      ? '1px solid rgba(33, 150, 243, 1)'
-      : '1px solid rgba(255, 255, 255, 0.23)';
-
   const numberOfElements = card_id?.split(',').length;
 
   const imageSrc =
@@ -86,8 +80,8 @@ export default function CardItem({
       : `https://storage.googleapis.com/study-ways-files/${cardData?.cards_cardimage?.image}`;
 
   return (
-    <Box sx={{ width: size.width }} onClick={handleNavigateToItem}>
-      <Card variant={'outlined'} sx={{ border }}>
+    <Box className={`sw-material ${isSelected ? 'is-selected' : ''} ${isViewed ? 'is-viewed' : ''}`} sx={{ width: size.width }} onClick={handleNavigateToItem}>
+      <Card variant={'outlined'} className="sw-material-card">
         {numberOfElements > 1 ? (
           <MultipleCards numberOfElements={numberOfElements} size={size} />
         ) : !cardData ? (
@@ -102,23 +96,13 @@ export default function CardItem({
               decoding: 'async',
               backgroundSize: 'cover',
               backgroundPosition: 'center',
+              borderRadius: '8px',
             }}
           />
         )}
       </Card>
-      <Typography
-        variant={'caption'}
-        sx={{
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          display: '-webkit-box',
-          WebkitLineClamp: '2',
-          WebkitBoxOrient: 'vertical',
-          lineHeight: 1.2,
-        }}
-      >
-        {cardData?.title}
-      </Typography>
+      <Typography className="sw-material-title" variant={'caption'}>{cardData?.title || 'Загрузка материала…'}</Typography>
+      <span className="sw-material-state">{isSelected ? 'Сейчас изучаете' : isViewed ? 'Просмотрено' : 'Открыть материал'}</span>
     </Box>
   );
 }

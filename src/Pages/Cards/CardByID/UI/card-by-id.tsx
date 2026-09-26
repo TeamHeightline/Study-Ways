@@ -44,7 +44,7 @@ const CardByID = observer(
     }, [card_id]);
 
     return (
-      <Box sx={{ pt: 2, pl: 2, pr: 2, maxWidth: width }} {...props}>
+      <Box className="sw-card-page" sx={{ pt: 3, pl: { xs: 1.5, md: 3 }, pr: { xs: 1.5, md: 3 }, maxWidth: width }} {...props}>
         <CardBrowserIndexing card_store={cardStorage} />
         {!is_hidden_go_back_button && <GoBackButton sx={{ pb: 1 }} />}
         <TitleAndNavigation

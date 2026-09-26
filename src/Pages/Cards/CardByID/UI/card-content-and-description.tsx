@@ -23,7 +23,7 @@ const CardContentAndDescription = observer(
 
     return (
       <Paper elevation={0} {...props}>
-        <Grid container spacing={4}>
+        <Grid container className="sw-card-content-grid" spacing={{ xs: 2, md: 5 }}>
           <Grid item xs={12} md={6}>
             <CardMainContent card_store={card_store} />
             <Stack
@@ -42,7 +42,7 @@ const CardContentAndDescription = observer(
             </Stack>
           </Grid>
           <Grid item xs={12} md={6}>
-            <Stack direction={'column'} spacing={1}>
+            <Stack className="sw-card-details" direction={'column'} spacing={2}>
               <TestBeforeCard card_store={card_store} />
               <CardGoToResource card_store={card_store} />
               {UserStorage.isLogin && <CardHistoryDrawer />}

@@ -109,7 +109,7 @@ const routes = [
 export default function PublicRouter({ ...props }: IPublicRouterProps) {
   return (
     <>
-      <div style={{ paddingTop: 48 }}>
+      <div>
         <Suspense
           fallback={
             <Grid container justifyContent={'center'} sx={{ pt: 4 }}>
@@ -135,3 +135,4 @@ export default function PublicRouter({ ...props }: IPublicRouterProps) {
     </>
   );
 }
+

@@ -15,7 +15,7 @@ class ThemeStore {
     if (mode == 'dark' || mode == 'light' || mode == 'dark2') {
       return mode;
     } else {
-      return 'dark';
+      return 'light';
     }
   }
 
@@ -45,7 +45,7 @@ class ThemeStore {
 
   get backgroundColor(): Property.BackgroundColor | undefined {
     if (this.mode === 'light') {
-      return '#fff';
+      return '#f7f8fa';
     } else if (this.mode === 'dark2') {
       return '#222226';
     } else {
@@ -62,22 +62,23 @@ class ThemeStore {
   }
 
   get primaryColor() {
-    return '#2196f3';
+    return this.isLightTheme ? '#286b53' : '#8bc7aa';
   }
 
   get theme() {
     const theme = createTheme({
+      typography: { fontFamily: 'Manrope, sans-serif', button: { textTransform: 'none', fontWeight: 600 } },
       palette: {
         mode: this.isLightTheme ? 'light' : 'dark',
         background: {
           default: this.backgroundColor,
-          paper: this.backgroundColor,
+          paper: this.isLightTheme ? '#ffffff' : this.backgroundColor,
         },
         primary: {
           main: this.primaryColor,
         },
         secondary: {
-          main: '#f50057',
+          main: '#8b789f',
         },
       },
       // Скругление углов у всех элементов
@@ -95,7 +96,7 @@ class ThemeStore {
         MuiTypography: {
           styleOverrides: {
             root: {
-              fontFamily: 'Nunito, sans-serif',
+              fontFamily: 'Manrope, sans-serif',
             },
           },
         },
@@ -126,8 +127,13 @@ class ThemeStore {
         MuiCssBaseline: {
           styleOverrides: {
             body: {
-              fontFamily: 'Nunito, sans-serif',
+              fontFamily: 'Manrope, sans-serif',
               backgroundColor: this.backgroundColor,
+              '--sw-bg': this.backgroundColor,
+              '--sw-paper': this.isLightTheme ? '#ffffff' : '#20362f',
+              '--sw-ink': this.isLightTheme ? '#202e2b' : '#e6eee9',
+              '--sw-muted': this.isLightTheme ? '#77817e' : '#a4b8ad',
+              '--sw-line': this.isLightTheme ? '#e4e8e5' : '#3b5147',
               '--ck-color-base-border': this.backgroundColor,
               '.ck.ck-editor__main>.ck-editor__editable:not(.ck-focused)': {
                 borderColor: this.backgroundColor,
@@ -135,11 +141,21 @@ class ThemeStore {
               scrollbarColor: this.backgroundColor,
               '&::-webkit-scrollbar, & *::-webkit-scrollbar': {
                 backgroundColor: this.backgroundColor,
+              '--sw-bg': this.backgroundColor,
+              '--sw-paper': this.isLightTheme ? '#ffffff' : '#20362f',
+              '--sw-ink': this.isLightTheme ? '#202e2b' : '#e6eee9',
+              '--sw-muted': this.isLightTheme ? '#77817e' : '#a4b8ad',
+              '--sw-line': this.isLightTheme ? '#e4e8e5' : '#3b5147',
                 width: '8px',
               },
               '&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb': {
                 borderRadius: '10px',
                 backgroundColor: this.backgroundColor,
+              '--sw-bg': this.backgroundColor,
+              '--sw-paper': this.isLightTheme ? '#ffffff' : '#20362f',
+              '--sw-ink': this.isLightTheme ? '#202e2b' : '#e6eee9',
+              '--sw-muted': this.isLightTheme ? '#77817e' : '#a4b8ad',
+              '--sw-line': this.isLightTheme ? '#e4e8e5' : '#3b5147',
                 border: '1px solid #2296F3',
               },
               '.ck-editor': {
@@ -151,6 +167,11 @@ class ThemeStore {
               '.ck-content': {
                 color: this.textColor,
                 backgroundColor: this.backgroundColor,
+              '--sw-bg': this.backgroundColor,
+              '--sw-paper': this.isLightTheme ? '#ffffff' : '#20362f',
+              '--sw-ink': this.isLightTheme ? '#202e2b' : '#e6eee9',
+              '--sw-muted': this.isLightTheme ? '#77817e' : '#a4b8ad',
+              '--sw-line': this.isLightTheme ? '#e4e8e5' : '#3b5147',
               },
               'ck-editor__editable_inline': {
                 '--ck-color-toolbar-background': this.backgroundColor,
@@ -184,3 +205,4 @@ class ThemeStore {
 
 const ThemeStoreObject = new ThemeStore();
 export default ThemeStoreObject;
+

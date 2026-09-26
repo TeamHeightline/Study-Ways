@@ -1,54 +1,46 @@
-import { useNavigate } from 'react-router-dom';
-import React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
+import React, { useState } from 'react';
+import { NavLink, Link, useLocation } from 'react-router-dom';
 import { observer } from 'mobx-react';
-import Menu from './Menu';
-import { alpha, styled } from '@mui/material/styles';
+import { IconButton } from '@mui/material';
+import { AutoAwesomeOutlined, GridViewOutlined, LibraryBooksOutlined, QuizOutlined, BookmarkBorderOutlined, HistoryOutlined, BarChartOutlined, SchoolOutlined, Close, Menu as MenuIcon, NorthEast, EditOutlined } from '@mui/icons-material';
+import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
+import haveStatus from '../../../Shared/Store/UserStore/utils/HaveStatus';
+import PersonalMenu from './PersonalMenu';
+import { LoginButton } from './LoginButton';
 
-const BlurredAppBar = styled(AppBar)(
-  ({ theme }) => `
-  background-color: ${alpha(theme.palette.background.default, 0.1)};
-  background-image: none;
-  backdrop-filter: blur(10px);
-  box-shadow: none;
-  z-index: ${theme.zIndex.drawer + 1};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`,
-);
+const links = [
+  { to: '/courses', label: 'Каталог курсов', icon: <GridViewOutlined /> },
+  { to: '/ai-course', label: 'AI-траектория', icon: <AutoAwesomeOutlined />, badge: 'AI' },
+  { to: '/cards', label: 'Библиотека знаний', icon: <LibraryBooksOutlined /> },
+  { to: '/all-questions', label: 'Практика и тесты', icon: <QuizOutlined /> },
+];
+const personal = [
+  { to: '/recent-cards', label: 'История обучения', icon: <HistoryOutlined /> },
+  { to: '/bookmarks', label: 'Сохранённое', icon: <BookmarkBorderOutlined /> },
+  { to: '/selfstatistic', label: 'Мои результаты', icon: <BarChartOutlined /> },
+];
 
 export const Navibar = observer(() => {
-  const navigate = useNavigate();
-
-  return (
-    <BlurredAppBar position="fixed" sx={{ height: 48 }}>
-      <Toolbar
-        variant="dense"
-        sx={(theme) => ({
-          justifyContent: { xs: 'center', md: 'space-between' },
-          flex: 1,
-          width: '100%',
-          maxWidth: theme.breakpoints.values.xl,
-        })}
-      >
-        <Typography
-          variant="h6"
-          sx={{
-            color: 'white',
-            display: { xs: 'none', md: 'block' },
-            cursor: 'pointer',
-          }}
-          onClick={() => {
-            navigate('/courses');
-          }}
-        >
-          Study Ways
-        </Typography>
-        <Menu />
-      </Toolbar>
-    </BlurredAppBar>
-  );
+  const [open, setOpen] = useState(false);
+  const location = useLocation();
+  const title = [...links, ...personal].find(item => location.pathname.startsWith(item.to))?.label || 'Пространство обучения';
+  const renderLinks = (items: typeof personal) => items.map(item => (
+    <NavLink key={item.to} to={item.to} onClick={() => setOpen(false)} className={({ isActive }) => `sw-nav-link ${isActive ? 'is-active' : ''}`}>
+      {item.icon}<span>{item.label}</span>{'badge' in item && <small>AI</small>}
+    </NavLink>
+  ));
+  return <>
+    {open && <button className="sw-nav-backdrop" aria-label="Закрыть меню" onClick={() => setOpen(false)} />}
+    <aside className={`sw-sidebar ${open ? 'is-open' : ''}`} aria-label="Основная навигация" onKeyDown={event => { if (event.key === 'Escape') setOpen(false); }}>
+      <Link to="/courses" className="sw-brand" onClick={() => setOpen(false)}><span className="sw-brand-icon"><SchoolOutlined /></span>study<span>ways</span><i /></Link>
+      <IconButton className="sw-close-menu" aria-label="Закрыть меню" onClick={() => setOpen(false)}><Close /></IconButton>
+      <div className="sw-nav-caption">ПРОСТРАНСТВО ЗНАНИЙ</div>
+      <nav>{renderLinks(links)}</nav>
+      <div className="sw-nav-caption">МОЁ ОБУЧЕНИЕ</div>
+      <nav>{renderLinks(personal)}{haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR']) && renderLinks([{ to: '/editor', label: 'Редактор', icon: <EditOutlined /> }])}</nav>
+      <div className="sw-sidebar-bottom"><div className="sw-sidebar-note"><AutoAwesomeOutlined /><strong>Ваш путь — уникален</strong><p>Соберите маршрут обучения вместе с AI.</p><Link to="/ai-course" onClick={() => setOpen(false)}>Создать траекторию <NorthEast fontSize="small" /></Link></div><span className="sw-sidebar-footer">Учиться. Понимать. Расти.</span></div>
+    </aside>
+    <header className="sw-topbar"><div className="sw-topbar-title"><IconButton className="sw-open-menu" aria-label="Открыть меню" aria-expanded={open} onClick={() => setOpen(true)}><MenuIcon /></IconButton><span>Обучение</span><span className="sw-breadcrumb">/</span><strong>{title}</strong></div><div className="sw-account">{UserStorage.isLogin ? <PersonalMenu /> : <LoginButton />}</div></header>
+  </>;
 });
+

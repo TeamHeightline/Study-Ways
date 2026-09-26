@@ -1,200 +1,34 @@
 import React from 'react';
-import {
-  Box,
-  Card,
-  CardActionArea,
-  Collapse,
-  IconButton,
-  Stack,
-  Typography,
-} from '@mui/material';
-import CourseNavigation from './CourseNavigation';
+import { ArrowForward, LayersOutlined, MenuBookOutlined, AccountTreeOutlined } from '@mui/icons-material';
 import ArrowNavigation from './ArrowNavigation';
-import { FILE_URL, REST_SERVER_URL } from '../../../../../settings';
+import { FILE_URL } from '../../../../../settings';
 import { ICourseData, ICoursePosition } from './types';
-import {
-  amber,
-  blue,
-  cyan,
-  green,
-  indigo,
-  lime,
-  orange,
-  purple,
-  red,
-  teal,
-  yellow,
-} from '@mui/material/colors';
-import { alpha, darken } from '@mui/material/styles';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 interface ICourseMicroViewProps extends React.HTMLAttributes<HTMLDivElement> {
   courseData: ICourseData;
   coursePosition?: ICoursePosition;
   onChangePosition?: (elementPosition: ICoursePosition) => void;
 }
-
-const colors = [
-  blue,
-  amber,
-  red,
-  cyan,
-  green,
-  lime,
-  indigo,
-  yellow,
-  teal,
-  purple,
-  orange,
-];
-
-export default function CourseByData({
-  courseData,
-  coursePosition,
-  onChangePosition,
-}: ICourseMicroViewProps) {
-  const courseColor = colors[courseData.id % colors.length];
-  const colorAfterCorrection = darken(courseColor[300], 0.25);
-
-  function openCourse() {
-    if (!onChangePosition) {
-      return;
+export default function CourseByData({ courseData, coursePosition, onChangePosition }: ICourseMicroViewProps) {
+  const rows = courseData.course_data || [];
+  let first: ICoursePosition | undefined;
+  const cards = new Set<string>();
+  rows.forEach((row, rowIndex) => row.SameLine.forEach((page, pageIndex) => page.CourseFragment.forEach((fragment, index) => {
+    const id = fragment.CourseElement.id;
+    if (id) {
+      id.split(',').filter(Boolean).forEach(card => cards.add(card));
+      if (!first) first = { activePage: pageIndex + 1, selectedPage: pageIndex + 1, selectedRow: rowIndex, selectedIndex: index };
     }
-
-    function findFirstNonEmptyCourseElementPosition(course: ICourseData): {
-      page: number;
-      line: number;
-      position: number;
-    } | null {
-      for (
-        let lineIndex = 0;
-        lineIndex < course.course_data.length;
-        lineIndex++
-      ) {
-        for (
-          let pageIndex = 0;
-          pageIndex < course.course_data[lineIndex].SameLine.length;
-          pageIndex++
-        ) {
-          for (
-            let positionIndex = 0;
-            positionIndex <
-            course.course_data[lineIndex].SameLine[pageIndex].CourseFragment
-              .length;
-            positionIndex++
-          ) {
-            if (
-              course.course_data[lineIndex].SameLine[pageIndex].CourseFragment[
-                positionIndex
-              ].CourseElement.id !== null &&
-              course.course_data[lineIndex].SameLine[pageIndex].CourseFragment[
-                positionIndex
-              ].CourseElement.id !== ''
-            ) {
-              return {
-                page: pageIndex,
-                line: lineIndex,
-                position: positionIndex,
-              }; // Возвращаем позицию первого непустого элемента
-            }
-          }
-        }
-      }
-      return null; // Если ничего не найдено
-    }
-
-    const positionOfFirstElement =
-      findFirstNonEmptyCourseElementPosition(courseData);
-    if (!positionOfFirstElement) {
-      return;
-    }
-
-    onChangePosition({
-      activePage: positionOfFirstElement.page + 1,
-      selectedPage: positionOfFirstElement.page + 1,
-      selectedRow: positionOfFirstElement.line,
-      selectedIndex: positionOfFirstElement.position,
-    });
-  }
-
-  const isCourseHasImage = !!courseData?.cards_cardcourseimage?.image;
-  const courseImageUrl = `${FILE_URL}/${courseData?.cards_cardcourseimage?.image}`;
-
-  return (
-    <>
-      <Card
-        variant="outlined"
-        onClick={openCourse}
-        sx={{
-          borderRadius: 1.5,
-          width: '100%',
-          minHeight: 225,
-          aspectRatio: 2,
-          display: 'flex',
-          flexDirection: 'row',
-        }}
-      >
-        <Box
-          sx={{
-            width: '5px',
-            backgroundColor: colorAfterCorrection,
-            flexShrink: 0,
-          }}
-        />
-        <CardActionArea
-          sx={{
-            flexGrow: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            borderTopLeftRadius: 0,
-            borderBottomLeftRadius: 0,
-          }}
-        >
-          <Stack
-            sx={{ p: 2, width: '100%' }}
-            spacing={1}
-            direction={'row'}
-            justifyContent={'space-between'}
-          >
-            <Typography variant="h6" sx={{ fontSize: '1.15rem' }}>
-              {courseData.name}
-            </Typography>
-            {isCourseHasImage && (
-              <Box>
-                <Box
-                  sx={{
-                    height: '100px',
-                    width: '100px',
-                    borderRadius: 2,
-                    backgroundColor: 'black',
-                    backgroundImage: `url(${courseImageUrl})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    display: 'block',
-                  }}
-                />
-              </Box>
-            )}
-          </Stack>
-          <Box sx={{ p: 2, alignSelf: 'flex-end' }}>
-            <Typography
-              variant="caption"
-              sx={{ fontSize: '0.75rem', textAlign: 'right' }}
-            >
-              {courseData?.users_customuser?.users_userprofile?.firstname || ''}{' '}
-              {courseData?.users_customuser?.users_userprofile?.lastname || ''}
-            </Typography>
-          </Box>
-        </CardActionArea>
-      </Card>
-      {coursePosition && (
-        <ArrowNavigation
-          coursePosition={coursePosition}
-          courseData={courseData}
-          onChangePosition={onChangePosition}
-        />
-      )}
-    </>
-  );
+  })));
+  const author = courseData.users_customuser?.users_userprofile;
+  const authorName = [author?.firstname, author?.lastname].filter(Boolean).join(' ') || 'Study Ways';
+  const palettes = ['sage', 'sand', 'lavender', 'blue'];
+  const palette = palettes[courseData.id % palettes.length];
+  return <div className={`sw-course-card sw-palette-${palette}`}>
+    <button className="sw-course-open" disabled={!first || !onChangePosition} onClick={() => first && onChangePosition?.(first)}>
+      <div className="sw-course-cover"><span className="sw-course-type"><AccountTreeOutlined />{rows.length > 1 ? 'Многоуровневый курс' : 'Образовательный курс'}</span>{courseData.cards_cardcourseimage?.image ? <img src={`${FILE_URL}/${courseData.cards_cardcourseimage.image}`} alt="" loading="lazy" onError={event => { event.currentTarget.style.display = 'none'; }} /> : <div className="sw-course-geometry" aria-hidden="true"><i /><i /><i /><span>{String(courseData.id).padStart(2, '0')}</span></div>}<div className="sw-cover-levels" aria-hidden="true">{Array.from({ length: Math.min(Math.max(rows.length, 1), 5) }, (_, index) => <i key={index} style={{ height: 7 + index * 4 }} />)}</div></div>
+      <div className="sw-course-body"><h3>{courseData.name}</h3><div className="sw-course-meta"><span><LayersOutlined />Уровней: {rows.length}</span><span><MenuBookOutlined />Материалов: {cards.size}</span></div><div className="sw-course-bottom"><span className="sw-author-avatar">{authorName.charAt(0)}</span><span>{authorName}</span><ArrowForward className="sw-card-arrow" fontSize="small" /></div>{!first && <span className="sw-course-soon">Материалы готовятся</span>}</div>
+    </button>
+    {coursePosition && <ArrowNavigation coursePosition={coursePosition} courseData={courseData} onChangePosition={onChangePosition} />}
+  </div>;
 }

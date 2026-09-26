@@ -5,6 +5,7 @@ import { Button, Paper, Stack, Typography } from '@mui/material';
 import { Alert, AlertTitle } from '@mui/lab';
 import { CardByIDStore } from '../Store/CardByIDStore';
 import { useLocation, useNavigate } from 'react-router-dom';
+import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 
 interface ICardFindInCourseProps extends PaperProps {
   card_store: CardByIDStore;
@@ -22,7 +23,7 @@ const CardFindInCourse = observer(
 
     return (
       <Paper elevation={0} {...props}>
-        <Alert severity="info" variant="outlined" sx={{ maxWidth: 550 }}>
+        <Alert className="sw-course-reference" severity="info" variant="outlined" sx={{ maxWidth: 550 }}>
           <AlertTitle>
             {card_store.findInCourseArrayForUI?.length == 1
               ? 'Этот ресурс встречается в курсе:'
@@ -30,8 +31,9 @@ const CardFindInCourse = observer(
           </AlertTitle>
           {card_store.findInCourseArrayForUI?.map((course) => (
             <Button
-              title={'Перейти'}
-              sx={{ textAlign: 'start' }}
+              title={'Открыть курс'}
+              className="sw-course-reference-button"
+              endIcon={<ArrowForwardRoundedIcon />}
               color={'info'}
               onClick={() => {
                 if (pathname == '/course') {
@@ -60,7 +62,7 @@ const CardFindInCourse = observer(
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
             >
-              {course.course_name}
+              <span>{course.course_name}</span>
             </Button>
           ))}
         </Alert>

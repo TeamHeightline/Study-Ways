@@ -1,4 +1,4 @@
-import { Box, Card, Divider, Grid, Stack } from '@mui/material';
+import { Box, Card, Divider, Grid, Stack, Chip } from '@mui/material';
 import { BoxProps } from '@mui/material/Box/Box';
 import { useEffect, useState } from 'react';
 import axiosClient from '../../../Shared/ServerLayer/QueryLayer/config';
@@ -8,6 +8,7 @@ import Stepper from './stepper';
 import CardRow from './card-row';
 import Title from './title';
 import Author from './author';
+import { AutoAwesomeOutlined, ArrowBack, ArrowForward, AccountTreeOutlined } from '@mui/icons-material';
 
 interface ICourseMacroViewProps extends BoxProps {
   courseID: number;
@@ -63,10 +64,19 @@ export default function CourseMacroView({
   }
   const course_main_line_index =
     Number((courseData?.name || '').match(/\[(.*?)\]/)?.[1]) - 1;
+  const levels = courseData.course_data || [];
+  const filledLevels = levels.map((line, index) => ({
+    index,
+    title: index === course_main_line_index ? 'Основной маршрут' : `Уровень ${String(index + 1).padStart(2, '0')}`,
+    count: line.SameLine?.reduce((total, page) => total + page.CourseFragment.filter((fragment) => fragment?.CourseElement?.id).length, 0) || 0,
+  }));
 
   return (
     <Box {...props}>
-      <Stack direction={'row'} spacing={1}>
+      <Box className="sw-course-header">
+        <Box className="sw-course-header-copy">
+          <Box className="sw-course-kicker"><AccountTreeOutlined fontSize="small" /> ПУТЬ ОБУЧЕНИЯ <Chip label={`${filledLevels.length} уровней`} size="small" /></Box>
+          <Stack direction={'row'} spacing={1} alignItems="center">
         <Image
           courseData={courseData}
           courseID={courseID}
@@ -76,9 +86,15 @@ export default function CourseMacroView({
           <Title courseData={courseData} />
           <Author courseData={courseData} />
         </Box>
-      </Stack>
+          </Stack>
+          <Box className="sw-course-header-actions"><button type="button" onClick={() => window.history.back()}><ArrowBack fontSize="small" /> К каталогу</button><span><AutoAwesomeOutlined fontSize="small" /> Собирайте знания в систему</span></Box>
+        </Box>
+        <Box className="sw-course-progress" aria-label="Прогресс по уровням">
+          {filledLevels.slice(0, 6).map((level) => <div className={`sw-progress-level ${level.index === activePage - 1 ? 'is-current' : ''} ${level.count ? 'has-content' : ''}`} key={level.index}><span className="sw-progress-dot">{level.index + 1}</span><div><small>{level.title}</small><strong>{level.count ? `${level.count} ${level.count === 1 ? 'материал' : 'материалов'}` : 'В разработке'}</strong></div></div>)}
+        </Box>
+      </Box>
 
-      <Box
+      <Box className="sw-course-map-shell"
         sx={{
           width:
             (CARD_WIDTH + CARD_PADDING) * NUMBER_OF_CARD + ADDITIONAL_SPACE,
@@ -86,6 +102,7 @@ export default function CourseMacroView({
           p: 1,
         }}
       >
+        <Box className="sw-course-map-label"><span>КАРТА КУРСА</span><small>Выберите материал, чтобы продолжить</small></Box>
         <Stack
           sx={{ width: (CARD_WIDTH + CARD_PADDING) * NUMBER_OF_CARD }}
           spacing={1}

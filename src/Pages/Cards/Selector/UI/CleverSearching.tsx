@@ -7,13 +7,14 @@ type ICleverSearchingProps = React.HTMLAttributes<HTMLDivElement>;
 
 export const CleverSearching = observer(
   ({ ...props }: ICleverSearchingProps) => (
-    <div {...props}>
+    <div className="sw-search-panel sw-standard-search" {...props}>
       <Grid container justifyContent="center">
         <Grid item xs={12} md={8}>
           <TextField
             value={CSSObject.searching_string}
             onChange={CSSObject.changeSearchString}
             fullWidth
+            className="sw-search-input"
             label="Поиск"
             variant="outlined"
           />

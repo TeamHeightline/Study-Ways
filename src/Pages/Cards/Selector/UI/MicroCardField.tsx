@@ -12,7 +12,7 @@ interface IMicroCardFieldProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const MicroCardField = observer(
   ({ showCreateNewCard, ...props }: IMicroCardFieldProps) => (
-    <Box {...props} sx={{ overflow: 'auto' }}>
+    <Box className="sw-card-results" {...props} sx={{ overflow: 'auto' }}>
       <Grid container spacing={2} justifyContent="center">
         {showCreateNewCard && (
           <Grid item xs={12} sm={6} md={'auto'}>

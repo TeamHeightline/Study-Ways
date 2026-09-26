@@ -16,13 +16,17 @@ export const ConnectedThemes = observer(() => {
       CSSObject.cardConnectedTheme = data;
     },
     disabled: !CSSObject.connectedThemesHasBeenLoaded,
-    placeholder: 'Выбирите тему карточки',
+    placeholder: 'Выберите тему карточки',
+    className: 'sw-theme-select',
+    dropdownClassName: 'sw-theme-dropdown',
+    dropdownStyle: { minWidth: 460, maxHeight: '72vh' },
+    listHeight: 560,
     style: {
       width: '100%',
     },
   };
   return (
-    <Paper elevation={0} sx={{ width: '100%', backgroundColor: 'transparent' }}>
+    <Paper className="sw-theme-filter" elevation={0} sx={{ width: '100%', backgroundColor: 'transparent' }}>
       <Stack direction={'row'}>
         <TreeSelect {...tProps} size={'large'} />
         <IconButton

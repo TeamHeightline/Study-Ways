@@ -26,8 +26,8 @@ export const AISearchString = observer(() => {
   }
 
   return (
-    <Grid container justifyContent={'center'}>
-      <Grid item xs={12} md={6} sx={{ pb: 2, p: { xs: 1, md: 0 } }}>
+    <Grid className="sw-search-panel" container justifyContent={'center'}>
+      <Grid item xs={12} md={8} sx={{ pb: 2, p: { xs: 1, md: 0 } }}>
         <Stack
           direction={'row'}
           spacing={2}
@@ -49,13 +49,14 @@ export const AISearchString = observer(() => {
               <TextField
                 {...params}
                 fullWidth
+                className="sw-search-input"
                 label="AI поиск"
                 variant="outlined"
               />
             )}
           />
           <div>
-            <IconButton
+              <IconButton className="sw-search-submit"
               size={'large'}
               aria-label="search cards"
               onClick={() => AISObject.getAISearchResult()}
@@ -65,6 +66,7 @@ export const AISearchString = observer(() => {
           </div>
         </Stack>
         <Stack
+          className="sw-search-filters"
           direction={{ xs: 'column', lg: 'row' }}
           sx={{ mt: 2, width: '100%' }}
           spacing={{ xs: 2 }}

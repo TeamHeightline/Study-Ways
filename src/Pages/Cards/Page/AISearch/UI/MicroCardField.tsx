@@ -10,7 +10,7 @@ interface IMicoCardsFieldProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const MicoCardsField = observer(
   ({ cards_id, onCardSelect, ...props }: IMicoCardsFieldProps) => (
-    <Box {...props} sx={{ overflow: 'auto' }}>
+    <Box className="sw-card-results" {...props} sx={{ overflow: 'auto' }}>
       <Grid
         container
         spacing={2}

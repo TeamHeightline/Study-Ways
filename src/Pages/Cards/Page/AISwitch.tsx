@@ -47,7 +47,7 @@ export const AIRoutes = observer(({ ...props }: IAIRoutesProps) => {
     );
   }
   return (
-    <div {...props}>
+    <div className="sw-search-mode-switch" {...props}>
       <Stack direction={'row'} alignItems={'center'} justifyContent={'center'}>
         <ToggleButtonGroup
           color="primary"

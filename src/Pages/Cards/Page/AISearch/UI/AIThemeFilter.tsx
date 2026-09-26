@@ -8,7 +8,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { AISObject } from '../Store/AISearch';
 
 const AIThemeFilter = observer(() => (
-  <Paper elevation={0} sx={{ width: '100%', backgroundColor: 'transparent' }}>
+  <Paper className="sw-theme-filter" elevation={0} sx={{ width: '100%', backgroundColor: 'transparent' }}>
     <Stack direction={'row'}>
       <TreeSelect
         treeDataSimpleMode={true}
@@ -19,7 +19,11 @@ const AIThemeFilter = observer(() => (
           AISObject.cardConnectedTheme = data;
         }}
         disabled={!AISObject.connectedThemesHasBeenLoaded}
-        placeholder={'Выбирите тему карточки'}
+        className="sw-theme-select"
+        dropdownClassName="sw-theme-dropdown"
+        dropdownStyle={{ minWidth: 460, maxHeight: '72vh' }}
+        listHeight={560}
+        placeholder={'Выберите тему карточки'}
         style={{ width: '100%' }}
         size={'large'}
       />

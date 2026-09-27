@@ -12,6 +12,7 @@ import {
   Tooltip,
 } from '@mui/material';
 import YouTubeIcon from '@mui/icons-material/YouTube';
+import VideoLibraryOutlinedIcon from '@mui/icons-material/VideoLibraryOutlined';
 import HttpIcon from '@mui/icons-material/Http';
 import ImageIcon from '@mui/icons-material/Image';
 import ScienceIcon from '@mui/icons-material/Science';
@@ -128,7 +129,15 @@ export default function CardMicroView({
           <Stack direction={'column'}>
             <Box sx={{ height: 170 }}>
               {Number(card_data.card_content_type) === 0 &&
-                card_data?.video_url && (
+                !card_data.video_url?.trim() && (
+                  <div className="sw-video-placeholder">
+                    <span><VideoLibraryOutlinedIcon /></span>
+                    <strong>Видеоматериал</strong>
+                    <small>Ссылка на видео не добавлена</small>
+                  </div>
+                )}
+              {Number(card_data.card_content_type) === 0 &&
+                card_data?.video_url?.trim() && (
                   <div>
                     <CardMedia
                       className="sw-mini-media"

@@ -3,7 +3,7 @@ import React from 'react';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { CSSObject } from '../Store/CardSelectorStore';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
-import YouTubeIcon from '@mui/icons-material/YouTube';
+import VideoLibraryOutlinedIcon from '@mui/icons-material/YouTube';
 import HttpIcon from '@mui/icons-material/Http';
 import ImageIcon from '@mui/icons-material/Image';
 
@@ -21,8 +21,8 @@ export const ContentType = observer(({ ...props }: IContentTypeProps) => (
     >
       <MenuItem value={'undefined'}>Не выбран</MenuItem>
       <MenuItem value={'A_0'}>
-        <YouTubeIcon style={{ marginRight: 12 }} fontSize="small" />
-        YouTube
+        <VideoLibraryOutlinedIcon style={{ marginRight: 12 }} fontSize="small" />
+        Видео
       </MenuItem>
       <MenuItem value={'A_1'}>
         <HttpIcon style={{ marginRight: 12 }} fontSize="small" />

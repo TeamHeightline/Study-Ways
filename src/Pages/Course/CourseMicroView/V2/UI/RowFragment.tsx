@@ -13,7 +13,7 @@ import Looks3Icon from '@mui/icons-material/Looks3';
 import Looks4Icon from '@mui/icons-material/Looks4';
 import Looks5Icon from '@mui/icons-material/Looks5';
 import Looks6Icon from '@mui/icons-material/Looks6';
-import YouTubeIcon from '@mui/icons-material/YouTube';
+import VideoLibraryOutlinedIcon from '@mui/icons-material/YouTube';
 import HttpIcon from '@mui/icons-material/Http';
 import ImageIcon from '@mui/icons-material/Image';
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
@@ -207,7 +207,7 @@ const RowFragment = observer(({ CRI, courseStore }: RowFragmentI) => {
                     <ForkRightIcon />
                   ) : number_of_elements === 1 ? (
                     is_youtube_card ? (
-                      <YouTubeIcon />
+                      <VideoLibraryOutlinedIcon />
                     ) : is_http_card ? (
                       <InsertLinkIcon />
                     ) : is_image_card ? (

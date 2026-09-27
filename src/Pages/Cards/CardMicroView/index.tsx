@@ -11,8 +11,8 @@ import {
   Stack,
   Tooltip,
 } from '@mui/material';
-import YouTubeIcon from '@mui/icons-material/YouTube';
 import VideoLibraryOutlinedIcon from '@mui/icons-material/VideoLibraryOutlined';
+import YouTubeIcon from '@mui/icons-material/YouTube';
 import HttpIcon from '@mui/icons-material/Http';
 import ImageIcon from '@mui/icons-material/Image';
 import ScienceIcon from '@mui/icons-material/Science';
@@ -192,13 +192,13 @@ export default function CardMicroView({
                     ID: {card_data?.id}
                     {Number(card_data.card_content_type) === 0 && (
                       <Chip
-                        id={'YouTube-icon'}
+                        id={'video-icon'}
                         style={{ marginLeft: 12 }}
                         size="small"
                         variant="outlined"
                         color="secondary"
                         icon={<YouTubeIcon />}
-                        label="YouTube"
+                        label="Видео"
                       />
                     )}
                     {Number(card_data.card_content_type) === 1 && (

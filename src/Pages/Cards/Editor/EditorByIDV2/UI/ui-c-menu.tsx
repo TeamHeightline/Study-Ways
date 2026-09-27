@@ -14,7 +14,7 @@ import {
 import SettingsIcon from '@mui/icons-material/Settings';
 import Routes from '@mui/material/Switch';
 import CopyrightIcon from '@mui/icons-material/Copyright';
-import YouTubeIcon from '@mui/icons-material/YouTube';
+import VideoLibraryOutlinedIcon from '@mui/icons-material/YouTube';
 import HttpIcon from '@mui/icons-material/Http';
 import ImageIcon from '@mui/icons-material/Image';
 import CodeIcon from '@mui/icons-material/Code';
@@ -60,8 +60,8 @@ export const UiCMenu = observer(({ ...props }) => {
               >
                 <MenuItem value={0}>
                   <Stack direction={'row'} alignItems={'center'} spacing={1}>
-                    <YouTubeIcon />
-                    <div>{' Видео Youtube'}</div>
+                    <VideoLibraryOutlinedIcon />
+                    <div>Видео</div>
                   </Stack>
                 </MenuItem>
                 <MenuItem value={1}>

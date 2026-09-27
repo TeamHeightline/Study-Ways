@@ -10,7 +10,6 @@ import SchoolIcon from '@mui/icons-material/School';
 import AddchartIcon from '@mui/icons-material/Addchart';
 import RuleIcon from '@mui/icons-material/Rule';
 import GroupIcon from '@mui/icons-material/Group';
-import UserGroupsEditor from '../../../Pages/UserGroups/EditorPage/UI';
 import InfoIcon from '@mui/icons-material/Info';
 
 import ExamEditorPage from '../../../Pages/Exam/EditorPage/Page/UI/exam-editor-page';
@@ -104,14 +103,6 @@ export const privateRoutes = [
     title: 'Редактор подсказок для страниц',
     navigate: 'help-article',
     icon: <InfoIcon />,
-    status: ['ADMIN', 'TEACHER'],
-  },
-  {
-    path: '/user-groups',
-    component: <UserGroupsEditor />,
-    title: 'Редактор групп пользователей',
-    navigate: 'user-groups',
-    icon: <GroupIcon />,
     status: ['ADMIN', 'TEACHER'],
   },
 

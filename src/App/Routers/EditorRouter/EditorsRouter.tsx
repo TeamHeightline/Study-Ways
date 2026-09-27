@@ -3,13 +3,11 @@ import { Alert, Box, CircularProgress, Grid } from '@mui/material';
 import AlertTitle from '@mui/material/AlertTitle';
 import { observer } from 'mobx-react';
 import { Route, Routes } from 'react-router-dom';
-import { isMobileHook } from '../../../Shared/CustomHooks/isMobileHook';
 import RouterMenu from './router-menu';
 import haveStatus from '../../../Shared/Store/UserStore/utils/HaveStatus';
 import { privateRoutes } from './routes';
 
 export const EditorsRouter = observer(() => {
-  const isMobile = isMobileHook();
 
   if (!haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR'])) {
     return (
@@ -23,7 +21,7 @@ export const EditorsRouter = observer(() => {
   return (
     <Box>
       <RouterMenu />
-      <Box sx={{ ml: isMobile ? 0 : 12 }}>
+      <Box className="sw-editor-content" sx={{ minWidth: 0 }}>
         <Routes>
           {privateRoutes
             .filter((route) => haveStatus(route.status))

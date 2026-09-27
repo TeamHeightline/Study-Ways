@@ -9,14 +9,8 @@ import {
 import { BoxProps } from '@mui/material/Box/Box';
 import React from 'react';
 import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
-import StackedLineChartIcon from '@mui/icons-material/StackedLineChart';
 import { useNavigate } from 'react-router-dom';
-import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import ThemeStoreObject from '../../../global-theme';
-import NightlightIcon from '@mui/icons-material/Nightlight';
-import { DarkMode } from '@mui/icons-material';
-import LightModeIcon from '@mui/icons-material/LightMode';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -67,45 +61,7 @@ export default function PersonalMenu({ ...props }: IPersonalMenuProps) {
             </ListItemIcon>
             Профиль
           </MenuItem>
-          <MenuItem
-            disabled={!UserStorage.isLogin}
-            onClick={() => {
-              handleClose();
-              navigate('/selfstatistic');
-            }}
-          >
-            <ListItemIcon>
-              <StackedLineChartIcon />
-            </ListItemIcon>
-            Результаты тестов
-          </MenuItem>
-          <MenuItem
-            disabled={!UserStorage.isLogin}
-            onClick={() => {
-              handleClose();
-              navigate('/bookmarks');
-            }}
-          >
-            <ListItemIcon>
-              <BookmarksIcon />
-            </ListItemIcon>
-            Закладки
-          </MenuItem>
           <Divider />
-          <MenuItem onClick={ThemeStoreObject.changeMode}>
-            <ListItemIcon>
-              {ThemeStoreObject.mode === 'light' && (
-                <NightlightIcon fontSize="small" />
-              )}
-              {ThemeStoreObject.mode === 'dark' && (
-                <DarkMode fontSize="small" />
-              )}
-              {ThemeStoreObject.mode === 'dark2' && (
-                <LightModeIcon fontSize="small" />
-              )}
-            </ListItemIcon>
-            Сменить тему
-          </MenuItem>
           <MenuItem
             onClick={() => {
               handleClose();

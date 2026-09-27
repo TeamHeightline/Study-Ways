@@ -30,8 +30,9 @@ const UISingleAnswerByData = observer(
           <div className="sw-answer-choice-indicator">{isSelected ? <CheckCircleRoundedIcon /> : <RadioButtonUncheckedRoundedIcon />}<span>{isSelected ? 'Выбрано' : 'Не выбрано'}</span></div>
           {!isImageDeleted && imageURL && (
             <CardMedia
+              component="img"
+              alt="Изображение к варианту ответа"
               className="sw-answer-media"
-              style={{ opacity: isSelected ? 0.72 : 1 }}
               image={imageURL}
             />
           )}

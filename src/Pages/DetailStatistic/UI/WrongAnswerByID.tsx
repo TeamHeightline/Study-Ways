@@ -44,25 +44,26 @@ export const WrongAnswerByID = observer(
     // }
     return (
       <Grow in={!loading}>
-        <Paper {...props} sx={{ pb: 1, pt: 1, pl: 1 }}>
+        <Paper {...props} className="sw-mistake" elevation={0}>
           <Card
             variant="outlined"
-            sx={{ width: 385, height: 400 }}
-            style={{
-              borderColor: answer_data?.answerById?.isTrue
-                ? '#2296F3'
-                : '#f50057',
-            }}
+            className="sw-mistake-card"
           >
+            <div className="sw-mistake-status">
+              {answer_data?.answerById?.isTrue ? 'Верный ответ пропущен' : 'Неверный ответ выбран'}
+              <small>{answer_data?.answerById?.isTrue ? 'Этот вариант нужно было отметить.' : 'Этот вариант не нужно было отмечать.'}</small>
+            </div>
             {answerImageUrl && (
               <CardMedia
-                sx={{ height: answer_data?.answerById?.text ? 240 : 400 }}
+                component="img"
+                alt="Изображение к ответу с ошибкой"
+                className="sw-mistake-image"
                 image={answerImageUrl}
               />
             )}
             {answer_data?.answerById?.text && (
               <CardContent>
-                <Typography variant="body1" color="textSecondary">
+                <Typography className="sw-mistake-text" variant="body1" color="textSecondary">
                   {answer_data?.answerById?.text}
                 </Typography>
               </CardContent>

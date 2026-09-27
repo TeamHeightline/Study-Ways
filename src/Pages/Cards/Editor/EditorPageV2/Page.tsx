@@ -23,6 +23,7 @@ export const EditorPage = observer(({ ...props }: IEditorPageProps) => {
           path={'/*'}
           element={
             <CardSelector
+              style={{ paddingTop: 24 }}
               showCreateNewCard={true}
               mode={'onlyCreatedByMe'}
               onCardSelect={(card_id) => navigate(`card/${card_id}`)}

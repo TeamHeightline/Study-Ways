@@ -1,9 +1,8 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import CardMedia from '@mui/material/CardMedia';
-import { CardActionArea, Stack } from '@mui/material';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
+import { CardActionArea } from '@mui/material';
+import AddRounded from '@mui/icons-material/AddRounded';
+import ArrowForwardRounded from '@mui/icons-material/ArrowForwardRounded';
 import Card from '@mui/material/Card';
 import { CSSObject } from '../Store/CardSelectorStore';
 
@@ -13,24 +12,14 @@ export const CreateCard = observer(({ ...props }: ICreateCardProps) => (
   <div {...props}>
     <Card
       variant="outlined"
-      sx={{ width: 400, height: 170 }}
-      onClick={() => {
-        CSSObject.createNewCard();
-      }}
+      className="sw-create-material"
     >
-      <Stack direction={'row'}>
-        <CardMedia
-          sx={{ width: 200, height: 169 }}
-          image="https://www.shareicon.net/data/256x256/2017/03/06/880378_blue_512x512.png"
-        />
-        <CardActionArea>
-          <CardContent>
-            <Typography style={{ paddingLeft: 6 }} variant="h4" gutterBottom>
-              Создать новую карточку
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Stack>
+      <CardActionArea className="sw-create-material-action" onClick={() => CSSObject.createNewCard()}>
+        <span className="sw-create-material-icon"><AddRounded /></span>
+        <strong>Новая карточка</strong>
+        <span className="sw-create-material-description">Добавьте материал, который поможет разобраться в теме.</span>
+        <span className="sw-create-material-footer">Создать карточку <ArrowForwardRounded /></span>
+      </CardActionArea>
     </Card>
   </div>
 ));

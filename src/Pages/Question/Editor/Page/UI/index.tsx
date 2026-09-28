@@ -74,7 +74,7 @@ export const Index = observer(() => {
           );
 
   return (
-    <Paper elevation={0}>
+    <Paper className="sw-question-editor-list" elevation={0}>
       <UICreateNewQuestionDialog />
       <Grid container justifyContent={'center'} sx={{ mt: 2 }}>
         <Grid item xs={12} md={10}>
@@ -83,6 +83,7 @@ export const Index = observer(() => {
           </Stack>
           {/* <QuestionFolders/>*/}
           <Stack
+            className="sw-question-editor-filters"
             sx={{ mt: 1 }}
             direction={'row'}
             justifyContent={'space-between'}
@@ -94,6 +95,7 @@ export const Index = observer(() => {
             </Stack>
           </Stack>
           <Grid
+            className="sw-question-editor-grid"
             container
             spacing={4}
             justifyContent="space-between"
@@ -111,15 +113,20 @@ export const Index = observer(() => {
                   sx={{ width: '100%' }}
                 >
                   <Card
+                    className="sw-question-card"
                     style={{ height: 160, textAlign: 'center', width: '100%' }}
                     variant="outlined"
                   >
                     <CardActionArea
+                      className="sw-question-card-action"
                       style={{ height: '100%' }}
                       onClick={() => navigate(`selected/${question.id}`)}
                     >
-                      <Typography>{`ID: ${question.id}`}</Typography>
-                      <Typography>{question?.text}</Typography>
+                      <div className="sw-question-card-body">
+                        <Typography className="sw-question-id">{`Вопрос № ${question.id}`}</Typography>
+                        <Typography className="sw-question-text">{question?.text || 'Без названия'}</Typography>
+                        <div className="sw-question-card-footer">Редактировать вопрос <span aria-hidden="true">↗</span></div>
+                      </div>
                     </CardActionArea>
                   </Card>
                 </Badge>

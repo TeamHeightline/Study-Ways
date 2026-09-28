@@ -21,20 +21,17 @@ export const CustomNode = (props: any) => {
   return (
     <Collapse in={props.isOpen || startOpenAnimation}>
       <Stack
+        className={`sw-theme-editor-node${props.node.id === props.selectedThemeID ? ' is-selected' : ''}`}
         direction={'row'}
         onClick={() => props.setSelectedThemeID(props.node.id)}
       >
         {props.node.droppable && (
-          <div onClick={handleToggle}>
-            <ArrowRightIcon />
-          </div>
+          <button type="button" className="sw-theme-editor-toggle" aria-label={props.isOpen ? 'Свернуть тему' : 'Раскрыть тему'} aria-expanded={props.isOpen} onClick={handleToggle}>
+            <ArrowRightIcon style={{ transform: props.isOpen ? 'rotate(90deg)' : undefined }} />
+          </button>
         )}
         <Typography
           variant="body1"
-          sx={{
-            backgroundColor:
-              props.node.id == props.selectedThemeID ? 'primary.main' : '',
-          }}
         >
           {props.node.text}
         </Typography>

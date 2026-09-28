@@ -231,31 +231,34 @@ function ThemeEditor() {
       >
         <Grid item>
           <Fab
+            variant="extended"
             color="primary"
             onClick={() => onButtonsClickHandler(editingModes.EditTheme)}
             disabled={!selectedThemeID}
           >
-            <SettingsIcon />
+            <SettingsIcon /> Переименовать
           </Fab>
         </Grid>
         <Grid item>
           <Fab
+            variant="extended"
             color="primary"
             onClick={() =>
               onButtonsClickHandler(editingModes.CreateThemeOnSameLevel)
             }
             disabled={!selectedThemeID}
           >
-            <AddIcon />
+            <AddIcon /> Добавить тему рядом
           </Fab>
         </Grid>
         <Grid item>
           <Fab
+            variant="extended"
             color="primary"
             onClick={() => onButtonsClickHandler(editingModes.CreateSubTheme)}
             disabled={!selectedThemeID}
           >
-            <SubdirectoryArrowRightIcon />
+            <SubdirectoryArrowRightIcon /> Добавить подтему
           </Fab>
         </Grid>
       </Grid>

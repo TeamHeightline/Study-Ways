@@ -10,7 +10,7 @@ export const LoginButton = observer(() => {
   return (
     <Button
       startIcon={<LoginIcon />}
-      sx={{ color: 'white' }}
+        sx={{ color: 'text.primary' }}
       onClick={() => {
         loginWithPopup();
       }}

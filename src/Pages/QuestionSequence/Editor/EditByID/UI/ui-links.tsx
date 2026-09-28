@@ -9,10 +9,10 @@ type IUILinksProps = PaperProps;
 const UILinks = observer(({ ...props }: IUILinksProps) => (
   <Paper elevation={0} {...props}>
     <Stack direction={'column'} spacing={2}>
-      <Typography variant={'body2'} sx={{ color: 'white' }}>
+      <Typography variant={'body2'} sx={{ color: 'text.primary' }}>
         {`Режим обучения - https://sw-university.com/qs/${editQSStore?.QuestionSequenceID}`}
       </Typography>
-      <Typography variant="body2" sx={{ color: 'white' }}>
+      <Typography variant="body2" sx={{ color: 'text.primary' }}>
         {`Режим экзамена - https://sw-university.com/qs/${editQSStore?.QuestionSequenceID}?exam=true`}
       </Typography>
     </Stack>

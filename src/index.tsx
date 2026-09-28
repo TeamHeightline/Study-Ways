@@ -8,7 +8,7 @@ import { DndProvider } from 'react-dnd';
 import { configure } from 'mobx';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import 'antd/dist/antd.dark.min.css';
+import 'antd/dist/antd.min.css';
 import ThemeStoreObject from './global-theme';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { observer } from 'mobx-react';

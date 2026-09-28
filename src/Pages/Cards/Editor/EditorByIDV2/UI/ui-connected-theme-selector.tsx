@@ -28,13 +28,17 @@ export const UiConnectedThemeSelector = observer(
       showCheckedStrategy: SHOW_CHILD,
       disabled: !CESObject.isAllConnectedThemesLoaded,
       placeholder: 'Выберите тему карточки',
+      className: 'sw-theme-select',
+      dropdownClassName: 'sw-theme-dropdown',
+      dropdownMatchSelectWidth: false,
+      listHeight: 560,
       // bordered: true,
       style: {
         width: '100%',
       },
     };
     return (
-      <div {...props}>
+      <div {...props} className={`sw-theme-filter ${props.className || ''}`}>
         <TreeSelect {...tProps} size={'large'} />
       </div>
     );

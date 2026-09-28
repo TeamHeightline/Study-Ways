@@ -34,7 +34,7 @@ export default function PersonalMenu({ ...props }: IPersonalMenuProps) {
     <Box {...props}>
       <Button
         startIcon={<AccountCircleIcon />}
-        sx={{ color: 'white' }}
+        sx={{ color: 'text.primary' }}
         onClick={handleMenu}
       >
         Аккаунт

@@ -43,7 +43,7 @@ const PagesMenu = observer(({ ...props }: INavbarMenuProps) => {
     <>
       <Button
         startIcon={<MenuIcon />}
-        sx={{ color: 'white' }}
+        sx={{ color: 'text.primary' }}
         onClick={handleMenu}
       >
         Меню

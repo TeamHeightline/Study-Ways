@@ -1,5 +1,5 @@
 .link {
   text-decoration-color: #2d3a4a;
-  color: #ffffff;
+  color: var(--sw-ink);
   margin-left: 25px;
 }

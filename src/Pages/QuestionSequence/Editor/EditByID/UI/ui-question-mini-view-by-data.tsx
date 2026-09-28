@@ -25,29 +25,16 @@ const UIQuestionMiniViewByData = observer(
     onClickOnCard,
     ...props
   }: IUIQuestionMiniViewByDataProps) => (
-    <Grid item xs={12} md={3} sx={{ minHeight: 180 }} {...props}>
-      <Paper elevation={0} sx={{ height: '100%' }}>
-        <Card variant={'outlined'} sx={{ height: '100%' }}>
-          <CardActionArea sx={{ height: '100%' }} onClick={onClickOnCard}>
-            <Stack alignItems={'center'}>
-              <Stack direction={'column'} sx={{ p: 2 }} spacing={1}>
-                <Typography variant={'h6'} align={'center'}>
-                  № {questionData?.id} {questionData?.questionAuthor?.fullName}
-                </Typography>
-                <Tooltip title={questionData?.text || ''}>
-                  <Typography variant={'body1'} align={'center'}>
-                    {questionData?.text.slice(0, 150)}
-                  </Typography>
-                </Tooltip>
-                <Typography variant={'body2'} align={'center'}>
-                  {questionData?.themeString}
-                </Typography>
-              </Stack>
-            </Stack>
-          </CardActionArea>
-        </Card>
-        {actionButton}
-      </Paper>
+    <Grid item xs={12} md={3} {...props}>
+      <Card variant="outlined" className="sw-sequence-question">
+        <CardActionArea onClick={onClickOnCard} className="sw-sequence-question-open">
+          <Typography className="sw-question-id">Вопрос № {questionData.id}</Typography>
+          <Typography className="sw-sequence-question-text">{questionData.text || 'Без названия'}</Typography>
+          <div className="sw-sequence-question-meta"><Typography variant="body2">{questionData.themeString || 'Без темы'}</Typography><Typography variant="caption" color="text.secondary">{questionData.questionAuthor?.fullName || 'Автор не указан'}</Typography></div>
+          <span className="sw-sequence-preview">Посмотреть вопрос ↗</span>
+        </CardActionArea>
+        <div className="sw-sequence-question-actions">{actionButton}</div>
+      </Card>
     </Grid>
   ),
 );

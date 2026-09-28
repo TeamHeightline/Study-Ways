@@ -10,7 +10,7 @@ type IUIAllQuestionsProps = PaperProps;
 
 const UIAllQuestions = observer(({ ...props }: IUIAllQuestionsProps) => (
   <Paper elevation={0} {...props}>
-    <Grid container spacing={10} sx={{ mt: 2 }} alignItems="stretch">
+    <Grid container className="sw-sequence-grid">
       {editQSStore.QuestionsForSelect.map((questionData) => (
         <UIQuestionMiniViewByData
           onClickOnCard={() => (editQSStore.checkQuestionID = questionData.id)}

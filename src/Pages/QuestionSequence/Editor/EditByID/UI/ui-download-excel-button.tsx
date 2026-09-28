@@ -34,7 +34,7 @@ const UIDownloadExcelButton = observer(
     return (
       <Paper elevation={0} {...props}>
         <Button variant="outlined" color="primary" onClick={createUrl}>
-          Создать отчет о экзамене (Excel)
+          Создать отчёт об экзамене · Excel
         </Button>
       </Paper>
     );

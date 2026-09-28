@@ -10,7 +10,7 @@ type IUiSelectedQuestionsProps = PaperProps;
 
 const UiSelectedQuestions = observer(
   ({ ...props }: IUiSelectedQuestionsProps) => (
-    <Grid container spacing={10} sx={{ mt: 2, pb: 4 }} alignItems="stretch">
+    <Grid container className="sw-sequence-grid">
       {editQSStore?.qsData?.sequence_data?.sequence?.map(
         (questionID, questionIndex) => {
           const questionData = editQSStore?.allQuestions.find(
@@ -23,7 +23,7 @@ const UiSelectedQuestions = observer(
                   (editQSStore.checkQuestionID = String(questionID))
                 }
                 questionData={questionData}
-                key={questionData.id}
+                key={`${questionData.id}-${questionIndex}`}
                 actionButton={
                   <Button
                     onClick={() =>
@@ -31,16 +31,16 @@ const UiSelectedQuestions = observer(
                     }
                     sx={{ mt: 1 }}
                     variant={'outlined'}
-                    color={'secondary'}
+                    color={'primary'}
                     startIcon={<DeleteIcon />}
                   >
-                    Удалить
+                    Убрать из серии
                   </Button>
                 }
               />
             );
           } else {
-            return <div />;
+            return null;
           }
         },
       )}

@@ -41,6 +41,7 @@ export default function Index({ exam_id, ...props }: IExamResultsByIDProps) {
     <Paper elevation={0} {...props}>
       <UIExamFinalResultChart />
       <Stack
+        className="sw-exam-results-toolbar"
         direction={'row'}
         justifyContent="space-between"
         alignItems={'end'}
@@ -55,8 +56,8 @@ export default function Index({ exam_id, ...props }: IExamResultsByIDProps) {
           <ShowResultsBySumFlag />
         </Stack>
       </Stack>
-      <TableContainer component={Paper}>
-        <Table>
+      <TableContainer component={Paper} className="sw-exam-summary-container">
+        <Table size="small" className="sw-exam-summary-table" aria-label="Результаты участников экзамена">
           <UiExamTableHead />
           <UIExamsResultsTableBody />
         </Table>

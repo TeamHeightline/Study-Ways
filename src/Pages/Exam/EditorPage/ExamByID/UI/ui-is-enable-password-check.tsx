@@ -31,7 +31,7 @@ export default function UIIsEnablePasswordCheck({
             checked={is_enable_password_check}
           />
         }
-        label="Доступ оп паролю"
+        label="Доступ по паролю"
       />
     </Box>
   );

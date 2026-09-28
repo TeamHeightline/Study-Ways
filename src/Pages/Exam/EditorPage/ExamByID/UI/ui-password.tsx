@@ -42,7 +42,7 @@ export default function UIPassword({ ...props }: IUIPasswordProps) {
     <Box {...props}>
       <TextField
         label="Пароль"
-        variant="standard"
+        variant="outlined"
         type={showPassword ? 'text' : 'password'}
         fullWidth
         id={'exam-password'}
@@ -54,7 +54,7 @@ export default function UIPassword({ ...props }: IUIPasswordProps) {
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton onClick={handleClickShowPassword} edge="end">
+              <IconButton aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'} onClick={handleClickShowPassword} edge="end">
                 {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
             </InputAdornment>

@@ -1,10 +1,10 @@
 import { observer } from 'mobx-react';
 import React, { useEffect } from 'react';
 import { PaperProps } from '@mui/material/Paper/Paper';
-import { CircularProgress, Divider, Paper, Stack } from '@mui/material';
+import { CircularProgress, Typography, Paper, Stack } from '@mui/material';
 import GoBackButton from './go-back';
 import ExamName from './exam-name';
-import UIPageTitle from './ui-page-title';
+
 import UIDuration from './ui-duration';
 import SelectedQSByData from './ui-seleced-qs-by-data';
 import UIExamUrls from './ui-exam-urls';
@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import { loadExamDataThunk } from '../redux-store/async-actions';
 import AutoSaveModule from './auto-save-module';
 import Index from '../../../ExamResultsByID/UI';
-import { isMobileHook } from '../../../../../Shared/CustomHooks/isMobileHook';
+
 import {
   RootState,
   useAppDispatch,
@@ -36,7 +36,7 @@ const ExamByID = observer(({ exam_id, ...props }: IExamByIDProps) => {
     (state: RootState) => state?.examEditor?.exam_data?.id,
   );
   const dispatch = useAppDispatch();
-  const isMobile = isMobileHook();
+
 
   useEffect(() => {
     dispatch(loadExamDataThunk(String(exam_id)));
@@ -50,65 +50,38 @@ const ExamByID = observer(({ exam_id, ...props }: IExamByIDProps) => {
     );
   }
   return (
-    <Paper elevation={0} {...props} sx={{ pt: 2, pl: isMobile ? 0 : 2 }}>
+    <Paper elevation={0} {...props} className="sw-exam-editor">
       <AutoSaveModule />
-      <UIPageTitle />
-      <GoBackButton />
-      <Stack direction={isMobile ? 'column' : 'row'} spacing={1} sx={{ pb: 2 }}>
-        <Stack direction={'column'} spacing={1} width={isMobile ? '100%' : 400}>
-          <div>
-            <Divider>Настройки</Divider>
-          </div>
-          <ExamName sx={{ pt: 1 }} />
-          <UIDuration sx={{ pt: 2 }} />
-          {/* <UIQuestionSequenceSelector sx={{pt: 2}}/>*/}
-          <SelectedQSByData />
-        </Stack>
-
-        <div>
-          <Divider orientation={'vertical'} />
-        </div>
-
-        <Stack direction={'column'} spacing={1} width={isMobile ? '100%' : 400}>
-          <div>
-            <Divider>Сложность </Divider>
-          </div>
-          <UIIsEnableHelpText />
-          <UIHelpTextLevel />
-          <UIIsEnableMaxQuestionAttempts />
-          <UIMaxAttemptsForQuestions />
-          {/* <UIAccessTypeToggle/>*/}
-          {/* <UIAccessTypeVariants/>*/}
-        </Stack>
-
-        <div>
-          <Divider orientation={'vertical'} />
-        </div>
-
-        <Stack direction={'column'} spacing={1} width={isMobile ? '100%' : 400}>
-          <div>
-            <Divider>Ограничение доступа</Divider>
-          </div>
+      <header className="sw-exam-heading">
+        <div><Typography variant="h5" component="h1">Редактор экзамена</Typography><Typography variant="body2" color="text.secondary">Содержание, правила прохождения и доступ для участников.</Typography></div>
+        <GoBackButton />
+      </header>
+      <div className="sw-exam-settings-grid">
+        <section className="sw-exam-panel">
+          <div className="sw-exam-panel-heading"><span>01</span><div><Typography variant="h6">Об экзамене</Typography><Typography variant="body2" color="text.secondary">Название, длительность и серия вопросов.</Typography></div></div>
+          <Stack spacing={2.5}><ExamName /><UIDuration /><SelectedQSByData /></Stack>
+        </section>
+        <section className="sw-exam-panel">
+          <div className="sw-exam-panel-heading"><span>02</span><div><Typography variant="h6">Правила прохождения</Typography><Typography variant="body2" color="text.secondary">Подсказки и количество попыток на вопрос.</Typography></div></div>
+          <div className="sw-exam-option"><UIIsEnableHelpText /><UIHelpTextLevel /></div>
+          <div className="sw-exam-option"><UIIsEnableMaxQuestionAttempts /><UIMaxAttemptsForQuestions /></div>
+        </section>
+        <section className="sw-exam-panel">
+          <div className="sw-exam-panel-heading"><span>03</span><div><Typography variant="h6">Доступ к экзамену</Typography><Typography variant="body2" color="text.secondary">Управляйте доступом и защитой паролем.</Typography></div></div>
           <UIAccessModeSelector />
-          <UIIsEnablePasswordCheck />
-          <UIPassword />
-          <UIIsEnableStartAndFinishTime />
-          <UIStartAndFinishTime />
-        </Stack>
-
-        <div>
-          <Divider orientation={'vertical'} />
-        </div>
-
-        <Stack direction={'column'} spacing={1} width={isMobile ? '100%' : 400}>
-          <div>
-            <Divider>Ссылки</Divider>
-          </div>
+          <div className="sw-exam-option"><UIIsEnablePasswordCheck /><UIPassword /></div>
+          <div className="sw-exam-option"><UIIsEnableStartAndFinishTime /><UIStartAndFinishTime /></div>
+        </section>
+        <section className="sw-exam-panel sw-exam-share-panel">
+          <div className="sw-exam-panel-heading"><span>04</span><div><Typography variant="h6">Ссылки для участников</Typography><Typography variant="body2" color="text.secondary">Откройте экзамен или отправьте ссылку ученикам.</Typography></div></div>
           <UIExamUrls />
-        </Stack>
-      </Stack>
-      <Divider>Статистика</Divider>
-      {exam_id && <Index exam_id={Number(exam_id)} />}
+        </section>
+      </div>
+      <section className="sw-exam-results">
+        <Typography variant="h6">Результаты экзамена</Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>Статистика прохождения и выгрузка результатов.</Typography>
+        {exam_id && <Index exam_id={Number(exam_id)} />}
+      </section>
     </Paper>
   );
 });

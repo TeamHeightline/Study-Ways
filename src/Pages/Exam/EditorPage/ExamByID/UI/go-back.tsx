@@ -19,7 +19,7 @@ const GoBackButton = observer(({ ...props }: IGoBackButtonProps) => {
   return (
     <Button
       {...props}
-      sx={{ minWidth: isMobile ? '' : 300 }}
+      sx={{ flexShrink: 0 }}
       fullWidth={isMobile}
       startIcon={<ArrowBackIcon />}
       variant="outlined"

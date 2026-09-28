@@ -1,44 +1,79 @@
-// @ts-nocheck
 import { Paper } from '@mui/material';
 import { PaperProps } from '@mui/material/Paper/Paper';
-import {
-  ArgumentAxis,
-  BarSeries,
-  Chart,
-  SplineSeries,
-  Title,
-  ValueAxis,
-} from '@devexpress/dx-react-chart-material-ui';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Tooltip, ChartOptions, Plugin } from 'chart.js';
+import { Bar } from 'react-chartjs-2';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../App/ReduxStore/RootStore';
 
-type IUIExamFinalResultChartProps = PaperProps;
+ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
+const number = (value: number) => value.toLocaleString('ru-RU', { maximumFractionDigits: 1 });
 
-export default function UIExamFinalResultChart({
-  ...props
-}: IUIExamFinalResultChartProps) {
-  const resultArrayForChart = useSelector(
-    (state: RootState) => state?.examResultsByIDReducer?.result_array_for_chart,
-  );
+const quartileLabels = ['Нижние 25%', '25–50%', '50–75%', 'Топ 25%'];
+const quartileBackgrounds = ['#f5f7f4', '#edf4ed', '#e3efe5', '#d5e8dc'];
+// Boundaries fall between whole participant columns, never through a bar.
+const quartileBounds = (count: number) => [0, 1, 2, 3, 4].map(part => Math.round(count * part / 4));
+const quartileZones: Plugin<'bar'> = {
+  id: 'examQuartileZones',
+  beforeDraw(chart) {
+    const count = chart.data.labels?.length || 0;
+    if (count < 4) return;
+    const { ctx, chartArea: { left, right, top, bottom } } = chart;
+    const bounds = quartileBounds(count);
+    ctx.save();
+    for (let group = 0; group < 4; group++) {
+      const start = left + (right - left) * bounds[group] / count;
+      const end = left + (right - left) * bounds[group + 1] / count;
+      ctx.fillStyle = quartileBackgrounds[group];
+      ctx.fillRect(start, top - 26, end - start, bottom - top + 26);
+      ctx.fillStyle = group === 3 ? '#286b53' : '#647d6c';
+      ctx.font = '600 11px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(quartileLabels[group], (start + end) / 2, top - 13, end - start - 8);
+      if (group > 0) {
+        ctx.beginPath(); ctx.setLineDash([3, 4]); ctx.strokeStyle = '#b6ccbd';
+        ctx.moveTo(start, top); ctx.lineTo(start, bottom); ctx.stroke();
+      }
+    }
+    ctx.restore();
+  },
+};
 
-  if (
-    resultArrayForChart &&
-    resultArrayForChart?.length &&
-    resultArrayForChart.length > 1
-  ) {
-    return (
-      <Paper elevation={0} {...props}>
-        <Chart data={resultArrayForChart}>
-          <BarSeries valueField="result" argumentField="index" />
-          <SplineSeries valueField="result" argumentField="index" />
-          <ArgumentAxis showGrid={true} />
-          <ValueAxis />
-          <Title text="Количество баллов на каждой из попыток" />
-        </Chart>
-      </Paper>
-    );
-  } else {
-    return <div />;
-  }
+export default function UIExamFinalResultChart(props: PaperProps) {
+  const results = useSelector((state: RootState) => state.examResultsByIDReducer.exam_results);
+  const sorted = [...(results || [])].filter(item => Number.isFinite(item.sumOfAllPasses)).sort((a, b) => a.sumOfAllPasses - b.sumOfAllPasses);
+  if (!sorted.length) return null;
+  const scores = sorted.map(item => item.sumOfAllPasses);
+  const names = sorted.map(item => {
+    const profile = item.users_customuser?.users_userprofile;
+    return [profile?.firstname, profile?.lastname].filter(Boolean).join(' ') || item.users_customuser?.username || 'Участник';
+  });
+  const options: ChartOptions<'bar'> = {
+    responsive: true,
+    layout: { padding: { top: sorted.length >= 4 ? 28 : 0 } },
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#203c30', titleColor: '#fff', bodyColor: '#e5f1e9', padding: 12, cornerRadius: 10, displayColors: false,
+        callbacks: { title: items => names[items[0]?.dataIndex] || '', label: item => 'Баллы: ' + number(Number(item.raw)), afterLabel: item => sorted.length >= 4 ? quartileLabels[quartileBounds(sorted.length).slice(1).findIndex(end => item.dataIndex < end)] : '' },
+      },
+    },
+    scales: {
+      x: { grid: { display: false }, border: { display: false }, ticks: { color: '#778b7e', maxRotation: 0, autoSkip: true, maxTicksLimit: 12, font: { size: 11 } }, title: { display: true, text: 'Участники · по возрастанию баллов', color: '#778b7e', font: { size: 11 } } },
+      y: { beginAtZero: true, border: { display: false }, grid: { color: context => context.tick.value === 0 ? '#8fb19a' : '#eaf0ec' }, ticks: { color: '#778b7e', maxTicksLimit: 5, font: { size: 11 } }, title: { display: true, text: 'Баллы', color: '#778b7e', font: { size: 11 } } },
+    },
+  };
+  return <Paper elevation={0} {...props} className="sw-exam-overview-chart">
+    <div className="sw-exam-chart-heading"><div><h3>Баллы участников</h3><p>Один столбик — результат одного участника.</p></div><div className="sw-exam-chart-metrics">
+      <div><span>Участников</span><strong>{sorted.length}</strong></div>
+      <div><span>Средний балл</span><strong>{number(scores.reduce((sum, score) => sum + score, 0) / scores.length)}</strong></div>
+      <div><span>Лучший результат</span><strong>{number(scores[scores.length - 1])}</strong></div>
+    </div></div>
+    <div className="sw-exam-chart-scroll"><div className="sw-exam-chart-canvas" style={{ minWidth: Math.max(sorted.length >= 4 ? 460 : 280, sorted.length * 16) }}>
+      <Bar plugins={[quartileZones]} options={options} data={{ labels: sorted.map((_, index) => String(index + 1)), datasets: [{ label: 'Баллы', data: scores, backgroundColor: scores.map(score => score < 0 ? '#cf8279' : '#58916d'), hoverBackgroundColor: scores.map(score => score < 0 ? '#b5655d' : '#286b53'), borderRadius: 5, maxBarThickness: 26, minBarLength: 2 }] }} role="img" aria-label={'Баллы ' + sorted.length + ' участников. Подробные значения представлены в таблице ниже.'} />
+    </div></div>
+    <p className="sw-exam-quartile-note">{sorted.length >= 4 ? 'Четверти по числу участников: от меньшего результата к большему. Границы округлены до целых участников; одинаковые баллы могут попасть в соседние группы.' : 'Разделение на четверти появится, когда будет не менее 4 участников.'}</p>
+  </Paper>;
 }

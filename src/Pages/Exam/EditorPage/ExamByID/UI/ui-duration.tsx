@@ -28,7 +28,7 @@ const UIDuration = observer(({ ...props }: IUIDurationProps) => {
   const hours = Math.floor((Number(examDuration) || 0) / 60);
   return (
     <Paper elevation={0} {...props}>
-      <Stack direction={'row'} spacing={1}>
+      <Stack direction={'row'} spacing={1} className="sw-exam-duration">
         <Stack alignItems={'center'}>
           <Typography textAlign={'center'}>Длительность экзамена</Typography>
         </Stack>

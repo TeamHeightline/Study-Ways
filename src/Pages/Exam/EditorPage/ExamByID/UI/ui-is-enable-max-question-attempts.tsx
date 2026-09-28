@@ -31,7 +31,7 @@ export default function UIIsEnableMaxQuestionAttempts({
             checked={is_enable_max_question_attempts}
           />
         }
-        label="Ограничить максимальное число попыток для каждого вопроса"
+        label="Ограничить попытки на вопрос"
       />
     </Box>
   );

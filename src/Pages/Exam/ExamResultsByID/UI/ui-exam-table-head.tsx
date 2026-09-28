@@ -1,40 +1,13 @@
-import {
-  TableCell,
-  TableHead,
-  TableRow,
-  Tooltip,
-  Typography,
-} from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { TableCell, TableHead, TableRow, Tooltip } from '@mui/material';
 import { useSelector } from 'react-redux';
 import React from 'react';
 import { RootState } from '../../../../App/ReduxStore/RootStore';
-
-type IUIExamsTableHeadProps = PaperProps;
-
-export default function UiExamTableHead({ ...props }: IUIExamsTableHeadProps) {
-  const examResults = useSelector(
-    (state: RootState) => state?.examResultsByIDReducer?.exam_results,
-  );
-
-  return (
-    <TableHead>
-      <TableRow>
-        <TableCell />
-        <TableCell />
-        <TableCell>email пользователя</TableCell>
-        <TableCell>Группа</TableCell>
-        <TableCell>Фамилия и имя</TableCell>
-        {examResults &&
-          examResults[0]?.question_statuses?.map((question_status) => (
-            <TableCell key={question_status.question_id}>
-              <Tooltip title={question_status?.usertests_question?.text || ''}>
-                <Typography>Вопрос №{question_status.question_id}</Typography>
-              </Tooltip>
-            </TableCell>
-          ))}
-        <TableCell>Сумма баллов</TableCell>
-      </TableRow>
-    </TableHead>
-  );
+export default function UiExamTableHead() {
+  const results = useSelector((state: RootState) => state.examResultsByIDReducer.exam_results);
+  return <TableHead><TableRow>
+    <TableCell><span className="sw-exam-sr-only">Подробности</span></TableCell>
+    <TableCell>Участник</TableCell><TableCell>Группа</TableCell>
+    {results?.[0]?.question_statuses?.map(question => <TableCell align="center" key={question.question_id}><Tooltip title={question.usertests_question?.text || ''}><span className="sw-exam-question-heading">Вопрос<span>№ {question.question_id}</span></span></Tooltip></TableCell>)}
+    <TableCell align="right">Сумма баллов</TableCell>
+  </TableRow></TableHead>;
 }

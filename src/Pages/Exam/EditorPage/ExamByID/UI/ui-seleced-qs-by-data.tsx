@@ -26,38 +26,19 @@ export default function SelectedQSByData({ ...props }: ISelectedQSByDataProps) {
     }
   }, [selectedQSID]);
 
-  if (sequenceData?.id != selectedQSID || selectedQSID == undefined) {
+  if (!sequenceData || Number(sequenceData.id) !== Number(selectedQSID) || selectedQSID == undefined) {
     return <div />;
   }
   return (
     <Paper elevation={0} {...props}>
-      <Card variant="outlined">
-        <Typography variant="h6" color="textSecondary" sx={{ pl: 2, pt: 1 }}>
-          <strong>{`ID: ${sequenceData?.id}`}</strong>
-        </Typography>
-        <Typography sx={{ pl: 2 }}>
-          {`Название: ${sequenceData?.name}`}
-        </Typography>
-
-        <Typography sx={{ pl: 2 }}>
-          {sequenceData?.description
-            ? `Описание: ${sequenceData?.description}`
-            : 'Описание отсутствует'}
-        </Typography>
-
-        <Stack
-          sx={{ pl: 2, pr: 2, mb: 2, pt: 1, overflowY: 'auto' }}
-          spacing={2}
-          direction={'row'}
-        >
-          {sequenceData?.sequence_data?.sequence?.map((question_id, qIndex) => (
-            <Chip
-              label={question_id || ''}
-              variant="outlined"
-              key={`${qIndex}QuestionKey`}
-            />
-          ))}
-        </Stack>
+      <Card variant="outlined" className="sw-exam-sequence">
+        <Typography variant="caption" className="sw-exam-eyebrow">Серия вопросов · № {sequenceData.id}</Typography>
+        <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>{sequenceData.name}</Typography>
+        {sequenceData.description && <Typography variant="body2" color="text.secondary">{sequenceData.description}</Typography>}
+        <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1.5 }}>Вопросов в серии: {sequenceData.sequence_data?.sequence?.length || 0}</Typography>
+        <div className="sw-exam-question-chips">
+          {sequenceData.sequence_data?.sequence?.map((question_id, qIndex) => <Chip size="small" label={'№ ' + question_id} variant="outlined" key={qIndex} />)}
+        </div>
       </Card>
     </Paper>
   );

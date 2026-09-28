@@ -19,7 +19,7 @@ const ExamName = observer(({ ...props }: IExamNameProps) => {
         value={examName || ''}
         onChange={(e) => dispatch(changeExamName(e.target.value))}
         fullWidth
-        variant="filled"
+        variant="outlined"
         multiline
         label={'Название экзамена'}
       />

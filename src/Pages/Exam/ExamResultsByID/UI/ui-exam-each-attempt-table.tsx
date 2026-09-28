@@ -23,9 +23,9 @@ export default function UIExamEachAttemptTable({
   });
 
   return (
-    <TableRow>
+    <TableRow className="sw-exam-detail-row">
       <TableCell
-        style={{ paddingBottom: 0, paddingTop: 0 }}
+        style={{ padding: 0, border: 0 }}
         colSpan={4 + exam_result?.question_statuses.length}
       >
         <Collapse
@@ -34,7 +34,7 @@ export default function UIExamEachAttemptTable({
           unmountOnExit
           sx={{ overflowX: 'auto' }}
         >
-          <ShowStatisticTable attempt_id_array={attempt_id_array} />
+          <div className="sw-exam-detail-content"><ShowStatisticTable attempt_id_array={attempt_id_array} /></div>
         </Collapse>
       </TableCell>
     </TableRow>

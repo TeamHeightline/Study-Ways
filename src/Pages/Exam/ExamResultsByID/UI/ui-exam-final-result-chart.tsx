@@ -1,8 +1,8 @@
-import { Paper } from '@mui/material';
+import { Paper, Checkbox, FormControlLabel } from '@mui/material';
 import { PaperProps } from '@mui/material/Paper/Paper';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Tooltip, ChartOptions, Plugin } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../App/ReduxStore/RootStore';
 
@@ -42,8 +42,11 @@ const quartileZones: Plugin<'bar'> = {
 
 export default function UIExamFinalResultChart(props: PaperProps) {
   const results = useSelector((state: RootState) => state.examResultsByIDReducer.exam_results);
-  const sorted = [...(results || [])].filter(item => Number.isFinite(item.sumOfAllPasses)).sort((a, b) => a.sumOfAllPasses - b.sumOfAllPasses);
-  if (!sorted.length) return null;
+  const [hideUnstarted, setHideUnstarted] = useState(true);
+  const sorted = [...(results || [])]
+    .filter(item => Number.isFinite(item.sumOfAllPasses))
+    .filter(item => !hideUnstarted || item.question_statuses?.some(question => Boolean(question.statistic_id)))
+    .sort((a, b) => a.sumOfAllPasses - b.sumOfAllPasses);
   const scores = sorted.map(item => item.sumOfAllPasses);
   const names = sorted.map(item => {
     const profile = item.users_customuser?.users_userprofile;
@@ -68,12 +71,14 @@ export default function UIExamFinalResultChart(props: PaperProps) {
   return <Paper elevation={0} {...props} className="sw-exam-overview-chart">
     <div className="sw-exam-chart-heading"><div><h3>Баллы участников</h3><p>Один столбик — результат одного участника.</p></div><div className="sw-exam-chart-metrics">
       <div><span>Участников</span><strong>{sorted.length}</strong></div>
-      <div><span>Средний балл</span><strong>{number(scores.reduce((sum, score) => sum + score, 0) / scores.length)}</strong></div>
-      <div><span>Лучший результат</span><strong>{number(scores[scores.length - 1])}</strong></div>
+      <div><span>Средний балл</span><strong>{scores.length ? number(scores.reduce((sum, score) => sum + score, 0) / scores.length) : '—'}</strong></div>
+      <div><span>Лучший результат</span><strong>{scores.length ? number(scores[scores.length - 1]) : '—'}</strong></div>
     </div></div>
-    <div className="sw-exam-chart-scroll"><div className="sw-exam-chart-canvas" style={{ minWidth: Math.max(sorted.length >= 4 ? 460 : 280, sorted.length * 16) }}>
+    <FormControlLabel className="sw-exam-chart-filter" control={<Checkbox size="small" checked={hideUnstarted} onChange={(_, checked) => setHideUnstarted(checked)} />} label="Скрыть участников без пройденных вопросов" />
+    {sorted.length > 0 ? <><div className="sw-exam-chart-scroll"><div className="sw-exam-chart-canvas" style={{ minWidth: Math.max(sorted.length >= 4 ? 460 : 280, sorted.length * 16) }}>
       <Bar plugins={[quartileZones]} options={options} data={{ labels: sorted.map((_, index) => String(index + 1)), datasets: [{ label: 'Баллы', data: scores, backgroundColor: scores.map(score => score < 0 ? '#cf8279' : '#58916d'), hoverBackgroundColor: scores.map(score => score < 0 ? '#b5655d' : '#286b53'), borderRadius: 5, maxBarThickness: 26, minBarLength: 2 }] }} role="img" aria-label={'Баллы ' + sorted.length + ' участников. Подробные значения представлены в таблице ниже.'} />
     </div></div>
     <p className="sw-exam-quartile-note">{sorted.length >= 4 ? 'Четверти по числу участников: от меньшего результата к большему. Границы округлены до целых участников; одинаковые баллы могут попасть в соседние группы.' : 'Разделение на четверти появится, когда будет не менее 4 участников.'}</p>
+    </> : <div className="sw-sequence-empty" role="status">{hideUnstarted ? 'Пока нет участников с пройденными вопросами. Снимите галочку, чтобы показать всех.' : 'Пока нет результатов для отображения.'}</div>}
   </Paper>;
 }

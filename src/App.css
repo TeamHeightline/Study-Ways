@@ -600,3 +600,6 @@ body::-webkit-scrollbar-thumb:hover, *::-webkit-scrollbar-thumb:hover { backgrou
 @media(max-width:600px) {.sw-exam-overview-chart {padding:16px}.sw-exam-chart-metrics {gap:18px}.sw-exam-chart-canvas {height:200px}}
 
 .sw-exam-quartile-note {margin:10px 0 0;font-size:11px;line-height:1.5;color:#7b8981}
+
+.sw-exam-chart-filter {margin:0 0 14px!important;color:#647d6c}
+.sw-exam-chart-filter .MuiFormControlLabel-label {font-size:13px}

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Alert, AlertTitle, Snackbar, Stack } from '@mui/material';
+import LockOpenRoundedIcon from '@mui/icons-material/LockOpenRounded';
 import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
 
 type LogInNotificationProps = {
@@ -55,34 +56,12 @@ export const RequireLogInAlert = observer(
     }
 
     return (
-      <div>
-        {(isOpen || requireShow) && (
-          <Stack alignItems={'center'} sx={{ width: '100%' }}>
-            <Alert
-              className="sw-login-alert sw-login-alert-block"
-              onClose={handleClose}
-              severity="error"
-              sx={{ maxWidth: 500, my: 8 }}
-              variant="filled"
-              action={
-                <Button
-                  onClick={loginWithPopup}
-                  className="sw-login-alert-button"
-                  variant={'contained'}
-                  color={'inherit'}
-                  startIcon={<LoginRoundedIcon fontSize="small" />}
-                >
-                  Войти
-                </Button>
-              }
-            >
-              <AlertTitle>Войдите в аккаунт</AlertTitle>
-              Элементы, связанные с тестированием (вопросы/серии
-              вопросов/экзамены) обязательно требуют авторизации
-            </Alert>
-          </Stack>
-        )}
-      </div>
+      <section className="sw-login-required" aria-labelledby="sw-login-required-title">
+        <div className="sw-login-required-icon"><LockOpenRoundedIcon /></div>
+        <h2 id="sw-login-required-title">Войдите, чтобы продолжить</h2>
+        <p>Для прохождения тестов и экзаменов нужен аккаунт.</p>
+        <Button onClick={loginWithPopup} variant="contained" disableElevation startIcon={<LoginRoundedIcon />} className="sw-login-required-button">Войти в аккаунт</Button>
+      </section>
     );
   },
 );

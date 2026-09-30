@@ -672,3 +672,13 @@ body::-webkit-scrollbar-thumb:hover, *::-webkit-scrollbar-thumb:hover { backgrou
 .sw-material-test-link-copy > span {font-size:12px;font-weight:400;line-height:1.5;color:#6b8473}
 .sw-material-test-link-arrow {flex-shrink:0;font-size:21px!important}
 @media(max-width:480px) {.sw-material-test-link.MuiButton-root {padding:14px;gap:10px}.sw-material-test-link-icon {width:36px;height:36px}}
+
+/* Account required state */
+.sw-login-required {box-sizing:border-box;width:calc(100% - 32px);max-width:460px;margin:56px auto;padding:32px;text-align:center;border:1px solid #dce7df;border-radius:20px;background:#fff;box-shadow:0 8px 28px #284c3908}
+.sw-login-required-icon {display:grid;place-items:center;width:56px;height:56px;margin:0 auto 20px;border-radius:16px;background:#edf6ef;border:1px solid #d6e7db;color:#4c8060}
+.sw-login-required-icon svg {font-size:27px}
+.sw-login-required h2 {margin:0 0 10px;font-size:22px;font-weight:650;line-height:1.35;color:#294535}
+.sw-login-required p {max-width:320px;margin:0 auto 24px;color:#77857c;font-size:14px;line-height:1.7}
+.sw-login-required-button.MuiButton-root {padding:11px 24px;border-radius:11px;background:#286b53;font-size:14px;text-transform:none}
+.sw-login-required-button.MuiButton-root:hover {background:#205941}
+@media(max-width:480px) {.sw-login-required {margin:28px auto;padding:26px 20px}.sw-login-required h2 {font-size:20px}.sw-login-required-button.MuiButton-root {width:100%}}

@@ -682,3 +682,13 @@ body::-webkit-scrollbar-thumb:hover, *::-webkit-scrollbar-thumb:hover { backgrou
 .sw-login-required-button.MuiButton-root {padding:11px 24px;border-radius:11px;background:#286b53;font-size:14px;text-transform:none}
 .sw-login-required-button.MuiButton-root:hover {background:#205941}
 @media(max-width:480px) {.sw-login-required {margin:28px auto;padding:26px 20px}.sw-login-required h2 {font-size:20px}.sw-login-required-button.MuiButton-root {width:100%}}
+
+.sw-question-completion {margin:20px 0;padding:24px;border:1px solid #dce7df;border-radius:18px;background:#fff}
+.sw-question-completion-header {display:flex;align-items:center;gap:16px;padding-bottom:24px;margin-bottom:24px;border-bottom:1px solid #e6eee8}
+.sw-question-completion-icon {width:48px;height:48px;flex-shrink:0;display:grid;place-items:center;border:1px solid #d6e7db;border-radius:14px;background:#edf6ef;color:#4d8a63}
+.sw-question-completion-copy {flex:1;min-width:0}
+.sw-question-completion-copy h2 {margin:0 0 6px;font-size:22px;font-weight:650;color:#294535}
+.sw-question-completion-copy p {margin:0 0 10px;font-size:13px;line-height:1.6;color:#77857c}
+.sw-question-completion-count {display:inline-block;padding:4px 9px;border-radius:7px;background:#edf6ef;color:#52765d;font-size:12px}
+.sw-question-completion-header > button {flex-shrink:0;font-size:13px}
+@media(max-width:650px) {.sw-question-completion {padding:18px}.sw-question-completion-header {flex-wrap:wrap;align-items:flex-start}.sw-question-completion-header > button {margin-left:64px}.sw-question-completion-copy h2 {font-size:20px}}

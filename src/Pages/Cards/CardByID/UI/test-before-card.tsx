@@ -1,3 +1,4 @@
+import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded';
 import { observer } from 'mobx-react';
 import React from 'react';
 import { PaperProps } from '@mui/material/Paper/Paper';
@@ -43,23 +44,10 @@ const TestBeforeCard = observer(
     }
 
     return (
-      <Paper elevation={0} {...props}>
-        <Alert severity={'error'} variant="outlined">
-          <AlertTitle>
-            <Typography variant={'h5'}>Тест перед карточкой</Typography>
-          </AlertTitle>
-          <Typography variant={'subtitle1'}>
-            Перед тем, как просмотреть данную карточку, советуем пройти тест,
-            чтобы проверить, имеются ли у Вас знания, необходимые для ее
-            просмотра.
-          </Typography>
-          <Stack direction={'row'} spacing={'2'} sx={{ mt: 2 }}>
-            <Button variant={'contained'} onClick={onGoToTest}>
-              Пройти тест
-            </Button>
-            <Button onClick={closeAlert}>Скрыть</Button>
-          </Stack>
-        </Alert>
+      <Paper elevation={0} {...props} className="sw-material-test-prompt">
+        <div className="sw-material-test-icon"><TaskAltRoundedIcon /></div>
+        <div className="sw-material-test-copy"><Typography component="h2">Проверьте себя перед просмотром</Typography><Typography>Узнайте, насколько хорошо вы знакомы с темой.</Typography></div>
+        <div className="sw-material-test-actions"><Button variant="contained" disableElevation onClick={onGoToTest}>Пройти тест</Button><Button onClick={closeAlert}>Скрыть</Button></div>
       </Paper>
     );
   },

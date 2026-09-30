@@ -22,7 +22,7 @@ const CardContentAndDescription = observer(
     const { isAuthenticated } = useAuth0();
 
     return (
-      <Paper elevation={0} {...props}>
+      <Paper elevation={0} {...props} className="sw-material-body">
         <Grid container className="sw-card-content-grid" spacing={{ xs: 2, md: 5 }}>
           <Grid item xs={12} md={6}>
             <CardMainContent card_store={card_store} />

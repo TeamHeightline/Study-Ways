@@ -18,12 +18,13 @@ const SimilarCards = observer(
       window.scrollTo({ top: 0, behavior: 'smooth' });
       navigate(`/card/${cardID}`);
     };
+    if (!card_store.similarCardsID?.length) return null;
     return (
-      <Paper elevation={0} {...props}>
-        <Stack alignItems={'center'} sx={{ mt: 2 }}>
-          <Typography variant={'h3'}>Похожие карточки</Typography>
+      <Paper elevation={0} {...props} className="sw-material-related">
+        <Stack className="sw-material-related-heading">
+          <Typography variant="h6" component="h2">Похожие карточки</Typography>
         </Stack>
-        <Grid container spacing={2} justifyContent={'space-around'}>
+        <Grid container className="sw-material-related-grid">
           {card_store.similarCardsID?.map((cardID) => (
             <Grid item xs={12} sm={6} md={'auto'} key={cardID}>
               <CardMicroView

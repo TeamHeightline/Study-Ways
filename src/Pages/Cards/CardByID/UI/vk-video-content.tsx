@@ -25,12 +25,12 @@ export const VkVideoContent = observer((props: Props) => {
   const isMobile = isMobileHook();
 
   return (
-    <iframe
+    <iframe title="Видеоматериал VK"
       src={getIframeURL(videoURL)}
       style={{
         flex: 1,
-        width: isMobile ? '95vw' : 'auto',
-        height: isMobile ? '53vw' : 540,
+        width: '100%',
+        height: '100%',
       }}
       allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
       frameBorder="0"

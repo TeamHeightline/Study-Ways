@@ -28,7 +28,7 @@ const TitleAndNavigation = observer(
     const isMobile = isMobileHook();
     const openFromCourse = !!course_navigation;
     return (
-      <Paper elevation={0} {...props}>
+      <Paper elevation={0} {...props} className="sw-material-header">
         <Stack
           direction={openFromCourse && !isMobile ? 'row' : 'column'}
           spacing={2}
@@ -38,10 +38,10 @@ const TitleAndNavigation = observer(
             : !is_hidden_navigation && (
                 <DefaultCardNavigation card_store={card_store} />
               )}
-          <Stack direction={'column'}>
+          <Stack direction={'column'} className="sw-material-heading">
             <CardTitleWithId card_store={card_store} />
             <CardAuthor card_store={card_store} />
-            <Stack direction={{ sx: 'column', md: 'row' }} spacing={1}>
+            <Stack direction={{ xs: 'column', md: 'row' }} spacing={1}>
               <CardCopyright card_store={card_store} />
               <CardTheme card_store={card_store} />
             </Stack>

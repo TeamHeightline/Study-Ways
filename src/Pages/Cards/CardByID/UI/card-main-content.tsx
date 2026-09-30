@@ -26,7 +26,7 @@ const CardMainContent = observer(
     return (
       <Box>
         <GoToTestButton card_store={card_store} />
-        <Box sx={{ height: { xs: '53vw', md: 540 } }} {...props}>
+        <Box {...props} className="sw-material-media">
           {isYoutubeContentType && <VideoContent card_store={card_store} />}
           {isShowImageContent && <CardImage card_store={card_store} />}
         </Box>

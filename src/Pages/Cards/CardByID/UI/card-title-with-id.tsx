@@ -16,13 +16,13 @@ const CardTitleWithId = observer(
     const card_id = card_store?.card_data?.id;
 
     return (
-      <Typography component={'div'} variant={'h5'}>
+      <Typography component={'h1'} variant={'h5'} className="sw-material-title">
         {title}
         <Chip
           sx={{ ml: 1 }}
-          label={card_id}
+          label={'№ ' + card_id}
           variant={'outlined'}
-          color={'info'}
+          color={'primary'}
           size={'small'}
         />
       </Typography>

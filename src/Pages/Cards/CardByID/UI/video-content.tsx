@@ -35,16 +35,8 @@ const VideoContent = observer(({ card_store }: IYoutubeContentProps) => {
 
   return (
     <Box>
-      <Box
-        sx={{
-          width: isMobile ? '95vw' : 'auto',
-          height: isMobile ? '53vw' : 540,
-          display: 'flex',
-          alignItems: 'center',
-          position: 'relative',
-        }}
-      >
-        <div style={{ width: '100%', display: 'flex', flex: 1 }}>
+      <Box className="sw-material-video">
+        <div className="sw-material-player">
           {videoHosting === 'VK' ? (
             <VkVideoContent videoURL={VKVideoURL} />
           ) : videoHosting === 'Youtube' ? (
@@ -52,18 +44,11 @@ const VideoContent = observer(({ card_store }: IYoutubeContentProps) => {
           ) : null}
         </div>
         <ToggleButtonGroup
-          sx={{
-            position: 'absolute',
-            left: {
-              md: -60,
-              xs: 0,
-            },
-            top: '50%',
-            transform: 'translate(0%, -50%)',
-          }}
+          className="sw-material-hosts"
+          aria-label="Видеоплатформа"
           size={isMobile ? 'small' : 'medium'}
           exclusive
-          orientation={'vertical'}
+          orientation={'horizontal'}
           onChange={(e, value) => {
             if (!value) {
               return;

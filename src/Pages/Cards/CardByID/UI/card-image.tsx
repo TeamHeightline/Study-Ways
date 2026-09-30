@@ -27,13 +27,14 @@ const CardImage = observer(({ card_store, ...props }: ICardImageProps) => {
       elevation={0}
       {...props}
       sx={{
-        backgroundSize: 'cover',
+        backgroundSize: 'contain',
         backgroundPositionX: 'center',
         backgroundPositionY: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
-        width: { md: '100%', xs: '95vw' },
-        height: { xs: 200, md: 540 },
+        width: '100%',
+        height: 'auto',
+        aspectRatio: '4 / 3',
         // backgroundSize: "cover",
         backgroundImage: card_image,
         position: 'relative',
@@ -44,7 +45,7 @@ const CardImage = observer(({ card_store, ...props }: ICardImageProps) => {
           sx={{
             width: '100%',
             height: '100%',
-            backdropFilter: 'brightness(40%)',
+
           }}
           onClick={goToRemoteResource}
         />

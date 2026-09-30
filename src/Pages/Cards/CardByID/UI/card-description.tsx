@@ -16,12 +16,13 @@ const CardDescription = observer(
     const description = card_store?.card_data?.text;
     return (
       <Paper
+        className="sw-material-description"
         elevation={0}
         sx={{ maxWidth: width, overflow: 'auto' }}
         {...props}
       >
         {description && (
-          <div dangerouslySetInnerHTML={{ __html: description }} />
+          <><h2>О материале</h2><div dangerouslySetInnerHTML={{ __html: description }} /></>
         )}
       </Paper>
     );

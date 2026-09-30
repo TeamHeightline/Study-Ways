@@ -19,8 +19,8 @@ export const YoutubeContent = observer((props: IProps) => {
 
   return (
     <ReactPlayer
-      width={isMobile ? '95vw' : '100%'}
-      height={isMobile ? '53vw' : 540}
+      width="100%"
+      height="100%"
       controls
       url={youtubeVideoURL}
       onEnded={onEndVideoWatch}

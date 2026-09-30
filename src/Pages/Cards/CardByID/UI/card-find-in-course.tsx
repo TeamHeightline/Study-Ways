@@ -26,11 +26,12 @@ const CardFindInCourse = observer(
         <Alert className="sw-course-reference" severity="info" variant="outlined" sx={{ maxWidth: 550 }}>
           <AlertTitle>
             {card_store.findInCourseArrayForUI?.length == 1
-              ? 'Этот ресурс встречается в курсе:'
-              : 'Этот ресурс встречается в курсах:'}
+              ? 'Материал входит в курс'
+              : 'Материал входит в курсы'}
           </AlertTitle>
           {card_store.findInCourseArrayForUI?.map((course) => (
             <Button
+              key={course.course_id}
               title={'Открыть курс'}
               className="sw-course-reference-button"
               endIcon={<ArrowForwardRoundedIcon />}

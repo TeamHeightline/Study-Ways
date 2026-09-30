@@ -603,3 +603,72 @@ body::-webkit-scrollbar-thumb:hover, *::-webkit-scrollbar-thumb:hover { backgrou
 
 .sw-exam-chart-filter {margin:0 0 14px!important;color:#647d6c}
 .sw-exam-chart-filter .MuiFormControlLabel-label {font-size:13px}
+
+/* Material reading page */
+.sw-card-page {padding-bottom:32px;min-width:0}
+.sw-material-header {padding:24px!important;border:1px solid #dce7df;border-radius:18px!important;margin-bottom:20px;background:#fff}
+.sw-material-heading {gap:8px;min-width:0}
+.sw-material-title {font-size:clamp(22px,2vw,30px)!important;font-weight:650!important;line-height:1.3!important;color:#243d31;overflow-wrap:anywhere;margin-bottom:6px!important}
+.sw-material-title .MuiChip-root {vertical-align:middle;font-size:11px;background:#edf6ef;border-color:#cee1d3;color:#5c7e66;font-weight:500}
+.sw-material-heading > div:not(h1) {color:#728379;font-size:13px}
+.sw-material-heading svg {font-size:18px;color:#6b8b76}
+.sw-material-body {padding:24px!important;border:1px solid #dce7df;border-radius:18px!important;background:#fff}
+.sw-material-body .sw-card-content-grid {display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;width:100%;margin:0}
+.sw-material-body .sw-card-content-grid > .MuiGrid-item {padding:0;max-width:none;width:100%}
+.sw-material-media {width:100%;min-width:0}
+.sw-material-video {display:flex;flex-direction:column;gap:12px;width:100%}
+.sw-material-player {position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:14px;background:#1c2923}
+.sw-material-player > div,.sw-material-player > iframe {width:100%!important;height:100%!important;display:block}
+.sw-material-hosts {align-self:flex-start;border:1px solid #dce7df;border-radius:10px!important;background:#f7faf8}
+.sw-material-hosts .MuiToggleButton-root {padding:7px 18px;color:#64816d;border-color:#dce7df;font-size:12px}
+.sw-material-hosts .Mui-selected {background:#e2f0e6!important;color:#286b53!important}
+.sw-material-description {width:100%;max-width:100%!important;overflow-wrap:anywhere;color:#405449}
+.sw-material-description h2 {font-size:16px;font-weight:650;color:#2c503b;margin:0 0 14px}
+.sw-material-description > div {font-size:15px!important;line-height:1.8!important}
+.sw-material-description p,.sw-material-description span {font-size:inherit!important;line-height:inherit!important}
+.sw-material-description p {margin:0 0 16px}
+.sw-material-description img {max-width:100%!important;height:auto!important;object-fit:contain}
+.sw-material-description figure {max-width:100%;margin:16px 0}
+.sw-material-description table {max-width:100%}
+@media(max-width:1100px) {.sw-material-body .sw-card-content-grid {grid-template-columns:1fr}.sw-material-description {max-width:850px!important}}
+@media(max-width:600px) {.sw-material-header,.sw-material-body {padding:16px!important}.sw-material-body .sw-card-content-grid {gap:20px}}
+
+/* Quiet follow-up sections on material pages */
+.sw-material-test-prompt {display:flex;align-items:center;gap:16px;padding:20px 24px!important;margin-top:20px;border:1px solid #d8e7dc;border-radius:16px!important;background:#f0f7f2!important}
+.sw-material-test-icon {display:grid;place-items:center;flex-shrink:0;width:42px;height:42px;border-radius:12px;background:#e0eee4;color:#477b58}
+.sw-material-test-copy {flex:1;min-width:0}
+.sw-material-test-copy h2 {font-size:17px;font-weight:650;color:#2c503b;margin-bottom:5px}
+.sw-material-test-copy p {font-size:13px;line-height:1.6;color:#748277}
+.sw-material-test-actions {display:flex;gap:8px;flex-shrink:0}
+.sw-material-test-actions button {white-space:nowrap;font-size:13px}
+.sw-material-related {margin-top:28px;padding:0!important;background:transparent!important}
+.sw-material-related-heading {margin:0 0 16px!important;align-items:flex-start}
+.sw-material-related-heading h2 {font-size:20px;font-weight:650;color:#2c503b}
+.sw-material-related-grid {display:grid!important;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;width:100%!important;margin:0!important}
+.sw-material-related-grid > .MuiGrid-item {min-width:0;max-width:none!important;width:100%;padding:0!important}
+.sw-material-related-grid > .MuiGrid-item > * {max-width:100%;width:100%}
+.sw-material-body .sw-course-reference {padding:16px!important;max-width:none;border-radius:12px;background:#f7faf8!important;border-color:#e0e9e3!important}
+.sw-material-body .sw-course-reference .MuiAlert-icon {display:none}
+.sw-material-body .sw-course-reference .MuiAlert-message {width:100%;padding:0;min-width:0}
+.sw-material-body .sw-course-reference .MuiAlertTitle-root {font-size:13px;margin:0 0 10px;font-weight:600;color:#607b69}
+.sw-material-body .sw-course-reference-button {margin:0!important;padding:10px 0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;border-bottom:1px solid #e3ece6;font-size:12px!important;text-transform:none;line-height:1.5}
+.sw-material-body .sw-course-reference-button:last-child {border-bottom:0}
+.sw-material-body .sw-course-reference-button:hover {color:#1f644a;background:#edf5ef!important}
+@media(max-width:700px) {.sw-material-test-prompt {flex-wrap:wrap;padding:18px!important;gap:12px}.sw-material-test-actions {width:100%;padding-left:54px}.sw-material-related-grid {grid-template-columns:1fr}}
+
+/* Course links must fit the alert without horizontal overflow. */
+.sw-course-reference {box-sizing:border-box;min-width:0;max-width:100%}
+.sw-course-reference .MuiAlert-message {min-width:0}
+.sw-course-reference-button {min-width:0!important;max-width:100%;box-sizing:border-box}
+.sw-course-reference-button > span:first-child {min-width:0;white-space:normal;overflow-wrap:anywhere;text-overflow:clip}
+.sw-course-reference-button .MuiButton-endIcon {flex-shrink:0;margin-right:0;overflow:visible}
+
+.sw-material-test-link.MuiButton-root {display:flex;gap:14px;justify-content:flex-start;padding:16px 18px;margin-bottom:18px;border:1px solid #c8ddce;border-radius:14px;background:#edf6ef;color:#286b53;text-align:left;text-transform:none;box-shadow:none;transition:background .18s,border-color .18s}
+.sw-material-test-link.MuiButton-root:hover {background:#e0eee4;border-color:#8cb59b;box-shadow:none}
+.sw-material-test-link.Mui-focusVisible {outline:2px solid #286b53;outline-offset:3px}
+.sw-material-test-link-icon {display:grid;place-items:center;flex-shrink:0;width:42px;height:42px;border-radius:12px;background:#dbece1;color:#397657}
+.sw-material-test-link-copy {display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+.sw-material-test-link-copy strong {font-size:15px;font-weight:650;line-height:1.4}
+.sw-material-test-link-copy > span {font-size:12px;font-weight:400;line-height:1.5;color:#6b8473}
+.sw-material-test-link-arrow {flex-shrink:0;font-size:21px!important}
+@media(max-width:480px) {.sw-material-test-link.MuiButton-root {padding:14px;gap:10px}.sw-material-test-link-icon {width:36px;height:36px}}

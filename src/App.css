@@ -727,3 +727,18 @@ body::-webkit-scrollbar-thumb:hover, *::-webkit-scrollbar-thumb:hover { backgrou
 .sw-course-map-node .sw-course-material-title {min-height:0;-webkit-line-clamp:3;margin-bottom:4px!important}
 .sw-course-map-legend {display:flex;gap:20px;flex-wrap:wrap;margin-top:12px;color:#799080;font-size:11px}
 @media(max-width:600px) {.sw-course-lane-label {flex-basis:78px;width:78px;padding:20px 8px}.sw-course-lane-label > span {font-size:9px}.sw-course-map-viewport {max-height:70vh}}
+
+/* Compact AI trajectory with the selected material below it. */
+.sw-ai-workspace {min-width:0}
+.sw-ai-map-panel {margin:12px 24px 0;border:1px solid #dce7df;border-radius:18px;background:#fff;overflow:hidden}
+.sw-ai-map-heading {display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px;border-bottom:1px solid #e3ece6}
+.sw-ai-map-heading h2 {margin:0 0 4px;font-size:16px;font-weight:650;color:#294535}
+.sw-ai-map-heading p {margin:0;font-size:12px;line-height:1.5;color:#7b8981}
+.sw-ai-map-heading > button {flex-shrink:0;font-size:12px;text-transform:none}
+.sw-ai-course-flow {height:clamp(260px,42svh,430px);width:100%;background:#f7faf7}
+.sw-ai-course-flow.is-expanded {height:75svh}
+.sw-ai-card-node.is-selected {transform:none;box-shadow:0 0 0 5px #dceede,0 10px 22px #34745220}
+.sw-ai-course-flow .react-flow__handle {width:7px;height:7px;background:#6c9c7b;border:2px solid #f7faf7}
+.sw-ai-course-flow .react-flow__controls {box-shadow:0 3px 10px #284c3912}
+.sw-ai-workspace > .sw-card-page {padding-top:18px!important}
+@media(max-width:600px) {.sw-ai-map-panel {margin:10px 12px 0}.sw-ai-map-heading {padding:12px;align-items:flex-start;flex-wrap:wrap;gap:8px}.sw-ai-course-flow {height:36svh;min-height:240px}.sw-ai-map-heading h2 {font-size:15px}}

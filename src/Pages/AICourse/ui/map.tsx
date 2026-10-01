@@ -1,6 +1,9 @@
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Button } from '@mui/material';
+import OpenInFullRoundedIcon from '@mui/icons-material/OpenInFullRounded';
+import CloseFullscreenRoundedIcon from '@mui/icons-material/CloseFullscreenRounded';
 import { Background, Controls, ReactFlow, useReactFlow } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { CardNode } from './card-node';
@@ -23,6 +26,7 @@ const MOBILE_ZOOM = 0.3;
 const MOBILE_MAX_ZOOM = 0.15;
 
 const Flow = observer((props: IProps) => {
+  const [expanded, setExpanded] = useState(false);
   const nodes = toJS(AICourseStore.nodes);
   const edges = toJS(AICourseStore.edges);
   const selectedNodeID = toJS(AICourseStore.selectedCardId);
@@ -44,7 +48,9 @@ const Flow = observer((props: IProps) => {
   }, [selectedNodeID, nodes.length]);
 
   return (
-    <div className="sw-ai-course-flow" style={{ height: '75svh', width: '100vw' }}>
+    <section className="sw-ai-map-panel">
+      <div className="sw-ai-map-heading"><div><h2>Ваша траектория</h2><p>Выберите карточку — рекомендации продолжат маршрут. Материал откроется ниже.</p></div><Button size="small" aria-expanded={expanded} startIcon={expanded ? <CloseFullscreenRoundedIcon /> : <OpenInFullRoundedIcon />} onClick={() => setExpanded(value => !value)}>{expanded ? 'Свернуть поле' : 'Расширить поле'}</Button></div>
+      <div className={'sw-ai-course-flow' + (expanded ? ' is-expanded' : '')}>
       <ReactFlow
         minZoom={isMobile ? MOBILE_MAX_ZOOM : PC_MAX_ZOOM}
         nodeTypes={nodeTypes}
@@ -53,9 +59,10 @@ const Flow = observer((props: IProps) => {
         fitView
       >
         <Background />
-        <Controls />
+        <Controls showInteractive={false} />
       </ReactFlow>
     </div>
+    </section>
   );
 });
 

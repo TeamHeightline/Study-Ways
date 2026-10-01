@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import React, { useEffect } from 'react';
 import { Stack } from '@mui/material';
 import { ExamMode } from './ExamMode';
-import { QSMode } from './QSMode';
+
 import { UserName } from './UserName';
 import { AfterTime } from './AfterTime';
 import { SpecificQuestion } from './SpecificQuestion';
@@ -15,24 +15,14 @@ interface ISelectorsProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const Selectors = observer(
   ({ selectedQuestions, ...props }: ISelectorsProps) => {
-    const isMobile = isMobileHook();
+    useEffect(() => { SASObject.onlyInQs = false; SASObject.changeSelectedSQ(undefined); }, []);
     useEffect(() => {
       SASObject.changeSelectedQuestions(selectedQuestions);
     }, [selectedQuestions]);
     return (
-      <div {...props}>
-        <Stack
-          direction={isMobile ? 'column' : 'row'}
-          spacing={1}
-          justifyContent="space-evenly"
-          sx={{ pt: 2, mb: 1 }}
-        >
-          <UserName />
-          <SpecificQuestion />
-          <ExamMode />
-          <QSMode />
-          <AfterTime />
-        </Stack>
+      <div {...props} className="sw-statistics-filters">
+        <div className="sw-statistics-fields"><UserName /><SpecificQuestion /><AfterTime /></div>
+        <div className="sw-statistics-options"><ExamMode /><span>Результаты обновляются автоматически</span></div>
       </div>
     );
   },

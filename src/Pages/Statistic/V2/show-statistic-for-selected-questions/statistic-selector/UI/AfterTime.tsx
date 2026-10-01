@@ -9,10 +9,10 @@ type IAfterTimeProps = React.HTMLAttributes<HTMLDivElement>;
 export const AfterTime = observer(({ ...props }: IAfterTimeProps) => (
   <div {...props}>
     <DateTimePicker
-      label="Время, после которого отображать"
+      label="Результаты начиная с"
       value={SASObject.afterTime}
       onChange={SASObject.changeAfterTime}
-      renderInput={(params) => <TextField {...params} />}
+      renderInput={(params) => <TextField {...params} size="small" fullWidth />}
     />
   </div>
 ));

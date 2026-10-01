@@ -8,7 +8,7 @@ import { SASObject } from '../Store/SelectAttemptStore';
 type IUserNameProps = React.HTMLAttributes<HTMLDivElement>;
 export const UserName = observer(({ ...props }: IUserNameProps) => (
   <div {...props}>
-    <TextField
+    <TextField size="small" fullWidth
       value={toJS(SASObject.userName)}
       onChange={async (e) => (SASObject.userName = e.target.value)}
       label="Имя пользователя"

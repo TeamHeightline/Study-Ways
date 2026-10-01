@@ -772,3 +772,11 @@ body::-webkit-scrollbar-thumb:hover, *::-webkit-scrollbar-thumb:hover { backgrou
 /* Separate navigation sections even when the guest panel replaces the last nav. */
 .sw-sidebar nav + .sw-nav-caption { margin-top:24px; }
 @media(max-height:700px) { .sw-sidebar nav + .sw-nav-caption { margin-top:16px; } }
+
+.sw-statistics-heading {margin:24px 0 18px}.sw-statistics-heading h2 {margin:0 0 6px;font-size:22px;font-weight:650;color:#294535}.sw-statistics-heading p {margin:0;color:#7b8981;font-size:13px;line-height:1.6}
+.sw-statistics-filters {padding:22px;border:1px solid #dce7df;border-radius:16px;background:white;margin-bottom:20px}
+.sw-statistics-fields {display:grid;grid-template-columns:minmax(180px,1fr) minmax(200px,1.3fr) minmax(240px,1fr);gap:16px}
+.sw-statistics-fields > div {min-width:0}.sw-statistics-fields .MuiFormControl-root {width:100%!important;min-width:0}.sw-statistics-fields .MuiInputBase-root {background:#fbfdfb;border-radius:10px}.sw-statistics-fields .MuiSelect-select {overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sw-statistics-options {display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid #e8eee9;margin-top:18px;padding-top:12px}.sw-statistics-options .MuiFormControlLabel-label {font-size:13px;color:#52715f}.sw-statistics-options > span {font-size:11px;color:#8a988f}
+@media(max-width:1000px) {.sw-statistics-fields {grid-template-columns:1fr 1fr}.sw-statistics-fields > div:last-child {grid-column:1/-1}}
+@media(max-width:600px) {.sw-statistics-filters {padding:16px}.sw-statistics-fields {grid-template-columns:1fr;gap:18px}.sw-statistics-options {gap:8px}}

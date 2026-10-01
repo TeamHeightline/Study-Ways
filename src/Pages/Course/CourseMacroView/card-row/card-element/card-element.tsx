@@ -80,7 +80,7 @@ export default function CardItem({
       : `https://storage.googleapis.com/study-ways-files/${cardData?.cards_cardimage?.image}`;
 
   return (
-    <Box className={`sw-material ${isSelected ? 'is-selected' : ''} ${isViewed ? 'is-viewed' : ''}`} sx={{ width: size.width }} onClick={handleNavigateToItem}>
+    <Box role="button" tabIndex={0} aria-pressed={isSelected} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); handleNavigateToItem(); } }} className={`sw-material ${isSelected ? 'is-selected' : ''} ${isViewed ? 'is-viewed' : ''}`} sx={{ width: size.width }} onClick={handleNavigateToItem}>
       <Card variant={'outlined'} className="sw-material-card">
         {numberOfElements > 1 ? (
           <MultipleCards numberOfElements={numberOfElements} size={size} />
@@ -101,7 +101,7 @@ export default function CardItem({
           />
         )}
       </Card>
-      <Typography className="sw-material-title" variant={'caption'}>{cardData?.title || 'Загрузка материала…'}</Typography>
+      <Typography className="sw-course-material-title" variant={'caption'}>{numberOfElements > 1 ? `Подборка · ${numberOfElements} материалов` : cardData?.title || 'Загрузка материала…'}</Typography>
       <span className="sw-material-state">{isSelected ? 'Сейчас изучаете' : isViewed ? 'Просмотрено' : 'Открыть материал'}</span>
     </Box>
   );

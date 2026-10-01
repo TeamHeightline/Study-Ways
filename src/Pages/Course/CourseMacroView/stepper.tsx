@@ -17,15 +17,17 @@ export default function Stepper({
   courseData,
   ...props
 }: ICourseSliderProps) {
+  const pageCount = Math.max(1, ...(courseData.course_data || []).map(line => line.SameLine?.length || 0));
+  if (pageCount <= 1) return null;
   return (
     <Box sx={{ p: 1 }} {...props}>
       <Pagination
         variant={'outlined'}
-        count={courseData.course_data[0].SameLine.length}
+        count={pageCount}
         page={activePage}
         onChange={(event, page) => setActivePage(page)}
         color="primary"
-        disabled={Number(courseData.course_data[0].SameLine.length) <= 1}
+        
       />
     </Box>
   );

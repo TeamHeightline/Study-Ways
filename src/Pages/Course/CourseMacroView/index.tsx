@@ -51,7 +51,7 @@ export default function CourseMacroView({
         return;
       }
       onCardSelect(cardID);
-      setViewedCardIds(viewedCardIDs.add(cardID));
+      setViewedCardIds(previous => new Set(previous).add(cardID));
     }
   }, [positionData, onCardSelect, courseData]);
 
@@ -90,37 +90,19 @@ export default function CourseMacroView({
           <Box className="sw-course-header-actions"><button type="button" onClick={() => window.history.back()}><ArrowBack fontSize="small" /> К каталогу</button><span><AutoAwesomeOutlined fontSize="small" /> Собирайте знания в систему</span></Box>
         </Box>
         <Box className="sw-course-progress" aria-label="Прогресс по уровням">
-          {filledLevels.slice(0, 6).map((level) => <div className={`sw-progress-level ${level.index === activePage - 1 ? 'is-current' : ''} ${level.count ? 'has-content' : ''}`} key={level.index}><span className="sw-progress-dot">{level.index + 1}</span><div><small>{level.title}</small><strong>{level.count ? `${level.count} ${level.count === 1 ? 'материал' : 'материалов'}` : 'В разработке'}</strong></div></div>)}
+          {filledLevels.map((level) => <div className={`sw-progress-level ${level.index === positionData.selectedRow ? 'is-current' : ''} ${level.count ? 'has-content' : ''}`} key={level.index}><span className="sw-progress-dot">{level.index + 1}</span><div><small>{level.title}</small><strong>{level.count ? `${level.count} ${level.count === 1 ? 'материал' : 'материалов'}` : 'В разработке'}</strong></div></div>)}
         </Box>
       </Box>
 
-      <Box className="sw-course-map-shell"
-        sx={{
-          width:
-            (CARD_WIDTH + CARD_PADDING) * NUMBER_OF_CARD + ADDITIONAL_SPACE,
-          overflow: 'auto',
-          p: 1,
-        }}
-      >
-        <Box className="sw-course-map-label"><span>КАРТА КУРСА</span><small>Выберите материал, чтобы продолжить</small></Box>
-        <Stack
-          sx={{ width: (CARD_WIDTH + CARD_PADDING) * NUMBER_OF_CARD }}
-          spacing={1}
-        >
-          {courseData.course_data?.map((line, index) => (
-            <CardRow
-              key={index}
-              index={index}
-              activePage={activePage}
-              courseData={courseData}
-              CARD_WIDTH={CARD_WIDTH}
-              course_main_line_index={course_main_line_index}
-              positionData={positionData}
-              courseID={courseID}
-              viewedCardIDs={viewedCardIDs}
-            />
-          ))}
-        </Stack>
+      <Box className="sw-course-level-map">
+        <div className="sw-course-level-intro"><h2>Карта курса</h2><p>Вправо — дальше по теме. Между уровнями — другое изложение материала.</p></div>
+        <div className="sw-course-map-viewport" tabIndex={0} role="region" aria-label="Двумерная карта курса. Прокрутите вправо для следующих материалов.">
+        {courseData.course_data?.map((line, index) => (
+          <CardRow key={index} index={index} activePage={activePage} courseData={courseData} CARD_WIDTH={200} course_main_line_index={course_main_line_index} positionData={positionData} courseID={courseID} viewedCardIDs={viewedCardIDs} />
+        ))}
+        </div>
+        <div className="sw-course-map-legend"><span>― Продвижение по теме</span><span>┆ Смена уровня изложения</span><span>Прокрутите карту вправо →</span></div>
+        {!levels.some(line => line.SameLine?.[activePage - 1]?.CourseFragment?.some(fragment => fragment?.CourseElement?.id || fragment?.CourseElement?.course_link)) && <p className="sw-course-level-empty">На этой странице пока нет материалов.</p>}
       </Box>
       <Stepper
         activePage={activePage}

@@ -19,12 +19,11 @@ const DefaultCardNavigation = observer(
     const navigate = useNavigate();
     const card_id = Number(card_store?.card_data?.id);
     const isAdmin = UserStorage.userAccessLevel == 'ADMIN';
-    const goToCard = (stepUpID: number) => {
-      navigate(`/card/${card_id + stepUpID}`);
-    };
+
     const openCardForEdit = () => {
       navigate(`/editor/card2/card/${card_id}`);
     };
+    if (!isAdmin) return null;
     return (
       <div {...props}>
         <Stack
@@ -32,27 +31,7 @@ const DefaultCardNavigation = observer(
           justifyContent="space-between"
           alignItems={'center'}
         >
-          <ButtonGroup
-            size="large"
-            color="primary"
-            aria-label="group"
-            id={'btn-group-for-card-page'}
-          >
-            <Button
-              onClick={() => {
-                goToCard(-1);
-              }}
-            >
-              <KeyboardArrowLeftOutlinedIcon />
-            </Button>
-            <Button
-              onClick={() => {
-                goToCard(1);
-              }}
-            >
-              <KeyboardArrowRightOutlinedIcon />
-            </Button>
-          </ButtonGroup>
+
           {isAdmin && (
             <IconButton size="large" onClick={openCardForEdit}>
               <EditIcon fontSize="inherit" />

@@ -21,8 +21,10 @@ const CardTheme = observer(({ card_store, ...props }: ICardThemeProps) => {
   return (
     <Paper elevation={0} {...props}>
       {isShowTheme && (
-        <Stack direction={'row'}>
-          <AccountTreeIcon sx={{ mr: 1 }} fontSize={'small'} />
+        <Stack direction={'row'} sx={{ alignItems: 'flex-start', gap: 1, minWidth: 0 }}>
+          <Stack direction="row" sx={{ flexShrink: 0 }}><AccountTreeIcon fontSize="small" /></Stack>
+          <Stack direction="row" sx={{ flexWrap: 'wrap', columnGap: 2.5, rowGap: 1, minWidth: 0 }}>
+
           {themeIDArray?.map((theme) => (
             <ThemeWithAncestor
               key={`${theme.id}ThemeKey`}
@@ -30,6 +32,7 @@ const CardTheme = observer(({ card_store, ...props }: ICardThemeProps) => {
               card_store={card_store}
             />
           ))}
+          </Stack>
         </Stack>
       )}
     </Paper>

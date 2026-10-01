@@ -1,6 +1,7 @@
-import { Box, Card, Divider, Grid, Stack, Chip } from '@mui/material';
+import { Box, Card, Divider, Grid, Stack, Chip, Button } from '@mui/material';
 import { BoxProps } from '@mui/material/Box/Box';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axiosClient from '../../../Shared/ServerLayer/QueryLayer/config';
 import { positionDataI } from '../CourseMicroView/V2/Store/CourseMicroStoreByID';
 import Image from './image';
@@ -27,7 +28,10 @@ export default function CourseMacroView({
   onCardSelect,
   ...props
 }: ICourseMacroViewProps) {
+  const navigate = useNavigate();
   const [courseData, setCourseData] = useState<null | any>(null);
+  const [showAllLevels, setShowAllLevels] = useState(false);
+  useEffect(() => setShowAllLevels(false), [courseID]);
   const [activePage, setActivePage] = useState(0);
   const [viewedCardIDs, setViewedCardIds] = useState(new Set());
 
@@ -97,10 +101,11 @@ export default function CourseMacroView({
           <Author courseData={courseData} />
         </Box>
           </Stack>
-          <Box className="sw-course-header-actions"><button type="button" onClick={() => window.history.back()}><ArrowBack fontSize="small" /> К каталогу</button><span><AutoAwesomeOutlined fontSize="small" /> Собирайте знания в систему</span></Box>
+          <Box className="sw-course-header-actions"><button type="button" onClick={() => navigate('/courses')}><ArrowBack fontSize="small" /> К каталогу</button><span><AutoAwesomeOutlined fontSize="small" /> Собирайте знания в систему</span></Box>
         </Box>
         <Box className="sw-course-progress" aria-label="Прогресс по уровням">
-          {filledLevels.map((level) => <div className={`sw-progress-level ${level.index === positionData.selectedRow ? 'is-current' : ''} ${level.count ? 'has-content' : ''}`} key={level.index}><span className="sw-progress-dot">{level.index + 1}</span><div><small>{level.title}</small><strong>{level.count ? `${level.count} ${level.count === 1 ? 'материал' : 'материалов'}` : 'В разработке'}</strong></div></div>)}
+          {(showAllLevels ? filledLevels : filledLevels.slice(0, 5)).map((level) => <div className={`sw-progress-level ${level.index === positionData.selectedRow ? 'is-current' : ''} ${level.count ? 'has-content' : ''}`} key={level.index}><span className="sw-progress-dot">{level.index + 1}</span><div><small>{level.title}</small><strong>{level.count ? `${level.count} ${level.count === 1 ? 'материал' : 'материалов'}` : 'В разработке'}</strong></div></div>)}
+          {filledLevels.length > 5 && <Button className="sw-course-levels-toggle" size="small" aria-expanded={showAllLevels} onClick={() => setShowAllLevels(value => !value)}>{showAllLevels ? 'Свернуть' : 'Показать ещё · ' + (filledLevels.length - 5)}</Button>}
         </Box>
       </Box>
 

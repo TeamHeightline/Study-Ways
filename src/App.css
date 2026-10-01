@@ -742,3 +742,7 @@ body::-webkit-scrollbar-thumb:hover, *::-webkit-scrollbar-thumb:hover { backgrou
 .sw-ai-course-flow .react-flow__controls {box-shadow:0 3px 10px #284c3912}
 .sw-ai-workspace > .sw-card-page {padding-top:18px!important}
 @media(max-width:600px) {.sw-ai-map-panel {margin:10px 12px 0}.sw-ai-map-heading {padding:12px;align-items:flex-start;flex-wrap:wrap;gap:8px}.sw-ai-course-flow {height:36svh;min-height:240px}.sw-ai-map-heading h2 {font-size:15px}}
+
+.sw-course-levels-toggle.MuiButton-root {justify-self:start;text-transform:none;color:#397457;font-size:12px;padding:6px 10px;border-radius:8px;background:#e4efe4}
+.sw-course-levels-toggle.MuiButton-root:hover {background:#d8e9da}
+@media(max-width:700px) {.sw-course-levels-toggle.MuiButton-root {grid-column:1/-1}}

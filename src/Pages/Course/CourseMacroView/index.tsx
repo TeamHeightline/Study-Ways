@@ -65,6 +65,16 @@ export default function CourseMacroView({
   const course_main_line_index =
     Number((courseData?.name || '').match(/\[(.*?)\]/)?.[1]) - 1;
   const levels = courseData.course_data || [];
+  const populatedLevelIndices = levels.reduce((indices: number[], line, index) => {
+    const hasMaterial = line.SameLine?.[activePage - 1]?.CourseFragment?.some(fragment => {
+      const item = fragment?.CourseElement;
+      return item?.type === 'course-link' ? Boolean(item.course_link) : Boolean(item?.id);
+    });
+    if (hasMaterial) indices.push(index);
+    return indices;
+  }, []);
+  const firstVisibleLevel = populatedLevelIndices[0] ?? -1;
+  const lastVisibleLevel = populatedLevelIndices[populatedLevelIndices.length - 1] ?? -1;
   const filledLevels = levels.map((line, index) => ({
     index,
     title: index === course_main_line_index ? 'Основной маршрут' : `Уровень ${String(index + 1).padStart(2, '0')}`,
@@ -97,9 +107,9 @@ export default function CourseMacroView({
       <Box className="sw-course-level-map">
         <div className="sw-course-level-intro"><h2>Карта курса</h2><p>Вправо — дальше по теме. Между уровнями — другое изложение материала.</p></div>
         <div className="sw-course-map-viewport" tabIndex={0} role="region" aria-label="Двумерная карта курса. Прокрутите вправо для следующих материалов.">
-        {courseData.course_data?.map((line, index) => (
+        {levels.map((line, index) => index >= firstVisibleLevel && index <= lastVisibleLevel ? (
           <CardRow key={index} index={index} activePage={activePage} courseData={courseData} CARD_WIDTH={200} course_main_line_index={course_main_line_index} positionData={positionData} courseID={courseID} viewedCardIDs={viewedCardIDs} />
-        ))}
+        ) : null)}
         </div>
         <div className="sw-course-map-legend"><span>― Продвижение по теме</span><span>┆ Смена уровня изложения</span><span>Прокрутите карту вправо →</span></div>
         {!levels.some(line => line.SameLine?.[activePage - 1]?.CourseFragment?.some(fragment => fragment?.CourseElement?.id || fragment?.CourseElement?.course_link)) && <p className="sw-course-level-empty">На этой странице пока нет материалов.</p>}

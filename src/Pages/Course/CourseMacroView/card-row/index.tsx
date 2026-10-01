@@ -9,13 +9,19 @@ interface Props extends BoxProps {
 const present = item => item?.type === 'course-link' ? Boolean(item.course_link) : Boolean(item?.id);
 export default function CardRow({courseData,activePage,index,course_main_line_index,positionData,courseID,viewedCardIDs}: Props) {
  const rows = courseData?.course_data || [];
- const columns = Math.max(1, ...rows.map(line => line.SameLine?.[activePage - 1]?.CourseFragment?.length || 0));
+ // Trim only trailing empty columns across all levels; preserve interior coordinates.
+ const columns = Math.max(1, ...rows.map(line =>
+   (line.SameLine?.[activePage - 1]?.CourseFragment || []).reduce(
+     (last, fragment, column) => present(fragment?.CourseElement) ? column + 1 : last, 0,
+   ),
+ ));
+ const trackWidth = columns * 240 - 24;
  const items = (rows[index]?.SameLine?.[activePage - 1]?.CourseFragment || []).map((fragment, itemIndex) => ({item:fragment?.CourseElement,itemIndex})).filter(({item}) => present(item));
  const below = rows[index + 1]?.SameLine?.[activePage - 1]?.CourseFragment || [];
  return <div className={'sw-course-lane' + (index === course_main_line_index ? ' is-main' : '')}>
    <div className="sw-course-lane-label"><span>УРОВЕНЬ {index + 1}</span>{index === course_main_line_index && <small>Основной маршрут</small>}</div>
-   <div className="sw-course-lane-track" style={{width:columns * 240}}>
-     <svg className="sw-course-paths" width={columns * 240} height={270} aria-hidden="true">
+   <div className="sw-course-lane-track" style={{width:trackWidth}}>
+     <svg className="sw-course-paths" width={trackWidth} height={270} aria-hidden="true">
        {items.slice(1).map(({itemIndex}, i) => <path key={'h'+itemIndex} d={'M '+(items[i].itemIndex*240+204)+' 98 H '+(itemIndex*240+12)} className="sw-course-path-forward" />)}
        {items.filter(({itemIndex}) => present(below[itemIndex]?.CourseElement)).map(({itemIndex}) => <path key={'v'+itemIndex} d={'M '+(itemIndex*240+108)+' 205 V 270'} className="sw-course-path-alternative" />)}
      </svg>

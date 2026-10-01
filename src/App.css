@@ -746,3 +746,29 @@ body::-webkit-scrollbar-thumb:hover, *::-webkit-scrollbar-thumb:hover { backgrou
 .sw-course-levels-toggle.MuiButton-root {justify-self:start;text-transform:none;color:#397457;font-size:12px;padding:6px 10px;border-radius:8px;background:#e4efe4}
 .sw-course-levels-toggle.MuiButton-root:hover {background:#d8e9da}
 @media(max-width:700px) {.sw-course-levels-toggle.MuiButton-root {grid-column:1/-1}}
+
+/* Viewport-sized navigation, without the promotional footer. */
+.sw-sidebar {box-sizing:border-box;height:100dvh;max-height:100dvh;padding-top:clamp(16px,3vh,32px);padding-bottom:16px;overflow-x:hidden}
+.sw-sidebar .sw-brand {flex-shrink:0;margin-bottom:clamp(20px,4vh,40px)}
+.sw-sidebar .sw-nav-caption {flex-shrink:0;margin-bottom:10px}
+.sw-sidebar nav {flex-shrink:0;gap:4px;margin-bottom:clamp(12px,2.5vh,26px)}
+.sw-sidebar nav:last-of-type {margin-bottom:0}
+.sw-sidebar .sw-nav-link {box-sizing:border-box;min-height:42px;padding:10px 13px}
+@media(max-height:700px) {.sw-sidebar {padding-top:16px;padding-bottom:12px}.sw-sidebar .sw-brand {margin-bottom:22px}.sw-sidebar nav {gap:3px;margin-bottom:18px}.sw-sidebar .sw-nav-link {min-height:38px;padding-top:8px;padding-bottom:8px}.sw-sidebar .sw-nav-caption {margin-bottom:8px}}
+@media(max-height:520px) {.sw-sidebar .sw-brand {margin-bottom:12px}.sw-sidebar nav {gap:2px;margin-bottom:10px}.sw-sidebar .sw-nav-link {min-height:34px;padding-top:6px;padding-bottom:6px}.sw-sidebar .sw-nav-caption {margin-bottom:5px}}
+
+.sw-learning-signin {padding:16px;border:1px solid #3b5749;border-radius:12px;background:#213a31;flex-shrink:0}
+.sw-learning-signin h2 {margin:0 0 8px;color:#e5efdF;font-size:14px;line-height:1.4;font-weight:650}
+.sw-learning-signin p {margin:0 0 14px;color:#b1c4b8;font-size:12px;line-height:1.6}
+.sw-learning-signin ul {padding:0;margin:0 0 16px;list-style:none;display:grid;gap:10px}
+.sw-learning-signin li {display:flex;align-items:center;gap:9px;color:#c4d5c9;font-size:11px;line-height:1.4}
+.sw-learning-signin li svg {font-size:18px;color:#a7c6ac;flex-shrink:0}
+.sw-learning-signin .MuiButton-root {background:#c5dfa9;color:#203c2c;border-radius:8px;font-size:12px;font-weight:650;text-transform:none;min-height:38px}
+.sw-learning-signin .MuiButton-root:hover {background:#d5ebbd}
+.sw-learning-signin .MuiButton-root.Mui-disabled {background:#425b49;color:#bdcbbf}
+.sw-learning-signin-error {margin-top:10px;color:#edc8ba;font-size:11px;line-height:1.5}
+@media(max-height:700px) {.sw-learning-signin {padding:12px}.sw-learning-signin p {margin-bottom:10px;font-size:11px}.sw-learning-signin ul {gap:6px;margin-bottom:12px}}
+
+/* Separate navigation sections even when the guest panel replaces the last nav. */
+.sw-sidebar nav + .sw-nav-caption { margin-top:24px; }
+@media(max-height:700px) { .sw-sidebar nav + .sw-nav-caption { margin-top:16px; } }

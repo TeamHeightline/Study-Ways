@@ -1,4 +1,4 @@
-import { Box, Card, Typography, Tooltip } from '@mui/material';
+import { Box, Card, Typography } from '@mui/material';
 import { BoxProps } from '@mui/material/Box/Box';
 import React, { useEffect, useState } from 'react';
 import axiosClient from '../../../../../Shared/ServerLayer/QueryLayer/config';
@@ -80,7 +80,6 @@ export default function CardItem({
       : `https://storage.googleapis.com/study-ways-files/${cardData?.cards_cardimage?.image}`;
 
   return (
-    <Tooltip title={numberOfElements > 1 ? `Подборка · ${numberOfElements} материалов` : cardData?.title || ''} arrow placement="top" enterDelay={350} describeChild componentsProps={{ tooltip: { sx: { maxWidth: 380, fontSize: 13, lineHeight: 1.6, bgcolor: '#294b37', p: 1.5, borderRadius: 2 } }, arrow: { sx: { color: '#294b37' } } }}>
     <Box role="button" tabIndex={0} aria-pressed={isSelected} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); handleNavigateToItem(); } }} className={`sw-material ${isSelected ? 'is-selected' : ''} ${isViewed ? 'is-viewed' : ''}`} sx={{ width: size.width }} onClick={handleNavigateToItem}>
       <Card variant={'outlined'} className="sw-material-card">
         {numberOfElements > 1 ? (
@@ -105,6 +104,5 @@ export default function CardItem({
       <Typography className="sw-course-material-title" variant={'caption'}>{numberOfElements > 1 ? `Подборка · ${numberOfElements} материалов` : cardData?.title || 'Загрузка материала…'}</Typography>
       <span className="sw-material-state">{isSelected ? 'Сейчас изучаете' : isViewed ? 'Просмотрено' : 'Открыть материал'}</span>
     </Box>
-    </Tooltip>
   );
 }

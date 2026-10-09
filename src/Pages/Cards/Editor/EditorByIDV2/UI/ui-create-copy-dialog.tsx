@@ -1,75 +1,88 @@
+import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
-import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
 import {
+  Alert,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Paper,
+  IconButton,
 } from '@mui/material';
-import { CESObject } from '../Store/CardEditorStorage';
-import CloseIcon from '@mui/icons-material/Close';
-import AddIcon from '@mui/icons-material/Add';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded';
 import { LoadingButton } from '@mui/lab';
 import { useLocation, useNavigate } from 'react-router-dom';
-
-type IUICreateCopyDialogProps = PaperProps;
-
-const UICreateCopyDialog = observer(
-  ({ ...props }: IUICreateCopyDialogProps) => {
-    const navigate = useNavigate();
-    const location = useLocation();
-
-    const createCardCopy = async () => {
-      CESObject.createCopyCard().then((res) => {
-        const oldCardID = CESObject?.card_object?.id;
-        const newCardID = res?.data?.id;
-        if (oldCardID && newCardID) {
-          const oldUrl = location.pathname;
-          const newUrl = oldUrl.replace(String(oldCardID), newCardID);
-          navigate(newUrl);
-        }
-      });
-    };
-
-    return (
-      <Paper elevation={0} {...props}>
-        <Dialog
-          open={CESObject.isOpenCopyCardDialog}
-          onClose={CESObject.closeCopyCardDialog}
+import { CESObject } from '../Store/CardEditorStorage';
+const UICreateCopyDialog = observer(() => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [error, setError] = useState(false);
+  useEffect(() => {
+    if (CESObject.isOpenCopyCardDialog) setError(false);
+  }, [CESObject.isOpenCopyCardDialog]);
+  const close = () => {
+    if (!CESObject.isPendingCreateCopy) CESObject.closeCopyCardDialog();
+  };
+  const create = async () => {
+    setError(false);
+    try {
+      const oldId = CESObject.card_object?.id;
+      const result = await CESObject.createCopyCard();
+      const newId = result?.data?.id;
+      if (!oldId || !newId) throw new Error('Copy was not created');
+      CESObject.closeCopyCardDialog();
+      navigate(
+        location.pathname.replace(new RegExp(`/${oldId}/?$`), `/${newId}`),
+      );
+    } catch {
+      setError(true);
+    }
+  };
+  return (
+    <Dialog
+      open={CESObject.isOpenCopyCardDialog}
+      onClose={close}
+      fullWidth
+      maxWidth="xs"
+      PaperProps={{ className: 'sw-cedit-dialog' }}
+    >
+      <DialogTitle>
+        Создать копию карточки
+        <IconButton
+          disabled={CESObject.isPendingCreateCopy}
+          onClick={close}
+          aria-label="Закрыть"
         >
-          <DialogTitle>{'Создать копию?'}</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Вы уверены, что хотите создать копию данной карточки? Если вы
-              согласитесь, то перейдете в редактор новой карточки. О том, что
-              она является копией можно узнать по приписки (копия).
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              color={'error'}
-              onClick={CESObject.closeCopyCardDialog}
-              startIcon={<CloseIcon />}
-            >
-              Отмена
-            </Button>
-            <LoadingButton
-              loading={CESObject.isPendingCreateCopy}
-              onClick={createCardCopy}
-              autoFocus
-              startIcon={<AddIcon />}
-            >
-              Создать
-            </LoadingButton>
-          </DialogActions>
-        </Dialog>
-      </Paper>
-    );
-  },
-);
-
+          <CloseRoundedIcon />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          Будет создана новая карточка с тем же содержанием и настройками. Вы
+          сразу перейдёте к её редактированию.
+        </DialogContentText>
+        {error && (
+          <Alert severity="error" sx={{ mt: 2 }}>
+            Не удалось создать копию. Попробуйте ещё раз.
+          </Alert>
+        )}
+      </DialogContent>
+      <DialogActions>
+        <Button disabled={CESObject.isPendingCreateCopy} onClick={close}>
+          Отмена
+        </Button>
+        <LoadingButton
+          variant="contained"
+          startIcon={<ContentCopyRoundedIcon />}
+          loading={CESObject.isPendingCreateCopy}
+          onClick={create}
+        >
+          Создать копию
+        </LoadingButton>
+      </DialogActions>
+    </Dialog>
+  );
+});
 export default UICreateCopyDialog;

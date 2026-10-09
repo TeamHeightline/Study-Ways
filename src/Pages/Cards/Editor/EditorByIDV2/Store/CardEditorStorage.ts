@@ -1,4 +1,4 @@
-import { makeAutoObservable, reaction, toJS } from 'mobx';
+import { action, makeAutoObservable, reaction, runInAction, toJS } from 'mobx';
 import { ClientStorage } from '../../../../../Shared/Store/ApolloStorage/ClientStorage';
 import {
   GET_CONNECTED_THEMES,
@@ -23,8 +23,7 @@ import haveStatus from '../../../../../Shared/Store/UserStore/utils/HaveStatus';
 import { getCardData } from '../API/get-card-data';
 import { ICardDataInStore } from '../TYPES/card-data-in-store';
 import { saveCard } from '../API/save-card';
-
-class CardEditorStorage {
+export class CardEditorStorage {
   constructor() {
     makeAutoObservable(this);
     reaction(
@@ -37,7 +36,9 @@ class CardEditorStorage {
     );
     reaction(
       () => toJS(this.card_object),
-      () => this.autoSave(),
+      (current, previous) => {
+        if (current && previous) this.autoSave();
+      },
     );
     reaction(
       () => toJS(this.TagArray),
@@ -47,73 +48,99 @@ class CardEditorStorage {
 
   // Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
   clientStorage = ClientStorage;
-
   cardDataLoaded = false;
-
-  loadCardDataFromServer(id: string | number | undefined) {
-    if (id) {
-      this.cardDataLoaded = false;
-      if (haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR'])) {
-        this.loadConnectedThemes();
-
-        getCardData(Number(id)).then((card_data) => {
-          // ----- достаем id тем через промежуточную таблицу
-          const connectedTheme = card_data?.cards_card_connected_theme?.map(
-            (theme) => theme.unstructuredtheme_id,
-          );
-          // ----------------------------------------------------------------
-
-          this.card_object = { ...card_data, connectedTheme };
-          this.cardDataLoaded = true;
-          this.get_card_image();
-        });
-      }
+  cardLoadError = false;
+  private loadRequest = 0;
+  private editVersion = 0;
+  async loadCardDataFromServer(id: string | number | undefined) {
+    if (!id || !haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR'])) return;
+    const request = ++this.loadRequest;
+    clearTimeout(this.savingTimer);
+    this.cardDataLoaded = false;
+    this.cardLoadError = false;
+    this.hasSaveError = false;
+    this.stateOfSave = true;
+    this.card_object = undefined;
+    this.image_url = '';
+    this.testBeforeCardData = undefined;
+    this.testInCardData = undefined;
+    this.loadConnectedThemes();
+    try {
+      const cardData = await getCardData(Number(id));
+      if (request !== this.loadRequest) return;
+      if (!cardData?.id) throw new Error('Card not found');
+      const connectedTheme =
+        cardData.cards_card_connected_theme?.map(
+          theme => theme.unstructuredtheme_id,
+        ) || [];
+      runInAction(() => {
+        this.card_object = {
+          ...cardData,
+          connectedTheme,
+        };
+        this.cardDataLoaded = true;
+      });
+      this.get_card_image();
+    } catch {
+      runInAction(() => {
+        if (request === this.loadRequest) this.cardLoadError = true;
+      });
     }
   }
 
   // Таймер для сохранения
   savingTimer: any;
-
   stateOfSave = true;
-
-  // Функция для авто сохранений
+  hasSaveError = false;
   autoSave() {
-    if (this.card_object && this.card_object.id) {
-      this.stateOfSave = false;
-      clearTimeout(this.savingTimer);
-      this.savingTimer = setTimeout(() => {
-        // TODO заблочено на время переписывания работы с данными
-        this.saveDataOnServer();
-      }, 2000);
-    }
+    if (!this.cardDataLoaded || !this.card_object?.id) return;
+    this.editVersion += 1;
+    this.hasSaveError = false;
+    this.stateOfSave = false;
+    clearTimeout(this.savingTimer);
+    this.savingTimer = setTimeout(() => this.saveDataOnServer(), 2000);
   }
-
   saveDataOnServer(editor_context = this, card_object = this.card_object) {
-    const data_object = toJS(card_object);
-    if (!haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR']) || !data_object) {
-      return;
-    }
-    saveCard(data_object)
-      .then((response) => {
-        this.stateOfSave = true;
-        axiosClient.post('/page/edit-card-by-id/clear-card-cache');
-      })
-      .catch(console.log);
+    const data = toJS(card_object);
+    if (!haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR']) || !data) return;
+    const version = this.editVersion;
+    this.hasSaveError = false;
+    this.stateOfSave = false;
+    return saveCard(data)
+      .then(
+        action(() => {
+          if (this.card_object?.id === data.id && version === this.editVersion)
+            this.stateOfSave = true;
+          axiosClient
+            .post('/page/edit-card-by-id/clear-card-cache')
+            .catch(() => void 0);
+        }),
+      )
+      .catch(
+        action(() => {
+          if (this.card_object?.id === data.id && version === this.editVersion)
+            this.hasSaveError = true;
+        }),
+      );
   }
 
   // ---------------------раздел работы с авторами карточек---------------------------------------
   all_my_card_authors: CardAuthorNode[] | undefined = undefined;
   authorsDataLoaded = false;
-
   loadCardAuthorsFromServer() {
     if (haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR'])) {
       this.clientStorage.client
-        .query({ query: GET_MY_CARD_AUTHOR, fetchPolicy: 'network-only' })
-        .then((response) => response.data.me.cardauthorSet)
-        .then((authors_data) => {
-          this.all_my_card_authors = authors_data;
-          this.authorsDataLoaded = true;
-        });
+        .query({
+          query: GET_MY_CARD_AUTHOR,
+          fetchPolicy: 'network-only',
+        })
+        .then(response => response.data.me.cardauthorSet)
+        .then(
+          action(authors_data => {
+            this.all_my_card_authors = authors_data;
+            this.authorsDataLoaded = true;
+          }),
+        );
     }
   }
 
@@ -131,18 +158,16 @@ class CardEditorStorage {
   );
   // number в field - это грязный хак, чтобы не было ошибки из строчки с присвоением, как только TS видит что используются
   // конкретные ключи, начинает сразу говорить, что это never тип
-  changeField =
-    (
-      field: keyof ICardDataInStore | number,
-      eventField: 'value' | 'checked' = 'value',
-      card_object = this.card_object,
-    ) =>
-    ({ target }) => {
+  changeField = (
+    field: keyof ICardDataInStore | number,
+    eventField: 'value' | 'checked' = 'value',
+    card_object = this.card_object,
+  ) =>
+    action(({ target }) => {
       if (card_object && field in card_object) {
         card_object[field] = target[eventField];
       }
-    };
-
+    });
   changeFieldByValue(
     field: keyof ICardDataInStore | number,
     value: string | number | boolean | string[] | undefined | null,
@@ -157,7 +182,7 @@ class CardEditorStorage {
 
   // -----------------Работа со ссылкой на видео
 
-  changeYoutubeUrl = (e) => {
+  changeYoutubeUrl = e => {
     if (this.card_object && 'videoUrl' in this.card_object) {
       const parsed_url = urlParser.parse(e.target.value);
       const unified_url = urlParser.create({
@@ -179,7 +204,6 @@ class CardEditorStorage {
   // Ссылка на изображение
   image_url = '';
   update_image_counter = 0;
-
   get fakeImageUrl() {
     return `${this.image_url}?${this.update_image_counter}`;
   }
@@ -193,34 +217,40 @@ class CardEditorStorage {
       method: 'POST',
       body: formData,
     })
-      .then((response) => response.json())
-      .then((result) => {
-        this.update_image_counter = this.update_image_counter + 1;
-        // console.log('Success:', result);
-        message.success(`${e.file.name} успешно загружен.`);
-        this.image_url = result.image;
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        message.error(`${e.file.name} не удалось загрузить`);
-      });
+      .then(response => response.json())
+      .then(
+        action(result => {
+          this.update_image_counter = this.update_image_counter + 1;
+          // console.log('Success:', result);
+          message.success(`${e.file.name} успешно загружен.`);
+          this.image_url = result.image;
+        }),
+      )
+      .catch(
+        action(error => {
+          console.error('Error:', error);
+          message.error(`${e.file.name} не удалось загрузить`);
+        }),
+      );
   }
 
   // Получение с сервера изображения ------------------------------------------------
   get_card_image() {
-    fetch(
-      `${SERVER_BASE_URL}/cardfiles/card?id=${String(this?.card_object?.id)}`,
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        try {
-          this.update_image_counter = this.update_image_counter + 1;
-          // console.log(data)
-          this.image_url = data[0].image;
-        } catch (e) {
-          console.log(e);
-        }
-      });
+    const id = this.card_object?.id;
+    fetch(`${SERVER_BASE_URL}/cardfiles/card?id=${id}`)
+      .then(response => response.json())
+      .then(
+        action(data => {
+          if (this.card_object?.id !== id) return;
+          this.update_image_counter += 1;
+          this.image_url = data?.[0]?.image || '';
+        }),
+      )
+      .catch(
+        action(() => {
+          if (this.card_object?.id === id) this.image_url = '';
+        }),
+      );
   }
 
   // ----------------------------------------------------------------
@@ -234,13 +264,11 @@ class CardEditorStorage {
       return true;
     } else {
       let url;
-
       try {
         url = new URL(this.getField('site_url', ''));
       } catch (_) {
         return false;
       }
-
       return url.protocol === 'http:' || url.protocol === 'https:';
     }
   }
@@ -249,25 +277,26 @@ class CardEditorStorage {
   // Работа с объединенными темами
   allConnectedThemes?: UnstructuredThemesNode[] = [];
   isAllConnectedThemesLoaded = false;
-
   loadConnectedThemes(useCache = true) {
     this.clientStorage.client
       .query({
         query: GET_CONNECTED_THEMES,
         fetchPolicy: useCache ? 'cache-first' : 'network-only',
       })
-      .then((response) => response.data.unstructuredTheme)
-      .then((connectedThemes) => {
-        this.allConnectedThemes = connectedThemes;
-        this.isAllConnectedThemesLoaded = true;
-        if (useCache) {
-          this.loadConnectedThemes(false);
-        }
-      });
+      .then(response => response.data.unstructuredTheme)
+      .then(
+        action(connectedThemes => {
+          this.allConnectedThemes = connectedThemes;
+          this.isAllConnectedThemesLoaded = true;
+          if (useCache) {
+            this.loadConnectedThemes(false);
+          }
+        }),
+      )
+      .catch(() => void 0);
   }
-
   get connectedThemesForSelector() {
-    return toJS(this.allConnectedThemes)?.map((theme) => ({
+    return toJS(this.allConnectedThemes)?.map(theme => ({
       id: theme.id,
       value: theme.id,
       title: theme.text,
@@ -277,99 +306,67 @@ class CardEditorStorage {
 
   // --------Работа с тестом перед и в карточки-----------------
   testInCardData?: QuestionNode | null = undefined;
-
   loadTestInCardText() {
-    if (haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR'])) {
-      if (this.getField('test_in_card_id', '')) {
-        try {
-          this.clientStorage.client
-            .query<Query>({
-              query: GET_QUESTION_TEXT_BY_ID,
-              variables: {
-                id: this.getField('test_in_card_id', ''),
-              },
-            })
-            .then((response) => response.data.questionById)
-            .then((question) => (this.testInCardData = question));
-        } catch (e) {
-          console.log(e);
-        }
-      }
-    }
+    const id = this.getField('test_in_card_id', '');
+    this.testInCardData = undefined;
+    if (!id || !haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR'])) return;
+    this.clientStorage.client
+      .query<Query>({
+        query: GET_QUESTION_TEXT_BY_ID,
+        variables: {
+          id,
+        },
+      })
+      .then(
+        action(response => {
+          if (this.getField('test_in_card_id', '') === id)
+            this.testInCardData = response.data.questionById;
+        }),
+      )
+      .catch(() => void 0);
   }
-
   testBeforeCardData?: QuestionNode | null = undefined;
-
   loadTestBeforeCardText() {
-    if (haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR'])) {
-      if (this.getField('test_before_card_id', '')) {
-        try {
-          this.clientStorage.client
-            .query<Query>({
-              query: GET_QUESTION_TEXT_BY_ID,
-              variables: {
-                id: this.getField('test_before_card_id', ''),
-              },
-            })
-            .then((response) => response.data.questionById)
-            .then((question) => (this.testBeforeCardData = question));
-        } catch (e) {
-          console.log(e);
-        }
-      }
-    }
+    const id = this.getField('test_before_card_id', '');
+    this.testBeforeCardData = undefined;
+    if (!id || !haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR'])) return;
+    this.clientStorage.client
+      .query<Query>({
+        query: GET_QUESTION_TEXT_BY_ID,
+        variables: {
+          id,
+        },
+      })
+      .then(
+        action(response => {
+          if (this.getField('test_before_card_id', '') === id)
+            this.testBeforeCardData = response.data.questionById;
+        }),
+      )
+      .catch(() => void 0);
   }
-
-  // -------Работа с выбором карточки --------------------
-  arrowForCardIsSelecting:
-    | ''
-    | 'card_before_id'
-    | 'card_down_id'
-    | 'card_next_id'
-    | 'card_up_id' = '';
-
-  onStartSelectCard = (
-    card_direction:
-      | 'card_before_id'
-      | 'card_down_id'
-      | 'card_next_id'
-      | 'card_up_id',
-  ) => {
-    this.arrowForCardIsSelecting = card_direction;
-  };
-  onCloseSelectCard = () => {
-    this.arrowForCardIsSelecting = '';
-  };
-  onCardSelect = (card_id: number) => {
-    if (this.arrowForCardIsSelecting !== '') {
-      this.changeFieldByValue(this.arrowForCardIsSelecting, card_id);
-    }
-    this.onCloseSelectCard();
-  };
 
   // -------Работа с созданием копии --------------------
 
   isOpenCopyCardDialog = false;
-
   openCopyCardDialog = () => {
     this.isOpenCopyCardDialog = true;
   };
   closeCopyCardDialog = () => {
     this.isOpenCopyCardDialog = false;
   };
-
   isPendingCreateCopy = false;
-
   createCopyCard = async () => {
-    if (this?.card_object?.id) {
-      this.isPendingCreateCopy = true;
-      // / TODO разобраться с темами и проверить работоспособность в целом
-      const copyCard = await axiosClient.post(
+    if (!this.card_object?.id) return;
+    this.isPendingCreateCopy = true;
+    try {
+      return await axiosClient.post(
         `/page/edit-card-by-id/create-card-copy/${this.card_object.id}`,
       );
-      this.isPendingCreateCopy = false;
-      this.isOpenCopyCardDialog = false;
-      return copyCard;
+    } finally {
+      runInAction(() => {
+        this.isPendingCreateCopy = false;
+      });
     }
   };
 }

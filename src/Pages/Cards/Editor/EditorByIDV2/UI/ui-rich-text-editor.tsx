@@ -1,39 +1,30 @@
-import { observer } from 'mobx-react';
 import React from 'react';
-import { Card, Typography } from '@mui/material';
+import { observer } from 'mobx-react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import { CESObject } from '../Store/CardEditorStorage';
-import './ui-rich-text-editor-style.css';
-import './rich-text-styles.css';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
-type IRichTextEditorProps = React.HTMLAttributes<HTMLDivElement>;
-
-export const UiRichTextEditor = observer(
-  ({ ...props }: IRichTextEditorProps) => (
-    <div {...props}>
-      <Card
-        style={{ borderColor: '#2296F3', color: 'black' }}
-        variant="outlined"
-      >
-        <div style={{ maxHeight: 440, overflowY: 'auto', overflowX: 'hidden' }}>
-          <CKEditor
-            editor={ClassicEditor}
-            data={
-              CESObject.getField('text', '') == 'Описание карточки'
-                ? ''
-                : CESObject.getField('text', '')
-            }
-            onChange={(event, editor) => {
-              CESObject.changeFieldByValue('text', editor.getData());
-            }}
-          />
-        </div>
-      </Card>
-      <Typography variant="caption">
-        Если вы вставляете текст и он имеет странный цвет, используйте не
-        Ctrl+V, а Ctrl+Shift+V
-      </Typography>
+import { CESObject } from '../Store/CardEditorStorage';
+export const UiRichTextEditor = observer(() => (
+  <div className="sw-cedit-rich-text">
+    <div className="sw-cedit-rich-text-frame">
+      <CKEditor
+        key={CESObject.getField('id', '')}
+        editor={ClassicEditor}
+        config={{
+          placeholder:
+            'Напишите описание карточки, добавьте примеры и пояснения…',
+        }}
+        data={
+          CESObject.getField('text', '') === 'Описание карточки'
+            ? ''
+            : CESObject.getField('text', '')
+        }
+        onChange={(_, editor) =>
+          CESObject.changeFieldByValue('text', editor.getData())
+        }
+      />
     </div>
-  ),
-);
+    <p className="sw-cedit-field-note">
+      Вставить текст без исходного оформления: Ctrl + Shift + V.
+    </p>
+  </div>
+));

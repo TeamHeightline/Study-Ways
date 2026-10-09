@@ -1,118 +1,207 @@
-import { observer } from 'mobx-react';
 import React from 'react';
-import { CircularProgress, Collapse, Grid, Stack } from '@mui/material';
+import { observer } from 'mobx-react';
+import {
+  Button,
+  Collapse,
+  FormControlLabel,
+  Paper,
+  Switch,
+  Typography,
+} from '@mui/material';
+import NotesRoundedIcon from '@mui/icons-material/NotesRounded';
+import TuneRoundedIcon from '@mui/icons-material/TuneRounded';
+import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
+import OpenInNewRoundedIcon from '@mui/icons-material/OpenInNewRounded';
+import { CESObject } from '../Store/CardEditorStorage';
 import { UiCloseButton } from './ui-close-button';
-import { ID } from './ui-id';
 import { UiCMenu } from './ui-c-menu';
 import { UiTitle } from './ui-title';
 import { HardLevel } from './ui-hard-level';
 import { UiConnectedThemeSelector } from './ui-connected-theme-selector';
 import { UiCopyRight } from './ui-copy-right';
-import { CESObject } from '../Store/CardEditorStorage';
 import { UiVideo } from './ui-video';
 import { UiUploadImage } from './ui-upload-image';
 import { UiRichTextEditor } from './ui-rich-text-editor';
-import { UiArrowNavigation } from './ui-arrow-navigation';
 import { UiTestInCard } from './ui-test-in-card';
 import { UiTestBeforeCard } from './ui-test-before-card';
-import { isMobileHook } from '../../../../../Shared/CustomHooks/isMobileHook';
 import UICreateButton from './ui-create-copy-button';
 import UICreateCopyDialog from './ui-create-copy-dialog';
 import { SaveNotification } from './save-notification';
 
-type IEditCardUIProps = React.HTMLAttributes<HTMLDivElement>;
-
-const EditCardUI = observer(({ ...props }: IEditCardUIProps) => {
-  const isMobile = isMobileHook();
-  if (!CESObject.cardDataLoaded) {
-    return (
-      <Stack alignItems={'center'}>
-        <CircularProgress />
-      </Stack>
-    );
-  }
+function SectionHeading({
+  icon,
+  title,
+  text,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  text: string;
+}) {
   return (
-    <div {...props}>
-      <Grid
-        container
-        item
-        sx={{
-          pl: isMobile ? 0 : 8,
-          pr: isMobile ? 0 : 8,
-          pt: isMobile ? 0 : 1,
-        }}
-        rowSpacing={2}
-        spacing={4}
-      >
-        <UICreateCopyDialog />
+    <header className="sw-cedit-section-heading">
+      <span>{icon}</span>
+      <div>
+        <Typography component="h2">{title}</Typography>
+        <Typography component="p">{text}</Typography>
+      </div>
+    </header>
+  );
+}
 
-        <Grid item xs={12}>
-          <UiCloseButton />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Stack direction={'row'} spacing={2} alignItems={'center'}>
-            <ID />
-            <SaveNotification />
-          </Stack>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Stack direction={'row'} spacing={2}>
+const EditCardUI = observer((props: React.HTMLAttributes<HTMLDivElement>) => {
+  const store = CESObject;
+  return (
+    <div
+      {...props}
+      className={`sw-cedit sw-cedit-workspace ${props.className || ''}`}
+    >
+      <UICreateCopyDialog />
+      <nav className="sw-cedit-navigation" aria-label="Действия с карточкой">
+        <UiCloseButton />
+        <div>
+          <Button
+            component="a"
+            href={`/card/${store.getField('id', '')}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            startIcon={<OpenInNewRoundedIcon />}
+          >
+            Открыть карточку
+          </Button>
+          <UICreateButton />
+        </div>
+      </nav>
+      <header className="sw-cedit-heading">
+        <div className="sw-card-library-heading">
+          <Typography component="h1" className="sw-card-library-title">
+            Карточка №{store.getField('id', '')}
+          </Typography>
+          <Typography component="p" className="sw-cedit-description">
+            Подготовьте материал, настройте вопросы и свяжите карточку с темами.
+            Изменения сохраняются автоматически.
+          </Typography>
+        </div>
+        <SaveNotification />
+      </header>
+      <div className="sw-cedit-grid">
+        <Paper component="section" elevation={0} className="sw-cedit-panel">
+          <SectionHeading
+            icon={<NotesRoundedIcon />}
+            title="Содержание карточки"
+            text="Название и основной материал для ученика"
+          />
+          <div className="sw-cedit-fields">
+            <UiTitle />
             <UiCMenu />
-            <UICreateButton />
-          </Stack>
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <UiTitle />
-        </Grid>
-        <Grid xs={12} md={6} item container spacing={4}>
-          <Grid item xs={12} md={6}>
-            <HardLevel />
-          </Grid>
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <UiConnectedThemeSelector />
-        </Grid>
-        <Grid item xs={12} md={6} container spacing={4}>
-          {/* <Grid item xs={12} md={6}>*/}
-          {/*    <UiAuthorSelector/>*/}
-          {/* </Grid>*/}
-          <Grid item xs={12} md={6}>
-            <UiCopyRight />
-          </Grid>
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <Collapse in={CESObject.getField('card_content_type', 0) === 0}>
-            <UiVideo />
-          </Collapse>
-          <Collapse in={!(CESObject.getField('card_content_type', 0) === 0)}>
-            <UiUploadImage />
-          </Collapse>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <UiRichTextEditor />
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <UiArrowNavigation />
-        </Grid>
-        <Grid item container xs={12} md={6} spacing={4}>
-          <Grid item xs={12} md={6}>
-            <Collapse in={CESObject.getField('test_in_card_id', false)}>
-              <UiTestInCard />
-            </Collapse>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Collapse in={CESObject.getField('test_before_card_id', false)}>
-              <UiTestBeforeCard />
-            </Collapse>
-          </Grid>
-        </Grid>
-      </Grid>
+            {store.getField('card_content_type', 0) === 0 ? (
+              <UiVideo />
+            ) : (
+              <UiUploadImage />
+            )}
+          </div>
+        </Paper>
+        <div className="sw-cedit-sidebar">
+          <Paper
+            component="aside"
+            elevation={0}
+            className="sw-cedit-panel sw-cedit-settings"
+          >
+            <SectionHeading
+              icon={<TuneRoundedIcon />}
+              title="Параметры карточки"
+              text="Для кого и к каким темам относится материал"
+            />
+            <div className="sw-cedit-fields">
+              <HardLevel />
+              <UiConnectedThemeSelector />
+            </div>
+            <div className="sw-cedit-setting-block">
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={!!store.getField('is_card_use_copyright', false)}
+                    onChange={store.changeField(
+                      'is_card_use_copyright',
+                      'checked',
+                    )}
+                  />
+                }
+                label="Указать авторские права"
+              />
+              <p>Укажите автора или источник материала.</p>
+              <UiCopyRight />
+            </div>
+          </Paper>
+          <Paper component="section" elevation={0} className="sw-cedit-panel">
+            <SectionHeading
+              icon={<QuizOutlinedIcon />}
+              title="Вопросы к карточке"
+              text="Проверьте знания до изучения материала или внутри карточки"
+            />
+            <div className="sw-cedit-questions">
+              <div className="sw-cedit-question-block">
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={
+                        !!store.getField('is_card_use_test_before_card', false)
+                      }
+                      onChange={store.changeField(
+                        'is_card_use_test_before_card',
+                        'checked',
+                      )}
+                    />
+                  }
+                  label="Вопрос перед карточкой"
+                />
+                <p>Поможет оценить знания перед изучением материала.</p>
+                <Collapse
+                  in={!!store.getField('is_card_use_test_before_card', false)}
+                  unmountOnExit
+                >
+                  <UiTestBeforeCard />
+                </Collapse>
+              </div>
+              <div className="sw-cedit-question-block">
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={
+                        !!store.getField('is_card_use_test_in_card', false)
+                      }
+                      onChange={store.changeField(
+                        'is_card_use_test_in_card',
+                        'checked',
+                      )}
+                    />
+                  }
+                  label="Вопрос внутри карточки"
+                />
+                <p>Позволит закрепить материал при прохождении карточки.</p>
+                <Collapse
+                  in={!!store.getField('is_card_use_test_in_card', false)}
+                  unmountOnExit
+                >
+                  <UiTestInCard />
+                </Collapse>
+              </div>
+            </div>
+          </Paper>
+        </div>
+      </div>
+      <Paper
+        component="section"
+        elevation={0}
+        className="sw-cedit-panel sw-cedit-bottom-panel"
+      >
+        <SectionHeading
+          icon={<NotesRoundedIcon />}
+          title="Описание и пояснения"
+          text="Добавьте текст, примеры и необходимые пояснения"
+        />
+        <UiRichTextEditor />
+      </Paper>
     </div>
   );
 });
-
 export default EditCardUI;

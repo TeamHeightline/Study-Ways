@@ -1,30 +1,19 @@
-import { observer } from 'mobx-react';
 import React from 'react';
+import { observer } from 'mobx-react';
 import { useNavigate } from 'react-router-dom';
-import { isMobileHook } from '../../../../../Shared/CustomHooks/isMobileHook';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import { Button } from '@mui/material';
 import { CESObject } from '../Store/CardEditorStorage';
-
-type ICloseButtonProps = React.HTMLAttributes<HTMLDivElement>;
-
-export const UiCloseButton = observer(({ ...props }: ICloseButtonProps) => {
+export const UiCloseButton = observer(() => {
   const navigate = useNavigate();
-  const isMobile = isMobileHook();
   return (
-    <div {...props}>
-      <Button
-        fullWidth={isMobile}
-        variant="outlined"
-        color="primary"
-        startIcon={<ArrowBackIcon />}
-        disabled={!CESObject.stateOfSave}
-        onClick={() => {
-          navigate(-1);
-        }}
-      >
-        Назад
-      </Button>
-    </div>
+    <Button
+      className="sw-cedit-back"
+      startIcon={<ArrowBackRoundedIcon />}
+      disabled={!CESObject.stateOfSave}
+      onClick={() => navigate(-1)}
+    >
+      Назад
+    </Button>
   );
 });

@@ -1,23 +1,16 @@
-import { observer } from 'mobx-react';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
-import { IconButton, Paper, Tooltip } from '@mui/material';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { observer } from 'mobx-react';
+import { Button } from '@mui/material';
+import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded';
 import { CESObject } from '../Store/CardEditorStorage';
-
-type IUICreateButtonProps = PaperProps;
-
-const UICreateButton = observer(({ ...props }: IUICreateButtonProps) => (
-  <Paper elevation={0} {...props}>
-    <Tooltip title={'Создать копию'}>
-      <IconButton
-        disabled={!CESObject.stateOfSave}
-        onClick={() => CESObject.openCopyCardDialog()}
-      >
-        <ContentCopyIcon />
-      </IconButton>
-    </Tooltip>
-  </Paper>
+const UICreateButton = observer(() => (
+  <Button
+    variant="outlined"
+    startIcon={<ContentCopyRoundedIcon />}
+    disabled={!CESObject.stateOfSave}
+    onClick={CESObject.openCopyCardDialog}
+  >
+    Создать копию
+  </Button>
 ));
-
 export default UICreateButton;

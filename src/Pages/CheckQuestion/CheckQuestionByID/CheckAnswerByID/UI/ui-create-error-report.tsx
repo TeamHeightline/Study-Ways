@@ -1,8 +1,7 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
-import { IconButton, Paper, Tooltip } from '@mui/material';
-import ReportIcon from '@mui/icons-material/Report';
+import { Button, Paper, PaperProps } from '@mui/material';
+import OutlinedFlagRoundedIcon from '@mui/icons-material/OutlinedFlagRounded';
 import { CheckAnswerByIdStore } from '../Store/check-answer-by-id-store';
 
 interface IUICreateErrorReportProps extends PaperProps {
@@ -10,13 +9,21 @@ interface IUICreateErrorReportProps extends PaperProps {
 }
 
 const UICreateErrorReport = observer(
-  ({ answerStore, ...props }: IUICreateErrorReportProps) => (
-    <Paper elevation={0} {...props}>
-      <Tooltip title={'Сообщить об ошибке в ответе'}>
-        <IconButton onClick={() => answerStore.openAnswerReportDialog()}>
-          <ReportIcon fontSize={'large'} />
-        </IconButton>
-      </Tooltip>
+  ({ answerStore, className = '', ...props }: IUICreateErrorReportProps) => (
+    <Paper
+      elevation={0}
+      {...props}
+      className={`sw-review-action-wrapper ${className}`}
+    >
+      <Button
+        className="sw-review-report-button"
+        variant="outlined"
+        size="small"
+        startIcon={<OutlinedFlagRoundedIcon />}
+        onClick={answerStore.openAnswerReportDialog}
+      >
+        Сообщить об ошибке
+      </Button>
     </Paper>
   ),
 );

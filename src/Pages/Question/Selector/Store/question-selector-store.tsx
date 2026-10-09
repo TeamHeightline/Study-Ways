@@ -19,6 +19,8 @@ class QuestionSelectorStore {
   questionsIDForSelectedAuthor: string[] = [];
   numPages = 1;
   activePage = 1;
+  isQuestionsLoading = true;
+  questionsLoadError = false;
 
   get activePageForPagination() {
     return Number(this.activePage);
@@ -30,7 +32,8 @@ class QuestionSelectorStore {
     SelectedAuthorVariants.ALLQuestions;
 
   changeSelectedAuthorID = (e) => {
-    this.selectedAuthorID = e.target.value;
+    this.selectedAuthorID = String(e.target.value);
+    this.activePage = 1;
   };
 
   changeActivePage = (e, value) => {
@@ -50,6 +53,11 @@ class QuestionSelectorStore {
   }
 
   loadMyQuestionsIDArray(useCache = true) {
+    const requestedPage = this.activePage;
+    if (this.selectedAuthorID === SelectedAuthorVariants.MYQuestions) {
+      this.isQuestionsLoading = true;
+      this.questionsLoadError = false;
+    }
     this.clientStorage.client
       .query({
         query: GET_MY_QUESTIONS_ID_ARRAY,
@@ -64,14 +72,25 @@ class QuestionSelectorStore {
           if (my_questions_data.IDs) {
             this.myQuestions = my_questions_data.IDs;
           }
-          this.activePage = my_questions_data.activePage;
-          this.numPages = my_questions_data.numPages;
+          if (this.selectedAuthorID === SelectedAuthorVariants.MYQuestions && this.activePage === requestedPage) {
+            this.activePage = Number(my_questions_data.activePage) || 1;
+            this.numPages = Math.max(1, Number(my_questions_data.numPages) || 1);
+          }
         }
         if (useCache) {
           this.loadMyQuestionsIDArray(false);
+        } else if (this.selectedAuthorID === SelectedAuthorVariants.MYQuestions && this.activePage === requestedPage) {
+          this.isQuestionsLoading = false;
         }
       })
-      .catch((e) => console.log(e));
+      .catch(() => {
+        if (useCache) {
+          this.loadMyQuestionsIDArray(false);
+        } else if (this.selectedAuthorID === SelectedAuthorVariants.MYQuestions && this.activePage === requestedPage) {
+          this.isQuestionsLoading = false;
+          this.questionsLoadError = true;
+        }
+      });
   }
 
   loadUsersWithQuestion(useCache = true) {
@@ -94,6 +113,10 @@ class QuestionSelectorStore {
 
   loadQuestionsIDOnSelectAuthor(useCache = true) {
     if (this.selectedAuthorID !== SelectedAuthorVariants.MYQuestions) {
+      const requestedAuthor = this.selectedAuthorID;
+      const requestedPage = this.activePage;
+      this.isQuestionsLoading = true;
+      this.questionsLoadError = false;
       if (useCache) {
         this.questionsIDForSelectedAuthor = [];
       }
@@ -108,25 +131,32 @@ class QuestionSelectorStore {
         })
         .then((response) => response.data.questionsId)
         .then((QuestionsIDObject) => {
+          if (this.selectedAuthorID !== requestedAuthor || this.activePage !== requestedPage) return;
           if (
             String(QuestionsIDObject?.ownerUserId) ==
             String(this.selectedAuthorID)
           ) {
-            if (
-              QuestionsIDObject?.activePage &&
-              QuestionsIDObject?.numPages &&
-              QuestionsIDObject?.IDs
-            ) {
-              this.activePage = QuestionsIDObject.activePage;
-              this.numPages = QuestionsIDObject.numPages;
+            if (QuestionsIDObject?.IDs) {
+              this.activePage = Number(QuestionsIDObject.activePage) || 1;
+              this.numPages = Math.max(1, Number(QuestionsIDObject.numPages) || 1);
               this.questionsIDForSelectedAuthor = QuestionsIDObject.IDs;
             }
           }
           if (useCache) {
             this.loadQuestionsIDOnSelectAuthor(false);
+          } else {
+            this.isQuestionsLoading = false;
           }
         })
-        .catch((e) => console.log(e));
+        .catch(() => {
+          if (this.selectedAuthorID !== requestedAuthor || this.activePage !== requestedPage) return;
+          if (useCache) {
+            this.loadQuestionsIDOnSelectAuthor(false);
+          } else {
+            this.isQuestionsLoading = false;
+            this.questionsLoadError = true;
+          }
+        });
     } else {
       this.loadMyQuestionsIDArray();
     }

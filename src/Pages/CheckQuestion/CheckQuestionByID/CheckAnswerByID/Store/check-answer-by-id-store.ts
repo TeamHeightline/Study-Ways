@@ -15,9 +15,11 @@ export class CheckAnswerByIdStore {
   answerID?: string;
   answerData?: AnswerNode;
   isAnswerDataLoaded = false;
+  hasLoadError = false;
 
-  private loadAnswerData() {
+  loadAnswerData() {
     if (this.answerID) {
+      this.hasLoadError = false;
       this.clientStorage.client
         .query<Query>({
           query: AnswerDataByID,
@@ -26,14 +28,16 @@ export class CheckAnswerByIdStore {
           },
           fetchPolicy: 'network-only',
         })
-        .then((response) => response.data.answerById)
-        .then((answerByIDResponseObject) => {
+        .then(response => response.data.answerById)
+        .then(answerByIDResponseObject => {
           if (Number(answerByIDResponseObject?.id) === Number(this.answerID)) {
             this.answerData = answerByIDResponseObject;
             this.isAnswerDataLoaded = true;
           }
         })
-        .catch((e) => console.log(e));
+        .catch(() => {
+          this.hasLoadError = true;
+        });
     }
   }
 
@@ -49,7 +53,7 @@ export class CheckAnswerByIdStore {
   };
 
   answerReportText = '';
-  changeAnswerReportText = (e) => {
+  changeAnswerReportText = e => {
     this.answerReportText = e.target.value;
   };
 

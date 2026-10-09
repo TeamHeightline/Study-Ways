@@ -1,9 +1,14 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
-import { Card, Grid, Paper, Typography } from '@mui/material';
+import {
+  Alert,
+  Button,
+  Paper,
+  PaperProps,
+  Skeleton,
+  Typography,
+} from '@mui/material';
 import { NanoQuestionStoreType } from '../../../Question/QuestionNanoViewByID/Store/question-nano-view-by-id-store';
-import CardMedia from '@mui/material/CardMedia';
 import { FILE_URL } from '../../../../settings';
 
 interface IQuestionTextAndImageProps extends PaperProps {
@@ -11,28 +16,57 @@ interface IQuestionTextAndImageProps extends PaperProps {
 }
 
 const QuestionTextAndImage = observer(
-  ({ QuestionDataStore, ...props }: IQuestionTextAndImageProps) => (
-    <Paper elevation={0} {...props}>
-      <Card variant={'outlined'}>
-        <Grid container>
-          <Grid item xs={12} md={4}>
-            <CardMedia
-              sx={{
-                width: '100%',
-                minHeight: 200,
-                height: '100%',
-                backgroundSize: 'cover',
-              }}
-              image={`${FILE_URL}/${QuestionDataStore.questionImage}`}
-            />
-          </Grid>
-          <Grid item xs={12} md={8}>
-            <Typography variant={'body1'} sx={{ p: 2 }}>
-              {QuestionDataStore.text}
+  ({
+    QuestionDataStore: question,
+    className = '',
+    ...props
+  }: IQuestionTextAndImageProps) => (
+    <Paper
+      elevation={0}
+      {...props}
+      className={`sw-review-question-panel ${className}`}
+    >
+      {!question.dataHasBeenLoaded ? (
+        question.hasLoadError ? (
+          <Alert
+            severity="error"
+            action={
+              <Button
+                color="inherit"
+                onClick={() => question.loadQuestionTextNanoViewByID(false)}
+              >
+                Повторить
+              </Button>
+            }
+          >
+            Не удалось загрузить текст вопроса.
+          </Alert>
+        ) : (
+          <Skeleton
+            variant="rounded"
+            height={160}
+            aria-label="Загрузка вопроса"
+          />
+        )
+      ) : (
+        <>
+          {question.questionImage && (
+            <div className="sw-review-question-image">
+              <img
+                src={`${FILE_URL}/${question.questionImage}`}
+                alt="Иллюстрация к вопросу"
+                loading="lazy"
+              />
+            </div>
+          )}
+          <div className="sw-review-question-copy">
+            <Typography component="h2">Формулировка вопроса</Typography>
+            <Typography component="p">
+              {question.text || 'Текст вопроса не добавлен.'}
             </Typography>
-          </Grid>
-        </Grid>
-      </Card>
+          </div>
+        </>
+      )}
     </Paper>
   ),
 );

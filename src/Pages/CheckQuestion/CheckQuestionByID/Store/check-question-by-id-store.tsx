@@ -13,9 +13,13 @@ export class CheckQuestionByIdStore {
   question_id?: string;
   clientStorage = ClientStorage;
   answersIDArray: string[] = [];
+  isLoading = true;
+  hasLoadError = false;
 
   LoadQuestionAnswersIDArray() {
     if (this.question_id) {
+      this.isLoading = true;
+      this.hasLoadError = false;
       this.clientStorage.client
         .query<Query>({
           query: LoadAnswersIDArrayByQuestionID,
@@ -24,8 +28,8 @@ export class CheckQuestionByIdStore {
           },
           fetchPolicy: 'network-only',
         })
-        .then((response) => response.data.answersId)
-        .then((answerIDResponseObject) => {
+        .then(response => response.data.answersId)
+        .then(answerIDResponseObject => {
           if (
             Number(answerIDResponseObject?.ownerQuestionId) ===
               Number(this.question_id) &&
@@ -35,7 +39,12 @@ export class CheckQuestionByIdStore {
           }
         })
 
-        .catch((e) => console.log(e));
+        .catch(() => {
+          this.hasLoadError = true;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     }
   }
 }

@@ -1,5 +1,4 @@
 import EditQuestionByURL from '../../../Pages/Question/Editor/QuestionEditor/UI/EditQuestionByUrl';
-import HelpArticleEditPage from '../../../Pages/HelpArticle/EditorPage/UI';
 import React from 'react';
 import BlurLinearIcon from '@mui/icons-material/BlurLinear';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
@@ -10,7 +9,6 @@ import SchoolIcon from '@mui/icons-material/School';
 import AddchartIcon from '@mui/icons-material/Addchart';
 import RuleIcon from '@mui/icons-material/Rule';
 import GroupIcon from '@mui/icons-material/Group';
-import InfoIcon from '@mui/icons-material/Info';
 
 import ExamEditorPage from '../../../Pages/Exam/EditorPage/Page/UI/exam-editor-page';
 
@@ -95,14 +93,6 @@ export const privateRoutes = [
         title: 'Редактор уровней доступа',
         navigate: 'status-editor',
         icon: <GroupIcon/>,
-        status: ['ADMIN', 'TEACHER'],
-    },
-    {
-        path: '/help-article',
-        component: <HelpArticleEditPage/>,
-        title: 'Редактор подсказок для страниц',
-        navigate: 'help-article',
-        icon: <InfoIcon/>,
         status: ['ADMIN', 'TEACHER'],
     },
 

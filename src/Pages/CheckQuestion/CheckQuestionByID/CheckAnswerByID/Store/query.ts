@@ -8,6 +8,7 @@ export const AnswerDataByID = gql`
       helpTextv2
       helpTextv3
       isTrue
+      isImageDeleted
       id
     }
   }

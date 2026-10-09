@@ -6,6 +6,7 @@ const initialState = {
   unique_recent_card_id_array: [] as number[],
   is_loading_recent_card_id_array: true,
   is_hide_duplicates: true,
+  hasLoadError: false,
 };
 
 const recentCardSlice = createSlice({
@@ -21,15 +22,18 @@ const recentCardSlice = createSlice({
       state,
       action: PayloadAction<number[]>,
     ) => {
+      state.hasLoadError = false;
       state.recent_card_id_array = action.payload;
       state.unique_recent_card_id_array = [...new Set(action.payload)];
       state.is_loading_recent_card_id_array = false;
     },
-    [loadRecentCardsThunk.pending.type]: (state) => {
+    [loadRecentCardsThunk.pending.type]: state => {
       state.is_loading_recent_card_id_array = true;
+      state.hasLoadError = false;
     },
-    [loadRecentCardsThunk.rejected.type]: (state) => {
+    [loadRecentCardsThunk.rejected.type]: state => {
       state.is_loading_recent_card_id_array = false;
+      state.hasLoadError = true;
     },
   },
 });

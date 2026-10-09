@@ -1,76 +1,56 @@
-import { Box, CircularProgress, Grid, Stack, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { BoxProps } from '@mui/material/Box/Box';
+import { useEffect } from 'react';
+import { observer } from 'mobx-react';
 import {
   useAppDispatch,
   useAppSelector,
 } from '../../../App/ReduxStore/RootStore';
-import CardMicroView from '../../Cards/CardMicroView';
-import { useEffect } from 'react';
 import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 import { loadRecentCardsThunk } from '../Store/async-actions';
 import UIIsHideDuplicates from './ui-is-hide-duplicates';
-import { useNavigate } from 'react-router-dom';
+import CardHistoryTimeline from '../../CardHistory/UI/card-history-timeline';
 
-type IRecentCardsPageProps = BoxProps;
-
-export default function RecentCardsPage({ ...props }: IRecentCardsPageProps) {
+const RecentCardsPage = observer(({ className = '', ...props }: BoxProps) => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
-  const is_loading_recent_card_id_array = useAppSelector(
-    (state) => state.recentCards.is_loading_recent_card_id_array,
-  );
-  const recent_card_id_array = useAppSelector(
-    (state) => state.recentCards.recent_card_id_array,
-  );
-  const unique_recent_card_id_array = useAppSelector(
-    (state) => state.recentCards.unique_recent_card_id_array,
-  );
-  const is_hide_duplicates = useAppSelector(
-    (state) => state.recentCards.is_hide_duplicates,
-  );
+  const history = useAppSelector(state => state.recentCards);
+  const isLogin = UserStorage.isLogin;
 
   useEffect(() => {
-    if (UserStorage.isLogin) {
-      dispatch(loadRecentCardsThunk());
-    }
-  }, [UserStorage.isLogin]);
+    if (isLogin) dispatch(loadRecentCardsThunk());
+  }, [dispatch, isLogin]);
 
-  useEffect(() => {
-    dispatch(loadRecentCardsThunk());
-  }, []);
+  const cardIDs = history.is_hide_duplicates
+    ? history.unique_recent_card_id_array
+    : history.recent_card_id_array;
 
-  if (is_loading_recent_card_id_array) {
-    return (
-      <Stack alignItems={'center'}>
-        <CircularProgress />
-      </Stack>
-    );
-  }
-
-  const cards_id_array = is_hide_duplicates
-    ? unique_recent_card_id_array
-    : recent_card_id_array;
   return (
-    <Box className="sw-learning-page sw-history-page" {...props}>
-      <Stack className="sw-card-library-heading" alignItems="flex-start">
-        <Typography className="sw-card-library-title" variant={'h3'}>
-          Недавно просмотренные карточки
-        </Typography>
-      </Stack>
-      <UIIsHideDuplicates className="sw-card-library-filter" />
-      <Grid className="sw-card-library-grid" container spacing={2} justifyContent="center">
-        {cards_id_array?.map((card_id, index) => (
-          <Grid item xs={12} sm={6} md="auto" key={`${index}_${card_id}`}>
-            <CardMicroView
-              cardID={card_id}
-              onClick={() => {
-                navigate(`/card/${card_id}`);
-              }}
-            />
-          </Grid>
-        ))}
-      </Grid>
+    <Box {...props} className={`sw-learning-page sw-history-page ${className}`}>
+      <header className="sw-history-page-heading">
+        <div className="sw-card-library-heading">
+          <Typography component="h1" className="sw-card-library-title">
+            История просмотров
+          </Typography>
+          <Typography component="p" className="sw-history-page-description">
+            Ваш путь по учебным материалам. Последние просмотры — в начале
+            списка.
+          </Typography>
+        </div>
+        {!history.is_loading_recent_card_id_array && !history.hasLoadError && (
+          <span className="sw-history-page-count">
+            Записей: {cardIDs.length}
+          </span>
+        )}
+      </header>
+      <UIIsHideDuplicates />
+      <CardHistoryTimeline
+        cardIDs={cardIDs}
+        isLoading={history.is_loading_recent_card_id_array}
+        hasError={history.hasLoadError}
+        onRetry={() => dispatch(loadRecentCardsThunk())}
+      />
     </Box>
   );
-}
+});
+
+export default RecentCardsPage;

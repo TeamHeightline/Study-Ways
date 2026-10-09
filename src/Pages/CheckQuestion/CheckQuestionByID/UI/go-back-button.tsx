@@ -1,32 +1,23 @@
-import { observer } from 'mobx-react';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
-import { Button, Paper } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Button, Paper, PaperProps } from '@mui/material';
+import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import { useNavigate } from 'react-router-dom';
-import { isMobileHook } from '../../../../Shared/CustomHooks/isMobileHook';
 
-type IGoBackButtonProps = PaperProps;
-
-const GoBackButton = observer(({ ...props }: IGoBackButtonProps) => {
+export default function GoBackButton({ className = '', ...props }: PaperProps) {
   const navigate = useNavigate();
-  const isMobile = isMobileHook();
   return (
-    <Paper elevation={0} {...props}>
+    <Paper
+      elevation={0}
+      {...props}
+      className={`sw-review-action-wrapper ${className}`}
+    >
       <Button
-        sx={{ minWidth: isMobile ? '' : 300 }}
-        fullWidth={isMobile}
-        startIcon={<ArrowBackIcon />}
-        variant="outlined"
-        color="primary"
-        onClick={() => {
-          navigate(-1);
-        }}
+        startIcon={<ArrowBackRoundedIcon />}
+        className="sw-review-back"
+        onClick={() => navigate(-1)}
       >
         Назад
       </Button>
     </Paper>
   );
-});
-
-export default GoBackButton;
+}

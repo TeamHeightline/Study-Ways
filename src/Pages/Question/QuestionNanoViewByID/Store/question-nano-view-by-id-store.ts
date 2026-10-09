@@ -19,9 +19,11 @@ export class QuestionNanoViewByIdStore {
   questionImage?: string;
 
   dataHasBeenLoaded = false;
+  hasLoadError = false;
 
   loadQuestionTextNanoViewByID(useCache = true) {
     if (this.id) {
+      this.hasLoadError = false;
       this.clientStorage.client
         .query<Query>({
           query: GET_QUESTION_NANO_VIEW_BY_ID,
@@ -42,7 +44,13 @@ export class QuestionNanoViewByIdStore {
             this.loadQuestionTextNanoViewByID(false);
           }
         })
-        .catch((e) => console.log(e));
+        .catch(() => {
+          if (useCache) {
+            this.loadQuestionTextNanoViewByID(false);
+          } else {
+            this.hasLoadError = true;
+          }
+        });
     }
   }
 

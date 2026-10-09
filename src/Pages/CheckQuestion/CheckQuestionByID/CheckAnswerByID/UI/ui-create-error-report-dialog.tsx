@@ -1,6 +1,5 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
 import {
   Button,
   Dialog,
@@ -8,72 +7,78 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Paper,
-  Stack,
+  IconButton,
+  PaperProps,
   TextField,
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import SendIcon from '@mui/icons-material/Send';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import { CheckAnswerByIdStore } from '../Store/check-answer-by-id-store';
-import ImageAnswerNode from '../../../../Question/ImageAnswerNode';
+import ReviewAnswerContent from './review-answer-content';
 
 interface IUICreateErrorReportDialogProps extends PaperProps {
   answerStore: CheckAnswerByIdStore;
 }
 
 const UICreateErrorReportDialog = observer(
-  ({ answerStore, ...props }: IUICreateErrorReportDialogProps) => (
-    <Paper elevation={0} {...props}>
-      <Dialog
-        open={answerStore.isOpenAnswerReportDialog}
-        onClose={answerStore.closeAnswerReportDialog}
-      >
-        <DialogTitle>Сообщить об ошибке в ответе</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Опишите максимально развернуто в чем состоит ошибка
-          </DialogContentText>
-          <Stack alignItems={'center'} sx={{ mt: 2 }}>
-            {answerStore?.answerData && (
-              <ImageAnswerNode
-                answer={answerStore.answerData}
-                borderIsTrueStrategy
-                selected={[]}
-                onChange={() => {
-                  void 0;
-                }}
-              />
-            )}
-          </Stack>
-          <TextField
-            value={answerStore.answerReportText}
-            onChange={answerStore.changeAnswerReportText}
-            multiline
-            autoFocus
-            margin="dense"
-            id="error description"
-            label="Описание ошибки"
-            fullWidth
-            variant="standard"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={answerStore.closeAnswerReportDialog}
-            color={'error'}
-            endIcon={<CloseIcon />}
-          >
-            Отмена
-          </Button>
-          <Button
-            onClick={() => answerStore.onSendAnswerReportButtonClick()}
-            endIcon={<SendIcon />}
-          >
-            Отправить
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Paper>
+  ({ answerStore }: IUICreateErrorReportDialogProps) => (
+    <Dialog
+      open={answerStore.isOpenAnswerReportDialog}
+      onClose={answerStore.closeAnswerReportDialog}
+      fullWidth
+      maxWidth="sm"
+      aria-labelledby={`review-report-title-${answerStore.answerID}`}
+      aria-describedby={`review-report-description-${answerStore.answerID}`}
+      PaperProps={{ className: 'sw-review-report-dialog' }}
+    >
+      <DialogTitle id={`review-report-title-${answerStore.answerID}`}>
+        Замечание к ответу
+        <IconButton
+          aria-label="Закрыть"
+          onClick={answerStore.closeAnswerReportDialog}
+        >
+          <CloseRoundedIcon />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText
+          id={`review-report-description-${answerStore.answerID}`}
+        >
+          Опишите неточность и, если возможно, предложите исправление.
+        </DialogContentText>
+        {answerStore.answerData && (
+          <div className="sw-review-report-answer">
+            <ReviewAnswerContent answer={answerStore.answerData} />
+          </div>
+        )}
+        <TextField
+          id={`review-report-text-${answerStore.answerID}`}
+          label="Описание ошибки"
+          placeholder="Что нужно исправить в ответе или подсказках?"
+          value={answerStore.answerReportText}
+          onChange={answerStore.changeAnswerReportText}
+          multiline
+          minRows={4}
+          autoFocus
+          fullWidth
+          variant="outlined"
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button color="inherit" onClick={answerStore.closeAnswerReportDialog}>
+          Отмена
+        </Button>
+        <Button
+          variant="contained"
+          disableElevation
+          endIcon={<SendRoundedIcon />}
+          disabled={!answerStore.answerReportText.trim()}
+          onClick={answerStore.onSendAnswerReportButtonClick}
+        >
+          Отправить замечание
+        </Button>
+      </DialogActions>
+    </Dialog>
   ),
 );
 

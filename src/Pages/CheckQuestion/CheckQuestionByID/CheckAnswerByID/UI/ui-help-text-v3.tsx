@@ -1,21 +1,19 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
-import { Alert, Paper } from '@mui/material';
+import { PaperProps } from '@mui/material';
 import { CheckAnswerByIdStore } from '../Store/check-answer-by-id-store';
+import ReviewHelpText from './review-help-text';
 
-interface IUIHelpTextV3Props extends PaperProps {
+interface UIHelpTextProps extends PaperProps {
   answerStore: CheckAnswerByIdStore;
 }
 
-const UIHelpTextV3 = observer(
-  ({ answerStore, ...props }: IUIHelpTextV3Props) => (
-    <Paper elevation={0} {...props}>
-      <Alert severity={'error'} variant={'outlined'}>
-        {answerStore.answerData?.helpTextv3}
-      </Alert>
-    </Paper>
-  ),
-);
+const UIHelpTextV3 = observer(({ answerStore, ...props }: UIHelpTextProps) => (
+  <ReviewHelpText
+    {...props}
+    level={3}
+    text={answerStore.answerData?.helpTextv3}
+  />
+));
 
 export default UIHelpTextV3;

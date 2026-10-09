@@ -28,8 +28,11 @@ const TitleSimpleActions = observer(
       <div>
         <div>
           <IconButton
-            aria-label="more"
-            aria-controls="long-menu"
+            aria-label={`Действия с ответом №${answer_object.answer_id}`}
+            aria-controls={
+              open ? `qedit-answer-menu-${answer_object.answer_id}` : undefined
+            }
+            aria-expanded={open}
             aria-haspopup="true"
             onClick={handleClick}
             size="large"
@@ -37,7 +40,7 @@ const TitleSimpleActions = observer(
             <MoreVertIcon />
           </IconButton>
           <Menu
-            id="long-menu"
+            id={`qedit-answer-menu-${answer_object.answer_id}`}
             anchorEl={anchorEl}
             keepMounted
             open={open}

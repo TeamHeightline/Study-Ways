@@ -20,11 +20,7 @@ const TitleOnlyInExam = observer(
           onClick={answer_object.changeOnlyForExam}
           icon={onlyInExam ? <SchoolIcon /> : <ArchitectureIcon />}
           color={onlyInExam ? 'primary' : 'warning'}
-          label={
-            onlyInExam
-              ? 'Только для экзамена'
-              : 'Отображается в тренировочном режиме'
-          }
+          label={onlyInExam ? 'Только экзамен' : 'В подготовке'}
         />
       </Paper>
     );

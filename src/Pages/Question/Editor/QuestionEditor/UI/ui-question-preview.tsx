@@ -1,52 +1,44 @@
-import { QuestionEditorStorage } from '../Store/QuestionEditorStorage';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Routes from '@mui/material/Switch';
-import { Collapse } from '@mui/material';
-import UiQuestionData from '../../../QuestionByID/UI/ui-question-data';
 import React from 'react';
 import { observer } from 'mobx-react';
+import { Button, Collapse } from '@mui/material';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import ExpandLessRoundedIcon from '@mui/icons-material/ExpandLessRounded';
+import { QuestionEditorStorage } from '../Store/QuestionEditorStorage';
 
 export const UiQuestionPreview = observer(() => (
-  <>
-    {QuestionEditorStorage.questionHasBeenSelected && (
-      <FormControlLabel
-        control={
-          <Routes
-            color="primary"
-            checked={QuestionEditorStorage.showPreview}
-            onChange={() =>
-              (QuestionEditorStorage.showPreview =
-                !QuestionEditorStorage.showPreview)
-            }
+  <section className="sw-qedit-question-preview">
+    <Button
+      startIcon={<VisibilityOutlinedIcon />}
+      endIcon={
+        QuestionEditorStorage.showPreview ? (
+          <ExpandLessRoundedIcon />
+        ) : undefined
+      }
+      aria-expanded={QuestionEditorStorage.showPreview}
+      onClick={() => {
+        QuestionEditorStorage.showPreview = !QuestionEditorStorage.showPreview;
+      }}
+    >
+      {QuestionEditorStorage.showPreview
+        ? 'Скрыть предпросмотр вопроса'
+        : 'Предпросмотр вопроса'}
+    </Button>
+    <Collapse in={QuestionEditorStorage.showPreview} unmountOnExit>
+      <div className="sw-qedit-preview-content">
+        {QuestionEditorStorage.selectedQuestionImageURL && (
+          <img
+            src={QuestionEditorStorage.selectedQuestionImageURL}
+            alt="Иллюстрация к вопросу"
           />
-        }
-        label="Включить предпросмотр"
-      />
-    )}
-    <Collapse in={QuestionEditorStorage.showPreview}>
-      <div>
-        <UiQuestionData
-          isNotUseScrollbar={true}
-          setIsNotUseScrollbar={() => void 0}
-          showNotUseScrollbarCheckbox={false}
-          height={window.innerHeight}
-          width={window.innerWidth}
-          urlHasBeenPassed={true}
-          questionImgUrl={QuestionEditorStorage.selectedQuestionImageURL}
-          questionData={{
-            questionById: { text: QuestionEditorStorage.selectedQuestionText },
-          }}
-          id={QuestionEditorStorage.selectedQuestionID}
-          onChange={() => void 0}
-          onClick={() => {
-            void 0;
-          }}
-          disabled={true}
-          value="0"
-          onChange1={() => void 0}
-          onClick1={() => void 0}
-        />
+        )}
+        <div>
+          <span>Вопрос №{QuestionEditorStorage.selectedQuestionID}</span>
+          <p>
+            {QuestionEditorStorage.selectedQuestionText ||
+              'Формулировка вопроса пока не добавлена.'}
+          </p>
+        </div>
       </div>
     </Collapse>
-  </>
+  </section>
 ));

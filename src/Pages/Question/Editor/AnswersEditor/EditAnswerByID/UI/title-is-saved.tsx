@@ -1,19 +1,32 @@
-import { observer } from 'mobx-react';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
-import { CircularProgress, Paper } from '@mui/material';
+import { observer } from 'mobx-react';
+import { CircularProgress, PaperProps } from '@mui/material';
+import DoneRoundedIcon from '@mui/icons-material/DoneRounded';
 import { EditAnswerByIdStore } from '../Store/edit-answer-by-id-store';
 
-interface ITitleIsSavedProps extends PaperProps {
+interface TitleIsSavedProps extends PaperProps {
   answer_object: EditAnswerByIdStore;
 }
-
-const TitleIsSaved = observer(
-  ({ answer_object, ...props }: ITitleIsSavedProps) => (
-    <Paper elevation={0} {...props}>
-      {!answer_object.stateOfSave && <CircularProgress size={20} />}
-    </Paper>
-  ),
-);
-
+const TitleIsSaved = observer(({ answer_object: store }: TitleIsSavedProps) => (
+  <span className="sw-qedit-answer-save" role="status">
+    {store.hasSaveError ? (
+      'Ошибка сохранения'
+    ) : store.stateOfSave ? (
+      <>
+        <DoneRoundedIcon />
+        Сохранено
+      </>
+    ) : (
+      <>
+        <CircularProgress size={11} />
+        Сохраняем…
+      </>
+    )}
+    {store.hasSaveError && (
+      <button type="button" onClick={() => store.updateAnswerData()}>
+        Повторить
+      </button>
+    )}
+  </span>
+));
 export default TitleIsSaved;

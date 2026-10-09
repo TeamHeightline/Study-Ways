@@ -1,27 +1,20 @@
-import { observer } from 'mobx-react';
-import { Button } from '@mui/material';
 import React from 'react';
+import { Button } from '@mui/material';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { useAppDispatch } from '../../../../../App/ReduxStore/RootStore';
 import { openCreateQuestionDialog } from '../redux-store/QuestionEditorPageSlice';
-import AddIcon from '@mui/icons-material/Add';
 
-export const UiCreateNewQuestion = observer(() => {
+export function UiCreateNewQuestion() {
   const dispatch = useAppDispatch();
   return (
-    <>
-      <Button
-        startIcon={<AddIcon />}
-        sx={{ maxWidth: 400 }}
-        variant="contained"
-        color="primary"
-        fullWidth
-        size="large"
-        onClick={() => {
-          dispatch(openCreateQuestionDialog());
-        }}
-      >
-        Создать новый вопрос
-      </Button>
-    </>
+    <Button
+      startIcon={<AddRoundedIcon />}
+      variant="contained"
+      disableElevation
+      className="sw-qedit-create"
+      onClick={() => dispatch(openCreateQuestionDialog())}
+    >
+      Новый вопрос
+    </Button>
   );
-});
+}

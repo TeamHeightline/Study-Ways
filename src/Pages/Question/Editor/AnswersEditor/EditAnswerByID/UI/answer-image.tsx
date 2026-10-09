@@ -31,7 +31,7 @@ const AnswerImage = observer(
 
     const isImageDeleted = answer_object.answer_object?.isImageDeleted;
     return (
-      <Paper elevation={0} {...props}>
+      <Paper elevation={0} {...props} className="sw-qedit-answer-media">
         <Stack direction={'row'} alignItems={'center'}>
           <Button
             size={'small'}
@@ -41,10 +41,12 @@ const AnswerImage = observer(
           >
             <input
               type="file"
+              accept="image/*"
+              aria-label={`Изображение к ответу №${answer_object.answer_id}`}
               hidden
               name="file"
               onChange={(e: any) => {
-                if (answer_object.answer_object) {
+                if (e.target.files?.length && answer_object.answer_object) {
                   answer_object.answer_object.isImageDeleted = false;
                   answer_object.updateImage(e);
                 }
@@ -53,6 +55,7 @@ const AnswerImage = observer(
             Изображение для ответа
           </Button>
           <IconButton
+            aria-label="Удалить изображение ответа"
             onClick={openDeleteDialog}
             disabled={!answer_object.imageName}
           >
@@ -67,7 +70,13 @@ const AnswerImage = observer(
               : answer_object.imageName)}
         </div>
 
-        <Dialog open={isOpenDeleteDialog} onClose={closeDeleteDialog}>
+        <Dialog
+          open={isOpenDeleteDialog}
+          onClose={closeDeleteDialog}
+          fullWidth
+          maxWidth="xs"
+          PaperProps={{ className: 'sw-qedit-dialog' }}
+        >
           <DialogTitle>{'Удалить изображение для ответа?'}</DialogTitle>
           <DialogContent>
             <DialogContentText>

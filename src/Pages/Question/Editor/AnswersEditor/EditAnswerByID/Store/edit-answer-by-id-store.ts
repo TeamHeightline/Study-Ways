@@ -61,6 +61,8 @@ export class EditAnswerByIdStore {
   answer_object?: answer_data_object;
 
   isAnswerDataLoaded = false;
+  hasLoadError = false;
+  hasSaveError = false;
   isEditTextInSimpleMode = false;
 
   // Работа с данными ответа----------------------------------------
@@ -210,6 +212,7 @@ export class EditAnswerByIdStore {
 
   loadAnswerData = () => {
     if (this.answer_id && !this.isAnswerDataLoaded) {
+      this.hasLoadError = false;
       this.clientStorage.client
         .query({
           query: LOAD_ANSWER_BY_ID,
@@ -218,14 +221,16 @@ export class EditAnswerByIdStore {
             answer_id: this.answer_id,
           },
         })
-        .then((response) => response.data.answerById)
-        .then((answer_object) => {
+        .then(response => response.data.answerById)
+        .then(answer_object => {
           const isTrue = String(answer_object.isTrue);
           const question = answer_object.question.id;
           this.answer_object = { ...answer_object, isTrue, question };
           this.isAnswerDataLoaded = true;
         })
-        .catch((e) => console.log(e));
+        .catch(() => {
+          this.hasLoadError = true;
+        });
     }
   };
 
@@ -241,6 +246,7 @@ export class EditAnswerByIdStore {
       this.isFirstLoadingIgnore = false;
     } else {
       if (this.answer_object) {
+        this.hasSaveError = false;
         this.stateOfSave = false;
         clearTimeout(this.savingTimer);
         this.savingTimer = setTimeout(() => {
@@ -252,6 +258,8 @@ export class EditAnswerByIdStore {
 
   updateAnswerData() {
     if (this.answer_object) {
+      this.hasSaveError = false;
+      this.stateOfSave = false;
       const rawAnswerObject = toJS(this.answer_object);
       this.clientStorage.client
         .mutate<Mutation>({
@@ -261,22 +269,17 @@ export class EditAnswerByIdStore {
             isTrue: rawAnswerObject.isTrue == 'true',
           },
         })
-        .then((response) => response?.data?.updateAnswer)
-        .then((new_answer) => {
-          console.log(new_answer);
+        .then(response => response?.data?.updateAnswer)
+        .then(new_answer => {
+          if (new_answer?.errors?.length)
+            throw new Error('Answer was not saved');
           this.stateOfSave = true;
         })
-        .catch((e) => console.log(e));
+        .catch(() => {
+          this.hasSaveError = true;
+        });
     }
   }
-
-  // Очередь проверки ----------------------------------------------------------------
-
-  changeCheckQueue = (e) => {
-    if (this.answer_object) {
-      this.answer_object.checkQueue = e.target.value.replace(/[^\d]/g, '');
-    }
-  };
 
   // Изображение ----------------------------------------------------------------
 
@@ -286,8 +289,8 @@ export class EditAnswerByIdStore {
   getImageUrlFromServer() {
     if (this.answer_object) {
       fetch(`${SERVER_BASE_URL}/files/answer?id=${this.answer_object?.id}`)
-        .then((response) => response.json())
-        .then((data) => (this.imageUrl = data[0].image))
+        .then(response => response.json())
+        .then(data => (this.imageUrl = data[0].image))
         .then(
           () =>
             (this.fakeAnswerIndexForUpdatePreview =
@@ -315,7 +318,7 @@ export class EditAnswerByIdStore {
         method: 'POST',
         body: formData,
       })
-        .then((response) => response.json())
+        .then(response => response.json())
         .then(() => {
           this.getImageUrlFromServer();
         })
@@ -350,8 +353,8 @@ export class EditAnswerByIdStore {
             ...objectForSave,
           },
         })
-        .then((response) => response?.data?.createAnswer)
-        .then((answer) => {
+        .then(response => response?.data?.createAnswer)
+        .then(answer => {
           if (answer?.answer?.id) {
             this.questionStore.addCreatedAnswerToAnswersObjectArray(
               answer?.answer,
@@ -373,7 +376,7 @@ export class EditAnswerByIdStore {
     if (this.answer_id) {
       this.answerErrorMessage = await axiosClient
         .get(`page/edit-answer-by-id/answer-report-by-id/${this.answer_id}`)
-        .then((res) => res.data);
+        .then(res => res.data);
     }
   };
 
@@ -399,7 +402,7 @@ export class EditAnswerByIdStore {
     this.loadAnswerErrorMessage();
   };
 
-  onCloseAnswerReportClick = (answer_report_id) => {
+  onCloseAnswerReportClick = answer_report_id => {
     this.updatingAnswerErrorMessageID = answer_report_id;
     this.updateAnswerErrorMessageID();
   };
@@ -436,7 +439,7 @@ type answer_data_with_wrong_is_true_type = object_properties_to_array_mapper<
 >;
 export type answer_data_object = Omit<
   answer_data_with_wrong_is_true_type,
-  'isTrue'
+  'isTrue' | 'videoUrl'
 > & { isTrue: 'true' | 'false' };
 type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 

@@ -1,56 +1,61 @@
-import { observer } from 'mobx-react';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
-import { Paper } from '@mui/material';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
+import { observer } from 'mobx-react';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  PaperProps,
+} from '@mui/material';
 import { EditAnswerByIdStore } from '../Store/edit-answer-by-id-store';
 
-interface IAnswerDeleteDialogProps extends PaperProps {
+interface AnswerDeleteDialogProps extends PaperProps {
   answer_object: EditAnswerByIdStore;
 }
-
 const AnswerDeleteDialog = observer(
-  ({ answer_object, ...props }: IAnswerDeleteDialogProps) => (
-    <Paper elevation={0} {...props}>
-      <Dialog open={answer_object.isOpenDeleteDialog}>
-        <DialogTitle>{'Вы уверены что хотите удалить ответ?'}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Это действие будет невозможно отменить, вы удалите этот ответ раз и
-            навсегда, если вы случайно открыли это меню, просто нажмите кнопку
-            ОТМЕНА.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() =>
-              (answer_object.isOpenDeleteDialog =
-                !answer_object.isOpenDeleteDialog)
-            }
-            color="primary"
-          >
-            Отмена
-          </Button>
-          <Button
-            onClick={() => {
-              answer_object.deleteAnswer();
-              answer_object.isOpenDeleteDialog =
-                !answer_object.isOpenDeleteDialog;
-            }}
-            color="primary"
-            autoFocus
-          >
-            Удалить
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Paper>
+  ({ answer_object: store }: AnswerDeleteDialogProps) => (
+    <Dialog
+      open={store.isOpenDeleteDialog}
+      onClose={() => {
+        store.isOpenDeleteDialog = false;
+      }}
+      fullWidth
+      maxWidth="xs"
+      aria-labelledby={`qedit-delete-title-${store.answer_id}`}
+      PaperProps={{ className: 'sw-qedit-dialog' }}
+    >
+      <DialogTitle id={`qedit-delete-title-${store.answer_id}`}>
+        Удалить вариант ответа?
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          Ответ и его подсказки больше не будут использоваться в этом вопросе.
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button
+          color="inherit"
+          onClick={() => {
+            store.isOpenDeleteDialog = false;
+          }}
+        >
+          Отмена
+        </Button>
+        <Button
+          color="error"
+          variant="contained"
+          disableElevation
+          onClick={() => {
+            store.deleteAnswer();
+            store.isOpenDeleteDialog = false;
+          }}
+        >
+          Удалить ответ
+        </Button>
+      </DialogActions>
+    </Dialog>
   ),
 );
-
 export default AnswerDeleteDialog;

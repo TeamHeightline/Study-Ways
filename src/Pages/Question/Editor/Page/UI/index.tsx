@@ -1,58 +1,48 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  Badge,
+  Alert,
+  Button,
   Card,
   CardActionArea,
-  Grid,
-  Stack,
+  InputAdornment,
+  Paper,
+  Skeleton,
+  TextField,
   Typography,
 } from '@mui/material';
 import { observer } from 'mobx-react';
-import { UiCreateNewQuestion } from './ui-create-new-question';
-import Paper from '@mui/material/Paper';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
+import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineRounded';
+import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
 import {
-  RootState,
   useAppDispatch,
+  useAppSelector,
 } from '../../../../../App/ReduxStore/RootStore';
 import {
   loadAuthorsThunk,
   loadQuestionsThunk,
 } from '../redux-store/AsyncActions';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { UserStorage } from '../../../../../Shared/Store/UserStore/UserStore';
+import { UiCreateNewQuestion } from './ui-create-new-question';
 import HideNotFilledQuestions from './ui-hide-not-filled-questions';
 import UIOrderingByCreatedAt from './ui-ordering-by-created-at';
 import UICreateNewQuestionDialog from './ui-create-new-question-dialog';
 import AuthorSelector from './author-selector';
-import { UserStorage } from '../../../../../Shared/Store/UserStore/UserStore';
+import '../../question-editor.css';
 
 export const Index = observer(() => {
   const dispatch = useAppDispatch();
-  const ordering_by_created_at = useSelector(
-    (state: RootState) => state?.questionEditorPage?.ordering_by_created_at,
-  );
-  const show_only_filled_questions = useSelector(
-    (state: RootState) => state?.questionEditorPage?.show_only_filled_questions,
-  );
-  const questions = useSelector(
-    (state: RootState) => state?.questionEditorPage?.questions,
-  );
-  const author_filter = useSelector(
-    (state: RootState) => state?.questionEditorPage?.author_filter,
-  );
-
+  const page = useAppSelector(state => state.questionEditorPage);
   const navigate = useNavigate();
+  const [search, setSearch] = useState('');
+  const { ordering_by_created_at, show_only_filled_questions, author_filter } =
+    page;
 
   useEffect(() => {
-    dispatch(
-      loadQuestionsThunk({
-        ordering_by_created_at,
-        show_only_filled_questions,
-      }),
-    );
     dispatch(loadAuthorsThunk());
-  }, []);
-
+  }, [dispatch]);
   useEffect(() => {
     dispatch(
       loadQuestionsThunk({
@@ -60,81 +50,166 @@ export const Index = observer(() => {
         show_only_filled_questions,
       }),
     );
-  }, [show_only_filled_questions, ordering_by_created_at]);
+  }, [dispatch, ordering_by_created_at, show_only_filled_questions]);
 
-  const filtered_questions =
-    author_filter === 'all'
-      ? questions
-      : author_filter === 'my'
-        ? questions?.filter(
-            (question) => question?.created_by_id === UserStorage.user_data?.id,
-          )
-        : questions?.filter(
-            (question) => String(question?.created_by_id) === author_filter,
-          );
+  const query = search.trim().toLocaleLowerCase('ru');
+  const questions = page.questions.filter(question => {
+    const matchesAuthor =
+      author_filter === 'all' ||
+      (author_filter === 'my'
+        ? question.created_by_id === UserStorage.user_data?.id
+        : String(question.created_by_id) === author_filter);
+    return (
+      matchesAuthor &&
+      (!query ||
+        `${question.id} ${question.text || ''}`
+          .toLocaleLowerCase('ru')
+          .includes(query))
+    );
+  });
 
   return (
-    <Paper className="sw-question-editor-list" elevation={0}>
+    <Paper elevation={0} className="sw-qedit sw-qedit-list">
       <UICreateNewQuestionDialog />
-      <Grid container justifyContent={'center'} sx={{ mt: 2 }}>
-        <Grid item xs={12} md={10}>
-          <Stack direction={'column'} alignItems={'center'}>
-            <UiCreateNewQuestion />
-          </Stack>
-          {/* <QuestionFolders/>*/}
-          <Stack
-            className="sw-question-editor-filters"
-            sx={{ mt: 1 }}
-            direction={'row'}
-            justifyContent={'space-between'}
-          >
-            <AuthorSelector />
-            <Stack alignItems={'start'}>
-              <UIOrderingByCreatedAt />
-              <HideNotFilledQuestions />
-            </Stack>
-          </Stack>
-          <Grid
-            className="sw-question-editor-grid"
-            container
-            spacing={4}
-            justifyContent="space-between"
-            sx={{ mt: 1 }}
-          >
-            {filtered_questions?.map((question) => (
-              <Grid
-                item
+      <header className="sw-qedit-heading">
+        <div className="sw-card-library-heading">
+          <Typography component="h1" className="sw-card-library-title">
+            Редактор вопросов
+          </Typography>
+          <Typography component="p" className="sw-qedit-description">
+            Создавайте вопросы, настраивайте варианты ответа и помогайте
+            ученикам разобраться в теме.
+          </Typography>
+        </div>
+        <UiCreateNewQuestion />
+      </header>
+      <div className="sw-qedit-library-toolbar">
+        <TextField
+          size="small"
+          label="Поиск вопросов"
+          placeholder="Текст или номер вопроса"
+          value={search}
+          onChange={event => setSearch(event.target.value)}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchRoundedIcon />
+              </InputAdornment>
+            ),
+          }}
+          className="sw-qedit-search"
+        />
+        <AuthorSelector />
+        <UIOrderingByCreatedAt />
+        <HideNotFilledQuestions />
+      </div>
+      <div className="sw-qedit-list-summary" role="status">
+        <span>
+          {page.is_pending_questions
+            ? 'Загружаем вопросы…'
+            : `Найдено вопросов: ${questions.length}`}
+        </span>
+        <span>Выберите вопрос для редактирования</span>
+      </div>
+      {page.is_loading_questions_error ? (
+        <Alert
+          severity="error"
+          action={
+            <Button
+              color="inherit"
+              onClick={() =>
+                dispatch(
+                  loadQuestionsThunk({
+                    ordering_by_created_at,
+                    show_only_filled_questions,
+                  }),
+                )
+              }
+            >
+              Повторить
+            </Button>
+          }
+        >
+          Не удалось загрузить вопросы.
+        </Alert>
+      ) : page.is_pending_questions ? (
+        <div
+          className="sw-qedit-library-grid"
+          aria-label="Загрузка вопросов"
+          aria-busy="true"
+        >
+          {[0, 1, 2, 3, 4, 5].map(index => (
+            <Skeleton key={index} variant="rounded" height={236} />
+          ))}
+        </div>
+      ) : questions.length === 0 ? (
+        <div className="sw-qedit-empty" role="status">
+          <QuizOutlinedIcon />
+          <Typography component="h2">
+            {search || author_filter !== 'my' || show_only_filled_questions
+              ? 'Вопросы не найдены'
+              : 'Создайте свой первый вопрос'}
+          </Typography>
+          <Typography component="p">
+            {search || show_only_filled_questions
+              ? 'Попробуйте изменить запрос или параметры фильтра.'
+              : 'Добавьте формулировку, варианты ответа и подсказки для разных уровней сложности.'}
+          </Typography>
+        </div>
+      ) : (
+        <div className="sw-qedit-library-grid">
+          {questions.map(question => {
+            const author = page.authors.find(
+              item => item.id === question.created_by_id,
+            );
+            const authorName =
+              [
+                author?.users_userprofile?.firstname,
+                author?.users_userprofile?.lastname,
+              ]
+                .filter(Boolean)
+                .join(' ') || author?.username;
+            return (
+              <Card
                 key={question.id}
-                sx={{ maxWidth: 350, width: '100%' }}
+                variant="outlined"
+                className="sw-qedit-library-card"
               >
-                <Badge
-                  color="secondary"
-                  badgeContent={question.sumOfAnswersReports}
-                  sx={{ width: '100%' }}
+                <CardActionArea
+                  onClick={() => navigate(`selected/${question.id}`)}
+                  className="sw-qedit-library-card-action"
                 >
-                  <Card
-                    className="sw-question-card"
-                    style={{ height: 160, textAlign: 'center', width: '100%' }}
-                    variant="outlined"
-                  >
-                    <CardActionArea
-                      className="sw-question-card-action"
-                      style={{ height: '100%' }}
-                      onClick={() => navigate(`selected/${question.id}`)}
-                    >
-                      <div className="sw-question-card-body">
-                        <Typography className="sw-question-id">{`Вопрос № ${question.id}`}</Typography>
-                        <Typography className="sw-question-text">{question?.text || 'Без названия'}</Typography>
-                        <div className="sw-question-card-footer">Редактировать вопрос <span aria-hidden="true">↗</span></div>
-                      </div>
-                    </CardActionArea>
-                  </Card>
-                </Badge>
-              </Grid>
-            ))}
-          </Grid>
-        </Grid>
-      </Grid>
+                  <div className="sw-qedit-card-top">
+                    <span className="sw-qedit-id">Вопрос №{question.id}</span>
+                    {question.sumOfAnswersReports > 0 && (
+                      <span
+                        className="sw-qedit-report-count"
+                        title="Замечания к ответам"
+                      >
+                        <ChatBubbleOutlineRoundedIcon />
+                        <span>{question.sumOfAnswersReports}</span>
+                      </span>
+                    )}
+                  </div>
+                  <Typography component="h2" className="sw-qedit-card-text">
+                    {question.text?.trim() || 'Вопрос без текста'}
+                  </Typography>
+                  <span className="sw-qedit-card-author">
+                    {authorName ||
+                      (question.created_by_id === UserStorage.user_data?.id
+                        ? 'Мой вопрос'
+                        : 'Автор не указан')}
+                  </span>
+                  <div className="sw-qedit-card-footer">
+                    Редактировать вопрос
+                    <ArrowForwardRoundedIcon />
+                  </div>
+                </CardActionArea>
+              </Card>
+            );
+          })}
+        </div>
+      )}
     </Paper>
   );
 });

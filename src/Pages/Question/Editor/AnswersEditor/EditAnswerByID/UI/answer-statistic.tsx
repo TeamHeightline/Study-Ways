@@ -1,53 +1,39 @@
-import { Box, Chip, Tooltip } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Box, BoxProps, Chip, Tooltip } from '@mui/material';
 import { getAnswerStatistic } from '../Store/Query';
 import { IAnswerStatistic } from '../Store/type';
 
-interface IAnswerStatisticProps extends BoxProps {
+interface AnswerStatisticProps extends BoxProps {
   answer_id: number;
 }
-
 export default function AnswerStatistic({
   answer_id,
   ...props
-}: IAnswerStatisticProps) {
-  const [answerStatistic, setAnswerStatistic] =
-    useState<IAnswerStatistic | null>(null);
-
+}: AnswerStatisticProps) {
+  const [stats, setStats] = useState<IAnswerStatistic | null>(null);
   useEffect(() => {
-    getAnswerStatistic(answer_id).then((data) => {
-      setAnswerStatistic(data);
-    });
+    let active = true;
+    setStats(null);
+    getAnswerStatistic(answer_id)
+      .then(data => {
+        if (active) setStats(data);
+      })
+      .catch(() => void 0);
+    return () => {
+      active = false;
+    };
   }, [answer_id]);
-
-  if (
-    !answerStatistic?.number_of_incorrect_answer_choices ||
-    !answerStatistic?.number_of_all_answer_choices
-  ) {
-    return <div />;
-  }
-
-  const answerRightSelectPercent =
+  if (!stats?.number_of_all_answer_choices) return null;
+  const percent = Math.round(
     (1 -
-      (answerStatistic?.number_of_incorrect_answer_choices || 0) /
-        (answerStatistic?.number_of_all_answer_choices || 1)) *
-    100;
-  const answerRightSelectPercentRounded = Math.round(answerRightSelectPercent);
-  const answerRightSelectPercentRoundedString = `${answerRightSelectPercentRounded.toString()}%`;
-  const colorBasedOnPercent =
-    answerRightSelectPercentRounded > 70
-      ? 'green'
-      : answerRightSelectPercentRounded > 50
-        ? 'orange'
-        : 'red';
+      stats.number_of_incorrect_answer_choices /
+        stats.number_of_all_answer_choices) *
+      100,
+  );
   return (
     <Box {...props}>
-      <Tooltip title={'Процент верного выбора/не выбора этого ответ'}>
-        <Chip
-          label={answerRightSelectPercentRoundedString}
-          sx={{ backgroundColor: colorBasedOnPercent }}
-        />
+      <Tooltip title="Доля верного выбора или пропуска этого варианта">
+        <Chip variant="outlined" label={`Верный выбор · ${percent}%`} />
       </Tooltip>
     </Box>
   );

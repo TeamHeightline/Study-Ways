@@ -1,78 +1,103 @@
+import React, { useState } from 'react';
 import {
+  Alert,
   Box,
+  BoxProps,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  IconButton,
 } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import { LoadingButton } from '@mui/lab';
 import {
-  RootState,
   useAppDispatch,
+  useAppSelector,
 } from '../../../../../App/ReduxStore/RootStore';
-import { useSelector } from 'react-redux';
 import {
   closeCreateQuestionDialog,
   finishCreatingNewQuestion,
   startCreatingNewQuestion,
 } from '../redux-store/QuestionEditorPageSlice';
-import CloseIcon from '@mui/icons-material/Close';
-import AddIcon from '@mui/icons-material/Add';
-import { LoadingButton } from '@mui/lab';
 import { QuestionEditorStorage } from '../../QuestionEditor/Store/QuestionEditorStorage';
 import { useNavigate } from 'react-router-dom';
 
-type IUICreateNewQuestionDialogProps = BoxProps;
-
-export default function UICreateNewQuestionDialog({
-  ...props
-}: IUICreateNewQuestionDialogProps) {
-  const navigate = useNavigate();
+export default function UICreateNewQuestionDialog(props: BoxProps) {
   const dispatch = useAppDispatch();
-
-  const is_open_create_question_dialog = useSelector(
-    (state: RootState) =>
-      state?.questionEditorPage?.is_open_create_question_dialog,
-  );
-  const is_new_question_now_creating = useSelector(
-    (state: RootState) =>
-      state?.questionEditorPage?.is_new_question_now_creating,
-  );
-
-  const handleClose = () => {
-    dispatch(closeCreateQuestionDialog());
+  const navigate = useNavigate();
+  const page = useAppSelector(state => state.questionEditorPage);
+  const [hasError, setHasError] = useState(false);
+  const close = () => {
+    if (!page.is_new_question_now_creating) {
+      setHasError(false);
+      dispatch(closeCreateQuestionDialog());
+    }
   };
-
-  async function createNewQuestion() {
+  async function create() {
+    setHasError(false);
     dispatch(startCreatingNewQuestion());
-    const questionID = await QuestionEditorStorage.createNewQuestion();
-    dispatch(finishCreatingNewQuestion());
-    handleClose();
-    navigate(`selected/${questionID}`);
+    try {
+      const id = await QuestionEditorStorage.createNewQuestion();
+      if (!id) throw new Error('Question was not created');
+      dispatch(closeCreateQuestionDialog());
+      navigate(`selected/${id}`);
+    } catch {
+      setHasError(true);
+    } finally {
+      dispatch(finishCreatingNewQuestion());
+    }
   }
-
   return (
     <Box {...props}>
-      <Dialog open={is_open_create_question_dialog} onClose={handleClose}>
-        <DialogTitle>{'Создать новый вопрос?'}</DialogTitle>
+      <Dialog
+        open={page.is_open_create_question_dialog}
+        onClose={close}
+        fullWidth
+        maxWidth="xs"
+        aria-labelledby="qedit-create-title"
+        PaperProps={{ className: 'sw-qedit-dialog' }}
+      >
+        <DialogTitle id="qedit-create-title">
+          Новый вопрос
+          <IconButton
+            aria-label="Закрыть"
+            onClick={close}
+            disabled={page.is_new_question_now_creating}
+          >
+            <CloseRoundedIcon />
+          </IconButton>
+        </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Вы уверенны, что хотите создать новый вопрос? Если вы нажмете ОК, то
-            вы перейдете на страницу редактирования нового вопроса.
+            Создадим пустой вопрос и откроем редактор. В нём можно добавить
+            текст, ответы и подсказки.
           </DialogContentText>
+          {hasError && (
+            <Alert severity="error">
+              Не удалось создать вопрос. Попробуйте ещё раз.
+            </Alert>
+          )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color={'error'} endIcon={<CloseIcon />}>
+          <Button
+            color="inherit"
+            onClick={close}
+            disabled={page.is_new_question_now_creating}
+          >
             Отмена
           </Button>
           <LoadingButton
-            loading={is_new_question_now_creating}
-            onClick={createNewQuestion}
-            endIcon={<AddIcon />}
+            variant="contained"
+            disableElevation
+            loading={page.is_new_question_now_creating}
+            onClick={create}
+            startIcon={<AddRoundedIcon />}
           >
-            Создать
+            Создать вопрос
           </LoadingButton>
         </DialogActions>
       </Dialog>

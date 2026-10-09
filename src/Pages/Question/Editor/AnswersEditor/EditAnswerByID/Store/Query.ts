@@ -14,7 +14,6 @@ export const LOAD_ANSWER_BY_ID = gql`
       helpTextv1
       helpTextv2
       helpTextv3
-      videoUrl
       checkQueue
       hardLevelOfAnswer
       isImageDeleted
@@ -34,7 +33,6 @@ export const CREATE_NEW_ANSWER_BASED_ON_DATA = gql`
     $helpTextv1: String
     $helpTextv2: String
     $helpTextv3: String
-    $videoUrl: String
     $checkQueue: Int!
     $hardLevelOfAnswer: String!
     $isDeleted: Boolean
@@ -50,7 +48,6 @@ export const CREATE_NEW_ANSWER_BASED_ON_DATA = gql`
         helpTextv1: $helpTextv1
         helpTextv2: $helpTextv2
         helpTextv3: $helpTextv3
-        videoUrl: $videoUrl
         checkQueue: $checkQueue
         hardLevelOfAnswer: $hardLevelOfAnswer
         isRequired: $isRequired
@@ -78,7 +75,6 @@ export const UPDATE_ANSWER = gql`
     $helpTextv1: String
     $helpTextv2: String
     $helpTextv3: String
-    $videoUrl: String
     $checkQueue: Int!
     $hardLevelOfAnswer: String!
     $isDeleted: Boolean
@@ -96,7 +92,6 @@ export const UPDATE_ANSWER = gql`
         helpTextv1: $helpTextv1
         helpTextv2: $helpTextv2
         helpTextv3: $helpTextv3
-        videoUrl: $videoUrl
         checkQueue: $checkQueue
         hardLevelOfAnswer: $hardLevelOfAnswer
         id: $id

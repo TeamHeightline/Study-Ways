@@ -1,35 +1,22 @@
-import { observer } from 'mobx-react';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
-import { Collapse, Paper } from '@mui/material';
-import ImageAnswerNode from '../../../../ImageAnswerNode';
+import { observer } from 'mobx-react';
+import { Collapse, PaperProps } from '@mui/material';
 import { EditAnswerByIdStore } from '../Store/edit-answer-by-id-store';
 
-interface IAnswerPreviewProps extends PaperProps {
+interface AnswerPreviewProps extends PaperProps {
   answer_object: EditAnswerByIdStore;
 }
-
 const AnswerPreview = observer(
-  ({ answer_object, ...props }: IAnswerPreviewProps) => (
-    <Paper elevation={0} {...props}>
-      <Collapse in={answer_object.isShowAnswerPreview} unmountOnExit>
-        <div>
-          <ImageAnswerNode
-            answerIndex={answer_object.fakeAnswerIndexForUpdatePreview}
-            // answerImageName={selectedAnswerImage?.name ? selectedAnswerImage?.name: answerImageName}
-            selected={[]}
-            onChange={() => {
-              void 0;
-            }}
-            answer={{
-              text: answer_object.getField('text'),
-              id: answer_object.getField('id'),
-            }}
-          />
-        </div>
-      </Collapse>
-    </Paper>
+  ({ answer_object: store }: AnswerPreviewProps) => (
+    <Collapse in={store.isShowAnswerPreview} unmountOnExit>
+      <div className="sw-qedit-answer-preview">
+        <span>Так выглядит вариант ответа</span>
+        {store.imageUrl && !store.answer_object?.isImageDeleted && (
+          <img src={store.imageUrl} alt="Изображение к ответу" />
+        )}
+        <p>{store.answer_object?.text || 'Текст ответа не добавлен.'}</p>
+      </div>
+    </Collapse>
   ),
 );
-
 export default AnswerPreview;

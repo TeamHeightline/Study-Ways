@@ -70,9 +70,6 @@ export class QuestionPlayerStore {
   // Текст вопроса
   questionText = '';
 
-  // Ссылка на видео вопрос
-  questionVideoUrl = '';
-
   // Массив всех ответов
   answersArray: any = [];
 

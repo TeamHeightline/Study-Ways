@@ -1,20 +1,17 @@
-import { observer } from 'mobx-react';
-import { QuestionEditorStorage } from '../Store/QuestionEditorStorage';
-import { Button } from '@mui/material';
 import React from 'react';
+import { observer } from 'mobx-react';
+import { Button } from '@mui/material';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import { QuestionEditorStorage } from '../Store/QuestionEditorStorage';
 
 export const CreateNewAnswer = observer(() => (
-  <>
-    {QuestionEditorStorage.questionHasBeenSelected && (
-      <Button
-        variant="outlined"
-        color="primary"
-        className="col-12 mt-3 justify-content-center"
-        size="large"
-        onClick={() => QuestionEditorStorage.createNewAnswer()}
-      >
-        Создать новый ответ
-      </Button>
-    )}
-  </>
+  <Button
+    variant="contained"
+    disableElevation
+    startIcon={<AddRoundedIcon />}
+    className="sw-qedit-add-answer"
+    onClick={() => QuestionEditorStorage.createNewAnswer()}
+  >
+    Добавить ответ
+  </Button>
 ));

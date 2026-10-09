@@ -28,7 +28,6 @@ export interface IAnswer {
   help_textV1: string;
   help_textV2: string;
   help_textV3: string;
-  video_url: string | null;
   check_queue: number;
   hard_level_of_answer: 'MEDIUM' | 'HARD' | 'EASY';
   created_by_id: number;
@@ -49,7 +48,6 @@ export interface IQuestionImage {
 export interface IQuestionWithAnswers {
   id: number;
   text: string;
-  video_url: string;
   created_by_id: number;
   isImageQuestion: boolean;
   number_of_showing_answers: number;

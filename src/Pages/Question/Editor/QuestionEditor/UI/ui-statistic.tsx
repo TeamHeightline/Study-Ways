@@ -1,66 +1,47 @@
-import { Box, Chip, Tooltip } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
-import { getQuestionStatistic, IQuestionStatistic } from '../Store/Struct';
 import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
+import { Box, BoxProps, Chip, Tooltip } from '@mui/material';
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
+import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import { QuestionEditorStorage } from '../Store/QuestionEditorStorage';
+import { getQuestionStatistic, IQuestionStatistic } from '../Store/Struct';
 
-import SchoolIcon from '@mui/icons-material/School';
-import ArchitectureIcon from '@mui/icons-material/Architecture';
-
-type IUIQuestionStatisticProps = BoxProps;
-
-export default function UIQuestionStatistic({
-  ...props
-}: IUIQuestionStatisticProps) {
-  const [questionStatistic, setQuestionStatistic] =
-    useState<IQuestionStatistic | null>(null);
-
+const UIQuestionStatistic = observer((props: BoxProps) => {
+  const [stats, setStats] = useState<IQuestionStatistic | null>(null);
+  const id = QuestionEditorStorage.selectedQuestionID;
   useEffect(() => {
-    if (QuestionEditorStorage.selectedQuestionID) {
-      getQuestionStatistic(QuestionEditorStorage.selectedQuestionID).then(
-        (data) => {
-          setQuestionStatistic(data);
-        },
-      );
-    }
-  }, [QuestionEditorStorage.selectedQuestionID]);
-
-  console.log(questionStatistic);
-
+    let active = true;
+    setStats(null);
+    if (id)
+      getQuestionStatistic(id)
+        .then(data => {
+          if (active) setStats(data);
+        })
+        .catch(() => void 0);
+    return () => {
+      active = false;
+    };
+  }, [id]);
+  if (stats?.training_avg == null && stats?.exam_avg == null) return null;
   return (
-    <Box {...props}>
-      {questionStatistic?.training_avg && (
-        <Tooltip title={'Средний балл в тренировочном режиме'}>
+    <Box {...props} className="sw-qedit-statistics">
+      {stats?.training_avg != null && (
+        <Tooltip title="Средний результат в режиме подготовки">
           <Chip
-            label={`${Math.ceil(questionStatistic?.training_avg)}%`}
-            icon={<ArchitectureIcon />}
-            sx={{
-              backgroundColor:
-                questionStatistic.training_avg > 70
-                  ? 'green'
-                  : questionStatistic.training_avg > 50
-                    ? 'orange'
-                    : 'red',
-            }}
+            icon={<AutoStoriesOutlinedIcon />}
+            label={`Подготовка · ${Math.ceil(stats.training_avg)}%`}
           />
         </Tooltip>
       )}
-      {questionStatistic?.exam_avg && (
-        <Tooltip title={'Средний балл в экзаменационном режиме'}>
+      {stats?.exam_avg != null && (
+        <Tooltip title="Средний результат в режиме экзамена">
           <Chip
-            label={`${Math.ceil(questionStatistic.exam_avg)}%`}
-            icon={<SchoolIcon />}
-            sx={{
-              backgroundColor:
-                questionStatistic.exam_avg > 70
-                  ? 'green'
-                  : questionStatistic.exam_avg > 50
-                    ? 'orange'
-                    : 'red',
-            }}
+            icon={<SchoolOutlinedIcon />}
+            label={`Экзамен · ${Math.ceil(stats.exam_avg)}%`}
           />
         </Tooltip>
       )}
     </Box>
   );
-}
+});
+export default UIQuestionStatistic;

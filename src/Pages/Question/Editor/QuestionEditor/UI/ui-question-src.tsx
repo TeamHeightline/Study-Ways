@@ -1,27 +1,31 @@
-import { observer } from 'mobx-react';
-import { QuestionEditorStorage } from '../Store/QuestionEditorStorage';
-import { Stack, Typography } from '@mui/material';
 import React from 'react';
+import { observer } from 'mobx-react';
+import { Button } from '@mui/material';
+import OpenInNewRoundedIcon from '@mui/icons-material/OpenInNewRounded';
+import { QuestionEditorStorage } from '../Store/QuestionEditorStorage';
 
 export const QuestionSrc = observer(() => (
-  <>
-    {QuestionEditorStorage.questionHasBeenSelected && (
-      <Stack alignItems={'center'}>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {'Режим обучения  - '}
-          <strong>
-            https://sw-university.com/iq/
-            {QuestionEditorStorage.selectedQuestionID}
-          </strong>
-        </Typography>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {'Режим экзамена  - '}
-          <strong>
-            https://sw-university.com/iq/
-            {QuestionEditorStorage.selectedQuestionID}?exam=true
-          </strong>
-        </Typography>
-      </Stack>
-    )}
-  </>
+  <div className="sw-qedit-mode-links">
+    <span>Открыть вопрос как ученик</span>
+    <div>
+      <Button
+        component="a"
+        href={`https://sw-university.com/iq/${QuestionEditorStorage.selectedQuestionID}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        endIcon={<OpenInNewRoundedIcon />}
+      >
+        Подготовка
+      </Button>
+      <Button
+        component="a"
+        href={`https://sw-university.com/iq/${QuestionEditorStorage.selectedQuestionID}?exam=true`}
+        target="_blank"
+        rel="noopener noreferrer"
+        endIcon={<OpenInNewRoundedIcon />}
+      >
+        Экзамен
+      </Button>
+    </div>
+  </div>
 ));

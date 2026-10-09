@@ -35,15 +35,7 @@ class QuestionEditor {
   constructor() {
     makeAutoObservable(this);
     reaction(
-      () => this.selectedQuestionID,
-      () => this.deliverFromServerImageURL(),
-    );
-    reaction(
       () => this.selectedQuestionText,
-      () => this.autoSave(),
-    );
-    reaction(
-      () => this.selectedQuestionVideoUrl,
       () => this.autoSave(),
     );
     reaction(
@@ -90,8 +82,8 @@ class QuestionEditor {
         query: GET_CONNECTED_THEMES,
         fetchPolicy: 'network-only',
       })
-      .then((res) => res.data.unstructuredTheme)
-      .then((themes) => {
+      .then(res => res.data.unstructuredTheme)
+      .then(themes => {
         if (themes) {
           this.allConnectedThemes = themes;
         }
@@ -100,7 +92,7 @@ class QuestionEditor {
   };
 
   get connectedThemesForSelector() {
-    return toJS(this.allConnectedThemes)?.map((theme) => ({
+    return toJS(this.allConnectedThemes)?.map(theme => ({
       id: theme.id,
       value: theme.id,
       key: theme.id,
@@ -200,7 +192,7 @@ class QuestionEditor {
           query: THEMES_AND_AUTHORS_FOR_QUESTION,
           fetchPolicy: 'network-only',
         })
-        .then((response) => {
+        .then(response => {
           this.allThemesForQuestion = [
             ...(response?.data?.questionThemes ?? []),
           ].sort(compareByIdDescending);
@@ -223,7 +215,7 @@ class QuestionEditor {
     ) {
       this.clientStorage.client
         .query({ query: MY_QUESTIONS_BASIC_DATA, fetchPolicy: 'network-only' })
-        .then((response) => response?.data?.me?.questionSet)
+        .then(response => response?.data?.me?.questionSet)
         .then((questionsArray: QuestionNode[] | undefined) => {
           if (questionsArray) {
             this.basicQuestionData = [...questionsArray].sort(
@@ -238,9 +230,14 @@ class QuestionEditor {
   basicQuestionData: QuestionNode[] = [];
   loadingBasicQuestionData = true;
   loadingQuestionData = false;
+  questionLoadError = false;
+  private questionLoadRequest = 0;
 
   selectQuestionClickHandler(id: number) {
+    const request = ++this.questionLoadRequest;
     this.clearAllStatisticData();
+    this.questionHasBeenSelected = false;
+    this.questionLoadError = false;
 
     if (
       this.userStorage.userAccessLevel === 'TEACHER' ||
@@ -252,14 +249,15 @@ class QuestionEditor {
           fetchPolicy: 'network-only',
           variables: { id },
         })
-        .then((response) => response.data.questionById)
-        .then((question_data) => {
+        .then(response => response.data.questionById)
+        .then(question_data => {
+          if (request !== this.questionLoadRequest) return;
+          if (!question_data) throw new Error('Question not found');
           if (question_data) {
             this.selectedQuestionID = Number(question_data.id);
             this.selectedQuestionText = question_data.text;
-            if (question_data.videoUrl) {
-              this.selectedQuestionVideoUrl = question_data.videoUrl;
-            }
+            this.selectedQuestionImageURL = '';
+            this.showPreview = false;
             if (question_data.numberOfShowingAnswers) {
               this.selectedQuestionNumberOfShowingAnswers = String(
                 question_data.numberOfShowingAnswers,
@@ -270,16 +268,16 @@ class QuestionEditor {
 
             if (question_data) {
               this.answers_id_array = question_data.answers.map(
-                (answer) => answer.id,
+                answer => answer.id,
               );
             }
-            const __QuestionAuthors = question_data.author.map((author) =>
+            const __QuestionAuthors = question_data.author.map(author =>
               String(author.id),
             );
             this.selectedQuestionAuthorsArray = __QuestionAuthors
               ? __QuestionAuthors
               : [];
-            const __QuestionThemes = question_data.theme.map((theme) =>
+            const __QuestionThemes = question_data.theme.map(theme =>
               String(theme.id),
             );
             this.selectedQuestionThemesArray = __QuestionThemes
@@ -298,6 +296,13 @@ class QuestionEditor {
             }
             this.questionHasBeenSelected = true;
             this.loadingQuestionData = false;
+            this.deliverFromServerImageURL();
+          }
+        })
+        .catch(() => {
+          if (request === this.questionLoadRequest) {
+            this.loadingQuestionData = false;
+            this.questionLoadError = true;
           }
         });
     }
@@ -312,12 +317,17 @@ class QuestionEditor {
   // Геттер, нужен чтобы можно было без преобразований использовать allQuestionsData
 
   deliverFromServerImageURL() {
-    fetch(`${SERVER_BASE_URL}/files/question?id=${this.selectedQuestionID}`)
-      .then((response) => response.json())
-      .then((jResponse) => {
-        this.selectedQuestionImageURL = jResponse[0].image;
+    const questionID = this.selectedQuestionID;
+    fetch(`${SERVER_BASE_URL}/files/question?id=${questionID}`)
+      .then(response => response.json())
+      .then(jResponse => {
+        if (questionID === this.selectedQuestionID)
+          this.selectedQuestionImageURL = jResponse?.[0]?.image || '';
       })
-      .catch(() => (this.selectedQuestionImageURL = ''));
+      .catch(() => {
+        if (questionID === this.selectedQuestionID)
+          this.selectedQuestionImageURL = '';
+      });
   }
 
   // Функция для загрузки нового изображения на сервер (обработчик нажатия на кнопку для загрузки изображения)
@@ -332,7 +342,7 @@ class QuestionEditor {
         body: formData,
       },
     )
-      .then((response) => response.json())
+      .then(response => response.json())
       .then(() => {
         this.deliverFromServerImageURL();
       })
@@ -357,12 +367,11 @@ class QuestionEditor {
           id: this.selectedQuestionID,
           connected_theme_id: Number(this.selectedConnectedTheme),
           text: this.selectedQuestionText,
-          video_url: this.selectedQuestionVideoUrl,
           number_of_showing_answers: Number(
             this.selectedQuestionNumberOfShowingAnswers,
           ),
         })
-        .then((response) => {
+        .then(response => {
           console.log(response);
           if (response.data.id) {
             this.stateOfSave = variantsOfStateOfSave.SAVED;
@@ -373,6 +382,9 @@ class QuestionEditor {
         .then(() => {
           this.loadBasicQuestionData();
           this.simpleUpdateFlag = true;
+        })
+        .catch(() => {
+          this.stateOfSave = variantsOfStateOfSave.ERROR;
         });
     }
   }
@@ -397,9 +409,6 @@ class QuestionEditor {
 
   // Текст выбранного вопроса
   selectedQuestionText: string | undefined = '';
-
-  // Ссылка на видео для выбранного вопроса
-  selectedQuestionVideoUrl: string | undefined = '';
 
   // Темы выбранного вопроса
   selectedQuestionThemesArray: string[] = [];
@@ -447,7 +456,7 @@ class QuestionEditor {
   async createNewQuestion() {
     return this.clientStorage.client
       .mutate<Mutation>({ mutation: CREATE_NEW_QUESTION })
-      .then((response) => response?.data?.updateQuestion?.question?.id);
+      .then(response => response?.data?.updateQuestion?.question?.id);
   }
 
   // Создаем копию этого вопроса со всеми ответами и переходим в нее
@@ -462,8 +471,8 @@ class QuestionEditor {
             questionId: this.selectedQuestionID,
           },
         })
-        .then((response) => response?.data?.copyQuestionWithAnswers)
-        .then((create_question_data) => {
+        .then(response => response?.data?.copyQuestionWithAnswers)
+        .then(create_question_data => {
           if (create_question_data?.ok && create_question_data.newQuestionId) {
             this.createDeepCopyInProgress = false;
             this.selectQuestionClickHandler(
@@ -490,7 +499,7 @@ class QuestionEditor {
           question: this.selectedQuestionID,
         },
       })
-      .then((response) => {
+      .then(response => {
         console.log(response.data);
         this.addCreatedAnswerToAnswersObjectArray(
           response.data.createAnswer.answer,

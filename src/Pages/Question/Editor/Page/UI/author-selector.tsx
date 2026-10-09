@@ -35,17 +35,18 @@ export default function AuthorSelector() {
 
   // MIO Selector
   return (
-    <FormControl fullWidth sx={{ maxWidth: 316 }}>
-      <InputLabel>Автор</InputLabel>
+    <FormControl size="small" className="sw-qedit-author-filter">
+      <InputLabel id="qedit-author-label">Автор вопросов</InputLabel>
       <Select
         value={String(author_filter)}
-        label="Автор"
+        label="Автор вопросов"
+        labelId="qedit-author-label"
         onChange={handleChange}
       >
-        <MenuItem value={'my'}>Мои</MenuItem>
-        <MenuItem value={'all'}>Все</MenuItem>
+        <MenuItem value={'my'}>Мои вопросы</MenuItem>
+        <MenuItem value={'all'}>Все авторы</MenuItem>
         <Divider />
-        {authors?.map((author) => (
+        {authors?.map(author => (
           <MenuItem key={author.id} value={String(author.id)}>
             {`${author?.users_userprofile?.lastname} ${
               author?.users_userprofile?.firstname

@@ -5,7 +5,7 @@ import TreeSelect from 'antd/es/tree-select';
 
 const { SHOW_CHILD } = TreeSelect;
 
-const ConnectedThemeSelector = observer((props) => {
+const ConnectedThemeSelector = observer(props => {
   useEffect(() => {
     QuestionEditorStorage.loadAllConnectedThemes();
   }, []);
@@ -17,9 +17,12 @@ const ConnectedThemeSelector = observer((props) => {
       QuestionEditorStorage.selectedConnectedTheme = e;
     },
     disabled: !QuestionEditorStorage.isAllConnectedThemesLoaded,
-    showSearch: false,
+    showSearch: true,
+    treeNodeFilterProp: 'title',
+    id: 'qedit-connected-theme',
+    dropdownClassName: 'sw-qedit-theme-popup',
     showCheckedStrategy: SHOW_CHILD,
-    placeholder: 'Выбирите тему вопроса',
+    placeholder: 'Выберите тему вопроса',
     // bordered: true,
     style: {
       width: '100%',
@@ -27,7 +30,8 @@ const ConnectedThemeSelector = observer((props) => {
   };
 
   return (
-    <div>
+    <div className="sw-qedit-theme">
+      <label htmlFor="qedit-connected-theme">Тема вопроса</label>
       <TreeSelect {...tProps} size={'large'} />
     </div>
   );

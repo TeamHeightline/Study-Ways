@@ -20,7 +20,7 @@ const TitleIsRequired = observer(
           variant="outlined"
           icon={isRequired ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
           color={isRequired ? 'error' : undefined}
-          label={isRequired ? 'Обязательный вариант' : 'Необязательный вариант'}
+          label={isRequired ? 'Обязательный' : 'Необязательный'}
         />
       </Paper>
     );

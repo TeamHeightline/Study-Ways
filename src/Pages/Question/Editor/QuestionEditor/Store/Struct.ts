@@ -42,7 +42,6 @@ export const GET_QUESTION_DATA_BY_ID = gql`
       id
       numberOfShowingAnswers
       text
-      videoUrl
       author {
         id
       }
@@ -91,7 +90,6 @@ export const UPDATE_QUESTION = gql`
     $theme: [ID]!
     $author: [ID]!
     $text: String!
-    $videoUrl: String
     $id: ID!
     $isImageQuestion: Boolean
     $numberOfShowingAnswers: Int
@@ -103,7 +101,6 @@ export const UPDATE_QUESTION = gql`
         theme: $theme
         author: $author
         text: $text
-        videoUrl: $videoUrl
         id: $id
         isImageQuestion: $isImageQuestion
         numberOfShowingAnswers: $numberOfShowingAnswers
@@ -160,7 +157,6 @@ export const UPDATE_ANSWER = gql`
     $helpTextv1: String
     $helpTextv2: String
     $helpTextv3: String
-    $videoUrl: String
     $checkQueue: Int!
     $hardLevelOfAnswer: String!
     $isDeleted: Boolean
@@ -178,7 +174,6 @@ export const UPDATE_ANSWER = gql`
         helpTextv1: $helpTextv1
         helpTextv2: $helpTextv2
         helpTextv3: $helpTextv3
-        videoUrl: $videoUrl
         checkQueue: $checkQueue
         hardLevelOfAnswer: $hardLevelOfAnswer
         id: $id

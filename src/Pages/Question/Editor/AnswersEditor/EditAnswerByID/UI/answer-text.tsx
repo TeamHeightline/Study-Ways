@@ -1,24 +1,21 @@
-import { observer } from 'mobx-react';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
-import { TextField } from '@mui/material';
+import { observer } from 'mobx-react';
+import { PaperProps, TextField } from '@mui/material';
 import { EditAnswerByIdStore } from '../Store/edit-answer-by-id-store';
 
-interface IAnswerTextProps extends PaperProps {
+interface AnswerTextProps extends PaperProps {
   answer_object: EditAnswerByIdStore;
 }
-
-const AnswerText = observer(({ answer_object, ...props }: IAnswerTextProps) => (
+const AnswerText = observer(({ answer_object: store }: AnswerTextProps) => (
   <TextField
-    variant={'filled'}
-    label="ТЕКСТ ОТВЕТА"
-    autoFocus
+    variant="outlined"
+    label="Текст ответа"
     multiline
     fullWidth
-    maxRows={7}
-    value={answer_object.getField('text')}
-    onChange={answer_object.changeField('text')}
+    minRows={3}
+    maxRows={10}
+    value={store.getField('text')}
+    onChange={store.changeField('text')}
   />
 ));
-
 export default AnswerText;

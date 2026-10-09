@@ -1,34 +1,28 @@
+import React from 'react';
 import { Box, Checkbox, FormControlLabel } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
-import { useSelector } from 'react-redux';
+import { BoxProps } from '@mui/material/Box';
 import {
-  RootState,
   useAppDispatch,
+  useAppSelector,
 } from '../../../../../App/ReduxStore/RootStore';
 import { changeShowOnlyFilledQuestions } from '../redux-store/QuestionEditorPageSlice';
 
-type IHideNotFilledQuestionsProps = BoxProps;
-
-export default function HideNotFilledQuestions({
-  ...props
-}: IHideNotFilledQuestionsProps) {
-  const show_only_filled_questions = useSelector(
-    (state: RootState) => state?.questionEditorPage?.show_only_filled_questions,
+export default function HideNotFilledQuestions(props: BoxProps) {
+  const checked = useAppSelector(
+    state => state.questionEditorPage.show_only_filled_questions,
   );
   const dispatch = useAppDispatch();
   return (
-    <Box {...props}>
+    <Box {...props} className="sw-qedit-filled-filter">
       <FormControlLabel
         control={
           <Checkbox
-            sx={{ ml: 1 }}
-            checked={show_only_filled_questions}
-            onChange={() => {
-              dispatch(changeShowOnlyFilledQuestions());
-            }}
+            size="small"
+            checked={checked}
+            onChange={() => dispatch(changeShowOnlyFilledQuestions())}
           />
         }
-        label="Показать только заполненные"
+        label="Только заполненные"
       />
     </Box>
   );

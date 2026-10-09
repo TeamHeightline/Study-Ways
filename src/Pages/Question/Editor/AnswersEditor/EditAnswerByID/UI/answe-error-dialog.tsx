@@ -1,90 +1,76 @@
+import React from 'react';
+import { observer } from 'mobx-react';
 import {
-  Box,
   Button,
   Dialog,
+  DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
-  Stack,
+  IconButton,
+  BoxProps,
 } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
-import { observer } from 'mobx-react';
-import { EditAnswerByIdStore } from '../Store/edit-answer-by-id-store';
-import DoneIcon from '@mui/icons-material/Done';
-import CloseIcon from '@mui/icons-material/Close';
 import { LoadingButton } from '@mui/lab';
+import DoneRoundedIcon from '@mui/icons-material/DoneRounded';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import { EditAnswerByIdStore } from '../Store/edit-answer-by-id-store';
 
-interface IAnswerErrorDialogProps extends BoxProps {
+interface AnswerErrorDialogProps extends BoxProps {
   answer_object: EditAnswerByIdStore;
 }
-
 const AnswerErrorDialog = observer(
-  ({ answer_object, ...props }: IAnswerErrorDialogProps) => {
-    const isOpen = answer_object.isOpenAnswerErrorMessageDialog;
-    return (
-      <Box {...props}>
-        <Dialog
-          open={isOpen && answer_object.answerErrorMessage.length > 0}
-          onClose={answer_object.closeAnswerErrorMessageDialog}
+  ({ answer_object: store }: AnswerErrorDialogProps) => (
+    <Dialog
+      open={
+        store.isOpenAnswerErrorMessageDialog &&
+        store.answerErrorMessage.length > 0
+      }
+      onClose={store.closeAnswerErrorMessageDialog}
+      fullWidth
+      maxWidth="sm"
+      aria-labelledby={`qedit-reports-title-${store.answer_id}`}
+      PaperProps={{ className: 'sw-qedit-dialog' }}
+    >
+      <DialogTitle id={`qedit-reports-title-${store.answer_id}`}>
+        Замечания к ответу
+        <IconButton
+          aria-label="Закрыть замечания"
+          onClick={store.closeAnswerErrorMessageDialog}
         >
-          <DialogTitle>{'Сообщения о ошибках в ответе'}</DialogTitle>
-          <DialogContent>
-            {answer_object.answerErrorMessage?.map((message) => (
-              <Box key={message.id} sx={{ mt: 1 }}>
-                <DialogContentText variant={'h6'}>
-                  {message.text}
-                </DialogContentText>
-                <Stack
-                  direction={'row'}
-                  justifyContent={'space-between'}
-                  alignItems={'end'}
-                >
-                  <DialogContentText variant={'body1'}>
-                    {message?.users_customuser?.users_userprofile?.lastname ||
-                    message?.users_customuser?.users_userprofile?.firstname
-                      ? `${message?.users_customuser?.users_userprofile?.lastname} ${message?.users_customuser?.users_userprofile?.firstname}`
-                      : message?.users_customuser?.username}
-                  </DialogContentText>
-                  <DialogContentText variant={'caption'}>
-                    {message.createdAt?.slice(0, 10)?.replace(/-/g, '-')}
-                  </DialogContentText>
-                </Stack>
-                <Stack alignItems={'end'}>
-                  <LoadingButton
-                    startIcon={<DoneIcon />}
-                    loading={
-                      message.id === answer_object.updatingAnswerErrorMessageID
-                    }
-                    onClick={() =>
-                      answer_object.onCloseAnswerReportClick(message.id)
-                    }
-                    variant="outlined"
-                    size={'small'}
-                    color={'success'}
-                  >
-                    Обработано
-                  </LoadingButton>
-                </Stack>
-              </Box>
-            ))}
-            {/* <DialogActions>*/}
-            <Stack alignItems={'end'} sx={{ mt: 2 }}>
-              <Button
-                onClick={answer_object.closeAnswerErrorMessageDialog}
-                autoFocus
-                fullWidth
-                color={'info'}
-                startIcon={<CloseIcon />}
+          <CloseRoundedIcon />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent>
+        {store.answerErrorMessage.map(message => {
+          const profile = message.users_customuser?.users_userprofile;
+          const name =
+            [profile?.firstname, profile?.lastname].filter(Boolean).join(' ') ||
+            message.users_customuser?.username;
+          return (
+            <article key={message.id} className="sw-qedit-report-item">
+              <p>{message.text}</p>
+              <div className="sw-qedit-report-meta">
+                <span>{name}</span>
+                <span>{message.createdAt?.slice(0, 10)}</span>
+              </div>
+              <LoadingButton
+                startIcon={<DoneRoundedIcon />}
+                loading={message.id === store.updatingAnswerErrorMessageID}
+                onClick={() => store.onCloseAnswerReportClick(message.id)}
+                variant="outlined"
+                size="small"
               >
-                Закрыть
-              </Button>
-            </Stack>
-            {/* </DialogActions>*/}
-          </DialogContent>
-        </Dialog>
-      </Box>
-    );
-  },
+                Отметить обработанным
+              </LoadingButton>
+            </article>
+          );
+        })}
+      </DialogContent>
+      <DialogActions>
+        <Button color="inherit" onClick={store.closeAnswerErrorMessageDialog}>
+          Закрыть
+        </Button>
+      </DialogActions>
+    </Dialog>
+  ),
 );
-
 export default AnswerErrorDialog;

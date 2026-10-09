@@ -1,31 +1,22 @@
-import { Badge, Box, IconButton } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import React from 'react';
+import { Button, BoxProps } from '@mui/material';
 import { observer } from 'mobx-react';
+import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineRounded';
 import { EditAnswerByIdStore } from '../Store/edit-answer-by-id-store';
-import ReportProblemIconOutlined from '@mui/icons-material/ReportProblemOutlined';
 
-interface IUIAnswerErrorsButtonProps extends BoxProps {
+interface AnswerErrorsButtonProps extends BoxProps {
   answer_object: EditAnswerByIdStore;
 }
-
 const UIAnswerErrorsButton = observer(
-  ({ answer_object, ...props }: IUIAnswerErrorsButtonProps) => {
-    const numberOfErrorMessages = answer_object.answerErrorMessage.length;
-    return (
-      <Box {...props}>
-        {numberOfErrorMessages > 0 && (
-          <IconButton
-            color={'error'}
-            onClick={answer_object.openAnswerErrorMessageDialog}
-          >
-            <Badge badgeContent={numberOfErrorMessages} color={'error'}>
-              <ReportProblemIconOutlined />
-            </Badge>
-          </IconButton>
-        )}
-      </Box>
-    );
-  },
+  ({ answer_object: store }: AnswerErrorsButtonProps) =>
+    store.answerErrorMessage.length > 0 ? (
+      <Button
+        startIcon={<ChatBubbleOutlineRoundedIcon />}
+        className="sw-qedit-answer-reports"
+        onClick={store.openAnswerErrorMessageDialog}
+      >
+        Замечания · {store.answerErrorMessage.length}
+      </Button>
+    ) : null,
 );
-
 export default UIAnswerErrorsButton;

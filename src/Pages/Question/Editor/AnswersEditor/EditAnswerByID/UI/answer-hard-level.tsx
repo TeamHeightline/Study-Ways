@@ -11,9 +11,13 @@ interface IAnswerHardLevelProps extends PaperProps {
 
 const AnswerHardLevel = observer(
   ({ answer_object, ...props }: IAnswerHardLevelProps) => (
-    <FormControl fullWidth>
-      <InputLabel>Сложность ответа</InputLabel>
+    <FormControl fullWidth size="small">
+      <InputLabel id={`qedit-answer-level-${answer_object.answer_id}`}>
+        Сложность ответа
+      </InputLabel>
       <Select
+        label="Сложность ответа"
+        labelId={`qedit-answer-level-${answer_object.answer_id}`}
         value={answer_object.getField('hardLevelOfAnswer')}
         onChange={answer_object.changeField('hardLevelOfAnswer')}
       >

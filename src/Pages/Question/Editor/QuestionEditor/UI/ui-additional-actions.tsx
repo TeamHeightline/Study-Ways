@@ -1,73 +1,64 @@
+import React, { useState } from 'react';
 import { observer } from 'mobx-react';
-import React from 'react';
-import { Backdrop, CircularProgress, SpeedDial } from '@mui/material';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import ReplyIcon from '@mui/icons-material/Reply';
-import SchoolIcon from '@mui/icons-material/School';
-import SpeedDialAction from '@mui/material/SpeedDialAction';
-
+import {
+  Backdrop,
+  Button,
+  CircularProgress,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+} from '@mui/material';
+import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
+import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
+import RuleRoundedIcon from '@mui/icons-material/RuleRounded';
+import { Link } from 'react-router-dom';
 import { QuestionEditorStorage } from '../Store/QuestionEditorStorage';
 
-type IAdditionalActionsProps = React.HTMLAttributes<HTMLDivElement>;
-
-function openQuestionInStudyMode() {
-  window.open(
-    `https://sw-university.com/iq/${QuestionEditorStorage.selectedQuestionID}`,
-  );
-}
-
-function openQuestionInExamMode() {
-  window.open(
-    `https://sw-university.com/iq/${
-      QuestionEditorStorage.selectedQuestionID
-    }?exam=true`,
-  );
-}
-
-const actions = [
-  {
-    icon: <ReplyIcon />,
-    name: 'Открыть в режиме подготовки',
-    action: openQuestionInStudyMode,
-  },
-  {
-    icon: <SchoolIcon />,
-    name: 'Открыть в режиме экзамена',
-    action: openQuestionInExamMode,
-  },
-  {
-    icon: <ContentCopyIcon />,
-    name: 'Создать копию и открыть на редактирование',
-    action: QuestionEditorStorage.deepQuestionCopyWithAnswers,
-  },
-];
-
-const UiAdditionalActions = observer(
-  ({ ...props }: IAdditionalActionsProps) => (
-    <div {...props}>
-      <Backdrop open={QuestionEditorStorage.createDeepCopyInProgress}>
-        <CircularProgress color="primary" />
-      </Backdrop>
-      <SpeedDial
-        hidden={QuestionEditorStorage.unsavedFlag}
-        sx={{ bgcolor: 'secondary' }}
-        icon={<MoreHorizIcon />}
-        direction={'right'}
-        transitionDuration={1500}
-        ariaLabel={'Дополнительные действия'}
+const UiAdditionalActions = observer(() => {
+  const store = QuestionEditorStorage;
+  const [anchor, setAnchor] = useState<HTMLElement | null>(null);
+  return (
+    <>
+      <Backdrop
+        open={store.createDeepCopyInProgress}
+        sx={{ zIndex: theme => theme.zIndex.modal + 1 }}
       >
-        {actions.map((action) => (
-          <SpeedDialAction
-            key={action.name}
-            icon={action.icon}
-            title={action.name}
-            onClick={action?.action}
-          />
-        ))}
-      </SpeedDial>
-    </div>
-  ),
-);
-
+        <CircularProgress />
+      </Backdrop>
+      <Button
+        variant="outlined"
+        startIcon={<MoreHorizRoundedIcon />}
+        aria-haspopup="menu"
+        aria-expanded={!!anchor}
+        disabled={store.unsavedFlag}
+        onClick={event => setAnchor(event.currentTarget)}
+      >
+        Действия
+      </Button>
+      <Menu anchorEl={anchor} open={!!anchor} onClose={() => setAnchor(null)}>
+        <MenuItem
+          component={Link}
+          to={`/editor/checkquestion/question/${store.selectedQuestionID}`}
+          onClick={() => setAnchor(null)}
+        >
+          <ListItemIcon>
+            <RuleRoundedIcon fontSize="small" />
+          </ListItemIcon>
+          Открыть проверку вопроса
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setAnchor(null);
+            store.deepQuestionCopyWithAnswers();
+          }}
+        >
+          <ListItemIcon>
+            <ContentCopyOutlinedIcon fontSize="small" />
+          </ListItemIcon>
+          Создать копию вопроса с ответами
+        </MenuItem>
+      </Menu>
+    </>
+  );
+});
 export default UiAdditionalActions;

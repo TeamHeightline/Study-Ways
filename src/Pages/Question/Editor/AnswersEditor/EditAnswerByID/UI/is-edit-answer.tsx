@@ -1,25 +1,30 @@
-import { observer } from 'mobx-react';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
-import { FormControlLabel, Switch } from '@mui/material';
+import { observer } from 'mobx-react';
+import { Button, PaperProps } from '@mui/material';
+import TuneRoundedIcon from '@mui/icons-material/TuneRounded';
+import ExpandLessRoundedIcon from '@mui/icons-material/ExpandLessRounded';
+import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
 import { EditAnswerByIdStore } from '../Store/edit-answer-by-id-store';
 
-interface IIsEditAnswerProps extends PaperProps {
+interface IsEditAnswerProps extends PaperProps {
   answer_object: EditAnswerByIdStore;
 }
-
-const IsEditAnswer = observer(
-  ({ answer_object, ...props }: IIsEditAnswerProps) => (
-    <FormControlLabel
-      control={
-        <Switch
-          checked={answer_object.isOpenForEdit}
-          onChange={answer_object.changeIsOpenForEdit}
-        />
-      }
-      label="Расширенный редактор"
-    />
-  ),
-);
-
+const IsEditAnswer = observer(({ answer_object: store }: IsEditAnswerProps) => (
+  <Button
+    startIcon={<TuneRoundedIcon />}
+    endIcon={
+      store.isOpenForEdit ? (
+        <ExpandLessRoundedIcon />
+      ) : (
+        <ExpandMoreRoundedIcon />
+      )
+    }
+    onClick={store.changeIsOpenForEdit}
+    aria-expanded={store.isOpenForEdit}
+    aria-controls={`qedit-answer-settings-${store.answer_id}`}
+    className="sw-qedit-expand-answer"
+  >
+    {store.isOpenForEdit ? 'Свернуть редактор' : 'Настройки и подсказки'}
+  </Button>
+));
 export default IsEditAnswer;

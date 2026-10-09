@@ -12,10 +12,11 @@ const AnswerHelpTextV1 = observer(
   ({ answer_object, ...props }: IAnswerHelpTextV1Props) => (
     <TextField
       variant={'outlined'}
-      label="Подсказка для легкого уровня сложности"
+      label="Подсказка для лёгкого уровня"
       multiline
       fullWidth
-      maxRows={7}
+      minRows={3}
+      maxRows={8}
       value={answer_object.getField('helpTextv1')}
       onChange={answer_object.changeField('helpTextv1')}
     />

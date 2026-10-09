@@ -2,7 +2,7 @@ import { makeAutoObservable, reaction, toJS } from 'mobx';
 import { ClientStorage } from '../../../../Shared/Store/ApolloStorage/ClientStorage';
 import { GET_ENCRYPT_QUESTION_DATA_BY_ID } from '../../../../Shared/Store/PublicStorage/QSPage/QuestionSequencePlayer/Struct';
 import { SameAnswerNode } from '../../../../Shared/Store/PublicStorage/QSPage/QuestionSequencePlayer/SameAnswerNode';
-import { shuffle } from 'lodash';
+import { shuffle } from '../../../../Shared/Utils/array';
 import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
 import CryptoJS from 'crypto-js';
 import { SERVER_BASE_URL } from '../../../../settings';
@@ -319,7 +319,7 @@ export class QuestionPlayerStore {
         })
         .then((data) => {
           let __decrypt_question: any = {};
-          let __decrypt_answers: any = [{}];
+          let __decrypt_answers: any[] = [{}];
           if (data?.data?.eqbi) {
             const _question_string = CryptoJS.enc.Utf8.stringify(
               CryptoJS.enc.Base64.parse(data?.data?.eqbi?.qbs.slice(2)),

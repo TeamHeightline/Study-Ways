@@ -17,7 +17,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { sort } from 'fast-sort';
+import { compareByIdDescending } from '../../../../Shared/Utils/array';
 import EditQuestionSequenceUI from '../EditByID/UI/edit-question-sequence-ui';
 
 export default function QuestionSequenceMainEditor() {
@@ -38,9 +38,9 @@ export default function QuestionSequenceMainEditor() {
       },
     },
   );
-  const sequenceArray: QuestionSequenceNode[] = sort<QuestionSequenceNode>(
-    question_sequence_data?.me?.questionsequenceSet,
-  ).desc((sequence) => sequence?.id);
+  const sequenceArray: QuestionSequenceNode[] = [
+    ...(question_sequence_data?.me?.questionsequenceSet ?? []),
+  ].sort(compareByIdDescending);
 
   if (!question_sequence_data) {
     return (

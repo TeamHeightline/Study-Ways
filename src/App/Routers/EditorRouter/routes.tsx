@@ -19,105 +19,105 @@ import SearchingElementsEditor from '../../../Pages/Themes/EditorPage/ThemesEdit
 import QuestionSequenceMainEditor from '../../../Pages/QuestionSequence/Editor/EditorPage/QuestionSequenceMainEditor';
 import MainCourseEditor from '../../../Pages/Course/CourseEditorPage/MainCourseEditor';
 
-import { Index as QuestionEditor } from '../../../Pages/Question/Editor/Page/UI';
-import { StatisticV2 as StatisticV2 } from '../../../Pages/Statistic/V2/StatisticV2';
-import { EditorPage as CardEditorV2 } from '../../../Pages/Cards/Editor/EditorPageV2/Page';
+import {Index as QuestionEditor} from '../../../Pages/Question/Editor/Page/UI';
+import {StatisticV2 as StatisticV2} from '../../../Pages/Statistic/V2/StatisticV2';
+import {EditorPage as CardEditorV2} from '../../../Pages/Cards/Editor/EditorPageV2/Page';
 import CheckQuestion from '../../../Pages/CheckQuestion/Page/UI/check-question-page';
 
 export const privateRoutes = [
-  {
-    path: '/course/*',
-    component: <MainCourseEditor />,
-    navigate: 'course',
-    icon: <BlurLinearIcon />,
-    title: 'Редактор курсов',
-    status: ['ADMIN', 'TEACHER', 'CARD_EDITOR'],
-  },
-  {
-    path: '/card2/*',
-    component: <CardEditorV2 />,
-    title: 'Редактор карточек',
-    navigate: 'card2',
-    icon: <AppRegistrationIcon />,
-    status: ['ADMIN', 'TEACHER', 'CARD_EDITOR'],
-  },
-  {
-    path: '/se',
-    component: <SearchingElementsEditor />,
-    title: 'Редактор тем',
-    navigate: 'se',
-    icon: <AccountTreeIcon />,
-    status: ['ADMIN', 'TEACHER'],
-  },
-  {
-    path: '/question',
-    component: <QuestionEditor />,
-    title: 'Редактор вопросов',
-    navigate: 'question',
-    icon: <QuizIcon />,
-    status: ['ADMIN', 'TEACHER'],
-  },
-  {
-    path: '/qse',
-    component: <QuestionSequenceMainEditor />,
-    title: 'Редактор серий вопросов',
-    navigate: 'qse',
-    icon: <LinearScaleIcon />,
-    status: ['ADMIN', 'TEACHER'],
-  },
-  {
-    path: '/statistic2/*',
-    component: <StatisticV2 />,
-    title: 'Статистика',
-    navigate: 'statistic2',
-    icon: <AddchartIcon />,
-    status: ['ADMIN', 'TEACHER'],
-  },
-  {
-    path: '/exam/*',
-    component: <ExamEditorPage />,
-    title: 'Редактор экзаменов',
-    navigate: 'exam',
-    icon: <SchoolIcon />,
-    status: ['ADMIN', 'TEACHER'],
-  },
-  {
-    path: '/checkquestion/*',
-    component: <CheckQuestion />,
-    title: 'Проверка вопросов',
-    navigate: 'checkquestion',
-    icon: <RuleIcon />,
-    status: ['ADMIN', 'TEACHER'],
-  },
-  {
-    path: '/status-editor/*',
-    component: <StatusEditorPage />,
-    title: 'Редактор уровней доступа',
-    navigate: 'status-editor',
-    icon: <GroupIcon />,
-    status: ['ADMIN', 'TEACHER'],
-  },
-  {
-    path: '/help-article',
-    component: <HelpArticleEditPage />,
-    title: 'Редактор подсказок для страниц',
-    navigate: 'help-article',
-    icon: <InfoIcon />,
-    status: ['ADMIN', 'TEACHER'],
-  },
+    {
+        path: '/course/*',
+        component: <MainCourseEditor/>,
+        navigate: 'course',
+        icon: <BlurLinearIcon/>,
+        title: 'Редактор курсов',
+        status: ['ADMIN', 'TEACHER', 'CARD_EDITOR'],
+    },
+    {
+        path: '/card2/*',
+        component: <CardEditorV2/>,
+        title: 'Редактор карточек',
+        navigate: 'card2',
+        icon: <AppRegistrationIcon/>,
+        status: ['ADMIN', 'TEACHER', 'CARD_EDITOR'],
+    },
+    {
+        path: '/se',
+        component: <SearchingElementsEditor/>,
+        title: 'Редактор тем',
+        navigate: 'se',
+        icon: <AccountTreeIcon/>,
+        status: ['ADMIN', 'TEACHER'],
+    },
+    {
+        path: '/question',
+        component: <QuestionEditor/>,
+        title: 'Редактор вопросов',
+        navigate: 'question',
+        icon: <QuizIcon/>,
+        status: ['ADMIN', 'TEACHER'],
+    },
+    {
+        path: '/qse',
+        component: <QuestionSequenceMainEditor/>,
+        title: 'Редактор серий вопросов',
+        navigate: 'qse',
+        icon: <LinearScaleIcon/>,
+        status: ['ADMIN', 'TEACHER'],
+    },
+    {
+        path: '/statistic2/*',
+        component: <StatisticV2/>,
+        title: 'Статистика',
+        navigate: 'statistic2',
+        icon: <AddchartIcon/>,
+        status: ['ADMIN', 'TEACHER'],
+    },
+    {
+        path: '/exam/*',
+        component: <ExamEditorPage/>,
+        title: 'Редактор экзаменов',
+        navigate: 'exam',
+        icon: <SchoolIcon/>,
+        status: ['ADMIN', 'TEACHER'],
+    },
+    {
+        path: '/checkquestion/*',
+        component: <CheckQuestion/>,
+        title: 'Проверка вопросов',
+        navigate: 'checkquestion',
+        icon: <RuleIcon/>,
+        status: ['ADMIN', 'TEACHER'],
+    },
+    {
+        path: '/status-editor/*',
+        component: <StatusEditorPage/>,
+        title: 'Редактор уровней доступа',
+        navigate: 'status-editor',
+        icon: <GroupIcon/>,
+        status: ['ADMIN', 'TEACHER'],
+    },
+    {
+        path: '/help-article',
+        component: <HelpArticleEditPage/>,
+        title: 'Редактор подсказок для страниц',
+        navigate: 'help-article',
+        icon: <InfoIcon/>,
+        status: ['ADMIN', 'TEACHER'],
+    },
 
-  {
-    path: '/question/selected/:id',
-    component: (
-      <div>
-        <EditQuestionByURL />
-      </div>
-    ),
-    status: ['ADMIN', 'TEACHER'],
-  },
-  {
-    path: '*',
-    component: <MainCourseEditor />,
-    status: ['ADMIN, TEACHER', 'CARD_EDITOR'],
-  },
+    {
+        path: '/question/selected/:id',
+        component: (
+            <div>
+                <EditQuestionByURL/>
+            </div>
+        ),
+        status: ['ADMIN', 'TEACHER'],
+    },
+    {
+        path: '*',
+        component: <MainCourseEditor/>,
+        status: ['ADMIN', 'TEACHER', 'CARD_EDITOR'],
+    },
 ];

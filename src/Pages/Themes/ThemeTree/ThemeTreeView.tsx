@@ -5,7 +5,6 @@ import styles from './App.module.css';
 import { Placeholder } from './Placeholder';
 import { Card } from '@mui/material';
 import React, { memo, useEffect, useState } from 'react';
-import { differenceWith } from 'lodash';
 import { useMutation } from '@apollo/client';
 import { Mutation } from '../../../SchemaTypes';
 import { UpdateTheme } from './Struct';
@@ -46,7 +45,7 @@ export const ThemeTreeView = memo(function ThemeTreeView({
   });
 
   const handleDrop = (newTree: NodeModel[]) => {
-    const diff: NodeModel = differenceWith(newTree, treeData)[0];
+    const diff = newTree.find(node => !treeData?.includes(node));
     if (diff?.id && diff?.id !== 0) {
       setUpdateData({
         id: Number(diff.id),

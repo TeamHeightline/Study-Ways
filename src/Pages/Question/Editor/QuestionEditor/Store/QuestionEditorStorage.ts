@@ -19,7 +19,7 @@ import {
   QuestionThemesNode,
   UnstructuredThemesNode,
 } from '../../../../../SchemaTypes';
-import { sort } from 'fast-sort';
+import { compareByIdDescending } from '../../../../../Shared/Utils/array';
 import { Answer, answerStoreType } from './AnswersStorage';
 import { UserStorage } from '../../../../../Shared/Store/UserStore/UserStore';
 import { SERVER_BASE_URL } from '../../../../../settings';
@@ -201,12 +201,12 @@ class QuestionEditor {
           fetchPolicy: 'network-only',
         })
         .then((response) => {
-          this.allThemesForQuestion = sort(response?.data?.questionThemes).desc(
-            (theme: any) => theme?.id,
-          );
-          this.allAuthorsForQuestion = sort(
-            response?.data?.me?.questionauthorSet,
-          ).desc((author: any) => author?.id);
+          this.allThemesForQuestion = [
+            ...(response?.data?.questionThemes ?? []),
+          ].sort(compareByIdDescending);
+          this.allAuthorsForQuestion = [
+            ...(response?.data?.me?.questionauthorSet ?? []),
+          ].sort(compareByIdDescending);
           this.AuthorsAndThemesHasBeenLoaded = true;
         })
         .catch(() => void 0);
@@ -226,8 +226,8 @@ class QuestionEditor {
         .then((response) => response?.data?.me?.questionSet)
         .then((questionsArray: QuestionNode[] | undefined) => {
           if (questionsArray) {
-            this.basicQuestionData = sort(questionsArray).desc(
-              (question: any) => question?.id,
+            this.basicQuestionData = [...questionsArray].sort(
+              compareByIdDescending,
             );
           }
           this.loadingBasicQuestionData = false;
@@ -288,8 +288,8 @@ class QuestionEditor {
 
             if (question_data.answers) {
               const __Answers: Answer[] = [];
-              sort(question_data.answers)
-                .asc((answer: AnswerNode) => Number(answer?.id))
+              [...question_data.answers]
+                .sort((a, b) => Number(a.id) - Number(b.id))
                 .filter((answer: AnswerNode) => !answer.isDeleted)
                 .map((answer: AnswerNode) =>
                   __Answers.push(new Answer(this, answer)),

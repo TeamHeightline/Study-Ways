@@ -1,4 +1,4 @@
-import { shuffle } from 'lodash';
+import { shuffle } from '../../../../Shared/Utils/array';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   loadExamDataThunk,

@@ -13,10 +13,9 @@ import {
   LOAD_QS_DATA_SUCCESS,
   START_LOADING_MY_EXAMS,
 } from './action-types';
-import { ActionType } from 'typesafe-actions';
 import * as Actions from './actions';
 
-export type IActionsType = ActionType<typeof Actions>;
+export type IActionsType = ReturnType<(typeof Actions)[keyof typeof Actions]>;
 
 export const examEditorPageReducer = produce(
   (state: typeof initialState = initialState, action: IActionsType) => {

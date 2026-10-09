@@ -1,4 +1,3 @@
-import { action } from 'typesafe-actions';
 import {
   CHANGE_EXAM_NAME_FOR_CREATE,
   CHANGE_EXAM_QS_ID_FOR_CREATE,
@@ -15,27 +14,32 @@ import {
   START_LOADING_QS_DATA,
 } from './action-types';
 import { IExamDataWithQSData } from '../../../../../Shared/ServerLayer/Types/exam.types';
+import { sequenceDataI } from '../../../../../Shared/ServerLayer/Types/question-sequence.type';
 
-export const startLoadingMyExam = () => action(START_LOADING_MY_EXAMS);
+export const startLoadingMyExam = () =>
+  ({ type: START_LOADING_MY_EXAMS }) as const;
 export const loadMyExamsSuccess = (exams: IExamDataWithQSData[]) =>
-  action(LOAD_MY_EXAMS_SUCCESS, { exams });
-export const loadMyExamsError = (error) => action(LOAD_MY_EXAMS_ERROR, error);
+  ({ type: LOAD_MY_EXAMS_SUCCESS, payload: { exams } }) as const;
+export const loadMyExamsError = error =>
+  ({ type: LOAD_MY_EXAMS_ERROR, payload: error }) as const;
 export const changeExamNameForCreate = (name: string) =>
-  action(CHANGE_EXAM_NAME_FOR_CREATE, name);
+  ({ type: CHANGE_EXAM_NAME_FOR_CREATE, payload: name }) as const;
 export const changeExamQSIDForCreate = (qsID: number | null) =>
-  action(CHANGE_EXAM_QS_ID_FOR_CREATE, qsID);
+  ({ type: CHANGE_EXAM_QS_ID_FOR_CREATE, payload: qsID }) as const;
 export const changeIsOpenCreateExamDialog = (isOpen: boolean) =>
-  action(CHANGE_IS_OPEN_CREATE_EXAM_DIALOG, isOpen);
+  ({ type: CHANGE_IS_OPEN_CREATE_EXAM_DIALOG, payload: isOpen }) as const;
 
-export const startLoadingQSData = () => action(START_LOADING_QS_DATA);
-export const loadQSDataSuccess = (qsData) =>
-  action(LOAD_QS_DATA_SUCCESS, qsData);
-export const loadQSDataError = (error) => action(LOAD_QS_DATA_ERROR, error);
+export const startLoadingQSData = () =>
+  ({ type: START_LOADING_QS_DATA }) as const;
+export const loadQSDataSuccess = (qsData: sequenceDataI) =>
+  ({ type: LOAD_QS_DATA_SUCCESS, payload: qsData }) as const;
+export const loadQSDataError = error =>
+  ({ type: LOAD_QS_DATA_ERROR, payload: error }) as const;
 
-export const createExamPending = () => action(CREATE_EXAM_PENDING);
+export const createExamPending = () => ({ type: CREATE_EXAM_PENDING }) as const;
 export const createExamSuccess = (examID: number) =>
-  action(CREATE_EXAM_SUCCESS, examID);
-export const createExamError = () => action(CREATE_EXAM_ERROR);
+  ({ type: CREATE_EXAM_SUCCESS, payload: examID }) as const;
+export const createExamError = () => ({ type: CREATE_EXAM_ERROR }) as const;
 
 export const closeDialogAndClearCreateData = () =>
-  action(CLOSE_DIALOG_AND_CLEAR_CREATE_DATA);
+  ({ type: CLOSE_DIALOG_AND_CLEAR_CREATE_DATA }) as const;

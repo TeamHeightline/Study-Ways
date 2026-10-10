@@ -2,7 +2,7 @@ import { autorun, makeAutoObservable, toJS } from 'mobx';
 import { SERVER_BASE_URL } from '../../../../../settings';
 import { ClientStorage } from '../../../../../Shared/Store/ApolloStorage/ClientStorage';
 import { GET_COURSE_DATA_BY_ID } from '../UI/Query';
-import { CourseLines } from '../../../EditCourseByID/EditCourseByID';
+import { CourseLines } from '../../../EditCourseByID/course-data';
 
 export interface positionDataI {
   activePage: number;
@@ -44,7 +44,7 @@ export class CourseMicroStoreByID {
 
   // ------Стрелочная навигация и получение ID карточки--------------
 
-  get_card_id_by_position(selected_position: positionDataI): number | null {
+  get_card_id_by_position(selected_position: positionDataI): string | number | null {
     if (selected_position) {
       try {
         return this.course[Number(selected_position.selectedRow)].SameLine[

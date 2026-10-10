@@ -1,29 +1,38 @@
-import Stack from '@mui/material/Stack';
-import React, { useState } from 'react';
+import React from 'react';
 import EditCourseItem from './EditCourseItem';
+import { CourseElementData, CourseFragmentData } from './course-data';
 
-export default function CourseFragment({ fragment, ...props }: any) {
-  const [Fragment, setFragment] = useState(fragment.CourseFragment);
+interface Props {
+  fragment: CourseFragmentData;
+  level: number;
+  updateFragment: (fragment: CourseFragmentData) => void;
+  editCard: (id: string) => void;
+}
+export default function CourseFragment({
+  fragment,
+  level,
+  updateFragment,
+  editCard,
+}: Props) {
+  const update = (index: number, value: CourseElementData) =>
+    updateFragment({
+      ...fragment,
+      CourseFragment: fragment.CourseFragment.map((item, position) =>
+        position === index ? { ...item, CourseElement: value } : item,
+      ),
+    });
   return (
-    <div style={{ width: 3000 }}>
-      <Stack direction={'row'} spacing={2}>
-        {Fragment.map((item, iIndex) => (
-          // <Col span={2} key={iIndex+ "Fragment" + props.fIndex + "row" + props.lIndex + "course" + props.cIndex} >
-          <EditCourseItem
-            item_data={item.CourseElement}
-            editCard={(item_id) => props.editCard(item_id)}
-            key={`${iIndex}Fragment${props.fIndex}row${props.lIndex}course${props.cIndex}`}
-            item_position={iIndex}
-            updateItem={(new_data) => {
-              const newCourseFragment = Fragment.slice();
-              newCourseFragment[iIndex] = new_data;
-              setFragment(newCourseFragment);
-              props.updateFragment(newCourseFragment);
-            }}
-          />
-          // </Col>
-        ))}
-      </Stack>
+    <div className="sw-coedit-track">
+      {fragment.CourseFragment.map(({ CourseElement: item }, index) => (
+        <EditCourseItem
+          key={index}
+          item_data={item}
+          item_position={index}
+          level={level}
+          editCard={editCard}
+          updateItem={value => update(index, value)}
+        />
+      ))}
     </div>
   );
 }

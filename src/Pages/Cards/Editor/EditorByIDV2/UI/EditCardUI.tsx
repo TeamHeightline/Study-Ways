@@ -136,7 +136,7 @@ const EditCardUI = observer((props: React.HTMLAttributes<HTMLDivElement>) => {
             <SectionHeading
               icon={<QuizOutlinedIcon />}
               title="Вопросы к карточке"
-              text="Проверьте знания до изучения материала или внутри карточки"
+              text="Проверьте знания до и после изучения материала"
             />
             <div className="sw-cedit-questions">
               <div className="sw-cedit-question-block">
@@ -152,7 +152,7 @@ const EditCardUI = observer((props: React.HTMLAttributes<HTMLDivElement>) => {
                       )}
                     />
                   }
-                  label="Вопрос перед карточкой"
+                  label="Вопрос перед ресурсом"
                 />
                 <p>Поможет оценить знания перед изучением материала.</p>
                 <Collapse
@@ -175,9 +175,9 @@ const EditCardUI = observer((props: React.HTMLAttributes<HTMLDivElement>) => {
                       )}
                     />
                   }
-                  label="Вопрос внутри карточки"
+                  label="Вопрос после ресурса"
                 />
-                <p>Позволит закрепить материал при прохождении карточки.</p>
+                <p>Поможет закрепить знания после изучения материала.</p>
                 <Collapse
                   in={!!store.getField('is_card_use_test_in_card', false)}
                   unmountOnExit

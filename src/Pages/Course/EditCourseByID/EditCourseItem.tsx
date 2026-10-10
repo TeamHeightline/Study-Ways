@@ -1,336 +1,312 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { gql, useQuery } from '@apollo/client';
 import {
+  Alert,
   Button,
-  Card,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
-  FormControl,
   IconButton,
-  InputLabel,
-  MenuItem,
-  Popover,
-  Select,
-  Stack,
   TextField,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
 } from '@mui/material';
-import { gql } from 'graphql.macro';
-import { useQuery } from '@apollo/client';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
+import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
+import PlayCircleOutlineRoundedIcon from '@mui/icons-material/PlayCircleOutlineRounded';
+import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
+import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
+import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import { SERVER_BASE_URL } from '../../../settings';
-import urlParser from 'js-video-url-parser';
-import CardMicroView from '../../Cards/CardMicroView';
-import InfoIcon from '@mui/icons-material/Info';
-import EditIcon from '@mui/icons-material/Edit';
-import { alpha } from '@mui/material/styles';
-import ThemeStoreObject from '../../../global-theme';
-import SettingsIcon from '@mui/icons-material/Settings';
+import { CardSelector } from '../../Cards/Selector/UI/CardSelector';
+import { CourseElementData, cardIDs, hasMaterial } from './course-data';
 
-const GET_CARD_DATA_BY_ID = gql`
-  query GET_CARD_DATA_BY_ID($id: ID!) {
+export const GET_EDITOR_CARD = gql`
+  query GET_COURSE_EDITOR_CARD($id: ID!) {
     cardById(id: $id) {
       id
-      author {
-        id
-      }
-      subTheme {
-        id
-      }
-      isCardUseAdditionalText
-      isCardUseMainContent
-      isCardUseMainText
-      isCardUseTestBeforeCard
-      isCardUseTestInCard
-      cardContentType
-      text
       title
-      additionalText
-      siteUrl
-      videoUrl
-      testBeforeCard {
-        id
-      }
-      testInCard {
-        id
-      }
+      cardContentType
     }
   }
 `;
 
-// function that get string and return only numbers and comma
-function getNumbers(str) {
-  return str.replace(/[^0-9,]/g, '');
+interface Props {
+  item_data: CourseElementData;
+  item_position: number;
+  level: number;
+  updateItem: (item: CourseElementData) => void;
+  editCard: (id: string) => void;
 }
-
 export default function EditCourseItem({
-  item_data,
+  item_data: item,
   item_position,
+  level,
   updateItem,
-  ...props
-}: any) {
-  const [cardImage, setCardImage] = useState();
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const [isOpenDialog, setIsOpenDialog] = useState(false);
-
-  const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handlePopoverClose = () => {
-    setAnchorEl(null);
-  };
-
-  const openDialog = () => {
-    setIsOpenDialog(true);
-  };
-
-  const closeDialog = () => {
-    setIsOpenDialog(false);
-  };
-
-  const open = Boolean(anchorEl);
-
-  const get_card_image = () => {
-    // SERVER_BASE_URL/cardfiles/card?
-    fetch(`${SERVER_BASE_URL}/cardfiles/card?id=${item_data.id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        // console.log(data)
-        try {
-          setCardImage(data[0].image);
-        } catch (e) {
-          void 0;
-        }
-      });
-  };
-
-  const { data: card_data } = useQuery(GET_CARD_DATA_BY_ID, {
-    variables: {
-      id: item_data.id,
-    },
-    onCompleted: () => {
-      if (item_data.id) {
-        get_card_image();
-      }
-    },
+  editCard,
+}: Props) {
+  const [image, setImage] = useState('');
+  const [open, setOpen] = useState(false);
+  const [draft, setDraft] = useState(item);
+  const [choosing, setChoosing] = useState(false);
+  const ids = cardIDs(item.id);
+  const link = item.type === 'course-link';
+  const filled = hasMaterial(item);
+  const { data, loading, error } = useQuery(GET_EDITOR_CARD, {
+    variables: { id: ids[0] },
+    skip: link || !ids.length,
   });
-
-  // console.log(itemID)
-
-  function getFilterIconByNumber(num: number) {
-    if (num > 9) {
-      return 'https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/filter_9_plus/default/48px.svg';
+  const card = data?.cardById;
+  useEffect(() => {
+    setImage('');
+    if (link || !ids[0]) return;
+    const controller = new AbortController();
+    fetch(`${SERVER_BASE_URL}/cardfiles/card?id=${ids[0]}`, {
+      signal: controller.signal,
+    })
+      .then(response => response.json())
+      .then(result => setImage(result?.[0]?.image || ''))
+      .catch(() => void 0);
+    return () => controller.abort();
+  }, [item.id, link]);
+  const configure = () => {
+    setDraft({ ...item });
+    setChoosing(false);
+    setOpen(true);
+  };
+  const draftIsLink = draft.type === 'course-link';
+  const draftIDs = cardIDs(draft.id);
+  const validIDs =
+    draftIDs.length > 0 && draftIDs.every(id => /^[1-9]\d*$/.test(id));
+  const validLink = (() => {
+    try {
+      const url = new URL(draft.course_link || '', window.location.origin);
+      return (
+        ['http:', 'https:'].includes(url.protocol) &&
+        url.pathname === '/course' &&
+        !!url.searchParams.get('id')
+      );
+    } catch {
+      return false;
     }
-    return `https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/filter_${num}/default/48px.svg`;
-  }
-
-  function onCardIDFieldChange(e) {
-    updateItem({
-      CourseElement: {
-        ...item_data,
-        id: getNumbers(e.target.value),
-      },
-    });
-  }
-
-  function handleChangeCellType(e) {
-    updateItem({
-      CourseElement: {
-        ...item_data,
-        type: e.target.value,
-      },
-    });
-  }
-
-  function handleCourseLinkChange(e) {
-    updateItem({
-      CourseElement: {
-        ...item_data,
-        course_link: e.target.value,
-      },
-    });
-  }
-
-  function openCardEditor() {
-    if (item_data.id) {
-      props.editCard(item_data.id);
-    }
-  }
-
-  const card_content_type = Number(card_data?.cardById.cardContentType[2]);
-
-  const number_of_card_in_series = item_data.id?.split(',')?.length;
-
-  const is_card_series_in_slot = number_of_card_in_series >= 2;
-
-  const series_icon = is_card_series_in_slot
-    ? getFilterIconByNumber(number_of_card_in_series)
-    : 'none';
-
-  const is_course_link_cell = item_data?.type === 'course-link';
-
-  const course_icon_link =
-    'https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/link/default/48px.svg';
-
-  const cell_image = is_course_link_cell
-    ? course_icon_link
-    : is_card_series_in_slot
-      ? series_icon
-      : card_content_type === 0 && card_data?.cardById?.videoUrl
-        ? `https://img.youtube.com/vi/${urlParser.parse(card_data?.cardById?.videoUrl)?.id}/hqdefault.jpg`
-        : (card_content_type === 1 || card_content_type === 2) && cardImage
-          ? cardImage
-          : '';
-
+  })();
+  const valid = draftIsLink ? validLink : validIDs;
+  const apply = () => {
+    updateItem({ ...draft, id: draftIsLink ? draft.id : draftIDs.join(',') });
+    setOpen(false);
+  };
+  const clear = () => {
+    updateItem({ ...item, id: null, type: 'card', course_link: '' });
+    setOpen(false);
+  };
+  const contentType = Number(
+    String(card?.cardContentType ?? '').replace(/\D/g, ''),
+  );
+  const title = link
+    ? 'Переход на курс'
+    : ids.length > 1
+      ? `${ids.length} карточки в одной позиции`
+      : card?.title ||
+        (loading ? 'Загрузка материала…' : `Карточка №${ids[0]}`);
   return (
-    <Card
-      sx={{
-        height: 170,
-        width: 300,
-        // marginLeft: 12,
-        backgroundImage: `url(${cell_image})`,
-        backgroundSize:
-          is_card_series_in_slot || is_course_link_cell ? 'contain' : 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
-      variant="outlined"
+    <div
+      className={`sw-coedit-cell ${filled ? 'is-filled' : 'is-empty'} ${link ? 'is-link' : ''}`}
     >
-      <Popover
-        id="mouse-over-popover"
-        sx={{
-          pointerEvents: 'none',
-        }}
-        style={{ marginTop: 100 }}
-        open={open}
-        anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-        onClose={handlePopoverClose}
-        disableRestoreFocus
+      <button
+        type="button"
+        className="sw-coedit-cell-open"
+        onClick={configure}
+        aria-label={`Настроить позицию ${item_position + 1}, уровень ${level}`}
       >
-        <div>
-          {item_data.id &&
-            String(item_data.id)
-              ?.split(',')
-              ?.map((cardID) => <CardMicroView cardID={Number(cardID)} />)}
-        </div>
-      </Popover>
-      <Stack alignItems={'end'}>
-        <Stack direction={'row'}>
-          <IconButton onClick={openDialog}>
-            <SettingsIcon />
-          </IconButton>
-          <IconButton size={'small'} disabled={is_card_series_in_slot}>
-            <EditIcon onClick={openCardEditor} />
-          </IconButton>
-          <IconButton
-            size={'small'}
-            onMouseEnter={handlePopoverOpen}
-            onMouseLeave={handlePopoverClose}
-          >
-            <InfoIcon />
-          </IconButton>
-        </Stack>
-      </Stack>
-
-      {is_course_link_cell ? (
-        <TextField
-          size={'small'}
-          sx={{ mt: 10 }}
-          autoFocus
-          id="course-position-field"
-          label="Ссылка на элемент в курсе"
-          fullWidth
-          value={item_data?.course_link || ''}
-          onChange={handleCourseLinkChange}
-          variant="filled"
-        />
-      ) : (
-        <TextField
-          sx={{
-            mt: 10,
-            backdropFilter: 'blur(6px)',
-            bgcolor: alpha(ThemeStoreObject.backgroundColor || '#0A1929', 0.4),
-          }}
-          label="ID карточки"
-          fullWidth
-          value={item_data.id}
-          size={'small'}
-          variant="filled"
-          onChange={onCardIDFieldChange}
-        />
+        <span className="sw-coedit-position">
+          {String(item_position + 1).padStart(2, '0')}
+        </span>
+        {filled ? (
+          <>
+            <div className="sw-coedit-cell-cover">
+              {image && !link && ids.length === 1 ? (
+                <img src={image} alt="" onError={() => setImage('')} />
+              ) : link ? (
+                <LinkRoundedIcon />
+              ) : ids.length > 1 ? (
+                <CollectionsBookmarkOutlinedIcon />
+              ) : contentType === 0 ? (
+                <PlayCircleOutlineRoundedIcon />
+              ) : (
+                <ImageOutlinedIcon />
+              )}
+              <span className="sw-coedit-cell-edit">
+                <EditOutlinedIcon />
+              </span>
+            </div>
+            <span className="sw-coedit-cell-title">{title}</span>
+            {(error || (!loading && !link && !card)) && (
+              <span className="sw-coedit-cell-error">
+                Не удалось загрузить карточку
+              </span>
+            )}
+          </>
+        ) : (
+          <span className="sw-coedit-add-content">
+            <AddRoundedIcon />
+            <strong>Добавить материал</strong>
+            <small>Карточка или переход</small>
+          </span>
+        )}
+      </button>
+      {filled && (
+        <footer className="sw-coedit-cell-footer">
+          <span title={link ? item.course_link : ids.join(', ')}>
+            {link ? 'Связь с курсом' : `№ ${ids.join(', ')}`}
+          </span>
+          {!link && ids.length === 1 && (
+            <Tooltip title="Редактировать карточку">
+              <IconButton
+                size="small"
+                aria-label={`Редактировать карточку ${ids[0]}`}
+                onClick={() => editCard(ids[0])}
+              >
+                <EditOutlinedIcon />
+              </IconButton>
+            </Tooltip>
+          )}
+        </footer>
       )}
-
       <Dialog
-        open={isOpenDialog}
-        onClose={closeDialog}
-        maxWidth={'xs'}
+        open={open}
+        onClose={() => setOpen(false)}
         fullWidth
+        maxWidth={choosing ? 'lg' : 'sm'}
+        PaperProps={{ className: 'sw-coedit-dialog' }}
       >
-        <DialogTitle>Редактирование ячейки курса</DialogTitle>
-
+        <DialogTitle>
+          <div>
+            {choosing ? 'Выбор карточки' : 'Материал курса'}
+            <small>
+              Уровень {level} · позиция {item_position + 1}
+            </small>
+          </div>
+          <IconButton
+            aria-label="Закрыть выбор материала"
+            onClick={() => setOpen(false)}
+          >
+            <CloseRoundedIcon />
+          </IconButton>
+        </DialogTitle>
         <DialogContent>
-          <FormControl variant="filled" fullWidth>
-            <InputLabel id="cell-type-select">Тип ячейки</InputLabel>
-            <Select
-              labelId="cell-type-select-label"
-              id="cell-type-select-id"
-              value={is_course_link_cell ? 'course-link' : 'card'}
-              onChange={handleChangeCellType}
-            >
-              <MenuItem value={'card'}>Карточка / несколько карточек</MenuItem>
-              <MenuItem value={'course-link'}>Переход на курс</MenuItem>
-            </Select>
-          </FormControl>
-
-          {is_course_link_cell ? (
+          {choosing ? (
             <>
-              <DialogContentText>
-                Вставьте ссылку на тот элемент курса, переход на который хотите
-                создать
-              </DialogContentText>
-              <TextField
-                autoFocus
-                id="course-position-field"
-                label="Ссылка на элемент в курсе"
-                fullWidth
-                value={item_data?.course_link || ''}
-                onChange={handleCourseLinkChange}
-                variant="standard"
+              <Button
+                startIcon={<ArrowBackRoundedIcon />}
+                onClick={() => setChoosing(false)}
+              >
+                К настройке позиции
+              </Button>
+              <CardSelector
+                mode="standard"
+                onCardSelect={id => {
+                  setDraft(current => ({
+                    ...current,
+                    id: [...cardIDs(current.id), String(id)]
+                      .filter(
+                        (value, index, array) => array.indexOf(value) === index,
+                      )
+                      .join(','),
+                  }));
+                  setChoosing(false);
+                }}
               />
             </>
           ) : (
-            <>
-              <DialogContentText>
-                Если Вы хотите вставить в одну ячейку сразу несколько карточек,
-                то введите их номера через запятую без пробелов. Пример:
-                123,46,67
-              </DialogContentText>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="cards-field"
-                label={is_card_series_in_slot ? 'ID карточек' : 'ID карточки'}
-                fullWidth
-                value={item_data.id}
-                variant="standard"
-                onChange={onCardIDFieldChange}
-              />
-            </>
+            <div className="sw-coedit-cell-form">
+              <ToggleButtonGroup
+                exclusive
+                value={draftIsLink ? 'course-link' : 'card'}
+                aria-label="Тип позиции"
+                onChange={(_, type) => {
+                  if (type) setDraft(current => ({ ...current, type }));
+                }}
+              >
+                <ToggleButton value="card">
+                  <LibraryBooksOutlinedIcon />
+                  Карточки
+                </ToggleButton>
+                <ToggleButton value="course-link">
+                  <LinkRoundedIcon />
+                  Переход на курс
+                </ToggleButton>
+              </ToggleButtonGroup>
+              {draftIsLink ? (
+                <TextField
+                  autoFocus
+                  fullWidth
+                  label="Ссылка на курс"
+                  value={draft.course_link || ''}
+                  onChange={event =>
+                    setDraft(current => ({
+                      ...current,
+                      course_link: event.target.value,
+                    }))
+                  }
+                  error={!!draft.course_link && !validLink}
+                  helperText="Откройте нужный материал курса и скопируйте ссылку из адресной строки."
+                />
+              ) : (
+                <>
+                  <TextField
+                    autoFocus
+                    fullWidth
+                    label="ID карточек"
+                    value={draft.id ?? ''}
+                    onChange={event => {
+                      const id = event.target.value;
+                      setDraft(current => ({ ...current, id }));
+                    }}
+                    error={!!draft.id && !validIDs}
+                    helperText="Один номер или несколько через запятую, например: 123, 46, 67."
+                  />
+                  <Button
+                    variant="outlined"
+                    startIcon={<LibraryBooksOutlinedIcon />}
+                    onClick={() => setChoosing(true)}
+                  >
+                    Выбрать из библиотеки
+                  </Button>
+                  {draftIDs.length > 1 && (
+                    <Alert severity="info">
+                      Карточки будут показаны вместе в одной позиции курса.
+                    </Alert>
+                  )}
+                </>
+              )}
+            </div>
           )}
         </DialogContent>
-        <DialogActions>
-          <Button onClick={closeDialog}>Закрыть</Button>
-        </DialogActions>
+        {!choosing && (
+          <DialogActions>
+            {filled && (
+              <Button color="error" onClick={clear}>
+                Очистить позицию
+              </Button>
+            )}
+            <span className="sw-coedit-action-spacer" />
+            <Button onClick={() => setOpen(false)}>Отмена</Button>
+            <Button
+              variant="contained"
+              disableElevation
+              disabled={!valid}
+              onClick={apply}
+            >
+              Применить
+            </Button>
+          </DialogActions>
+        )}
       </Dialog>
-    </Card>
+    </div>
   );
 }

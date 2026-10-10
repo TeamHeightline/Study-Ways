@@ -197,7 +197,7 @@ const RowFragment = observer(({ CRI, courseStore }: RowFragmentI) => {
                       ? 'secondary'
                       : element?.CourseElement?.id &&
                           courseStore.viewedCardIDs.has(
-                            element?.CourseElement?.id,
+                            String(element?.CourseElement?.id),
                           )
                         ? 'inherit'
                         : 'primary'

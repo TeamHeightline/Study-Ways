@@ -8,7 +8,7 @@ export const UiTestBeforeCard = observer(() => (
       fullWidth
       size="small"
       type="number"
-      label="ID вопроса перед карточкой"
+      label="ID вопроса перед ресурсом"
       inputProps={{ min: 1 }}
       value={CESObject.getField('test_before_card_id', '') || ''}
       onChange={CESObject.changeField('test_before_card_id')}

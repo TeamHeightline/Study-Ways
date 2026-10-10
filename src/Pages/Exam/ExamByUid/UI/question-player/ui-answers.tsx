@@ -44,7 +44,7 @@ export default function UIAnswers({ ...props }: IUIAnswersProps) {
               variant="outlined"
               sx={{
                 backgroundColor: selectedAnswersID?.has(answer?.id)
-                  ? '#2296F3'
+                  ? 'var(--sw-accent)'
                   : '',
                 width: 385,
                 height: 400,

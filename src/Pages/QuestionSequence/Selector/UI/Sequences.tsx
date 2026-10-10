@@ -19,7 +19,7 @@ export const Sequences = observer(
         justifyContent={'space-evenly'}
         columnSpacing={8}
       >
-        {SQSObject.sequenceArrayForDisplay?.map((sequence) => (
+        {SQSObject.sequenceArrayForDisplay?.map(sequence => (
           <Grid item xs={12} md={4}>
             <Card variant="outlined" key={`${sequence?.id}SequenceKey`}>
               <CardActionArea
@@ -53,7 +53,7 @@ export const Sequences = observer(
                     (question_id, qIndex) => (
                       <Card
                         sx={{ pl: 1, pr: 1 }}
-                        style={{ borderColor: '#2296F3' }}
+                        style={{ borderColor: 'var(--sw-accent)' }}
                         variant="outlined"
                         key={`${sequence?.id}SequenceKey${qIndex}QuestionKey`}
                       >

@@ -83,6 +83,14 @@ const colors = {
   shadow: '#284c39',
   backdrop: '#0b1c22',
   focus: '#69ac8f',
+  'chart-positive': '#58916d',
+  'chart-positive-hover': '#286b53',
+  'chart-negative': '#cf8279',
+  'chart-negative-hover': '#b5655d',
+  'chart-grid': '#eaf0ec',
+  'chart-axis': '#8fb19a',
+  tooltip: '#234b37',
+  'tooltip-ink': '#ffffff',
   'cover-sage': '#e3ecdf',
   'art-sage': '#94af89',
   'cover-sand': '#f0e8da',
@@ -94,6 +102,7 @@ const colors = {
 };
 const defaultTheme = {
   label: 'Шалфей',
+  accessibility: /** @type {'standard' | 'enhanced'} */ ('standard'),
   mode: /** @type {'light' | 'dark'} */ ('light'),
   colors,
   fontFamily: 'Manrope, sans-serif',
@@ -145,10 +154,14 @@ function themeVariables(definition = defaultTheme) {
     '--sw-font-sans': definition.fontFamily || defaultTheme.fontFamily,
     '--sw-radius-scale': String(definition.radiusScale ?? 1),
     '--sw-font-scale': String(definition.fontScale ?? 1),
-    '--sw-sidebar-width': '246px',
-    '--sw-sidebar-compact-width': '220px',
-    '--sw-topbar-height': '72px',
-    '--sw-topbar-mobile-height': '64px',
+    '--sw-sidebar-width':
+      definition.accessibility === 'enhanced' ? '296px' : '246px',
+    '--sw-sidebar-compact-width':
+      definition.accessibility === 'enhanced' ? '280px' : '220px',
+    '--sw-topbar-height':
+      definition.accessibility === 'enhanced' ? '84px' : '72px',
+    '--sw-topbar-mobile-height':
+      definition.accessibility === 'enhanced' ? '76px' : '64px',
   });
   Object.keys(spacing).forEach(name => {
     variables[`--sw-space-${name.replace('.', '_')}`] = spacing[name];
@@ -159,7 +172,9 @@ function themeVariables(definition = defaultTheme) {
   });
   fontSizes.forEach(size => {
     variables[`--sw-font-size-${size}`] =
-      `calc(${size}px * var(--sw-font-scale))`;
+      definition.accessibility === 'enhanced'
+        ? `max(14px, calc(${size}px * var(--sw-font-scale)))`
+        : `calc(${size}px * var(--sw-font-scale))`;
   });
   return variables;
 }

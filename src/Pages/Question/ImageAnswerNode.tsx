@@ -27,10 +27,12 @@ export default function ImageAnswerNode(props: any) {
   }, [props.answerIndex]);
   let borderColor =
     props?.selected && props?.selected?.indexOf(props?.answer?.id) !== -1
-      ? '#71c3ef'
+      ? 'var(--sw-info-400)'
       : '';
   if (props.borderIsTrueStrategy) {
-    borderColor = props.answer.isTrue ? '#2196f3' : '#f50057';
+    borderColor = props.answer.isTrue
+      ? 'var(--sw-info-600)'
+      : 'var(--sw-danger-600)';
   }
 
   return (

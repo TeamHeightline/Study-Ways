@@ -1,0 +1,141 @@
+/* Optional reading mode: size, focus and boundaries follow a semantic flag. */
+[data-accessibility='enhanced'] body {
+  @apply tw-leading-[1.7];
+}
+[data-accessibility='enhanced'] a:not(.sw-brand):not(.sw-nav-link) {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+[data-accessibility='enhanced']
+  :is(button, a, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid var(--sw-focus);
+  outline-offset: 3px;
+}
+[data-accessibility='enhanced'] .sw-main {
+  padding-top: calc(var(--sw-topbar-height) + var(--sw-space-7));
+}
+[data-accessibility='enhanced'] .sw-sidebar {
+  border-right: 2px solid var(--sw-border);
+  max-width: calc(100vw - 24px);
+}
+[data-accessibility='enhanced'] .sw-nav-link {
+  @apply tw-min-h-12 tw-text-ui-13 tw-leading-[1.5] tw-font-semibold;
+}
+[data-accessibility='enhanced'] .sw-nav-caption {
+  @apply tw-text-ui-11 tw-tracking-[0.6px];
+}
+[data-accessibility='enhanced'] .sw-account .MuiButton-root,
+[data-accessibility='enhanced'] .sw-theme-trigger.MuiIconButton-root,
+[data-accessibility='enhanced'] .MuiIconButton-root,
+[data-accessibility='enhanced'] .MuiButton-root,
+[data-accessibility='enhanced'] .MuiToggleButton-root,
+[data-accessibility='enhanced'] .ant-btn {
+  min-height: 44px;
+}
+[data-accessibility='enhanced'] .sw-theme-trigger.MuiIconButton-root,
+[data-accessibility='enhanced'] .sw-open-menu.MuiIconButton-root {
+  min-width: 44px;
+}
+[data-accessibility='enhanced'] .MuiButton-outlined,
+[data-accessibility='enhanced'] .MuiOutlinedInput-notchedOutline,
+[data-accessibility='enhanced'] .sw-theme-trigger.MuiIconButton-root,
+[data-accessibility='enhanced'] .sw-account .MuiButton-root {
+  border: 2px solid var(--sw-border);
+}
+[data-accessibility='enhanced'] .MuiInputLabel-root,
+[data-accessibility='enhanced'] .MuiFormHelperText-root {
+  color: var(--sw-ink);
+  opacity: 1;
+}
+[data-accessibility='enhanced'] .MuiInputLabel-shrink {
+  /* Floating labels must remain large enough after MUI's scale transform. */
+  font-size: 20px;
+}
+[data-accessibility='enhanced'] input::placeholder,
+[data-accessibility='enhanced'] textarea::placeholder {
+  color: var(--sw-secondary);
+  opacity: 1;
+}
+[data-accessibility='enhanced'] .sw-theme-menu.MuiPaper-root {
+  width: 300px;
+  min-width: 0;
+  max-width: calc(100vw - 24px);
+  border-width: 2px;
+}
+[data-accessibility='enhanced'] .sw-theme-menu .MuiMenuItem-root {
+  white-space: normal;
+}
+[data-accessibility='enhanced'] .sw-theme-menu .MuiMenuItem-root.Mui-selected {
+  outline: 2px solid var(--sw-accent);
+  outline-offset: -2px;
+}
+[data-accessibility='enhanced'] .sw-theme-name {
+  line-height: 1.5;
+}
+[data-accessibility='enhanced'] .MuiButton-contained.Mui-disabled {
+  background: var(--sw-neutral-100);
+  color: var(--sw-secondary);
+  border: 2px dashed var(--sw-border);
+}
+[data-accessibility='enhanced']
+  .ant-select:not(.ant-select-customize-input)
+  .ant-select-selector,
+[data-accessibility='enhanced'] .ant-input,
+[data-accessibility='enhanced'] .ant-picker {
+  border-width: 2px;
+  min-height: 44px;
+}
+[data-accessibility='enhanced'] .ck-content {
+  font-size: 18px;
+  line-height: 1.8;
+}
+[data-accessibility='enhanced'] .ck.ck-button {
+  min-height: 40px;
+  min-width: 40px;
+}
+@media (max-width: 800px) {
+  [data-accessibility='enhanced'] .sw-main {
+    padding-top: calc(var(--sw-topbar-mobile-height) + var(--sw-space-5));
+  }
+}
+@media (max-width: 600px) {
+  [data-accessibility='enhanced'] .sw-topbar {
+    @apply tw-gap-1 tw-px-2;
+  }
+  [data-accessibility='enhanced'] .sw-topbar-title {
+    @apply tw-gap-1;
+  }
+  [data-accessibility='enhanced'] .sw-topbar-title strong {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-overflow: clip;
+    line-height: 1.3;
+    max-height: 3.9em;
+  }
+  [data-accessibility='enhanced'] .sw-account {
+    @apply tw-gap-1;
+  }
+}
+
+[data-accessibility='enhanced']
+  :is(
+    .ant-select,
+    .ant-select-tree,
+    .ant-select-dropdown,
+    .ant-input,
+    .ant-picker
+  ) {
+  font-size: var(--sw-font-size-14);
+  line-height: 1.5;
+}
+[data-accessibility='enhanced']
+  :is(.ant-select-item, .ant-select-tree-treenode, .ant-tree-treenode) {
+  min-height: 44px;
+}
+
+[data-accessibility='enhanced'] *,
+[data-accessibility='enhanced'] *::before,
+[data-accessibility='enhanced'] *::after {
+  transition: none !important;
+  scroll-behavior: auto !important;
+}

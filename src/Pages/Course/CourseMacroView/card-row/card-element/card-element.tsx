@@ -109,8 +109,8 @@ export default function CardItem({
               ...size,
               display: 'grid',
               placeItems: 'center',
-              background: '#edf4e9',
-              color: '#84a18b',
+              background: 'var(--sw-sage-100)',
+              color: 'var(--sw-accent-500)',
             }}
           >
             <PlayCircleOutlineRoundedIcon sx={{ fontSize: 42 }} />

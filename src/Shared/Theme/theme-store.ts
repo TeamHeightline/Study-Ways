@@ -5,6 +5,7 @@ import { colors, defaultTheme, themes } from './theme-tokens';
 export interface ThemeDefinition {
   label: string;
   mode: 'light' | 'dark';
+  accessibility?: 'standard' | 'enhanced';
   colors: Partial<typeof colors>;
   fontFamily?: string;
   radiusScale?: number;
@@ -37,6 +38,16 @@ export class ThemeStore {
 
   get definition() {
     return this.definitions[this.id] || defaultTheme;
+  }
+
+  get availableThemes() {
+    return Object.entries(this.definitions).map(([id, definition]) => ({
+      id,
+      label: definition.label,
+      mode: definition.mode,
+      accessibility: definition.accessibility,
+      colors: { ...colors, ...definition.colors },
+    }));
   }
 
   get palette() {
@@ -85,6 +96,16 @@ export class ThemeStore {
       },
       shape: { borderRadius: 12 * (this.definition.radiusScale ?? 1) },
       components: {
+        MuiPaper: { styleOverrides: { root: { backgroundImage: 'none' } } },
+        MuiTooltip: {
+          styleOverrides: {
+            tooltip: {
+              backgroundColor: palette.tooltip,
+              color: palette['tooltip-ink'],
+            },
+            arrow: { color: palette.tooltip },
+          },
+        },
         MuiCssBaseline: {
           styleOverrides: {
             body: {
@@ -138,6 +159,9 @@ export class ThemeStore {
   private applyToDocument() {
     if (typeof document !== 'undefined') {
       document.documentElement.dataset.theme = this.id;
+      document.documentElement.dataset.colorScheme = this.mode;
+      document.documentElement.dataset.accessibility =
+        this.definition.accessibility || 'standard';
       document.documentElement.style.colorScheme = this.mode;
       document
         .querySelector('meta[name="theme-color"]')

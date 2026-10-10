@@ -1,0 +1,311 @@
+/* Shared theme controls and dark surfaces for components outside MUI. */
+.sw-account {
+  @apply tw-flex tw-items-center tw-gap-2 tw-shrink-0;
+}
+.sw-topbar {
+  @apply tw-gap-3;
+}
+.sw-topbar-title {
+  @apply tw-min-w-0;
+}
+.sw-topbar-title strong {
+  @apply tw-overflow-hidden tw-text-ellipsis tw-whitespace-nowrap;
+}
+.sw-theme-trigger.MuiIconButton-root {
+  @apply tw-w-10 tw-h-10 tw-rounded-ui-10 tw-text-secondary;
+  border: 1px solid var(--sw-border);
+}
+.sw-theme-trigger.MuiIconButton-root:hover {
+  @apply tw-text-accent tw-bg-accent-100;
+}
+.sw-theme-menu.MuiPaper-root {
+  @apply tw-min-w-[258px] tw-mt-2 tw-rounded-ui-14 tw-p-1;
+  border: 1px solid var(--sw-border);
+  box-shadow: 0 14px 45px rgb(var(--sw-shadow-rgb) / 0.24);
+}
+.sw-theme-menu .MuiListSubheader-root {
+  @apply tw-bg-transparent tw-text-secondary tw-text-ui-11 tw-font-bold tw-leading-[36px];
+}
+.sw-theme-menu .MuiMenuItem-root {
+  @apply tw-gap-3 tw-min-h-15 tw-py-2.5 tw-px-3 tw-rounded-ui-9;
+}
+.sw-theme-menu .MuiMenuItem-root.Mui-selected {
+  @apply tw-bg-accent-100;
+}
+.sw-theme-menu .MuiMenuItem-root:hover,
+.sw-theme-menu .MuiMenuItem-root.Mui-focusVisible {
+  @apply tw-bg-accent-150;
+}
+.sw-theme-swatch {
+  @apply tw-relative tw-w-10 tw-h-8 tw-overflow-hidden tw-rounded-ui-7 tw-shrink-0;
+  border: 1px solid;
+}
+.sw-theme-swatch > span {
+  @apply tw-absolute tw-left-0 tw-top-0 tw-bottom-0 tw-w-3;
+}
+.sw-theme-swatch > i {
+  @apply tw-absolute tw-left-4 tw-right-1 tw-top-2 tw-h-1.5 tw-rounded-ui-2;
+}
+.sw-theme-name {
+  @apply tw-flex-1 tw-text-ui-13 tw-font-semibold tw-text-ink;
+}
+.sw-theme-name small {
+  @apply tw-block tw-mt-0.5 tw-text-ui-10 tw-font-normal tw-text-secondary;
+}
+.sw-theme-check {
+  @apply tw-text-accent;
+}
+
+/* These libraries render dropdowns in portals. Put variables on their common
+   ancestor instead of coupling individual pages to theme names. */
+:is([data-color-scheme='dark'], [data-accessibility='enhanced']) .ant-select,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced']) .ant-tree,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-select-tree,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced']) .ant-picker,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-picker-panel-container,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-picker-panel,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-modal-content,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-modal-header,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-dropdown-menu,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-select-dropdown,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced']) .ant-table,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-table-thead
+  > tr
+  > th,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-table-tbody
+  > tr
+  > td,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced']) .ant-input,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-input-affix-wrapper,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-input-number,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-select:not(.ant-select-customize-input)
+  .ant-select-selector {
+  @apply tw-bg-surface tw-text-ink tw-border-border;
+}
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-select-item,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-dropdown-menu-item,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-picker-input
+  > input,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-picker-header,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-picker-content
+  th,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-picker-cell-in-view,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-modal-title,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-modal-close,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-tree-switcher,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-select-tree-switcher {
+  @apply tw-text-ink;
+}
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-select-arrow,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-select-clear,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-picker-clear,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-picker-suffix,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-picker-cell,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-select-selection-placeholder,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-input::placeholder,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-picker-input
+  > input::placeholder {
+  @apply tw-text-muted;
+}
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-select-clear,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-picker-clear {
+  @apply tw-bg-surface;
+}
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-select-item-option-active:not(.ant-select-item-option-disabled),
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-dropdown-menu-item:hover,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-tree-node-content-wrapper:hover,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-select-tree-node-content-wrapper:hover,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-table-tbody
+  > tr.ant-table-row:hover
+  > td,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-picker-cell:hover:not(.ant-picker-cell-selected)
+  .ant-picker-cell-inner {
+  @apply tw-bg-accent-100;
+}
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-select-item-option-selected:not(.ant-select-item-option-disabled),
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-tree-node-content-wrapper.ant-tree-node-selected,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-select-tree-node-content-wrapper.ant-select-tree-node-selected,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-select-multiple
+  .ant-select-selection-item {
+  @apply tw-bg-accent-150 tw-text-ink tw-border-border;
+}
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-checkbox-inner,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-tree-checkbox-inner,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-select-tree-checkbox-inner {
+  @apply tw-bg-surface tw-border-border-strong;
+}
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-checkbox-checked
+  .ant-checkbox-inner,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-tree-checkbox-checked
+  .ant-tree-checkbox-inner,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-select-tree-checkbox-checked
+  .ant-select-tree-checkbox-inner,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-picker-cell-in-view.ant-picker-cell-selected
+  .ant-picker-cell-inner {
+  @apply tw-bg-accent tw-border-accent tw-text-on-accent;
+}
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-checkbox-inner::after,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-tree-checkbox-inner::after,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-select-tree-checkbox-inner::after {
+  border-color: var(--sw-on-accent);
+}
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-picker-footer,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-picker-header,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-picker-panel,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-modal-footer {
+  @apply tw-border-border;
+}
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-empty-description {
+  @apply tw-text-secondary;
+}
+:is([data-color-scheme='dark'], [data-accessibility='enhanced']) .ant-btn {
+  @apply tw-bg-surface tw-text-ink tw-border-border;
+}
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .ant-btn-primary {
+  @apply tw-bg-accent tw-text-on-accent tw-border-accent;
+}
+:is([data-color-scheme='dark'], [data-accessibility='enhanced']) .ck {
+  --ck-color-base-background: var(--sw-surface);
+  --ck-color-base-foreground: var(--sw-surface-subtle);
+  --ck-color-base-border: var(--sw-border);
+  --ck-color-toolbar-background: var(--sw-surface);
+  --ck-color-toolbar-border: var(--sw-border);
+  --ck-color-text: var(--sw-ink);
+  --ck-color-input-background: var(--sw-surface-subtle);
+  --ck-color-input-text: var(--sw-ink);
+  --ck-color-input-border: var(--sw-border-strong);
+  --ck-color-input-disabled-background: var(--sw-neutral-100);
+  --ck-color-input-disabled-text: var(--sw-muted);
+  --ck-color-button-default-background: transparent;
+  --ck-color-button-default-hover-background: var(--sw-accent-100);
+  --ck-color-button-default-active-background: var(--sw-accent-150);
+  --ck-color-button-on-background: var(--sw-accent-150);
+  --ck-color-button-on-hover-background: var(--sw-accent-200);
+  --ck-color-button-on-color: var(--sw-accent);
+  --ck-color-list-background: var(--sw-surface);
+  --ck-color-list-button-hover-background: var(--sw-accent-100);
+  --ck-color-list-button-on-background: var(--sw-accent);
+  --ck-color-list-button-on-background-focus: var(--sw-accent-hover);
+  --ck-color-list-button-on-text: var(--sw-on-accent);
+  --ck-color-dropdown-panel-background: var(--sw-surface);
+  --ck-color-dropdown-panel-border: var(--sw-border);
+  --ck-color-focus-border: var(--sw-focus);
+  --ck-color-tooltip-background: var(--sw-tooltip);
+  --ck-color-tooltip-text: var(--sw-tooltip-ink);
+}
+
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .sw-learning-signin {
+  background: var(--sw-sidebar-panel);
+  border-color: var(--sw-sidebar-border);
+}
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .sw-learning-signin
+  h2 {
+  @apply tw-text-sidebar-heading;
+}
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .sw-learning-signin
+  p,
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .sw-learning-signin
+  li {
+  @apply tw-text-sidebar-text;
+}
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .sw-learning-signin
+  li
+  svg {
+  @apply tw-text-sidebar-icon;
+}
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .sw-learning-signin
+  .MuiButton-root {
+  background: var(--sw-sidebar-action);
+  color: var(--sw-sidebar-action-ink);
+}
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .sw-learning-signin
+  .MuiButton-root:hover {
+  background: var(--sw-accent-hover);
+}
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .sw-learning-signin
+  .MuiButton-root.Mui-disabled {
+  @apply tw-bg-sidebar-hover tw-text-sidebar-muted;
+}
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  .sw-learning-signin-error {
+  @apply tw-text-danger-600;
+}
+
+/* Ant Design sets its own black heading color; rich text must follow the page. */
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  :is(.ck-content, .sw-material-description)
+  :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--sw-ink);
+}
+:is([data-color-scheme='dark'], [data-accessibility='enhanced'])
+  :is(.ck-content, .sw-material-description)
+  a {
+  color: var(--sw-accent);
+  text-decoration: underline;
+}

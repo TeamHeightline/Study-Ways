@@ -11,6 +11,9 @@ export const initialState = {
   is_open_create_exam_dialog: false as boolean,
 
   selected_qs_data: null as null | sequenceDataI,
+  selected_qs_data_loading: false,
+  selected_qs_data_error: null as string | null,
 
   create_exam_pending: false as boolean,
+  create_exam_error: false,
 };

@@ -1,34 +1,17 @@
-import { Button, Paper, Stack } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
-import AddIcon from '@mui/icons-material/Add';
-import { useDispatch } from 'react-redux';
+import { Button } from '@mui/material';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import { useAppDispatch } from '../../../../../App/ReduxStore/RootStore';
 import { changeIsOpenCreateExamDialog } from '../redux-store/actions';
-import UICreateExamDialog from './ui-create-exam-dialog';
-import { isMobileHook } from '../../../../../Shared/CustomHooks/isMobileHook';
 
-type IUICreateExamProps = PaperProps;
-
-export default function UICreateExam({ ...props }: IUICreateExamProps) {
-  const dispatch = useDispatch();
-  const isMobile = isMobileHook();
-
-  function openCreateExamDialog() {
-    dispatch(changeIsOpenCreateExamDialog(true));
-  }
-
+export default function UICreateExam() {
+  const dispatch = useAppDispatch();
   return (
-    <Paper elevation={0} {...props}>
-      <UICreateExamDialog />
-      <Stack alignItems={isMobile ? 'center' : 'end'}>
-        <Button
-          onClick={openCreateExamDialog}
-          sx={{ mt: 2, mb: 2, ml: 2 }}
-          startIcon={<AddIcon />}
-          variant="outlined"
-        >
-          Создать экзамен
-        </Button>
-      </Stack>
-    </Paper>
+    <Button
+      variant="contained"
+      startIcon={<AddRoundedIcon />}
+      onClick={() => dispatch(changeIsOpenCreateExamDialog(true))}
+    >
+      Создать экзамен
+    </Button>
   );
 }

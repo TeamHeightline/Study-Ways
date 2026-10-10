@@ -15,43 +15,73 @@ import {
   loadMyExams,
 } from '../../../../../Shared/ServerLayer/QueryLayer/exam.query';
 import { getQSByID } from '../../../../../Shared/ServerLayer/QueryLayer/question-sequence.query';
+import { initialState } from './initial-state';
 
-export const loadMyExamsAsync = () => async (dispatch) => {
+type GetState = () => { examEditorPageReducer: typeof initialState };
+
+export const loadMyExamsAsync = () => async dispatch => {
   dispatch(startLoadingMyExam());
-  return loadMyExams()
-    .then((exams) => {
-      dispatch(loadMyExamsSuccess(exams));
-    })
-    .catch((error) => {
-      dispatch(loadMyExamsError(error));
-    });
-};
-
-export const loadQSData = (qsID) => (dispatch) => {
-  if (qsID) {
-    dispatch(startLoadingQSData());
-    return getQSByID(qsID)
-      .then((data) => dispatch(loadQSDataSuccess(data)))
-      .catch((error) => dispatch(loadQSDataError(error.message)));
+  try {
+    dispatch(loadMyExamsSuccess(await loadMyExams()));
+  } catch (error) {
+    dispatch(loadMyExamsError(error));
   }
 };
 
-export const createExamAsync =
-  (
-    examName: string,
-    qsID: number,
-    redirectCallBackFn: (examID: number) => void,
-  ) =>
-  async (dispatch) => {
-    dispatch(createExamPending());
+export const loadQSData =
+  (qsID: string) => async (dispatch, getState: GetState) => {
+    if (!qsID) return;
+    dispatch(startLoadingQSData());
+    try {
+      const data = await getQSByID(qsID);
+      if (
+        String(getState().examEditorPageReducer.exam_qs_id_for_create) !== qsID
+      )
+        return;
+      if (!data?.id || String(data.id) !== qsID)
+        throw new Error('Серия вопросов недоступна');
+      dispatch(loadQSDataSuccess(data));
+    } catch (error) {
+      if (
+        String(getState().examEditorPageReducer.exam_qs_id_for_create) === qsID
+      ) {
+        dispatch(
+          loadQSDataError(
+            error instanceof Error ? error.message : 'Ошибка загрузки',
+          ),
+        );
+      }
+    }
+  };
 
-    return createExam(qsID, examName)
-      .then((examData) => {
-        dispatch(createExamSuccess(Number(examData.id)));
-        redirectCallBackFn(Number(examData.id));
-        dispatch(closeDialogAndClearCreateData());
-      })
-      .catch(() => {
-        dispatch(createExamError());
-      });
+export const createExamAsync =
+  (examName: string, qsID: number, redirect: (examID: number) => void) =>
+  async (dispatch, getState: GetState) => {
+    const draft = getState().examEditorPageReducer;
+    if (
+      draft.create_exam_pending ||
+      !examName.trim() ||
+      !Number.isFinite(qsID) ||
+      qsID <= 0
+    )
+      return;
+    dispatch(createExamPending());
+    try {
+      const exam = await createExam(qsID, examName.trim());
+      const id = Number(exam?.id);
+      if (!Number.isFinite(id) || id <= 0)
+        throw new Error('No created exam returned');
+      dispatch(
+        createExamSuccess(
+          id,
+          draft.selected_qs_data
+            ? { ...exam, question_sequence: draft.selected_qs_data }
+            : undefined,
+        ),
+      );
+      dispatch(closeDialogAndClearCreateData());
+      redirect(id);
+    } catch {
+      dispatch(createExamError());
+    }
   };

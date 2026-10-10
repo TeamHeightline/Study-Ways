@@ -21,7 +21,14 @@ export const startLoadingMyExam = () =>
 export const loadMyExamsSuccess = (exams: IExamDataWithQSData[]) =>
   ({ type: LOAD_MY_EXAMS_SUCCESS, payload: { exams } }) as const;
 export const loadMyExamsError = error =>
-  ({ type: LOAD_MY_EXAMS_ERROR, payload: error }) as const;
+  ({
+    type: LOAD_MY_EXAMS_ERROR,
+    payload: {
+      error: String(
+        error?.error || error?.message || error || 'Ошибка загрузки',
+      ),
+    },
+  }) as const;
 export const changeExamNameForCreate = (name: string) =>
   ({ type: CHANGE_EXAM_NAME_FOR_CREATE, payload: name }) as const;
 export const changeExamQSIDForCreate = (qsID: number | null) =>
@@ -37,8 +44,8 @@ export const loadQSDataError = error =>
   ({ type: LOAD_QS_DATA_ERROR, payload: error }) as const;
 
 export const createExamPending = () => ({ type: CREATE_EXAM_PENDING }) as const;
-export const createExamSuccess = (examID: number) =>
-  ({ type: CREATE_EXAM_SUCCESS, payload: examID }) as const;
+export const createExamSuccess = (examID: number, exam?: IExamDataWithQSData) =>
+  ({ type: CREATE_EXAM_SUCCESS, payload: examID, exam }) as const;
 export const createExamError = () => ({ type: CREATE_EXAM_ERROR }) as const;
 
 export const closeDialogAndClearCreateData = () =>

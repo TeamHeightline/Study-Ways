@@ -1,103 +1,120 @@
 import {
+  Alert,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
+  IconButton,
   TextField,
 } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
-import { useDispatch, useSelector } from 'react-redux';
+import { LoadingButton } from '@mui/lab';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
+import { useNavigate } from 'react-router-dom';
+import {
+  RootState,
+  useAppDispatch,
+  useAppSelector,
+} from '../../../../../App/ReduxStore/RootStore';
 import {
   changeExamNameForCreate,
   closeDialogAndClearCreateData,
 } from '../redux-store/actions';
-import CloseIcon from '@mui/icons-material/Close';
-import AddIcon from '@mui/icons-material/Add';
-import UIQuestionSequenceSelector from './ui-question-sequence-selector';
 import { createExamAsync } from '../redux-store/async-actions';
-import { useNavigate } from 'react-router-dom';
-import { LoadingButton } from '@mui/lab';
-import { RootState } from '../../../../../App/ReduxStore/RootStore';
+import UIQuestionSequenceSelector from './ui-question-sequence-selector';
 
-type IUICreateExamDialogProps = PaperProps;
-
-export default function UICreateExamDialog({
-  ...props
-}: IUICreateExamDialogProps) {
-  const isOpenCreateExamDialog = useSelector(
-    (state: RootState) =>
-      state?.examEditorPageReducer?.is_open_create_exam_dialog,
+export default function UICreateExamDialog() {
+  const draft = useAppSelector(
+    (state: RootState) => state.examEditorPageReducer,
   );
-  const examName = useSelector(
-    (state: RootState) => state?.examEditorPageReducer?.exam_name_for_create,
-  );
-  const examQSID = useSelector(
-    (state: RootState) => state?.examEditorPageReducer?.exam_qs_id_for_create,
-  );
-  const pendingExamCreation = useSelector(
-    (state: RootState) => state?.examEditorPageReducer?.create_exam_pending,
-  );
-  const dispatch: any = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  function examNameHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    dispatch(changeExamNameForCreate(event.target.value));
-  }
-
-  function redirectCallBackFn(examID: number) {
-    navigate(`/editor/exam/select/${examID}`);
-  }
-
-  function createExamHandler() {
+  const pending = draft.create_exam_pending;
+  const ready =
+    !!draft.exam_name_for_create?.trim() &&
+    !!draft.exam_qs_id_for_create &&
+    Number(draft.selected_qs_data?.id) === draft.exam_qs_id_for_create &&
+    !draft.selected_qs_data_loading &&
+    !draft.selected_qs_data_error;
+  const close = () => {
+    if (!pending) dispatch(closeDialogAndClearCreateData());
+  };
+  function create(event) {
+    event.preventDefault();
+    if (!ready || pending) return;
     dispatch(
-      createExamAsync(String(examName), Number(examQSID), redirectCallBackFn),
+      createExamAsync(
+        draft.exam_name_for_create || '',
+        Number(draft.exam_qs_id_for_create),
+        id => navigate(`/editor/exam/select/${id}`),
+      ),
     );
   }
-
-  function closeCreateExamDialog() {
-    dispatch(closeDialogAndClearCreateData());
-  }
-
   return (
-    <Dialog open={!!isOpenCreateExamDialog} onClose={closeCreateExamDialog}>
-      <DialogTitle>Создание экзамена</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          Введите название и выберите серию вопросов для будущего экзамена,
-          затем нажмите кнопку СОЗДАТЬ
-        </DialogContentText>
-        <TextField
-          value={examName}
-          onChange={examNameHandler}
-          autoFocus
-          margin="dense"
-          id="exam_name"
-          label="Название экзамена"
-          fullWidth
-          variant="standard"
-        />
-        <UIQuestionSequenceSelector />
-      </DialogContent>
-      <DialogActions>
-        <Button
-          onClick={closeCreateExamDialog}
-          startIcon={<CloseIcon />}
-          color={'secondary'}
-        >
-          Отмена
-        </Button>
-        <LoadingButton
-          onClick={createExamHandler}
-          loading={pendingExamCreation}
-          disabled={!examName || !examQSID}
-          startIcon={<AddIcon />}
-          color={'primary'}
-        >
-          Создать
-        </LoadingButton>
-      </DialogActions>
+    <Dialog
+      open={draft.is_open_create_exam_dialog}
+      onClose={close}
+      fullWidth
+      maxWidth="sm"
+      className="sw-examlist-dialog"
+      aria-labelledby="sw-create-exam-title"
+      aria-describedby="sw-create-exam-description"
+    >
+      <form onSubmit={create}>
+        <DialogTitle id="sw-create-exam-title">
+          <span>Новый экзамен</span>
+          <IconButton
+            aria-label="Закрыть создание экзамена"
+            onClick={close}
+            disabled={pending}
+          >
+            <CloseRoundedIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <p id="sw-create-exam-description">
+            Начните с названия и серии вопросов. Правила прохождения можно
+            настроить в редакторе.
+          </p>
+          <TextField
+            autoFocus
+            fullWidth
+            size="small"
+            label="Название экзамена"
+            placeholder="Например, итоговый экзамен по механике"
+            variant="outlined"
+            value={draft.exam_name_for_create || ''}
+            disabled={pending}
+            onChange={event =>
+              dispatch(changeExamNameForCreate(event.target.value))
+            }
+          />
+          <UIQuestionSequenceSelector disabled={pending} />
+          {draft.create_exam_error && (
+            <Alert severity="error" className="sw-examlist-alert">
+              Не удалось создать экзамен. Данные сохранены, попробуйте ещё раз.
+            </Alert>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <span>После создания откроется редактор экзамена</span>
+          <div>
+            <Button onClick={close} disabled={pending}>
+              Отмена
+            </Button>
+            <LoadingButton
+              type="submit"
+              variant="contained"
+              loading={pending}
+              disabled={!ready}
+              endIcon={<ArrowForwardRoundedIcon />}
+            >
+              Создать
+            </LoadingButton>
+          </div>
+        </DialogActions>
+      </form>
     </Dialog>
   );
 }

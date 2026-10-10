@@ -1,50 +1,58 @@
-import { Card, Chip, Stack, Typography } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { sequenceDataI } from '../../../../../Shared/ServerLayer/Types/question-sequence.type';
-import { RootState } from '../../../../../App/ReduxStore/RootStore';
+import { Alert, Button, Skeleton } from '@mui/material';
+import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined';
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import {
+  RootState,
+  useAppDispatch,
+  useAppSelector,
+} from '../../../../../App/ReduxStore/RootStore';
+import { loadQSData } from '../redux-store/async-actions';
 
-type ISelectedQSByDataProps = PaperProps;
-
-export default function SelectedQSByData({ ...props }: ISelectedQSByDataProps) {
-  const sequenceData: sequenceDataI | null | undefined = useSelector(
-    (state: RootState) => state?.examEditorPageReducer?.selected_qs_data,
-  );
-  const selectedQSID = useSelector(
-    (state: RootState) => state?.examEditorPageReducer?.exam_qs_id_for_create,
-  );
-  if (sequenceData?.id != selectedQSID || selectedQSID == undefined) {
-    return <div />;
-  }
-  return (
-    <Card variant="outlined" sx={{ backgroundColor: 'transparent', mt: 1 }}>
-      <Typography variant="h6" color="textSecondary" sx={{ pl: 2, pt: 1 }}>
-        <strong>{`ID: ${sequenceData?.id}`}</strong>
-      </Typography>
-      <Typography sx={{ pl: 2 }}>
-        {`Название: ${sequenceData?.name}`}
-      </Typography>
-
-      <Typography sx={{ pl: 2 }}>
-        {sequenceData?.description
-          ? `Описание: ${sequenceData?.description}`
-          : 'Описание отсутствует'}
-      </Typography>
-
-      <Stack
-        sx={{ pl: 2, pr: 2, mb: 2, pt: 1, overflowY: 'auto' }}
-        spacing={2}
-        direction={'row'}
+export default function SelectedQSByData() {
+  const {
+    selected_qs_data: data,
+    exam_qs_id_for_create: id,
+    selected_qs_data_loading: loading,
+    selected_qs_data_error: error,
+  } = useAppSelector((state: RootState) => state.examEditorPageReducer);
+  const dispatch = useAppDispatch();
+  if (!id) return null;
+  if (error)
+    return (
+      <Alert
+        severity="error"
+        className="sw-examlist-alert"
+        action={
+          <Button
+            color="inherit"
+            onClick={() => dispatch(loadQSData(String(id)))}
+          >
+            Повторить
+          </Button>
+        }
       >
-        {sequenceData?.sequence_data?.sequence?.map((question_id, qIndex) => (
-          <Chip
-            label={question_id || ''}
-            variant="outlined"
-            key={`${qIndex}QuestionKey`}
-          />
-        ))}
-      </Stack>
-    </Card>
+        Не удалось загрузить выбранную серию.
+      </Alert>
+    );
+  if (loading || Number(data?.id) !== id)
+    return (
+      <Skeleton
+        variant="rounded"
+        height={112}
+        aria-label="Загрузка выбранной серии"
+      />
+    );
+  return (
+    <div className="sw-examlist-selected-qs">
+      <span>
+        <LayersOutlinedIcon />
+      </span>
+      <div>
+        <small>Серия №{data?.id}</small>
+        <strong>{data?.name || 'Без названия'}</strong>
+        <span>Вопросов: {data?.sequence_data?.sequence?.length || 0}</span>
+      </div>
+      <CheckRoundedIcon />
+    </div>
   );
 }

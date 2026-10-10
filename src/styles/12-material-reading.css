@@ -1,0 +1,268 @@
+/* Tailwind components: material-reading. Preserve selector order for existing MUI overrides. */
+
+/* Material reading page */
+.sw-card-page {
+  @apply tw-pb-8 tw-min-w-0;
+}
+.sw-material-header {
+  @apply !tw-p-6;
+  border: 1px solid var(--sw-border);
+  @apply !tw-rounded-ui-18 tw-mb-5;
+  background: var(--sw-surface);
+}
+.sw-material-heading {
+  @apply tw-gap-2 tw-min-w-0;
+}
+.sw-material-title {
+  @apply !tw-text-[length:clamp(var(--sw-font-size-22),2vw,var(--sw-font-size-30))] !tw-font-[650] !tw-leading-[1.3] tw-text-accent-900;
+  overflow-wrap: anywhere;
+  @apply !tw-mb-1.5;
+}
+.sw-material-title .MuiChip-root {
+  vertical-align: middle;
+  @apply tw-text-ui-11;
+  background: var(--sw-accent-100);
+  border-color: var(--sw-accent-200);
+  @apply tw-text-accent-600 tw-font-medium;
+}
+.sw-material-heading > div:not(h1) {
+  @apply tw-text-neutral-600 tw-text-ui-13;
+}
+.sw-material-heading svg {
+  @apply tw-text-ui-18 tw-text-accent-500;
+}
+.sw-material-body {
+  @apply !tw-p-6;
+  border: 1px solid var(--sw-border);
+  @apply !tw-rounded-ui-18;
+  background: var(--sw-surface);
+}
+.sw-material-body .sw-card-content-grid {
+  @apply tw-grid tw-grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] tw-gap-7 tw-w-full tw-m-0;
+}
+.sw-material-body .sw-card-content-grid > .MuiGrid-item {
+  @apply tw-p-0 tw-max-w-none tw-w-full;
+}
+.sw-material-media {
+  @apply tw-w-full tw-min-w-0;
+}
+.sw-material-video {
+  @apply tw-flex tw-flex-col tw-gap-3 tw-w-full;
+}
+.sw-material-player {
+  @apply tw-relative tw-w-full;
+  aspect-ratio: 16/9;
+  @apply tw-overflow-hidden tw-rounded-ui-14;
+  background: var(--sw-ink);
+}
+.sw-material-player > div,
+.sw-material-player > iframe {
+  @apply !tw-w-full !tw-h-full tw-block;
+}
+.sw-material-hosts {
+  @apply tw-self-start;
+  border: 1px solid var(--sw-border);
+  @apply !tw-rounded-ui-10;
+  background: var(--sw-surface-subtle);
+}
+.sw-material-hosts .MuiToggleButton-root {
+  @apply tw-py-1.75 tw-px-4.5 tw-text-neutral-600;
+  border-color: var(--sw-border);
+  @apply tw-text-ui-12;
+}
+.sw-material-hosts .Mui-selected {
+  background: var(--sw-accent-150) !important;
+  @apply !tw-text-accent;
+}
+.sw-material-description {
+  @apply tw-w-full !tw-max-w-full;
+  overflow-wrap: anywhere;
+  @apply tw-text-neutral-800;
+}
+.sw-material-description h2 {
+  @apply tw-text-ui-16 tw-font-[650] tw-text-accent-800 tw-mt-0 tw-mr-0 tw-mb-3.5 tw-ml-0;
+}
+.sw-material-description > div {
+  @apply !tw-text-ui-15 !tw-leading-[1.8];
+}
+.sw-material-description p,
+.sw-material-description span {
+  @apply !tw-text-[length:inherit] !tw-leading-[inherit];
+}
+.sw-material-description p {
+  @apply tw-mt-0 tw-mr-0 tw-mb-4 tw-ml-0;
+}
+.sw-material-description img {
+  @apply !tw-max-w-full !tw-h-auto tw-object-contain;
+}
+.sw-material-description figure {
+  @apply tw-max-w-full tw-my-4 tw-mx-0;
+}
+.sw-material-description table {
+  @apply tw-max-w-full;
+}
+@media (max-width: 1100px) {
+  .sw-material-body .sw-card-content-grid {
+    @apply tw-grid-cols-[1fr];
+  }
+  .sw-material-description {
+    @apply !tw-max-w-[850px];
+  }
+}
+@media (max-width: 600px) {
+  .sw-material-header,
+  .sw-material-body {
+    @apply !tw-p-4;
+  }
+  .sw-material-body .sw-card-content-grid {
+    @apply tw-gap-5;
+  }
+}
+/* Quiet follow-up sections on material pages */
+.sw-material-test-prompt {
+  @apply tw-flex tw-items-center tw-gap-4 !tw-py-5 !tw-px-6 tw-mt-5;
+  border: 1px solid var(--sw-accent-200);
+  @apply !tw-rounded-ui-16;
+  background: var(--sw-accent-100) !important;
+}
+.sw-material-test-icon {
+  @apply tw-grid tw-place-items-center tw-shrink-0 tw-w-10.5 tw-h-10.5 tw-rounded-ui-12;
+  background: var(--sw-accent-150);
+  @apply tw-text-accent-600;
+}
+.sw-material-test-copy {
+  @apply tw-flex-1 tw-min-w-0;
+}
+.sw-material-test-copy h2 {
+  @apply tw-text-ui-17 tw-font-[650] tw-text-accent-800 tw-mb-1.25;
+}
+.sw-material-test-copy p {
+  @apply tw-text-ui-13 tw-leading-[1.6] tw-text-neutral-600;
+}
+.sw-material-test-actions {
+  @apply tw-flex tw-gap-2 tw-shrink-0;
+}
+.sw-material-test-actions button {
+  @apply tw-whitespace-nowrap tw-text-ui-13;
+}
+.sw-material-related {
+  @apply tw-mt-7 !tw-p-0;
+  background: transparent !important;
+}
+.sw-material-related-heading {
+  @apply !tw-mt-0 !tw-mr-0 !tw-mb-4 !tw-ml-0 tw-items-start;
+}
+.sw-material-related-heading h2 {
+  @apply tw-text-ui-20 tw-font-[650] tw-text-accent-800;
+}
+.sw-material-related-grid {
+  @apply !tw-grid tw-grid-cols-[repeat(auto-fill,minmax(260px,1fr))] tw-gap-5 !tw-w-full !tw-m-0;
+}
+.sw-material-related-grid > .MuiGrid-item {
+  @apply tw-min-w-0 !tw-max-w-none tw-w-full !tw-p-0;
+}
+.sw-material-related-grid > .MuiGrid-item > * {
+  @apply tw-max-w-full tw-w-full;
+}
+.sw-material-body .sw-course-reference {
+  @apply !tw-p-4 tw-max-w-none tw-rounded-ui-12;
+  background: var(--sw-surface-subtle) !important;
+  border-color: var(--sw-border) !important;
+}
+.sw-material-body .sw-course-reference .MuiAlert-icon {
+  @apply tw-hidden;
+}
+.sw-material-body .sw-course-reference .MuiAlert-message {
+  @apply tw-w-full tw-p-0 tw-min-w-0;
+}
+.sw-material-body .sw-course-reference .MuiAlertTitle-root {
+  @apply tw-text-ui-13 tw-mt-0 tw-mr-0 tw-mb-2.5 tw-ml-0 tw-font-semibold tw-text-neutral-600;
+}
+.sw-material-body .sw-course-reference-button {
+  @apply !tw-m-0 !tw-py-2.5 !tw-px-0 !tw-rounded-[0];
+  background: transparent !important;
+  box-shadow: none !important;
+  border-bottom: 1px solid var(--sw-border-subtle);
+  @apply !tw-text-ui-12 tw-normal-case tw-leading-[1.5];
+}
+.sw-material-body .sw-course-reference-button:last-child {
+  border-bottom: 0;
+}
+.sw-material-body .sw-course-reference-button:hover {
+  @apply tw-text-accent;
+  background: var(--sw-accent-100) !important;
+}
+@media (max-width: 700px) {
+  .sw-material-test-prompt {
+    @apply tw-flex-wrap !tw-p-4.5 tw-gap-3;
+  }
+  .sw-material-test-actions {
+    @apply tw-w-full tw-pl-[54px];
+  }
+  .sw-material-related-grid {
+    @apply tw-grid-cols-[1fr];
+  }
+}
+/* Course links must fit the alert without horizontal overflow. */
+.sw-course-reference {
+  @apply tw-box-border tw-min-w-0 tw-max-w-full;
+}
+.sw-course-reference .MuiAlert-message {
+  @apply tw-min-w-0;
+}
+.sw-course-reference-button {
+  @apply !tw-min-w-0 tw-max-w-full tw-box-border;
+}
+.sw-course-reference-button > span:first-child {
+  @apply tw-min-w-0 tw-whitespace-normal;
+  overflow-wrap: anywhere;
+  @apply tw-text-clip;
+}
+.sw-course-reference-button .MuiButton-endIcon {
+  @apply tw-shrink-0 tw-mr-0 tw-overflow-visible;
+}
+.sw-material-test-link.MuiButton-root {
+  @apply tw-flex tw-gap-3.5 tw-justify-start tw-py-4 tw-px-4.5 tw-mb-4.5;
+  border: 1px solid var(--sw-border-strong);
+  @apply tw-rounded-ui-14;
+  background: var(--sw-accent-100);
+  @apply tw-text-accent tw-text-left tw-normal-case;
+  box-shadow: none;
+  transition:
+    background 0.18s,
+    border-color 0.18s;
+}
+.sw-material-test-link.MuiButton-root:hover {
+  background: var(--sw-accent-150);
+  border-color: var(--sw-accent-400);
+  box-shadow: none;
+}
+.sw-material-test-link.Mui-focusVisible {
+  outline: 2px solid var(--sw-accent);
+  outline-offset: 3px;
+}
+.sw-material-test-link-icon {
+  @apply tw-grid tw-place-items-center tw-shrink-0 tw-w-10.5 tw-h-10.5 tw-rounded-ui-12;
+  background: var(--sw-accent-200);
+  @apply tw-text-accent-700;
+}
+.sw-material-test-link-copy {
+  @apply tw-flex tw-flex-col tw-gap-0.75 tw-flex-1 tw-min-w-0;
+}
+.sw-material-test-link-copy strong {
+  @apply tw-text-ui-15 tw-font-[650] tw-leading-[1.4];
+}
+.sw-material-test-link-copy > span {
+  @apply tw-text-ui-12 tw-font-normal tw-leading-[1.5] tw-text-neutral-600;
+}
+.sw-material-test-link-arrow {
+  @apply tw-shrink-0 !tw-text-ui-21;
+}
+@media (max-width: 480px) {
+  .sw-material-test-link.MuiButton-root {
+    @apply tw-p-3.5 tw-gap-2.5;
+  }
+  .sw-material-test-link-icon {
+    @apply tw-w-9 tw-h-9;
+  }
+}

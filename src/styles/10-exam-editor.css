@@ -1,0 +1,137 @@
+/* Tailwind components: exam-editor. Preserve selector order for existing MUI overrides. */
+
+/* Exam editing */
+.sw-exam-editor {
+  @apply !tw-p-7;
+  border: 1px solid var(--sw-border);
+  @apply !tw-rounded-ui-18 tw-text-ink tw-min-w-0;
+}
+.sw-exam-heading {
+  @apply tw-flex tw-justify-between tw-items-center tw-gap-5 tw-mb-6.5;
+}
+.sw-exam-heading h1 {
+  @apply tw-font-bold tw-mb-1.5;
+}
+.sw-exam-settings-grid {
+  @apply tw-grid tw-grid-cols-[repeat(2,minmax(0,1fr))] tw-gap-5 tw-items-stretch;
+}
+.sw-exam-panel {
+  @apply tw-min-w-0 tw-p-6;
+  border: 1px solid var(--sw-border);
+  @apply tw-rounded-ui-16;
+  background: var(--sw-surface);
+}
+.sw-exam-panel-heading {
+  @apply tw-flex tw-items-start tw-gap-3 tw-mb-6;
+}
+.sw-exam-panel-heading > span {
+  @apply tw-grid tw-place-items-center tw-shrink-0 tw-w-8.5 tw-h-8.5;
+  background: var(--sw-accent-100);
+  border: 1px solid var(--sw-accent-200);
+  @apply tw-rounded-ui-10 tw-text-accent-700 tw-text-ui-12 tw-font-bold;
+}
+.sw-exam-panel-heading h6 {
+  @apply tw-text-ui-18 tw-font-[650] tw-mb-1;
+}
+.sw-exam-panel .MuiFormControl-root {
+  @apply tw-min-w-0 tw-w-full;
+}
+.sw-exam-option {
+  @apply tw-mt-5 tw-pt-4;
+  border-top: 1px solid var(--sw-border-subtle);
+}
+.sw-exam-option .MuiFormControlLabel-root {
+  @apply tw-mb-3 tw-mr-0;
+}
+.sw-exam-option .MuiFormControlLabel-label {
+  @apply tw-text-ui-14 tw-leading-[1.5];
+}
+.sw-exam-duration {
+  @apply !tw-grid tw-grid-cols-[1fr_1fr] tw-gap-3;
+}
+.sw-exam-duration > .MuiStack-root {
+  @apply tw-col-[1/-1] tw-items-start;
+}
+.sw-exam-duration > .MuiStack-root p {
+  @apply tw-text-ui-13 tw-text-secondary;
+}
+.sw-exam-duration > * {
+  @apply !tw-m-0;
+}
+.sw-exam-sequence {
+  @apply tw-p-4.5;
+  border: 1px solid var(--sw-accent-200) !important;
+  @apply !tw-rounded-ui-12;
+  background: var(--sw-accent-50) !important;
+  box-shadow: none !important;
+}
+.sw-exam-eyebrow {
+  @apply tw-text-neutral-700 tw-block !tw-mb-1.5;
+}
+.sw-exam-question-chips {
+  @apply tw-flex tw-flex-wrap tw-gap-1.5 tw-mt-2.5 tw-max-h-[150px] tw-overflow-auto;
+}
+.sw-exam-question-chips .MuiChip-root {
+  border-color: var(--sw-accent-200);
+  @apply tw-text-neutral-700;
+  background: var(--sw-surface);
+}
+.sw-exam-share-panel {
+  background: var(--sw-accent-50);
+}
+.sw-exam-links {
+  background: transparent !important;
+}
+.sw-exam-link {
+  @apply tw-p-4.5;
+  background: var(--sw-surface);
+  border: 1px solid var(--sw-border);
+  @apply tw-rounded-ui-12 tw-mb-3.5;
+}
+.sw-exam-link strong {
+  @apply tw-text-accent tw-text-ui-15;
+}
+.sw-exam-link small {
+  @apply tw-block tw-mt-1 tw-text-muted;
+}
+.sw-exam-link > a {
+  @apply tw-block;
+  overflow-wrap: anywhere;
+  @apply tw-text-neutral-700 tw-text-ui-13 tw-my-3 tw-mx-0;
+}
+.sw-exam-link > div {
+  @apply tw-flex tw-gap-2 tw-flex-wrap;
+}
+.sw-exam-copy-status {
+  @apply tw-text-ui-12 tw-text-neutral-700 tw-min-h-4.5;
+}
+.sw-exam-results {
+  @apply tw-mt-7 tw-pt-6;
+  border-top: 1px solid var(--sw-border);
+  @apply tw-min-w-0;
+}
+.sw-exam-results > h6 {
+  @apply tw-font-[650] tw-mb-1.25;
+}
+.sw-exam-results > .MuiPaper-root {
+  @apply tw-min-w-0 tw-overflow-x-auto;
+}
+@media (max-width: 1000px) {
+  .sw-exam-settings-grid {
+    @apply tw-grid-cols-[1fr];
+  }
+}
+@media (max-width: 600px) {
+  .sw-exam-editor {
+    @apply !tw-p-4;
+  }
+  .sw-exam-heading {
+    @apply tw-flex-col tw-items-start;
+  }
+  .sw-exam-panel {
+    @apply tw-p-4.5;
+  }
+  .sw-exam-heading > button {
+    @apply tw-w-auto;
+  }
+}

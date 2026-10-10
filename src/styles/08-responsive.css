@@ -1,0 +1,413 @@
+/* Tailwind components: responsive. Preserve selector order for existing MUI overrides. */
+
+@media (min-width: 1600px) {
+  .sw-main {
+    @apply tw-pl-15 tw-pr-15;
+  }
+  .sw-hero h2 {
+    @apply tw-text-ui-36;
+  }
+  .sw-hero-copy {
+    @apply tw-p-9.5;
+  }
+  .sw-course-cover {
+    @apply tw-h-[170px];
+  }
+}
+@media (max-width: 1150px) {
+  .sw-sidebar {
+    @apply tw-w-sidebar-compact tw-pl-3.5 tw-pr-3.5;
+  }
+  .sw-main {
+    @apply tw-ml-sidebar-compact tw-pl-[25px] tw-pr-[25px];
+  }
+  .sw-topbar {
+    @apply tw-left-sidebar-compact tw-py-0 tw-px-[25px];
+  }
+  .sw-course-grid {
+    @apply tw-grid-cols-[repeat(2,minmax(0,1fr))];
+  }
+  .sw-hero h2 {
+    @apply tw-text-ui-25;
+  }
+  .sw-hero-copy {
+    @apply tw-p-[25px];
+  }
+  .sw-benefits {
+    @apply tw-gap-3;
+  }
+  .sw-benefits > div {
+    @apply tw-gap-1.75;
+  }
+  .sw-benefits strong {
+    @apply tw-text-ui-10;
+  }
+  .sw-benefits p {
+    @apply tw-text-ui-8;
+  }
+  .sw-catalog-controls {
+    @apply tw-flex-col;
+  }
+  .sw-search {
+    @apply tw-w-full;
+  }
+  .sw-path-node strong {
+    @apply tw-text-ui-11;
+  }
+  .sw-path-node div > span {
+    @apply tw-text-ui-8;
+  }
+}
+@media (max-width: 800px) {
+  .sw-sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.2s;
+    @apply tw-w-sidebar;
+  }
+  .sw-sidebar.is-open {
+    transform: translateX(0);
+  }
+  .sw-topbar {
+    @apply tw-left-0 tw-h-topbar-mobile tw-py-0 tw-px-5;
+  }
+  .sw-main {
+    @apply tw-ml-0 tw-pt-[89px] tw-pr-5.5 tw-pb-5.5 tw-pl-5.5;
+  }
+  .sw-open-menu.MuiIconButton-root {
+    @apply tw-inline-flex;
+  }
+  .sw-close-menu.MuiIconButton-root {
+    @apply tw-inline-flex tw-absolute tw-right-1.75 tw-top-2 tw-text-border-strong;
+  }
+  .sw-nav-backdrop {
+    @apply tw-fixed;
+    inset: 0;
+    @apply tw-z-[1150];
+    background: rgb(var(--sw-backdrop-rgb) / 0.502);
+    border: 0;
+  }
+  .sw-topbar-title {
+    @apply tw-gap-2.5;
+  }
+  .sw-brand {
+    @apply tw-mb-10;
+  }
+  .sw-benefits strong {
+    @apply tw-text-ui-11;
+  }
+  .sw-benefits p {
+    @apply tw-text-ui-9;
+  }
+  .sw-catalog-controls {
+    @apply tw-flex-row;
+  }
+  .sw-search {
+    @apply tw-w-[230px];
+  }
+}
+@media (max-width: 600px) {
+  .sw-main {
+    @apply tw-pt-[83px] tw-pr-4.5 tw-pb-5.5 tw-pl-4.5;
+  }
+  .sw-topbar {
+    @apply tw-py-0 tw-px-3;
+  }
+  .sw-topbar-title > span {
+    @apply tw-hidden;
+  }
+  .sw-topbar-title strong {
+    @apply tw-text-ui-11;
+  }
+  .sw-account .MuiButton-root {
+    @apply tw-py-1.5 tw-px-2.75 tw-text-ui-11;
+  }
+  .sw-eyebrow {
+    @apply tw-text-ui-8 tw-tracking-[1.3px];
+  }
+  .sw-page-heading {
+    @apply tw-mb-5.25;
+  }
+  .sw-page-heading h1 {
+    @apply tw-text-ui-28 tw-tracking-[-1px];
+  }
+  .sw-page-heading p {
+    @apply tw-text-ui-11 tw-max-w-[290px];
+  }
+  .sw-heading-symbol {
+    @apply tw-hidden;
+  }
+  .sw-hero {
+    @apply tw-grid-cols-[1fr];
+  }
+  .sw-hero-copy {
+    @apply tw-pt-[25px] tw-pr-5.75 tw-pb-0 tw-pl-5.75;
+  }
+  .sw-hero h2 {
+    @apply tw-text-ui-27;
+  }
+  .sw-hero-copy p {
+    @apply tw-text-ui-11;
+  }
+  .sw-hero-footnote {
+    @apply tw-hidden;
+  }
+  .sw-path-art {
+    @apply tw-min-h-[235px] tw-my-0 tw-mx-2;
+  }
+  .sw-art-label {
+    @apply tw-top-4 tw-right-3 tw-text-ui-7;
+  }
+  .sw-path-node {
+    @apply tw-gap-1.75;
+  }
+  .sw-node-one {
+    @apply tw-top-[47%] tw-left-[9%];
+  }
+  .sw-node-two {
+    @apply tw-top-[28%] tw-left-[41%];
+  }
+  .sw-node-three {
+    @apply tw-top-[13%] tw-left-[72%];
+  }
+  .sw-node-icon {
+    @apply tw-w-9 tw-h-9;
+    border-width: 4px;
+    @apply tw-rounded-ui-11;
+  }
+  .sw-path-node strong {
+    @apply tw-text-ui-11;
+  }
+  .sw-art-star {
+    @apply tw-text-ui-33 tw-bottom-[12%] tw-right-[15%];
+  }
+  .sw-art-caption {
+    @apply tw-bottom-3.5 tw-left-[15%];
+  }
+  .sw-benefits {
+    @apply tw-grid-cols-[1fr] tw-gap-3.5 tw-mt-5.75 tw-mr-0 tw-mb-[29px] tw-ml-0;
+  }
+  .sw-benefits > div {
+    @apply tw-gap-3;
+  }
+  .sw-benefits p {
+    @apply tw-text-ui-10;
+  }
+  .sw-benefits strong {
+    @apply tw-text-ui-12;
+  }
+  .sw-section-heading {
+    @apply tw-gap-2 tw-items-start;
+  }
+  .sw-section-heading h2 {
+    @apply tw-text-ui-20;
+  }
+  .sw-section-heading p {
+    @apply tw-text-ui-10;
+  }
+  .sw-sort > svg {
+    @apply tw-hidden;
+  }
+  .sw-sort select {
+    @apply tw-w-[108px] tw-text-ui-9;
+  }
+  .sw-catalog-controls {
+    @apply tw-flex-col-reverse tw-gap-3.25 tw-mb-4.5;
+  }
+  .sw-search {
+    @apply tw-w-full;
+  }
+  .sw-search input {
+    @apply tw-h-10.5 tw-text-ui-12;
+  }
+  .sw-filter-tabs {
+    @apply tw-gap-0.75;
+  }
+  .sw-filter-tabs button {
+    @apply tw-py-2.25 tw-px-2.5 tw-text-ui-10 tw-min-h-10.5;
+  }
+  .sw-course-grid {
+    @apply tw-grid-cols-[1fr] tw-gap-4.25;
+  }
+  .sw-course-cover {
+    @apply tw-h-[155px];
+  }
+  .sw-course-body {
+    @apply tw-p-5;
+  }
+  .sw-course-body h3 {
+    @apply tw-text-ui-17;
+  }
+  .sw-course-type {
+    @apply tw-text-ui-9;
+  }
+  .sw-course-meta,
+  .sw-course-bottom {
+    @apply tw-text-ui-11;
+  }
+  .sw-ai-banner {
+    @apply tw-flex-wrap tw-py-5 tw-px-4.25 tw-gap-3;
+  }
+  .sw-ai-banner > div {
+    @apply tw-flex-1 tw-min-w-[180px];
+  }
+  .sw-ai-banner h3 {
+    @apply tw-text-ui-12;
+  }
+  .sw-ai-banner p {
+    @apply tw-leading-[1.8];
+  }
+  .sw-ai-banner > a {
+    @apply tw-mt-1.25 tw-mr-0 tw-mb-0 tw-ml-[53px] tw-text-ui-11 tw-min-h-8.5;
+  }
+  .sw-page-footer {
+    @apply tw-text-ui-8;
+  }
+  .sw-page-footer > span:last-child {
+    @apply tw-hidden;
+  }
+  .sw-course-workspace {
+    @apply tw-p-3.5;
+  }
+  .sw-resource-link {
+    @apply tw-min-h-17 tw-p-2.5 tw-gap-2.5;
+  }
+  .sw-resource-link-copy strong {
+    @apply tw-text-ui-11;
+  }
+  .sw-resource-link-icon,
+  .sw-resource-link > button {
+    @apply tw-w-8.5 tw-h-8.5 tw-min-w-8.5;
+  }
+  .sw-mini-card {
+    @apply !tw-w-full;
+  }
+}
+@media (max-width: 600px) {
+  .sw-search-mode-switch .MuiToggleButton-root {
+    @apply tw-min-h-10.5 tw-py-2 tw-px-2.75 tw-text-ui-11;
+  }
+  .sw-search-input .MuiOutlinedInput-root {
+    @apply tw-min-h-14;
+  }
+  .sw-search-submit {
+    @apply tw-w-11 tw-h-11;
+  }
+  .sw-search-panel > .MuiGrid-item > .MuiStack-root:last-child {
+    @apply tw-gap-2.5;
+  }
+  .sw-standard-search {
+    @apply tw-mt-2;
+  }
+  .sw-theme-dropdown {
+    @apply tw-w-[calc(100vw_-_28px)] tw-min-w-0 tw-max-w-none;
+  }
+  .sw-theme-dropdown .ant-select-tree-treenode {
+    @apply tw-min-h-9.5;
+  }
+  .sw-theme-dropdown .ant-select-tree {
+    @apply tw-text-ui-12;
+  }
+  .sw-search-filters,
+  .sw-standard-search + .sw-search-filters {
+    @apply tw-grid-cols-[1fr] !tw-gap-2.5 !tw-pl-0 !tw-pr-0;
+  }
+  .sw-card-results {
+    @apply !tw-pt-3 !tw-pr-2 !tw-pb-6 !tw-pl-2;
+  }
+}
+@media (max-width: 700px) {
+  .sw-question-player-grid {
+    @apply tw-min-h-0;
+  }
+  .sw-question-player-grid .sw-question-media-cell {
+    @apply tw-min-h-[250px] !tw-p-3;
+  }
+  .sw-question-media {
+    @apply tw-min-h-[230px] tw-h-[260px];
+  }
+  .sw-question-copy-cell {
+    @apply tw-min-h-0;
+  }
+  .sw-question-copy {
+    @apply !tw-py-6 !tw-px-5;
+  }
+  .sw-question-copy-title {
+    @apply !tw-text-ui-21;
+  }
+  .sw-question-copy-text {
+    @apply !tw-text-ui-14;
+  }
+}
+@media (max-width: 600px) {
+  .sw-login-alert {
+    @apply tw-max-w-[calc(100vw_-_28px)] !tw-py-1.75 !tw-px-2;
+  }
+  .sw-login-alert .MuiAlert-message {
+    @apply tw-text-ui-11;
+  }
+  .sw-login-alert-button {
+    @apply !tw-min-h-8.5 !tw-py-1.5 !tw-px-2.5 !tw-text-ui-10;
+  }
+  .sw-login-alert-block {
+    @apply !tw-my-5.5 !tw-mx-auto;
+  }
+  .sw-course-reference {
+    @apply !tw-p-3.25;
+  }
+  .sw-course-reference .MuiAlertTitle-root {
+    @apply tw-text-ui-12;
+  }
+  .sw-course-reference-button {
+    @apply !tw-min-h-10 !tw-text-ui-10;
+  }
+}
+@media (max-width: 700px) {
+  .sw-course-header {
+    @apply tw-grid-cols-[1fr] tw-gap-5 tw-p-4;
+  }
+  .sw-course-header-actions {
+    @apply tw-flex-wrap;
+  }
+  .sw-course-header-actions span {
+    @apply tw-w-full;
+  }
+  .sw-course-progress {
+    @apply tw-pl-0 tw-grid-cols-[repeat(3,1fr)] tw-gap-1.75;
+    align-items: start;
+  }
+  .sw-progress-level {
+    @apply tw-flex tw-flex-col tw-items-start tw-gap-1.25;
+  }
+  .sw-progress-level small {
+    @apply tw-text-ui-7;
+  }
+  .sw-progress-level strong {
+    @apply tw-text-ui-9;
+  }
+  .sw-course-map-shell {
+    @apply tw-overflow-x-auto !tw-pt-[43px];
+  }
+  .sw-course-map-label {
+    @apply tw-flex-col tw-items-start tw-gap-0.75;
+  }
+  .sw-course-map-shell .MuiStack-root {
+    @apply tw-min-w-[1080px];
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    @apply tw-scroll-auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+.hoverImage:hover {
+  @apply tw-opacity-[.7];
+}
+.rl {
+  @apply tw-font-sans;
+}

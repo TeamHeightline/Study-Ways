@@ -1,0 +1,167 @@
+/* Tailwind components: exam-results. Preserve selector order for existing MUI overrides. */
+
+/* Outer exam results table: keep nested attempt tables independent. */
+.sw-exam-summary-container {
+  border: 1px solid var(--sw-border);
+  @apply !tw-rounded-ui-16;
+  box-shadow: none !important;
+  @apply tw-overflow-x-auto;
+}
+.sw-exam-summary-table {
+  @apply tw-min-w-[640px];
+}
+.sw-exam-summary-table > thead > tr > th {
+  background: var(--sw-accent-100);
+  @apply tw-text-neutral-700 tw-text-ui-12 tw-font-[650] tw-leading-[1.4] !tw-py-3.5 !tw-px-4;
+  border-bottom: 1px solid var(--sw-border);
+  @apply tw-whitespace-nowrap;
+}
+.sw-exam-summary-table > thead > tr > th:first-child {
+  @apply tw-w-13;
+}
+.sw-exam-summary-table > tbody > .sw-exam-participant-row > td {
+  @apply !tw-py-3 !tw-px-4;
+  border-bottom: 1px solid var(--sw-border-subtle);
+  @apply tw-text-accent-900 tw-text-ui-13;
+  background: var(--sw-surface);
+}
+.sw-exam-summary-table > tbody > .sw-exam-participant-row:hover > td {
+  background: var(--sw-surface-subtle);
+}
+.sw-exam-summary-table > tbody > .sw-exam-participant-row.is-expanded > td {
+  background: var(--sw-accent-100);
+}
+.sw-exam-question-heading {
+  @apply tw-flex tw-flex-col tw-gap-0.75;
+}
+.sw-exam-question-heading > span {
+  @apply tw-text-neutral-500 tw-font-normal;
+}
+.sw-exam-participant {
+  @apply tw-flex tw-items-center tw-gap-3 tw-min-w-[200px];
+}
+.sw-exam-avatar {
+  @apply tw-grid tw-place-items-center tw-w-9 tw-h-9 tw-shrink-0;
+  background: var(--sw-accent-100);
+  border: 1px solid var(--sw-border);
+  @apply tw-rounded-ui-12 tw-text-accent-700 tw-text-ui-12 tw-font-bold;
+}
+.sw-exam-participant strong {
+  @apply tw-block tw-text-accent-900 tw-text-ui-13 tw-font-semibold;
+}
+.sw-exam-participant > div > span {
+  @apply tw-block tw-text-muted tw-text-ui-12 tw-mt-0.75;
+  overflow-wrap: anywhere;
+}
+.sw-exam-group {
+  @apply tw-text-neutral-600 tw-text-ui-12;
+}
+.sw-exam-expand {
+  background: var(--sw-accent-100) !important;
+  border: 1px solid var(--sw-accent-200) !important;
+  @apply !tw-text-accent-600;
+}
+.sw-exam-expand:hover {
+  background: var(--sw-accent-200) !important;
+}
+.sw-exam-score {
+  @apply tw-inline-block tw-min-w-9.5 tw-py-1 tw-px-2 tw-rounded-ui-8;
+  background: var(--sw-neutral-100);
+  @apply tw-text-neutral-600 tw-text-ui-12;
+  font-variant-numeric: tabular-nums;
+}
+.sw-exam-score.is-positive {
+  background: var(--sw-accent-100);
+  @apply tw-text-accent-700;
+}
+.sw-exam-score.is-negative,
+.sw-exam-total.is-negative {
+  background: var(--sw-danger-50);
+  @apply tw-text-danger-500;
+}
+.sw-exam-score.is-empty {
+  background: transparent;
+  @apply tw-text-subtle;
+}
+.sw-exam-total {
+  @apply tw-inline-block tw-min-w-11 tw-py-1.25 tw-px-2.5;
+  background: var(--sw-accent-150);
+  @apply tw-rounded-ui-8 tw-text-accent;
+  font-variant-numeric: tabular-nums;
+  @apply tw-whitespace-nowrap;
+}
+.sw-exam-detail-content {
+  @apply tw-p-4;
+  background: var(--sw-accent-50);
+  border-bottom: 1px solid var(--sw-border);
+}
+.sw-exam-results-toolbar {
+  @apply tw-gap-4 tw-flex-wrap tw-py-4 tw-px-0;
+}
+.sw-exam-results-toolbar > .MuiStack-root:first-child {
+  @apply tw-flex-row tw-flex-wrap tw-gap-2;
+}
+.sw-exam-results-toolbar .MuiFormControlLabel-label {
+  @apply tw-text-ui-13;
+}
+.sw-exam-sr-only {
+  @apply tw-absolute tw-w-0.25 tw-h-0.25 tw-p-0 -tw-m-0.25 tw-overflow-hidden;
+  clip: rect(0, 0, 0, 0);
+  @apply tw-whitespace-nowrap;
+  border: 0;
+}
+.sw-exam-overview-chart {
+  @apply tw-max-w-[1000px] tw-mt-5 tw-mr-auto tw-mb-2 tw-ml-auto tw-py-5 tw-px-5.5;
+  border: 1px solid var(--sw-border);
+  @apply !tw-rounded-ui-16;
+  background: var(--sw-surface);
+  box-shadow: 0 4px 16px rgb(var(--sw-shadow-rgb) / 0.0235) !important;
+}
+.sw-exam-chart-heading {
+  @apply tw-flex tw-items-start tw-justify-between tw-gap-5 tw-mb-5 tw-flex-wrap;
+}
+.sw-exam-chart-heading h3 {
+  @apply tw-text-ui-16 tw-font-[650] tw-text-accent-900 tw-mt-0 tw-mr-0 tw-mb-1.25 tw-ml-0;
+}
+.sw-exam-chart-heading p {
+  @apply tw-text-ui-12 tw-text-muted tw-m-0;
+}
+.sw-exam-chart-metrics {
+  @apply tw-flex tw-gap-5.5 tw-flex-wrap;
+}
+.sw-exam-chart-metrics > div {
+  @apply tw-flex tw-flex-col tw-gap-1;
+}
+.sw-exam-chart-metrics span {
+  @apply tw-text-ui-11 tw-text-muted;
+}
+.sw-exam-chart-metrics strong {
+  @apply tw-text-ui-20 tw-font-semibold tw-text-accent;
+  font-variant-numeric: tabular-nums;
+}
+.sw-exam-chart-scroll {
+  @apply tw-overflow-x-auto;
+}
+.sw-exam-chart-canvas {
+  @apply tw-relative tw-h-[220px];
+}
+@media (max-width: 600px) {
+  .sw-exam-overview-chart {
+    @apply tw-p-4;
+  }
+  .sw-exam-chart-metrics {
+    @apply tw-gap-4.5;
+  }
+  .sw-exam-chart-canvas {
+    @apply tw-h-[200px];
+  }
+}
+.sw-exam-quartile-note {
+  @apply tw-mt-2.5 tw-mr-0 tw-mb-0 tw-ml-0 tw-text-ui-11 tw-leading-[1.5] tw-text-muted;
+}
+.sw-exam-chart-filter {
+  @apply !tw-mt-0 !tw-mr-0 !tw-mb-3.5 !tw-ml-0 tw-text-neutral-600;
+}
+.sw-exam-chart-filter .MuiFormControlLabel-label {
+  @apply tw-text-ui-13;
+}

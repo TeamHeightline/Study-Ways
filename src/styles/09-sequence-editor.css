@@ -1,0 +1,142 @@
+/* Tailwind components: sequence-editor. Preserve selector order for existing MUI overrides. */
+
+/* Question sequence editor */
+.sw-sequence-editor {
+  @apply !tw-p-7;
+  border: 1px solid var(--sw-border);
+  @apply !tw-rounded-ui-18 tw-text-ink;
+}
+.sw-sequence-heading {
+  @apply tw-flex tw-items-center tw-justify-between tw-gap-5 tw-mb-6.5;
+}
+.sw-sequence-heading h1 {
+  @apply tw-font-bold tw-mb-1.5;
+}
+.sw-sequence-heading > button {
+  @apply tw-shrink-0;
+}
+.sw-sequence-settings {
+  @apply tw-grid tw-grid-cols-[minmax(0,1fr)_minmax(0,1fr)] tw-gap-8 tw-p-6;
+  background: var(--sw-accent-50);
+  border: 1px solid var(--sw-border);
+  @apply tw-rounded-ui-16;
+}
+.sw-sequence-settings .MuiPaper-root {
+  background: transparent;
+}
+.sw-sequence-settings .MuiTextField-root {
+  @apply tw-w-full;
+  background: var(--sw-surface);
+}
+.sw-sequence-label {
+  @apply tw-text-neutral-700 !tw-text-ui-12 !tw-font-bold tw-tracking-[.5px];
+}
+.sw-sequence-links {
+  @apply tw-grid tw-grid-cols-[1fr_1fr] tw-gap-3 tw-my-3.5 tw-mx-0;
+}
+.sw-sequence-links a {
+  @apply tw-flex tw-justify-between tw-gap-2.5 tw-p-4;
+  border: 1px solid var(--sw-accent-200);
+  @apply tw-rounded-ui-12;
+  background: var(--sw-surface);
+  @apply tw-text-accent tw-font-semibold tw-no-underline;
+}
+.sw-sequence-links a:hover {
+  background: var(--sw-accent-100);
+  border-color: var(--sw-accent-400);
+}
+.sw-sequence-links a:focus-visible {
+  outline: 2px solid var(--sw-accent);
+  outline-offset: 3px;
+}
+.sw-sequence-links small {
+  @apply tw-block tw-mt-1.5 tw-text-muted tw-text-ui-12 tw-font-normal;
+}
+.sw-sequence-section {
+  @apply tw-mt-7.5;
+}
+.sw-sequence-section h6 {
+  @apply tw-font-[650] tw-mb-1.25;
+}
+.sw-sequence-count {
+  @apply tw-inline-block tw-ml-2 tw-py-0.5 tw-px-2.25 tw-rounded-ui-8;
+  background: var(--sw-accent-100);
+  @apply tw-text-accent tw-text-ui-13;
+}
+.sw-sequence-grid {
+  @apply !tw-grid tw-grid-cols-[repeat(auto-fill,minmax(240px,1fr))] tw-gap-4.5 !tw-w-full !tw-mt-4.5 !tw-mr-0 !tw-mb-0 !tw-ml-0;
+}
+.sw-sequence-grid > .MuiGrid-item {
+  @apply tw-w-full !tw-max-w-none !tw-p-0 tw-min-w-0;
+}
+.sw-sequence-question {
+  @apply tw-h-full tw-flex tw-flex-col;
+  border-color: var(--sw-border) !important;
+  @apply !tw-rounded-ui-16;
+  box-shadow: 0 4px 14px rgb(var(--sw-shadow-rgb) / 0.0314) !important;
+}
+.sw-sequence-question:hover {
+  border-color: var(--sw-accent-400) !important;
+}
+.sw-sequence-question-open {
+  @apply !tw-p-5 !tw-flex tw-flex-col !tw-items-stretch !tw-text-left tw-flex-1;
+}
+.sw-sequence-question-text {
+  @apply !tw-my-3.5 !tw-mx-0 !tw-text-ui-15 !tw-leading-[1.55] !tw-font-semibold;
+  overflow-wrap: anywhere;
+}
+.sw-sequence-question-meta {
+  @apply tw-mt-auto tw-pt-2.5 tw-text-neutral-600;
+}
+.sw-sequence-preview {
+  @apply tw-mt-4 tw-text-accent-700 tw-text-ui-12 tw-font-semibold;
+}
+.sw-sequence-question-actions {
+  border-top: 1px solid var(--sw-neutral-100);
+  @apply tw-py-2.5 tw-px-4;
+  background: var(--sw-surface-subtle);
+}
+.sw-sequence-question-actions button {
+  @apply !tw-m-0 tw-w-full;
+  border-color: var(--sw-accent-200);
+}
+.sw-sequence-filters {
+  @apply tw-grid tw-grid-cols-[minmax(160px,240px)_minmax(0,1fr)] tw-gap-4 tw-my-4.5 tw-mx-0 tw-p-4.5;
+  background: var(--sw-accent-50);
+  @apply tw-rounded-ui-12;
+}
+.sw-sequence-filters .MuiPaper-root {
+  background: transparent;
+  @apply tw-min-w-0;
+}
+.sw-sequence-filters .MuiFormControl-root,
+.sw-sequence-filters .MuiAutocomplete-root {
+  @apply !tw-w-full;
+}
+.sw-sequence-empty {
+  @apply tw-p-6 tw-mt-4;
+  border: 1px dashed var(--sw-border-strong);
+  @apply tw-rounded-ui-12 tw-text-muted;
+}
+@media (max-width: 800px) {
+  .sw-sequence-editor {
+    @apply !tw-p-4;
+  }
+  .sw-sequence-heading {
+    @apply tw-items-start tw-flex-col;
+  }
+  .sw-sequence-settings {
+    @apply tw-grid-cols-[1fr] tw-p-4 tw-gap-6;
+  }
+  .sw-sequence-filters {
+    @apply tw-grid-cols-[1fr];
+  }
+}
+@media (max-width: 480px) {
+  .sw-sequence-links {
+    @apply tw-grid-cols-[1fr];
+  }
+  .sw-sequence-grid {
+    @apply tw-grid-cols-[1fr];
+  }
+}

@@ -1,0 +1,136 @@
+/* Tailwind components: application-shell. Preserve selector order for existing MUI overrides. */
+
+body .MuiTableCell-root {
+  @apply tw-py-2.5 tw-px-3;
+}
+body .MuiTableHead-root .MuiTableCell-root {
+  @apply tw-pt-2.75 tw-pb-2.75;
+}
+* {
+  @apply tw-box-border;
+}
+html {
+  @apply tw-scroll-smooth;
+}
+body {
+  @apply tw-m-0;
+}
+a {
+  @apply tw-no-underline;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+button,
+a,
+input,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--sw-focus);
+  outline-offset: 4px;
+}
+.sw-main {
+  @apply tw-ml-sidebar tw-pt-[100px] tw-pr-9.5 tw-pb-6 tw-pl-9.5 tw-min-w-0 tw-min-h-screen;
+}
+.sw-sidebar {
+  @apply tw-fixed;
+  inset: 0 auto 0 0;
+  @apply tw-w-sidebar;
+  background: var(--sw-sidebar);
+  @apply tw-text-sidebar-text tw-pt-8 tw-pr-5 tw-pb-6 tw-pl-5 tw-flex tw-flex-col tw-z-[1200] tw-overflow-y-auto;
+}
+.sw-brand {
+  @apply tw-flex tw-items-center !tw-text-sidebar-heading tw-text-ui-25 tw-font-extrabold tw-tracking-[-1px] tw-mt-0 tw-mr-2 tw-mb-12 tw-ml-2;
+}
+.sw-brand > span:not(.sw-brand-icon) {
+  @apply tw-font-normal;
+}
+.sw-brand-icon {
+  @apply tw-grid tw-place-items-center tw-w-[33px] tw-h-[33px] tw-mr-2.25;
+  border: 1px solid var(--sw-accent-500);
+  @apply tw-rounded-ui-10 tw-text-sidebar-icon;
+}
+.sw-brand i {
+  @apply tw-w-1.25 tw-h-1.25 tw-rounded-[50%];
+  background: var(--sw-sidebar-icon);
+  @apply tw-self-end tw-mt-0 tw-mr-0 tw-mb-2 tw-ml-0.75;
+}
+.sw-nav-caption {
+  @apply tw-text-ui-9 tw-font-bold tw-tracking-[1.5px] tw-text-sidebar-muted tw-mt-0 tw-mr-3.25 tw-mb-3.5 tw-ml-3.25;
+}
+.sw-sidebar nav {
+  @apply tw-grid tw-gap-1.25 tw-mb-[31px];
+}
+.sw-nav-link {
+  @apply tw-min-h-[45px] tw-py-3 tw-px-3.25 tw-flex tw-gap-3 tw-items-center !tw-text-sidebar-text tw-text-ui-12 tw-rounded-ui-7 tw-font-medium;
+}
+.sw-nav-link svg {
+  @apply tw-text-ui-19;
+}
+.sw-nav-link:hover {
+  background: var(--sw-sidebar-hover);
+}
+.sw-nav-link.is-active {
+  @apply !tw-text-sidebar-accent;
+  background: var(--sw-sidebar-active);
+}
+.sw-nav-link small {
+  @apply tw-text-ui-9 tw-ml-auto;
+  border: 1px solid var(--sw-sidebar-muted);
+  @apply tw-rounded-ui-4 tw-py-0.25 tw-px-1.25 tw-text-sidebar-action;
+}
+.sw-sidebar-bottom {
+  @apply tw-mt-auto;
+}
+.sw-sidebar-note {
+  @apply tw-py-4.75 tw-px-3.75;
+  background: var(--sw-sidebar-panel);
+  border: 1px solid var(--sw-sidebar-border);
+  @apply tw-rounded-ui-10;
+}
+.sw-sidebar-note > svg {
+  @apply tw-text-sidebar-action tw-text-ui-24 tw-mb-3.5;
+}
+.sw-sidebar-note strong {
+  @apply tw-block tw-text-ui-12 tw-text-sidebar-heading;
+}
+.sw-sidebar-note p {
+  @apply tw-text-ui-11 tw-leading-[1.8] tw-text-sidebar-muted tw-mt-2 tw-mr-0 tw-mb-4.25 tw-ml-0;
+}
+.sw-sidebar-note a {
+  @apply tw-flex tw-items-center tw-justify-between tw-text-sidebar-accent tw-text-ui-11 tw-font-bold;
+}
+.sw-sidebar-footer {
+  @apply tw-block tw-text-ui-10 tw-text-sidebar-muted tw-text-center tw-mt-6;
+}
+.sw-topbar {
+  @apply tw-h-topbar tw-fixed tw-left-sidebar tw-right-0 tw-top-0 tw-z-[1100] tw-py-0 tw-px-9.5;
+  border-bottom: 1px solid var(--sw-line);
+  background: var(--sw-paper);
+  @apply tw-flex tw-items-center tw-justify-between;
+}
+.sw-topbar-title {
+  @apply tw-flex tw-items-center tw-gap-4.25 tw-text-ui-11 tw-text-muted;
+}
+.sw-topbar-title strong {
+  @apply tw-font-semibold tw-text-ink;
+}
+.sw-breadcrumb {
+  @apply tw-text-neutral-400;
+}
+.sw-account .MuiButton-root {
+  @apply tw-text-ink tw-text-ui-12 tw-normal-case;
+  border: 1px solid var(--sw-line);
+  @apply tw-rounded-ui-8 tw-py-1.75 tw-px-4;
+}
+.sw-close-menu.MuiIconButton-root,
+.sw-open-menu.MuiIconButton-root {
+  @apply tw-hidden;
+}

@@ -1,0 +1,523 @@
+/* Tailwind components: results-questions. Preserve selector order for existing MUI overrides. */
+
+.sw-results-table-shell {
+  border: 1px solid var(--sw-border);
+  @apply !tw-rounded-ui-16;
+  background: var(--sw-surface);
+  box-shadow: 0 8px 22px rgb(var(--sw-shadow-rgb) / 0.051);
+}
+.sw-results-table {
+  table-layout: fixed;
+}
+.sw-results-table .MuiTableHead-root .MuiTableCell-root {
+  @apply tw-py-3.25 tw-px-2.5;
+  border-bottom: 1px solid var(--sw-accent-200);
+  background: var(--sw-accent-100);
+  @apply tw-text-neutral-800 tw-text-ui-11 tw-font-extrabold tw-leading-[1.35];
+  vertical-align: middle;
+}
+.sw-results-table .MuiTableBody-root .MuiTableRow-root {
+  transition: background 0.18s ease;
+}
+.sw-results-table .MuiTableBody-root .MuiTableRow-root:hover {
+  background: var(--sw-accent-50);
+}
+.sw-results-table .MuiTableBody-root .MuiTableCell-root {
+  @apply tw-p-2.5;
+  border-bottom: 1px solid var(--sw-border-subtle);
+  @apply tw-text-neutral-700 tw-text-ui-12 tw-leading-[1.35];
+  vertical-align: middle;
+  overflow-wrap: anywhere;
+}
+.sw-results-table .MuiTableBody-root .MuiTableCell-root:first-child {
+  @apply tw-w-10.5 tw-pl-2 tw-pr-1;
+}
+.sw-results-table .MuiIconButton-root {
+  @apply tw-w-7.5 tw-h-7.5 tw-text-accent-600;
+  border: 1px solid var(--sw-accent-200);
+  background: var(--sw-accent-50);
+}
+.sw-results-table .MuiIconButton-root:hover {
+  background: var(--sw-accent-200);
+}
+.sw-results-detail {
+  border-top: 1px solid var(--sw-border);
+  background: var(--sw-surface-subtle);
+  @apply tw-pt-3.5 tw-pr-3 tw-pb-3 tw-pl-3;
+}
+.sw-results-step-table {
+  @apply tw-mt-3;
+  border: 1px solid var(--sw-border);
+  @apply !tw-rounded-ui-12 tw-overflow-hidden;
+}
+.sw-results-step-table .MuiTableCell-root {
+  @apply tw-py-2.25 tw-px-3 tw-text-neutral-700 tw-text-ui-11;
+  border-bottom-color: var(--sw-border-subtle);
+}
+.sw-results-step-table .MuiTableHead-root .MuiTableCell-root {
+  background: var(--sw-accent-100);
+  @apply tw-text-accent-800 tw-font-extrabold;
+}
+.sw-results-chart {
+  @apply tw-box-border tw-w-full tw-max-w-[700px];
+  margin-inline: auto;
+  @apply tw-pt-3.5 tw-pr-3 tw-pb-3 tw-pl-3;
+  border: 1px solid var(--sw-border);
+  @apply tw-rounded-ui-14;
+  background: var(--sw-surface);
+  box-shadow: 0 5px 14px rgb(var(--sw-shadow-rgb) / 0.0431);
+}
+.sw-results-chart-heading {
+  @apply tw-flex tw-items-center tw-gap-2 tw-mt-0 tw-mr-1 tw-mb-2.25 tw-ml-1 tw-text-accent-800 tw-text-ui-12 tw-font-extrabold;
+}
+.sw-results-chart-dot {
+  @apply tw-w-2.25 tw-h-2.25 tw-rounded-[50%];
+  background: var(--sw-accent-600);
+  box-shadow: 0 0 0 4px var(--sw-accent-150);
+}
+.sw-results-chart-dot.is-error {
+  background: var(--sw-danger-500);
+  box-shadow: 0 0 0 4px var(--sw-danger-100);
+}
+.sw-results-chart .sw-results-chart-canvas {
+  @apply tw-relative tw-h-[115px];
+}
+.sw-chart-summary {
+  @apply tw-flex tw-items-center tw-gap-2.5 tw-flex-wrap tw-mt-0 tw-mr-1 tw-mb-2.5 tw-ml-1;
+}
+.sw-chart-summary strong {
+  @apply tw-text-ui-21 tw-font-bold tw-text-accent-900;
+  font-variant-numeric: tabular-nums;
+}
+.sw-chart-summary > span {
+  @apply tw-text-ui-10 tw-text-neutral-500;
+}
+.sw-chart-summary small {
+  @apply tw-ml-auto tw-py-1 tw-px-2 tw-rounded-ui-6;
+  background: var(--sw-neutral-100);
+  @apply tw-text-neutral-600 tw-text-ui-11;
+}
+.sw-chart-summary small.is-better {
+  background: var(--sw-accent-100);
+  @apply tw-text-accent-700;
+}
+.sw-chart-summary small.is-worse {
+  background: var(--sw-danger-100);
+  @apply tw-text-danger-600;
+}
+.sw-attempts {
+  @apply tw-mt-5.5;
+}
+.sw-attempts h3 {
+  @apply tw-mt-0 tw-mr-0 tw-mb-1.25 tw-ml-0 tw-text-accent-900 tw-text-ui-17;
+}
+.sw-attempts > p {
+  @apply tw-mt-0 tw-mr-0 tw-mb-3.75 tw-ml-0 tw-text-neutral-600 tw-text-ui-12;
+}
+.sw-attempt {
+  @apply tw-mt-2.5;
+  border: 1px solid var(--sw-border);
+  @apply tw-rounded-ui-12;
+  background: var(--sw-surface);
+  @apply tw-overflow-hidden;
+}
+.sw-attempt-summary {
+  @apply tw-flex tw-items-center tw-gap-4.5 tw-flex-wrap tw-py-3 tw-px-4 tw-text-neutral-700 tw-text-ui-13;
+}
+.sw-attempt-summary > strong {
+  @apply tw-text-accent-900;
+}
+.sw-attempt-errors,
+.sw-attempt-success {
+  @apply tw-py-1.25 tw-px-2.25 tw-rounded-ui-7;
+  background: var(--sw-danger-50);
+  @apply tw-text-danger-600;
+}
+.sw-attempt-success {
+  @apply tw-text-accent-700;
+  background: var(--sw-accent-100);
+}
+.sw-attempt-summary .MuiButton-root {
+  @apply tw-ml-auto tw-normal-case tw-text-ui-12 tw-text-accent-700;
+  background: var(--sw-accent-100);
+  @apply tw-py-1.75 tw-px-3 tw-rounded-ui-8;
+}
+.sw-mistakes-grid {
+  @apply tw-grid tw-grid-cols-[repeat(2,minmax(0,1fr))] tw-gap-3 tw-p-4;
+  border-top: 1px solid var(--sw-border-subtle);
+  background: var(--sw-surface-subtle);
+}
+.sw-mistake {
+  @apply tw-min-w-0;
+  background: transparent !important;
+}
+.sw-mistake-card {
+  @apply tw-h-full;
+  border: 1px solid var(--sw-neutral-200) !important;
+  @apply !tw-rounded-ui-12;
+  box-shadow: none !important;
+}
+.sw-mistake-status {
+  @apply tw-py-3 tw-px-4 tw-text-danger-600;
+  background: var(--sw-warning-50);
+  @apply tw-text-ui-12 tw-font-bold;
+}
+.sw-mistake-status small {
+  @apply tw-block tw-mt-1 tw-text-warning-800 tw-text-ui-11 tw-font-normal;
+}
+.sw-mistake-card .sw-mistake-image {
+  @apply tw-block tw-w-full tw-h-auto tw-max-h-none !tw-object-contain;
+  object-position: center;
+  background: var(--sw-accent-50);
+}
+.sw-mistake-text {
+  @apply !tw-text-accent-900 !tw-text-ui-14 !tw-leading-[1.65] tw-whitespace-pre-wrap;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 700px) {
+  .sw-mistakes-grid {
+    @apply tw-grid-cols-[1fr];
+  }
+  .sw-attempt-summary {
+    @apply tw-gap-2.5;
+  }
+  .sw-attempt-summary .MuiButton-root {
+    @apply tw-w-full;
+  }
+}
+.sw-results-chart .MuiGrid-item {
+  @apply tw-min-w-0;
+}
+.sw-results-chart .MuiChart-root {
+  @apply tw-text-neutral-700;
+}
+.sw-results-chart text {
+  fill: var(--sw-neutral-600) !important;
+  font-family: inherit !important;
+}
+.sw-results-chart line {
+  stroke: var(--sw-border) !important;
+}
+.sw-results-chart path {
+  stroke: var(--sw-accent-600);
+}
+@media (max-width: 800px) {
+  .sw-results-table-shell {
+    @apply !tw-overflow-x-auto;
+  }
+  .sw-results-table {
+    @apply !tw-min-w-[900px];
+  }
+  .sw-results-table .MuiTableHead-root .MuiTableCell-root {
+    @apply tw-py-2.5 tw-px-2 tw-text-ui-10;
+  }
+  .sw-results-table .MuiTableBody-root .MuiTableCell-root {
+    @apply tw-p-2 tw-text-ui-11;
+  }
+  .sw-results-chart {
+    @apply tw-pt-2.5 tw-pr-1.5 tw-pb-0.5 tw-pl-1.5;
+  }
+  .sw-results-chart .MuiGrid-item {
+    @apply tw-w-full tw-max-w-full tw-basis-full;
+  }
+  .sw-results-chart-canvas {
+    @apply tw-h-[220px];
+  }
+  .sw-results-detail {
+    @apply tw-py-2.5 tw-px-1.5;
+  }
+}
+.sw-question-heading {
+  @apply !tw-mt-3 !tw-mr-0 !tw-mb-[25px] !tw-ml-0 !tw-text-ink !tw-text-[length:clamp(var(--sw-font-size-26),3vw,var(--sw-font-size-36))] !tw-font-extrabold tw-tracking-[-.8px];
+}
+.sw-question-card {
+  @apply tw-w-full tw-min-h-[190px];
+  border: 1px solid var(--sw-neutral-200) !important;
+  @apply !tw-rounded-ui-20;
+  background: var(--sw-paper) !important;
+  @apply !tw-text-ink;
+  box-shadow: 0 5px 16px rgb(var(--sw-shadow-rgb) / 0.051) !important;
+  @apply tw-overflow-hidden;
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+.sw-question-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--sw-accent-500) !important;
+  box-shadow: 0 14px 27px rgb(var(--sw-shadow-rgb) / 0.1333) !important;
+}
+.sw-question-card-action {
+  @apply tw-min-h-[190px] !tw-text-ink;
+}
+.sw-question-card-action:hover {
+  background: linear-gradient(
+    145deg,
+    var(--sw-surface),
+    var(--sw-accent-50)
+  ) !important;
+}
+.sw-question-card-body {
+  @apply tw-flex tw-flex-col tw-min-h-[190px] tw-pt-5 tw-pr-5.5 tw-pb-4 tw-pl-5.5 tw-text-left;
+}
+.sw-question-id {
+  @apply tw-self-start tw-py-1.25 tw-px-2.25;
+  border: 1px solid var(--sw-border-strong);
+  @apply tw-rounded-ui-7 !tw-text-accent-600;
+  background: var(--sw-accent-100);
+  @apply !tw-text-ui-10 !tw-font-extrabold tw-tracking-[.4px];
+}
+.sw-question-text {
+  display: -webkit-box;
+  @apply tw-mt-3.25 !tw-text-ink !tw-text-ui-14 !tw-leading-[1.5] !tw-font-semibold tw-overflow-hidden tw-text-ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+}
+.sw-question-card-footer {
+  @apply tw-flex tw-items-center tw-gap-1.5 tw-mt-auto tw-pt-3.75;
+  border-top: 1px solid var(--sw-neutral-100);
+  @apply tw-text-accent-500 tw-text-ui-10 tw-font-bold;
+}
+.sw-question-card-footer svg {
+  @apply tw-ml-auto tw-text-ui-18 tw-text-accent-600;
+  transition: transform 0.2s ease;
+}
+.sw-question-card:hover .sw-question-card-footer svg {
+  transform: translateX(3px);
+}
+.sw-question-panel {
+  @apply tw-w-full !tw-p-0;
+  background: transparent !important;
+}
+.sw-question-panel-card {
+  @apply tw-box-border !tw-w-full !tw-m-0;
+  border: 1px solid var(--sw-border) !important;
+  @apply !tw-rounded-ui-20;
+  background: var(--sw-paper) !important;
+  box-shadow: 0 5px 16px rgb(var(--sw-shadow-rgb) / 0.051) !important;
+}
+.sw-question-player-grid {
+  @apply tw-min-h-[520px] tw-items-stretch;
+}
+.sw-question-player-grid .sw-question-media-cell {
+  @apply tw-min-h-[360px] tw-flex tw-items-center tw-justify-center !tw-p-5;
+  background: var(--sw-neutral-100);
+}
+.sw-question-media {
+  @apply tw-w-full tw-min-h-80 tw-h-full tw-max-h-[560px] tw-rounded-ui-14 tw-bg-border-subtle;
+  background-size: contain !important;
+  background-position: center;
+}
+.sw-question-copy-cell {
+  @apply tw-flex tw-min-h-[360px];
+}
+.sw-question-copy {
+  @apply tw-flex tw-w-full tw-items-center !tw-p-9.5;
+}
+.sw-question-copy > .MuiGrid-root {
+  @apply tw-w-full;
+}
+.sw-question-copy-title {
+  @apply !tw-mb-3 !tw-text-ink !tw-text-ui-24 !tw-font-extrabold;
+}
+.sw-question-copy-text {
+  @apply !tw-text-muted !tw-text-ui-16 !tw-leading-[1.7];
+  overflow-wrap: anywhere;
+}
+.sw-question-copy .MuiButton-root {
+  @apply tw-min-h-[43px] tw-rounded-ui-10 tw-font-bold tw-normal-case;
+}
+.sw-question-copy .MuiStack-root {
+  @apply tw-gap-3;
+}
+.sw-answers-scroll {
+  @apply tw-overflow-x-auto tw-overflow-y-visible tw-pt-3.5 tw-pr-2.5 tw-pb-6 tw-pl-2.5;
+  scrollbar-color: var(--sw-accent-400) var(--sw-border-subtle);
+}
+.sw-answers-row {
+  @apply tw-w-max tw-min-w-full tw-items-stretch;
+}
+.sw-answer-card {
+  @apply tw-relative tw-flex tw-w-[385px] tw-h-[420px] tw-min-h-[420px];
+  border: 1px solid var(--sw-border) !important;
+  @apply !tw-rounded-ui-16;
+  background: var(--sw-surface) !important;
+  @apply !tw-text-ink;
+  box-shadow: 0 5px 15px rgb(var(--sw-shadow-rgb) / 0.051) !important;
+  @apply tw-overflow-hidden;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+.sw-answer-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--sw-accent-400) !important;
+  box-shadow: 0 12px 24px rgb(var(--sw-shadow-rgb) / 0.1255) !important;
+}
+.sw-answer-card.is-selected {
+  border: 2px solid var(--sw-accent-700) !important;
+  background: var(--sw-accent-100) !important;
+  box-shadow:
+    0 0 0 4px var(--sw-accent-200),
+    0 12px 24px rgb(var(--sw-shadow-rgb) / 0.1412) !important;
+}
+.sw-answer-card.is-selected .sw-answer-choice-indicator {
+  @apply tw-text-accent-700;
+}
+.sw-answer-card-action {
+  @apply tw-relative !tw-flex tw-flex-col tw-items-stretch tw-w-full tw-h-full tw-min-h-[420px] !tw-text-ink tw-overflow-hidden;
+}
+.sw-answer-choice-indicator {
+  @apply tw-flex tw-items-center tw-gap-1.75 tw-min-h-10.5 tw-py-1.75 tw-px-3.5 tw-text-neutral-500;
+  background: var(--sw-accent-50);
+  @apply tw-text-ui-10 tw-font-extrabold tw-tracking-[.3px];
+}
+.sw-answer-choice-indicator svg {
+  @apply tw-text-ui-20;
+}
+.sw-answer-media {
+  @apply tw-block tw-w-full !tw-h-[210px];
+  flex: 0 0 210px;
+  @apply !tw-object-contain;
+  object-position: center;
+  @apply tw-bg-accent-100;
+  background-size: contain !important;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.sw-answer-content {
+  @apply tw-flex-1 tw-min-h-0 !tw-pt-4 !tw-pr-4 !tw-pb-4.75 !tw-pl-4 !tw-overflow-hidden;
+}
+.sw-answer-text {
+  display: -webkit-box;
+  @apply !tw-text-ink !tw-text-ui-14 !tw-leading-[1.55] tw-overflow-hidden;
+  overflow-wrap: anywhere;
+  @apply tw-text-ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 7;
+}
+.sw-answer-card.is-unselected .sw-answer-text {
+  @apply !tw-text-secondary;
+}
+.sw-answer-report-button {
+  @apply tw-w-full !tw-min-h-10 !tw-mt-2.5;
+  border: 1px solid var(--sw-danger-300) !important;
+  @apply !tw-rounded-ui-10 !tw-text-danger-600;
+  background: var(--sw-surface) !important;
+  @apply !tw-text-ui-10 !tw-font-extrabold !tw-normal-case tw-tracking-[.1px];
+}
+.sw-answer-report-button:hover {
+  border-color: var(--sw-danger-500) !important;
+  background: var(--sw-danger-100) !important;
+  @apply !tw-text-danger-700;
+  box-shadow: 0 5px 12px rgb(var(--sw-shadow-rgb) / 0.1098);
+}
+.sw-answer-report-button .MuiButton-startIcon {
+  @apply tw-mr-1.25;
+}
+.sw-answer-report-button svg {
+  @apply tw-text-ui-18;
+}
+.sw-question-help-wrap {
+  @apply tw-pt-0 tw-pr-0 tw-pb-1 tw-pl-0;
+}
+.sw-question-help {
+  @apply tw-mt-4 !tw-py-3.25 !tw-px-4.25;
+  border: 1px solid var(--sw-warning-200) !important;
+  @apply !tw-rounded-ui-14;
+  background: linear-gradient(
+    135deg,
+    var(--sw-warning-50),
+    var(--sw-accent-100)
+  ) !important;
+  @apply !tw-text-neutral-700;
+  box-shadow: 0 7px 18px rgb(var(--sw-shadow-rgb) / 0.0784) !important;
+  @apply !tw-items-start;
+}
+.sw-question-help .MuiAlert-icon {
+  @apply tw-flex tw-items-center tw-justify-center tw-w-7.5 tw-h-7.5 tw-mt-0.25 tw-mr-3 tw-mb-0 tw-ml-0 tw-p-0 tw-rounded-ui-10 !tw-text-warning-600;
+  background: var(--sw-warning-200);
+}
+.sw-question-help .MuiAlert-message {
+  @apply !tw-py-0.25 !tw-px-0 tw-text-ui-14 tw-leading-[1.55];
+}
+.sw-question-help .MuiAlertTitle-root {
+  @apply !tw-mt-0 !tw-mr-0 !tw-mb-1 !tw-ml-0 tw-text-warning-800 tw-text-ui-12 tw-font-extrabold tw-tracking-[.35px];
+}
+@media (max-width: 700px) {
+  .sw-answers-scroll {
+    @apply tw-pt-3 tw-pr-1.5 tw-pb-5 tw-pl-1.5;
+  }
+  .sw-answer-card {
+    @apply tw-w-[min(385px,calc(100vw_-_44px))] tw-h-[420px] tw-min-h-[420px];
+  }
+  .sw-answer-media {
+    @apply !tw-h-[190px] tw-basis-[190px];
+  }
+  .sw-answer-choice-indicator {
+    @apply tw-min-h-10;
+  }
+}
+@media (max-width: 700px) {
+  .sw-question-help {
+    @apply tw-mt-3 !tw-py-3 !tw-px-3.25;
+  }
+  .sw-question-help .MuiAlert-message {
+    @apply tw-text-ui-13;
+  }
+  .sw-question-help .MuiAlert-icon {
+    @apply tw-mr-2.25;
+  }
+}
+@media (max-width: 600px) {
+  .sw-learning-page {
+    @apply tw-pt-4 tw-pr-2.5 tw-pb-7 tw-pl-2.5;
+  }
+  .sw-card-library-heading {
+    @apply tw-mb-4 tw-pt-1.75 tw-pr-0 tw-pb-2.75 tw-pl-0;
+  }
+  .sw-card-library-title {
+    @apply !tw-text-ui-19;
+  }
+  .sw-card-library-grid > .MuiGrid-item {
+    @apply !tw-p-1.75;
+  }
+  .sw-card-library-filter {
+    @apply tw-mb-3;
+  }
+  .sw-card-library-filter .MuiFormControlLabel-label {
+    @apply tw-text-ui-11;
+  }
+}
+.sw-card-results {
+  @apply !tw-pt-3 !tw-pr-2.5 !tw-pb-6 !tw-pl-2.5 !tw-overflow-x-auto !tw-overflow-y-visible;
+}
+.sw-card-results > .MuiGrid-container {
+  @apply !tw-p-0;
+}
+.sw-search-mode-switch {
+  @apply tw-relative tw-z-[3] tw-mt-6.5 tw-mr-auto tw-mb-4 tw-ml-auto;
+}
+.sw-search-mode-switch .MuiToggleButtonGroup-root {
+  @apply tw-overflow-hidden;
+  border: 1px solid var(--sw-border-strong);
+  @apply tw-rounded-ui-14;
+  background: var(--sw-surface);
+  box-shadow: 0 4px 12px rgb(var(--sw-shadow-rgb) / 0.051);
+}
+.sw-search-mode-switch .MuiToggleButton-root {
+  @apply tw-min-h-11.5 tw-py-2.25 tw-px-4;
+  border: 0 !important;
+  @apply tw-text-secondary tw-text-ui-13 tw-normal-case tw-gap-1.5;
+}
+.sw-search-mode-switch .MuiToggleButton-root.Mui-selected {
+  @apply tw-text-accent;
+  background: var(--sw-accent-150);
+  @apply tw-font-bold;
+}
+.sw-search-mode-switch .MuiToggleButton-root:hover {
+  background: var(--sw-accent-100);
+}

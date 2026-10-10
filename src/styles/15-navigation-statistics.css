@@ -1,0 +1,170 @@
+/* Tailwind components: navigation-statistics. Preserve selector order for existing MUI overrides. */
+
+/* Viewport-sized navigation, without the promotional footer. */
+.sw-sidebar {
+  @apply tw-box-border tw-h-[100dvh] tw-max-h-[100dvh] tw-pt-[clamp(16px,3vh,32px)] tw-pb-4 tw-overflow-x-hidden;
+}
+.sw-sidebar .sw-brand {
+  @apply tw-shrink-0 tw-mb-[clamp(20px,4vh,40px)];
+}
+.sw-sidebar .sw-nav-caption {
+  @apply tw-shrink-0 tw-mb-2.5;
+}
+.sw-sidebar nav {
+  @apply tw-shrink-0 tw-gap-1 tw-mb-[clamp(12px,2.5vh,26px)];
+}
+.sw-sidebar nav:last-of-type {
+  @apply tw-mb-0;
+}
+.sw-sidebar .sw-nav-link {
+  @apply tw-box-border tw-min-h-10.5 tw-py-2.5 tw-px-3.25;
+}
+@media (max-height: 700px) {
+  .sw-sidebar {
+    @apply tw-pt-4 tw-pb-3;
+  }
+  .sw-sidebar .sw-brand {
+    @apply tw-mb-5.5;
+  }
+  .sw-sidebar nav {
+    @apply tw-gap-0.75 tw-mb-4.5;
+  }
+  .sw-sidebar .sw-nav-link {
+    @apply tw-min-h-9.5 tw-pt-2 tw-pb-2;
+  }
+  .sw-sidebar .sw-nav-caption {
+    @apply tw-mb-2;
+  }
+}
+@media (max-height: 520px) {
+  .sw-sidebar .sw-brand {
+    @apply tw-mb-3;
+  }
+  .sw-sidebar nav {
+    @apply tw-gap-0.5 tw-mb-2.5;
+  }
+  .sw-sidebar .sw-nav-link {
+    @apply tw-min-h-8.5 tw-pt-1.5 tw-pb-1.5;
+  }
+  .sw-sidebar .sw-nav-caption {
+    @apply tw-mb-1.25;
+  }
+}
+.sw-learning-signin {
+  @apply tw-p-4;
+  border: 1px solid var(--sw-neutral-800);
+  @apply tw-rounded-ui-12;
+  background: var(--sw-accent-900);
+  @apply tw-shrink-0;
+}
+.sw-learning-signin h2 {
+  @apply tw-mt-0 tw-mr-0 tw-mb-2 tw-ml-0 tw-text-accent-150 tw-text-ui-14 tw-leading-[1.4] tw-font-[650];
+}
+.sw-learning-signin p {
+  @apply tw-mt-0 tw-mr-0 tw-mb-3.5 tw-ml-0 tw-text-accent-300 tw-text-ui-12 tw-leading-[1.6];
+}
+.sw-learning-signin ul {
+  @apply tw-p-0 tw-mt-0 tw-mr-0 tw-mb-4 tw-ml-0 tw-list-none tw-grid tw-gap-2.5;
+}
+.sw-learning-signin li {
+  @apply tw-flex tw-items-center tw-gap-2.25 tw-text-border-strong tw-text-ui-11 tw-leading-[1.4];
+}
+.sw-learning-signin li svg {
+  @apply tw-text-ui-18 tw-text-accent-300 tw-shrink-0;
+}
+.sw-learning-signin .MuiButton-root {
+  background: var(--sw-sage-300);
+  @apply tw-text-accent-900 tw-rounded-ui-8 tw-text-ui-12 tw-font-[650] tw-normal-case tw-min-h-9.5;
+}
+.sw-learning-signin .MuiButton-root:hover {
+  background: var(--sw-sage-200);
+}
+.sw-learning-signin .MuiButton-root.Mui-disabled {
+  background: var(--sw-neutral-800);
+  @apply tw-text-neutral-300;
+}
+.sw-learning-signin-error {
+  @apply tw-mt-2.5 tw-text-danger-200 tw-text-ui-11 tw-leading-[1.5];
+}
+@media (max-height: 700px) {
+  .sw-learning-signin {
+    @apply tw-p-3;
+  }
+  .sw-learning-signin p {
+    @apply tw-mb-2.5 tw-text-ui-11;
+  }
+  .sw-learning-signin ul {
+    @apply tw-gap-1.5 tw-mb-3;
+  }
+}
+/* Separate navigation sections even when the guest panel replaces the last nav. */
+.sw-sidebar nav + .sw-nav-caption {
+  @apply tw-mt-6;
+}
+@media (max-height: 700px) {
+  .sw-sidebar nav + .sw-nav-caption {
+    @apply tw-mt-4;
+  }
+}
+.sw-statistics-heading {
+  @apply tw-mt-6 tw-mr-0 tw-mb-4.5 tw-ml-0;
+}
+.sw-statistics-heading h2 {
+  @apply tw-mt-0 tw-mr-0 tw-mb-1.5 tw-ml-0 tw-text-ui-22 tw-font-[650] tw-text-accent-900;
+}
+.sw-statistics-heading p {
+  @apply tw-m-0 tw-text-muted tw-text-ui-13 tw-leading-[1.6];
+}
+.sw-statistics-filters {
+  @apply tw-p-5.5;
+  border: 1px solid var(--sw-border);
+  @apply tw-rounded-ui-16;
+  background: var(--sw-surface);
+  @apply tw-mb-5;
+}
+.sw-statistics-fields {
+  @apply tw-grid tw-grid-cols-[minmax(180px,1fr)_minmax(200px,1.3fr)_minmax(240px,1fr)] tw-gap-4;
+}
+.sw-statistics-fields > div {
+  @apply tw-min-w-0;
+}
+.sw-statistics-fields .MuiFormControl-root {
+  @apply !tw-w-full tw-min-w-0;
+}
+.sw-statistics-fields .MuiInputBase-root {
+  background: var(--sw-surface-subtle);
+  @apply tw-rounded-ui-10;
+}
+.sw-statistics-fields .MuiSelect-select {
+  @apply tw-overflow-hidden tw-text-ellipsis tw-whitespace-nowrap;
+}
+.sw-statistics-options {
+  @apply tw-flex tw-items-center tw-justify-between tw-gap-4 tw-flex-wrap;
+  border-top: 1px solid var(--sw-border-subtle);
+  @apply tw-mt-4.5 tw-pt-3;
+}
+.sw-statistics-options .MuiFormControlLabel-label {
+  @apply tw-text-ui-13 tw-text-neutral-700;
+}
+.sw-statistics-options > span {
+  @apply tw-text-ui-11 tw-text-neutral-500;
+}
+@media (max-width: 1000px) {
+  .sw-statistics-fields {
+    @apply tw-grid-cols-[1fr_1fr];
+  }
+  .sw-statistics-fields > div:last-child {
+    @apply tw-col-[1/-1];
+  }
+}
+@media (max-width: 600px) {
+  .sw-statistics-filters {
+    @apply tw-p-4;
+  }
+  .sw-statistics-fields {
+    @apply tw-grid-cols-[1fr] tw-gap-4.5;
+  }
+  .sw-statistics-options {
+    @apply tw-gap-2;
+  }
+}

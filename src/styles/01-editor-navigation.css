@@ -1,0 +1,173 @@
+/* Tailwind components: editor-navigation. Preserve selector order for existing MUI overrides. */
+.sw-editor-menu {
+  @apply tw-mb-6.5;
+}
+.sw-editor-menu header {
+  @apply tw-mb-5;
+}
+.sw-editor-menu header > span {
+  @apply tw-text-neutral-500 tw-text-ui-10 tw-tracking-[1.5px] tw-font-bold;
+}
+.sw-editor-menu h1 {
+  @apply tw-mt-2 tw-mr-0 tw-mb-1.5 tw-ml-0 tw-text-ink tw-text-ui-28 tw-font-[750] tw-tracking-[-.7px];
+}
+.sw-editor-menu p {
+  @apply tw-m-0 tw-text-muted tw-text-ui-12;
+}
+.sw-editor-menu nav {
+  @apply tw-flex tw-flex-wrap tw-gap-2 tw-p-3;
+  border: 1px solid var(--sw-border);
+  @apply tw-rounded-ui-16;
+  background: var(--sw-surface);
+  box-shadow: 0 4px 14px rgb(var(--sw-shadow-rgb) / 0.0314);
+}
+.sw-editor-link {
+  @apply tw-inline-flex tw-items-center tw-gap-2 tw-py-2.5 tw-px-3.25 tw-min-h-10.5;
+  border: 1px solid transparent;
+  @apply tw-rounded-ui-10 tw-text-secondary tw-text-ui-12 tw-font-semibold tw-no-underline;
+  transition:
+    background 0.18s,
+    color 0.18s,
+    border-color 0.18s;
+}
+.sw-editor-link svg {
+  @apply tw-text-ui-19 tw-shrink-0;
+}
+.sw-editor-link:hover {
+  background: var(--sw-accent-100);
+  @apply tw-text-accent;
+}
+.sw-editor-link.is-active {
+  background: var(--sw-accent-150);
+  border-color: var(--sw-accent-300);
+  @apply tw-text-accent;
+}
+.sw-editor-link:focus-visible {
+  outline: 2px solid var(--sw-focus);
+  outline-offset: 2px;
+}
+.sw-question-editor-list {
+  @apply !tw-p-6;
+  border: 1px solid var(--sw-border);
+  @apply !tw-rounded-ui-18;
+}
+.sw-question-editor-list > .MuiGrid-container {
+  @apply !tw-mt-0;
+}
+.sw-question-editor-list > .MuiGrid-container > .MuiGrid-item {
+  @apply tw-max-w-full tw-basis-full;
+}
+.sw-question-editor-filters {
+  @apply tw-gap-4 tw-items-center tw-flex-wrap !tw-my-6 !tw-mx-0 tw-p-4.5 tw-rounded-ui-12;
+  background: var(--sw-accent-50);
+}
+.sw-question-editor-filters .MuiFormControl-root {
+  @apply tw-min-w-[180px] tw-max-w-full;
+}
+.sw-question-editor-grid {
+  @apply !tw-grid tw-grid-cols-[repeat(auto-fill,minmax(240px,1fr))] tw-gap-4.5 !tw-w-full !tw-m-0 tw-py-2 tw-px-0;
+}
+.sw-question-editor-grid > .MuiGrid-item {
+  @apply !tw-w-full tw-min-w-0 !tw-max-w-none !tw-p-0;
+}
+.sw-question-editor-grid .sw-question-card {
+  @apply !tw-h-[215px];
+}
+.sw-question-editor-grid .sw-question-card-body {
+  @apply tw-h-full tw-min-h-0;
+}
+.sw-question-editor-grid .sw-question-card-footer {
+  @apply tw-mt-auto tw-justify-between;
+}
+.sw-themes-editor {
+  @apply tw-p-6;
+  background: var(--sw-surface);
+  border: 1px solid var(--sw-border);
+  @apply tw-rounded-ui-18;
+}
+.sw-themes-editor > .MuiStack-root {
+  @apply tw-items-start;
+}
+.sw-themes-editor h3 {
+  @apply !tw-p-0 tw-m-0 tw-text-ui-24 tw-font-bold tw-text-accent-900;
+}
+.sw-themes-description {
+  @apply tw-text-ui-13 tw-text-neutral-600 tw-mt-2 tw-mr-0 tw-mb-5.5 tw-ml-0;
+}
+.sw-themes-editor > .MuiGrid-container {
+  @apply !tw-pl-0;
+}
+.sw-themes-editor > .MuiGrid-container > .MuiGrid-item {
+  @apply tw-basis-full tw-max-w-full;
+}
+.sw-themes-editor .MuiCard-root {
+  @apply !tw-h-[min(60vh,650px)] tw-p-3;
+  border-color: var(--sw-border);
+  background: var(--sw-surface-subtle);
+}
+.sw-themes-editor ul {
+  @apply tw-list-none tw-pl-5.5;
+}
+.sw-themes-editor .MuiCard-root > ul {
+  @apply tw-pl-0 tw-m-0;
+}
+.sw-theme-editor-node {
+  @apply tw-items-center tw-gap-1.5 tw-min-h-11 tw-py-1 tw-px-2 tw-rounded-ui-9 tw-cursor-pointer tw-text-neutral-800;
+}
+.sw-theme-editor-node:hover {
+  background: var(--sw-accent-100);
+}
+.sw-theme-editor-node.is-selected {
+  background: var(--sw-accent-200);
+  @apply tw-text-accent-hover;
+}
+.sw-theme-editor-node .MuiTypography-root {
+  @apply tw-text-ui-14;
+  overflow-wrap: anywhere;
+}
+.sw-theme-editor-toggle {
+  @apply tw-grid tw-place-items-center;
+  flex: 0 0 34px;
+  @apply tw-h-8.5;
+  border: 0;
+  @apply tw-rounded-ui-8;
+  background: transparent;
+  @apply tw-text-accent-600 tw-cursor-pointer;
+}
+.sw-theme-editor-toggle:hover {
+  background: var(--sw-accent-200);
+}
+.sw-themes-editor .MuiFab-root {
+  @apply tw-h-10.5 tw-min-h-10.5 tw-py-0 tw-px-3.75 tw-gap-1.75 tw-text-ui-12;
+  box-shadow: none;
+}
+@media (max-width: 600px) {
+  .sw-question-editor-list,
+  .sw-themes-editor {
+    @apply !tw-p-3.5;
+  }
+  .sw-question-editor-grid {
+    @apply tw-grid-cols-[1fr];
+  }
+  .sw-question-editor-filters {
+    @apply tw-p-3;
+  }
+  .sw-question-editor-filters > * {
+    @apply tw-w-full;
+  }
+  .sw-themes-editor ul {
+    @apply tw-pl-3.5;
+  }
+}
+@media (max-width: 600px) {
+  .sw-editor-menu nav {
+    @apply tw-gap-1.5 tw-p-2;
+  }
+  .sw-editor-link {
+    flex: 1 1 140px;
+    @apply tw-p-2.5 tw-text-ui-11;
+  }
+  .sw-editor-menu h1 {
+    @apply tw-text-ui-24;
+  }
+}

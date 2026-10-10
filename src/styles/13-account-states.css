@@ -1,0 +1,92 @@
+/* Tailwind components: account-states. Preserve selector order for existing MUI overrides. */
+
+/* Account required state */
+.sw-login-required {
+  @apply tw-box-border tw-w-[calc(100%_-_32px)] tw-max-w-[460px] tw-my-14 tw-mx-auto tw-p-8 tw-text-center;
+  border: 1px solid var(--sw-border);
+  @apply tw-rounded-ui-20;
+  background: var(--sw-surface);
+  box-shadow: 0 8px 28px rgb(var(--sw-shadow-rgb) / 0.0314);
+}
+.sw-login-required-icon {
+  @apply tw-grid tw-place-items-center tw-w-14 tw-h-14 tw-mt-0 tw-mr-auto tw-mb-5 tw-ml-auto tw-rounded-ui-16;
+  background: var(--sw-accent-100);
+  border: 1px solid var(--sw-accent-200);
+  @apply tw-text-accent-600;
+}
+.sw-login-required-icon svg {
+  @apply tw-text-ui-27;
+}
+.sw-login-required h2 {
+  @apply tw-mt-0 tw-mr-0 tw-mb-2.5 tw-ml-0 tw-text-ui-22 tw-font-[650] tw-leading-[1.35] tw-text-accent-900;
+}
+.sw-login-required p {
+  @apply tw-max-w-80 tw-mt-0 tw-mr-auto tw-mb-6 tw-ml-auto tw-text-neutral-600 tw-text-ui-14 tw-leading-[1.7];
+}
+.sw-login-required-button.MuiButton-root {
+  @apply tw-py-2.75 tw-px-6 tw-rounded-ui-11;
+  background: var(--sw-accent);
+  @apply tw-text-ui-14 tw-normal-case;
+}
+.sw-login-required-button.MuiButton-root:hover {
+  background: var(--sw-accent-hover);
+}
+@media (max-width: 480px) {
+  .sw-login-required {
+    @apply tw-my-7 tw-mx-auto tw-py-6.5 tw-px-5;
+  }
+  .sw-login-required h2 {
+    @apply tw-text-ui-20;
+  }
+  .sw-login-required-button.MuiButton-root {
+    @apply tw-w-full;
+  }
+}
+.sw-question-completion {
+  @apply tw-my-5 tw-mx-0 tw-p-6;
+  border: 1px solid var(--sw-border);
+  @apply tw-rounded-ui-18;
+  background: var(--sw-surface);
+}
+.sw-question-completion-header {
+  @apply tw-flex tw-items-center tw-gap-4 tw-pb-6 tw-mb-6;
+  border-bottom: 1px solid var(--sw-border-subtle);
+}
+.sw-question-completion-icon {
+  @apply tw-w-12 tw-h-12 tw-shrink-0 tw-grid tw-place-items-center;
+  border: 1px solid var(--sw-accent-200);
+  @apply tw-rounded-ui-14;
+  background: var(--sw-accent-100);
+  @apply tw-text-accent-600;
+}
+.sw-question-completion-copy {
+  @apply tw-flex-1 tw-min-w-0;
+}
+.sw-question-completion-copy h2 {
+  @apply tw-mt-0 tw-mr-0 tw-mb-1.5 tw-ml-0 tw-text-ui-22 tw-font-[650] tw-text-accent-900;
+}
+.sw-question-completion-copy p {
+  @apply tw-mt-0 tw-mr-0 tw-mb-2.5 tw-ml-0 tw-text-ui-13 tw-leading-[1.6] tw-text-neutral-600;
+}
+.sw-question-completion-count {
+  @apply tw-inline-block tw-py-1 tw-px-2.25 tw-rounded-ui-7;
+  background: var(--sw-accent-100);
+  @apply tw-text-accent-600 tw-text-ui-12;
+}
+.sw-question-completion-header > button {
+  @apply tw-shrink-0 tw-text-ui-13;
+}
+@media (max-width: 650px) {
+  .sw-question-completion {
+    @apply tw-p-4.5;
+  }
+  .sw-question-completion-header {
+    @apply tw-flex-wrap tw-items-start;
+  }
+  .sw-question-completion-header > button {
+    @apply tw-ml-16;
+  }
+  .sw-question-completion-copy h2 {
+    @apply tw-text-ui-20;
+  }
+}

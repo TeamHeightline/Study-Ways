@@ -1,0 +1,287 @@
+/* Tailwind components: course-tree. Preserve selector order for existing MUI overrides. */
+
+/* Sparse multi-level courses */
+.sw-course-level-map {
+  @apply tw-w-full tw-min-w-0 tw-box-border tw-p-5.5;
+  border: 1px solid var(--sw-border);
+  @apply tw-rounded-ui-18;
+  background: var(--sw-surface-subtle);
+}
+.sw-course-level-intro {
+  @apply tw-mb-5;
+}
+.sw-course-level-intro h2 {
+  @apply tw-text-ui-20 tw-text-accent-900 tw-font-[650] tw-mt-0 tw-mr-0 tw-mb-1.5 tw-ml-0;
+}
+.sw-course-level-intro p {
+  @apply tw-text-ui-13 tw-text-muted tw-m-0;
+}
+.sw-course-level {
+  border: 1px solid var(--sw-border);
+  @apply tw-rounded-ui-14;
+  background: var(--sw-surface);
+  @apply tw-mt-3.5 tw-overflow-hidden;
+}
+.sw-course-level > summary {
+  @apply tw-flex tw-items-center tw-gap-3 tw-py-4 tw-px-4.5 tw-cursor-pointer tw-list-none tw-text-accent-800;
+}
+.sw-course-level > summary::-webkit-details-marker {
+  @apply tw-hidden;
+}
+.sw-course-level > summary:hover {
+  background: var(--sw-accent-50);
+}
+.sw-course-level > summary:focus-visible {
+  outline: 2px solid var(--sw-accent);
+  outline-offset: -3px;
+}
+.sw-course-level-number {
+  @apply tw-grid tw-place-items-center tw-w-8 tw-h-8;
+  background: var(--sw-accent-100);
+  @apply tw-rounded-ui-9 tw-text-ui-12 tw-font-bold tw-shrink-0;
+}
+.sw-course-level-name {
+  @apply tw-text-ui-15 tw-font-semibold tw-flex-1;
+}
+.sw-course-level-count {
+  @apply tw-text-ui-12 tw-text-neutral-500;
+}
+.sw-course-level-chevron {
+  transition: transform 0.2s;
+}
+.sw-course-level[open] .sw-course-level-chevron {
+  transform: rotate(180deg);
+}
+.sw-course-level-grid {
+  @apply tw-grid tw-grid-cols-[repeat(auto-fill,minmax(190px,1fr))] tw-gap-4 tw-pt-1 tw-pr-4.5 tw-pb-4.5 tw-pl-4.5;
+}
+.sw-course-level-cell {
+  @apply tw-min-w-0;
+}
+.sw-course-level-cell .sw-material {
+  @apply !tw-w-full tw-h-full tw-p-2.5;
+  border: 1px solid var(--sw-border);
+  @apply tw-rounded-ui-12;
+  background: var(--sw-surface);
+  @apply tw-box-border tw-cursor-pointer;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+}
+.sw-course-level-cell .sw-material:hover {
+  transform: none !important;
+  border-color: var(--sw-accent-400);
+  background: var(--sw-surface-subtle);
+}
+.sw-course-level-cell .sw-material:focus-visible {
+  outline: 2px solid var(--sw-accent);
+  outline-offset: 2px;
+}
+.sw-course-level-cell .sw-material.is-selected {
+  border-color: var(--sw-accent-600);
+  background: var(--sw-accent-100);
+  box-shadow: 0 0 0 2px var(--sw-accent-150);
+}
+.sw-course-level-cell .sw-material-card {
+  @apply tw-w-full;
+  box-shadow: none !important;
+  border-color: var(--sw-border) !important;
+  @apply tw-rounded-ui-8 tw-overflow-hidden;
+}
+.sw-course-level-cell .sw-material-card > * {
+  @apply !tw-w-full !tw-h-auto tw-min-h-[100px];
+  aspect-ratio: 16/9;
+  background-size: contain !important;
+  background-repeat: no-repeat;
+}
+.sw-course-material-title {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  @apply tw-overflow-hidden !tw-whitespace-normal !tw-text-ui-13 !tw-leading-[1.5] !tw-font-semibold !tw-text-neutral-800 !tw-mt-2.5 !tw-mr-0 !tw-mb-2 !tw-ml-0 tw-min-h-[58px];
+  overflow-wrap: anywhere;
+}
+.sw-course-level-cell .sw-material-state {
+  @apply tw-static tw-leading-[1.4] tw-mt-2 !tw-block !tw-opacity-[1] tw-text-ui-11 tw-text-neutral-500 tw-min-h-4;
+}
+.sw-course-level-empty {
+  @apply tw-p-5 tw-text-muted tw-text-ui-14;
+}
+@media (max-width: 600px) {
+  .sw-course-level-map {
+    @apply tw-p-3;
+  }
+  .sw-course-level-grid {
+    @apply tw-grid-cols-[repeat(auto-fill,minmax(145px,1fr))] tw-gap-2.5 tw-pt-1 tw-pr-3 tw-pb-3 tw-pl-3;
+  }
+  .sw-course-level > summary {
+    @apply tw-p-3 tw-gap-2;
+  }
+  .sw-course-level-count {
+    @apply tw-text-ui-10;
+  }
+  .sw-course-level-name {
+    @apply tw-text-ui-13;
+  }
+}
+/* Spatial course map: columns are progression, rows are alternative levels. */
+.sw-course-map-viewport {
+  @apply tw-overflow-auto tw-max-h-[75vh];
+  border: 1px solid var(--sw-border);
+  @apply tw-rounded-ui-14 tw-bg-surface-subtle;
+  background-image: radial-gradient(var(--sw-border) 0.8px, transparent 0.8px);
+  background-size: 20px 20px;
+  @apply tw-py-3 tw-px-0;
+  isolation: isolate;
+}
+.sw-course-map-viewport:focus-visible {
+  outline: 2px solid var(--sw-accent-500);
+  outline-offset: 3px;
+}
+.sw-course-lane {
+  @apply tw-flex tw-w-max tw-min-w-full tw-h-[270px] tw-relative;
+  border-bottom: 1px solid var(--sw-border-subtle);
+}
+.sw-course-lane:last-child {
+  border-bottom: 0;
+}
+.sw-course-lane.is-main {
+  background: rgb(var(--sw-accent-150-rgb) / 0.4);
+}
+.sw-course-lane-label {
+  @apply tw-sticky tw-left-0 tw-z-[3];
+  flex: 0 0 110px;
+  @apply tw-w-[110px] tw-box-border tw-py-6 tw-px-3;
+  background: rgb(var(--sw-accent-50-rgb) / 0.949);
+  border-right: 1px solid var(--sw-border);
+  @apply tw-flex tw-flex-col tw-gap-2;
+}
+.sw-course-lane-label > span {
+  @apply tw-text-ui-10 tw-tracking-[1px] tw-font-bold tw-text-accent-600;
+}
+.sw-course-lane-label small {
+  @apply tw-text-ui-11 tw-leading-[1.4] tw-text-neutral-500;
+}
+.sw-course-lane-track {
+  @apply tw-relative tw-shrink-0 tw-h-[270px];
+}
+.sw-course-paths {
+  @apply tw-absolute tw-left-0 tw-top-0 tw-overflow-visible tw-pointer-events-none tw-z-[0];
+}
+.sw-course-paths path {
+  fill: none;
+  stroke-width: 2;
+}
+.sw-course-path-forward {
+  stroke: var(--sw-accent-400);
+}
+.sw-course-path-alternative {
+  stroke: var(--sw-accent-300);
+  stroke-dasharray: 4 5;
+}
+.sw-course-map-node {
+  @apply tw-absolute tw-top-3 tw-w-48 tw-h-[228px] tw-z-[1];
+}
+.sw-course-map-node .sw-material {
+  @apply tw-h-full tw-flex tw-flex-col;
+}
+.sw-course-map-node .sw-material-state {
+  @apply tw-mt-auto tw-pt-1.5;
+}
+.sw-course-map-node .sw-material-card {
+  @apply tw-shrink-0;
+}
+.sw-course-map-node .sw-course-material-title {
+  @apply tw-min-h-0;
+  -webkit-line-clamp: 3;
+  @apply !tw-mb-1;
+}
+.sw-course-map-legend {
+  @apply tw-flex tw-gap-5 tw-flex-wrap tw-mt-3 tw-text-neutral-500 tw-text-ui-11;
+}
+@media (max-width: 600px) {
+  .sw-course-lane-label {
+    @apply tw-basis-[78px] tw-w-[78px] tw-py-5 tw-px-2;
+  }
+  .sw-course-lane-label > span {
+    @apply tw-text-ui-9;
+  }
+  .sw-course-map-viewport {
+    @apply tw-max-h-[70vh];
+  }
+}
+/* Compact AI trajectory with the selected material below it. */
+.sw-ai-workspace {
+  @apply tw-min-w-0;
+}
+.sw-ai-map-panel {
+  @apply tw-mt-3 tw-mr-6 tw-mb-0 tw-ml-6;
+  border: 1px solid var(--sw-border);
+  @apply tw-rounded-ui-18;
+  background: var(--sw-surface);
+  @apply tw-overflow-hidden;
+}
+.sw-ai-map-heading {
+  @apply tw-flex tw-items-center tw-justify-between tw-gap-4 tw-py-4 tw-px-5;
+  border-bottom: 1px solid var(--sw-border-subtle);
+}
+.sw-ai-map-heading h2 {
+  @apply tw-mt-0 tw-mr-0 tw-mb-1 tw-ml-0 tw-text-ui-16 tw-font-[650] tw-text-accent-900;
+}
+.sw-ai-map-heading p {
+  @apply tw-m-0 tw-text-ui-12 tw-leading-[1.5] tw-text-muted;
+}
+.sw-ai-map-heading > button {
+  @apply tw-shrink-0 tw-text-ui-12 tw-normal-case;
+}
+.sw-ai-course-flow {
+  @apply tw-h-[clamp(260px,42svh,430px)] tw-w-full;
+  background: var(--sw-accent-50);
+}
+.sw-ai-course-flow.is-expanded {
+  @apply tw-h-[75svh];
+}
+.sw-ai-card-node.is-selected {
+  transform: none;
+  box-shadow:
+    0 0 0 5px var(--sw-accent-200),
+    0 10px 22px rgb(var(--sw-shadow-rgb) / 0.1255);
+}
+.sw-ai-course-flow .react-flow__handle {
+  @apply tw-w-1.75 tw-h-1.75;
+  background: var(--sw-accent-500);
+  border: 2px solid var(--sw-accent-50);
+}
+.sw-ai-course-flow .react-flow__controls {
+  box-shadow: 0 3px 10px rgb(var(--sw-shadow-rgb) / 0.0706);
+}
+.sw-ai-workspace > .sw-card-page {
+  @apply !tw-pt-4.5;
+}
+@media (max-width: 600px) {
+  .sw-ai-map-panel {
+    @apply tw-mt-2.5 tw-mr-3 tw-mb-0 tw-ml-3;
+  }
+  .sw-ai-map-heading {
+    @apply tw-p-3 tw-items-start tw-flex-wrap tw-gap-2;
+  }
+  .sw-ai-course-flow {
+    @apply tw-h-[36svh] tw-min-h-60;
+  }
+  .sw-ai-map-heading h2 {
+    @apply tw-text-ui-15;
+  }
+}
+.sw-course-levels-toggle.MuiButton-root {
+  justify-self: start;
+  @apply tw-normal-case tw-text-accent-700 tw-text-ui-12 tw-py-1.5 tw-px-2.5 tw-rounded-ui-8;
+  background: var(--sw-accent-150);
+}
+.sw-course-levels-toggle.MuiButton-root:hover {
+  background: var(--sw-accent-200);
+}
+@media (max-width: 700px) {
+  .sw-course-levels-toggle.MuiButton-root {
+    @apply tw-col-[1/-1];
+  }
+}

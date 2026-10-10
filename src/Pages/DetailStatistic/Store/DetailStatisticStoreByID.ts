@@ -1,14 +1,14 @@
-import { autorun, makeAutoObservable, toJS } from 'mobx';
+import { autorun, makeAutoObservable, runInAction } from 'mobx';
 import { ClientStorage } from '../../../Shared/Store/ApolloStorage/ClientStorage';
 import { GET_QUESTION_TEXT_BY_ID, LOAD_ATTEMPT_BY_ID } from './Query';
 import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 
 export class DetailStatisticStoreByID {
   constructor(id?: number) {
+    this.attempt_id = id;
     makeAutoObservable(this);
     autorun(() => this.loadAttemptFromServer());
     autorun(() => this.loadQuestionText());
-    this.attempt_id = id;
   }
 
   changeAttemptID(new_attempt_id: number) {
@@ -21,27 +21,46 @@ export class DetailStatisticStoreByID {
   // доступ к данным о пользователе, чтобы можно было проверять уровень доступа
   userStorage = UserStorage;
 
-  loadAttemptFromServer() {
-    if (this.attempt_id) {
-      try {
-        this.clientStorage.client
-          .query({
-            query: LOAD_ATTEMPT_BY_ID,
-            variables: {
-              ID: this.attempt_id,
-            },
-          })
-          .then((request) => request.data.detailStatisticById)
-          .then((attemptData) => {
-            this.attemptData = attemptData;
+  loadError = false;
 
-            if (attemptData.userName === null) {
-              this.attemptData.userName = 'Анонимный пользователь';
-            }
-          });
-      } catch (e) {
-        console.log(e);
+  async loadAttemptFromServer() {
+    const attemptID = this.attempt_id;
+    if (!attemptID) return;
+    runInAction(() => {
+      this.loadError = false;
+      this.attemptData = undefined;
+    });
+
+    try {
+      const response = await this.clientStorage.client.query({
+        query: LOAD_ATTEMPT_BY_ID,
+        variables: { ID: attemptID },
+        fetchPolicy: 'network-only',
+        // Empty names violate the server's non-null profile fields. GraphQL
+        // nulls userprofile, but the remaining attempt data is still valid.
+        errorPolicy: 'all',
+      });
+      const attemptData = response.data?.detailStatisticById;
+      const hasStatisticError = response.errors?.some(
+        error =>
+          error.path?.[0] !== 'detailStatisticById' ||
+          error.path?.[1] !== 'authorizedUser' ||
+          error.path?.[2] !== 'userprofile',
+      );
+      if (!attemptData || hasStatisticError) {
+        throw new Error('Failed to load statistic');
       }
+      runInAction(() => {
+        if (this.attempt_id !== attemptID) return;
+        this.attemptData = {
+          ...attemptData,
+          userName: attemptData.userName?.trim() || 'Анонимный пользователь',
+        };
+      });
+    } catch {
+      runInAction(() => {
+        if (this.attempt_id === attemptID) this.loadError = true;
+      });
     }
   }
 
@@ -58,25 +77,24 @@ export class DetailStatisticStoreByID {
     }
   }
 
-  loadQuestionText() {
-    if (this?.attemptData?.question?.id) {
-      try {
-        this.clientStorage.client
-          .query({
-            query: GET_QUESTION_TEXT_BY_ID,
-            variables: {
-              id: toJS(this?.attemptData)?.question?.id,
-            },
-          })
-          .then((response) => response.data.questionText)
-          .then((question_obj) => {
-            if (question_obj && question_obj.text) {
-              this.questionText = question_obj.text;
-            }
-          });
-      } catch (e) {
-        console.log(e);
-      }
+  async loadQuestionText() {
+    const questionID = this.attemptData?.question?.id;
+    runInAction(() => {
+      this.questionText = '';
+    });
+    if (!questionID) return;
+    try {
+      const response = await this.clientStorage.client.query({
+        query: GET_QUESTION_TEXT_BY_ID,
+        variables: { id: questionID },
+      });
+      runInAction(() => {
+        if (this.attemptData?.question?.id === questionID) {
+          this.questionText = response.data?.questionText?.text || '';
+        }
+      });
+    } catch {
+      // Question text is optional and must not prevent showing the result.
     }
   }
 
@@ -103,14 +121,9 @@ export class DetailStatisticStoreByID {
   // Вычисляемое значение среднего балла за попытку
   get arithmeticMeanNumberOfAnswersPointsDivideToMaxPoints() {
     let __sumOfAnswerPoints = 0;
-    let __minAnswerPoint = 100000;
-    this.attemptData?.statistic?.ArrayForShowAnswerPoints?.map((attempt) => {
+    this.attemptData?.statistic?.ArrayForShowAnswerPoints?.map(attempt => {
       __sumOfAnswerPoints += Number(attempt.answerPoints);
-      if (attempt.answerPoints < __minAnswerPoint) {
-        __minAnswerPoint = attempt.answerPoints;
-      }
     });
-    this.minAnswerPoint = __minAnswerPoint;
     const arithmeticMeanNumberOfAnswersPoints = Math.ceil(
       __sumOfAnswerPoints /
         Math.ceil(Number(this.attemptData?.statistic?.numberOfPasses)),
@@ -122,19 +135,17 @@ export class DetailStatisticStoreByID {
   }
 
   // Минимальны балл за попытку
-  minAnswerPoint = 0;
+  get minAnswerPoint() {
+    return (
+      this.attemptData?.statistic?.ArrayForShowAnswerPoints?.reduce(
+        (minimum, attempt) => Math.min(minimum, Number(attempt.answerPoints)),
+        100000,
+      ) ?? 100000
+    );
+  }
 
   get arithmeticMeanNumberOfWrongAnswer() {
-    let __sumOfWrongAnswers = 0;
-    let __maxNumberOfWrongAnswers = 0;
-    this.attemptData?.statistic?.ArrayForShowWrongAnswers?.map((attempt) => {
-      __sumOfWrongAnswers += Number(attempt?.numberOfWrongAnswers?.length);
-      if (attempt?.numberOfWrongAnswers?.length > __maxNumberOfWrongAnswers) {
-        __maxNumberOfWrongAnswers = attempt?.numberOfWrongAnswers?.length;
-      }
-    });
-    this.numberOfWrongAnswers = __sumOfWrongAnswers;
-    this.maxNumberOfWrongAnswers = __maxNumberOfWrongAnswers;
+    const __sumOfWrongAnswers = this.numberOfWrongAnswers;
     return __sumOfWrongAnswers > 0
       ? (
           __sumOfWrongAnswers /
@@ -207,13 +218,28 @@ export class DetailStatisticStoreByID {
     return String(createdAtDate);
   }
 
-  numberOfWrongAnswers = 0;
+  get numberOfWrongAnswers() {
+    return (
+      this.attemptData?.statistic?.ArrayForShowWrongAnswers?.reduce(
+        (sum, attempt) => sum + (attempt.numberOfWrongAnswers?.length ?? 0),
+        0,
+      ) ?? 0
+    );
+  }
 
-  maxNumberOfWrongAnswers = 0;
+  get maxNumberOfWrongAnswers() {
+    return (
+      this.attemptData?.statistic?.ArrayForShowWrongAnswers?.reduce(
+        (maximum, attempt) =>
+          Math.max(maximum, attempt.numberOfWrongAnswers?.length ?? 0),
+        0,
+      ) ?? 0
+    );
+  }
 
   get ArrayOfNumberOfWrongAnswers() {
     const ArrayOfNumberOfWrongAnswers: any[] = [];
-    this?.attemptData?.statistic?.ArrayForShowWrongAnswers.map((attempt) => {
+    this?.attemptData?.statistic?.ArrayForShowWrongAnswers.map(attempt => {
       ArrayOfNumberOfWrongAnswers.push({
         numberOfPasses: attempt?.numberOfPasses,
         numberOfWrongAnswers: attempt?.numberOfWrongAnswers?.length,
@@ -248,6 +274,14 @@ export class DetailStatisticStoreByID {
       username: this?.attemptData?.userName,
       lastname: this?.attemptData?.authorizedUser?.userprofile?.lastname,
       firstname: this?.attemptData?.authorizedUser?.userprofile?.firstname,
+      profileName:
+        [
+          this.attemptData?.authorizedUser?.userprofile?.firstname,
+          this.attemptData?.authorizedUser?.userprofile?.lastname,
+        ]
+          .map(name => name?.trim())
+          .filter(Boolean)
+          .join(' ') || 'Не указаны',
       avatarSrc: this?.attemptData?.authorizedUser?.userprofile?.avatarSrc,
       isLogin: this?.attemptData?.isLogin ? 'да' : 'нет',
       numberOfPasses: this?.attemptData?.statistic?.numberOfPasses,

@@ -1,7 +1,7 @@
 import { Box, Card, Typography } from '@mui/material';
 import { BoxProps } from '@mui/material/Box/Box';
-import React, { useEffect, useState } from 'react';
-import axiosClient from '../../../../../Shared/ServerLayer/QueryLayer/config';
+import React from 'react';
+import { CoursePageCard } from '../../../course-materials-api';
 import urlParser from 'js-video-url-parser';
 import CardMedia from '@mui/material/CardMedia';
 import { positionDataI } from '../../../CourseMicroView/V2/Store/CourseMicroStoreByID';
@@ -11,6 +11,8 @@ import NotLoaded from './not-loaded';
 import PlayCircleOutlineRoundedIcon from '@mui/icons-material/PlayCircleOutlineRounded';
 
 interface ISingleCardProps extends BoxProps {
+  cardData?: CoursePageCard;
+  loading: boolean;
   card_id: string;
   size: {
     width: number;
@@ -24,19 +26,10 @@ interface ISingleCardProps extends BoxProps {
   viewedCardIDs: any;
 }
 
-interface ICardData {
-  id: string;
-  card_content_type: number;
-  video_url: string;
-  cards_cardimage?: {
-    id: string;
-    image: string;
-  };
-  title: string;
-}
-
 export default function CardItem({
   card_id,
+  cardData,
+  loading,
   size,
   itemIndex,
   rowIndex,
@@ -46,16 +39,7 @@ export default function CardItem({
   viewedCardIDs,
   ...props
 }: ISingleCardProps) {
-  const [cardData, setCardData] = useState<ICardData | null>(null);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!isNaN(Number(card_id))) {
-      axiosClient
-        .get<ICardData>(`/page/course-by-id/card-data/${card_id}`)
-        .then(res => setCardData(res.data));
-    }
-  }, [card_id]);
 
   function handleNavigateToItem() {
     navigate(
@@ -133,7 +117,8 @@ export default function CardItem({
       <Typography className="sw-course-material-title" variant={'caption'}>
         {numberOfElements > 1
           ? `Подборка · ${numberOfElements} материалов`
-          : cardData?.title || 'Загрузка материала…'}
+          : cardData?.title ||
+            (loading ? 'Загрузка материала…' : 'Материал недоступен')}
       </Typography>
       <span className="sw-material-state">
         {isSelected

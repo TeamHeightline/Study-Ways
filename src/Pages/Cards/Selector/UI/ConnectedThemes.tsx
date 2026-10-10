@@ -21,7 +21,8 @@ export const ConnectedThemes = observer(() => {
         : String(CSSObject.cardConnectedTheme),
     onChange: data => {
       runInAction(() => {
-        CSSObject.cardConnectedTheme = data === undefined ? undefined : Number(data);
+        CSSObject.cardConnectedTheme =
+          data === undefined ? undefined : Number(data);
       });
     },
     disabled: !themes.data,
@@ -46,7 +47,11 @@ export const ConnectedThemes = observer(() => {
         <IconButton
           aria-label="Сбросить тему"
           disabled={!CSSObject.cardConnectedTheme}
-          onClick={() => runInAction(() => { CSSObject.cardConnectedTheme = undefined; })}
+          onClick={() =>
+            runInAction(() => {
+              CSSObject.cardConnectedTheme = undefined;
+            })
+          }
         >
           <ClearIcon />
         </IconButton>

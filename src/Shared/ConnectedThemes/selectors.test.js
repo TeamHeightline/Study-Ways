@@ -81,7 +81,9 @@ beforeEach(() => {
   axiosClient.request.mockReset().mockResolvedValue({ data: themes });
   getAutocompleteCardDataAsync.mockClear();
   CESObject.changeFieldByValue.mockImplementation(function (field, value) {
-    runInAction(() => { this.card_object[field] = value; });
+    runInAction(() => {
+      this.card_object[field] = value;
+    });
   });
   runInAction(() => {
     CSSObject.cardConnectedTheme = undefined;
@@ -94,19 +96,17 @@ beforeEach(() => {
     middleware: getDefault =>
       getDefault().concat(connectedThemesApi.middleware),
   });
-  jest
-    .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
-    .mockReturnValue({
-      width: 400,
-      height: 40,
-      top: 0,
-      bottom: 40,
-      left: 0,
-      right: 400,
-      x: 0,
-      y: 0,
-      toJSON() {},
-    });
+  jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
+    width: 400,
+    height: 40,
+    top: 0,
+    bottom: 40,
+    left: 0,
+    right: 400,
+    x: 0,
+    y: 0,
+    toJSON() {},
+  });
   container = document.createElement('div');
   document.body.appendChild(container);
   root = createRoot(container);

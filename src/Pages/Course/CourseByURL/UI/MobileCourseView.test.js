@@ -1,3 +1,6 @@
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import { courseMaterialsApi } from '../../course-materials-api';
 import React from 'react';
 import { act as legacyAct } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
@@ -8,6 +11,7 @@ import { normalizeCourseData } from '../../EditCourseByID/course-data';
 import axiosClient from '../../../../Shared/ServerLayer/QueryLayer/config';
 jest.mock('../../../../Shared/ServerLayer/QueryLayer/config', () => ({
   get: jest.fn(),
+  request: jest.fn(),
 }));
 const fragment = (...items) => ({
   CourseFragment: items.map(item => ({
@@ -66,7 +70,7 @@ test('positions skip gaps, preserve collections and course links, and recover fr
   ).toBe(-1);
 });
 const act = React.act || legacyAct;
-let container, root, select;
+let container, root, select, store;
 function Reader() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -99,30 +103,45 @@ const button = title =>
 beforeEach(() => {
   global.IS_REACT_ACT_ENVIRONMENT = true;
   select = jest.fn();
-  axiosClient.get
-    .mockReset()
-    .mockImplementation(url =>
-      Promise.resolve({
-        data: url.includes('get-course-by-id')
-          ? course
-          : { title: `Тема ${url.split('/').pop()}` },
-      }),
-    );
+  store = configureStore({
+    reducer: { [courseMaterialsApi.reducerPath]: courseMaterialsApi.reducer },
+    middleware: getDefault =>
+      getDefault().concat(courseMaterialsApi.middleware),
+  });
+  axiosClient.request.mockReset().mockImplementation(async ({ params }) => ({
+    data: (params.page === 1 ? [11, 12, 13, 21] : [14]).map(id => ({
+      id,
+      title: `Тема ${id}`,
+      card_content_type: 2,
+      video_url: null,
+      cards_cardimage: null,
+    })),
+  }));
+  axiosClient.get.mockReset().mockImplementation(url =>
+    Promise.resolve({
+      data: { ...course, id: Number(url.split('/').pop()) },
+    }),
+  );
   container = document.createElement('div');
   document.body.appendChild(container);
   root = createRoot(container);
 });
 afterEach(() => {
-  act(() => root.unmount());
+  act(() => {
+    root.unmount();
+    store.dispatch(courseMaterialsApi.util.resetApiState());
+  });
   container.remove();
   delete global.IS_REACT_ACT_ENVIRONMENT;
 });
 const render = () =>
   act(async () =>
     root.render(
-      <MemoryRouter initialEntries={['/course?id=24']}>
-        <Reader />
-      </MemoryRouter>,
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/course?id=24']}>
+          <Reader />
+        </MemoryRouter>
+      </Provider>,
     ),
   );
 test('next crosses page boundaries, collections keep all IDs, and browser back restores the material', async () => {
@@ -176,4 +195,47 @@ test('course loading has a retry after failure', async () => {
   expect(container.textContent).toContain('Не удалось загрузить курс');
   await act(async () => button('Повторить').click());
   expect(select).toHaveBeenLastCalledWith('11');
+});
+
+test('one batch serves every card on a page and cached pages survive navigation', async () => {
+  await render();
+  expect(axiosClient.request).toHaveBeenCalledTimes(1);
+  expect(axiosClient.request.mock.calls[0][0]).toMatchObject({
+    url: '/page/course-by-id/24/cards',
+    params: { page: 1 },
+  });
+  expect(container.textContent).toContain('Тема 11');
+  expect(container.textContent).toContain('Тема 21');
+  await act(async () => button('Далее').click());
+  expect(select).toHaveBeenLastCalledWith('12,13');
+  expect(axiosClient.request).toHaveBeenCalledTimes(1);
+  await act(async () => button('Далее').click());
+  expect(axiosClient.request).toHaveBeenCalledTimes(2);
+  expect(axiosClient.request.mock.calls[1][0]).toMatchObject({
+    params: { page: 2 },
+  });
+  expect(container.textContent).toContain('Тема 14');
+  await act(async () => button('История назад').click());
+  expect(axiosClient.request).toHaveBeenCalledTimes(2);
+  expect(container.textContent).toContain('Тема 21');
+  expect(
+    axiosClient.get.mock.calls.every(([url]) =>
+      url.includes('get-course-by-id'),
+    ),
+  ).toBe(true);
+});
+
+test('a failed material batch keeps the map and retries the whole page once', async () => {
+  axiosClient.request.mockRejectedValueOnce(new Error('Offline'));
+  await render();
+  expect(container.querySelectorAll('.sw-mobile-tree-node')).toHaveLength(3);
+  expect(container.textContent).toContain(
+    'Не удалось загрузить материалы страницы курса',
+  );
+  await act(async () => button('Повторить').click());
+  expect(container.textContent).toContain('Тема 21');
+  expect(container.textContent).not.toContain(
+    'Не удалось загрузить материалы страницы курса',
+  );
+  expect(axiosClient.request).toHaveBeenCalledTimes(2);
 });

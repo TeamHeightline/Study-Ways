@@ -1,3 +1,7 @@
+import {
+  CoursePageCard as Material,
+  useCoursePageMaterials,
+} from '../../course-materials-api';
 import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Alert, Button, Skeleton } from '@mui/material';
 import {
@@ -31,12 +35,6 @@ const COLUMN = 152,
   NODE_HEIGHT = 116,
   TOP = 32,
   LEFT = 14;
-type Material = {
-  title?: string;
-  card_content_type?: number;
-  video_url?: string;
-  cards_cardimage?: { image?: string };
-};
 const keyOf = (node: MobileCourseNode) =>
   `${node.row}:${node.page}:${node.index}`;
 const counted = (count: number, forms: [string, string, string]) =>
@@ -114,7 +112,6 @@ export default function MobileCourseView({
   const [zoom, setZoom] = useState(1);
   const [mapLeft, setMapLeft] = useState(0);
   const [viewed, setViewed] = useState<Set<string>>(new Set());
-  const [materials, setMaterials] = useState<Record<string, Material>>({});
   const viewport = useRef<HTMLDivElement>(null);
   const arrowID = useId().replace(/:/g, '');
   useEffect(() => {
@@ -154,36 +151,18 @@ export default function MobileCourseView({
   );
   const currentID =
     currentNode?.item.type === 'course-link' ? undefined : currentNode?.item.id;
-  const pageIDs = [
-    ...new Set(
-      pageNodes
-        .filter(node => node.item.type !== 'course-link')
-        .flatMap(node => cardIDs(node.item.id)),
+  const pageMaterials = useCoursePageMaterials(
+    courseID,
+    selected.activePage,
+    Boolean(
+      course &&
+      pageNodes.some(
+        node =>
+          node.item.type !== 'course-link' && cardIDs(node.item.id).length,
+      ),
     ),
-  ].join(',');
-  useEffect(() => {
-    let current = true;
-    setMaterials({});
-    if (pageIDs)
-      Promise.all(
-        pageIDs.split(',').map(async id => {
-          try {
-            return [
-              id,
-              (await axiosClient.get(`/page/course-by-id/card-data/${id}`))
-                .data,
-            ] as const;
-          } catch {
-            return [id, {}] as const;
-          }
-        }),
-      ).then(entries => {
-        if (current) setMaterials(Object.fromEntries(entries));
-      });
-    return () => {
-      current = false;
-    };
-  }, [courseID, pageIDs]);
+  );
+  const { materials } = pageMaterials;
   useEffect(() => {
     if (course) onCardSelect(currentID == null ? undefined : String(currentID));
   }, [course, currentID, onCardSelect]);
@@ -302,6 +281,16 @@ export default function MobileCourseView({
   const pages = lines[0]?.SameLine.length || 1;
   return (
     <section className="sw-mobile-course" aria-label="Навигация по курсу">
+      {pageMaterials.isError && (
+        <Alert
+          severity="error"
+          action={
+            <Button onClick={() => pageMaterials.refetch()}>Повторить</Button>
+          }
+        >
+          Не удалось загрузить материалы страницы курса.
+        </Alert>
+      )}
       <header className="sw-mobile-course-heading">
         <button
           className="sw-mobile-course-back"

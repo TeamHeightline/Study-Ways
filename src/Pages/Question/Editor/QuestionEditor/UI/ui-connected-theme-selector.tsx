@@ -15,7 +15,9 @@ const ConnectedThemeSelector = observer(() => {
     treeData: themes.treeData,
     value: QuestionEditorStorage.selectedConnectedTheme,
     onChange: (e: string) => {
-      runInAction(() => { QuestionEditorStorage.selectedConnectedTheme = e; });
+      runInAction(() => {
+        QuestionEditorStorage.selectedConnectedTheme = e;
+      });
     },
     disabled: !themes.data,
     loading: themes.isFetching,

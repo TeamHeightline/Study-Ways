@@ -16,7 +16,6 @@ import AIAuthorSelector from './AIAutohorSelector';
 
 export const AISearchString = observer(() => {
   useEffect(() => {
-    AISObject.loadCardConnectedThemes();
     AISObject.getAISearchResult();
     AISObject.loadAutocompleteDefaultData();
   }, []);

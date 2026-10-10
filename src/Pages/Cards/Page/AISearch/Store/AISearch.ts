@@ -1,11 +1,8 @@
 import { makeAutoObservable, reaction, toJS } from 'mobx';
-import { ClientStorage } from '../../../../../Shared/Store/ApolloStorage/ClientStorage';
 import {
   getAutocompleteCardDataAsync,
   selectRecommendedCardReport,
 } from './Query';
-import { UnstructuredThemesNode } from '../../../../../SchemaTypes';
-import { GET_CONNECTED_THEME } from '../../../Selector/Store/Query';
 import { cardContentType } from '../../../Selector/Store/CardSelectorStore';
 
 class AISearch {
@@ -20,13 +17,7 @@ class AISearch {
       () => this.AIQueryFilterString,
       () => this.getAISearchResult(),
     );
-    reaction(
-      () => this.cardConnectedTheme,
-      () => this.calculateThemeWithParent(),
-    );
   }
-
-  clientStorage = ClientStorage;
 
   loadAutocompleteDefaultData() {
     getAutocompleteCardDataAsync('', undefined, this.convertMatchToCardData);
@@ -79,70 +70,18 @@ class AISearch {
     this.hardLevel = e.target.value;
   };
 
-  allConnectedThemes: UnstructuredThemesNode[] = [];
-  connectedThemesHasBeenLoaded = false;
-
-  get connectedThemesForSelector() {
-    return toJS(this.allConnectedThemes)?.map(theme => ({
-      id: theme.id,
-      value: theme.id,
-      title: theme.text,
-      pId: theme?.parent?.id || 0,
-    }));
-  }
-
-  loadCardConnectedThemes() {
-    try {
-      this.clientStorage.client
-        .query({
-          query: GET_CONNECTED_THEME,
-          fetchPolicy: 'network-only',
-          variables: {},
-        })
-        .then(response => response.data.unstructuredTheme)
-        .then(connected_themes => {
-          this.allConnectedThemes = connected_themes;
-          for (const theme of connected_themes) {
-            if (this.themeParentToThemeMap.has(theme.parent?.id)) {
-              const themesArray =
-                this.themeParentToThemeMap.get(theme.parent?.id) || [];
-              this.themeParentToThemeMap.set(theme?.parent?.id, [
-                ...themesArray,
-                theme?.id,
-              ]);
-            } else {
-              this.themeParentToThemeMap.set(theme?.parent?.id, [theme?.id]);
-            }
-          }
-          this.connectedThemesHasBeenLoaded = true;
-        });
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  calculateThemeWithParent() {
-    this.themeWithPatentIDArray = [];
-    if (this.cardConnectedTheme) {
-      this.themeWithPatentIDArray.push(String(this.cardConnectedTheme));
-      this.recursiveThemeCollector(this.cardConnectedTheme);
-    }
-  }
-
-  recursiveThemeCollector(themeID) {
-    if (this.themeParentToThemeMap.has(themeID)) {
-      const themesArray = this.themeParentToThemeMap.get(themeID) || [];
-      for (const theme of themesArray) {
-        this.themeWithPatentIDArray.push(theme);
-        this.recursiveThemeCollector(theme);
-      }
-    }
-  }
-
   themeWithPatentIDArray: string[] = [];
-
   cardConnectedTheme?: number;
-  themeParentToThemeMap: Map<string, string[]> = new Map();
+
+  setThemeFilter(selectedId: number | undefined, themeIds: string[]) {
+    this.cardConnectedTheme = selectedId;
+    if (
+      this.themeWithPatentIDArray.length !== themeIds.length ||
+      this.themeWithPatentIDArray.some((id, index) => id !== themeIds[index])
+    ) {
+      this.themeWithPatentIDArray = themeIds;
+    }
+  }
 
   contentType: cardContentType = 'undefined';
   changeContentType = e => {

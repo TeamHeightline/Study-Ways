@@ -26,17 +26,6 @@ export const GET_CARD_ID_BY_SEARCHING_PARAMS = gql`
   }
 `;
 
-export const GET_CONNECTED_THEME = gql`
-  query GET_CONNECTED_THEME {
-    unstructuredTheme {
-      id
-      text
-      parent {
-        id
-      }
-    }
-  }
-`;
 
 export const CREATE_NEW_CARD = gql`
   mutation CREATE_NEW_CARD {

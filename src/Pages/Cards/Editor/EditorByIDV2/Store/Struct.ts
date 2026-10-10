@@ -60,17 +60,6 @@ export const GET_MY_CARD_AUTHOR = gql`
   }
 `;
 
-export const GET_CONNECTED_THEMES = gql`
-  query GET_CONNECTED_THEMES {
-    unstructuredTheme {
-      id
-      text
-      parent {
-        id
-      }
-    }
-  }
-`;
 
 export const GET_QUESTION_TEXT_BY_ID = gql`
   query GET_QUESTION_TEXT_BY_ID($id: ID!) {

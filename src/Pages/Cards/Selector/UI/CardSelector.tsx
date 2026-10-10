@@ -38,9 +38,6 @@ export const CardSelector = observer(
         CSSObject.selectedCardID = undefined;
       }
     }, [CSSObject.selectedCardID]);
-    useEffect(() => {
-      CSSObject.loadCardConnectedThemes();
-    }, []);
     return (
       <div {...props}>
         <CleverSearching />

@@ -1,4 +1,7 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import { studyWaysApi } from '../../../../../Shared/ServerLayer/QueryLayer/api';
 import { act as legacyAct } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
 import { MemoryRouter } from 'react-router-dom';
@@ -37,6 +40,7 @@ jest.mock(
 );
 jest.mock('../../../../../Shared/ServerLayer/QueryLayer/config', () => ({
   post: jest.fn(() => Promise.resolve({})),
+  request: jest.fn(() => Promise.resolve({ data: [] })),
 }));
 jest.mock('../API/get-card-data', () => ({ getCardData: jest.fn() }));
 jest.mock('../API/save-card', () => ({
@@ -46,9 +50,14 @@ jest.mock('../API/save-card', () => ({
 const act = React.act || legacyAct;
 let container;
 let root;
+let store;
 
 beforeEach(() => {
   global.IS_REACT_ACT_ENVIRONMENT = true;
+  store = configureStore({
+    reducer: { [studyWaysApi.reducerPath]: studyWaysApi.reducer },
+    middleware: getDefault => getDefault().concat(studyWaysApi.middleware),
+  });
   jest.useFakeTimers();
   saveCard.mockResolvedValue({});
   axiosClient.post.mockResolvedValue({});
@@ -67,7 +76,6 @@ beforeEach(() => {
     CESObject.card_object = undefined;
     CESObject.hasSaveError = false;
     CESObject.stateOfSave = true;
-    CESObject.isAllConnectedThemesLoaded = true;
     CESObject.card_object = {
       id: 812,
       title: 'Карточка',
@@ -94,6 +102,7 @@ beforeEach(() => {
 
 afterEach(() => {
   act(() => root.unmount());
+  store.dispatch(studyWaysApi.util.resetApiState());
   container.remove();
   jest.clearAllTimers();
   jest.useRealTimers();
@@ -108,9 +117,11 @@ const checkbox = label =>
 test('question switches preserve question IDs in the saved card', async () => {
   await act(async () =>
     root.render(
-      <MemoryRouter>
-        <EditCardUI />
-      </MemoryRouter>,
+      <Provider store={store}>
+        <MemoryRouter>
+          <EditCardUI />
+        </MemoryRouter>
+      </Provider>,
     ),
   );
   await act(async () => checkbox('Вопрос перед ресурсом').click());
@@ -138,9 +149,11 @@ test('failed saves expose a retry and keep the editor unsaved', async () => {
   saveCard.mockRejectedValueOnce(new Error('Unavailable'));
   await act(async () =>
     root.render(
-      <MemoryRouter>
-        <EditCardUI />
-      </MemoryRouter>,
+      <Provider store={store}>
+        <MemoryRouter>
+          <EditCardUI />
+        </MemoryRouter>
+      </Provider>,
     ),
   );
   await act(async () => checkbox('Указать авторские права').click());
@@ -164,9 +177,11 @@ test('Rutube links autosave through the existing card API and reopen in the matc
   });
   await act(async () =>
     root.render(
-      <MemoryRouter>
-        <EditCardUI />
-      </MemoryRouter>,
+      <Provider store={store}>
+        <MemoryRouter>
+          <EditCardUI />
+        </MemoryRouter>
+      </Provider>,
     ),
   );
   const rutube = [...container.querySelectorAll('button')].find(
@@ -195,9 +210,11 @@ test('Rutube links autosave through the existing card API and reopen in the matc
   await act(async () => root.render(null));
   await act(async () =>
     root.render(
-      <MemoryRouter>
-        <EditCardUI />
-      </MemoryRouter>,
+      <Provider store={store}>
+        <MemoryRouter>
+          <EditCardUI />
+        </MemoryRouter>
+      </Provider>,
     ),
   );
   expect(

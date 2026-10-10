@@ -3,14 +3,12 @@ import { ClientStorage } from '../../../../Shared/Store/ApolloStorage/ClientStor
 import {
   CREATE_NEW_CARD,
   GET_CARD_ID_BY_SEARCHING_PARAMS,
-  GET_CONNECTED_THEME,
 } from './Query';
 import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
 import {
   CardCardContentType,
   CardHardLevel,
   Mutation,
-  UnstructuredThemesNode,
 } from '../../../../SchemaTypes';
 
 export class CardSelectorStore {
@@ -81,39 +79,6 @@ export class CardSelectorStore {
   changeContentType = e => {
     this.contentType = e.target.value;
   };
-  allConnectedThemes: UnstructuredThemesNode[] = [];
-  connectedThemesHasBeenLoaded = false;
-
-  get connectedThemesForSelector() {
-    return toJS(this.allConnectedThemes)?.map(theme => ({
-      id: theme.id,
-      value: theme.id,
-      title: theme.text,
-      pId: theme?.parent?.id || 0,
-    }));
-  }
-
-  loadCardConnectedThemes(useCache = true) {
-    try {
-      this.clientStorage.client
-        .query({
-          query: GET_CONNECTED_THEME,
-          fetchPolicy: useCache ? 'cache-first' : 'network-only',
-          variables: {},
-        })
-        .then(response => response.data.unstructuredTheme)
-        .then(connected_themes => {
-          this.allConnectedThemes = connected_themes;
-          this.connectedThemesHasBeenLoaded = true;
-        });
-      if (useCache) {
-        this.loadCardConnectedThemes(false);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
   cardConnectedTheme?: number;
 
   selectedCardID?: number | string;

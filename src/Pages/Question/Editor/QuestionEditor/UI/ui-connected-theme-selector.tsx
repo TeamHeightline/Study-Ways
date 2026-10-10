@@ -1,22 +1,24 @@
+import { runInAction } from 'mobx';
 import { observer } from 'mobx-react';
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useConnectedThemeOptions } from '../../../../../Shared/ConnectedThemes/api';
+import { ThemeLoadError } from '../../../../../Shared/ConnectedThemes/ThemeLoadError';
 import { QuestionEditorStorage } from '../Store/QuestionEditorStorage';
 import TreeSelect from 'antd/es/tree-select';
 
 const { SHOW_CHILD } = TreeSelect;
 
-const ConnectedThemeSelector = observer(props => {
-  useEffect(() => {
-    QuestionEditorStorage.loadAllConnectedThemes();
-  }, []);
+const ConnectedThemeSelector = observer(() => {
+  const themes = useConnectedThemeOptions();
   const tProps = {
     treeDataSimpleMode: true,
-    treeData: QuestionEditorStorage.connectedThemesForSelector,
+    treeData: themes.treeData,
     value: QuestionEditorStorage.selectedConnectedTheme,
     onChange: (e: string) => {
-      QuestionEditorStorage.selectedConnectedTheme = e;
+      runInAction(() => { QuestionEditorStorage.selectedConnectedTheme = e; });
     },
-    disabled: !QuestionEditorStorage.isAllConnectedThemesLoaded,
+    disabled: !themes.data,
+    loading: themes.isFetching,
     showSearch: true,
     treeNodeFilterProp: 'title',
     id: 'qedit-connected-theme',
@@ -33,6 +35,7 @@ const ConnectedThemeSelector = observer(props => {
     <div className="sw-qedit-theme">
       <label htmlFor="qedit-connected-theme">Тема вопроса</label>
       <TreeSelect {...tProps} size={'large'} />
+      <ThemeLoadError isError={themes.isError} refetch={themes.refetch} />
     </div>
   );
 });

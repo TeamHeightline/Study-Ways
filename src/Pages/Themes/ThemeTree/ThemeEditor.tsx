@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NodeModel } from '@minoru/react-dnd-treeview';
-import {
-  CreateTheme,
-  GET_ALL_UNSTRUCTURED_THEME,
-  SAVE_NEW_THEMES_SEQUENCE,
-  UpdateTheme,
-} from './Struct';
-import { useMutation, useQuery } from '@apollo/client';
+import { CreateTheme, SAVE_NEW_THEMES_SEQUENCE, UpdateTheme } from './Struct';
+import { useMutation } from '@apollo/client';
 import {
   CircularProgress,
   Collapse,
@@ -14,12 +9,18 @@ import {
   Grid,
   TextField,
 } from '@mui/material';
-import { Mutation, Query } from '../../../SchemaTypes';
+import { Mutation } from '../../../SchemaTypes';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AddIcon from '@mui/icons-material/Add';
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 import { ThemeTreeView } from './ThemeTreeView';
 import { LoadingButton } from '@mui/lab';
+import { useAppDispatch } from '../../../App/ReduxStore/RootStore';
+import {
+  connectedThemesApi,
+  useGetConnectedThemesQuery,
+} from '../../../Shared/ConnectedThemes/api';
+import { ThemeLoadError } from '../../../Shared/ConnectedThemes/ThemeLoadError';
 
 enum editingModes {
   EditTheme = 'EditTheme',
@@ -28,6 +29,12 @@ enum editingModes {
 }
 
 function ThemeEditor() {
+  const dispatch = useAppDispatch();
+  const themes = useGetConnectedThemesQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+  const refreshThemes = () =>
+    dispatch(connectedThemesApi.util.invalidateTags(['ConnectedThemes']));
   const [treeData, setTreeData] = useState<NodeModel[] | undefined>();
   const [activeEditMode, setActiveEditMode] = useState<editingModes>(
     editingModes.EditTheme,
@@ -36,18 +43,14 @@ function ThemeEditor() {
   const [isOpenTextField, setIsOpenTextField] = useState<boolean>(false);
   const [selectedThemeID, setSelectedThemeID] = useState<string | undefined>();
   const [manualUpdate, setManualUpdate] = useState<boolean>(false);
-  const [sequenceDataForSave, setSequenceDataForSave] = useState<string>('');
-  // Переменная для предотвращения сохранения той последовательности, если она не изменилась
-  const [lastSavedSequenceData, setLSSD] = useState<string>('');
-
-  function convertTreeDataForSave(
-    tree_data: NodeModel[] | undefined = treeData,
-  ): string {
-    return String(tree_data?.map((theme) => theme.id).join(','));
-  }
+  const sequenceDataForSave = treeData?.map(theme => theme.id).join(',');
+  const [lastSavedSequenceData, setLSSD] = useState<string>();
 
   const [updateTheme, { loading: update_theme_loading }] =
     useMutation<Mutation>(UpdateTheme, {
+      onCompleted: data => {
+        if (data.updateUnstructuredTheme?.theme?.id) refreshThemes();
+      },
       variables: {
         id: selectedThemeID,
         parent: getParentIDByTargetID(selectedThemeID),
@@ -57,6 +60,9 @@ function ThemeEditor() {
 
   const [createTheme, { loading: create_theme_loading }] =
     useMutation<Mutation>(CreateTheme, {
+      onCompleted: data => {
+        if (data.unstructuredTheme?.theme?.id) refreshThemes();
+      },
       variables: {
         text: activeEditText,
         parent:
@@ -79,7 +85,7 @@ function ThemeEditor() {
     // Если мы редактируем тему, то в поле ввода будет текст из выбранной темы
     if (buttonType === editingModes.EditTheme && selectedThemeID) {
       setActiveEditText(
-        treeData?.find((theme) => theme?.id === selectedThemeID)?.text || '',
+        treeData?.find(theme => theme?.id === selectedThemeID)?.text || '',
       );
     }
   }
@@ -88,9 +94,8 @@ function ThemeEditor() {
     if (treeData) {
       // Находим тему, чье ID мы выбрали, у него находим родителя (parent), и возвращаем его ID
       return (
-        Number(
-          treeData?.find((theme) => theme?.id === targetID)?.parent || 0,
-        ) || 0
+        Number(treeData?.find(theme => theme?.id === targetID)?.parent || 0) ||
+        0
       );
     } else {
       return 0;
@@ -115,17 +120,15 @@ function ThemeEditor() {
       activeEditMode === editingModes.CreateSubTheme &&
       activeEditText
     ) {
-      createTheme().then((data) => {
-        console.log(data);
+      createTheme().then(data => {
         if (data.data?.unstructuredTheme?.theme?.id) {
-          const newTree: NodeModel[] | undefined = treeData;
-          newTree?.push({
+          const newNode: NodeModel = {
             id: data.data?.unstructuredTheme?.theme?.id,
             parent: selectedThemeID || 0,
             text: activeEditText,
             droppable: true,
-          });
-          setTreeData(newTree);
+          };
+          setTreeData(current => [...(current ?? []), newNode]);
           setActiveEditText('');
           setManualUpdate(!manualUpdate);
         }
@@ -134,17 +137,17 @@ function ThemeEditor() {
       activeEditMode === editingModes.CreateThemeOnSameLevel &&
       activeEditText
     ) {
-      createTheme().then((data) => {
-        console.log(data);
+      createTheme().then(data => {
         if (data.data?.unstructuredTheme?.theme?.id) {
-          const newTree: NodeModel[] | undefined = treeData;
-          newTree?.push({
+          const newNode: NodeModel = {
             id: data.data?.unstructuredTheme?.theme?.id,
-            parent: String(getParentIDByTargetID()) || 0,
+            parent: getParentIDByTargetID()
+              ? String(getParentIDByTargetID())
+              : 0,
             text: activeEditText,
             droppable: true,
-          });
-          setTreeData(newTree);
+          };
+          setTreeData(current => [...(current ?? []), newNode]);
           setActiveEditText('');
           setManualUpdate(!manualUpdate);
         }
@@ -155,57 +158,54 @@ function ThemeEditor() {
   useEffect(() => {
     if (activeEditMode === editingModes.EditTheme) {
       setActiveEditText(
-        treeData?.find((theme) => theme?.id === selectedThemeID)?.text || '',
+        treeData?.find(theme => theme?.id === selectedThemeID)?.text || '',
       );
     }
   }, [selectedThemeID]);
 
-  const { loading } = useQuery<Query>(GET_ALL_UNSTRUCTURED_THEME, {
-    fetchPolicy: 'network-only',
-    onCompleted: (data) => {
-      const dataForDisplay: NodeModel[] = [];
-      data?.unstructuredTheme?.map((theme) => {
-        dataForDisplay.push({
-          id: theme?.id || 0,
-          parent: theme?.parent?.id || 0,
-          text: theme?.text || '',
-          droppable: true,
-        });
-      });
-      setTreeData(dataForDisplay);
-      setLSSD(convertTreeDataForSave());
-    },
-  });
+  // Refetches update the shared selectors without overwriting this editor's draft.
+  useEffect(() => {
+    if (treeData === undefined && themes.data) {
+      const initialTree: NodeModel[] = themes.data.map(theme => ({
+        id: String(theme.id),
+        parent: theme.parentId === null ? 0 : String(theme.parentId),
+        text: theme.text,
+        droppable: true,
+      }));
+      setTreeData(initialTree);
+      setLSSD(initialTree.map(theme => theme.id).join(','));
+    }
+  }, [themes.data, treeData]);
   const [save_themes_sequence] = useMutation<Mutation>(
     SAVE_NEW_THEMES_SEQUENCE,
     {
       variables: {
         sequence: sequenceDataForSave,
       },
-      onCompleted: (data) => {
+      onCompleted: data => {
         if (
           data?.usThemeSequence?.uSThemeSequence &&
           data?.usThemeSequence?.uSThemeSequence?.sequence
         ) {
-          setLSSD(String(data?.usThemeSequence?.uSThemeSequence?.sequence));
+          setLSSD(String(data.usThemeSequence.uSThemeSequence.sequence));
+          refreshThemes();
         }
       },
     },
   );
 
   useEffect(() => {
-    if (treeData) {
-      setSequenceDataForSave(convertTreeDataForSave());
-    }
-  }, [convertTreeDataForSave()]);
-
-  useEffect(() => {
-    if (sequenceDataForSave !== lastSavedSequenceData) {
+    if (
+      sequenceDataForSave !== undefined &&
+      sequenceDataForSave !== lastSavedSequenceData
+    ) {
       save_themes_sequence();
     }
   }, [sequenceDataForSave]);
 
-  if (loading) {
+  if (treeData === undefined) {
+    if (themes.isError)
+      return <ThemeLoadError isError refetch={themes.refetch} />;
     return (
       <Grid container justifyContent="center">
         <CircularProgress />

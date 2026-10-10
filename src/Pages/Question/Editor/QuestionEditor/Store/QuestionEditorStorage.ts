@@ -4,7 +4,6 @@ import {
   CREATE_DEEP_QUESTION_COPY,
   CREATE_NEW_ANSWER,
   CREATE_NEW_QUESTION,
-  GET_CONNECTED_THEMES,
   GET_QUESTION_DATA_BY_ID,
   MY_QUESTIONS_BASIC_DATA,
   THEMES_AND_AUTHORS_FOR_QUESTION,
@@ -17,7 +16,6 @@ import {
   QuestionAuthorNode,
   QuestionNode,
   QuestionThemesNode,
-  UnstructuredThemesNode,
 } from '../../../../../SchemaTypes';
 import { compareByIdDescending } from '../../../../../Shared/Utils/array';
 import { Answer, answerStoreType } from './AnswersStorage';
@@ -71,35 +69,7 @@ class QuestionEditor {
   // Флаг, указывающий на то, был ли выбран вопрос в селекторе
   questionHasBeenSelected = false;
 
-  allConnectedThemes: UnstructuredThemesNode[] = [];
-  isAllConnectedThemesLoaded = false;
-
   selectedConnectedTheme?: string;
-
-  loadAllConnectedThemes = () => {
-    this.clientStorage.client
-      .query<Query>({
-        query: GET_CONNECTED_THEMES,
-        fetchPolicy: 'network-only',
-      })
-      .then(res => res.data.unstructuredTheme)
-      .then(themes => {
-        if (themes) {
-          this.allConnectedThemes = themes;
-        }
-        this.isAllConnectedThemesLoaded = true;
-      });
-  };
-
-  get connectedThemesForSelector() {
-    return toJS(this.allConnectedThemes)?.map(theme => ({
-      id: theme.id,
-      value: theme.id,
-      key: theme.id,
-      title: theme.text,
-      pId: theme?.parent?.id || 0,
-    }));
-  }
 
   registeredAnswersID = new Set();
 

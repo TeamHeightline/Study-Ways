@@ -192,17 +192,6 @@ export const UPDATE_ANSWER = gql`
   }
 `;
 
-export const GET_CONNECTED_THEMES = gql`
-  query GET_CONNECTED_THEMES {
-    unstructuredTheme {
-      id
-      text
-      parent {
-        id
-      }
-    }
-  }
-`;
 
 export interface IQuestionStatistic {
   question_id: number;

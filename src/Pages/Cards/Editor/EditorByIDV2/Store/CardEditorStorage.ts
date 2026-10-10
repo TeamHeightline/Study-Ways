@@ -1,7 +1,6 @@
 import { action, makeAutoObservable, reaction, runInAction, toJS } from 'mobx';
 import { ClientStorage } from '../../../../../Shared/Store/ApolloStorage/ClientStorage';
 import {
-  GET_CONNECTED_THEMES,
   GET_MY_CARD_AUTHOR,
   GET_QUESTION_TEXT_BY_ID,
   UPDATE_CARD,
@@ -11,7 +10,6 @@ import {
   Mutation,
   Query,
   QuestionNode,
-  UnstructuredThemesNode,
 } from '../../../../../SchemaTypes';
 import { computedFn } from 'mobx-utils';
 import { SERVER_BASE_URL } from '../../../../../settings';
@@ -64,7 +62,6 @@ export class CardEditorStorage {
     this.image_url = '';
     this.testBeforeCardData = undefined;
     this.testInCardData = undefined;
-    this.loadConnectedThemes();
     try {
       const cardData = await getCardData(Number(id));
       if (request !== this.loadRequest) return;
@@ -274,36 +271,6 @@ export class CardEditorStorage {
   }
 
   // ----------------------------------------------------------------
-  // Работа с объединенными темами
-  allConnectedThemes?: UnstructuredThemesNode[] = [];
-  isAllConnectedThemesLoaded = false;
-  loadConnectedThemes(useCache = true) {
-    this.clientStorage.client
-      .query({
-        query: GET_CONNECTED_THEMES,
-        fetchPolicy: useCache ? 'cache-first' : 'network-only',
-      })
-      .then(response => response.data.unstructuredTheme)
-      .then(
-        action(connectedThemes => {
-          this.allConnectedThemes = connectedThemes;
-          this.isAllConnectedThemesLoaded = true;
-          if (useCache) {
-            this.loadConnectedThemes(false);
-          }
-        }),
-      )
-      .catch(() => void 0);
-  }
-  get connectedThemesForSelector() {
-    return toJS(this.allConnectedThemes)?.map(theme => ({
-      id: theme.id,
-      value: theme.id,
-      title: theme.text,
-      pId: theme?.parent?.id || 0,
-    }));
-  }
-
   // --------Работа с тестом перед и в карточки-----------------
   testInCardData?: QuestionNode | null = undefined;
   loadTestInCardText() {

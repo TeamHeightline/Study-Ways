@@ -1,16 +1,5 @@
 import { gql } from 'graphql.macro';
 
-export const GET_ALL_UNSTRUCTURED_THEME = gql`
-  query GET_ALL_UNSTRUCTURED_THEME {
-    unstructuredTheme {
-      id
-      text
-      parent {
-        id
-      }
-    }
-  }
-`;
 export const SAVE_NEW_THEMES_SEQUENCE = gql`
   mutation SAVE_NEW_THEMES_SEQUENCE($sequence: String!) {
     usThemeSequence(input: { sequence: $sequence, createdBy: 0 }) {
@@ -22,14 +11,6 @@ export const SAVE_NEW_THEMES_SEQUENCE = gql`
         id
         sequence
       }
-    }
-  }
-`;
-export const GET_US_THEME_SEQUENCE = gql`
-  query GET_US_THEME_SEQUENCE {
-    usThemeSequence {
-      id
-      sequence
     }
   }
 `;

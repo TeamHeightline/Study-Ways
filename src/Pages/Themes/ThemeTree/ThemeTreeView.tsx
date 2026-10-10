@@ -8,6 +8,8 @@ import React, { memo, useEffect, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { Mutation } from '../../../SchemaTypes';
 import { UpdateTheme } from './Struct';
+import { useAppDispatch } from '../../../App/ReduxStore/RootStore';
+import { connectedThemesApi } from '../../../Shared/ConnectedThemes/api';
 
 type IThemeTreeViewProps = {
   treeData?: NodeModel[];
@@ -24,6 +26,7 @@ export const ThemeTreeView = memo(function ThemeTreeView({
   setSelectedThemeID,
   manualUpdate,
 }: IThemeTreeViewProps) {
+  const dispatch = useAppDispatch();
   const [updateData, setUpdateData] = useState<{
     id: number;
     parent: number;
@@ -37,6 +40,11 @@ export const ThemeTreeView = memo(function ThemeTreeView({
   }, [updateData]);
 
   const [updateTheme] = useMutation<Mutation>(UpdateTheme, {
+    onCompleted: data => {
+      if (data.updateUnstructuredTheme?.theme?.id) {
+        dispatch(connectedThemesApi.util.invalidateTags(['ConnectedThemes']));
+      }
+    },
     variables: {
       id: updateData.id,
       parent: updateData.parent,
@@ -73,7 +81,7 @@ export const ThemeTreeView = memo(function ThemeTreeView({
             onToggle={onToggle}
           />
         )}
-        dragPreviewRender={(monitorProps) => (
+        dragPreviewRender={monitorProps => (
           <CustomDragPreview monitorProps={monitorProps} />
         )}
         onDrop={handleDrop}

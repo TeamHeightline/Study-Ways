@@ -27,7 +27,6 @@ import {
   GET_MY_QUESTION_SEQUENCE,
   question_sequence_struct,
 } from '../Struct';
-import { compareByIdDescending } from '../../../../Shared/Utils/array';
 import EditQuestionSequenceUI from '../EditByID/UI/edit-question-sequence-ui';
 import './question-sequence-list.css';
 
@@ -129,8 +128,8 @@ export default function QuestionSequenceMainEditor() {
       />
     );
   }
-  const sequences = [...(data?.me?.questionsequenceSet || [])].sort(
-    compareByIdDescending,
+  const sequences = [...(data?.me?.questionsequenceSet || [])].sort((a, b) =>
+    String(b.id).localeCompare(String(a.id), 'ru', { numeric: true }),
   );
   const filled = sequences.filter(
     sequence => questionsIn(sequence).length > 0,

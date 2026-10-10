@@ -1,34 +1,47 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { useSelector } from 'react-redux';
 import {
-  Box,
+  Alert,
   Button,
   Card,
   CardActionArea,
-  Container,
-  Grid,
-  Stack,
-  Typography,
+  CircularProgress,
+  IconButton,
+  InputAdornment,
+  Skeleton,
+  TextField,
 } from '@mui/material';
-import { gql } from 'graphql.macro';
-import { useMutation, useQuery } from '@apollo/client';
-import EditCourseByID, { CourseLines } from '../EditCourseByID/EditCourseByID';
-import { useSelector } from 'react-redux';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined';
+import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
+import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
+import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
+import EditCourseByID from '../EditCourseByID/EditCourseByID';
+import {
+  CourseLines,
+  courseStats,
+  normalizeCourseData,
+} from '../EditCourseByID/course-data';
 import { RootState, useAppDispatch } from '../../../App/ReduxStore/RootStore';
 import { loadCourseDataThunk } from '../Page/redux-store/async-functions';
 import { FILE_URL } from '../../../settings';
+import './course-editor-page.css';
 
-const CREATE_COURSE_WITH_DEFAULT_VALUE = gql`
+export const CREATE_COURSE_WITH_DEFAULT_VALUE = gql`
   mutation CREATE_COURSE_WITH_DEFAULT_VALUE($default_data: GenericScalar) {
     createCardCourse(input: { courseData: $default_data }) {
       course {
         courseData
         id
+        name
       }
     }
   }
 `;
-
-const GET_OWN_COURSE = gql`
+export const GET_OWN_COURSE = gql`
   query GET_OWN_COURSE {
     me {
       cardcourseSet {
@@ -39,138 +52,313 @@ const GET_OWN_COURSE = gql`
     }
   }
 `;
+interface OwnCourse {
+  id: string;
+  name?: string | null;
+  courseData: unknown;
+}
+interface OwnCoursesData {
+  me?: { cardcourseSet?: OwnCourse[] };
+}
+
 export default function MainCourseEditor() {
-  const [isEditCourseNow, setIsEditCourseNow] = useState(false);
-  const [selectedCourseID, setSelectedCourseID] = useState<any>();
-  const courses = useSelector(
+  const [selectedCourseID, setSelectedCourseID] = useState<string>();
+  const [search, setSearch] = useState('');
+  const [createError, setCreateError] = useState(false);
+  const createLock = useRef(false);
+  const catalog = useSelector(
     (state: RootState) => state.coursePage.courses_data,
   );
   const dispatch = useAppDispatch();
-
-  const [create_course] = useMutation(CREATE_COURSE_WITH_DEFAULT_VALUE, {
-    variables: {
-      default_data: CourseLines,
+  const { data, loading, error, refetch } = useQuery<OwnCoursesData>(
+    GET_OWN_COURSE,
+    { fetchPolicy: 'cache-and-network' },
+  );
+  const [createCourse, { loading: creating }] = useMutation(
+    CREATE_COURSE_WITH_DEFAULT_VALUE,
+    {
+      update(cache, result) {
+        const course = result.data?.createCardCourse?.course;
+        const existing = cache.readQuery<OwnCoursesData>({
+          query: GET_OWN_COURSE,
+        });
+        if (!course?.id || !existing?.me) return;
+        const courses = existing.me.cardcourseSet || [];
+        cache.writeQuery({
+          query: GET_OWN_COURSE,
+          data: {
+            ...existing,
+            me: {
+              ...existing.me,
+              cardcourseSet: courses.some(
+                item => String(item.id) === String(course.id),
+              )
+                ? courses
+                : [...courses, course],
+            },
+          },
+        });
+      },
     },
-  });
-  const { data: own_course_data, refetch } = useQuery(GET_OWN_COURSE);
-
+  );
   useEffect(() => {
     dispatch(loadCourseDataThunk());
-  }, []);
+  }, [dispatch]);
 
-  if (isEditCourseNow) {
+  const create = async () => {
+    if (createLock.current) return;
+    createLock.current = true;
+    setCreateError(false);
+    try {
+      const result = await createCourse({
+        variables: { default_data: normalizeCourseData(CourseLines) },
+      });
+      const id = result.data?.createCardCourse?.course?.id;
+      if (!id) throw new Error('No course ID returned');
+      setSearch('');
+      setSelectedCourseID(String(id));
+    } catch {
+      setCreateError(true);
+    } finally {
+      createLock.current = false;
+    }
+  };
+  const refresh = () => {
+    void refetch().catch(() => void 0);
+    dispatch(loadCourseDataThunk());
+  };
+  if (selectedCourseID)
     return (
       <EditCourseByID
         course_id={selectedCourseID}
-        onChange={(data) => {
-          if (data === 'goBack') {
-            setIsEditCourseNow(false);
-            refetch();
+        onChange={action => {
+          if (action === 'goBack') {
+            setSelectedCourseID(undefined);
+            refresh();
           }
         }}
       />
     );
-  }
 
-  const myCoursesID = own_course_data?.me.cardcourseSet.map((course) =>
-    Number(course.id),
+  // The owned-course query is authoritative. The catalog only supplies optional covers.
+  const courses = (data?.me?.cardcourseSet || []).map(course => ({
+    ...course,
+    stats: courseStats(normalizeCourseData(course.courseData)),
+    cover: catalog.find(item => String(item.id) === String(course.id))
+      ?.cards_cardcourseimage?.image,
+  }));
+  const query = search.trim().toLocaleLowerCase('ru');
+  const visible = courses.filter(course =>
+    `${(course.name || '').replace(/\[.*?\]/g, '')} ${course.id}`
+      .toLocaleLowerCase('ru')
+      .includes(query),
   );
-  const myCoursesData = courses?.filter((course) =>
-    myCoursesID?.includes(Number(course.id)),
+  const filled = courses.filter(
+    course => course.stats.cards || course.stats.links,
+  ).length;
+  const initialLoading = loading && !data;
+  const createButton = (label: string) => (
+    <Button
+      variant="contained"
+      disableElevation
+      disabled={creating || initialLoading}
+      startIcon={
+        creating ? (
+          <CircularProgress size={16} color="inherit" />
+        ) : (
+          <AddRoundedIcon />
+        )
+      }
+      onClick={create}
+    >
+      {creating ? 'Создаём курс…' : label}
+    </Button>
   );
-
   return (
-    <div>
-      <Container>
-        <Button
-          variant="outlined"
-          color="primary"
+    <div className="sw-courselist">
+      <header className="sw-courselist-heading">
+        <div className="sw-card-library-heading">
+          <h1 className="sw-card-library-title">Мои курсы</h1>
+          <p>
+            Собирайте материалы в многоуровневые курсы и создавайте путь
+            обучения.
+          </p>
+        </div>
+        {createButton('Создать курс')}
+      </header>
+      {createError && (
+        <Alert
+          severity="error"
+          onClose={() => setCreateError(false)}
+          className="sw-courselist-alert"
+        >
+          Не удалось создать курс. Попробуйте ещё раз.
+        </Alert>
+      )}
+      {error && (
+        <Alert
+          severity="error"
+          action={
+            <Button color="inherit" onClick={refresh}>
+              Повторить
+            </Button>
+          }
+          className="sw-courselist-alert"
+        >
+          Не удалось {data ? 'обновить список курсов' : 'загрузить курсы'}.
+        </Alert>
+      )}
+      <div className="sw-courselist-summary">
+        <span>
+          <strong>{courses.length}</strong>Всего курсов
+        </span>
+        <span>
+          <strong>{filled}</strong>С материалами
+        </span>
+        <span>
+          <strong>{courses.length - filled}</strong>Пока пустых
+        </span>
+      </div>
+      <div className="sw-courselist-search">
+        <TextField
           fullWidth
-          sx={{ mt: 2 }}
-          size="large"
-          onClick={() => {
-            create_course().then(() => refetch());
+          size="small"
+          label="Поиск по названию или номеру"
+          value={search}
+          onChange={event => setSearch(event.target.value)}
+          disabled={initialLoading}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchRoundedIcon />
+              </InputAdornment>
+            ),
+            endAdornment: search ? (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="Очистить поиск курсов"
+                  size="small"
+                  onClick={() => setSearch('')}
+                >
+                  <CloseRoundedIcon />
+                </IconButton>
+              </InputAdornment>
+            ) : undefined,
           }}
+        />
+        <span>
+          {query
+            ? `Найдено: ${visible.length}`
+            : 'Выберите курс для редактирования'}
+        </span>
+      </div>
+      {initialLoading ? (
+        <div
+          className="sw-courselist-grid"
+          aria-busy="true"
+          aria-label="Загрузка курсов"
         >
-          Создать новый курс
-        </Button>
-        <Grid
-          container
-          justifyContent="space-evenly"
-          sx={{ pt: 2 }}
-          style={{ overflow: 'auto' }}
-        >
-          {myCoursesData?.map((courseData) => {
-            const isCourseHasImage = !!courseData?.cards_cardcourseimage?.image;
-            const courseImageUrl = `${FILE_URL}/${courseData?.cards_cardcourseimage?.image}`;
+          {[0, 1, 2].map(key => (
+            <Skeleton key={key} variant="rounded" height={305} />
+          ))}
+        </div>
+      ) : visible.length ? (
+        <div className="sw-courselist-grid">
+          {visible.map(course => {
+            const title =
+              (course.name || '').replace(/\[.*?\]/g, '').trim() ||
+              'Без названия';
+            const cover = course.cover
+              ? `${FILE_URL}/${course.cover}`
+              : undefined;
             return (
               <Card
-                variant="outlined"
-                onClick={() => {
-                  setSelectedCourseID(courseData.id);
-                  setIsEditCourseNow(true);
-                }}
-                sx={{
-                  borderRadius: 1.5,
-                  width: 360,
-                  display: 'flex',
-                  flexDirection: 'row',
-                  minHeight: '150px',
-                }}
+                key={course.id}
+                elevation={0}
+                className={`sw-courselist-card sw-courselist-palette-${Number(course.id) % 4 || 0}`}
               >
                 <CardActionArea
-                  sx={{
-                    flexGrow: 1,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    borderTopLeftRadius: 0,
-                    borderBottomLeftRadius: 0,
-                  }}
+                  aria-label={`Редактировать курс «${title}»`}
+                  onClick={() => setSelectedCourseID(String(course.id))}
                 >
-                  <Stack
-                    sx={{ p: 2, width: '360px' }}
-                    spacing={1}
-                    direction={'row'}
-                    justifyContent={'space-between'}
-                  >
-                    <Typography variant="h6" sx={{ fontSize: '1.15rem' }}>
-                      {courseData.name}
-                    </Typography>
-                    {isCourseHasImage && (
-                      <Box>
-                        <Box
-                          sx={{
-                            height: '100px',
-                            width: '100px',
-                            borderRadius: 2,
-                            backgroundColor: 'black',
-                            backgroundImage: `url(${courseImageUrl})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                            display: 'block',
-                          }}
-                        />
-                      </Box>
+                  <div className="sw-courselist-card-cover">
+                    <span className="sw-courselist-type">
+                      <AccountTreeOutlinedIcon />
+                      {course.stats.levels > 1 ? 'Многоуровневый курс' : 'Курс'}
+                    </span>
+                    {cover ? (
+                      <img
+                        src={cover}
+                        alt=""
+                        loading="lazy"
+                        onError={event => {
+                          event.currentTarget.style.display = 'none';
+                        }}
+                      />
+                    ) : (
+                      <div
+                        className="sw-courselist-geometry"
+                        aria-hidden="true"
+                      >
+                        <i />
+                        <i />
+                        <i />
+                        <AccountTreeOutlinedIcon />
+                      </div>
                     )}
-                  </Stack>
-                  <Box sx={{ p: 2, alignSelf: 'flex-end' }}>
-                    <Typography
-                      variant="caption"
-                      sx={{ fontSize: '0.75rem', textAlign: 'right' }}
-                    >
-                      {courseData?.users_customuser?.users_userprofile
-                        ?.firstname || ''}{' '}
-                      {courseData?.users_customuser?.users_userprofile
-                        ?.lastname || ''}
-                    </Typography>
-                  </Box>
+                    <span className="sw-courselist-number">№{course.id}</span>
+                  </div>
+                  <div className="sw-courselist-card-body">
+                    <h2>{title}</h2>
+                    <div className="sw-courselist-card-meta">
+                      <span>
+                        <LayersOutlinedIcon />
+                        Уровней: {course.stats.levels}
+                      </span>
+                      <span>
+                        <LibraryBooksOutlinedIcon />
+                        Карточек: {course.stats.cards}
+                      </span>
+                    </div>
+                    <footer>
+                      <span>
+                        {course.stats.cards || course.stats.links
+                          ? `Страниц: ${course.stats.pages}`
+                          : 'Добавьте первые материалы'}
+                      </span>
+                      <span>
+                        Редактировать
+                        <ArrowForwardRoundedIcon />
+                      </span>
+                    </footer>
+                  </div>
                 </CardActionArea>
               </Card>
             );
           })}
-        </Grid>
-      </Container>
+        </div>
+      ) : (
+        !error && (
+          <div className="sw-courselist-empty">
+            <span>
+              <AccountTreeOutlinedIcon />
+            </span>
+            <h2>{query ? 'Курсы не найдены' : 'Здесь появятся ваши курсы'}</h2>
+            <p>
+              {query
+                ? 'Попробуйте другое название или номер курса.'
+                : 'Создайте курс, добавьте уровни и наполните их учебными материалами.'}
+            </p>
+            {query ? (
+              <Button variant="outlined" onClick={() => setSearch('')}>
+                Сбросить поиск
+              </Button>
+            ) : (
+              createButton('Создать первый курс')
+            )}
+          </div>
+        )
+      )}
     </div>
   );
 }

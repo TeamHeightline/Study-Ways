@@ -83,6 +83,7 @@ export default function EditCourseByID({ course_id, onChange }: Props) {
   const courseId = course_id ?? id;
   const { data, loading, error, refetch } = useQuery(GET_COURSE_BY_ID, {
     variables: { id: courseId },
+    fetchPolicy: 'network-only',
     skip: !courseId,
   });
   const [save] = useMutation(UPDATE_COURSE_DATA);

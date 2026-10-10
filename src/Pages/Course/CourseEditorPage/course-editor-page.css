@@ -1,0 +1,366 @@
+.sw-courselist {
+  padding: 28px;
+  border: 1px solid #dfe8e2;
+  border-radius: 18px;
+  background: #fbfdfb;
+  min-width: 0;
+  color: #31533c;
+}
+.sw-courselist .MuiButton-root {
+  border-radius: 10px;
+  font-size: 12px;
+  min-height: 39px;
+  text-transform: none;
+}
+.sw-courselist-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 22px;
+}
+.sw-courselist-heading .sw-card-library-heading {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+.sw-courselist-heading p {
+  font-size: 12px;
+  line-height: 1.8;
+  margin: 10px 0 0;
+  color: #83988a;
+  max-width: 560px;
+}
+.sw-courselist-heading > .MuiButton-root {
+  flex-shrink: 0;
+}
+.sw-courselist-alert.MuiAlert-root {
+  margin-bottom: 18px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+.sw-courselist-summary {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 18px 0 24px;
+  border-bottom: 1px solid #e4ece6;
+  margin-bottom: 24px;
+}
+.sw-courselist-summary > span {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #90a197;
+  font-size: 11px;
+}
+.sw-courselist-summary strong {
+  color: #557e60;
+  font-size: 22px;
+  font-weight: 650;
+  line-height: 1;
+}
+.sw-courselist-search {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.sw-courselist-search .MuiTextField-root {
+  max-width: 540px;
+}
+.sw-courselist-search .MuiOutlinedInput-root {
+  min-height: 47px;
+  font-size: 12px;
+  background: white;
+  border-radius: 11px;
+}
+.sw-courselist-search .MuiOutlinedInput-notchedOutline {
+  border-color: #d6e3da;
+}
+.sw-courselist-search .MuiInputLabel-root {
+  font-size: 12px;
+}
+.sw-courselist-search .MuiInputAdornment-root {
+  color: #92aa9b;
+}
+.sw-courselist-search .MuiInputAdornment-root > svg {
+  font-size: 20px;
+}
+.sw-courselist-search .MuiIconButton-root {
+  color: #94a79a;
+}
+.sw-courselist-search > span {
+  color: #9bad9f;
+  font-size: 10px;
+}
+.sw-courselist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
+  gap: 20px;
+}
+.sw-courselist-grid .MuiSkeleton-root {
+  background: #eaf1ec;
+  border-radius: 16px;
+}
+.sw-courselist-card.MuiCard-root {
+  min-width: 0;
+  border: 1px solid #dfe8e2;
+  border-radius: 16px;
+  background: #fff;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s,
+    transform 0.2s;
+}
+.sw-courselist-card.MuiCard-root:hover {
+  border-color: #b8d3c1;
+  box-shadow: 0 8px 22px #284c3910;
+  transform: translateY(-2px);
+}
+.sw-courselist-card .MuiCardActionArea-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: stretch;
+}
+.sw-courselist-card-cover {
+  height: 150px;
+  position: relative;
+  overflow: hidden;
+  background: #e7f0e8;
+  color: #789982;
+}
+.sw-courselist-card-cover > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.sw-courselist-type {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9px;
+  padding: 5px 8px;
+  background: #fffffff0;
+  color: #76917e;
+  border-radius: 7px;
+  border: 1px solid #ffffff8c;
+}
+.sw-courselist-type svg {
+  font-size: 13px;
+}
+.sw-courselist-number {
+  position: absolute;
+  bottom: 12px;
+  right: 14px;
+  z-index: 1;
+  font-size: 10px;
+  padding: 4px 7px;
+  border-radius: 6px;
+  background: #ffffffe0;
+  color: #7b9584;
+}
+.sw-courselist-geometry {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.sw-courselist-geometry > svg {
+  position: absolute;
+  font-size: 62px;
+  opacity: 0.45;
+}
+.sw-courselist-geometry i {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  opacity: 0.16;
+  right: -50px;
+  top: -90px;
+}
+.sw-courselist-geometry i:nth-child(2) {
+  right: -20px;
+  top: -60px;
+}
+.sw-courselist-geometry i:nth-child(3) {
+  width: 140px;
+  height: 140px;
+  left: -60px;
+  top: 80px;
+}
+.sw-courselist-palette-1 .sw-courselist-card-cover {
+  background: #f1ede5;
+  color: #ae997c;
+}
+.sw-courselist-palette-2 .sw-courselist-card-cover {
+  background: #eeebf4;
+  color: #a499b5;
+}
+.sw-courselist-palette-3 .sw-courselist-card-cover {
+  background: #e7eff2;
+  color: #90a8b3;
+}
+.sw-courselist-card-body {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.sw-courselist-card-body h2 {
+  color: #3a6047;
+  font-size: 15px;
+  line-height: 1.65;
+  font-weight: 650;
+  margin: 0 0 14px;
+  min-height: 50px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+.sw-courselist-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.sw-courselist-card-meta > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #91a396;
+  font-size: 10px;
+}
+.sw-courselist-card-meta svg {
+  font-size: 14px;
+  color: #92ac9b;
+}
+.sw-courselist-card-body footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 16px;
+  border-top: 1px solid #edf2ee;
+  margin-top: 18px;
+}
+.sw-courselist-card-body footer > span:first-child {
+  color: #a1b0a6;
+  font-size: 9px;
+}
+.sw-courselist-card-body footer > span:last-child {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10px;
+  color: #6e967b;
+}
+.sw-courselist-card-body footer svg {
+  font-size: 15px;
+}
+.sw-courselist-empty {
+  text-align: center;
+  padding: 60px 20px;
+  border: 1px dashed #d4e3d9;
+  border-radius: 15px;
+  background: #f7faf8;
+}
+.sw-courselist-empty > span {
+  display: inline-grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: #eaf3ed;
+  color: #8baa95;
+}
+.sw-courselist-empty > span svg {
+  font-size: 32px;
+}
+.sw-courselist-empty h2 {
+  color: #567a60;
+  font-size: 18px;
+  margin: 20px 0 9px;
+}
+.sw-courselist-empty p {
+  color: #95a59a;
+  font-size: 12px;
+  line-height: 1.8;
+  margin: 0 auto 24px;
+  max-width: 400px;
+}
+@media (max-width: 800px) {
+  .sw-courselist-heading {
+    flex-wrap: wrap;
+    gap: 18px;
+  }
+  .sw-courselist-summary {
+    gap: 20px;
+  }
+  .sw-courselist-search {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .sw-courselist-search .MuiTextField-root {
+    max-width: none;
+  }
+}
+@media (max-width: 600px) {
+  .sw-courselist {
+    padding: 16px;
+    border-radius: 14px;
+  }
+  .sw-courselist-heading {
+    display: block;
+    margin-bottom: 10px;
+  }
+  .sw-courselist-heading > .MuiButton-root {
+    margin-top: 16px;
+  }
+  .sw-courselist-heading p {
+    font-size: 11px;
+  }
+  .sw-courselist-summary {
+    gap: 12px;
+    padding: 18px 0 22px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+  }
+  .sw-courselist-summary > span {
+    font-size: 9px;
+    gap: 6px;
+  }
+  .sw-courselist-summary strong {
+    font-size: 18px;
+  }
+  .sw-courselist-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .sw-courselist-search {
+    margin-bottom: 18px;
+  }
+  .sw-courselist-search .MuiInputLabel-root {
+    font-size: 11px;
+  }
+  .sw-courselist-search .MuiOutlinedInput-root {
+    font-size: 12px;
+  }
+  .sw-courselist-card-body {
+    padding: 18px;
+  }
+  .sw-courselist-empty {
+    padding: 40px 16px;
+  }
+}

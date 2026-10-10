@@ -21,7 +21,11 @@ import haveStatus from '../../../Shared/Store/UserStore/utils/HaveStatus';
 import PersonalMenu from './PersonalMenu';
 import { LoginButton } from './LoginButton';
 import { ThemeSelector } from '../../../Shared/Theme/ThemeSelector';
-import { getManulContext } from '../../../Shared/Theme/manul-content';
+import {
+  getManulContext,
+  getThemedNavigationLabel,
+} from '../../../Shared/Theme/manul-content';
+import ThemeStoreObject from '../../../global-theme';
 import {
   ThemeCompanion,
   ThemeIllustration,
@@ -62,21 +66,34 @@ export const Navibar = observer(() => {
   };
   const [open, setOpen] = useState(false);
   const location = useLocation();
-  const title =
-    [...links, ...personal].find(item => location.pathname.startsWith(item.to))
-      ?.label || 'Пространство обучения';
+  const navLabel = (item: { to: string; label: string }) =>
+    getThemedNavigationLabel(
+      item.to,
+      item.label,
+      ThemeStoreObject.definition.illustrations,
+    );
+  const currentLink = [...links, ...personal].find(item =>
+    location.pathname.startsWith(item.to),
+  );
+  const title = currentLink ? navLabel(currentLink) : 'Пространство обучения';
   const renderLinks = (items: typeof personal) =>
     items.map(item => (
       <NavLink
         key={item.to}
         to={item.to}
+        title={navLabel(item) !== item.label ? item.label : undefined}
+        aria-label={
+          navLabel(item) !== item.label
+            ? `${navLabel(item)} — ${item.label}`
+            : undefined
+        }
         onClick={() => setOpen(false)}
         className={({ isActive }) =>
           `sw-nav-link ${isActive ? 'is-active' : ''}`
         }
       >
         {item.icon}
-        <span>{item.label}</span>
+        <span>{navLabel(item)}</span>
         {'badge' in item && <small>AI</small>}
       </NavLink>
     ));

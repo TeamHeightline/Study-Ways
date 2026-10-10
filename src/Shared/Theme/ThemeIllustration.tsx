@@ -12,6 +12,13 @@ import manuscript from './assets/manul/manuscript.png';
 import curled from './assets/manul/curled.png';
 import snow from './assets/manul/snow.png';
 import counting from './assets/manul/counting.png';
+import astronomer from './assets/manul/astronomer.png';
+import tea from './assets/manul/tea.png';
+import prism from './assets/manul/prism.png';
+import pendulum from './assets/manul/pendulum.png';
+import weightless from './assets/manul/weightless.png';
+import doppler from './assets/manul/doppler.png';
+import rotation from './assets/manul/rotation.png';
 import { ManulContext, manulNotes } from './manul-content';
 
 export type Variant =
@@ -24,7 +31,14 @@ export type Variant =
   | 'manuscript'
   | 'curled'
   | 'snow'
-  | 'counting';
+  | 'counting'
+  | 'astronomer'
+  | 'tea'
+  | 'prism'
+  | 'pendulum'
+  | 'weightless'
+  | 'doppler'
+  | 'rotation';
 const packs: Record<string, Record<Variant, string>> = {
   manul: {
     reader,
@@ -37,6 +51,13 @@ const packs: Record<string, Record<Variant, string>> = {
     curled,
     snow,
     counting,
+    astronomer,
+    tea,
+    prism,
+    pendulum,
+    weightless,
+    doppler,
+    rotation,
   },
 };
 const getPack = (name: string) =>

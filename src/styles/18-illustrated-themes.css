@@ -153,7 +153,7 @@
   @apply tw-flex tw-items-center tw-flex-wrap tw-gap-x-4 tw-gap-y-1 tw-text-ui-10 tw-text-neutral-600;
 }
 .sw-manul-note-footer button {
-  @apply tw-inline-flex tw-items-center tw-gap-1.5 tw-min-h-8 tw-py-1 tw-px-2 tw-rounded-ui-8 tw-text-ui-11 tw-font-semibold tw-text-accent tw-cursor-pointer;
+  @apply tw-inline-flex tw-items-center tw-gap-1.5 tw-min-h-8 tw-py-1 tw-px-2 tw-rounded-ui-8 tw-text-ui-11 tw-font-semibold tw-text-accent-800 tw-cursor-pointer;
   background: var(--sw-surface);
   border: 1px solid var(--sw-border);
   font-family: inherit;
@@ -189,6 +189,11 @@
 }
 .sw-theme-companion figcaption {
   @apply tw-max-w-[180px] tw-mx-auto;
+}
+[data-illustrations='manul'] .MuiToggleButton-root.Mui-selected,
+[data-illustrations='manul'] .MuiToggleButton-root.Mui-selected:hover {
+  @apply tw-text-ink;
+  background: var(--sw-accent-150);
 }
 @media (max-width: 600px) {
   .sw-manul-note {

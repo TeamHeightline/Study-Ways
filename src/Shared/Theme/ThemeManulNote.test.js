@@ -28,8 +28,7 @@ test('contextual notes appear only in the Manul theme, cycle quotes, and reset f
     );
     const button = container.querySelector('button');
     for (const quote of [
-      manulNotes.history.quotes[1],
-      manulNotes.history.quotes[2],
+      ...manulNotes.history.quotes.slice(1),
       manulNotes.history.quotes[0],
     ]) {
       await act(async () => button.click());

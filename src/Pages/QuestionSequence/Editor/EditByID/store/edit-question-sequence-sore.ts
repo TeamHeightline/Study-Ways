@@ -94,6 +94,7 @@ class EditQuestionSequenceSoreClass {
   }
 
   changeQuestionSequenceID = (newID: string) => {
+    if (this.QuestionSequenceID === newID && this.qsDataLoaded) return;
     this.QuestionSequenceID = newID;
     this.qsDataLoaded = false;
   };

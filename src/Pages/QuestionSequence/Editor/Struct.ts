@@ -12,6 +12,12 @@ export const CREATE_QUESTION_SEQUENCE = gql`
   mutation CREATE_QUESTION_SEQUENCE($sequenceData: GenericScalar!) {
     createQuestionSequence(input: { sequenceData: $sequenceData }) {
       clientMutationId
+      sequence {
+        id
+        name
+        description
+        sequenceData
+      }
     }
   }
 `;

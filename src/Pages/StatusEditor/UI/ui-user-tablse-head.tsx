@@ -1,20 +1,15 @@
 import { TableCell, TableHead, TableRow } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
 
-type IUIUserProfileHeadProps = PaperProps;
-
-export default function UIUserProfileHead({
-  ...props
-}: IUIUserProfileHeadProps) {
+export default function UIUserProfileHead() {
   return (
     <TableHead>
       <TableRow>
-        <TableCell>№</TableCell>
-        <TableCell>Имя</TableCell>
-        <TableCell>Фамилия</TableCell>
-        <TableCell>Email</TableCell>
+        <TableCell>Пользователь</TableCell>
         <TableCell>Учебное заведение</TableCell>
-        <TableCell>Статус</TableCell>
+        <TableCell>Уровень доступа</TableCell>
+        <TableCell>
+          <span className="sw-access-visually-hidden">Действия</span>
+        </TableCell>
       </TableRow>
     </TableHead>
   );

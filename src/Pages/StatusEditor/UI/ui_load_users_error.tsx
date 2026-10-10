@@ -1,19 +1,28 @@
-import { Alert, Box } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
-import { RootState } from '../../../App/ReduxStore/RootStore';
-import { useSelector } from 'react-redux';
+import { Alert, Button } from '@mui/material';
+import {
+  RootState,
+  useAppDispatch,
+  useAppSelector,
+} from '../../../App/ReduxStore/RootStore';
+import { loadAllUsersAsync } from '../redux-store/AsyncActions';
 
-type IUILoadUsersFailProps = BoxProps;
-
-export default function UILoadUsersFail({ ...props }: IUILoadUsersFailProps) {
-  const is_users_loading_error = useSelector(
+export default function UILoadUsersFail() {
+  const dispatch = useAppDispatch();
+  const error = useAppSelector(
     (state: RootState) => state.statusEditor.is_users_loading_error,
   );
+  if (!error) return null;
   return (
-    <Box {...props}>
-      {is_users_loading_error && (
-        <Alert severity={'error'}>Ошибка загрузки пользователей</Alert>
-      )}
-    </Box>
+    <Alert
+      severity="error"
+      className="sw-access-alert"
+      action={
+        <Button color="inherit" onClick={() => dispatch(loadAllUsersAsync())}>
+          Повторить
+        </Button>
+      }
+    >
+      Не удалось загрузить пользователей. Попробуйте ещё раз.
+    </Alert>
   );
 }

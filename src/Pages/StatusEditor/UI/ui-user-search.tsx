@@ -1,57 +1,47 @@
-import { Button, Grid, Paper, Stack, TextField } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
-import { useSelector } from 'react-redux';
-import { changeSearchString } from '../redux-store/StatusEditorSlice';
+import { IconButton, InputAdornment, TextField } from '@mui/material';
 import {
-  loadAllUsersAsync,
-  searchUserAsync,
-} from '../redux-store/AsyncActions';
-import { RootState, useAppDispatch } from '../../../App/ReduxStore/RootStore';
-import SearchIcon from '@mui/icons-material/Search';
+  RootState,
+  useAppDispatch,
+  useAppSelector,
+} from '../../../App/ReduxStore/RootStore';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import { changeSearchString } from '../redux-store/StatusEditorSlice';
 
-type IUIUserSearchProps = PaperProps;
-
-export default function UIUserSearch({ ...props }: IUIUserSearchProps) {
-  const searchText = useSelector(
+export default function UIUserSearch() {
+  const dispatch = useAppDispatch();
+  const search = useAppSelector(
     (state: RootState) => state.statusEditor.searchString,
   );
-  const dispatch = useAppDispatch();
-
-  function changeSearchTextHandle(event) {
-    dispatch(changeSearchString(event.target.value));
-  }
-
-  function searchUsersHandle() {
-    if (searchText.length > 0) {
-      dispatch(searchUserAsync(searchText));
-    } else {
-      dispatch(loadAllUsersAsync());
-    }
-  }
-
   return (
-    <Paper elevation={0} {...props}>
-      <Grid container>
-        <Grid item xs={12} md={6}>
-          <Stack direction={'row'} spacing={1}>
-            <TextField
-              value={searchText}
-              onChange={changeSearchTextHandle}
-              fullWidth
-              id="user_search"
-              label="Поиск по имени фамилии и email"
-              variant="outlined"
-            />
-            <Button
-              onClick={searchUsersHandle}
-              variant={'outlined'}
-              startIcon={<SearchIcon />}
-            >
-              Поиск
-            </Button>
-          </Stack>
-        </Grid>
-      </Grid>
-    </Paper>
+    <div className="sw-access-search">
+      <TextField
+        fullWidth
+        size="small"
+        label="Поиск пользователей"
+        placeholder="Имя, фамилия, email или ID"
+        value={search}
+        onChange={event => dispatch(changeSearchString(event.target.value))}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchRoundedIcon />
+            </InputAdornment>
+          ),
+          endAdornment: search ? (
+            <InputAdornment position="end">
+              <IconButton
+                size="small"
+                aria-label="Очистить поиск пользователей"
+                onClick={() => dispatch(changeSearchString(''))}
+              >
+                <CloseRoundedIcon />
+              </IconButton>
+            </InputAdornment>
+          ) : undefined,
+        }}
+      />
+      <span>Поиск по имени, email, номеру и учебному заведению</span>
+    </div>
   );
 }

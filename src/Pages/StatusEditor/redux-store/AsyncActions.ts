@@ -1,35 +1,20 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosClient from '../../../Shared/ServerLayer/QueryLayer/config';
+import {
+  IBasicUserInformation,
+  user_access_level,
+} from '../../../Shared/ServerLayer/Types/user.types';
 
 export const loadAllUsersAsync = createAsyncThunk(
   'statusEditor/loadAllUsers',
   async () => {
-    const res = await axiosClient.get<{ allUsers: User[] }>('/user/all/data');
+    const res = await axiosClient.get<{ allUsers: IBasicUserInformation[] }>(
+      '/user/all/data',
+    );
     return res.data.allUsers;
   },
 );
 
-export interface UsersUserprofile {
-  firstname: string;
-  lastname: string;
-}
-
-export interface User {
-  id: number;
-  username: string;
-  user_access_level: string;
-  users_userprofile: UsersUserprofile;
-}
-
-export const searchUserAsync = createAsyncThunk(
-  'statusEditor/searchUser',
-  async (searchQuery: string, T) => {
-    const res = await axiosClient.get<User[]>(
-      `/user/search?search=${searchQuery}`,
-    );
-    return res.data;
-  },
-);
 export const updateUserStatusAsync = createAsyncThunk(
   'statusEditor/updateUserStatus',
   async ({
@@ -37,12 +22,13 @@ export const updateUserStatusAsync = createAsyncThunk(
     user_access_level,
   }: {
     user_id: number;
-    user_access_level: string;
+    user_access_level: user_access_level;
   }) => {
-    const res = await axiosClient.post<{ updatedUser: User }>(
+    const res = await axiosClient.post<{ updatedUser: IBasicUserInformation }>(
       '/user/status/update',
       { user_id, user_access_level },
     );
+    if (!res.data.updatedUser?.id) throw new Error('No updated user returned');
     return res.data.updatedUser;
   },
 );

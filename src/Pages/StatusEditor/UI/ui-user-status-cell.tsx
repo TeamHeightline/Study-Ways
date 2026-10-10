@@ -1,22 +1,28 @@
 import { TableCell } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
-import { IBasicUserInformation } from '../../../Shared/ServerLayer/Types/user.types';
+import {
+  IBasicUserInformation,
+  user_access_level,
+} from '../../../Shared/ServerLayer/Types/user.types';
+import { getAccessLevel } from '../access-levels';
 
-interface IUIUserStatusCellProps extends PaperProps {
-  user: IBasicUserInformation;
+export function AccessLevelBadge({ value }: { value: user_access_level }) {
+  const level = getAccessLevel(value);
+  return (
+    <span className={`sw-access-badge is-${value.toLowerCase()}`}>
+      {level && <level.Icon />}
+      {level?.label || 'Уровень не указан'}
+    </span>
+  );
 }
 
 export default function UIUserStatusCell({
   user,
-  ...props
-}: IUIUserStatusCellProps) {
+}: {
+  user: IBasicUserInformation;
+}) {
   return (
-    <TableCell>
-      {user.user_access_level == 'STUDENT' && 'Студент'}
-      {user.user_access_level == 'CARD_EDITOR' &&
-        'Студент с правом создания карточек'}
-      {user.user_access_level == 'TEACHER' && 'Преподаватель'}
-      {user.user_access_level == 'ADMIN' && 'Администратор'}
+    <TableCell className="sw-access-level-cell">
+      <AccessLevelBadge value={user.user_access_level} />
     </TableCell>
   );
 }

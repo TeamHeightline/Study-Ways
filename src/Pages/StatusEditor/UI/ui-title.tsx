@@ -1,14 +1,8 @@
-import { Paper, Stack, Typography } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
-
-type IUITitleProps = PaperProps;
-
-export default function UITitle({ ...props }: IUITitleProps) {
+export default function UITitle() {
   return (
-    <Paper elevation={0} {...props}>
-      <Stack alignItems={'center'} sx={{ mt: 4, mb: 4 }}>
-        <Typography variant={'h4'}>Редактор статусов</Typography>
-      </Stack>
-    </Paper>
+    <div className="sw-card-library-heading">
+      <h1 className="sw-card-library-title">Уровни доступа</h1>
+      <p>Управляйте правами студентов, авторов материалов и преподавателей.</p>
+    </div>
   );
 }

@@ -1,17 +1,17 @@
 .sw-access.MuiPaper-root {
   padding: 28px;
   min-width: 0;
-  border: 1px solid #dfe8e2;
-  border-radius: 18px;
-  background: #fbfdfb;
-  color: #31533c;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-18);
+  background: var(--sw-surface-subtle);
+  color: var(--sw-accent-800);
 }
 .sw-access .MuiButton-root,
 .sw-access-dialog .MuiButton-root {
   min-height: 38px;
-  border-radius: 10px;
+  border-radius: var(--sw-radius-10);
   text-transform: none;
-  font-size: 12px;
+  font-size: var(--sw-font-size-12);
   box-shadow: none;
 }
 .sw-access-heading {
@@ -27,15 +27,15 @@
 }
 .sw-access-heading p {
   margin: 10px 0 0;
-  color: #84958a;
-  font-size: 12px;
+  color: var(--sw-neutral-500);
+  font-size: var(--sw-font-size-12);
   line-height: 1.8;
 }
 .sw-access-heading > .MuiButton-root {
   flex-shrink: 0;
-  border-color: #cfdfd4;
-  color: #557d64;
-  background: #fff;
+  border-color: var(--sw-border-strong);
+  color: var(--sw-accent-600);
+  background: var(--sw-surface);
 }
 .sw-access-filters {
   display: grid;
@@ -49,10 +49,10 @@
   gap: 12px;
   min-width: 0;
   padding: 17px 14px;
-  border: 1px solid #e0e9e3;
-  border-radius: 13px;
-  background: #fff;
-  color: #819288;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-13);
+  background: var(--sw-surface);
+  color: var(--sw-neutral-500);
   font: inherit;
   text-align: left;
   cursor: pointer;
@@ -62,17 +62,17 @@
     box-shadow 0.18s;
 }
 .sw-access-filter:hover {
-  background: #f3f8f4;
-  border-color: #b9d3c2;
+  background: var(--sw-accent-50);
+  border-color: var(--sw-accent-300);
 }
 .sw-access-filter:focus-visible {
-  outline: 2px solid #43865e;
+  outline: 2px solid var(--sw-accent-600);
   outline-offset: 3px;
 }
 .sw-access-filter.is-selected {
-  background: #edf6ef;
-  border-color: #92bba0;
-  box-shadow: 0 0 0 1px #92bba01a;
+  background: var(--sw-accent-100);
+  border-color: var(--sw-accent-400);
+  box-shadow: 0 0 0 1px rgb(var(--sw-accent-400-rgb) / 0.102);
 }
 .sw-access-filter:disabled {
   cursor: default;
@@ -84,12 +84,12 @@
   flex-shrink: 0;
   width: 38px;
   height: 38px;
-  border-radius: 11px;
-  color: #719b7f;
-  background: #edf5ef;
+  border-radius: var(--sw-radius-11);
+  color: var(--sw-accent-500);
+  background: var(--sw-accent-100);
 }
 .sw-access-filter-icon svg {
-  font-size: 21px;
+  font-size: var(--sw-font-size-21);
 }
 .sw-access-filter > span:last-child {
   display: flex;
@@ -98,35 +98,35 @@
   min-width: 0;
 }
 .sw-access-filter strong {
-  font-size: 23px;
+  font-size: var(--sw-font-size-23);
   line-height: 1;
   font-weight: 650;
-  color: #42674d;
+  color: var(--sw-accent-800);
 }
 .sw-access-filter > span > span {
-  font-size: 10px;
+  font-size: var(--sw-font-size-10);
   line-height: 1.4;
 }
 .sw-access-filter.is-selected > span > span {
-  color: #50775c;
+  color: var(--sw-accent-600);
 }
 .sw-access-filter.is-card_editor .sw-access-filter-icon {
-  color: #aa936e;
-  background: #f7f2e9;
+  color: var(--sw-warning-400);
+  background: var(--sw-warning-50);
 }
 .sw-access-filter.is-teacher .sw-access-filter-icon {
-  color: #7695aa;
-  background: #edf3f7;
+  color: var(--sw-info-600);
+  background: var(--sw-info-50);
 }
 .sw-access-filter.is-admin .sw-access-filter-icon {
-  color: #9a87b0;
-  background: #f3eff8;
+  color: var(--sw-violet-600);
+  background: var(--sw-violet-100);
 }
 .sw-access-directory {
   padding: 24px;
-  border: 1px solid #dfe8e2;
-  border-radius: 15px;
-  background: #fff;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-15);
+  background: var(--sw-surface);
   min-width: 0;
 }
 .sw-access-directory-heading {
@@ -138,24 +138,24 @@
 }
 .sw-access-directory-heading h2 {
   margin: 0 0 6px;
-  font-size: 17px;
+  font-size: var(--sw-font-size-17);
   font-weight: 650;
-  color: #355b42;
+  color: var(--sw-accent-800);
 }
 .sw-access-directory-heading p {
   margin: 0;
-  color: #94a298;
-  font-size: 11px;
+  color: var(--sw-subtle);
+  font-size: var(--sw-font-size-11);
   line-height: 1.7;
 }
 .sw-access-result-count {
   flex-shrink: 0;
   padding: 6px 10px;
-  color: #7e9787;
-  background: #f2f7f3;
-  border: 1px solid #e1ebe4;
-  border-radius: 7px;
-  font-size: 10px;
+  color: var(--sw-neutral-500);
+  background: var(--sw-accent-50);
+  border: 1px solid var(--sw-border-subtle);
+  border-radius: var(--sw-radius-7);
+  font-size: var(--sw-font-size-10);
 }
 .sw-access-search {
   display: flex;
@@ -168,43 +168,43 @@
 }
 .sw-access-search .MuiOutlinedInput-root {
   min-height: 46px;
-  border-radius: 10px;
-  font-size: 12px;
-  background: #fbfdfb;
+  border-radius: var(--sw-radius-10);
+  font-size: var(--sw-font-size-12);
+  background: var(--sw-surface-subtle);
 }
 .sw-access-search .MuiInputLabel-root {
-  font-size: 12px;
+  font-size: var(--sw-font-size-12);
 }
 .sw-access-search .MuiOutlinedInput-notchedOutline {
-  border-color: #d8e4dc;
+  border-color: var(--sw-border);
 }
 .sw-access-search .MuiInputAdornment-root,
 .sw-access-search .MuiIconButton-root {
-  color: #8ca695;
+  color: var(--sw-subtle);
 }
 .sw-access-search .MuiInputAdornment-root > svg {
-  font-size: 20px;
+  font-size: var(--sw-font-size-20);
 }
 .sw-access-search > span {
-  color: #9aa99f;
-  font-size: 10px;
+  color: var(--sw-subtle);
+  font-size: var(--sw-font-size-10);
   line-height: 1.7;
   max-width: 220px;
 }
 .sw-access-table-shell {
-  border: 1px solid #e1eae4;
-  border-radius: 12px;
+  border: 1px solid var(--sw-border-subtle);
+  border-radius: var(--sw-radius-12);
 }
 .sw-access-table {
   table-layout: fixed;
 }
 .sw-access-table .MuiTableHead-root .MuiTableCell-root {
-  background: #f3f7f4;
-  color: #8a9c90;
+  background: var(--sw-accent-50);
+  color: var(--sw-neutral-500);
   padding: 14px 18px;
-  font-size: 10px;
+  font-size: var(--sw-font-size-10);
   font-weight: 600;
-  border-bottom-color: #e1eae4;
+  border-bottom-color: var(--sw-border-subtle);
 }
 .sw-access-table .MuiTableHead-root .MuiTableCell-root:first-child {
   width: 36%;
@@ -220,9 +220,9 @@
 }
 .sw-access-table .MuiTableBody-root .MuiTableCell-root {
   padding: 18px;
-  border-bottom: 1px solid #edf1ee;
-  color: #657d6d;
-  font-size: 12px;
+  border-bottom: 1px solid var(--sw-neutral-100);
+  color: var(--sw-neutral-600);
+  font-size: var(--sw-font-size-12);
   overflow-wrap: anywhere;
 }
 .sw-access-table .MuiTableRow-root:last-child .MuiTableCell-root {
@@ -232,7 +232,7 @@
   transition: background 0.15s;
 }
 .sw-access-table .MuiTableBody-root .MuiTableRow-root:hover {
-  background: #fcfefc;
+  background: var(--sw-surface-subtle);
 }
 .sw-access-person {
   display: flex;
@@ -243,11 +243,11 @@
 .sw-access-person .MuiAvatar-root {
   width: 42px;
   height: 42px;
-  background: #edf4ee;
-  color: #779981;
-  font-size: 13px;
+  background: var(--sw-accent-100);
+  color: var(--sw-accent-500);
+  font-size: var(--sw-font-size-13);
   font-weight: 600;
-  border: 1px solid #e1ebe4;
+  border: 1px solid var(--sw-border-subtle);
 }
 .sw-access-person > div:last-child {
   display: flex;
@@ -256,63 +256,63 @@
   min-width: 0;
 }
 .sw-access-person strong {
-  font-size: 12px;
+  font-size: var(--sw-font-size-12);
   font-weight: 650;
-  color: #43644e;
+  color: var(--sw-neutral-800);
   line-height: 1.5;
 }
 .sw-access-person span {
-  font-size: 10px;
-  color: #8c9d91;
+  font-size: var(--sw-font-size-10);
+  color: var(--sw-neutral-500);
   line-height: 1.5;
 }
 .sw-access-person small {
-  font-size: 9px;
-  color: #a8b4ac;
+  font-size: var(--sw-font-size-9);
+  color: var(--sw-neutral-400);
 }
 .sw-access-organization > span {
   display: block;
-  color: #84978b;
-  font-size: 11px;
+  color: var(--sw-neutral-500);
+  font-size: var(--sw-font-size-11);
   line-height: 1.7;
 }
 .sw-access-organization > small {
   display: block;
   margin-top: 4px;
-  color: #a0ada5;
-  font-size: 10px;
+  color: var(--sw-neutral-400);
+  font-size: var(--sw-font-size-10);
 }
 .sw-access-badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  border: 1px solid #dce9df;
-  border-radius: 7px;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-7);
   padding: 6px 8px;
-  background: #f0f7f1;
-  color: #70917a;
-  font-size: 10px;
+  background: var(--sw-accent-100);
+  color: var(--sw-accent-500);
+  font-size: var(--sw-font-size-10);
   line-height: 1.4;
   white-space: nowrap;
 }
 .sw-access-badge svg {
-  font-size: 15px;
+  font-size: var(--sw-font-size-15);
   flex-shrink: 0;
 }
 .sw-access-badge.is-card_editor {
-  background: #fbf7ef;
-  border-color: #eee4d2;
-  color: #a38d68;
+  background: var(--sw-warning-50);
+  border-color: var(--sw-warning-100);
+  color: var(--sw-warning-400);
 }
 .sw-access-badge.is-teacher {
-  background: #f0f5f8;
-  border-color: #dce7ee;
-  color: #7896aa;
+  background: var(--sw-info-50);
+  border-color: var(--sw-info-100);
+  color: var(--sw-info-600);
 }
 .sw-access-badge.is-admin {
-  background: #f5f1f9;
-  border-color: #e6dded;
-  color: #9c87b0;
+  background: var(--sw-violet-100);
+  border-color: var(--sw-violet-100);
+  color: var(--sw-violet-600);
 }
 .sw-access-table .sw-access-action-cell {
   text-align: right;
@@ -320,15 +320,15 @@
 }
 .sw-access-action-cell .MuiButton-root {
   min-width: 0;
-  font-size: 10px;
-  color: #739680;
+  font-size: var(--sw-font-size-10);
+  color: var(--sw-accent-500);
   padding-inline: 9px;
 }
 .sw-access-action-cell .MuiButton-startIcon {
   margin-right: 5px;
 }
 .sw-access-action-cell .MuiButton-startIcon svg {
-  font-size: 15px;
+  font-size: var(--sw-font-size-15);
 }
 .sw-access-pagination {
   display: flex;
@@ -338,21 +338,21 @@
   margin-top: 20px;
 }
 .sw-access-pagination > span {
-  font-size: 10px;
-  color: #a0afa5;
+  font-size: var(--sw-font-size-10);
+  color: var(--sw-neutral-400);
 }
 .sw-access-pagination .MuiPaginationItem-root {
-  border-radius: 7px;
-  font-size: 11px;
-  color: #7e9787;
+  border-radius: var(--sw-radius-7);
+  font-size: var(--sw-font-size-11);
+  color: var(--sw-neutral-500);
 }
 .sw-access-pagination .MuiPaginationItem-root.Mui-selected {
-  background: #e5f0e8;
-  color: #3f7451;
+  background: var(--sw-accent-150);
+  color: var(--sw-accent-700);
 }
 .sw-access-loading {
-  border: 1px solid #e1eae4;
-  border-radius: 12px;
+  border: 1px solid var(--sw-border-subtle);
+  border-radius: var(--sw-radius-12);
   padding: 0 18px;
 }
 .sw-access-loading > div {
@@ -360,7 +360,7 @@
   align-items: center;
   gap: 16px;
   padding: 20px 0;
-  border-bottom: 1px solid #edf1ee;
+  border-bottom: 1px solid var(--sw-neutral-100);
 }
 .sw-access-loading > div:last-child {
   border-bottom: 0;
@@ -369,13 +369,13 @@
   flex: 1;
 }
 .sw-access .MuiSkeleton-root {
-  background: #ecf2ee;
+  background: var(--sw-accent-100);
 }
 .sw-access-empty {
   padding: 56px 20px;
-  border: 1px dashed #d6e4db;
-  border-radius: 12px;
-  background: #fbfdfb;
+  border: 1px dashed var(--sw-border);
+  border-radius: var(--sw-radius-12);
+  background: var(--sw-surface-subtle);
   text-align: center;
 }
 .sw-access-empty > span {
@@ -383,30 +383,30 @@
   place-items: center;
   width: 60px;
   height: 60px;
-  border-radius: 17px;
-  background: #edf5ef;
-  color: #8eaa97;
+  border-radius: var(--sw-radius-17);
+  background: var(--sw-accent-100);
+  color: var(--sw-accent-400);
 }
 .sw-access-empty > span svg {
-  font-size: 30px;
+  font-size: var(--sw-font-size-30);
 }
 .sw-access-empty h3 {
   margin: 18px 0 9px;
-  color: #567b62;
-  font-size: 17px;
+  color: var(--sw-accent-600);
+  font-size: var(--sw-font-size-17);
   font-weight: 600;
 }
 .sw-access-empty p {
   max-width: 350px;
   margin: 0 auto 20px;
-  font-size: 12px;
-  color: #96a69b;
+  font-size: var(--sw-font-size-12);
+  color: var(--sw-subtle);
   line-height: 1.8;
 }
 .sw-access-alert.MuiAlert-root {
   margin: 0 0 18px;
-  border-radius: 10px;
-  font-size: 12px;
+  border-radius: var(--sw-radius-10);
+  font-size: var(--sw-font-size-12);
 }
 .sw-access-visually-hidden {
   position: absolute;
@@ -418,12 +418,12 @@
   white-space: nowrap;
 }
 .sw-access-dialog .MuiDialog-paper {
-  border: 1px solid #dce7df;
-  border-radius: 18px;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-18);
   max-width: 540px;
-  background: #fff;
-  color: #42664e;
-  box-shadow: 0 20px 70px #1b3d3026;
+  background: var(--sw-surface);
+  color: var(--sw-accent-800);
+  box-shadow: 0 20px 70px rgb(var(--sw-shadow-rgb) / 0.149);
 }
 .sw-access-dialog .MuiDialogTitle-root {
   display: flex;
@@ -431,12 +431,12 @@
   justify-content: space-between;
   gap: 12px;
   padding: 24px 26px 0;
-  font-size: 21px;
+  font-size: var(--sw-font-size-21);
   font-weight: 650;
-  color: #31583e;
+  color: var(--sw-accent-800);
 }
 .sw-access-dialog .MuiDialogTitle-root .MuiIconButton-root {
-  color: #97aa9d;
+  color: var(--sw-subtle);
   padding: 6px;
 }
 .sw-access-dialog .MuiDialogContent-root {
@@ -444,8 +444,8 @@
 }
 .sw-access-dialog #sw-access-dialog-description {
   margin: 9px 0 22px;
-  color: #94a59a;
-  font-size: 12px;
+  color: var(--sw-subtle);
+  font-size: var(--sw-font-size-12);
   line-height: 1.8;
 }
 .sw-access-dialog-person {
@@ -453,17 +453,17 @@
   align-items: center;
   gap: 14px;
   padding: 16px;
-  background: #f7faf8;
-  border: 1px solid #e4ece6;
-  border-radius: 12px;
+  background: var(--sw-surface-subtle);
+  border: 1px solid var(--sw-border-subtle);
+  border-radius: var(--sw-radius-12);
   margin-bottom: 22px;
 }
 .sw-access-dialog-person > .MuiAvatar-root {
   width: 44px;
   height: 44px;
-  background: #e7f0e9;
-  color: #789883;
-  font-size: 14px;
+  background: var(--sw-border-subtle);
+  color: var(--sw-sage-500);
+  font-size: var(--sw-font-size-14);
 }
 .sw-access-dialog-person > div:last-child {
   display: flex;
@@ -473,27 +473,27 @@
   overflow-wrap: anywhere;
 }
 .sw-access-dialog-person strong {
-  font-size: 13px;
-  color: #4c6e56;
+  font-size: var(--sw-font-size-13);
+  color: var(--sw-sage-700);
 }
 .sw-access-dialog-person > div > span {
-  font-size: 11px;
-  color: #93a298;
+  font-size: var(--sw-font-size-11);
+  color: var(--sw-subtle);
 }
 .sw-access-dialog-person small {
   display: flex;
   align-items: center;
   gap: 7px;
   margin-top: 5px;
-  color: #a0ada5;
-  font-size: 10px;
+  color: var(--sw-neutral-400);
+  font-size: var(--sw-font-size-10);
 }
 .sw-access-dialog-person .sw-access-badge {
   padding: 3px 6px;
-  font-size: 9px;
+  font-size: var(--sw-font-size-9);
 }
 .sw-access-dialog-person .sw-access-badge svg {
-  font-size: 12px;
+  font-size: var(--sw-font-size-12);
 }
 .sw-access-dialog .MuiRadioGroup-root {
   gap: 10px;
@@ -503,24 +503,24 @@
   align-items: center;
   gap: 12px;
   padding: 14px;
-  border: 1px solid #e1e9e3;
-  border-radius: 11px;
-  background: #fff;
+  border: 1px solid var(--sw-border-subtle);
+  border-radius: var(--sw-radius-11);
+  background: var(--sw-surface);
   cursor: pointer;
   transition:
     background 0.15s,
     border-color 0.15s;
 }
 .sw-access-role-option:hover {
-  border-color: #afcbb8;
-  background: #fcfefc;
+  border-color: var(--sw-accent-300);
+  background: var(--sw-surface-subtle);
 }
 .sw-access-role-option.is-selected {
-  background: #f0f7f2;
-  border-color: #88b597;
+  background: var(--sw-accent-100);
+  border-color: var(--sw-accent-400);
 }
 .sw-access-role-option:focus-within {
-  outline: 2px solid #43865e;
+  outline: 2px solid var(--sw-accent-600);
   outline-offset: 2px;
 }
 .sw-access-role-option.is-disabled {
@@ -533,16 +533,16 @@
   width: 37px;
   height: 37px;
   flex-shrink: 0;
-  border-radius: 10px;
-  background: #eef4ef;
-  color: #8aa492;
+  border-radius: var(--sw-radius-10);
+  background: var(--sw-accent-100);
+  color: var(--sw-subtle);
 }
 .sw-access-option-icon svg {
-  font-size: 20px;
+  font-size: var(--sw-font-size-20);
 }
 .sw-access-role-option.is-selected .sw-access-option-icon {
-  background: #e0eee4;
-  color: #5d8e6c;
+  background: var(--sw-accent-150);
+  color: var(--sw-accent-500);
 }
 .sw-access-role-option > span:nth-child(2) {
   flex: 1;
@@ -550,23 +550,23 @@
 }
 .sw-access-role-option strong {
   display: block;
-  font-size: 12px;
+  font-size: var(--sw-font-size-12);
   font-weight: 600;
-  color: #53735d;
+  color: var(--sw-accent-600);
 }
 .sw-access-role-option > span > span {
   display: block;
   margin-top: 5px;
-  font-size: 10px;
-  color: #98a89d;
+  font-size: var(--sw-font-size-10);
+  color: var(--sw-subtle);
   line-height: 1.7;
 }
 .sw-access-role-option .MuiRadio-root {
-  color: #c0d3c7;
+  color: var(--sw-border-strong);
   padding: 3px;
 }
 .sw-access-role-option .MuiRadio-root.Mui-checked {
-  color: #528b64;
+  color: var(--sw-accent-600);
 }
 .sw-access-dialog .sw-access-alert {
   margin: 16px 0 0;
@@ -576,19 +576,19 @@
   justify-content: space-between;
   gap: 16px;
   padding: 18px 26px;
-  border-top: 1px solid #e5ede7;
-  background: #fbfdfb;
+  border-top: 1px solid var(--sw-border-subtle);
+  background: var(--sw-surface-subtle);
 }
 .sw-access-dialog .MuiDialogActions-root > span {
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 9px;
-  color: #9bab9f;
+  font-size: var(--sw-font-size-9);
+  color: var(--sw-subtle);
   line-height: 1.7;
 }
 .sw-access-dialog .MuiDialogActions-root > span svg {
-  font-size: 13px;
+  font-size: var(--sw-font-size-13);
 }
 .sw-access-dialog .MuiDialogActions-root > div {
   display: flex;
@@ -609,10 +609,10 @@
     height: 32px;
   }
   .sw-access-filter > span > span {
-    font-size: 9px;
+    font-size: var(--sw-font-size-9);
   }
   .sw-access-filter strong {
-    font-size: 21px;
+    font-size: var(--sw-font-size-21);
   }
   .sw-access-table .MuiTableBody-root .MuiTableCell-root {
     padding: 16px 12px;
@@ -627,7 +627,7 @@
     gap: 9px;
   }
   .sw-access-badge {
-    font-size: 9px;
+    font-size: var(--sw-font-size-9);
     gap: 4px;
     padding: 6px;
   }
@@ -700,8 +700,8 @@
     align-items: center;
     gap: 14px;
     padding: 18px;
-    border: 1px solid #e0eae3;
-    border-radius: 12px;
+    border: 1px solid var(--sw-border);
+    border-radius: var(--sw-radius-12);
     margin-bottom: 12px;
   }
   .sw-access-table .MuiTableBody-root .MuiTableRow-root:last-child {
@@ -719,13 +719,13 @@
   }
   .sw-access-table .sw-access-organization {
     padding-top: 12px !important;
-    border-top: 1px solid #edf2ee !important;
+    border-top: 1px solid var(--sw-neutral-100) !important;
   }
   .sw-access-organization::before {
     content: 'Учебное заведение';
     display: block;
-    font-size: 9px;
-    color: #b0bcb3;
+    font-size: var(--sw-font-size-9);
+    color: var(--sw-neutral-400);
     margin-bottom: 5px;
   }
   .sw-access-table .sw-access-action-cell {
@@ -735,7 +735,7 @@
     display: inherit;
   }
   .sw-access-badge {
-    font-size: 10px;
+    font-size: var(--sw-font-size-10);
     padding: 6px 8px;
   }
   .sw-access-directory-heading {
@@ -745,25 +745,25 @@
     max-width: 260px;
   }
   .sw-access-directory-heading h2 {
-    font-size: 16px;
+    font-size: var(--sw-font-size-16);
   }
   .sw-access-person strong {
-    font-size: 13px;
+    font-size: var(--sw-font-size-13);
   }
 }
 @media (max-width: 480px) {
   .sw-access.MuiPaper-root {
     padding: 16px;
-    border-radius: 14px;
+    border-radius: var(--sw-radius-14);
   }
   .sw-access-heading {
     margin-bottom: 20px;
   }
   .sw-access-heading p {
-    font-size: 11px;
+    font-size: var(--sw-font-size-11);
   }
   .sw-access-heading > .MuiButton-root {
-    font-size: 11px;
+    font-size: var(--sw-font-size-11);
     min-height: 35px;
   }
   .sw-access-filters {
@@ -773,7 +773,7 @@
     padding: 14px 11px;
   }
   .sw-access-filter > span > span {
-    font-size: 10px;
+    font-size: var(--sw-font-size-10);
   }
   .sw-access-directory {
     padding: 14px;
@@ -785,10 +785,10 @@
   }
   .sw-access-directory-heading p {
     max-width: none;
-    font-size: 10px;
+    font-size: var(--sw-font-size-10);
   }
   .sw-access-search > span {
-    font-size: 9px;
+    font-size: var(--sw-font-size-9);
   }
   .sw-access-table .MuiTableBody-root .MuiTableRow-root {
     padding: 14px;
@@ -799,10 +799,10 @@
     height: 37px;
   }
   .sw-access-person strong {
-    font-size: 12px;
+    font-size: var(--sw-font-size-12);
   }
   .sw-access-person span {
-    font-size: 10px;
+    font-size: var(--sw-font-size-10);
   }
   .sw-access-pagination {
     flex-wrap: wrap;
@@ -817,17 +817,17 @@
     margin: 12px;
     width: calc(100% - 24px);
     max-height: calc(100% - 24px);
-    border-radius: 15px;
+    border-radius: var(--sw-radius-15);
   }
   .sw-access-dialog .MuiDialogTitle-root {
     padding: 20px 18px 0;
-    font-size: 19px;
+    font-size: var(--sw-font-size-19);
   }
   .sw-access-dialog .MuiDialogContent-root {
     padding: 0 18px 18px;
   }
   .sw-access-dialog #sw-access-dialog-description {
-    font-size: 11px;
+    font-size: var(--sw-font-size-11);
   }
   .sw-access-role-option {
     gap: 10px;

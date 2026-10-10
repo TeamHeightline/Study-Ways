@@ -1,12 +1,12 @@
 .sw-cedit {
   min-width: 0;
-  color: #202e2b;
+  color: var(--sw-ink);
 }
 .sw-cedit-workspace {
   padding: 28px;
-  border: 1px solid #dfe8e2;
-  border-radius: 18px;
-  background: #fbfdfb;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-18);
+  background: var(--sw-surface-subtle);
 }
 .sw-cedit-navigation,
 .sw-cedit-navigation > div {
@@ -20,16 +20,16 @@
   margin-bottom: 24px;
 }
 .sw-cedit .MuiButton-root {
-  border-radius: 10px;
-  font-size: 12px;
+  border-radius: var(--sw-radius-10);
+  font-size: var(--sw-font-size-12);
   min-height: 37px;
 }
 .sw-cedit .MuiButton-outlined {
-  border-color: #d8e4dc;
+  border-color: var(--sw-border);
 }
 .sw-cedit-back.MuiButton-root {
   padding-left: 0;
-  color: #6a8372;
+  color: var(--sw-neutral-600);
 }
 .sw-cedit-heading {
   display: flex;
@@ -44,8 +44,8 @@
   margin-bottom: 0;
 }
 .sw-cedit-description.MuiTypography-root {
-  color: #7c8c81;
-  font-size: 13px;
+  color: var(--sw-neutral-500);
+  font-size: var(--sw-font-size-13);
   line-height: 1.8;
   max-width: 640px;
   margin: 10px 0 0;
@@ -55,25 +55,25 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 7px;
-  color: #63856d;
-  background: #edf5ef;
-  border: 1px solid #dce9e0;
-  border-radius: 9px;
-  font-size: 11px;
+  color: var(--sw-accent-500);
+  background: var(--sw-accent-100);
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-9);
+  font-size: var(--sw-font-size-11);
   padding: 8px 11px;
 }
 .sw-cedit-save-state > svg {
-  font-size: 16px;
+  font-size: var(--sw-font-size-16);
 }
 .sw-cedit-save-state.has-error {
-  color: #a36b54;
-  background: #fcf1ed;
-  border-color: #eed5ca;
+  color: var(--sw-danger-500);
+  background: var(--sw-danger-50);
+  border-color: var(--sw-danger-200);
 }
 .sw-cedit-save-state .MuiButton-root {
   padding: 0 5px;
   min-height: 20px;
-  font-size: 11px;
+  font-size: var(--sw-font-size-11);
 }
 .sw-cedit-grid {
   display: grid;
@@ -88,9 +88,9 @@
 }
 .sw-cedit-panel.MuiPaper-root {
   min-width: 0;
-  border: 1px solid #dfe8e1;
-  border-radius: 16px;
-  background: #fff;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-16);
+  background: var(--sw-surface);
   padding: 24px;
 }
 .sw-cedit-section-heading {
@@ -105,23 +105,23 @@
   width: 38px;
   height: 38px;
   flex-shrink: 0;
-  color: #658871;
-  background: #edf5ef;
-  border-radius: 11px;
+  color: var(--sw-accent-500);
+  background: var(--sw-accent-100);
+  border-radius: var(--sw-radius-11);
 }
 .sw-cedit-section-heading svg {
-  font-size: 20px;
+  font-size: var(--sw-font-size-20);
 }
 .sw-cedit-section-heading h2 {
   margin: 0;
-  color: #355740;
-  font-size: 17px;
+  color: var(--sw-accent-800);
+  font-size: var(--sw-font-size-17);
   font-weight: 650;
   line-height: 1.5;
 }
 .sw-cedit-section-heading p {
-  color: #8b9c91;
-  font-size: 11px;
+  color: var(--sw-neutral-500);
+  font-size: var(--sw-font-size-11);
   line-height: 1.8;
   margin: 5px 0 0;
 }
@@ -134,16 +134,16 @@
   min-width: 0;
 }
 .sw-cedit .MuiOutlinedInput-root {
-  border-radius: 10px;
-  background: #fff;
-  font-size: 13px;
+  border-radius: var(--sw-radius-10);
+  background: var(--sw-surface);
+  font-size: var(--sw-font-size-13);
   line-height: 1.8;
 }
 .sw-cedit .MuiOutlinedInput-notchedOutline {
-  border-color: #d9e4dc;
+  border-color: var(--sw-border);
 }
 .sw-cedit .MuiInputLabel-root {
-  font-size: 13px;
+  font-size: var(--sw-font-size-13);
 }
 .sw-cedit .MuiSelect-select {
   white-space: normal;
@@ -152,21 +152,21 @@
 .sw-cedit .MuiFormHelperText-root,
 .sw-cedit-field-note {
   margin: 7px 0 0;
-  color: #8a9a8f;
-  font-size: 11px;
+  color: var(--sw-neutral-500);
+  font-size: var(--sw-font-size-11);
   line-height: 1.7;
 }
 .sw-cedit .MuiSkeleton-root {
-  border-radius: 14px;
-  background: #e8efea;
+  border-radius: var(--sw-radius-14);
+  background: var(--sw-border-subtle);
 }
 .sw-cedit-loading {
   margin-top: 26px;
 }
 .sw-cedit-content-type > span {
   display: block;
-  color: #72897a;
-  font-size: 11px;
+  color: var(--sw-neutral-600);
+  font-size: var(--sw-font-size-11);
   margin-bottom: 10px;
 }
 .sw-cedit .MuiToggleButtonGroup-root {
@@ -175,25 +175,25 @@
   gap: 6px;
 }
 .sw-cedit .MuiToggleButtonGroup-grouped {
-  border: 1px solid #dce7df !important;
-  border-radius: 9px !important;
+  border: 1px solid var(--sw-border) !important;
+  border-radius: var(--sw-radius-9) !important;
   margin: 0;
-  color: #789182;
+  color: var(--sw-neutral-500);
   padding: 8px 11px;
-  font-size: 11px;
+  font-size: var(--sw-font-size-11);
   text-transform: none;
   gap: 6px;
 }
 .sw-cedit .MuiToggleButton-root.Mui-selected {
-  background: #eaf4ed;
-  color: #39784f;
-  border-color: #b9d5c3 !important;
+  background: var(--sw-accent-100);
+  color: var(--sw-accent-700);
+  border-color: var(--sw-accent-300) !important;
 }
 .sw-cedit .MuiToggleButton-root svg {
-  font-size: 18px;
+  font-size: var(--sw-font-size-18);
 }
 .sw-cedit .MuiToggleButton-root.Mui-disabled {
-  color: #b3bcb6;
+  color: var(--sw-neutral-400);
 }
 .sw-cedit-video-fields {
   display: grid;
@@ -204,9 +204,9 @@
   aspect-ratio: 16/9;
   min-width: 0;
   overflow: hidden;
-  border: 1px solid #dce7df;
-  border-radius: 12px;
-  background: #f4f8f5;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-12);
+  background: var(--sw-accent-50);
 }
 .sw-cedit-video-preview > iframe {
   border: 0;
@@ -222,20 +222,20 @@
   justify-content: center;
   padding: 18px;
   text-align: center;
-  color: #8ba193;
+  color: var(--sw-subtle);
 }
 .sw-cedit-video-empty > svg {
-  font-size: 34px;
+  font-size: var(--sw-font-size-34);
   margin-bottom: 12px;
-  color: #9bb4a3;
+  color: var(--sw-subtle);
 }
 .sw-cedit-video-empty > span {
-  font-size: 13px;
+  font-size: var(--sw-font-size-13);
   font-weight: 600;
 }
 .sw-cedit-video-empty > p {
   margin: 7px 0 0;
-  font-size: 11px;
+  font-size: var(--sw-font-size-11);
   line-height: 1.7;
 }
 .sw-cedit-image-material {
@@ -243,9 +243,9 @@
   gap: 20px;
 }
 .sw-cedit-image-material .ant-upload.ant-upload-drag {
-  border: 1px dashed #cbded1;
-  border-radius: 12px;
-  background: #f7faf8;
+  border: 1px dashed var(--sw-border-strong);
+  border-radius: var(--sw-radius-12);
+  background: var(--sw-surface-subtle);
   overflow: hidden;
 }
 .sw-cedit-image-material .ant-upload.ant-upload-drag .ant-upload-btn {
@@ -257,18 +257,18 @@
   max-height: 280px;
   object-fit: contain;
   margin: 0 auto 20px;
-  border-radius: 8px;
+  border-radius: var(--sw-radius-8);
 }
 .sw-cedit-image-material strong {
   display: block;
-  font-size: 13px;
+  font-size: var(--sw-font-size-13);
   font-weight: 600;
-  color: #61836c;
+  color: var(--sw-accent-600);
 }
 .sw-cedit-image-material p {
   margin: 8px 0 0;
-  font-size: 11px;
-  color: #8c9f92;
+  font-size: var(--sw-font-size-11);
+  color: var(--sw-neutral-500);
   line-height: 1.8;
 }
 .sw-cedit-upload-icon {
@@ -276,79 +276,79 @@
   place-items: center;
   width: 56px;
   height: 56px;
-  border-radius: 14px;
-  background: #eaf3ed;
-  color: #8da895;
+  border-radius: var(--sw-radius-14);
+  background: var(--sw-accent-100);
+  color: var(--sw-subtle);
   margin: 6px auto 16px;
 }
 .sw-cedit-upload-icon svg {
-  font-size: 28px;
+  font-size: var(--sw-font-size-28);
 }
 .sw-cedit-theme > label {
   display: block;
-  font-size: 11px;
-  color: #738c7c;
+  font-size: var(--sw-font-size-11);
+  color: var(--sw-neutral-500);
   margin-bottom: 9px;
 }
 .sw-cedit-theme .ant-select-selector {
   min-height: 42px;
-  border: 1px solid #d9e4dc !important;
-  border-radius: 10px !important;
+  border: 1px solid var(--sw-border) !important;
+  border-radius: var(--sw-radius-10) !important;
   padding: 5px 10px !important;
 }
 .sw-cedit-theme .ant-select {
-  font-size: 12px;
+  font-size: var(--sw-font-size-12);
 }
 .sw-cedit-theme .ant-select-selection-item {
-  border-radius: 5px;
-  background: #edf5ef;
-  border-color: #dce9e0;
-  color: #60826c;
+  border-radius: var(--sw-radius-5);
+  background: var(--sw-accent-100);
+  border-color: var(--sw-border);
+  color: var(--sw-accent-600);
 }
 .sw-cedit-theme .ant-select-selection-placeholder {
-  font-size: 11px;
+  font-size: var(--sw-font-size-11);
 }
 .sw-cedit-theme-dropdown .ant-select-tree {
-  color: #52715c;
-  font-size: 12px;
+  color: var(--sw-neutral-700);
+  font-size: var(--sw-font-size-12);
 }
 .sw-cedit-setting-block {
   margin-top: 26px;
   padding-top: 20px;
-  border-top: 1px solid #e8efea;
+  border-top: 1px solid var(--sw-border-subtle);
 }
 .sw-cedit .MuiFormControlLabel-root {
   margin-left: -10px;
   margin-right: 0;
 }
 .sw-cedit .MuiFormControlLabel-label {
-  color: #627e6c;
-  font-size: 12px;
+  color: var(--sw-neutral-600);
+  font-size: var(--sw-font-size-12);
   font-weight: 600;
 }
 .sw-cedit-setting-block > p,
 .sw-cedit-question-block > p {
   margin: 0 0 18px;
-  font-size: 11px;
+  font-size: var(--sw-font-size-11);
   line-height: 1.8;
-  color: #93a198;
+  color: var(--sw-subtle);
 }
 .sw-cedit-rich-text-frame {
-  border: 1px solid #d9e4dc;
-  border-radius: 12px;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-12);
   overflow: hidden;
 }
 .sw-cedit-rich-text .ck-editor {
-  --ck-color-toolbar-background: #f7faf8;
-  --ck-color-base-background: #fff;
-  --ck-color-base-border: #e1e9e3;
-  --ck-color-focus-border: #6ca581;
-  --ck-color-button-on-background: #e5f1e9;
-  --ck-color-button-on-color: #35774e;
+  --ck-color-toolbar-background: var(--sw-surface-subtle);
+  --ck-color-base-background: var(--sw-surface);
+  --ck-color-base-border: var(--sw-border-subtle);
+  --ck-color-focus-border: var(--sw-focus);
+  --ck-color-button-on-background: var(--sw-accent-150);
+  --ck-color-button-on-color: var(--sw-accent-700);
 }
 .sw-cedit-rich-text .ck.ck-editor__top .ck-sticky-panel .ck-toolbar {
   border: 0;
-  border-bottom: 1px solid #e1e9e3;
+  border-bottom: 1px solid var(--sw-border-subtle);
   padding: 6px;
   border-radius: 0;
 }
@@ -361,12 +361,12 @@
   height: auto;
   border: 0;
   padding: 8px 18px;
-  font-size: 14px;
+  font-size: var(--sw-font-size-14);
   line-height: 1.8;
-  color: #364f3f;
+  color: var(--sw-neutral-800);
 }
 .sw-cedit-rich-text .ck.ck-editor__editable.ck-focused {
-  box-shadow: inset 0 0 0 1px #75a586;
+  box-shadow: inset 0 0 0 1px var(--sw-accent-500);
 }
 .sw-cedit-bottom-panel.MuiPaper-root {
   margin-top: 22px;
@@ -378,10 +378,10 @@
 }
 .sw-cedit-question-block {
   min-width: 0;
-  border: 1px solid #e1eae4;
-  border-radius: 12px;
+  border: 1px solid var(--sw-border-subtle);
+  border-radius: var(--sw-radius-12);
   padding: 18px;
-  background: #fafcfb;
+  background: var(--sw-surface-subtle);
 }
 .sw-cedit-question-fields {
   display: grid;
@@ -389,24 +389,24 @@
 }
 .sw-cedit-question-preview {
   padding: 14px;
-  border: 1px solid #e1eae4;
-  border-radius: 10px;
-  background: #f2f7f4;
+  border: 1px solid var(--sw-border-subtle);
+  border-radius: var(--sw-radius-10);
+  background: var(--sw-accent-50);
 }
 .sw-cedit-question-preview > span {
-  font-size: 10px;
-  color: #8ca493;
+  font-size: var(--sw-font-size-10);
+  color: var(--sw-subtle);
 }
 .sw-cedit-question-preview > p {
   margin: 7px 0 0;
-  font-size: 12px;
+  font-size: var(--sw-font-size-12);
   line-height: 1.8;
-  color: #5e7e69;
+  color: var(--sw-neutral-600);
   overflow-wrap: anywhere;
 }
 .sw-cedit-dialog.MuiPaper-root {
-  border: 1px solid #dce7df;
-  border-radius: 18px;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-18);
 }
 .sw-cedit-dialog .MuiDialogTitle-root {
   display: flex;
@@ -414,30 +414,30 @@
   justify-content: space-between;
   gap: 16px;
   padding: 22px 24px 14px;
-  font-size: 19px;
+  font-size: var(--sw-font-size-19);
   font-weight: 700;
-  color: #35583f;
+  color: var(--sw-accent-800);
 }
 .sw-cedit-dialog .MuiDialogTitle-root .MuiIconButton-root {
-  color: #93a397;
+  color: var(--sw-subtle);
 }
 .sw-cedit-dialog .MuiDialogContent-root {
   padding: 0 24px 22px;
 }
 .sw-cedit-dialog .MuiDialogContentText-root {
-  font-size: 13px;
+  font-size: var(--sw-font-size-13);
   line-height: 1.9;
-  color: #8b9b90;
+  color: var(--sw-neutral-500);
 }
 .sw-cedit-dialog .MuiDialogActions-root {
   padding: 16px 24px;
   gap: 8px;
-  background: #fafcfb;
-  border-top: 1px solid #e8efea;
+  background: var(--sw-surface-subtle);
+  border-top: 1px solid var(--sw-border-subtle);
 }
 .sw-cedit-dialog .MuiDialogActions-root .MuiButton-root {
-  border-radius: 9px;
-  font-size: 12px;
+  border-radius: var(--sw-radius-9);
+  font-size: var(--sw-font-size-12);
 }
 @media (max-width: 1200px) {
   .sw-cedit-grid {
@@ -459,11 +459,11 @@
 @media (max-width: 600px) {
   .sw-cedit-workspace {
     padding: 16px;
-    border-radius: 14px;
+    border-radius: var(--sw-radius-14);
   }
   .sw-cedit-panel.MuiPaper-root {
     padding: 18px;
-    border-radius: 13px;
+    border-radius: var(--sw-radius-13);
   }
   .sw-cedit-heading {
     flex-direction: column;
@@ -471,7 +471,7 @@
     margin-bottom: 22px;
   }
   .sw-cedit-description.MuiTypography-root {
-    font-size: 12px;
+    font-size: var(--sw-font-size-12);
   }
   .sw-cedit-navigation {
     gap: 12px;
@@ -481,10 +481,10 @@
     gap: 7px;
   }
   .sw-cedit-navigation .MuiButton-root {
-    font-size: 10px;
+    font-size: var(--sw-font-size-10);
   }
   .sw-cedit-section-heading h2 {
-    font-size: 16px;
+    font-size: var(--sw-font-size-16);
   }
   .sw-cedit-section-heading {
     gap: 10px;
@@ -495,10 +495,10 @@
   }
   .sw-cedit .MuiToggleButtonGroup-grouped {
     padding: 7px 8px;
-    font-size: 10px;
+    font-size: var(--sw-font-size-10);
   }
   .sw-cedit .MuiToggleButton-root svg {
-    font-size: 16px;
+    font-size: var(--sw-font-size-16);
   }
   .sw-cedit .MuiToggleButtonGroup-root {
     gap: 5px;
@@ -513,7 +513,7 @@
   }
   .sw-cedit-dialog .MuiDialogTitle-root {
     padding: 18px 18px 12px;
-    font-size: 18px;
+    font-size: var(--sw-font-size-18);
   }
   .sw-cedit-dialog .MuiDialogContent-root {
     padding: 0 18px 18px;

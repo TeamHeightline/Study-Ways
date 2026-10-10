@@ -1,13 +1,13 @@
 .sw-qedit {
   min-width: 0;
-  color: var(--sw-ink, #202e2b);
+  color: var(--sw-ink, var(--sw-ink));
 }
 .sw-qedit-list.MuiPaper-root,
 .sw-qedit-detail {
   padding: 28px;
-  border: 1px solid #e0e8e2;
-  border-radius: 18px;
-  background: #fbfdfb;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-18);
+  background: var(--sw-surface-subtle);
 }
 .sw-qedit-heading {
   display: flex;
@@ -23,48 +23,48 @@
 .sw-qedit-description.MuiTypography-root {
   max-width: 650px;
   margin: 10px 0 0;
-  color: #7b8a80;
-  font-size: 13px;
+  color: var(--sw-neutral-500);
+  font-size: var(--sw-font-size-13);
   line-height: 1.8;
 }
 .sw-qedit .MuiButton-root {
-  border-radius: 10px;
-  font-size: 12px;
+  border-radius: var(--sw-radius-10);
+  font-size: var(--sw-font-size-12);
   min-height: 37px;
 }
 .sw-qedit .MuiButton-outlined {
-  border-color: #d8e4dc;
+  border-color: var(--sw-border);
 }
 .sw-qedit-create.MuiButton-root {
   flex-shrink: 0;
   padding: 10px 17px;
 }
 .sw-qedit .MuiOutlinedInput-root {
-  background: #fff;
-  border-radius: 10px;
-  font-size: 13px;
+  background: var(--sw-surface);
+  border-radius: var(--sw-radius-10);
+  font-size: var(--sw-font-size-13);
   line-height: 1.8;
 }
 .sw-qedit .MuiOutlinedInput-notchedOutline {
-  border-color: #d9e4dc;
+  border-color: var(--sw-border);
 }
 .sw-qedit .MuiInputLabel-root {
-  font-size: 13px;
+  font-size: var(--sw-font-size-13);
 }
 .sw-qedit .MuiFormHelperText-root {
   margin-left: 0;
-  color: #8a978e;
-  font-size: 11px;
+  color: var(--sw-neutral-500);
+  font-size: var(--sw-font-size-11);
   line-height: 1.6;
 }
 .sw-qedit .MuiAlert-root {
-  border-radius: 12px;
+  border-radius: var(--sw-radius-12);
   align-items: center;
-  font-size: 12px;
+  font-size: var(--sw-font-size-12);
 }
 .sw-qedit .MuiSkeleton-root {
-  border-radius: 14px;
-  background: #e8efea;
+  border-radius: var(--sw-radius-14);
+  background: var(--sw-border-subtle);
 }
 .sw-qedit-library-toolbar {
   display: flex;
@@ -72,32 +72,32 @@
   gap: 14px;
   align-items: center;
   padding: 18px;
-  background: #fff;
-  border: 1px solid #dfe8e2;
-  border-radius: 14px;
+  background: var(--sw-surface);
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-14);
 }
 .sw-qedit-search.MuiFormControl-root {
   flex: 1 1 260px;
   min-width: 180px;
 }
 .sw-qedit-search .MuiInputAdornment-root svg {
-  color: #8a9c90;
-  font-size: 20px;
+  color: var(--sw-neutral-500);
+  font-size: var(--sw-font-size-20);
 }
 .sw-qedit-author-filter.MuiFormControl-root {
   flex: 0 1 245px;
   min-width: 180px;
 }
 .sw-qedit-order.MuiButton-root {
-  color: #667f6e;
+  color: var(--sw-neutral-600);
   white-space: nowrap;
 }
 .sw-qedit-filled-filter .MuiFormControlLabel-root {
   margin: 0;
 }
 .sw-qedit-filled-filter .MuiFormControlLabel-label {
-  font-size: 12px;
-  color: #718577;
+  font-size: var(--sw-font-size-12);
+  color: var(--sw-neutral-600);
 }
 .sw-qedit-list-summary {
   display: flex;
@@ -106,11 +106,11 @@
   gap: 16px;
   flex-wrap: wrap;
   margin: 22px 0 16px;
-  color: #87948b;
-  font-size: 11px;
+  color: var(--sw-neutral-500);
+  font-size: var(--sw-font-size-11);
 }
 .sw-qedit-list-summary > span:first-child {
-  color: #66806f;
+  color: var(--sw-neutral-600);
   font-weight: 600;
 }
 .sw-qedit-library-grid {
@@ -120,16 +120,16 @@
 }
 .sw-qedit-library-card.MuiCard-root {
   min-width: 0;
-  border: 1px solid #dde7e0;
-  border-radius: 16px;
-  background: #fff;
-  box-shadow: 0 4px 14px #284c3906;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-16);
+  background: var(--sw-surface);
+  box-shadow: 0 4px 14px rgb(var(--sw-shadow-rgb) / 0.0235);
   transition:
     border-color 0.18s,
     transform 0.18s;
 }
 .sw-qedit-library-card:hover {
-  border-color: #8cb298;
+  border-color: var(--sw-accent-400);
   transform: translateY(-3px);
 }
 .sw-qedit-library-card-action.MuiCardActionArea-root {
@@ -148,27 +148,27 @@
   gap: 10px;
 }
 .sw-qedit-id {
-  color: #507c5d;
-  background: #eef5ef;
+  color: var(--sw-accent-600);
+  background: var(--sw-accent-100);
   padding: 5px 9px;
-  border-radius: 6px;
-  font-size: 10px;
+  border-radius: var(--sw-radius-6);
+  font-size: var(--sw-font-size-10);
   font-weight: 700;
 }
 .sw-qedit-report-count {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  color: #a27859;
-  font-size: 10px;
+  color: var(--sw-warning-800);
+  font-size: var(--sw-font-size-10);
 }
 .sw-qedit-report-count svg {
-  font-size: 15px;
+  font-size: var(--sw-font-size-15);
 }
 .sw-qedit-card-text.MuiTypography-root {
   margin: 16px 0;
-  color: #2f4939;
-  font-size: 14px;
+  color: var(--sw-accent-900);
+  font-size: var(--sw-font-size-14);
   font-weight: 600;
   line-height: 1.7;
   display: -webkit-box;
@@ -184,8 +184,8 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   margin-top: auto;
-  color: #8a998f;
-  font-size: 11px;
+  color: var(--sw-neutral-500);
+  font-size: var(--sw-font-size-11);
 }
 .sw-qedit-card-footer {
   display: flex;
@@ -194,39 +194,39 @@
   gap: 12px;
   margin-top: 14px;
   padding-top: 14px;
-  border-top: 1px solid #edf1ee;
-  color: #4c7c5d;
-  font-size: 11px;
+  border-top: 1px solid var(--sw-neutral-100);
+  color: var(--sw-accent-600);
+  font-size: var(--sw-font-size-11);
   font-weight: 600;
 }
 .sw-qedit-card-footer svg {
-  font-size: 17px;
+  font-size: var(--sw-font-size-17);
 }
 .sw-qedit-empty {
   padding: 42px 24px;
   text-align: center;
-  border: 1px dashed #d7e4dc;
-  border-radius: 14px;
-  background: #f6faf7;
+  border: 1px dashed var(--sw-border);
+  border-radius: var(--sw-radius-14);
+  background: var(--sw-accent-50);
 }
 .sw-qedit-empty > svg {
   margin-bottom: 12px;
-  font-size: 36px;
-  color: #88a590;
+  font-size: var(--sw-font-size-36);
+  color: var(--sw-accent-400);
 }
 .sw-qedit-empty h2,
 .sw-qedit-empty h3 {
   margin: 0;
-  font-size: 18px;
+  font-size: var(--sw-font-size-18);
   font-weight: 650;
-  color: #3c6048;
+  color: var(--sw-accent-800);
 }
 .sw-qedit-empty p {
   margin: 10px auto 0;
   max-width: 450px;
-  font-size: 12px;
+  font-size: var(--sw-font-size-12);
   line-height: 1.8;
-  color: #8a988e;
+  color: var(--sw-neutral-500);
 }
 .sw-qedit-navigation {
   display: flex;
@@ -237,32 +237,32 @@
 }
 .sw-qedit-back.MuiButton-root {
   padding-left: 0;
-  color: #6a8372;
+  color: var(--sw-neutral-600);
 }
 .sw-qedit-save-state {
   display: inline-flex;
   align-items: center;
   gap: 7px;
   padding: 8px 11px;
-  background: #edf5ef;
-  border: 1px solid #dce9e0;
-  border-radius: 9px;
+  background: var(--sw-accent-100);
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-9);
   flex-shrink: 0;
-  color: #5c8268;
-  font-size: 11px;
+  color: var(--sw-accent-600);
+  font-size: var(--sw-font-size-11);
 }
 .sw-qedit-save-state > svg {
-  font-size: 16px;
+  font-size: var(--sw-font-size-16);
 }
 .sw-qedit-save-state.has-error {
-  background: #fcf1ed;
-  border-color: #eed5ca;
-  color: #a36b54;
+  background: var(--sw-danger-50);
+  border-color: var(--sw-danger-200);
+  color: var(--sw-danger-500);
 }
 .sw-qedit-save-state .MuiButton-root {
   min-height: 0;
   padding: 1px 5px;
-  font-size: 11px;
+  font-size: var(--sw-font-size-11);
 }
 .sw-qedit-form-grid {
   display: grid;
@@ -273,9 +273,9 @@
 .sw-qedit-panel.MuiPaper-root {
   min-width: 0;
   padding: 24px;
-  border: 1px solid #dfe8e1;
-  border-radius: 16px;
-  background: #fff;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-16);
+  background: var(--sw-surface);
 }
 .sw-qedit-panel-heading {
   display: flex;
@@ -289,24 +289,24 @@
   width: 38px;
   height: 38px;
   flex-shrink: 0;
-  border-radius: 11px;
-  background: #edf5ef;
-  color: #62876c;
+  border-radius: var(--sw-radius-11);
+  background: var(--sw-accent-100);
+  color: var(--sw-accent-500);
 }
 .sw-qedit-panel-heading > span svg {
-  font-size: 20px;
+  font-size: var(--sw-font-size-20);
 }
 .sw-qedit-panel-heading h2 {
   margin: 0;
-  font-size: 17px;
+  font-size: var(--sw-font-size-17);
   font-weight: 650;
-  color: #355740;
+  color: var(--sw-accent-800);
 }
 .sw-qedit-panel-heading p {
   margin: 5px 0 0;
-  font-size: 11px;
+  font-size: var(--sw-font-size-11);
   line-height: 1.7;
-  color: #91a096;
+  color: var(--sw-subtle);
 }
 .sw-qedit-fields {
   display: grid;
@@ -320,10 +320,10 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  border: 1px dashed #d6e5db;
-  border-radius: 12px;
+  border: 1px dashed var(--sw-accent-200);
+  border-radius: var(--sw-radius-12);
   padding: 16px;
-  background: #f8fbf9;
+  background: var(--sw-surface-subtle);
   min-width: 0;
 }
 .sw-qedit-question-media > img {
@@ -331,8 +331,8 @@
   height: 92px;
   object-fit: contain;
   flex-shrink: 0;
-  border-radius: 9px;
-  background: #edf4ef;
+  border-radius: var(--sw-radius-9);
+  background: var(--sw-accent-100);
 }
 .sw-qedit-media-placeholder {
   display: grid;
@@ -340,69 +340,69 @@
   width: 56px;
   height: 56px;
   flex-shrink: 0;
-  border-radius: 14px;
-  background: #edf4ef;
-  color: #8aa391;
+  border-radius: var(--sw-radius-14);
+  background: var(--sw-accent-100);
+  color: var(--sw-subtle);
 }
 .sw-qedit-media-placeholder svg {
-  font-size: 28px;
+  font-size: var(--sw-font-size-28);
 }
 .sw-qedit-question-media > div {
   min-width: 0;
 }
 .sw-qedit-question-media h3 {
   margin: 0;
-  color: #6d8575;
-  font-size: 12px;
+  color: var(--sw-neutral-600);
+  font-size: var(--sw-font-size-12);
   font-weight: 600;
 }
 .sw-qedit-question-media p {
   margin: 5px 0 10px;
-  font-size: 10px;
+  font-size: var(--sw-font-size-10);
   line-height: 1.7;
-  color: #96a198;
+  color: var(--sw-subtle);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .sw-qedit-question-media .MuiButton-root {
-  font-size: 10px;
+  font-size: var(--sw-font-size-10);
   min-height: 32px;
   padding: 5px 10px;
 }
 .sw-qedit-theme label {
   display: block;
   margin-bottom: 8px;
-  color: #7f9285;
-  font-size: 11px;
+  color: var(--sw-neutral-500);
+  font-size: var(--sw-font-size-11);
 }
 .sw-qedit-theme .ant-select {
-  font-size: 13px;
+  font-size: var(--sw-font-size-13);
 }
 .sw-qedit-theme .ant-select-selector {
   min-height: 40px;
-  border-color: #d9e4dc !important;
-  border-radius: 10px !important;
+  border-color: var(--sw-border) !important;
+  border-radius: var(--sw-radius-10) !important;
 }
 .sw-qedit-theme .ant-select-selection-placeholder {
-  font-size: 12px;
-  color: #97a39a;
+  font-size: var(--sw-font-size-12);
+  color: var(--sw-subtle);
 }
 .sw-qedit-theme .ant-select-focused .ant-select-selector {
-  box-shadow: 0 0 0 2px #35785714 !important;
+  box-shadow: 0 0 0 2px rgb(var(--sw-shadow-rgb) / 0.0784) !important;
 }
 .sw-qedit-theme-popup .ant-select-tree {
-  font-size: 12px;
-  color: #52715c;
+  font-size: var(--sw-font-size-12);
+  color: var(--sw-neutral-700);
 }
 .sw-qedit-mode-links {
   padding-top: 18px;
-  border-top: 1px solid #eaf0ec;
+  border-top: 1px solid var(--sw-border-subtle);
 }
 .sw-qedit-mode-links > span {
   display: block;
-  font-size: 11px;
-  color: #8a998f;
+  font-size: var(--sw-font-size-11);
+  color: var(--sw-neutral-500);
   margin-bottom: 8px;
 }
 .sw-qedit-mode-links > div {
@@ -413,10 +413,10 @@
 .sw-qedit-mode-links .MuiButton-root {
   padding: 5px 0;
   min-height: 30px;
-  color: #5d8169;
+  color: var(--sw-accent-600);
 }
 .sw-qedit-mode-links .MuiButton-endIcon svg {
-  font-size: 15px;
+  font-size: var(--sw-font-size-15);
 }
 .sw-qedit-statistics {
   display: flex;
@@ -426,17 +426,17 @@
 }
 .sw-qedit-statistics .MuiChip-root {
   height: 27px;
-  font-size: 10px;
-  background: #f1f6f2;
-  color: #779080;
-  border: 1px solid #e2ebe4;
+  font-size: var(--sw-font-size-10);
+  background: var(--sw-accent-50);
+  color: var(--sw-neutral-500);
+  border: 1px solid var(--sw-border-subtle);
 }
 .sw-qedit-question-preview {
   margin-top: 18px;
 }
 .sw-qedit-question-preview > .MuiButton-root {
-  color: #779080;
-  font-size: 11px;
+  color: var(--sw-neutral-500);
+  font-size: var(--sw-font-size-11);
 }
 .sw-qedit-preview-content {
   margin-top: 14px;
@@ -457,16 +457,16 @@
   margin-bottom: 22px;
 }
 .sw-qedit-answers-heading h2 {
-  font-size: 21px;
+  font-size: var(--sw-font-size-21);
   font-weight: 700;
-  color: #31553e;
+  color: var(--sw-accent-800);
   margin: 0;
   letter-spacing: -0.4px;
 }
 .sw-qedit-answers-heading p {
-  font-size: 12px;
+  font-size: var(--sw-font-size-12);
   line-height: 1.8;
-  color: #89978d;
+  color: var(--sw-neutral-500);
   margin: 7px 0 0;
 }
 .sw-qedit-add-answer.MuiButton-root {
@@ -486,21 +486,21 @@
   align-items: center;
   gap: 12px;
   padding: 9px 13px;
-  border: 1px solid #dfe9e2;
-  border-radius: 9px;
-  background: #f1f7f3;
-  color: #84988b;
-  font-size: 11px;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-9);
+  background: var(--sw-accent-50);
+  color: var(--sw-neutral-500);
+  font-size: var(--sw-font-size-11);
 }
 .sw-qedit-answer-summary strong {
-  color: #4f775b;
-  font-size: 13px;
+  color: var(--sw-accent-600);
+  font-size: var(--sw-font-size-13);
   font-weight: 650;
 }
 .sw-qedit-answer-summary > .MuiAlert-root {
   margin-top: 14px;
-  background: #fcf8ee;
-  color: #9b8656;
+  background: var(--sw-warning-50);
+  color: var(--sw-warning-600);
 }
 .sw-qedit-answer-list {
   display: grid;
@@ -509,12 +509,12 @@
 .sw-qedit-answer.MuiPaper-root {
   padding: 22px;
   min-width: 0;
-  border: 1px solid #dce7df;
-  border-radius: 16px;
-  background: #fff;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-16);
+  background: var(--sw-surface);
 }
 .sw-qedit-answer.is-expanded {
-  border-color: #bbd2c3;
+  border-color: var(--sw-accent-300);
 }
 .sw-qedit-answer-topline {
   display: flex;
@@ -530,35 +530,35 @@
 }
 .sw-qedit-answer-topline h3 {
   margin: 0;
-  font-size: 16px;
+  font-size: var(--sw-font-size-16);
   font-weight: 700;
-  color: #3d6049;
+  color: var(--sw-accent-800);
 }
 .sw-qedit-answer-id {
-  color: #a2afa6;
-  font-size: 10px;
+  color: var(--sw-neutral-400);
+  font-size: var(--sw-font-size-10);
 }
 .sw-qedit-answer-save {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  color: #97ad9e;
-  font-size: 10px;
+  color: var(--sw-subtle);
+  font-size: var(--sw-font-size-10);
 }
 .sw-qedit-answer-save svg {
-  font-size: 13px;
+  font-size: var(--sw-font-size-13);
 }
 .sw-qedit-answer-save > button {
   border: 0;
   background: transparent;
   padding: 0 5px;
   cursor: pointer;
-  color: #a4705d;
+  color: var(--sw-danger-500);
   font: inherit;
   text-decoration: underline;
 }
 .sw-qedit-answer-topline .MuiIconButton-root {
-  color: #96a89b;
+  color: var(--sw-subtle);
   padding: 6px;
 }
 .sw-qedit-answer-tags {
@@ -572,15 +572,15 @@
   background: transparent;
 }
 .sw-qedit-answer-tags .MuiChip-root {
-  font-size: 10px;
+  font-size: var(--sw-font-size-10);
   height: 27px;
-  border-radius: 7px;
-  color: #809889;
-  background: #f8fbf9;
-  border-color: #dfe9e3;
+  border-radius: var(--sw-radius-7);
+  color: var(--sw-neutral-500);
+  background: var(--sw-surface-subtle);
+  border-color: var(--sw-border);
 }
 .sw-qedit-answer-tags .MuiChip-icon {
-  font-size: 14px;
+  font-size: var(--sw-font-size-14);
   margin-left: 7px;
   color: inherit;
 }
@@ -589,25 +589,25 @@
   padding-right: 9px;
 }
 .sw-qedit-answer-tags .MuiChip-colorPrimary {
-  color: #527c5f;
-  background: #edf5ef;
+  color: var(--sw-accent-600);
+  background: var(--sw-accent-100);
 }
 .sw-qedit-answer-tags .MuiChip-colorSecondary {
-  color: #a17d6f;
-  background: #fbf2ee;
+  color: var(--sw-danger-400);
+  background: var(--sw-danger-50);
 }
 .sw-qedit-answer-tags .MuiChip-colorError {
-  color: #7c8870;
-  background: #f1f4eb;
+  color: var(--sw-sage-500);
+  background: var(--sw-sage-100);
 }
 .sw-qedit-answer-tags .MuiChip-colorSuccess {
-  color: #72947d;
+  color: var(--sw-accent-500);
 }
 .sw-qedit-answer-tags .MuiChip-colorInfo {
-  color: #8b83a0;
+  color: var(--sw-violet-600);
 }
 .sw-qedit-answer-tags .MuiChip-colorWarning {
-  color: #a19679;
+  color: var(--sw-sage-500);
 }
 .sw-qedit-quick-edit {
   margin-top: 19px;
@@ -621,10 +621,10 @@
   padding: 11px 12px;
   margin-left: -12px;
   width: calc(100% + 24px);
-  border-radius: 9px;
-  color: #45624d;
+  border-radius: var(--sw-radius-9);
+  color: var(--sw-neutral-800);
   text-align: left;
-  font-size: 14px;
+  font-size: var(--sw-font-size-14);
   line-height: 1.8;
 }
 .sw-qedit-answer-quick-text > span {
@@ -633,16 +633,16 @@
   min-width: 0;
 }
 .sw-qedit-answer-quick-text > svg {
-  font-size: 17px;
-  color: #a5b5aa;
+  font-size: var(--sw-font-size-17);
+  color: var(--sw-neutral-400);
   flex-shrink: 0;
   margin-top: 4px;
 }
 .sw-qedit-answer-quick-text:hover {
-  background: #f6faf7;
+  background: var(--sw-accent-50);
 }
 .sw-qedit-answer-quick-text.Mui-focusVisible {
-  outline: 2px solid #4c8460;
+  outline: 2px solid var(--sw-accent-600);
 }
 .sw-qedit-answer-toolbar {
   display: flex;
@@ -652,7 +652,7 @@
   gap: 10px;
   margin-top: 18px;
   padding-top: 13px;
-  border-top: 1px solid #edf1ee;
+  border-top: 1px solid var(--sw-neutral-100);
 }
 .sw-qedit-answer-toolbar > div {
   display: flex;
@@ -663,8 +663,8 @@
 .sw-qedit-answer-toolbar .MuiButton-root {
   min-height: 30px;
   padding: 4px 0;
-  color: #789281;
-  font-size: 11px;
+  color: var(--sw-neutral-500);
+  font-size: var(--sw-font-size-11);
 }
 .sw-qedit-answer-toolbar .MuiButton-startIcon {
   margin-left: 0;
@@ -672,13 +672,13 @@
 }
 .sw-qedit-answer-toolbar .MuiButton-startIcon svg,
 .sw-qedit-answer-toolbar .MuiButton-endIcon svg {
-  font-size: 16px;
+  font-size: var(--sw-font-size-16);
 }
 .sw-qedit-answer-toolbar .sw-qedit-answer-preview-toggle {
-  color: #9ba99f;
+  color: var(--sw-subtle);
 }
 .sw-qedit-answer-toolbar .sw-qedit-answer-reports {
-  color: #a78a68;
+  color: var(--sw-warning-400);
 }
 .sw-qedit-answer-form {
   display: grid;
@@ -686,12 +686,12 @@
   gap: 28px;
   margin-top: 22px;
   padding-top: 24px;
-  border-top: 1px solid #e4ece7;
+  border-top: 1px solid var(--sw-border-subtle);
 }
 .sw-qedit-answer-form h4 {
   margin: 0 0 22px;
-  font-size: 13px;
-  color: #63826d;
+  font-size: var(--sw-font-size-13);
+  color: var(--sw-neutral-600);
   font-weight: 650;
 }
 .sw-qedit-answer-main,
@@ -719,69 +719,69 @@
   margin-top: 18px;
 }
 .sw-qedit-answer-checkboxes .MuiFormControlLabel-label {
-  font-size: 12px;
-  color: #7e9486;
+  font-size: var(--sw-font-size-12);
+  color: var(--sw-neutral-500);
 }
 .sw-qedit-answer-checkboxes .MuiFormHelperText-root {
   max-width: 320px;
   margin: -5px 0 0 31px;
-  color: #a0ada4;
-  font-size: 10px;
+  color: var(--sw-neutral-400);
+  font-size: var(--sw-font-size-10);
 }
 .sw-qedit-answer-hints {
-  border-left: 1px solid #edf1ee;
+  border-left: 1px solid var(--sw-neutral-100);
   padding-left: 26px;
 }
 .sw-qedit-answer-hints > h4 {
   margin-bottom: 7px;
 }
 .sw-qedit-answer-hints > p {
-  font-size: 11px;
+  font-size: var(--sw-font-size-11);
   line-height: 1.8;
-  color: #96a59b;
+  color: var(--sw-subtle);
   margin: 0 0 20px;
 }
 .sw-qedit-hint-field {
   margin-top: 16px;
   padding: 16px;
-  border-radius: 12px;
-  background: #f7faf8;
-  border: 1px solid #e2ece5;
+  border-radius: var(--sw-radius-12);
+  background: var(--sw-surface-subtle);
+  border: 1px solid var(--sw-border-subtle);
 }
 .sw-qedit-hint-field > span {
   display: inline-block;
   margin-bottom: 17px;
-  font-size: 10px;
-  color: #72917c;
+  font-size: var(--sw-font-size-10);
+  color: var(--sw-sage-500);
   font-weight: 650;
 }
 .sw-qedit-hint-field:nth-of-type(2) {
-  background: #faf9fc;
-  border-color: #ebe7f1;
+  background: var(--sw-canvas);
+  border-color: var(--sw-violet-100);
 }
 .sw-qedit-hint-field:nth-of-type(2) > span {
-  color: #9685ac;
+  color: var(--sw-violet-600);
 }
 .sw-qedit-hint-field:nth-of-type(3) {
-  background: #fbfaf5;
-  border-color: #ece9dc;
+  background: var(--sw-sage-50);
+  border-color: var(--sw-sage-100);
 }
 .sw-qedit-hint-field:nth-of-type(3) > span {
-  color: #a59a72;
+  color: var(--sw-warning-400);
 }
 .sw-qedit-hint-field .MuiOutlinedInput-root {
-  font-size: 12px;
+  font-size: var(--sw-font-size-12);
 }
 .sw-qedit-answer-preview {
   padding: 20px;
   margin-top: 18px;
-  background: #f6faf7;
-  border: 1px solid #dfeae2;
-  border-radius: 12px;
+  background: var(--sw-accent-50);
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-12);
 }
 .sw-qedit-answer-preview > span {
-  font-size: 10px;
-  color: #96a79b;
+  font-size: var(--sw-font-size-10);
+  color: var(--sw-subtle);
 }
 .sw-qedit-answer-preview > img {
   display: block;
@@ -789,35 +789,35 @@
   max-height: 280px;
   margin-top: 16px;
   object-fit: contain;
-  border-radius: 10px;
+  border-radius: var(--sw-radius-10);
 }
 .sw-qedit-answer-preview > p {
   margin: 12px 0 0;
-  font-size: 14px;
+  font-size: var(--sw-font-size-14);
   line-height: 1.8;
-  color: #5b7a64;
+  color: var(--sw-neutral-600);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
 .sw-qedit-answer-media.MuiPaper-root {
   padding: 14px;
-  border: 1px dashed #d9e6de;
-  border-radius: 10px;
-  background: #fafcfb;
+  border: 1px dashed var(--sw-border);
+  border-radius: var(--sw-radius-10);
+  background: var(--sw-surface-subtle);
 }
 .sw-qedit-answer-media .MuiButton-root {
   min-height: 32px;
-  font-size: 10px;
+  font-size: var(--sw-font-size-10);
 }
 .sw-qedit-answer-media > div:last-child {
-  font-size: 10px;
-  color: #97a79c;
+  font-size: var(--sw-font-size-10);
+  color: var(--sw-subtle);
   margin-top: 8px;
   overflow-wrap: anywhere;
 }
 .sw-qedit-dialog.MuiPaper-root {
-  border: 1px solid #dce7df;
-  border-radius: 18px;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-18);
 }
 .sw-qedit-dialog .MuiDialogTitle-root {
   display: flex;
@@ -825,42 +825,42 @@
   justify-content: space-between;
   gap: 16px;
   padding: 22px 24px 14px;
-  color: #35583f;
-  font-size: 19px;
+  color: var(--sw-accent-800);
+  font-size: var(--sw-font-size-19);
   font-weight: 700;
 }
 .sw-qedit-dialog .MuiDialogTitle-root .MuiIconButton-root {
-  color: #93a397;
+  color: var(--sw-subtle);
 }
 .sw-qedit-dialog .MuiDialogContent-root {
   padding: 0 24px 22px;
 }
 .sw-qedit-dialog .MuiDialogContentText-root {
-  color: #8b9b90;
-  font-size: 13px;
+  color: var(--sw-neutral-500);
+  font-size: var(--sw-font-size-13);
   line-height: 1.9;
 }
 .sw-qedit-dialog .MuiDialogActions-root {
   padding: 16px 24px;
   gap: 8px;
-  background: #fafcfb;
-  border-top: 1px solid #e8efea;
+  background: var(--sw-surface-subtle);
+  border-top: 1px solid var(--sw-border-subtle);
 }
 .sw-qedit-dialog .MuiDialogActions-root .MuiButton-root {
-  font-size: 12px;
-  border-radius: 9px;
+  font-size: var(--sw-font-size-12);
+  border-radius: var(--sw-radius-9);
 }
 .sw-qedit-report-item {
   padding: 17px;
-  border: 1px solid #e1e9e4;
-  border-radius: 12px;
-  background: #fafcfb;
+  border: 1px solid var(--sw-neutral-200);
+  border-radius: var(--sw-radius-12);
+  background: var(--sw-surface-subtle);
   margin-top: 14px;
 }
 .sw-qedit-report-item > p {
   margin: 0;
-  font-size: 13px;
-  color: #597660;
+  font-size: var(--sw-font-size-13);
+  color: var(--sw-neutral-600);
   line-height: 1.8;
   overflow-wrap: anywhere;
   white-space: pre-wrap;
@@ -870,13 +870,13 @@
   justify-content: space-between;
   gap: 10px;
   margin-top: 14px;
-  font-size: 10px;
-  color: #99a79d;
+  font-size: var(--sw-font-size-10);
+  color: var(--sw-subtle);
 }
 .sw-qedit-report-item .MuiButton-root {
-  font-size: 11px;
+  font-size: var(--sw-font-size-11);
   margin-top: 14px;
-  border-radius: 8px;
+  border-radius: var(--sw-radius-8);
 }
 @media (max-width: 1200px) {
   .sw-qedit-library-grid {
@@ -906,7 +906,7 @@
   }
   .sw-qedit-answer-hints {
     border-left: 0;
-    border-top: 1px solid #e7eee9;
+    border-top: 1px solid var(--sw-border-subtle);
     padding: 24px 0 0;
   }
 }
@@ -914,7 +914,7 @@
   .sw-qedit-list.MuiPaper-root,
   .sw-qedit-detail {
     padding: 16px;
-    border-radius: 14px;
+    border-radius: var(--sw-radius-14);
   }
   .sw-qedit-heading {
     flex-direction: column;
@@ -923,7 +923,7 @@
     margin-bottom: 22px;
   }
   .sw-qedit-description.MuiTypography-root {
-    font-size: 12px;
+    font-size: var(--sw-font-size-12);
   }
   .sw-qedit-library-toolbar {
     padding: 14px;
@@ -950,14 +950,14 @@
   }
   .sw-qedit-panel.MuiPaper-root {
     padding: 18px;
-    border-radius: 13px;
+    border-radius: var(--sw-radius-13);
   }
   .sw-qedit-panel-heading {
     align-items: flex-start;
     gap: 10px;
   }
   .sw-qedit-panel-heading h2 {
-    font-size: 16px;
+    font-size: var(--sw-font-size-16);
   }
   .sw-qedit-question-media {
     padding: 14px;
@@ -974,7 +974,7 @@
     width: 100%;
   }
   .sw-qedit-save-state {
-    font-size: 10px;
+    font-size: var(--sw-font-size-10);
   }
   .sw-qedit-answers-heading {
     flex-direction: column;
@@ -982,7 +982,7 @@
     gap: 16px;
   }
   .sw-qedit-answers-heading h2 {
-    font-size: 19px;
+    font-size: var(--sw-font-size-19);
   }
   .sw-qedit-answer-summary > div:first-child {
     gap: 8px;
@@ -990,7 +990,7 @@
   .sw-qedit-answer-summary > div:first-child > span {
     padding: 7px 10px;
     gap: 7px;
-    font-size: 10px;
+    font-size: var(--sw-font-size-10);
   }
   .sw-qedit-answer.MuiPaper-root {
     padding: 16px;
@@ -999,21 +999,21 @@
     gap: 8px;
   }
   .sw-qedit-answer-topline h3 {
-    font-size: 15px;
+    font-size: var(--sw-font-size-15);
   }
   .sw-qedit-answer-tags {
     gap: 6px;
   }
   .sw-qedit-answer-tags .MuiChip-root {
     height: 25px;
-    font-size: 9px;
+    font-size: var(--sw-font-size-9);
   }
   .sw-qedit-answer-tags .MuiChip-label {
     padding-left: 5px;
     padding-right: 6px;
   }
   .sw-qedit-answer-quick-text.MuiButtonBase-root {
-    font-size: 13px;
+    font-size: var(--sw-font-size-13);
   }
   .sw-qedit-answer-toolbar > div {
     gap: 7px 14px;
@@ -1029,7 +1029,7 @@
     padding: 14px 12px;
   }
   .sw-qedit-hint-field .MuiInputLabel-root {
-    font-size: 11px;
+    font-size: var(--sw-font-size-11);
   }
   .sw-qedit-dialog.MuiPaper-root {
     margin: 16px;
@@ -1037,7 +1037,7 @@
   }
   .sw-qedit-dialog .MuiDialogTitle-root {
     padding: 18px 18px 12px;
-    font-size: 18px;
+    font-size: var(--sw-font-size-18);
   }
   .sw-qedit-dialog .MuiDialogContent-root {
     padding: 0 18px 18px;
@@ -1052,28 +1052,28 @@
   gap: 24px;
   align-items: center;
   padding: 22px;
-  border: 1px solid #dce8df;
-  border-radius: 14px;
-  background: #f3f8f4;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-14);
+  background: var(--sw-accent-50);
 }
 .sw-qedit-preview-content > img {
   flex: 0 0 35%;
   width: 35%;
   max-height: 280px;
   object-fit: contain;
-  border-radius: 10px;
+  border-radius: var(--sw-radius-10);
 }
 .sw-qedit-preview-content > div {
   min-width: 0;
 }
 .sw-qedit-preview-content span {
-  font-size: 11px;
-  color: #839a8a;
+  font-size: var(--sw-font-size-11);
+  color: var(--sw-neutral-500);
 }
 .sw-qedit-preview-content p {
-  font-size: 16px;
+  font-size: var(--sw-font-size-16);
   line-height: 1.8;
-  color: #4c6b55;
+  color: var(--sw-neutral-800);
   overflow-wrap: anywhere;
   white-space: pre-wrap;
   margin: 12px 0 0;
@@ -1090,6 +1090,6 @@
     flex-basis: auto;
   }
   .sw-qedit-preview-content p {
-    font-size: 14px;
+    font-size: var(--sw-font-size-14);
   }
 }

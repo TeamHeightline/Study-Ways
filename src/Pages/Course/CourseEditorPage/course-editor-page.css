@@ -1,14 +1,14 @@
 .sw-courselist {
   padding: 28px;
-  border: 1px solid #dfe8e2;
-  border-radius: 18px;
-  background: #fbfdfb;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-18);
+  background: var(--sw-surface-subtle);
   min-width: 0;
-  color: #31533c;
+  color: var(--sw-accent-800);
 }
 .sw-courselist .MuiButton-root {
-  border-radius: 10px;
-  font-size: 12px;
+  border-radius: var(--sw-radius-10);
+  font-size: var(--sw-font-size-12);
   min-height: 39px;
   text-transform: none;
 }
@@ -25,10 +25,10 @@
   min-width: 0;
 }
 .sw-courselist-heading p {
-  font-size: 12px;
+  font-size: var(--sw-font-size-12);
   line-height: 1.8;
   margin: 10px 0 0;
-  color: #83988a;
+  color: var(--sw-neutral-500);
   max-width: 560px;
 }
 .sw-courselist-heading > .MuiButton-root {
@@ -36,27 +36,27 @@
 }
 .sw-courselist-alert.MuiAlert-root {
   margin-bottom: 18px;
-  border-radius: 10px;
-  font-size: 12px;
+  border-radius: var(--sw-radius-10);
+  font-size: var(--sw-font-size-12);
 }
 .sw-courselist-summary {
   display: flex;
   align-items: center;
   gap: 30px;
   padding: 18px 0 24px;
-  border-bottom: 1px solid #e4ece6;
+  border-bottom: 1px solid var(--sw-border-subtle);
   margin-bottom: 24px;
 }
 .sw-courselist-summary > span {
   display: flex;
   align-items: center;
   gap: 9px;
-  color: #90a197;
-  font-size: 11px;
+  color: var(--sw-subtle);
+  font-size: var(--sw-font-size-11);
 }
 .sw-courselist-summary strong {
-  color: #557e60;
-  font-size: 22px;
+  color: var(--sw-accent-600);
+  font-size: var(--sw-font-size-22);
   font-weight: 650;
   line-height: 1;
 }
@@ -72,28 +72,28 @@
 }
 .sw-courselist-search .MuiOutlinedInput-root {
   min-height: 47px;
-  font-size: 12px;
-  background: white;
-  border-radius: 11px;
+  font-size: var(--sw-font-size-12);
+  background: var(--sw-surface);
+  border-radius: var(--sw-radius-11);
 }
 .sw-courselist-search .MuiOutlinedInput-notchedOutline {
-  border-color: #d6e3da;
+  border-color: var(--sw-border);
 }
 .sw-courselist-search .MuiInputLabel-root {
-  font-size: 12px;
+  font-size: var(--sw-font-size-12);
 }
 .sw-courselist-search .MuiInputAdornment-root {
-  color: #92aa9b;
+  color: var(--sw-subtle);
 }
 .sw-courselist-search .MuiInputAdornment-root > svg {
-  font-size: 20px;
+  font-size: var(--sw-font-size-20);
 }
 .sw-courselist-search .MuiIconButton-root {
-  color: #94a79a;
+  color: var(--sw-subtle);
 }
 .sw-courselist-search > span {
-  color: #9bad9f;
-  font-size: 10px;
+  color: var(--sw-subtle);
+  font-size: var(--sw-font-size-10);
 }
 .sw-courselist-grid {
   display: grid;
@@ -101,22 +101,22 @@
   gap: 20px;
 }
 .sw-courselist-grid .MuiSkeleton-root {
-  background: #eaf1ec;
-  border-radius: 16px;
+  background: var(--sw-border-subtle);
+  border-radius: var(--sw-radius-16);
 }
 .sw-courselist-card.MuiCard-root {
   min-width: 0;
-  border: 1px solid #dfe8e2;
-  border-radius: 16px;
-  background: #fff;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-16);
+  background: var(--sw-surface);
   transition:
     border-color 0.2s,
     box-shadow 0.2s,
     transform 0.2s;
 }
 .sw-courselist-card.MuiCard-root:hover {
-  border-color: #b8d3c1;
-  box-shadow: 0 8px 22px #284c3910;
+  border-color: var(--sw-accent-300);
+  box-shadow: 0 8px 22px rgb(var(--sw-shadow-rgb) / 0.0627);
   transform: translateY(-2px);
 }
 .sw-courselist-card .MuiCardActionArea-root {
@@ -129,8 +129,8 @@
   height: 150px;
   position: relative;
   overflow: hidden;
-  background: #e7f0e8;
-  color: #789982;
+  background: var(--sw-border-subtle);
+  color: var(--sw-accent-500);
 }
 .sw-courselist-card-cover > img {
   width: 100%;
@@ -145,26 +145,26 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 9px;
+  font-size: var(--sw-font-size-9);
   padding: 5px 8px;
-  background: #fffffff0;
-  color: #76917e;
-  border-radius: 7px;
-  border: 1px solid #ffffff8c;
+  background: rgb(var(--sw-surface-rgb) / 0.9412);
+  color: var(--sw-sage-500);
+  border-radius: var(--sw-radius-7);
+  border: 1px solid rgb(var(--sw-surface-rgb) / 0.549);
 }
 .sw-courselist-type svg {
-  font-size: 13px;
+  font-size: var(--sw-font-size-13);
 }
 .sw-courselist-number {
   position: absolute;
   bottom: 12px;
   right: 14px;
   z-index: 1;
-  font-size: 10px;
+  font-size: var(--sw-font-size-10);
   padding: 4px 7px;
-  border-radius: 6px;
-  background: #ffffffe0;
-  color: #7b9584;
+  border-radius: var(--sw-radius-6);
+  background: rgb(var(--sw-surface-rgb) / 0.8784);
+  color: var(--sw-neutral-500);
 }
 .sw-courselist-geometry {
   position: absolute;
@@ -175,7 +175,7 @@
 }
 .sw-courselist-geometry > svg {
   position: absolute;
-  font-size: 62px;
+  font-size: var(--sw-font-size-62);
   opacity: 0.45;
 }
 .sw-courselist-geometry i {
@@ -199,16 +199,16 @@
   top: 80px;
 }
 .sw-courselist-palette-1 .sw-courselist-card-cover {
-  background: #f1ede5;
-  color: #ae997c;
+  background: var(--sw-sage-100);
+  color: var(--sw-warning-400);
 }
 .sw-courselist-palette-2 .sw-courselist-card-cover {
-  background: #eeebf4;
-  color: #a499b5;
+  background: var(--sw-violet-100);
+  color: var(--sw-violet-400);
 }
 .sw-courselist-palette-3 .sw-courselist-card-cover {
-  background: #e7eff2;
-  color: #90a8b3;
+  background: var(--sw-info-100);
+  color: var(--sw-info-400);
 }
 .sw-courselist-card-body {
   padding: 20px;
@@ -217,8 +217,8 @@
   flex-direction: column;
 }
 .sw-courselist-card-body h2 {
-  color: #3a6047;
-  font-size: 15px;
+  color: var(--sw-accent-800);
+  font-size: var(--sw-font-size-15);
   line-height: 1.65;
   font-weight: 650;
   margin: 0 0 14px;
@@ -239,12 +239,12 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  color: #91a396;
-  font-size: 10px;
+  color: var(--sw-subtle);
+  font-size: var(--sw-font-size-10);
 }
 .sw-courselist-card-meta svg {
-  font-size: 14px;
-  color: #92ac9b;
+  font-size: var(--sw-font-size-14);
+  color: var(--sw-subtle);
 }
 .sw-courselist-card-body footer {
   display: flex;
@@ -252,50 +252,50 @@
   justify-content: space-between;
   gap: 8px;
   padding-top: 16px;
-  border-top: 1px solid #edf2ee;
+  border-top: 1px solid var(--sw-neutral-100);
   margin-top: 18px;
 }
 .sw-courselist-card-body footer > span:first-child {
-  color: #a1b0a6;
-  font-size: 9px;
+  color: var(--sw-neutral-400);
+  font-size: var(--sw-font-size-9);
 }
 .sw-courselist-card-body footer > span:last-child {
   display: flex;
   align-items: center;
   gap: 7px;
-  font-size: 10px;
-  color: #6e967b;
+  font-size: var(--sw-font-size-10);
+  color: var(--sw-accent-500);
 }
 .sw-courselist-card-body footer svg {
-  font-size: 15px;
+  font-size: var(--sw-font-size-15);
 }
 .sw-courselist-empty {
   text-align: center;
   padding: 60px 20px;
-  border: 1px dashed #d4e3d9;
-  border-radius: 15px;
-  background: #f7faf8;
+  border: 1px dashed var(--sw-accent-200);
+  border-radius: var(--sw-radius-15);
+  background: var(--sw-surface-subtle);
 }
 .sw-courselist-empty > span {
   display: inline-grid;
   place-items: center;
   width: 64px;
   height: 64px;
-  border-radius: 18px;
-  background: #eaf3ed;
-  color: #8baa95;
+  border-radius: var(--sw-radius-18);
+  background: var(--sw-accent-100);
+  color: var(--sw-accent-400);
 }
 .sw-courselist-empty > span svg {
-  font-size: 32px;
+  font-size: var(--sw-font-size-32);
 }
 .sw-courselist-empty h2 {
-  color: #567a60;
-  font-size: 18px;
+  color: var(--sw-accent-600);
+  font-size: var(--sw-font-size-18);
   margin: 20px 0 9px;
 }
 .sw-courselist-empty p {
-  color: #95a59a;
-  font-size: 12px;
+  color: var(--sw-subtle);
+  font-size: var(--sw-font-size-12);
   line-height: 1.8;
   margin: 0 auto 24px;
   max-width: 400px;
@@ -319,7 +319,7 @@
 @media (max-width: 600px) {
   .sw-courselist {
     padding: 16px;
-    border-radius: 14px;
+    border-radius: var(--sw-radius-14);
   }
   .sw-courselist-heading {
     display: block;
@@ -329,7 +329,7 @@
     margin-top: 16px;
   }
   .sw-courselist-heading p {
-    font-size: 11px;
+    font-size: var(--sw-font-size-11);
   }
   .sw-courselist-summary {
     gap: 12px;
@@ -338,11 +338,11 @@
     flex-wrap: wrap;
   }
   .sw-courselist-summary > span {
-    font-size: 9px;
+    font-size: var(--sw-font-size-9);
     gap: 6px;
   }
   .sw-courselist-summary strong {
-    font-size: 18px;
+    font-size: var(--sw-font-size-18);
   }
   .sw-courselist-grid {
     grid-template-columns: minmax(0, 1fr);
@@ -352,10 +352,10 @@
     margin-bottom: 18px;
   }
   .sw-courselist-search .MuiInputLabel-root {
-    font-size: 11px;
+    font-size: var(--sw-font-size-11);
   }
   .sw-courselist-search .MuiOutlinedInput-root {
-    font-size: 12px;
+    font-size: var(--sw-font-size-12);
   }
   .sw-courselist-card-body {
     padding: 18px;

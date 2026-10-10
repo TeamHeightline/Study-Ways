@@ -1,15 +1,15 @@
 .sw-examlist.MuiPaper-root {
   padding: 28px;
-  border: 1px solid #dfe8e2;
-  border-radius: 18px;
-  background: #fbfdfb;
-  color: #31533c;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-18);
+  background: var(--sw-surface-subtle);
+  color: var(--sw-accent-800);
   min-width: 0;
 }
 .sw-examlist .MuiButton-root,
 .sw-examlist-dialog .MuiButton-root {
-  border-radius: 10px;
-  font-size: 12px;
+  border-radius: var(--sw-radius-10);
+  font-size: var(--sw-font-size-12);
   min-height: 39px;
   text-transform: none;
   box-shadow: none;
@@ -27,10 +27,10 @@
   min-width: 0;
 }
 .sw-examlist-heading p {
-  font-size: 12px;
+  font-size: var(--sw-font-size-12);
   line-height: 1.8;
   margin: 10px 0 0;
-  color: #83988a;
+  color: var(--sw-neutral-500);
   max-width: 560px;
 }
 .sw-examlist-heading > .MuiButton-root {
@@ -41,7 +41,7 @@
   align-items: center;
   gap: 28px;
   padding: 16px 0 24px;
-  border-bottom: 1px solid #e4ece6;
+  border-bottom: 1px solid var(--sw-border-subtle);
   margin-bottom: 24px;
 }
 .sw-examlist-summary > button {
@@ -50,20 +50,20 @@
   gap: 9px;
   border: 0;
   background: transparent;
-  color: #94a499;
+  color: var(--sw-subtle);
   padding: 6px 0;
   position: relative;
   font: inherit;
   cursor: pointer;
 }
 .sw-examlist-summary strong {
-  color: #789281;
-  font-size: 22px;
+  color: var(--sw-neutral-500);
+  font-size: var(--sw-font-size-22);
   font-weight: 650;
   line-height: 1;
 }
 .sw-examlist-summary span {
-  font-size: 11px;
+  font-size: var(--sw-font-size-11);
 }
 .sw-examlist-summary > button::after {
   content: '';
@@ -72,22 +72,22 @@
   left: 0;
   right: 0;
   height: 2px;
-  border-radius: 2px;
+  border-radius: var(--sw-radius-2);
   background: transparent;
 }
 .sw-examlist-summary > button.is-selected::after {
-  background: #629672;
+  background: var(--sw-accent-500);
 }
 .sw-examlist-summary > button.is-selected strong {
-  color: #426e4f;
+  color: var(--sw-accent-700);
 }
 .sw-examlist-summary > button.is-selected span {
-  color: #668871;
+  color: var(--sw-accent-500);
 }
 .sw-examlist-summary > button:focus-visible {
-  outline: 2px solid #528b64;
+  outline: 2px solid var(--sw-accent-600);
   outline-offset: 5px;
-  border-radius: 4px;
+  border-radius: var(--sw-radius-4);
 }
 .sw-examlist-toolbar {
   display: flex;
@@ -102,24 +102,24 @@
 .sw-examlist-toolbar .MuiOutlinedInput-root,
 .sw-examlist-dialog .MuiOutlinedInput-root {
   min-height: 46px;
-  border-radius: 10px;
-  font-size: 12px;
-  background: #fff;
+  border-radius: var(--sw-radius-10);
+  font-size: var(--sw-font-size-12);
+  background: var(--sw-surface);
 }
 .sw-examlist-toolbar .MuiInputLabel-root,
 .sw-examlist-dialog .MuiInputLabel-root {
-  font-size: 12px;
+  font-size: var(--sw-font-size-12);
 }
 .sw-examlist-toolbar .MuiOutlinedInput-notchedOutline,
 .sw-examlist-dialog .MuiOutlinedInput-notchedOutline {
-  border-color: #d4e2d9;
+  border-color: var(--sw-border);
 }
 .sw-examlist-toolbar .MuiInputAdornment-root,
 .sw-examlist-toolbar .MuiIconButton-root {
-  color: #8da797;
+  color: var(--sw-subtle);
 }
 .sw-examlist-toolbar .MuiInputAdornment-root > svg {
-  font-size: 20px;
+  font-size: var(--sw-font-size-20);
 }
 .sw-examlist-toolbar > div:last-child {
   display: flex;
@@ -127,18 +127,18 @@
   gap: 15px;
 }
 .sw-examlist-toolbar > div:last-child > span:first-child {
-  color: #9aac9e;
-  font-size: 10px;
+  color: var(--sw-subtle);
+  font-size: var(--sw-font-size-10);
   line-height: 1.7;
 }
 .sw-examlist-toolbar > div:last-child > span:last-child .MuiIconButton-root {
-  border: 1px solid #dde8e0;
-  border-radius: 9px;
-  background: white;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-9);
+  background: var(--sw-surface);
   padding: 8px;
 }
 .sw-examlist-toolbar > div:last-child > span:last-child svg {
-  font-size: 17px;
+  font-size: var(--sw-font-size-17);
 }
 .sw-examlist-grid {
   display: grid;
@@ -147,13 +147,13 @@
   align-items: stretch;
 }
 .sw-examlist-grid .MuiSkeleton-root {
-  border-radius: 15px;
-  background: #eaf1ec;
+  border-radius: var(--sw-radius-15);
+  background: var(--sw-border-subtle);
 }
 .sw-examlist-card.MuiCard-root {
-  border: 1px solid #dfe8e2;
-  border-radius: 15px;
-  background: #fff;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-15);
+  background: var(--sw-surface);
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -163,8 +163,8 @@
     transform 0.18s;
 }
 .sw-examlist-card.MuiCard-root:hover {
-  border-color: #b4d0bd;
-  box-shadow: 0 8px 22px #284c3910;
+  border-color: var(--sw-accent-300);
+  box-shadow: 0 8px 22px rgb(var(--sw-shadow-rgb) / 0.0627);
   transform: translateY(-2px);
 }
 .sw-examlist-card > .MuiCardActionArea-root {
@@ -188,47 +188,47 @@
   width: 42px;
   height: 42px;
   flex-shrink: 0;
-  border-radius: 12px;
-  background: #edf5ef;
-  color: #88a792;
+  border-radius: var(--sw-radius-12);
+  background: var(--sw-accent-100);
+  color: var(--sw-accent-400);
 }
 .sw-examlist-card-icon svg {
-  font-size: 23px;
+  font-size: var(--sw-font-size-23);
 }
 .sw-examlist-access {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 9px;
-  color: #789781;
+  font-size: var(--sw-font-size-9);
+  color: var(--sw-sage-500);
   padding: 5px 7px;
-  border-radius: 6px;
-  border: 1px solid #dfebe2;
-  background: #f3f8f4;
+  border-radius: var(--sw-radius-6);
+  border: 1px solid var(--sw-border);
+  background: var(--sw-accent-50);
 }
 .sw-examlist-access svg {
-  font-size: 12px;
+  font-size: var(--sw-font-size-12);
 }
 .sw-examlist-access.is-closed {
-  color: #ab987b;
-  background: #fbf7f0;
-  border-color: #eee4d5;
+  color: var(--sw-warning-400);
+  background: var(--sw-warning-50);
+  border-color: var(--sw-warning-100);
 }
 .sw-examlist-card-body {
   min-width: 0;
 }
 .sw-examlist-card-body > small {
   display: block;
-  font-size: 9px;
-  color: #9cad9f;
+  font-size: var(--sw-font-size-9);
+  color: var(--sw-subtle);
   margin-bottom: 6px;
 }
 .sw-examlist-card-body h2 {
   margin: 0 0 20px;
-  font-size: 16px;
+  font-size: var(--sw-font-size-16);
   font-weight: 650;
   line-height: 1.6;
-  color: #3c6349;
+  color: var(--sw-accent-800);
   min-height: 51px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -238,23 +238,23 @@
 }
 .sw-examlist-sequence {
   padding: 12px;
-  border: 1px solid #e8eeea;
-  border-radius: 9px;
-  background: #fafcfb;
+  border: 1px solid var(--sw-border-subtle);
+  border-radius: var(--sw-radius-9);
+  background: var(--sw-surface-subtle);
   min-height: 68px;
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 .sw-examlist-sequence > span {
-  font-size: 9px;
-  color: #a0afa4;
+  font-size: var(--sw-font-size-9);
+  color: var(--sw-neutral-400);
 }
 .sw-examlist-sequence > strong {
-  font-size: 11px;
+  font-size: var(--sw-font-size-11);
   font-weight: 500;
   line-height: 1.6;
-  color: #7b9383;
+  color: var(--sw-neutral-500);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -272,34 +272,34 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 10px;
-  color: #92a598;
+  font-size: var(--sw-font-size-10);
+  color: var(--sw-subtle);
 }
 .sw-examlist-meta svg {
-  font-size: 15px;
-  color: #98af9f;
+  font-size: var(--sw-font-size-15);
+  color: var(--sw-subtle);
 }
 .sw-examlist-card > footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 6px;
-  border-top: 1px solid #edf2ee;
+  border-top: 1px solid var(--sw-neutral-100);
   margin: 0 20px;
   padding: 12px 0;
 }
 .sw-examlist-card > footer > .MuiButton-root {
-  font-size: 10px;
+  font-size: var(--sw-font-size-10);
   min-height: 32px;
   min-width: 0;
   padding: 5px 0;
-  color: #71997c;
+  color: var(--sw-accent-500);
 }
 .sw-examlist-card > footer .MuiButton-endIcon {
   margin-left: 6px;
 }
 .sw-examlist-card > footer .MuiButton-endIcon svg {
-  font-size: 15px;
+  font-size: var(--sw-font-size-15);
 }
 .sw-examlist-card > footer > div {
   display: flex;
@@ -307,58 +307,58 @@
   gap: 5px;
 }
 .sw-examlist-card > footer .MuiIconButton-root {
-  color: #a0b2a6;
-  border: 1px solid #e6eee8;
-  border-radius: 7px;
+  color: var(--sw-neutral-400);
+  border: 1px solid var(--sw-border-subtle);
+  border-radius: var(--sw-radius-7);
   padding: 6px;
 }
 .sw-examlist-card > footer .MuiIconButton-root svg {
-  font-size: 14px;
+  font-size: var(--sw-font-size-14);
 }
 .sw-examlist-alert.MuiAlert-root {
-  font-size: 12px;
-  border-radius: 10px;
+  font-size: var(--sw-font-size-12);
+  border-radius: var(--sw-radius-10);
   margin-bottom: 18px;
 }
 .sw-examlist-empty {
   text-align: center;
   padding: 60px 20px;
-  border: 1px dashed #d4e3d9;
-  border-radius: 15px;
-  background: #f7faf8;
+  border: 1px dashed var(--sw-accent-200);
+  border-radius: var(--sw-radius-15);
+  background: var(--sw-surface-subtle);
 }
 .sw-examlist-empty > span {
   display: inline-grid;
   place-items: center;
   width: 64px;
   height: 64px;
-  border-radius: 18px;
-  background: #eaf3ed;
-  color: #8baa95;
+  border-radius: var(--sw-radius-18);
+  background: var(--sw-accent-100);
+  color: var(--sw-accent-400);
 }
 .sw-examlist-empty > span svg {
-  font-size: 32px;
+  font-size: var(--sw-font-size-32);
 }
 .sw-examlist-empty h2 {
-  color: #567a60;
-  font-size: 18px;
+  color: var(--sw-accent-600);
+  font-size: var(--sw-font-size-18);
   margin: 20px 0 9px;
   font-weight: 600;
 }
 .sw-examlist-empty p {
-  color: #95a59a;
-  font-size: 12px;
+  color: var(--sw-subtle);
+  font-size: var(--sw-font-size-12);
   line-height: 1.8;
   margin: 0 auto 24px;
   max-width: 400px;
 }
 .sw-examlist-dialog .MuiDialog-paper {
-  border: 1px solid #dce7df;
-  border-radius: 18px;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-18);
   max-width: 560px;
-  background: #fff;
-  color: #42664e;
-  box-shadow: 0 20px 70px #1b3d3026;
+  background: var(--sw-surface);
+  color: var(--sw-accent-800);
+  box-shadow: 0 20px 70px rgb(var(--sw-shadow-rgb) / 0.149);
 }
 .sw-examlist-dialog .MuiDialogTitle-root {
   display: flex;
@@ -366,34 +366,34 @@
   justify-content: space-between;
   gap: 16px;
   padding: 24px 26px 0;
-  font-size: 21px;
+  font-size: var(--sw-font-size-21);
   font-weight: 650;
-  color: #31583e;
+  color: var(--sw-accent-800);
 }
 .sw-examlist-dialog .MuiDialogTitle-root .MuiIconButton-root {
-  color: #97aa9d;
+  color: var(--sw-subtle);
   padding: 6px;
 }
 .sw-examlist-dialog .MuiDialogContent-root {
   padding: 0 26px 26px;
 }
 .sw-examlist-dialog .MuiDialogContent-root > p {
-  font-size: 12px;
-  color: #94a59a;
+  font-size: var(--sw-font-size-12);
+  color: var(--sw-subtle);
   line-height: 1.8;
   margin: 10px 0 24px;
 }
 .sw-examlist-dialog .MuiDialogActions-root {
   padding: 18px 26px;
-  background: #fbfdfb;
-  border-top: 1px solid #e5ede7;
+  background: var(--sw-surface-subtle);
+  border-top: 1px solid var(--sw-border-subtle);
   justify-content: space-between;
   gap: 16px;
 }
 .sw-examlist-dialog .MuiDialogActions-root > span {
-  font-size: 9px;
+  font-size: var(--sw-font-size-9);
   line-height: 1.7;
-  color: #9bab9f;
+  color: var(--sw-subtle);
   max-width: 200px;
 }
 .sw-examlist-dialog .MuiDialogActions-root > div {
@@ -416,14 +416,14 @@
   margin-bottom: 10px;
 }
 .sw-examlist-qs-field > div:first-child > span {
-  font-size: 11px;
-  color: #8fa195;
+  font-size: var(--sw-font-size-11);
+  color: var(--sw-subtle);
 }
 .sw-examlist-qs-field > div:first-child .MuiButton-root {
-  font-size: 10px;
+  font-size: var(--sw-font-size-10);
   min-height: 24px;
   padding: 2px 0;
-  color: #6d9779;
+  color: var(--sw-accent-500);
 }
 .sw-examlist-choose-qs {
   display: flex;
@@ -431,23 +431,23 @@
   gap: 14px;
   width: 100%;
   padding: 20px 16px;
-  background: #f8fbf9;
-  border: 1px dashed #c6dccd;
-  border-radius: 12px;
+  background: var(--sw-surface-subtle);
+  border: 1px dashed var(--sw-border-strong);
+  border-radius: var(--sw-radius-12);
   font: inherit;
   text-align: left;
   cursor: pointer;
-  color: #9ab2a1;
+  color: var(--sw-subtle);
   transition:
     background 0.18s,
     border-color 0.18s;
 }
 .sw-examlist-choose-qs:hover {
-  background: #f0f7f2;
-  border-color: #91b89f;
+  background: var(--sw-accent-100);
+  border-color: var(--sw-accent-400);
 }
 .sw-examlist-choose-qs:focus-visible {
-  outline: 2px solid #528b64;
+  outline: 2px solid var(--sw-accent-600);
   outline-offset: 3px;
 }
 .sw-examlist-choose-qs:disabled {
@@ -461,13 +461,13 @@
   width: 40px;
   height: 40px;
   flex-shrink: 0;
-  border-radius: 11px;
-  background: #eaf3ed;
-  color: #86a791;
+  border-radius: var(--sw-radius-11);
+  background: var(--sw-accent-100);
+  color: var(--sw-accent-400);
 }
 .sw-examlist-choose-qs > span svg,
 .sw-examlist-selected-qs > span svg {
-  font-size: 22px;
+  font-size: var(--sw-font-size-22);
 }
 .sw-examlist-choose-qs > div {
   flex: 1;
@@ -475,29 +475,29 @@
 }
 .sw-examlist-choose-qs strong {
   display: block;
-  color: #678a72;
-  font-size: 12px;
+  color: var(--sw-accent-500);
+  font-size: var(--sw-font-size-12);
   font-weight: 600;
   line-height: 1.6;
 }
 .sw-examlist-choose-qs small {
   display: block;
-  font-size: 10px;
-  color: #a0b0a5;
+  font-size: var(--sw-font-size-10);
+  color: var(--sw-neutral-400);
   margin-top: 5px;
   line-height: 1.7;
 }
 .sw-examlist-choose-qs > svg {
-  font-size: 18px;
+  font-size: var(--sw-font-size-18);
 }
 .sw-examlist-selected-qs {
   display: flex;
   align-items: center;
   gap: 14px;
   padding: 18px 16px;
-  background: #f0f7f2;
-  border: 1px solid #c7dece;
-  border-radius: 12px;
+  background: var(--sw-accent-100);
+  border: 1px solid var(--sw-border-strong);
+  border-radius: var(--sw-radius-12);
 }
 .sw-examlist-selected-qs > div {
   flex: 1;
@@ -507,22 +507,22 @@
   gap: 5px;
 }
 .sw-examlist-selected-qs small {
-  color: #8da995;
-  font-size: 9px;
+  color: var(--sw-accent-400);
+  font-size: var(--sw-font-size-9);
 }
 .sw-examlist-selected-qs strong {
-  font-size: 13px;
-  color: #5d8168;
+  font-size: var(--sw-font-size-13);
+  color: var(--sw-accent-600);
   line-height: 1.6;
   overflow-wrap: anywhere;
 }
 .sw-examlist-selected-qs > div > span {
-  font-size: 10px;
-  color: #99ae9f;
+  font-size: var(--sw-font-size-10);
+  color: var(--sw-subtle);
 }
 .sw-examlist-selected-qs > svg {
-  font-size: 18px;
-  color: #7ba38a;
+  font-size: var(--sw-font-size-18);
+  color: var(--sw-accent-400);
 }
 .sw-examlist-qs-dialog .MuiDialog-paper {
   max-width: 760px;
@@ -539,37 +539,37 @@
   align-items: flex-start;
   justify-content: flex-start;
   padding: 18px;
-  border: 1px solid #dfe9e2;
-  border-radius: 12px;
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-12);
   min-width: 0;
-  background: #fbfdfb;
-  color: #56735f;
+  background: var(--sw-surface-subtle);
+  color: var(--sw-neutral-700);
 }
 .sw-examlist-qs-option.MuiCardActionArea-root.is-selected {
-  border-color: #8fb89c;
-  background: #f0f7f2;
+  border-color: var(--sw-accent-400);
+  background: var(--sw-accent-100);
 }
 .sw-examlist-qs-option > span {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 9px;
-  color: #9eb0a3;
+  font-size: var(--sw-font-size-9);
+  color: var(--sw-neutral-400);
 }
 .sw-examlist-qs-option > span svg {
-  font-size: 15px;
+  font-size: var(--sw-font-size-15);
 }
 .sw-examlist-qs-option > strong {
-  font-size: 13px;
+  font-size: var(--sw-font-size-13);
   font-weight: 600;
   line-height: 1.7;
-  color: #587b63;
+  color: var(--sw-accent-600);
   margin: 12px 0;
   overflow-wrap: anywhere;
 }
 .sw-examlist-qs-option > small {
-  font-size: 10px;
-  color: #9bb0a2;
+  font-size: var(--sw-font-size-10);
+  color: var(--sw-subtle);
   margin-top: auto;
 }
 .sw-examlist-qs-empty {
@@ -579,19 +579,19 @@
   gap: 12px;
   padding: 45px 10px;
   text-align: center;
-  color: #91a699;
+  color: var(--sw-subtle);
 }
 .sw-examlist-qs-empty > svg {
-  font-size: 34px;
-  color: #a5bdad;
+  font-size: var(--sw-font-size-34);
+  color: var(--sw-neutral-400);
 }
 .sw-examlist-qs-empty strong {
-  font-size: 15px;
+  font-size: var(--sw-font-size-15);
   font-weight: 500;
 }
 .sw-examlist-qs-empty p {
-  font-size: 11px;
-  color: #a5b3aa;
+  font-size: var(--sw-font-size-11);
+  color: var(--sw-neutral-400);
   line-height: 1.8;
   margin: 0;
 }
@@ -618,7 +618,7 @@
 @media (max-width: 600px) {
   .sw-examlist.MuiPaper-root {
     padding: 16px;
-    border-radius: 14px;
+    border-radius: var(--sw-radius-14);
   }
   .sw-examlist-heading {
     display: block;
@@ -628,7 +628,7 @@
     margin-top: 16px;
   }
   .sw-examlist-heading p {
-    font-size: 11px;
+    font-size: var(--sw-font-size-11);
   }
   .sw-examlist-summary {
     gap: 16px;
@@ -642,10 +642,10 @@
     gap: 8px;
   }
   .sw-examlist-summary strong {
-    font-size: 20px;
+    font-size: var(--sw-font-size-20);
   }
   .sw-examlist-summary span {
-    font-size: 9px;
+    font-size: var(--sw-font-size-9);
   }
   .sw-examlist-summary > button::after {
     bottom: -21px;
@@ -662,23 +662,23 @@
   }
   .sw-examlist-card-body h2 {
     min-height: 0;
-    font-size: 16px;
+    font-size: var(--sw-font-size-16);
   }
   .sw-examlist-dialog .MuiDialog-paper {
     margin: 12px;
     width: calc(100% - 24px);
     max-height: calc(100% - 24px);
-    border-radius: 15px;
+    border-radius: var(--sw-radius-15);
   }
   .sw-examlist-dialog .MuiDialogTitle-root {
     padding: 20px 18px 0;
-    font-size: 19px;
+    font-size: var(--sw-font-size-19);
   }
   .sw-examlist-dialog .MuiDialogContent-root {
     padding: 0 18px 20px;
   }
   .sw-examlist-dialog .MuiDialogContent-root > p {
-    font-size: 11px;
+    font-size: var(--sw-font-size-11);
   }
   .sw-examlist-dialog .MuiDialogActions-root {
     padding: 14px 18px;
@@ -688,7 +688,7 @@
   .sw-examlist-dialog .MuiDialogActions-root > span {
     max-width: none;
     width: 100%;
-    font-size: 9px;
+    font-size: var(--sw-font-size-9);
   }
   .sw-examlist-dialog .MuiDialogActions-root > div {
     width: 100%;

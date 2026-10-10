@@ -5,10 +5,10 @@ interface IUser {
 
 export interface IProfile {
   user_id: number;
-  firstname: string;
-  lastname: string;
-  avatar_src: string;
-  study_in_id: number;
-  group: string;
-  users_customuser: IUser;
+  firstname: string | null;
+  lastname: string | null;
+  avatar_src: string | null;
+  study_in_id: number | null;
+  group: string | null;
+  users_customuser: IUser | null;
 }

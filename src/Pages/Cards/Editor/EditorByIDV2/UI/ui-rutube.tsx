@@ -1,22 +1,40 @@
-import { isMobileHook } from '../../../../../Shared/CustomHooks/isMobileHook';
-import { observer } from 'mobx-react';
 import React from 'react';
-import { Stack, Typography } from '@mui/material';
-import { Alert } from '@mui/lab';
+import { observer } from 'mobx-react';
+import { TextField } from '@mui/material';
+import PlayCircleOutlineRoundedIcon from '@mui/icons-material/PlayCircleOutlineRounded';
+import { CESObject } from '../Store/CardEditorStorage';
+import { parseRutubeUrl } from '../../../../../Shared/Video/rutube';
+import RutubePlayer from '../../../../../Shared/Video/RutubePlayer';
 
 export const UiRutube = observer(() => {
-  const isMobile = isMobileHook();
-
+  const value = CESObject.getField('video_url', '');
+  const valid = parseRutubeUrl(value);
   return (
-    <div
-      style={{
-        height: isMobile ? (window.innerWidth / 16) * 9 : 456,
-        display: 'flex',
-      }}
-    >
-      <Stack alignItems={'center'} justifyContent={'center'} sx={{ flex: 1 }}>
-        <Alert severity={'warning'}>В разработке</Alert>
-      </Stack>
+    <div className="sw-cedit-video-fields">
+      <TextField
+        fullWidth
+        label="Ссылка на видео Rutube"
+        placeholder="https://rutube.ru/video/…/"
+        value={value}
+        onChange={CESObject.changeField('video_url')}
+        error={!!value && !valid}
+        helperText={
+          value && !valid
+            ? 'Укажите ссылку на видео, Shorts или встроенный плеер Rutube.'
+            : 'Основная видеоссылка: YouTube или Rutube. Новая ссылка заменит текущую.'
+        }
+      />
+      <div className="sw-cedit-video-preview">
+        {valid ? (
+          <RutubePlayer url={value} />
+        ) : (
+          <div className="sw-cedit-video-empty">
+            <PlayCircleOutlineRoundedIcon />
+            <span>Предпросмотр Rutube</span>
+            <p>Добавьте ссылку, чтобы проверить материал.</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 });

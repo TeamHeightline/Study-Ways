@@ -8,6 +8,7 @@ import { positionDataI } from '../../../CourseMicroView/V2/Store/CourseMicroStor
 import { useNavigate } from 'react-router-dom';
 import MultipleCards from './multiple-cards';
 import NotLoaded from './not-loaded';
+import PlayCircleOutlineRoundedIcon from '@mui/icons-material/PlayCircleOutlineRounded';
 
 interface ISingleCardProps extends BoxProps {
   card_id: string;
@@ -52,7 +53,7 @@ export default function CardItem({
     if (!isNaN(Number(card_id))) {
       axiosClient
         .get<ICardData>(`/page/course-by-id/card-data/${card_id}`)
-        .then((res) => setCardData(res.data));
+        .then(res => setCardData(res.data));
     }
   }, [card_id]);
 
@@ -74,18 +75,46 @@ export default function CardItem({
 
   const numberOfElements = card_id?.split(',').length;
 
+  const video = urlParser.parse(cardData?.video_url || '');
   const imageSrc =
-    cardData?.card_content_type === 0
-      ? `https://img.youtube.com/vi/${urlParser.parse(cardData?.video_url || '')?.id}/hqdefault.jpg`
-      : `https://storage.googleapis.com/study-ways-files/${cardData?.cards_cardimage?.image}`;
+    cardData?.card_content_type === 0 && video?.provider === 'youtube'
+      ? `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`
+      : cardData?.cards_cardimage?.image
+        ? `https://storage.googleapis.com/study-ways-files/${cardData.cards_cardimage.image}`
+        : '';
 
   return (
-    <Box role="button" tabIndex={0} aria-pressed={isSelected} onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); handleNavigateToItem(); } }} className={`sw-material ${isSelected ? 'is-selected' : ''} ${isViewed ? 'is-viewed' : ''}`} sx={{ width: size.width }} onClick={handleNavigateToItem}>
+    <Box
+      role="button"
+      tabIndex={0}
+      aria-pressed={isSelected}
+      onKeyDown={event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          handleNavigateToItem();
+        }
+      }}
+      className={`sw-material ${isSelected ? 'is-selected' : ''} ${isViewed ? 'is-viewed' : ''}`}
+      sx={{ width: size.width }}
+      onClick={handleNavigateToItem}
+    >
       <Card variant={'outlined'} className="sw-material-card">
         {numberOfElements > 1 ? (
           <MultipleCards numberOfElements={numberOfElements} size={size} />
         ) : !cardData ? (
           <NotLoaded size={size} />
+        ) : !imageSrc ? (
+          <Box
+            sx={{
+              ...size,
+              display: 'grid',
+              placeItems: 'center',
+              background: '#edf4e9',
+              color: '#84a18b',
+            }}
+          >
+            <PlayCircleOutlineRoundedIcon sx={{ fontSize: 42 }} />
+          </Box>
         ) : (
           <CardMedia
             image={imageSrc}
@@ -101,8 +130,18 @@ export default function CardItem({
           />
         )}
       </Card>
-      <Typography className="sw-course-material-title" variant={'caption'}>{numberOfElements > 1 ? `Подборка · ${numberOfElements} материалов` : cardData?.title || 'Загрузка материала…'}</Typography>
-      <span className="sw-material-state">{isSelected ? 'Сейчас изучаете' : isViewed ? 'Просмотрено' : 'Открыть материал'}</span>
+      <Typography className="sw-course-material-title" variant={'caption'}>
+        {numberOfElements > 1
+          ? `Подборка · ${numberOfElements} материалов`
+          : cardData?.title || 'Загрузка материала…'}
+      </Typography>
+      <span className="sw-material-state">
+        {isSelected
+          ? 'Сейчас изучаете'
+          : isViewed
+            ? 'Просмотрено'
+            : 'Открыть материал'}
+      </span>
     </Box>
   );
 }

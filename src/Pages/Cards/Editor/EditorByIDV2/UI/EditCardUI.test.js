@@ -155,3 +155,53 @@ test('failed saves expose a retry and keep the editor unsaved', async () => {
   expect(CESObject.hasSaveError).toBe(false);
   expect(CESObject.stateOfSave).toBe(true);
 });
+
+test('Rutube links autosave through the existing card API and reopen in the matching tab', async () => {
+  runInAction(() => {
+    CESObject.card_object.card_content_type = 0;
+    CESObject.card_object.video_url = '';
+    CESObject.card_object.vk_video_url = '';
+  });
+  await act(async () =>
+    root.render(
+      <MemoryRouter>
+        <EditCardUI />
+      </MemoryRouter>,
+    ),
+  );
+  const rutube = [...container.querySelectorAll('button')].find(
+    button => button.textContent === 'Rutube',
+  );
+  await act(async () => rutube.click());
+  const label = [...container.querySelectorAll('label')].find(
+    node => node.textContent === 'Ссылка на видео Rutube',
+  );
+  const field = document.getElementById(label.htmlFor);
+  const url = 'https://rutube.ru/video/0123456789abcdef0123456789abcdef/';
+  await act(async () => {
+    Object.getOwnPropertyDescriptor(
+      HTMLInputElement.prototype,
+      'value',
+    ).set.call(field, url);
+    field.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+  expect(container.querySelector('iframe').src).toBe(
+    'https://rutube.ru/play/embed/0123456789abcdef0123456789abcdef/',
+  );
+  await act(async () => jest.advanceTimersByTime(2000));
+  expect(saveCard).toHaveBeenLastCalledWith(
+    expect.objectContaining({ video_url: url, vk_video_url: '' }),
+  );
+  await act(async () => root.render(null));
+  await act(async () =>
+    root.render(
+      <MemoryRouter>
+        <EditCardUI />
+      </MemoryRouter>,
+    ),
+  );
+  expect(
+    container.querySelector('[value="Rutube"]').getAttribute('aria-pressed'),
+  ).toBe('true');
+  expect(container.querySelector('iframe').title).toBe('Видео Rutube');
+});

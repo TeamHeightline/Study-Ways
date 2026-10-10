@@ -27,6 +27,7 @@ import ReactPlayer from 'react-player';
 import { useAppSelector } from '../../../App/ReduxStore/RootStore';
 import { CardType } from './store/type';
 import { FILE_URL } from '../../../settings';
+import { parseRutubeUrl } from '../../../Shared/Video/rutube';
 
 interface ICardMicroViewProps extends React.HTMLAttributes<HTMLDivElement> {
   cardID: number;
@@ -129,15 +130,15 @@ export default function CardMicroView({
           <Stack direction={'column'}>
             <Box sx={{ height: 170 }}>
               {Number(card_data.card_content_type) === 0 &&
-                !card_data.video_url?.trim() && (
+                (!card_data.video_url?.trim() || parseRutubeUrl(card_data.video_url)) && (
                   <div className="sw-video-placeholder">
                     <span><VideoLibraryOutlinedIcon /></span>
-                    <strong>Видеоматериал</strong>
-                    <small>Ссылка на видео не добавлена</small>
+                    <strong>{parseRutubeUrl(card_data.video_url) ? 'Rutube' : 'Видеоматериал'}</strong>
+                    <small>{parseRutubeUrl(card_data.video_url) ? 'Смотреть видео в карточке' : 'Ссылка на видео не добавлена'}</small>
                   </div>
                 )}
               {Number(card_data.card_content_type) === 0 &&
-                card_data?.video_url?.trim() && (
+                card_data?.video_url?.trim() && !parseRutubeUrl(card_data.video_url) && (
                   <div>
                     <CardMedia
                       className="sw-mini-media"

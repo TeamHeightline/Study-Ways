@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { CESObject } from '../Store/CardEditorStorage';
 import { UiYoutube } from './ui-youtube';
 import { UiVkVideo } from './ui-vk-video';
+import { UiRutube } from './ui-rutube';
+import { parseRutubeUrl } from '../../../../../Shared/Video/rutube';
 export const UiVideo = observer(() => {
-  const [hosting, setHosting] = useState<'VK' | 'Youtube'>(() =>
-    CESObject.getField('vk_video_url', '') ? 'VK' : 'Youtube',
+  const defaultHosting = () =>
+    CESObject.getField('vk_video_url', '')
+      ? 'VK'
+      : parseRutubeUrl(CESObject.getField('video_url', ''))
+        ? 'Rutube'
+        : 'Youtube';
+  const cardID = CESObject.getField('id', '');
+  const [hosting, setHosting] = useState<'VK' | 'Youtube' | 'Rutube'>(
+    defaultHosting,
   );
+  useEffect(() => setHosting(defaultHosting()), [cardID]);
   return (
     <div className="sw-cedit-video" key={CESObject.getField('id', '')}>
       <ToggleButtonGroup
@@ -21,11 +31,15 @@ export const UiVideo = observer(() => {
       >
         <ToggleButton value="Youtube">YouTube</ToggleButton>
         <ToggleButton value="VK">VK Видео</ToggleButton>
-        <ToggleButton value="Rutube" disabled>
-          Rutube · скоро
-        </ToggleButton>
+        <ToggleButton value="Rutube">Rutube</ToggleButton>
       </ToggleButtonGroup>
-      {hosting === 'VK' ? <UiVkVideo /> : <UiYoutube />}
+      {hosting === 'VK' ? (
+        <UiVkVideo />
+      ) : hosting === 'Rutube' ? (
+        <UiRutube />
+      ) : (
+        <UiYoutube />
+      )}
     </div>
   );
 });

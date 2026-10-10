@@ -1,12 +1,13 @@
 import { observer } from 'mobx-react';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import useQueryParams from '../../../../Shared/CustomHooks/useQueryParams';
 import { positionDataI } from '../../CourseMicroView/V2/Store/CourseMicroStoreByID';
-import CourseMicroView from '../../CourseMicroView/V2/UI/CourseMicroView';
+
 import CardByID from '../../../Cards/CardByID/UI/card-by-id';
 import { Box, Stack } from '@mui/material';
 import CourseMacroView from '../../CourseMacroView';
 import { isMobileHook } from '../../../../Shared/CustomHooks/isMobileHook';
+import MobileCourseView from './MobileCourseView';
 
 type ICourseByURLProps = React.HTMLAttributes<HTMLDivElement>;
 
@@ -15,45 +16,51 @@ const CourseByURL = observer(({ ...props }: ICourseByURLProps) => {
   const queryParams = useQueryParams();
   const isMobile = isMobileHook();
 
-  function changeSelectedCardID(new_card_id) {
-    if (new_card_id) {
-      setActiveCardID(new_card_id);
-    }
-  }
+  const courseID = Number(queryParams.get('id'));
+  const changeSelectedCardID = useCallback(
+    (new_card_id?: string) => setActiveCardID(new_card_id),
+    [],
+  );
+  useEffect(() => setActiveCardID(undefined), [courseID]);
 
-  const position_data: positionDataI = {
-    activePage: Number(queryParams.get('activePage')),
-    selectedPage: Number(queryParams.get('selectedPage')),
-    selectedIndex: Number(queryParams.get('selectedIndex')),
-    selectedRow: Number(queryParams.get('selectedRow')),
-  };
+  const position_data: positionDataI = useMemo(
+    () => ({
+      activePage: Number(queryParams.get('activePage')),
+      selectedPage: Number(queryParams.get('selectedPage')),
+      selectedIndex: Number(queryParams.get('selectedIndex')),
+      selectedRow: Number(queryParams.get('selectedRow')),
+    }),
+    [queryParams.toString()],
+  );
 
   // эти все сплиты ID по "," нужны только для того, что у нас в одной ячейки может быть много
   // значений, разделенных той самой запятой.
 
   return (
-    <Box>
-      <Box sx={{ ml: 2 }}>
+    <Box className="sw-course-reader">
+      <Box sx={{ ml: isMobile ? 0 : 2 }}>
         {!isMobile ? (
           <CourseMacroView
+            key={courseID}
             courseID={Number(queryParams.get('id'))}
             positionData={position_data}
             onCardSelect={changeSelectedCardID}
           />
         ) : (
-          <CourseMicroView
-            onCardSelect={(card_id) => {
-              changeSelectedCardID(card_id);
-            }}
-            course_id={Number(queryParams.get('id'))}
-            position_data={position_data}
-            showArrowNavigation
+          <MobileCourseView
+            key={courseID}
+            courseID={courseID}
+            position={position_data}
+            explicitPosition={queryParams.has('selectedRow')}
+            onCardSelect={changeSelectedCardID}
           />
         )}
       </Box>
       <Stack direction={'column'} {...props}>
-        {String(activeCardID)
+        {activeCardID
           ?.split(',')
+          .map(id => id.trim())
+          .filter(id => /^\d+$/.test(id))
           .map((card_id, index) => (
             <CardByID
               is_hidden_navigation

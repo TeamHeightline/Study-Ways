@@ -21,6 +21,7 @@ interface AuthorFilterProps {
   value: string | number | null | undefined;
   onChange: (id: string | null) => void;
   label?: string;
+  placeholder?: string;
   className?: string;
   specialOptions?: { id: string; label: string }[];
 }
@@ -34,6 +35,7 @@ export function AuthorFilter({
   value,
   onChange,
   label = 'Автор',
+  placeholder,
   className,
   specialOptions = [],
 }: AuthorFilterProps) {
@@ -122,6 +124,7 @@ export function AuthorFilter({
         <TextField
           {...params}
           label={label}
+          placeholder={placeholder}
           error={isError}
           helperText={
             isError ? (

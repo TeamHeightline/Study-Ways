@@ -1,15 +1,5 @@
 import { gql } from '@apollo/client';
 
-export const GET_ALL_COURSE = gql`
-  query GET_ALL_COURSE {
-    cardCourse {
-      id
-      courseData
-      name
-    }
-  }
-`;
-
 export const ADD_TO_BOOKMARK = gql`
   mutation ADD_TO_BOOKMARK($id: Int!) {
     addCardToBookmark(cardId: $id) {

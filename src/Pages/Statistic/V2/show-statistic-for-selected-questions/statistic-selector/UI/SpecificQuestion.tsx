@@ -1,26 +1,39 @@
-import { observer } from 'mobx-react';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Autocomplete, TextField } from '@mui/material';
-import { SASObject } from '../Store/SelectAttemptStore';
+import { StatisticQuestion } from '../../../Store/statistic-api';
 
-type ISpecificQuestionProps = React.HTMLAttributes<HTMLDivElement>;
-export const SpecificQuestion = observer((props: ISpecificQuestionProps) => {
-  const options = [
-    { id: '-1', text: 'Все вопросы' },
-    ...SASObject.arrayForQuestionSelector.map(question => ({
-      id: String(question.id),
-      text: question.text || 'Без названия',
-    })),
-  ];
+interface ISpecificQuestionProps {
+  questions: StatisticQuestion[];
+  value: number | null;
+  loading: boolean;
+  onChange: (id: number | null) => void;
+}
+export const SpecificQuestion = ({
+  questions,
+  value: selectedId,
+  loading,
+  onChange,
+}: ISpecificQuestionProps) => {
+  const options = useMemo(
+    () => [
+      { id: '-1', text: 'Все вопросы' },
+      ...questions.map(question => ({
+        id: String(question.id),
+        text: question.text || 'Без названия',
+      })),
+    ],
+    [questions],
+  );
   const value =
-    options.find(question => question.id === SASObject.specificQuestion) ||
-    options[0];
+    options.find(question => question.id === String(selectedId)) || options[0];
   return (
-    <div {...props}>
+    <div>
       <Autocomplete
         size="small"
         fullWidth
         options={options}
+        loading={loading}
+        loadingText="Загрузка вопросов…"
         value={value}
         isOptionEqualToValue={(option, selected) => option.id === selected.id}
         getOptionLabel={option =>
@@ -29,9 +42,9 @@ export const SpecificQuestion = observer((props: ISpecificQuestionProps) => {
             : '№ ' + option.id + ' · ' + option.text
         }
         onChange={(_, question) =>
-          SASObject.changeSpecificQuestion({
-            target: { value: question?.id || '-1' },
-          })
+          onChange(
+            question && question.id !== '-1' ? Number(question.id) : null,
+          )
         }
         noOptionsText="Вопросы не найдены"
         openText="Выбрать вопрос"
@@ -90,4 +103,4 @@ export const SpecificQuestion = observer((props: ISpecificQuestionProps) => {
       />
     </div>
   );
-});
+};

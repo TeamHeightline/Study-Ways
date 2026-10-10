@@ -1,21 +1,14 @@
 import { autorun, makeAutoObservable, reaction, toJS } from 'mobx';
-import {
-  CardCourseNode,
-  Mutation,
-  UnstructuredThemesNode,
-} from '../../../../SchemaTypes';
+import { Mutation, UnstructuredThemesNode } from '../../../../SchemaTypes';
 import { ClientStorage } from '../../../../Shared/Store/ApolloStorage/ClientStorage';
 import {
   ADD_TO_BOOKMARK,
-  GET_ALL_COURSE,
   GET_SIMILAR_CARDS_ID_ARRAY,
   GET_THEME_ANCESTORS,
   REMOVE_CARD_FROM_BOOKMARK,
   SET_RATING,
 } from './Query';
 import { FILE_URL, SERVER_BASE_URL } from '../../../../settings';
-import { ICourseLine } from '../../../Course/EditCourseByID/EditCourseByID';
-import { positionDataI } from '../../../Course/CourseMicroView/V2/Store/CourseMicroStoreByID';
 import React, { RefObject } from 'react';
 import recombeeClient from '../../../../Shared/Store/RecombeeClient/recombee-client';
 import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
@@ -24,43 +17,11 @@ import recombee from 'recombee-js-api-client';
 import { getCardDataById } from '../API/get-card-data-by-id';
 import { ICardData } from '../TYPES/card-data';
 
-class CourseDataCache {
-  constructor() {
-    makeAutoObservable(this);
-  }
-
-  clientStorage = ClientStorage;
-
-  getAllCoursesData() {
-    if (!!this.allCoursesData?.length && this.allCoursesData?.length > 0) {
-      return;
-    }
-    this.clientStorage.client
-      .query({
-        query: GET_ALL_COURSE,
-        fetchPolicy: 'network-only',
-        variables: {},
-      })
-      .then((response) => response.data.cardCourse)
-      .then((courses_data) => {
-        if (courses_data !== toJS(this.allCoursesData)) {
-          this.allCoursesData = courses_data;
-        }
-      })
-      .catch((e) => console.log(e));
-  }
-
-  allCoursesData?: CardCourseNode[];
-}
-
-const courseDataCache = new CourseDataCache();
-
 export class CardByIDStore {
   constructor() {
     makeAutoObservable(this);
 
     this.loadCardData();
-    courseDataCache.getAllCoursesData();
     console.log('new store');
 
     reaction(
@@ -73,7 +34,6 @@ export class CardByIDStore {
     );
 
     // autorun(() => this.getCardImageURL())
-    autorun(() => this.collectFindInCourseNotification());
     // autorun(() => this.updateRatingAndISBookmarked())
     autorun(() => this.loadThemesAncestors());
     autorun(() => this.loadSimilarCards());
@@ -146,7 +106,7 @@ export class CardByIDStore {
     //     })
     //     .catch(console.log)
 
-    getCardDataById(this.id).then((data) => {
+    getCardDataById(this.id).then(data => {
       console.log('data', data);
       if (data && this.id == Number(data?.id)) {
         this.card_data = data;
@@ -163,13 +123,13 @@ export class CardByIDStore {
             card_id: this.card_data?.id,
           },
         })
-        .then((response) => response.data.similarCards)
-        .then((similar_cards_id_array) => {
+        .then(response => response.data.similarCards)
+        .then(similar_cards_id_array => {
           if (similar_cards_id_array && similar_cards_id_array.IDs) {
             this.similarCardsID = similar_cards_id_array.IDs;
           }
         })
-        .catch((e) => console.log(e));
+        .catch(e => console.log(e));
     }
   }
 
@@ -183,24 +143,24 @@ export class CardByIDStore {
           theme_id,
         },
       })
-      .then((response) => response.data?.themeAncestors)
-      .then((themes) => {
+      .then(response => response.data?.themeAncestors)
+      .then(themes => {
         if (themes && themes.length > 0) {
           this.themesAncestorsMap.set(String(theme_id), themes);
         }
       })
-      .catch((e) => console.log(e));
+      .catch(e => console.log(e));
   }
 
   themesAncestorsMap: ThemeAncestorMap = new Map();
 
   loadThemesAncestors = () => {
-    this.card_data?.cards_card_connected_theme.map((theme) => {
+    this.card_data?.cards_card_connected_theme.map(theme => {
       this.getAncestorForTheme(Number(theme.unstructuredtheme_id));
     });
   };
 
-  onThemeHover = (theme_id) => {
+  onThemeHover = theme_id => {
     if (this.themesAncestorsMap.has(String(theme_id))) {
       return toJS(this.themesAncestorsMap.get(String(theme_id)));
     } else {
@@ -239,8 +199,8 @@ export class CardByIDStore {
         `${SERVER_BASE_URL}/cardfiles/card?id=${Number(card_id_for_request)}`,
         { cache: 'default' },
       )
-        .then((response) => response.json())
-        .then((data) => {
+        .then(response => response.json())
+        .then(data => {
           if (card_id_for_request == Number(this?.card_data?.id)) {
             this.cardImageURLFromServer = {
               url: data[0].image,
@@ -251,40 +211,6 @@ export class CardByIDStore {
         .catch(() => void 0);
     }
   };
-
-  findInCourseArray: IFindInCourseNotification = [];
-
-  get findInCourseArrayForUI() {
-    return toJS(this.findInCourseArray);
-  }
-
-  collectFindInCourseNotification() {
-    const active_card_id = this.card_data?.id;
-    if (active_card_id) {
-      const __findInCourseNotification: IFindInCourseNotification = [];
-      courseDataCache.allCoursesData?.map((course) => {
-        course?.courseData?.map((course_line: ICourseLine, lIndex) => {
-          course_line.SameLine?.map((fragment, fIndex) => {
-            fragment.CourseFragment?.map((element, bIndex) => {
-              if (element?.CourseElement?.id == active_card_id) {
-                __findInCourseNotification?.push({
-                  course_name: String(course?.name || '_'),
-                  course_id: String(course?.id),
-                  position: {
-                    activePage: fIndex + 1,
-                    selectedRow: lIndex,
-                    selectedPage: fIndex + 1,
-                    selectedIndex: bIndex,
-                  },
-                });
-              }
-            });
-          });
-        });
-      });
-      this.findInCourseArray = __findInCourseNotification;
-    }
-  }
 
   // clickToBookmarkIcon = () => {
   //     this.isBookmarked = !this.isBookmarked
@@ -304,11 +230,11 @@ export class CardByIDStore {
             id: Number(this.card_data?.id),
           },
         })
-        .then((response) => response?.data?.removeCardFromBookmark)
+        .then(response => response?.data?.removeCardFromBookmark)
         .then(() => {
           this.loadCardData();
         })
-        .catch((e) => console.log(e));
+        .catch(e => console.log(e));
     }
   };
 
@@ -321,13 +247,13 @@ export class CardByIDStore {
             id: Number(this.card_data?.id),
           },
         })
-        .then((response) => response?.data?.addCardToBookmark)
-        .then((response) => {
+        .then(response => response?.data?.addCardToBookmark)
+        .then(response => {
           if (response?.ok) {
             this.loadCardData();
           }
         })
-        .catch((e) => console.log(e));
+        .catch(e => console.log(e));
     }
   };
 
@@ -342,13 +268,13 @@ export class CardByIDStore {
             rating,
           },
         })
-        .then((response) => response?.data?.setCardRating)
-        .then((response) => {
+        .then(response => response?.data?.setCardRating)
+        .then(response => {
           if (response?.ok) {
             this.loadCardData();
           }
         })
-        .catch((e) => console.log(e));
+        .catch(e => console.log(e));
     }
   };
 
@@ -371,9 +297,3 @@ export class CardByIDStore {
 export const cardByIDStore = new CardByIDStore();
 
 type ThemeAncestorMap = Map<string, UnstructuredThemesNode[]>;
-
-type IFindInCourseNotification = {
-  course_name: string;
-  course_id: string;
-  position: positionDataI;
-}[];

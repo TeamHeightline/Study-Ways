@@ -1,16 +1,17 @@
 import { studyWaysApi } from '../ServerLayer/QueryLayer/api';
 import { AuthorSummary, getAuthorName } from './types';
 
-export type AuthorScope = 'cards' | 'questions';
+export type AuthorScope = 'cards' | 'questions' | 'courses';
 
 export const authorsApi = studyWaysApi.injectEndpoints({
   endpoints: builder => ({
     getAuthors: builder.query<AuthorSummary[], AuthorScope>({
       query: scope => ({
-        url:
-          scope === 'cards'
-            ? '/page/card-page/authors'
-            : '/page/question-editor-page/authors',
+        url: {
+          cards: '/page/card-page/authors',
+          questions: '/page/question-editor-page/authors',
+          courses: '/page/course/authors',
+        }[scope],
       }),
       transformResponse: (authors: AuthorSummary[]) =>
         [

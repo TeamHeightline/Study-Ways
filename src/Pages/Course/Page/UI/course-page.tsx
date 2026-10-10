@@ -1,6 +1,6 @@
 import { ThemeManulNote } from '../../../../Shared/Theme/ThemeManulNote';
-import React, { useEffect, useMemo, useState } from 'react';
-import { Alert, Button, Skeleton } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Alert, Button, Pagination, Skeleton, Stack } from '@mui/material';
 import {
   ArrowForward,
   AutoAwesomeOutlined,
@@ -13,57 +13,63 @@ import {
 } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { AuthorFilter } from '../../../../Shared/Authors/AuthorFilter';
 import {
-  useAppDispatch,
-  useAppSelector,
-} from '../../../../App/ReduxStore/RootStore';
-import { loadCourseDataThunk } from '../redux-store/async-functions';
+  CourseCatalogFilters,
+  useGetCourseCatalogPageQuery,
+} from '../Store/course-catalog-api';
 import CourseByData from './CourseByData';
 import {
   ThemeHeroArt,
   ThemeIllustration,
 } from '../../../../Shared/Theme/ThemeIllustration';
 
-import { DEFAULT_COURSE_TITLE } from '../constants';
-
 export { DEFAULT_COURSE_TITLE } from '../constants';
 
 export default function CoursePage() {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const {
-    courses_data: courses,
-    is_loading_course_data: loading,
-    is_loading_error_course_data: error,
-  } = useAppSelector(state => state.coursePage);
   const [search, setSearch] = useState('');
-  const [filter, setFilter] = useState('all');
-  const [sort, setSort] = useState('default');
+  const [filters, setFilters] = useState<CourseCatalogFilters>({
+    page: 1,
+    search: '',
+    authorId: null,
+    levels: 'all',
+    sort: 'default',
+  });
+  const {
+    currentData,
+    isFetching,
+    isError: error,
+    refetch,
+  } = useGetCourseCatalogPageQuery(filters, {
+    refetchOnMountOrArgChange: true,
+  });
   useEffect(() => {
-    dispatch(loadCourseDataThunk());
-  }, [dispatch]);
-  const available = courses.filter(
-    course => course.name !== DEFAULT_COURSE_TITLE,
+    if (search.trim() === filters.search) return;
+    const timer = setTimeout(
+      () =>
+        setFilters(current => ({ ...current, search: search.trim(), page: 1 })),
+      350,
+    );
+    return () => clearTimeout(timer);
+  }, [search, filters.search]);
+  const visible = currentData?.items ?? [];
+  const loading = isFetching && !currentData;
+  const hasFilters = !!(
+    filters.search ||
+    filters.authorId ||
+    filters.levels !== 'all'
   );
-  const visible = useMemo(() => {
-    const result = available.filter(course => {
-      const author = course.users_customuser?.users_userprofile;
-      const matches =
-        `${course.name} ${author?.firstname || ''} ${author?.lastname || ''}`
-          .toLocaleLowerCase('ru')
-          .includes(search.toLocaleLowerCase('ru').trim());
-      return (
-        matches &&
-        (filter === 'all' ||
-          (filter === 'multi'
-            ? course.course_data.length > 1
-            : course.course_data.length === 1))
-      );
+  const resetFilters = () => {
+    setSearch('');
+    setFilters({
+      page: 1,
+      search: '',
+      authorId: null,
+      levels: 'all',
+      sort: 'default',
     });
-    return sort === 'name'
-      ? result.sort((a, b) => a.name.localeCompare(b.name, 'ru'))
-      : result;
-  }, [available, search, filter, sort]);
+  };
 
   return (
     <div className="sw-catalog">
@@ -187,7 +193,8 @@ export default function CoursePage() {
         <div className="sw-section-heading">
           <div>
             <h2 id="catalog-title">
-              Исследуйте курсы <span>{loading ? '…' : available.length}</span>
+              Исследуйте курсы{' '}
+              <span>{loading ? '…' : (currentData?.total ?? 0)}</span>
             </h2>
             <p>Большие идеи начинаются с любопытства.</p>
           </div>
@@ -195,15 +202,21 @@ export default function CoursePage() {
             <TuneOutlined fontSize="small" />
             <select
               aria-label="Сортировка курсов"
-              value={sort}
-              onChange={event => setSort(event.target.value)}
+              value={filters.sort}
+              onChange={event =>
+                setFilters(current => ({
+                  ...current,
+                  sort: event.target.value as CourseCatalogFilters['sort'],
+                  page: 1,
+                }))
+              }
             >
               <option value="default">По умолчанию</option>
               <option value="name">По названию</option>
             </select>
           </label>
         </div>
-        <div className="sw-catalog-controls">
+        <div className="sw-catalog-controls sw-catalog-controls-authors">
           <div
             className="sw-filter-tabs"
             role="group"
@@ -216,14 +229,30 @@ export default function CoursePage() {
             ].map(tab => (
               <button
                 key={tab.id}
-                aria-pressed={filter === tab.id}
-                className={filter === tab.id ? 'active' : ''}
-                onClick={() => setFilter(tab.id)}
+                aria-pressed={filters.levels === tab.id}
+                className={filters.levels === tab.id ? 'active' : ''}
+                onClick={() =>
+                  setFilters(current => ({
+                    ...current,
+                    levels: tab.id as CourseCatalogFilters['levels'],
+                    page: 1,
+                  }))
+                }
               >
                 {tab.label}
               </button>
             ))}
           </div>
+          <AuthorFilter
+            scope="courses"
+            label="Автор курса"
+            placeholder="Все авторы"
+            className="sw-catalog-author"
+            value={filters.authorId}
+            onChange={authorId =>
+              setFilters(current => ({ ...current, authorId, page: 1 }))
+            }
+          />
           <div className="sw-search">
             <Search fontSize="small" />
             <input
@@ -233,7 +262,13 @@ export default function CoursePage() {
               onChange={event => setSearch(event.target.value)}
             />
             {search && (
-              <button onClick={() => setSearch('')} aria-label="Очистить поиск">
+              <button
+                onClick={() => {
+                  setSearch('');
+                  setFilters(current => ({ ...current, search: '', page: 1 }));
+                }}
+                aria-label="Очистить поиск"
+              >
                 <Close fontSize="small" />
               </button>
             )}
@@ -242,11 +277,7 @@ export default function CoursePage() {
         {error ? (
           <Alert
             severity="warning"
-            action={
-              <Button onClick={() => dispatch(loadCourseDataThunk())}>
-                Повторить
-              </Button>
-            }
+            action={<Button onClick={() => refetch()}>Повторить</Button>}
           >
             Не удалось загрузить курсы. Попробуйте ещё раз.
           </Alert>
@@ -278,26 +309,29 @@ export default function CoursePage() {
               fallback={<Search />}
             />
             <h3>
-              {available.length
-                ? 'Пока ничего не нашлось'
-                : 'Курсы появятся здесь'}
+              {hasFilters ? 'Пока ничего не нашлось' : 'Курсы появятся здесь'}
             </h3>
             <p>
-              {available.length
+              {hasFilters
                 ? 'Попробуйте другое название или выберите все курсы.'
                 : 'Каталог готовится к новым открытиям. Загляните чуть позже.'}
             </p>
-            {available.length > 0 && (
-              <Button
-                onClick={() => {
-                  setSearch('');
-                  setFilter('all');
-                }}
-              >
-                Сбросить фильтры
-              </Button>
+            {hasFilters && (
+              <Button onClick={resetFilters}>Сбросить фильтры</Button>
             )}
           </div>
+        )}
+        {!error && !loading && currentData && currentData.numPages > 1 && (
+          <Stack alignItems="center" sx={{ mt: 3 }}>
+            <Pagination
+              page={currentData.activePage}
+              count={currentData.numPages}
+              disabled={isFetching}
+              onChange={(_, page) =>
+                setFilters(current => ({ ...current, page }))
+              }
+            />
+          </Stack>
         )}
       </section>
       <ThemeManulNote context="catalog" />

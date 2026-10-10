@@ -1,3 +1,4 @@
+import { ThemeManulNote } from '../../../Shared/Theme/ThemeManulNote';
 import React, { Suspense } from 'react';
 import { Alert, Box, CircularProgress, Grid } from '@mui/material';
 import AlertTitle from '@mui/material/AlertTitle';
@@ -8,7 +9,6 @@ import haveStatus from '../../../Shared/Store/UserStore/utils/HaveStatus';
 import { privateRoutes } from './routes';
 
 export const EditorsRouter = observer(() => {
-
   if (!haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR'])) {
     return (
       <Alert severity="error">
@@ -24,8 +24,8 @@ export const EditorsRouter = observer(() => {
       <Box className="sw-editor-content" sx={{ minWidth: 0 }}>
         <Routes>
           {privateRoutes
-            .filter((route) => haveStatus(route.status))
-            .map((route) => (
+            .filter(route => haveStatus(route.status))
+            .map(route => (
               <Route
                 path={route.path}
                 element={
@@ -42,6 +42,7 @@ export const EditorsRouter = observer(() => {
               />
             ))}
         </Routes>
+        <ThemeManulNote context="editor" />
       </Box>
     </Box>
   );

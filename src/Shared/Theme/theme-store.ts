@@ -4,6 +4,7 @@ import { colors, defaultTheme, themes } from './theme-tokens';
 
 export interface ThemeDefinition {
   label: string;
+  illustrations?: string;
   mode: 'light' | 'dark';
   accessibility?: 'standard' | 'enhanced';
   colors: Partial<typeof colors>;
@@ -44,6 +45,7 @@ export class ThemeStore {
     return Object.entries(this.definitions).map(([id, definition]) => ({
       id,
       label: definition.label,
+      illustrations: definition.illustrations,
       mode: definition.mode,
       accessibility: definition.accessibility,
       colors: { ...colors, ...definition.colors },
@@ -160,6 +162,8 @@ export class ThemeStore {
     if (typeof document !== 'undefined') {
       document.documentElement.dataset.theme = this.id;
       document.documentElement.dataset.colorScheme = this.mode;
+      document.documentElement.dataset.illustrations =
+        this.definition.illustrations || 'none';
       document.documentElement.dataset.accessibility =
         this.definition.accessibility || 'standard';
       document.documentElement.style.colorScheme = this.mode;

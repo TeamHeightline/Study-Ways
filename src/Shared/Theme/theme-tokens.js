@@ -102,6 +102,7 @@ const colors = {
 };
 const defaultTheme = {
   label: 'Шалфей',
+  illustrations: 'none',
   accessibility: /** @type {'standard' | 'enhanced'} */ ('standard'),
   mode: /** @type {'light' | 'dark'} */ ('light'),
   colors,

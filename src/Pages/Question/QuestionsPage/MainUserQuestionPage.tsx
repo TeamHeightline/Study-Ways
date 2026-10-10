@@ -1,3 +1,4 @@
+import { ThemeManulNote } from '../../../Shared/Theme/ThemeManulNote';
 import React, { useEffect } from 'react';
 import {
   Button,
@@ -32,15 +33,18 @@ export const MainUserQuestionPage = observer(() => {
   return (
     <div>
       <Stack direction={'column'} alignItems={'center'}>
-        <Typography className="sw-question-heading" variant={'h4'}>Выберите вопрос</Typography>
+        <Typography className="sw-question-heading" variant={'h4'}>
+          Выберите вопрос
+        </Typography>
       </Stack>
+      <ThemeManulNote context="questions" />
       <Grid
         container
         spacing={2}
         justifyContent="space-between"
         sx={{ mt: 1, p: 1 }}
       >
-        {toJS(QuestionPageStorage.questionsData).map((question) => (
+        {toJS(QuestionPageStorage.questionsData).map(question => (
           <Grid
             item
             key={question.id}
@@ -55,9 +59,16 @@ export const MainUserQuestionPage = observer(() => {
                 onClick={() => navigate(`/iq/${question.id}`)}
               >
                 <div className="sw-question-card-body">
-                  <Typography className="sw-question-id">Вопрос № {question.id}</Typography>
-                  <Typography className="sw-question-text">{question?.text}</Typography>
-                  <div className="sw-question-card-footer"><span>Открыть вопрос</span><ArrowForwardRoundedIcon /></div>
+                  <Typography className="sw-question-id">
+                    Вопрос № {question.id}
+                  </Typography>
+                  <Typography className="sw-question-text">
+                    {question?.text}
+                  </Typography>
+                  <div className="sw-question-card-footer">
+                    <span>Открыть вопрос</span>
+                    <ArrowForwardRoundedIcon />
+                  </div>
                 </div>
               </CardActionArea>
             </Card>

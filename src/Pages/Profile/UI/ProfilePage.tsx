@@ -1,3 +1,4 @@
+import { ThemeManulNote } from '../../../Shared/Theme/ThemeManulNote';
 import { observer } from 'mobx-react';
 import React, { useEffect } from 'react';
 import {
@@ -130,6 +131,7 @@ const ProfilePage = observer(({ className = '', ...props }: PaperProps) => {
                 Имя и фамилия отображаются в статистике и результатах экзаменов.
                 Все поля можно оставить пустыми.
               </p>
+              <ThemeManulNote context="profile" compact />
             </aside>
             <form
               className="sw-profile-form"

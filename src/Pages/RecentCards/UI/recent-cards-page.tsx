@@ -1,3 +1,4 @@
+import { ThemeManulNote } from '../../../Shared/Theme/ThemeManulNote';
 import { Box, Typography } from '@mui/material';
 import { BoxProps } from '@mui/material/Box/Box';
 import { useEffect } from 'react';
@@ -42,6 +43,7 @@ const RecentCardsPage = observer(({ className = '', ...props }: BoxProps) => {
           </span>
         )}
       </header>
+      <ThemeManulNote context="history" />
       <UIIsHideDuplicates />
       <CardHistoryTimeline
         cardIDs={cardIDs}

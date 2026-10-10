@@ -1,3 +1,4 @@
+import { ThemeManulNote } from '../../../Shared/Theme/ThemeManulNote';
 import { observer } from 'mobx-react';
 import React, { useEffect } from 'react';
 import { SSSSObject } from '../Store/SimpleSelfStatisticStorage';
@@ -14,6 +15,7 @@ export const SelfStatisticPage = observer(
     return (
       <div {...props}>
         <RequireLogInAlert />
+        <ThemeManulNote context="results" />
         <ShowStatisticTable
           stickyHeader={true}
           pageChanger={

@@ -1,3 +1,4 @@
+import { ThemeManulNote } from '../../../Shared/Theme/ThemeManulNote';
 import { Box, CircularProgress, Grid, Stack, Typography } from '@mui/material';
 import { BoxProps } from '@mui/material/Box/Box';
 import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
@@ -19,10 +20,10 @@ export default function CardBookmarksPage({
   const navigate = useNavigate();
 
   const is_loading_card_bookmarks = useAppSelector(
-    (state) => state.cardBookmarks.is_loading_card_bookmarks,
+    state => state.cardBookmarks.is_loading_card_bookmarks,
   );
   const card_bookmarks_id_array = useAppSelector(
-    (state) => state.cardBookmarks.card_bookmarks_id_array,
+    state => state.cardBookmarks.card_bookmarks_id_array,
   );
 
   useEffect(() => {
@@ -50,7 +51,13 @@ export default function CardBookmarksPage({
           Карточки, добавленные в закладки
         </Typography>
       </Stack>
-      <Grid className="sw-card-library-grid" container spacing={2} justifyContent="center">
+      <ThemeManulNote context="bookmarks" />
+      <Grid
+        className="sw-card-library-grid"
+        container
+        spacing={2}
+        justifyContent="center"
+      >
         {card_bookmarks_id_array?.map((card_id, index) => (
           <Grid item xs={12} sm={6} md="auto" key={`${index}_${card_id}`}>
             <CardMicroView

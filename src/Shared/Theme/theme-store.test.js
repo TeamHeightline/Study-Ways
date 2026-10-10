@@ -30,6 +30,7 @@ afterEach(() => {
   themeMeta.remove();
   localStorage.clear();
   delete document.documentElement.dataset.theme;
+  delete document.documentElement.dataset.illustrations;
   delete document.documentElement.dataset.colorScheme;
   delete document.documentElement.dataset.accessibility;
   document.documentElement.style.removeProperty('color-scheme');
@@ -144,6 +145,7 @@ test.each(['forest', 'graphite', 'midnight'])(
       'midnight',
       'high-contrast',
       'high-contrast-dark',
+      'manul',
     ]);
   },
 );
@@ -187,3 +189,29 @@ test.each(['high-contrast', 'high-contrast-dark'])(
     expect(store.theme.typography.fontSize).toBe(14);
   },
 );
+
+test('the illustrated theme keeps text and actions readable on warm surfaces and persists its artwork pack', () => {
+  const { colors, themes } = require('./theme-tokens');
+  const store = new ThemeStore();
+  store.setTheme('manul');
+  const palette = store.palette;
+  expect(Object.keys(themes.manul.colors).sort()).toEqual(
+    Object.keys(colors).sort(),
+  );
+  for (const background of ['canvas', 'surface', 'surface-subtle']) {
+    for (const foreground of ['ink', 'secondary', 'muted', 'accent']) {
+      expect(
+        contrast(palette[foreground], palette[background]),
+      ).toBeGreaterThanOrEqual(4.5);
+    }
+  }
+  expect(contrast(palette['on-accent'], palette.accent)).toBeGreaterThanOrEqual(
+    4.5,
+  );
+  expect(
+    contrast(palette['sidebar-text'], palette.sidebar),
+  ).toBeGreaterThanOrEqual(4.5);
+  expect(new ThemeStore().definition.illustrations).toBe('manul');
+  store.setTheme('sage');
+  expect(document.documentElement.dataset.illustrations).toBe('none');
+});

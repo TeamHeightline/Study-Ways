@@ -1,3 +1,4 @@
+import { ThemeManulNote } from '../../../../Shared/Theme/ThemeManulNote';
 import { observer } from 'mobx-react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import useQueryParams from '../../../../Shared/CustomHooks/useQueryParams';
@@ -71,6 +72,7 @@ const CourseByURL = observer(({ ...props }: ICourseByURLProps) => {
             />
           ))}
       </Stack>
+      <ThemeManulNote context="course" />
     </Box>
   );
 });

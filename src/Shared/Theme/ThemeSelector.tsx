@@ -11,6 +11,7 @@ import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import { observer } from 'mobx-react';
 import ThemeStoreObject from '../../global-theme';
 import { ThemeStore } from './theme-store';
+import { ThemeIllustration } from './ThemeIllustration';
 
 export const ThemeSelector = observer(
   ({ store = ThemeStoreObject }: { store?: ThemeStore }) => {
@@ -64,6 +65,10 @@ export const ThemeSelector = observer(
               >
                 <span style={{ background: theme.colors.sidebar }} />
                 <i style={{ background: theme.colors.accent }} />
+                <ThemeIllustration
+                  variant="portrait"
+                  pack={theme.illustrations || 'none'}
+                />
               </span>
               <span className="sw-theme-name">
                 {theme.label}

@@ -21,6 +21,11 @@ import haveStatus from '../../../Shared/Store/UserStore/utils/HaveStatus';
 import PersonalMenu from './PersonalMenu';
 import { LoginButton } from './LoginButton';
 import { ThemeSelector } from '../../../Shared/Theme/ThemeSelector';
+import { getManulContext } from '../../../Shared/Theme/manul-content';
+import {
+  ThemeCompanion,
+  ThemeIllustration,
+} from '../../../Shared/Theme/ThemeIllustration';
 
 const links = [
   { to: '/courses', label: 'Каталог курсов', icon: <GridViewOutlined /> },
@@ -93,7 +98,10 @@ export const Navibar = observer(() => {
       >
         <Link to="/courses" className="sw-brand" onClick={() => setOpen(false)}>
           <span className="sw-brand-icon">
-            <SchoolOutlined />
+            <ThemeIllustration
+              variant="portrait"
+              fallback={<SchoolOutlined />}
+            />
           </span>
           study<span>ways</span>
           <i />
@@ -156,6 +164,7 @@ export const Navibar = observer(() => {
             )}
           </section>
         )}
+        <ThemeCompanion context={getManulContext(location.pathname)} />
       </aside>
       <header className="sw-topbar">
         <div className="sw-topbar-title">

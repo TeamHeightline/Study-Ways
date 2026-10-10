@@ -1,3 +1,4 @@
+import { ThemeManulNote } from '../../../Shared/Theme/ThemeManulNote';
 import React from 'react';
 
 import { Helmet } from 'react-helmet';
@@ -20,17 +21,18 @@ export const MainCardPublicView = observer(() => {
         <title>Ресурсы</title>
       </Helmet>
       <AIRoutes />
+      <ThemeManulNote context="library" />
       <Box sx={{ mt: 1 }}>
         {queryParams.get('searchType') == 'AISearch' ? (
           <AICardSelector
-            onCardSelect={(card_id) => {
+            onCardSelect={card_id => {
               window.scrollTo({ top: 0, behavior: 'smooth' });
               navigate(`/card/${card_id}`);
             }}
           />
         ) : (
           <CardSelector
-            onCardSelect={(card_id) => {
+            onCardSelect={card_id => {
               window.scrollTo({ top: 0, behavior: 'smooth' });
               navigate(`/card/${card_id}`);
             }}

@@ -38,18 +38,19 @@ afterEach(() => {
   delete global.IS_REACT_ACT_ENVIRONMENT;
 });
 
-test('all three dark themes can be selected and restored, with the light theme still available', async () => {
+test('every theme can be selected and restored', async () => {
   for (const [id, label] of [
     ['forest', 'Тёмный лес'],
     ['graphite', 'Графит'],
     ['midnight', 'Полночь'],
     ['high-contrast', 'Высокий контраст'],
     ['high-contrast-dark', 'Высокий контраст · тёмный'],
+    ['manul', 'Манулья'],
     ['sage', 'Шалфей'],
   ]) {
     await act(async () => container.querySelector('button').click());
     expect(menu().getAttribute('aria-label')).toBe('Оформление');
-    expect(menu().querySelectorAll('[role="menuitemradio"]').length).toBe(6);
+    expect(menu().querySelectorAll('[role="menuitemradio"]').length).toBe(7);
     expect(menu().querySelector('[aria-checked="true"]').textContent).toContain(
       store.definition.label,
     );

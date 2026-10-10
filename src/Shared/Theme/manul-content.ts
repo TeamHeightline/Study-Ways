@@ -1,4 +1,5 @@
 import type { Variant } from './ThemeIllustration';
+import { shuffle } from '../Utils/array';
 
 const defineNotes = <
   T extends Record<
@@ -45,6 +46,12 @@ export const manulNotes = defineNotes({
       'astronomer',
       'doppler',
       'rotation',
+      'charges',
+      'vacuum',
+      'waves',
+      'magnet',
+      'resonance',
+      'prism',
     ],
     sidebar: 'Древний манускрипт? Сейчас разманулим.',
     quotes: [
@@ -60,6 +67,12 @@ export const manulNotes = defineNotes({
       'Момент импульса сохраняем. Серьёзную мордочку — тоже.',
       'Поезд ещё далеко, а манул уже изучает эффект Доплера.',
       'Центростремительное ускорение — к центру. Любопытство манула — во все стороны.',
+      'Манул получил заряд бодрости. Теперь выясняет, какого он знака.',
+      'В вакууме нет воздуха. Но место для хорошего вопроса всегда найдётся.',
+      'Электромагнитной волне среда не нужна. Манулу для лекции нужен уют.',
+      'Магнитное поле невидимо. Любопытный манул всё равно проверит компас.',
+      'Нашёл свою частоту — вошёл в резонанс с лекцией.',
+      'Манул пустил свет через призму. Кажется, лекция заиграла новыми цветами.',
     ],
   },
   history: {
@@ -98,6 +111,12 @@ export const manulNotes = defineNotes({
       'pendulum',
       'astronomer',
       'thinker',
+      'charges',
+      'vacuum',
+      'waves',
+      'magnet',
+      'resonance',
+      'prism',
     ],
     sidebar: 'Серьёзная мордочка — мыслительный процесс.',
     quotes: [
@@ -107,6 +126,12 @@ export const manulNotes = defineNotes({
       'Если задача о силах, манул сначала рисует силы. Даже когда очень хочется сразу ответ.',
       'В условии идеальный маятник. В решении — очень старательный манул.',
       'Манул сменил систему отсчёта. Миска осталась главным ориентиром.',
+      'Одноимённые заряды отталкиваются. Манул с любимой лекцией — явно другая история.',
+      'Прежде чем решать задачу про вакуум, манул внимательно проверяет условия.',
+      'Электромагнитная волна идёт дальше. Манул тоже — к следующему вопросу.',
+      'Компас нашёл направление. Манул ищет правильное решение.',
+      'Резонанс найден. Осталось попасть в правильный ответ.',
+      'Угол падения? Манул сначала проведёт нормаль.',
     ],
   },
   results: {
@@ -169,6 +194,19 @@ export const manulNotes = defineNotes({
       'Скорость меняется? Манул проверяет ускорение. А заодно — куда катится его платформа.',
     ],
   },
+  completion: {
+    label: 'Манул поддерживает',
+    variant: 'weightless',
+    variants: ['weightless', 'tea', 'reader', 'curled', 'astronomer'],
+    sidebar: 'Любопытство продолжается после любого результата.',
+    quotes: [
+      'Тест позади. Можно расправить усы и посмотреть, что получилось.',
+      'Манул предлагает чай, а потом — спокойно разобрать сложные вопросы.',
+      'Каждый ответ помогает понять, что уже получается и к чему стоит вернуться.',
+      'Пауза, глубокий вдох и ещё немного любопытства. Манульский план готов.',
+      'Любопытство продолжается после любого результата. Манул уже присматривает следующую тему.',
+    ],
+  },
 });
 
 export type ManulContext = keyof typeof manulNotes;
@@ -215,4 +253,30 @@ export function getThemedNavigationLabel(
     Object.prototype.hasOwnProperty.call(manulNavigation, path)
     ? manulNavigation[path]
     : original;
+}
+
+export interface ManulThought {
+  quote: string;
+  variant: Variant;
+}
+
+export function pickManulThoughts(
+  context: ManulContext,
+  previous: readonly ManulThought[] = [],
+): ManulThought[] {
+  // Completion-specific phrases should not claim a test is finished on other pages.
+  const pool = Object.entries(manulNotes)
+    .filter(([key]) => key !== 'completion' || context === 'completion')
+    .flatMap(([, note]) =>
+      note.quotes.map((quote, index) => ({
+        quote,
+        variant: note.variants[index % note.variants.length],
+      })),
+    );
+  const unique = [
+    ...new Map(pool.map(thought => [thought.quote, thought])).values(),
+  ];
+  const previousQuotes = new Set(previous.map(thought => thought.quote));
+  const fresh = unique.filter(thought => !previousQuotes.has(thought.quote));
+  return shuffle(fresh.length >= 3 ? fresh : unique).slice(0, 3);
 }

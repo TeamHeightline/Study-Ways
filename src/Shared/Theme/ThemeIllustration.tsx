@@ -19,6 +19,11 @@ import pendulum from './assets/manul/pendulum.png';
 import weightless from './assets/manul/weightless.png';
 import doppler from './assets/manul/doppler.png';
 import rotation from './assets/manul/rotation.png';
+import charges from './assets/manul/charges.png';
+import magnet from './assets/manul/magnet.png';
+import waves from './assets/manul/waves.png';
+import vacuum from './assets/manul/vacuum.png';
+import resonance from './assets/manul/resonance.png';
 import { ManulContext, manulNotes } from './manul-content';
 
 export type Variant =
@@ -38,7 +43,12 @@ export type Variant =
   | 'pendulum'
   | 'weightless'
   | 'doppler'
-  | 'rotation';
+  | 'rotation'
+  | 'charges'
+  | 'magnet'
+  | 'waves'
+  | 'vacuum'
+  | 'resonance';
 const packs: Record<string, Record<Variant, string>> = {
   manul: {
     reader,
@@ -58,6 +68,11 @@ const packs: Record<string, Record<Variant, string>> = {
     weightless,
     doppler,
     rotation,
+    charges,
+    magnet,
+    waves,
+    vacuum,
+    resonance,
   },
 };
 const getPack = (name: string) =>

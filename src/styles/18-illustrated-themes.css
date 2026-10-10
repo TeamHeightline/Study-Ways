@@ -222,6 +222,12 @@
 .sw-manul-note.is-scene .sw-manul-note-art .sw-theme-illustration {
   @apply tw-h-[160px];
 }
+.sw-manul-note.is-compact.is-scene {
+  @apply tw-grid-cols-[minmax(0,1fr)];
+}
+.sw-manul-note.is-compact.is-scene .sw-manul-note-art .sw-theme-illustration {
+  @apply tw-w-32 tw-h-28;
+}
 @media (max-width: 600px) {
   .sw-manul-note.is-scene {
     @apply tw-grid-cols-[minmax(0,1fr)];

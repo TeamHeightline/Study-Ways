@@ -3,50 +3,95 @@ import { act as legacyAct } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
 import { ThemeManulNote } from './ThemeManulNote';
 import { ThemeStore } from './theme-store';
-import { getManulContext, manulNotes } from './manul-content';
+import {
+  getManulContext,
+  manulNotes,
+  pickManulThoughts,
+} from './manul-content';
 
 const act = React.act || legacyAct;
 
-test('contextual notes appear only in the Manul theme, cycle quotes, and reset for another page', async () => {
+test('random triplets have matching art, exclude the previous visit, and retain the requested counting quote', () => {
+  const pool = Object.values(manulNotes).flatMap(note =>
+    note.quotes.map((quote, index) => ({
+      quote,
+      variant: note.variants[index],
+    })),
+  );
+  expect(pool.map(thought => thought.quote)).toContain(
+    'один манул, два манула, три манула, четыре манула и так до 100 манулов ',
+  );
+  const first = pickManulThoughts('library');
+  const next = pickManulThoughts('library', first);
+  for (const batch of [first, next]) {
+    expect(batch).toHaveLength(3);
+    expect(new Set(batch.map(thought => thought.quote)).size).toBe(3);
+    for (const thought of batch) expect(pool).toContainEqual(thought);
+  }
+  expect(
+    next.every(thought => !first.some(old => old.quote === thought.quote)),
+  ).toBe(true);
+  expect(
+    [...first, ...next].every(
+      thought => !manulNotes.completion.quotes.includes(thought.quote),
+    ),
+  ).toBe(true);
+});
+
+test('a note cycles three stable thoughts, resets on context change, refreshes on a later visit and follows the theme', async () => {
   global.IS_REACT_ACT_ENVIRONMENT = true;
   localStorage.clear();
+  const random = jest.spyOn(Math, 'random').mockReturnValue(0.25);
   const store = new ThemeStore();
   const container = document.createElement('div');
   document.body.appendChild(container);
-  const root = createRoot(container);
+  let root = createRoot(container);
+  const readBatch = async () => {
+    const quotes = [];
+    for (let index = 0; index < 3; index++) {
+      quotes.push(container.querySelector('blockquote').textContent);
+      await act(async () => container.querySelector('button').click());
+    }
+    expect(new Set(quotes).size).toBe(3);
+    expect(container.querySelector('blockquote').textContent).toBe(quotes[0]);
+    return quotes;
+  };
   try {
     await act(async () =>
       root.render(<ThemeManulNote context="history" store={store} />),
     );
     expect(container.textContent).toBe('');
     await act(async () => store.setTheme('manul'));
-    expect(container.querySelector('blockquote').textContent).toBe(
-      'один манул, два манула, три манула, четыре манула и так до 100 манулов ',
-    );
+    expect(container.textContent).toContain('Мысль 1 из 3');
     expect(container.querySelector('img').getAttribute('aria-hidden')).toBe(
       'true',
     );
-    const button = container.querySelector('button');
-    for (const quote of [
-      ...manulNotes.history.quotes.slice(1),
-      manulNotes.history.quotes[0],
-    ]) {
-      await act(async () => button.click());
-      expect(container.querySelector('blockquote').textContent).toBe(quote);
-    }
-    await act(async () => button.click());
+    const firstVisit = await readBatch();
+    await act(async () => store.setTheme('forest'));
+    expect(container.textContent).toBe('');
+    await act(async () => store.setTheme('manul'));
+    expect(container.querySelector('blockquote').textContent).toBe(
+      firstVisit[0],
+    );
+    await act(async () => container.querySelector('button').click());
     await act(async () =>
       root.render(<ThemeManulNote context="library" store={store} />),
     );
-    expect(container.querySelector('blockquote').textContent).toBe(
-      manulNotes.library.quotes[0],
+    expect(container.textContent).toContain('Мысль 1 из 3');
+    await act(async () => root.unmount());
+    root = createRoot(container);
+    await act(async () =>
+      root.render(<ThemeManulNote context="history" store={store} />),
     );
+    const nextVisit = await readBatch();
+    expect(nextVisit.every(quote => !firstVisit.includes(quote))).toBe(true);
     await act(async () => store.setTheme('high-contrast-dark'));
     expect(container.textContent).toBe('');
   } finally {
     await act(async () => root.unmount());
     container.remove();
     localStorage.clear();
+    random.mockRestore();
     delete global.IS_REACT_ACT_ENVIRONMENT;
   }
 });

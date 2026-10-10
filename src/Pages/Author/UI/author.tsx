@@ -1,33 +1,70 @@
-import { observer } from 'mobx-react';
-import { toJS } from 'mobx';
-import { authorPageStore } from '../Store/store';
-import { Box, Stack, Typography } from '@mui/material';
+import React from 'react';
+import { Avatar } from '@mui/material';
+import {
+  AutoStoriesOutlined,
+  PersonOutlineRounded,
+  SchoolOutlined,
+} from '@mui/icons-material';
+import { AuthorData, getAuthorName } from '../Store/types';
+import { ThemeIllustration } from '../../../Shared/Theme/ThemeIllustration';
 
-export const Author = observer(() => {
-  const userProfile = toJS(authorPageStore.pageData?.users_userprofile);
+interface AuthorProps {
+  author: AuthorData;
+  courseCount: number;
+  cardCount: number;
+}
+
+export function Author({ author, courseCount, cardCount }: AuthorProps) {
+  const name = getAuthorName(author);
+  const initials = name
+    .split(/\s+/)
+    .slice(0, 2)
+    .map(part => part.charAt(0))
+    .join('');
+
   return (
-    <Box>
-      <Stack direction={{ xs: 'column', md: 'row' }} spacing={1}>
-        {userProfile?.avatar_src && (
-          <Box
-            sx={{
-              width: '100%',
-              aspectRatio: 1,
-              maxWidth: { md: 300 },
-              backgroundImage: `url(${userProfile?.avatar_src})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              display: 'block',
-              borderRadius: 4,
-            }}
-          />
-        )}
-        <Box>
-          <Typography variant={'h3'}>
-            {userProfile?.firstname || ''} {userProfile?.lastname || ''}
-          </Typography>
-        </Box>
-      </Stack>
-    </Box>
+    <header className="sw-author-hero">
+      <div className="sw-author-identity">
+        <Avatar
+          src={author.users_userprofile?.avatar_src?.trim() || undefined}
+          alt={name}
+          className="sw-author-photo"
+        >
+          {initials || <PersonOutlineRounded />}
+        </Avatar>
+        <div className="sw-author-intro">
+          <span className="sw-eyebrow">АВТОР STUDY WAYS</span>
+          <h1>{name}</h1>
+          <span className="sw-author-badge">
+            <SchoolOutlined /> Автор материалов
+          </span>
+          <p>Курсы, учебные материалы и вопросы автора — в одном месте.</p>
+        </div>
+      </div>
+      <div className="sw-author-art" aria-hidden="true">
+        <span className="sw-author-art-orbit" />
+        <ThemeIllustration
+          variant="manuscript"
+          fallback={<AutoStoriesOutlined />}
+        />
+        <span>Знания, которыми делятся</span>
+      </div>
+      <dl className="sw-author-stats">
+        <div>
+          <dt>Курсы</dt>
+          <dd>{courseCount}</dd>
+        </div>
+        <div>
+          <dt>Учебные карточки</dt>
+          <dd>{cardCount}</dd>
+        </div>
+        <div>
+          <dt>Вопросы</dt>
+          <dd>
+            {new Set(author.usertests_question?.map(item => item.id)).size}
+          </dd>
+        </div>
+      </dl>
+    </header>
   );
-});
+}

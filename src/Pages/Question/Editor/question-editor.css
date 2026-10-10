@@ -84,7 +84,7 @@
   color: var(--sw-neutral-500);
   font-size: var(--sw-font-size-20);
 }
-.sw-qedit-author-filter.MuiFormControl-root {
+.sw-qedit-author-filter.MuiAutocomplete-root {
   flex: 0 1 245px;
   min-width: 180px;
 }
@@ -930,7 +930,7 @@
     gap: 16px;
   }
   .sw-qedit-search.MuiFormControl-root,
-  .sw-qedit-author-filter.MuiFormControl-root {
+  .sw-qedit-author-filter.MuiAutocomplete-root {
     flex: 1 1 100%;
     min-width: 0;
   }

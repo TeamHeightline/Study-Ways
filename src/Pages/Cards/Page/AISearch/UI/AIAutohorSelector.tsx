@@ -1,26 +1,16 @@
-import { Autocomplete, TextField } from '@mui/material';
-import { useEffect } from 'react';
+import React from 'react';
+import { observer } from 'mobx-react';
 import { AISObject } from '../Store/AISearch';
+import { AuthorFilter } from '../../../../../Shared/Authors/AuthorFilter';
 
-export default function AIAuthorSelector(props) {
-  useEffect(() => {
-    AISObject.loadCardAuthors();
-  }, []);
+export default observer(function AIAuthorSelector() {
   return (
-    <Autocomplete
-      disablePortal
-      size={'small'}
-      onChange={(event, value) => {
-        AISObject.changeCardAuthor(value);
-      }}
-      renderOption={(props, option) => (
-        <li {...props} key={option.id}>
-          {option.label}
-        </li>
-      )}
-      options={AISObject.cardAuthorsForSelector}
-      fullWidth
-      renderInput={(params) => <TextField {...params} label="Автор" />}
+    <AuthorFilter
+      scope="cards"
+      value={AISObject.selectedCardAuthor}
+      onChange={id =>
+        AISObject.changeCardAuthor(id ? { id: Number(id) } : null)
+      }
     />
   );
-}
+});

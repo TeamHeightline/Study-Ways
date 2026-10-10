@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { loadAuthorsThunk, loadQuestionsThunk } from './AsyncActions';
+import { loadQuestionsThunk } from './AsyncActions';
 
 interface IQuestion {
   id: number;
@@ -8,19 +8,8 @@ interface IQuestion {
   sumOfAnswersReports: number;
 }
 
-interface IAuthors {
-  id: number;
-  username: string;
-  users_userprofile: {
-    firstname: string;
-    lastname: string;
-  };
-}
-
 const initialState = {
   questions: [] as IQuestion[],
-
-  authors: [] as IAuthors[],
 
   author_filter: 'my' as 'my' | 'all' | string,
 
@@ -38,23 +27,23 @@ const questionEditorPageSlice = createSlice({
   name: 'questionEditorPage',
   initialState,
   reducers: {
-    changeShowOnlyFilledQuestions: (state) => {
+    changeShowOnlyFilledQuestions: state => {
       state.show_only_filled_questions = !state.show_only_filled_questions;
     },
-    changeOrderingByCreatedAt: (state) => {
+    changeOrderingByCreatedAt: state => {
       state.ordering_by_created_at =
         state.ordering_by_created_at === 'asc' ? 'desc' : 'asc';
     },
-    openCreateQuestionDialog: (state) => {
+    openCreateQuestionDialog: state => {
       state.is_open_create_question_dialog = true;
     },
-    closeCreateQuestionDialog: (state) => {
+    closeCreateQuestionDialog: state => {
       state.is_open_create_question_dialog = false;
     },
-    startCreatingNewQuestion: (state) => {
+    startCreatingNewQuestion: state => {
       state.is_new_question_now_creating = true;
     },
-    finishCreatingNewQuestion: (state) => {
+    finishCreatingNewQuestion: state => {
       state.is_new_question_now_creating = false;
     },
     changeAuthorFilter: (state, action) => {
@@ -62,7 +51,7 @@ const questionEditorPageSlice = createSlice({
     },
   },
   extraReducers: {
-    [loadQuestionsThunk.pending.type]: (state) => {
+    [loadQuestionsThunk.pending.type]: state => {
       state.is_pending_questions = true;
       state.is_loading_questions_error = false;
     },
@@ -71,12 +60,9 @@ const questionEditorPageSlice = createSlice({
       state.is_pending_questions = false;
       state.is_loading_questions_error = false;
     },
-    [loadQuestionsThunk.rejected.type]: (state) => {
+    [loadQuestionsThunk.rejected.type]: state => {
       state.is_pending_questions = false;
       state.is_loading_questions_error = true;
-    },
-    [loadAuthorsThunk.fulfilled.type]: (state, action) => {
-      state.authors = action.payload;
     },
   },
 });

@@ -19,10 +19,9 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '../../../../../App/ReduxStore/RootStore';
-import {
-  loadAuthorsThunk,
-  loadQuestionsThunk,
-} from '../redux-store/AsyncActions';
+import { loadQuestionsThunk } from '../redux-store/AsyncActions';
+import { useGetAuthorsQuery } from '../../../../../Shared/Authors/api';
+import { getAuthorName } from '../../../../../Shared/Authors/types';
 import { useNavigate } from 'react-router-dom';
 import { UserStorage } from '../../../../../Shared/Store/UserStore/UserStore';
 import { UiCreateNewQuestion } from './ui-create-new-question';
@@ -35,14 +34,12 @@ import '../../question-editor.css';
 export const Index = observer(() => {
   const dispatch = useAppDispatch();
   const page = useAppSelector(state => state.questionEditorPage);
+  const { data: authors = [] } = useGetAuthorsQuery('questions');
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const { ordering_by_created_at, show_only_filled_questions, author_filter } =
     page;
 
-  useEffect(() => {
-    dispatch(loadAuthorsThunk());
-  }, [dispatch]);
   useEffect(() => {
     dispatch(
       loadQuestionsThunk({
@@ -159,16 +156,10 @@ export const Index = observer(() => {
       ) : (
         <div className="sw-qedit-library-grid">
           {questions.map(question => {
-            const author = page.authors.find(
+            const author = authors.find(
               item => item.id === question.created_by_id,
             );
-            const authorName =
-              [
-                author?.users_userprofile?.firstname,
-                author?.users_userprofile?.lastname,
-              ]
-                .filter(Boolean)
-                .join(' ') || author?.username;
+            const authorName = author ? getAuthorName(author) : undefined;
             return (
               <Card
                 key={question.id}

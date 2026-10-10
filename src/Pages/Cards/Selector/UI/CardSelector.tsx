@@ -10,6 +10,7 @@ import { ConnectedThemes } from './ConnectedThemes';
 import { Pages } from './Pages';
 import { loadAllCardsData } from '../../CardMicroView/store/async-actions';
 import { useAppDispatch } from '../../../../App/ReduxStore/RootStore';
+import { AuthorFilter } from '../../../../Shared/Authors/AuthorFilter';
 
 interface ICardSelectorProps extends React.HTMLAttributes<HTMLDivElement> {
   mode?: 'onlyCreatedByMe' | 'standard';
@@ -45,11 +46,19 @@ export const CardSelector = observer(
         <CleverSearching />
         <Stack
           className="sw-search-filters"
+          data-author-filter={mode === 'standard'}
           sx={{ pt: 2, pr: 4, pl: 4, mb: 2 }}
           direction={{ xs: 'column', md: 'row' }}
           spacing={{ xs: 1, md: 4 }}
         >
           <ConnectedThemes />
+          {mode === 'standard' && (
+            <AuthorFilter
+              scope="cards"
+              value={CSSObject.authorID}
+              onChange={CSSObject.changeAuthor}
+            />
+          )}
           <HardLevel />
           <ContentType />
         </Stack>

@@ -1,59 +1,30 @@
-import {
-  RootState,
-  useAppDispatch,
-} from '../../../../../App/ReduxStore/RootStore';
-import { useSelector } from 'react-redux';
-import { UserStorage } from '../../../../../Shared/Store/UserStore/UserStore';
-import {
-  Box,
-  Divider,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-} from '@mui/material';
 import React from 'react';
+import { observer } from 'mobx-react';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '../../../../../App/ReduxStore/RootStore';
+import { UserStorage } from '../../../../../Shared/Store/UserStore/UserStore';
+import { AuthorFilter } from '../../../../../Shared/Authors/AuthorFilter';
 import { changeAuthorFilter } from '../redux-store/QuestionEditorPageSlice';
 
-export default function AuthorSelector() {
+export default observer(function AuthorSelector() {
   const dispatch = useAppDispatch();
-  const authors = useSelector(
-    (state: RootState) => state?.questionEditorPage?.authors,
+  const filter = useAppSelector(
+    state => state.questionEditorPage.author_filter,
   );
-  const author_filter = useSelector(
-    (state: RootState) => state?.questionEditorPage?.author_filter,
-  );
-
-  function handleChange(event: SelectChangeEvent) {
-    dispatch(changeAuthorFilter(event.target.value));
-  }
-
-  if (UserStorage.userAccessLevel !== 'ADMIN') {
-    return null;
-  }
-
-  // MIO Selector
+  if (UserStorage.userAccessLevel !== 'ADMIN') return null;
   return (
-    <FormControl size="small" className="sw-qedit-author-filter">
-      <InputLabel id="qedit-author-label">Автор вопросов</InputLabel>
-      <Select
-        value={String(author_filter)}
-        label="Автор вопросов"
-        labelId="qedit-author-label"
-        onChange={handleChange}
-      >
-        <MenuItem value={'my'}>Мои вопросы</MenuItem>
-        <MenuItem value={'all'}>Все авторы</MenuItem>
-        <Divider />
-        {authors?.map(author => (
-          <MenuItem key={author.id} value={String(author.id)}>
-            {`${author?.users_userprofile?.lastname} ${
-              author?.users_userprofile?.firstname
-            } (${author?.username})`}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <AuthorFilter
+      scope="questions"
+      className="sw-qedit-author-filter"
+      label="Автор вопросов"
+      value={filter}
+      onChange={id => dispatch(changeAuthorFilter(id || 'all'))}
+      specialOptions={[
+        { id: 'my', label: 'Мои вопросы' },
+        { id: 'all', label: 'Все авторы' },
+      ]}
+    />
   );
-}
+});

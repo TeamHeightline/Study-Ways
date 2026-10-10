@@ -1,36 +1,26 @@
+import React from 'react';
+import { skipToken } from '@reduxjs/toolkit/query';
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
-import { authorPageStore } from '../Store/store';
+import { useGetAuthorQuery } from '../Store/author-api';
 import AuthorNotFound from './author-not-found';
-import { observer } from 'mobx-react';
 import Loading from './loading';
 import { AuthorPage } from './author-page';
 
-export const Author = observer(() => {
-  const { id } = useParams();
+export function Author() {
+  const { id = '' } = useParams();
+  const authorID = Number(id);
+  const validID =
+    /^\d+$/.test(id) && Number.isSafeInteger(authorID) && authorID > 0;
+  const { currentData, error, isFetching, refetch } = useGetAuthorQuery(
+    validID ? authorID : skipToken,
+  );
 
-  function handleSetAuthorID() {
-    if (!id) {
-      return;
-    }
-    authorPageStore.setAuthorID(id);
+  if (!validID) return <AuthorNotFound />;
+  if (isFetching && !currentData) return <Loading />;
+  if (error && !currentData) {
+    const notFound = 'status' in error && error.status === 404;
+    return <AuthorNotFound failed={!notFound} onRetry={refetch} />;
   }
-
-  useEffect(() => {
-    handleSetAuthorID();
-  }, [id]);
-
-  useEffect(() => {
-    handleSetAuthorID();
-  }, []);
-
-  if (authorPageStore.is_loading) {
-    return <Loading />;
-  }
-
-  if (!authorPageStore.is_loading && !authorPageStore.pageData) {
-    return <AuthorNotFound />;
-  }
-
-  return <AuthorPage />;
-});
+  if (!currentData) return <AuthorNotFound />;
+  return <AuthorPage key={authorID} author={currentData} />;
+}

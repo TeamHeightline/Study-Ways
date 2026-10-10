@@ -17,6 +17,7 @@
 @import './styles/16-theme-components.css';
 @import './styles/17-accessibility.css';
 @import './styles/18-illustrated-themes.css';
+@import './styles/19-author.css';
 
 /* Theme variables are generated from Shared/Theme/theme-tokens.js. */
 @tailwind base;

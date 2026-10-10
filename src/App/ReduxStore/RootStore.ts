@@ -1,13 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { RootReducer } from './RootReducer';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import { studyWaysApi } from '../../Shared/ServerLayer/QueryLayer/api';
 
 const reduxStore = configureStore({
   reducer: RootReducer,
-  middleware: (getDefaultMiddleware) =>
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }),
+    }).concat(studyWaysApi.middleware),
 });
 
 export default reduxStore;

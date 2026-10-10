@@ -3,13 +3,9 @@ import React, { useEffect } from 'react';
 import {
   Alert,
   Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
   Pagination,
   Paper,
   PaperProps,
-  Select,
   Skeleton,
   Typography,
 } from '@mui/material';
@@ -18,13 +14,13 @@ import RefreshRoundedIcon from '@mui/icons-material/RefreshRounded';
 import QSSObject from '../../../Question/Selector/Store/question-selector-store';
 import { useNavigate } from 'react-router-dom';
 import ReviewQuestionCard from './review-question-card';
+import { AuthorFilter } from '../../../../Shared/Authors/AuthorFilter';
 
 const SelectQuestionAndOpenIt = observer(
   ({ className = '', ...props }: PaperProps) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-      QSSObject.loadUsersWithQuestion();
       QSSObject.loadQuestionsIDOnSelectAuthor();
     }, []);
 
@@ -52,23 +48,21 @@ const SelectQuestionAndOpenIt = observer(
         </header>
 
         <div className="sw-review-toolbar">
-          <FormControl size="small" className="sw-review-author-filter">
-            <InputLabel id="review-author-label">Автор вопросов</InputLabel>
-            <Select
-              labelId="review-author-label"
-              label="Автор вопросов"
-              value={QSSObject.selectedAuthorID}
-              onChange={QSSObject.changeSelectedAuthorID}
-            >
-              <MenuItem value="-2">Все авторы</MenuItem>
-              <MenuItem value="-1">Мои вопросы</MenuItem>
-              {QSSObject.usersWithQuestions.map(user => (
-                <MenuItem value={String(user.id)} key={user.id}>
-                  {user.username}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <AuthorFilter
+            scope="questions"
+            className="sw-review-author-filter"
+            label="Автор вопросов"
+            value={QSSObject.selectedAuthorID}
+            onChange={id =>
+              QSSObject.changeSelectedAuthorID({
+                target: { value: id || '-2' },
+              })
+            }
+            specialOptions={[
+              { id: '-2', label: 'Все авторы' },
+              { id: '-1', label: 'Мои вопросы' },
+            ]}
+          />
           <Typography className="sw-review-list-caption" role="status">
             {QSSObject.isQuestionsLoading
               ? 'Загружаем вопросы…'

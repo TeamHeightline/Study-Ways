@@ -1,36 +1,19 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Paper,
-  Select,
-} from '@mui/material';
+import { Paper, PaperProps } from '@mui/material';
 import editQSStore from '../store/edit-question-sequence-sore';
+import { AuthorFilter } from '../../../../../Shared/Authors/AuthorFilter';
 
-type IUIAuthorSelectorProps = PaperProps;
-
-const UIAuthorSelector = observer(({ ...props }: IUIAuthorSelectorProps) => (
+const UIAuthorSelector = observer((props: PaperProps) => (
   <Paper elevation={0} {...props}>
-    <FormControl fullWidth sx={{ width: 200 }}>
-      <InputLabel>Автор</InputLabel>
-      <Select
-        value={editQSStore.selectedAuthorID}
-        label="Автор"
-        onChange={editQSStore.changeSelectedAuthorID}
-      >
-        <MenuItem value={'-1'}>Все</MenuItem>
-        {editQSStore.questionAuthors.map((authorObj) => (
-          <MenuItem value={authorObj.user_id} key={authorObj.user_id}>
-            {authorObj.firstname} {authorObj.lastname}
-            {!authorObj.firstname && !authorObj.lastname && 'Неизвестный автор'}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <AuthorFilter
+      scope="questions"
+      value={editQSStore.selectedAuthorID}
+      onChange={id =>
+        editQSStore.changeSelectedAuthorID({ target: { value: id || '-1' } })
+      }
+      specialOptions={[{ id: '-1', label: 'Все авторы' }]}
+    />
   </Paper>
 ));
-
 export default UIAuthorSelector;

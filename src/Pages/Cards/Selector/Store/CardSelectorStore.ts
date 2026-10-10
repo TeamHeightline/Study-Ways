@@ -31,14 +31,14 @@ export class CardSelectorStore {
           mutation: CREATE_NEW_CARD,
           variables: {},
         })
-        .then((response) => response?.data?.card?.card)
-        .then((new_card) => {
+        .then(response => response?.data?.card?.card)
+        .then(new_card => {
           if (new_card) {
             this.selectedCardID = new_card.id;
           }
           this.loadCardsIDBBySearchingParams();
         })
-        .catch((e) => console.log(e));
+        .catch(e => console.log(e));
     } catch (e) {
       console.log(e);
     }
@@ -54,7 +54,7 @@ export class CardSelectorStore {
     this.activePage = value;
   };
 
-  changeSearchString = (e) => {
+  changeSearchString = e => {
     this.searching_string = e.target.value;
   };
 
@@ -67,19 +67,25 @@ export class CardSelectorStore {
   }
 
   hardLevel: hardLevelTypes = 'undefined';
-  changeHardLevel = (e) => {
+  authorID: number | undefined = undefined;
+
+  changeAuthor = (id: string | null) => {
+    this.authorID = id ? Number(id) : undefined;
+    this.activePage = 1;
+  };
+  changeHardLevel = e => {
     this.hardLevel = e.target.value;
   };
 
   contentType: cardContentType = 'undefined';
-  changeContentType = (e) => {
+  changeContentType = e => {
     this.contentType = e.target.value;
   };
   allConnectedThemes: UnstructuredThemesNode[] = [];
   connectedThemesHasBeenLoaded = false;
 
   get connectedThemesForSelector() {
-    return toJS(this.allConnectedThemes)?.map((theme) => ({
+    return toJS(this.allConnectedThemes)?.map(theme => ({
       id: theme.id,
       value: theme.id,
       title: theme.text,
@@ -95,8 +101,8 @@ export class CardSelectorStore {
           fetchPolicy: useCache ? 'cache-first' : 'network-only',
           variables: {},
         })
-        .then((response) => response.data.unstructuredTheme)
-        .then((connected_themes) => {
+        .then(response => response.data.unstructuredTheme)
+        .then(connected_themes => {
           this.allConnectedThemes = connected_themes;
           this.connectedThemesHasBeenLoaded = true;
         });
@@ -125,6 +131,9 @@ export class CardSelectorStore {
       if (this.mode == 'onlyCreatedByMe') {
         filters['createdByMe'] = true;
       }
+      if (this.authorID && this.mode !== 'onlyCreatedByMe') {
+        filters['cardAuthor'] = String(this.authorID);
+      }
       if (this.hardLevel !== 'undefined') {
         filters['cardHardLevel'] = Number(this.hardLevel.slice(2, 3));
       }
@@ -145,8 +154,8 @@ export class CardSelectorStore {
               ...filters,
             },
           })
-          .then((response) => response.data.cardIdResolverForSelector)
-          .then((searching_data) => {
+          .then(response => response.data.cardIdResolverForSelector)
+          .then(searching_data => {
             if (searching_data) {
               if (searching_data?.IDs) {
                 if (this.mode == 'onlyCreatedByMe') {

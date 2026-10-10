@@ -28,11 +28,8 @@ interface IEditQuestionSequenceUIProps extends PaperProps {
 
 const EditQuestionSequenceUI = observer(
   ({ qsID, ...props }: IEditQuestionSequenceUIProps) => {
-
-
     useEffect(() => {
       editQSStore.loadAllQuestions();
-      editQSStore.loadQuestionAuthors();
     }, []);
 
     useEffect(() => {
@@ -50,26 +47,68 @@ const EditQuestionSequenceUI = observer(
     return (
       <Paper elevation={0} className="sw-sequence-editor">
         <div className="sw-sequence-heading">
-          <div><Typography variant="h5" component="h1">Редактор серии вопросов</Typography><Typography variant="body2" color="text.secondary">Настройте серию и соберите вопросы для обучения или экзамена.</Typography></div>
-          <Button disabled={!editQSStore.saveStatus} startIcon={<ArrowBackIcon />} variant="outlined" onClick={() => props.onChange('goBack')}>К списку серий</Button>
+          <div>
+            <Typography variant="h5" component="h1">
+              Редактор серии вопросов
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Настройте серию и соберите вопросы для обучения или экзамена.
+            </Typography>
+          </div>
+          <Button
+            disabled={!editQSStore.saveStatus}
+            startIcon={<ArrowBackIcon />}
+            variant="outlined"
+            onClick={() => props.onChange('goBack')}
+          >
+            К списку серий
+          </Button>
         </div>
         <UICheckQuestion />
         <div className="sw-sequence-settings">
-          <Stack spacing={2}><Typography className="sw-sequence-label">О серии</Typography><UIQSName /><UIQSDescription /></Stack>
-          <div className="sw-sequence-access"><Typography className="sw-sequence-label">Открыть серию</Typography><UILinks /><UIDownloadExcelButton /></div>
+          <Stack spacing={2}>
+            <Typography className="sw-sequence-label">О серии</Typography>
+            <UIQSName />
+            <UIQSDescription />
+          </Stack>
+          <div className="sw-sequence-access">
+            <Typography className="sw-sequence-label">Открыть серию</Typography>
+            <UILinks />
+            <UIDownloadExcelButton />
+          </div>
         </div>
         <section className="sw-sequence-section">
-          <Typography variant="h6">Вопросы в серии <span className="sw-sequence-count">{editQSStore.qsData?.sequence_data?.sequence?.length || 0}</span></Typography>
-          <Typography variant="body2" color="text.secondary">Нажмите на карточку, чтобы посмотреть вопрос.</Typography>
-          {!editQSStore.qsData?.sequence_data?.sequence?.length && <div className="sw-sequence-empty">В серии пока нет вопросов. Добавьте их из списка ниже.</div>}
+          <Typography variant="h6">
+            Вопросы в серии{' '}
+            <span className="sw-sequence-count">
+              {editQSStore.qsData?.sequence_data?.sequence?.length || 0}
+            </span>
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Нажмите на карточку, чтобы посмотреть вопрос.
+          </Typography>
+          {!editQSStore.qsData?.sequence_data?.sequence?.length && (
+            <div className="sw-sequence-empty">
+              В серии пока нет вопросов. Добавьте их из списка ниже.
+            </div>
+          )}
           <UiSelectedQuestions />
         </section>
         <section className="sw-sequence-section">
           <Typography variant="h6">Добавить вопросы</Typography>
-          <Typography variant="body2" color="text.secondary">Найдите подходящие вопросы по автору и теме.</Typography>
-          <div className="sw-sequence-filters"><UIAuthorSelector /><UIThemeSearch /></div>
+          <Typography variant="body2" color="text.secondary">
+            Найдите подходящие вопросы по автору и теме.
+          </Typography>
+          <div className="sw-sequence-filters">
+            <UIAuthorSelector />
+            <UIThemeSearch />
+          </div>
           <UIAllQuestions />
-          {!editQSStore.QuestionsForSelect.length && <div className="sw-sequence-empty">По выбранным фильтрам вопросы не найдены.</div>}
+          {!editQSStore.QuestionsForSelect.length && (
+            <div className="sw-sequence-empty">
+              По выбранным фильтрам вопросы не найдены.
+            </div>
+          )}
         </section>
       </Paper>
     );

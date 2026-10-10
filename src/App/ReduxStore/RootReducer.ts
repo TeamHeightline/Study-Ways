@@ -12,10 +12,11 @@ import recentCardSlice from '../../Pages/RecentCards/Store/recent-card-slice';
 import cardBookmarksSlice from '../../Pages/CardBookmarks/Store/card-bookmarks-slice';
 import cardMicroViewSlice from '../../Pages/Cards/CardMicroView/store';
 import profileSlice from '../../Pages/Profile/redux-store';
-
+import { studyWaysApi } from '../../Shared/ServerLayer/QueryLayer/api';
 
 enableMapSet();
 export const RootReducer = combineReducers({
+  [studyWaysApi.reducerPath]: studyWaysApi.reducer,
   examEditorPageReducer,
   examResultsByIDReducer,
   examPlayer: ExamPlayerReducer,

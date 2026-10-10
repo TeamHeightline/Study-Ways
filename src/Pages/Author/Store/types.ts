@@ -1,39 +1,10 @@
-export interface AuthorData {
-  id: number;
-  password: string;
-  last_login: any;
-  is_superuser: boolean;
-  username: string;
-  first_name: string;
-  last_name: string;
-  is_staff: boolean;
-  is_active: boolean;
-  date_joined: string;
-  email: string;
-  user_access_level: string;
-  users_userprofile: UsersUserprofile;
-  cards_card: CardsCard[];
-  usertests_question: UsertestsQuestion[];
-  cards_cardcourse: CardsCardcourse[];
-}
+import { AuthorSummary } from '../../../Shared/Authors/types';
 
-export interface UsersUserprofile {
-  user_id: number;
-  firstname: string;
-  lastname: string;
-  avatar_src: string;
-  study_in_id: number;
-  group: any;
-}
+export { getAuthorName } from '../../../Shared/Authors/types';
 
-export interface CardsCard {
-  id: number;
-}
-
-export interface UsertestsQuestion {
-  id: number;
-}
-
-export interface CardsCardcourse {
-  id: number;
+export interface AuthorData extends AuthorSummary {
+  date_joined?: string | null;
+  cards_card?: { id: number }[] | null;
+  usertests_question?: { id: number }[] | null;
+  cards_cardcourse?: { id: number }[] | null;
 }

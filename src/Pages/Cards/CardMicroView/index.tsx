@@ -38,21 +38,30 @@ interface ICardMicroViewProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export default function CardMicroView({
   cardID = 1,
+  ...props
+}: ICardMicroViewProps) {
+  const cardData = useAppSelector(
+    state => state.cardMicroView.card_hash_map[String(cardID)] ?? null,
+  );
+  return <CardMicroViewByData {...props} cardID={cardID} cardData={cardData} />;
+}
+
+export function CardMicroViewByData({
+  cardData: card_data,
+  cardID = 1,
   isEditNow,
   isNowEditableCard,
   onChange,
   ...props
-}: ICardMicroViewProps) {
-  const card_hash_map = useAppSelector(
-    (state) => state.cardMicroView.card_hash_map,
-  );
-
-  const card_data = card_hash_map[String(cardID)] || (null as CardType | null);
-
+}: ICardMicroViewProps & { cardData: CardType | null }) {
   const themesText =
     card_data?.cards_card_connected_theme?.[0]?.cards_unstructuredtheme.text;
 
-  const authorName = `${card_data?.users_customuser?.users_userprofile?.firstname} ${card_data?.users_customuser?.users_userprofile?.lastname}`;
+  const profile = card_data?.users_customuser?.users_userprofile;
+  const authorName = [profile?.firstname, profile?.lastname]
+    .map(name => name?.trim())
+    .filter(Boolean)
+    .join(' ');
 
   const showTheme = !!themesText;
   const showAuthor = !!authorName.split(' ').join('');
@@ -126,19 +135,34 @@ export default function CardMicroView({
           onChange && onChange(cardID);
         }}
       >
-        <CardActionArea className="sw-mini-card-action" sx={{ height: '100%', p: 2 }}>
+        <CardActionArea
+          className="sw-mini-card-action"
+          sx={{ height: '100%', p: 2 }}
+        >
           <Stack direction={'column'}>
             <Box sx={{ height: 170 }}>
               {Number(card_data.card_content_type) === 0 &&
-                (!card_data.video_url?.trim() || parseRutubeUrl(card_data.video_url)) && (
+                (!card_data.video_url?.trim() ||
+                  parseRutubeUrl(card_data.video_url)) && (
                   <div className="sw-video-placeholder">
-                    <span><VideoLibraryOutlinedIcon /></span>
-                    <strong>{parseRutubeUrl(card_data.video_url) ? 'Rutube' : 'Видеоматериал'}</strong>
-                    <small>{parseRutubeUrl(card_data.video_url) ? 'Смотреть видео в карточке' : 'Ссылка на видео не добавлена'}</small>
+                    <span>
+                      <VideoLibraryOutlinedIcon />
+                    </span>
+                    <strong>
+                      {parseRutubeUrl(card_data.video_url)
+                        ? 'Rutube'
+                        : 'Видеоматериал'}
+                    </strong>
+                    <small>
+                      {parseRutubeUrl(card_data.video_url)
+                        ? 'Смотреть видео в карточке'
+                        : 'Ссылка на видео не добавлена'}
+                    </small>
                   </div>
                 )}
               {Number(card_data.card_content_type) === 0 &&
-                card_data?.video_url?.trim() && !parseRutubeUrl(card_data.video_url) && (
+                card_data?.video_url?.trim() &&
+                !parseRutubeUrl(card_data.video_url) && (
                   <div>
                     <CardMedia
                       className="sw-mini-media"

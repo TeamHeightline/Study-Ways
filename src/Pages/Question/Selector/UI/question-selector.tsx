@@ -14,7 +14,6 @@ interface IQuestionSelectorProps extends PaperProps {
 const QuestionSelector = observer(
   ({ onQuestionSelect, ...props }: IQuestionSelectorProps) => {
     useEffect(() => QSSObject.loadMyQuestionsIDArray(), []);
-    useEffect(() => QSSObject.loadUsersWithQuestion(), []);
     return (
       <Paper elevation={0} {...props}>
         <AuthorSelector />
@@ -24,7 +23,7 @@ const QuestionSelector = observer(
           justifyContent="space-between"
           sx={{ pr: 3, pl: 3, pt: 3 }}
         >
-          {QSSObject?.QuestionsIDArrayForDisplay.map((question_id) => (
+          {QSSObject?.QuestionsIDArrayForDisplay.map(question_id => (
             <Grid
               onClick={() => onQuestionSelect(question_id)}
               item

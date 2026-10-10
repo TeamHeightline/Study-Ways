@@ -4,7 +4,6 @@ import { ClientStorage } from '../../../../Shared/Store/ApolloStorage/ClientStor
 import {
   GET_MY_QUESTIONS_ID_ARRAY,
   GET_QUESTIONS_ID_ARRAY_FOY_USER,
-  GET_USERS_WITH_QUESTION_CREATOR_STATUS,
 } from './query';
 
 class QuestionSelectorStore {
@@ -26,12 +25,10 @@ class QuestionSelectorStore {
     return Number(this.activePage);
   }
 
-  usersWithQuestions: { id: number; username: string }[] = [];
-
   selectedAuthorID: SelectedAuthorVariantsType =
     SelectedAuthorVariants.ALLQuestions;
 
-  changeSelectedAuthorID = (e) => {
+  changeSelectedAuthorID = e => {
     this.selectedAuthorID = String(e.target.value);
     this.activePage = 1;
   };
@@ -66,49 +63,43 @@ class QuestionSelectorStore {
         },
         fetchPolicy: useCache ? 'cache-only' : 'network-only',
       })
-      .then((response) => response.data.myQuestionsId)
-      .then((my_questions_data) => {
+      .then(response => response.data.myQuestionsId)
+      .then(my_questions_data => {
         if (my_questions_data) {
           if (my_questions_data.IDs) {
             this.myQuestions = my_questions_data.IDs;
           }
-          if (this.selectedAuthorID === SelectedAuthorVariants.MYQuestions && this.activePage === requestedPage) {
+          if (
+            this.selectedAuthorID === SelectedAuthorVariants.MYQuestions &&
+            this.activePage === requestedPage
+          ) {
             this.activePage = Number(my_questions_data.activePage) || 1;
-            this.numPages = Math.max(1, Number(my_questions_data.numPages) || 1);
+            this.numPages = Math.max(
+              1,
+              Number(my_questions_data.numPages) || 1,
+            );
           }
         }
         if (useCache) {
           this.loadMyQuestionsIDArray(false);
-        } else if (this.selectedAuthorID === SelectedAuthorVariants.MYQuestions && this.activePage === requestedPage) {
+        } else if (
+          this.selectedAuthorID === SelectedAuthorVariants.MYQuestions &&
+          this.activePage === requestedPage
+        ) {
           this.isQuestionsLoading = false;
         }
       })
       .catch(() => {
         if (useCache) {
           this.loadMyQuestionsIDArray(false);
-        } else if (this.selectedAuthorID === SelectedAuthorVariants.MYQuestions && this.activePage === requestedPage) {
+        } else if (
+          this.selectedAuthorID === SelectedAuthorVariants.MYQuestions &&
+          this.activePage === requestedPage
+        ) {
           this.isQuestionsLoading = false;
           this.questionsLoadError = true;
         }
       });
-  }
-
-  loadUsersWithQuestion(useCache = true) {
-    this.clientStorage.client
-      .query({
-        query: GET_USERS_WITH_QUESTION_CREATOR_STATUS,
-        fetchPolicy: useCache ? 'cache-first' : 'network-only',
-      })
-      .then((response) => response.data.userWithQuestion)
-      .then((usersWithQuestions) => {
-        if (usersWithQuestions) {
-          this.usersWithQuestions = usersWithQuestions;
-        }
-        if (useCache) {
-          this.loadUsersWithQuestion(false);
-        }
-      })
-      .catch((e) => console.log(e));
   }
 
   loadQuestionsIDOnSelectAuthor(useCache = true) {
@@ -129,16 +120,23 @@ class QuestionSelectorStore {
           },
           fetchPolicy: useCache ? 'cache-only' : 'network-only',
         })
-        .then((response) => response.data.questionsId)
-        .then((QuestionsIDObject) => {
-          if (this.selectedAuthorID !== requestedAuthor || this.activePage !== requestedPage) return;
+        .then(response => response.data.questionsId)
+        .then(QuestionsIDObject => {
+          if (
+            this.selectedAuthorID !== requestedAuthor ||
+            this.activePage !== requestedPage
+          )
+            return;
           if (
             String(QuestionsIDObject?.ownerUserId) ==
             String(this.selectedAuthorID)
           ) {
             if (QuestionsIDObject?.IDs) {
               this.activePage = Number(QuestionsIDObject.activePage) || 1;
-              this.numPages = Math.max(1, Number(QuestionsIDObject.numPages) || 1);
+              this.numPages = Math.max(
+                1,
+                Number(QuestionsIDObject.numPages) || 1,
+              );
               this.questionsIDForSelectedAuthor = QuestionsIDObject.IDs;
             }
           }
@@ -149,7 +147,11 @@ class QuestionSelectorStore {
           }
         })
         .catch(() => {
-          if (this.selectedAuthorID !== requestedAuthor || this.activePage !== requestedPage) return;
+          if (
+            this.selectedAuthorID !== requestedAuthor ||
+            this.activePage !== requestedPage
+          )
+            return;
           if (useCache) {
             this.loadQuestionsIDOnSelectAuthor(false);
           } else {

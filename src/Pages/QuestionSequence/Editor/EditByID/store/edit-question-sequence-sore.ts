@@ -4,14 +4,8 @@ import {
   getQSByID,
   updateQS,
 } from '../../../../../Shared/ServerLayer/QueryLayer/question-sequence.query';
-import {
-  IQuestionPreviewData,
-  QuestionAuthorI,
-} from '../../../../../Shared/ServerLayer/Types/question.type';
-import {
-  loadAllQuestions,
-  loadQuestionAuthors,
-} from '../../../../../Shared/ServerLayer/QueryLayer/question.query';
+import { IQuestionPreviewData } from '../../../../../Shared/ServerLayer/Types/question.type';
+import { loadAllQuestions } from '../../../../../Shared/ServerLayer/QueryLayer/question.query';
 
 class EditQuestionSequenceSoreClass {
   constructor() {
@@ -30,7 +24,6 @@ class EditQuestionSequenceSoreClass {
   QuestionSequenceID = '';
   qsDataLoaded = false;
   saveStatus = true;
-  questionAuthors: QuestionAuthorI[] = [];
   allQuestions: IQuestionPreviewData[] = [];
   selectedAuthorID = '-1';
   searchThemeString = '';
@@ -41,7 +34,7 @@ class EditQuestionSequenceSoreClass {
       return this.allQuestions;
     } else {
       return this.allQuestions.filter(
-        (questionObj) => questionObj.questionAuthor.id == this.selectedAuthorID,
+        questionObj => questionObj.questionAuthor.id == this.selectedAuthorID,
       );
     }
   }
@@ -49,7 +42,7 @@ class EditQuestionSequenceSoreClass {
   get QuestionThemes() {
     let themes = toJS(
       this.QuestionsAfterSelectAuthor.map(
-        (questionObj) => questionObj.themeString,
+        questionObj => questionObj.themeString,
       ),
     );
     themes = [...new Set(themes)];
@@ -60,7 +53,7 @@ class EditQuestionSequenceSoreClass {
     if (!this.searchThemeString) {
       return this.QuestionsAfterSelectAuthor;
     } else {
-      return this.QuestionsAfterSelectAuthor.filter((question) =>
+      return this.QuestionsAfterSelectAuthor.filter(question =>
         question.themeString.includes(this.searchThemeString),
       );
     }
@@ -68,10 +61,6 @@ class EditQuestionSequenceSoreClass {
 
   get QuestionsForSelect() {
     return this.QuestionsAfterThemesSearch;
-  }
-
-  async loadQuestionAuthors() {
-    this.questionAuthors = await loadQuestionAuthors();
   }
 
   async loadQSData() {
@@ -99,19 +88,19 @@ class EditQuestionSequenceSoreClass {
     this.qsDataLoaded = false;
   };
 
-  changeQSName = (e) => {
+  changeQSName = e => {
     if (this.qsData) {
       this.qsData.name = e.target.value;
     }
   };
 
-  changeQSDescription = (e) => {
+  changeQSDescription = e => {
     if (this.qsData) {
       this.qsData.description = e.target.value;
     }
   };
 
-  changeSelectedAuthorID = (e) => {
+  changeSelectedAuthorID = e => {
     this.selectedAuthorID = e.target.value;
   };
 

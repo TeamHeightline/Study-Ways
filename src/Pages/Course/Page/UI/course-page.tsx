@@ -24,7 +24,9 @@ import {
   ThemeIllustration,
 } from '../../../../Shared/Theme/ThemeIllustration';
 
-export const DEFAULT_COURSE_TITLE = 'Название курса по умолчанию';
+import { DEFAULT_COURSE_TITLE } from '../constants';
+
+export { DEFAULT_COURSE_TITLE } from '../constants';
 
 export default function CoursePage() {
   const dispatch = useAppDispatch();

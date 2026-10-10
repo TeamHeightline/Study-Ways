@@ -7,7 +7,6 @@ import {
 import { UnstructuredThemesNode } from '../../../../../SchemaTypes';
 import { GET_CONNECTED_THEME } from '../../../Selector/Store/Query';
 import { cardContentType } from '../../../Selector/Store/CardSelectorStore';
-import axiosClient from '../../../../../Shared/ServerLayer/QueryLayer/config';
 
 class AISearch {
   constructor() {
@@ -33,7 +32,7 @@ class AISearch {
     getAutocompleteCardDataAsync('', undefined, this.convertMatchToCardData);
   }
 
-  changeAISearchString = async (value) => {
+  changeAISearchString = async value => {
     this.AISearchString = value;
     this.getAutocompleteCardsData();
   };
@@ -51,7 +50,7 @@ class AISearch {
         queryString += ' and ';
       }
       const itemInRecombeeStyleString = this.themeWithPatentIDArray
-        .map((item) => `"${item}"`)
+        .map(item => `"${item}"`)
         .join(', ');
 
       queryString += `({${itemInRecombeeStyleString}} & 'connected_theme') != {}`;
@@ -76,7 +75,7 @@ class AISearch {
 
   hardLevel: '-1' | '0' | '1' | '2' | '3' = '-1';
 
-  changeHardLevel = (e) => {
+  changeHardLevel = e => {
     this.hardLevel = e.target.value;
   };
 
@@ -84,7 +83,7 @@ class AISearch {
   connectedThemesHasBeenLoaded = false;
 
   get connectedThemesForSelector() {
-    return toJS(this.allConnectedThemes)?.map((theme) => ({
+    return toJS(this.allConnectedThemes)?.map(theme => ({
       id: theme.id,
       value: theme.id,
       title: theme.text,
@@ -100,8 +99,8 @@ class AISearch {
           fetchPolicy: 'network-only',
           variables: {},
         })
-        .then((response) => response.data.unstructuredTheme)
-        .then((connected_themes) => {
+        .then(response => response.data.unstructuredTheme)
+        .then(connected_themes => {
           this.allConnectedThemes = connected_themes;
           for (const theme of connected_themes) {
             if (this.themeParentToThemeMap.has(theme.parent?.id)) {
@@ -146,7 +145,7 @@ class AISearch {
   themeParentToThemeMap: Map<string, string[]> = new Map();
 
   contentType: cardContentType = 'undefined';
-  changeContentType = (e) => {
+  changeContentType = e => {
     this.contentType = e.target.value;
   };
 
@@ -164,9 +163,9 @@ class AISearch {
     }, 500);
   }
 
-  convertMatchToCardData = (recommendation) => {
+  convertMatchToCardData = recommendation => {
     if (recommendation?.recomms) {
-      const cardData = recommendation?.recomms?.map((recommItem) => ({
+      const cardData = recommendation?.recomms?.map(recommItem => ({
         label: recommItem?.values?.title,
         id: recommItem?.id,
       }));
@@ -203,10 +202,10 @@ class AISearch {
     );
   }
 
-  changeCardIDArrayFromSearch = (recommendation) => {
+  changeCardIDArrayFromSearch = recommendation => {
     if (recommendation?.recomms) {
       this.cardsIDArrayFromSearch = recommendation?.recomms?.map(
-        (recommItem) => recommItem?.id,
+        recommItem => recommItem?.id,
       );
     }
   };
@@ -217,46 +216,11 @@ class AISearch {
     return toJS(this.cardsIDArrayFromSearch);
   }
 
-  cardAuthors: Author[] = [];
-
-  loadCardAuthors() {
-    axiosClient.get<Author[]>('/page/card-page/authors').then((res) => {
-      this.cardAuthors = res.data;
-    });
-  }
-
-  get cardAuthorsForSelector() {
-    return [
-      ...new Set(
-        toJS(this.cardAuthors)?.map((author) => ({
-          id: author.id,
-          label:
-            author?.users_userprofile?.firstname ||
-            author?.users_userprofile?.lastname
-              ? `${author?.users_userprofile?.firstname} ${author?.users_userprofile?.lastname}`
-              : author?.username,
-        })),
-      ),
-    ];
-  }
-
   selectedCardAuthor: number | undefined = undefined;
 
-  changeCardAuthor = (value) => {
+  changeCardAuthor = value => {
     this.selectedCardAuthor = value?.id;
-    console.log(this.selectedCardAuthor);
   };
 }
 
 export const AISObject = new AISearch();
-
-export interface UsersUserprofile {
-  firstname: string;
-  lastname: string;
-}
-
-export interface Author {
-  id: number;
-  username: string;
-  users_userprofile: UsersUserprofile;
-}

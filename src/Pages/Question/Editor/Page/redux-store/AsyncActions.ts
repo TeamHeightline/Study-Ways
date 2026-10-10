@@ -18,13 +18,5 @@ export const loadQuestionsThunk = createAsyncThunk(
           show_only_filled_questions,
         },
       })
-      .then((res) => res.data),
-);
-
-export const loadAuthorsThunk = createAsyncThunk(
-  'questionEditorPage/loadAuthors',
-  async () =>
-    axiosClient
-      .get('/page/question-editor-page/authors')
-      .then((res) => res.data),
+      .then(res => res.data),
 );

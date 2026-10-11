@@ -55,21 +55,7 @@ const CheckAnswerUI = observer(
           <UICreateErrorReport answerStore={answerStore} />
         )}
       </header>
-      {answerStore.hasLoadError ? (
-        <Alert
-          severity="error"
-          action={
-            <Button
-              color="inherit"
-              onClick={() => answerStore.loadAnswerData()}
-            >
-              Повторить
-            </Button>
-          }
-        >
-          Не удалось загрузить ответ.
-        </Alert>
-      ) : answerStore.isAnswerDataLoaded && answerStore.answerData ? (
+      {answerStore.isAnswerDataLoaded && answerStore.answerData ? (
         <div className="sw-review-answer-grid">
           <ReviewAnswerContent answer={answerStore.answerData} />
           <div className="sw-review-hints">

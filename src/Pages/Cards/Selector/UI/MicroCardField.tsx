@@ -7,11 +7,12 @@ import { CreateCard } from './CreateCard';
 import { Box } from '@mui/material';
 
 interface IMicroCardFieldProps extends React.HTMLAttributes<HTMLDivElement> {
+  cardIds: string[];
   showCreateNewCard?: boolean;
 }
 
 export const MicroCardField = observer(
-  ({ showCreateNewCard, ...props }: IMicroCardFieldProps) => (
+  ({ cardIds, showCreateNewCard, ...props }: IMicroCardFieldProps) => (
     <Box className="sw-card-results" {...props} sx={{ overflow: 'auto' }}>
       <Grid container spacing={2} justifyContent="center">
         {showCreateNewCard && (
@@ -19,7 +20,7 @@ export const MicroCardField = observer(
             <CreateCard />
           </Grid>
         )}
-        {CSSObject.cards_id_array_for_selector?.map((card_id) => (
+        {cardIds?.map(card_id => (
           <Grid
             key={`${card_id}CardMicroView`}
             item

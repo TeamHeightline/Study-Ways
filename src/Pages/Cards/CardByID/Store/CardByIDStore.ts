@@ -1,226 +1,45 @@
-import { autorun, makeAutoObservable, reaction, toJS } from 'mobx';
-import { Mutation, UnstructuredThemesNode } from '../../../../SchemaTypes';
+import { makeAutoObservable } from 'mobx';
+import { Mutation } from '../../../../SchemaTypes';
 import { ClientStorage } from '../../../../Shared/Store/ApolloStorage/ClientStorage';
 import {
   ADD_TO_BOOKMARK,
-  GET_SIMILAR_CARDS_ID_ARRAY,
-  GET_THEME_ANCESTORS,
   REMOVE_CARD_FROM_BOOKMARK,
   SET_RATING,
 } from './Query';
-import { FILE_URL, SERVER_BASE_URL } from '../../../../settings';
+import { FILE_URL } from '../../../../settings';
 import React, { RefObject } from 'react';
-import recombeeClient from '../../../../Shared/Store/RecombeeClient/recombee-client';
-import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
-// @ts-ignore
-import recombee from 'recombee-js-api-client';
-import { getCardDataById } from '../API/get-card-data-by-id';
 import { ICardData } from '../TYPES/card-data';
 
+// UI interactions remain local to a card; RTK Query owns server data and requests.
 export class CardByIDStore {
   constructor() {
-    makeAutoObservable(this);
-
-    this.loadCardData();
-    console.log('new store');
-
-    reaction(
-      () => this?.id,
-      () => this.loadCardData(),
-    );
-    reaction(
-      () => this?.card_data?.id,
-      () => this.getCardImageURL(),
-    );
-
-    // autorun(() => this.getCardImageURL())
-    // autorun(() => this.updateRatingAndISBookmarked())
-    autorun(() => this.loadThemesAncestors());
-    autorun(() => this.loadSimilarCards());
-    reaction(
-      () => this.id,
-      () => {
-        if (this.id && UserStorage.userIDForRecombee) {
-          // @ts-ignore
-          recombeeClient.send(
-            // @ts-ignore
-            new recombee.AddDetailView(UserStorage.userIDForRecombee, this.id, {
-              cascadeCreate: true,
-            }),
-          );
-        }
-      },
-    );
-    reaction(
-      () => UserStorage.userIDForRecombee,
-      () => {
-        if (this.id && UserStorage.userIDForRecombee) {
-          // @ts-ignore
-          recombeeClient.send(
-            // @ts-ignore
-            new recombee.AddDetailView(UserStorage.userIDForRecombee, this.id, {
-              cascadeCreate: true,
-            }),
-          );
-        }
-      },
-    );
-    reaction(
-      () => this.id,
-      () => {
-        this.is_test_in_card_closed = false;
-      },
-    );
+    makeAutoObservable(this, { reloadCardData: false });
   }
-
-  is_test_in_card_closed = false;
   clientStorage = ClientStorage;
   id?: number;
   card_data?: ICardData;
-  changeID = (new_card_id?: number | string) => {
-    if (new_card_id) {
-      this.id = Number(new_card_id);
-    } else {
-      this.id = undefined;
+  reloadCardData?: () => unknown;
+  is_test_in_card_closed = false;
+  changeID = (id?: number | string) => {
+    const next = id === undefined ? undefined : Number(id);
+    if (this.id !== next) {
+      this.card_data = undefined;
+      this.is_test_in_card_closed = false;
+      this.isOpenGoToTestDialogAfterVideo = false;
     }
+    this.id = next;
   };
-
   loadCardData() {
-    if (!this?.id) {
-      return;
-    }
-
-    // this.clientStorage.client.query<Query>({
-    //     query: LOAD_CARD_DATA_BY_ID,
-    //     variables: {
-    //         id: this.id
-    //     },
-    //     fetchPolicy: "network-only",
-    // })
-    //     .then((response) => response.data.cardById)
-    //     .then((card_data) => {
-    //         if (card_data && this.id == Number(card_data?.id)) {
-    //             this.card_data = card_data
-    //
-    //         }
-    //     })
-    //     .catch(console.log)
-
-    getCardDataById(this.id).then(data => {
-      console.log('data', data);
-      if (data && this.id == Number(data?.id)) {
-        this.card_data = data;
-      }
-    });
+    this.reloadCardData?.();
   }
-
-  loadSimilarCards() {
-    if (this.card_data?.id) {
-      this.clientStorage.client
-        .query({
-          query: GET_SIMILAR_CARDS_ID_ARRAY,
-          variables: {
-            card_id: this.card_data?.id,
-          },
-        })
-        .then(response => response.data.similarCards)
-        .then(similar_cards_id_array => {
-          if (similar_cards_id_array && similar_cards_id_array.IDs) {
-            this.similarCardsID = similar_cards_id_array.IDs;
-          }
-        })
-        .catch(e => console.log(e));
-    }
-  }
-
-  similarCardsID: string[] = [];
-
-  getAncestorForTheme(theme_id: number) {
-    this.clientStorage.client
-      .query({
-        query: GET_THEME_ANCESTORS,
-        variables: {
-          theme_id,
-        },
-      })
-      .then(response => response.data?.themeAncestors)
-      .then(themes => {
-        if (themes && themes.length > 0) {
-          this.themesAncestorsMap.set(String(theme_id), themes);
-        }
-      })
-      .catch(e => console.log(e));
-  }
-
-  themesAncestorsMap: ThemeAncestorMap = new Map();
-
-  loadThemesAncestors = () => {
-    this.card_data?.cards_card_connected_theme.map(theme => {
-      this.getAncestorForTheme(Number(theme.unstructuredtheme_id));
-    });
-  };
-
-  onThemeHover = theme_id => {
-    if (this.themesAncestorsMap.has(String(theme_id))) {
-      return toJS(this.themesAncestorsMap.get(String(theme_id)));
-    } else {
-      return [];
-    }
-  };
-
-  get defaultCardImageURL() {
-    if (this?.card_data?.id) {
-      return `${FILE_URL}/cards-images/card/${this?.card_data?.id}`;
-    } else {
-      return '';
-    }
-  }
-
-  cardImageURLFromServer = {
-    url: '',
-    card_id: this.id,
-  };
-
   get cardImageURLForUI() {
-    if (
-      this.cardImageURLFromServer.url &&
-      Number(this.cardImageURLFromServer.card_id) == Number(this.card_data?.id)
-    ) {
-      return this.cardImageURLFromServer.url;
-    } else {
-      return this.defaultCardImageURL;
-    }
+    const image = this.card_data?.cards_cardimage?.image;
+    return image
+      ? `${FILE_URL}/${image}`
+      : this.card_data?.id
+        ? `${FILE_URL}/cards-images/card/${this.card_data.id}`
+        : '';
   }
-
-  getCardImageURL = () => {
-    const card_id_for_request = Number(this?.card_data?.id);
-    if (card_id_for_request) {
-      fetch(
-        `${SERVER_BASE_URL}/cardfiles/card?id=${Number(card_id_for_request)}`,
-        { cache: 'default' },
-      )
-        .then(response => response.json())
-        .then(data => {
-          if (card_id_for_request == Number(this?.card_data?.id)) {
-            this.cardImageURLFromServer = {
-              url: data[0].image,
-              card_id: card_id_for_request,
-            };
-          }
-        })
-        .catch(() => void 0);
-    }
-  };
-
-  // clickToBookmarkIcon = () => {
-  //     this.isBookmarked = !this.isBookmarked
-  //     if (this.card_data?.isBookmarked) {
-  //         this.removeCardFromBookmark()
-  //     } else {
-  //         this.addToBookmark()
-  //     }
-  // }
-
   removeCardFromBookmark = () => {
     if (this.card_data?.id) {
       this.clientStorage.client
@@ -281,19 +100,6 @@ export class CardByIDStore {
   rating?: number;
   isBookmarked = false;
 
-  // updateRatingAndISBookmarked() {
-  //     if (this.card_data) {
-  //         if (this.card_data.rating) {
-  //             this.rating = this.card_data.rating
-  //         }
-  //         this.isBookmarked = Boolean(this.card_data.isBookmarked)
-  //     }
-  // }
-
   isOpenGoToTestDialogAfterVideo = false;
   testElementRef = React.createRef() as RefObject<HTMLDivElement>;
 }
-
-export const cardByIDStore = new CardByIDStore();
-
-type ThemeAncestorMap = Map<string, UnstructuredThemesNode[]>;

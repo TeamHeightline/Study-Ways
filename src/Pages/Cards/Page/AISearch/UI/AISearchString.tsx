@@ -14,68 +14,71 @@ import AIThemeFilter from './AIThemeFilter';
 import { ContentType } from './AIContentTypeFilter';
 import AIAuthorSelector from './AIAutohorSelector';
 
-export const AISearchString = observer(() => {
-  useEffect(() => {
-    AISObject.getAISearchResult();
-    AISObject.loadAutocompleteDefaultData();
-  }, []);
+export const AISearchString = observer(
+  ({ onThemeChange }: { onThemeChange?: (id?: number) => void }) => {
+    useEffect(() => {
+      AISObject.getAISearchResult();
+      AISObject.loadAutocompleteDefaultData();
+    }, []);
 
-  function changeHandler(event, value) {
-    AISObject.changeAISearchString(value);
-  }
+    function changeHandler(event, value) {
+      AISObject.changeAISearchString(value);
+    }
 
-  return (
-    <Grid className="sw-search-panel" container justifyContent={'center'}>
-      <Grid item xs={12} md={8} sx={{ pb: 2, p: { xs: 1, md: 0 } }}>
-        <Stack
-          direction={'row'}
-          spacing={2}
-          sx={{ width: '100%' }}
-          alignItems={'center'}
-        >
-          <Autocomplete
-            id="card-search"
-            freeSolo
-            options={AISObject.cardDataForAutocomplete}
-            filterOptions={(x) => x}
-            // autoComplete
-            onChange={AISObject.onSelectCardInAutocomplete}
-            // value={AISObject.AISearchString || ""}
-            inputValue={AISObject.AISearchString || ''}
-            onInputChange={changeHandler}
-            fullWidth
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                fullWidth
-                className="sw-search-input"
-                label="AI поиск"
-                variant="outlined"
-              />
-            )}
-          />
-          <div>
-              <IconButton className="sw-search-submit"
-              size={'large'}
-              aria-label="search cards"
-              onClick={() => AISObject.getAISearchResult()}
-            >
-              <SearchIcon />
-            </IconButton>
-          </div>
-        </Stack>
-        <Stack
-          className="sw-search-filters"
-          direction={{ xs: 'column', lg: 'row' }}
-          sx={{ mt: 2, width: '100%' }}
-          spacing={{ xs: 2 }}
-        >
-          <AIThemeFilter />
-          <AIAuthorSelector />
-          <AIHardLevelFilter />
-          <ContentType />
-        </Stack>
+    return (
+      <Grid className="sw-search-panel" container justifyContent={'center'}>
+        <Grid item xs={12} md={8} sx={{ pb: 2, p: { xs: 1, md: 0 } }}>
+          <Stack
+            direction={'row'}
+            spacing={2}
+            sx={{ width: '100%' }}
+            alignItems={'center'}
+          >
+            <Autocomplete
+              id="card-search"
+              freeSolo
+              options={AISObject.cardDataForAutocomplete}
+              filterOptions={x => x}
+              // autoComplete
+              onChange={AISObject.onSelectCardInAutocomplete}
+              // value={AISObject.AISearchString || ""}
+              inputValue={AISObject.AISearchString || ''}
+              onInputChange={changeHandler}
+              fullWidth
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  fullWidth
+                  className="sw-search-input"
+                  label="AI поиск"
+                  variant="outlined"
+                />
+              )}
+            />
+            <div>
+              <IconButton
+                className="sw-search-submit"
+                size={'large'}
+                aria-label="search cards"
+                onClick={() => AISObject.getAISearchResult()}
+              >
+                <SearchIcon />
+              </IconButton>
+            </div>
+          </Stack>
+          <Stack
+            className="sw-search-filters"
+            direction={{ xs: 'column', lg: 'row' }}
+            sx={{ mt: 2, width: '100%' }}
+            spacing={{ xs: 2 }}
+          >
+            <AIThemeFilter onThemeChange={onThemeChange} />
+            <AIAuthorSelector />
+            <AIHardLevelFilter />
+            <ContentType />
+          </Stack>
+        </Grid>
       </Grid>
-    </Grid>
-  );
-});
+    );
+  },
+);

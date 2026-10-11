@@ -1,34 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Typography } from '@mui/material';
-import { AnswerNode } from '../../../../../SchemaTypes';
-import { SERVER_BASE_URL } from '../../../../../settings';
+import { ReviewAnswer } from '../../../../Question/question-read-api';
+import { FILE_URL } from '../../../../../settings';
 
 export default function ReviewAnswerContent({
   answer,
 }: {
-  answer: AnswerNode;
+  answer: ReviewAnswer;
 }) {
   const [imageUrl, setImageUrl] = useState('');
 
   useEffect(() => {
-    const controller = new AbortController();
-    setImageUrl('');
-    if (!answer.isImageDeleted) {
-      axios
-        .get(`${SERVER_BASE_URL}/files/answer?id=${answer.id}`, {
-          signal: controller.signal,
-        })
-        .then(response => {
-          if (!controller.signal.aborted)
-            setImageUrl(response.data?.[0]?.image || '');
-        })
-        .catch(() => {
-          /* Answers may have no image. */
-        });
-    }
-    return () => controller.abort();
-  }, [answer.id, answer.isImageDeleted]);
+    setImageUrl(
+      answer.image && !answer.isImageDeleted
+        ? `${FILE_URL}/${answer.image}`
+        : '',
+    );
+  }, [answer.id, answer.image, answer.isImageDeleted]);
 
   return (
     <div className="sw-review-answer-content">

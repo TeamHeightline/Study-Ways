@@ -1,50 +1,44 @@
 import { makeAutoObservable, reaction, toJS } from 'mobx';
-import { ClientStorage } from '../../../../Shared/Store/ApolloStorage/ClientStorage';
-import { GET_ENCRYPT_QUESTION_DATA_BY_ID } from '../../../../Shared/Store/PublicStorage/QSPage/QuestionSequencePlayer/Struct';
 import { SameAnswerNode } from '../../../../Shared/Store/PublicStorage/QSPage/QuestionSequencePlayer/SameAnswerNode';
 import { shuffle } from '../../../../Shared/Utils/array';
 import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
-import CryptoJS from 'crypto-js';
-import { SERVER_BASE_URL } from '../../../../settings';
+import { FILE_URL, SERVER_BASE_URL } from '../../../../settings';
 import axiosClient from '../../../../Shared/ServerLayer/QueryLayer/config';
+import { PlayerQuestionData } from '../../question-read-api';
 import { createDetailStatistic } from '../../../../Shared/ServerLayer/QueryLayer/detail-statistic.query';
 
 export class QuestionPlayerStore {
+  disposers: Array<() => void> = [];
   constructor(ownStore, questionID) {
-    makeAutoObservable(this);
-    reaction(
-      () => this.questionID,
-      () => this.loadQuestionDataFromServer(),
-    );
-    reaction(
-      () => UserStorage.isLogin,
-      () => this.loadQuestionDataFromServer(),
-    );
-    reaction(
-      () => this.questionID,
-      () => this.deliverFromServerImageURL(),
-    );
-    reaction(
-      () => UserStorage.isLogin,
-      () => this.deliverFromServerImageURL(),
-    );
-    reaction(
-      () => this.questionHasBeenCompleted,
-      () => this.saveDetailStatistic(),
-    );
-
     this.ownStore = ownStore;
     this.questionID = questionID;
+    makeAutoObservable(this, { disposers: false });
+    this.disposers.push(
+      reaction(
+        () => this.questionHasBeenCompleted,
+        complete => {
+          if (complete) this.saveDetailStatistic();
+        },
+      ),
+    );
     if (ownStore) {
-      reaction(
-        () => this.ownStore.hardLevelOfHelpText,
-        () => this.changeHardLevelOfHelpText(this.ownStore.hardLevelOfHelpText),
+      this.disposers.push(
+        reaction(
+          () => this.ownStore.hardLevelOfHelpText,
+          () =>
+            this.changeHardLevelOfHelpText(this.ownStore.hardLevelOfHelpText),
+        ),
       );
-      reaction(
-        () => this.ownStore.HardLevelHasBeenSelected,
-        () => this.startQuestion(),
+      this.disposers.push(
+        reaction(
+          () => this.ownStore.HardLevelHasBeenSelected,
+          () => this.startQuestion(),
+        ),
       );
     }
+  }
+  dispose() {
+    this.disposers.forEach(dispose => dispose());
   }
 
   ownStore: any = null;
@@ -63,9 +57,6 @@ export class QuestionPlayerStore {
     this.maxSumOfPoints = 0;
     this.isAcceptDefeat = false;
   }
-
-  // Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
-  clientStorage = ClientStorage;
 
   // Текст вопроса
   questionText = '';
@@ -243,7 +234,7 @@ export class QuestionPlayerStore {
     numberOfPasses: string;
     numberOfWrongAnswers: number;
   }[] {
-    return this.ArrayForShowNumberOfWrongAnswers.map((item) => ({
+    return this.ArrayForShowNumberOfWrongAnswers.map(item => ({
       numberOfPasses: String(item.numberOfPasses),
       numberOfWrongAnswers: item.numberOfWrongAnswers,
     }));
@@ -253,7 +244,7 @@ export class QuestionPlayerStore {
     numberOfPasses: string;
     answerPoints: number;
   }[] {
-    return this.ArrayForShowAnswerPoints.map((item) => ({
+    return this.ArrayForShowAnswerPoints.map(item => ({
       numberOfPasses: String(item.numberOfPasses),
       answerPoints: item.answerPoints,
     }));
@@ -289,105 +280,67 @@ export class QuestionPlayerStore {
     }
   }
 
-  // Доставка изображения для вопроса с сервера
-  deliverFromServerImageURL() {
-    fetch(`${SERVER_BASE_URL}/files/question?id=${this.questionID}`)
-      .then((response) => response.json())
-      .then((jResponse) => {
-        this.questionImageUrl = jResponse[0].image;
-      })
-      .catch(() => (this.questionImageUrl = ''));
-  }
-
   isDataLoaded = false;
+  applyQuestionData(data: PlayerQuestionData) {
+    if (this.isDataLoaded || Number(this.questionID) !== data.question.id)
+      return;
+    const __decrypt_question = data.question;
+    const __decrypt_answers = data.answers;
+    this.questionImageUrl = data.question.image
+      ? `${FILE_URL}/${data.question.image}`
+      : '';
+    this.questionText = __decrypt_question?.text;
+    const __AnswersArray: any[] = [];
+    // максимальное число баллов, которые можно получить выбрав все правильные ответы
+    let __maxSumOfAnswerPoints = 0;
+    // Перемешиваем ответы и обрезаем из количество на значение из настроек
+    const __requiredAnswersForDisplay = shuffle(
+      __decrypt_answers
+        ?.filter(answer => !answer.is_deleted)
+        ?.filter(answer => answer.is_required),
+    )?.slice(0, __decrypt_question?.number_of_showing_answers);
+    const __notRequiredAnswersForDisplay = shuffle(
+      __decrypt_answers
+        ?.filter(answer => !answer.is_deleted)
+        ?.filter(answer => !answer.is_required),
+    )?.slice(
+      0,
+      __decrypt_question?.number_of_showing_answers -
+        __requiredAnswersForDisplay.length,
+    );
+    let __answersForDisplay =
+      __requiredAnswersForDisplay.length > 0
+        ? __requiredAnswersForDisplay.concat(__notRequiredAnswersForDisplay)
+        : __notRequiredAnswersForDisplay;
+    __answersForDisplay = shuffle(__answersForDisplay);
+    __answersForDisplay.map(answer => {
+      if (answer.hard_level_of_answer == 'EASY') {
+        __maxSumOfAnswerPoints += 5;
+      } else if (answer.hard_level_of_answer == 'MEDIUM') {
+        __maxSumOfAnswerPoints += 10;
+      } else {
+        __maxSumOfAnswerPoints += 15;
+      }
+      this.maxSumOfPoints = __maxSumOfAnswerPoints;
+      __AnswersArray.push(
+        new SameAnswerNode(
+          answer.id,
+          answer.text,
+          answer.is_true,
+          answer.check_queue,
+          answer.help_textV1,
+          answer.help_textV2,
+          answer.help_textV3,
+          answer.hard_level_of_answer,
+          answer.is_image_deleted,
+          answer.image ? `${FILE_URL}/${answer.image}` : null,
+        ),
+      );
+    });
 
-  // Функция для загрузки данных о вопросе с сервера
-  loadQuestionDataFromServer() {
-    if (this.questionID) {
-      this.isDataLoaded = false;
-      this.clientStorage.client
-        .query({
-          query: GET_ENCRYPT_QUESTION_DATA_BY_ID,
-          variables: {
-            id: this.questionID,
-            examMode: this.isUseExamMode || this?.ownStore?.isUseExamMode,
-          },
-          fetchPolicy: 'network-only',
-        })
-        .then((data) => {
-          let __decrypt_question: any = {};
-          let __decrypt_answers: any[] = [{}];
-          if (data?.data?.eqbi) {
-            const _question_string = CryptoJS.enc.Utf8.stringify(
-              CryptoJS.enc.Base64.parse(data?.data?.eqbi?.qbs.slice(2)),
-            );
-            __decrypt_question = JSON.parse(_question_string)[0]?.fields;
-            const _answer_string = CryptoJS.enc.Utf8.stringify(
-              CryptoJS.enc.Base64.parse(data?.data?.eqbi?.abs.slice(2)),
-            );
-            __decrypt_answers = JSON.parse(_answer_string);
-            __decrypt_answers.map((answer, aIndex) => {
-              const ___fields_to_pass = answer?.fields;
-              ___fields_to_pass.id = answer.pk;
-              __decrypt_answers[aIndex] = ___fields_to_pass;
-            });
-          }
-          // this.questionText = CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(data.data.questionById.text))
-          this.questionText = __decrypt_question?.text;
-          const __AnswersArray: any[] = [];
-          // максимальное число баллов, которые можно получить выбрав все правильные ответы
-          let __maxSumOfAnswerPoints = 0;
-          // Перемешиваем ответы и обрезаем из количество на значение из настроек
-          const __requiredAnswersForDisplay = shuffle(
-            __decrypt_answers
-              ?.filter((answer) => !answer.is_deleted)
-              ?.filter((answer) => answer.is_required),
-          )?.slice(0, __decrypt_question?.number_of_showing_answers);
-          const __notRequiredAnswersForDisplay = shuffle(
-            __decrypt_answers
-              ?.filter((answer) => !answer.is_deleted)
-              ?.filter((answer) => !answer.is_required),
-          )?.slice(
-            0,
-            __decrypt_question?.number_of_showing_answers -
-              __requiredAnswersForDisplay.length,
-          );
-          let __answersForDisplay =
-            __requiredAnswersForDisplay.length > 0
-              ? __requiredAnswersForDisplay.concat(
-                  __notRequiredAnswersForDisplay,
-                )
-              : __notRequiredAnswersForDisplay;
-          __answersForDisplay = shuffle(__answersForDisplay);
-          __answersForDisplay.map((answer) => {
-            if (answer.hard_level_of_answer == 'EASY') {
-              __maxSumOfAnswerPoints += 5;
-            } else if (answer.hard_level_of_answer == 'MEDIUM') {
-              __maxSumOfAnswerPoints += 10;
-            } else {
-              __maxSumOfAnswerPoints += 15;
-            }
-            this.maxSumOfPoints = __maxSumOfAnswerPoints;
-            __AnswersArray.push(
-              new SameAnswerNode(
-                answer.id,
-                answer.text,
-                answer.is_true,
-                answer.check_queue,
-                answer.help_textV1,
-                answer.help_textV2,
-                answer.help_textV3,
-                answer.hard_level_of_answer,
-                answer.is_image_deleted,
-              ),
-            );
-          });
-
-          this.answersArray = __AnswersArray;
-          this.userMarks = Array(__AnswersArray.length).fill('none');
-          this.isDataLoaded = true;
-        });
-    }
+    this.answersArray = __AnswersArray;
+    this.userMarks = Array(__AnswersArray.length).fill('none');
+    this.isDataLoaded = true;
   }
 
   // Сдался ли пользователь при попытке пройти вопрос
@@ -415,7 +368,7 @@ export class QuestionPlayerStore {
       is_useExamMode:
         this.isUseExamMode || this?.ownStore?.isUseExamMode || false,
       max_sum_of_answers_point: this.maxSumOfPoints,
-      answers_id_array: this.answersArray?.map((answer) => answer.id),
+      answers_id_array: this.answersArray?.map(answer => answer.id),
       ...(this?.ownStore &&
         this?.ownStore?.questionSequenceID && {
           question_sequence_id: this?.ownStore?.questionSequenceID,
@@ -457,7 +410,7 @@ export class QuestionPlayerStore {
   };
 
   answerReportText = '';
-  changeAnswerReportText = (e) => {
+  changeAnswerReportText = e => {
     this.answerReportText = e.target.value;
   };
   onSendAnswerReportButtonClick = () => {

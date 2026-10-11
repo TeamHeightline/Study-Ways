@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { gql, useMutation } from '@apollo/client';
 import {
   Alert,
   Button,
@@ -45,19 +45,13 @@ import { EditCardByID } from '../../Cards/Editor/EditorByIDV2/UI/EditCardByID';
 import { CESObject } from '../../Cards/Editor/EditorByIDV2/Store/CardEditorStorage';
 import { CardSelector } from '../../Cards/Selector/UI/CardSelector';
 import './course-editor.css';
+import { courseApi, useGetCourseQuery } from '../course-api';
+import { useAppDispatch } from '../../../App/ReduxStore/RootStore';
+import { skipToken } from '@reduxjs/toolkit/query';
 
 export { CourseLines } from './course-data';
 export type { CourseData, ICourseLine } from './course-data';
 
-export const GET_COURSE_BY_ID = gql`
-  query GET_COURSE_BY_ID($id: ID!) {
-    cardCourseById(id: $id) {
-      courseData
-      id
-      name
-    }
-  }
-`;
 export const UPDATE_COURSE_DATA = gql`
   mutation UPDATE_COURSE_DATA(
     $new_data: GenericScalar
@@ -81,12 +75,27 @@ interface Props {
 export default function EditCourseByID({ course_id, onChange }: Props) {
   const { id } = useParams();
   const courseId = course_id ?? id;
-  const { data, loading, error, refetch } = useQuery(GET_COURSE_BY_ID, {
-    variables: { id: courseId },
-    fetchPolicy: 'network-only',
-    skip: !courseId,
-  });
-  const [save] = useMutation(UPDATE_COURSE_DATA);
+  const dispatch = useAppDispatch();
+  const numericId = Number(courseId);
+  const {
+    currentData: data,
+    isFetching: loading,
+    error,
+    refetch,
+  } = useGetCourseQuery(
+    Number.isInteger(numericId) && numericId > 0 ? numericId : skipToken,
+  );
+  const [mutate] = useMutation(UPDATE_COURSE_DATA);
+  const save: Parameters<typeof useCourseDraft>[2] = async options => {
+    const result = await mutate(options);
+    dispatch(
+      courseApi.util.invalidateTags([
+        { type: 'Course', id: numericId },
+        'OwnCourses',
+      ]),
+    );
+    return result;
+  };
   if (loading && !data)
     return (
       <div
@@ -99,7 +108,7 @@ export default function EditCourseByID({ course_id, onChange }: Props) {
         <Skeleton variant="rounded" height={420} sx={{ mt: 3 }} />
       </div>
     );
-  if (error || !data?.cardCourseById || !courseId)
+  if (error || !data || !courseId)
     return (
       <div className="sw-coedit">
         <Alert
@@ -119,8 +128,8 @@ export default function EditCourseByID({ course_id, onChange }: Props) {
       key={courseId}
       id={courseId}
       initial={{
-        name: data.cardCourseById.name || '',
-        lines: normalizeCourseData(data.cardCourseById.courseData),
+        name: data.name || '',
+        lines: normalizeCourseData(data.course_data),
       }}
       save={save}
       onBack={onChange ? () => onChange('goBack') : undefined}

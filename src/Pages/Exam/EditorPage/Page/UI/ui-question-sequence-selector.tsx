@@ -15,16 +15,13 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 import { useEffect, useState } from 'react';
-import { useQuery } from '@apollo/client';
 import { observer } from 'mobx-react';
 import {
   RootState,
   useAppDispatch,
   useAppSelector,
 } from '../../../../../App/ReduxStore/RootStore';
-import { ClientStorage } from '../../../../../Shared/Store/ApolloStorage/ClientStorage';
-import { ALL_QUESTION_SEQUENCES } from '../../../../QuestionSequence/Selector/Store/Query';
-import { Query } from '../../../../../SchemaTypes';
+import { useGetQuestionSequencesQuery } from '../../../../QuestionSequence/question-sequences-api';
 import { loadQSData } from '../redux-store/async-actions';
 import { changeExamQSIDForCreate } from '../redux-store/actions';
 import SelectedQSByData from './ui-seleced-qs-by-data';
@@ -37,18 +34,16 @@ const UIQuestionSequenceSelector = observer(
     const [open, setOpen] = useState(false);
     const [search, setSearch] = useState('');
     const dispatch = useAppDispatch();
-    const { data, loading, error, refetch } = useQuery<Query>(
-      ALL_QUESTION_SEQUENCES,
-      {
-        client: ClientStorage.client,
-        skip: !open,
-        fetchPolicy: 'cache-and-network',
-      },
-    );
+    const {
+      data,
+      isFetching: loading,
+      error,
+      refetch,
+    } = useGetQuestionSequencesQuery(undefined, { skip: !open });
     useEffect(() => {
       if (selected) dispatch(loadQSData(String(selected)));
     }, [selected, dispatch]);
-    const sequences = (data?.questionSequence || []).filter(
+    const sequences = (data || []).filter(
       sequence =>
         sequence &&
         `${sequence.name} ${sequence.id}`

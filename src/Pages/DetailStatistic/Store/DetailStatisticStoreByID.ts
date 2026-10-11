@@ -1,67 +1,31 @@
-import { autorun, makeAutoObservable, runInAction } from 'mobx';
-import { ClientStorage } from '../../../Shared/Store/ApolloStorage/ClientStorage';
-import { GET_QUESTION_TEXT_BY_ID, LOAD_ATTEMPT_BY_ID } from './Query';
+import { makeAutoObservable } from 'mobx';
 import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 
 export class DetailStatisticStoreByID {
   constructor(id?: number) {
     this.attempt_id = id;
-    makeAutoObservable(this);
-    autorun(() => this.loadAttemptFromServer());
-    autorun(() => this.loadQuestionText());
+    makeAutoObservable(this, { reload: false });
   }
 
   changeAttemptID(new_attempt_id: number) {
+    if (this.attempt_id !== new_attempt_id) {
+      this.attemptData = undefined;
+      this.questionText = '';
+      this.isOpenDetailStatistic = false;
+      this.openedSteps.clear();
+    }
     this.attempt_id = new_attempt_id;
   }
 
   attempt_id: number | undefined = undefined;
-  // Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
-  clientStorage = ClientStorage;
   // доступ к данным о пользователе, чтобы можно было проверять уровень доступа
   userStorage = UserStorage;
 
   loadError = false;
 
-  async loadAttemptFromServer() {
-    const attemptID = this.attempt_id;
-    if (!attemptID) return;
-    runInAction(() => {
-      this.loadError = false;
-      this.attemptData = undefined;
-    });
-
-    try {
-      const response = await this.clientStorage.client.query({
-        query: LOAD_ATTEMPT_BY_ID,
-        variables: { ID: attemptID },
-        fetchPolicy: 'network-only',
-        // Empty names violate the server's non-null profile fields. GraphQL
-        // nulls userprofile, but the remaining attempt data is still valid.
-        errorPolicy: 'all',
-      });
-      const attemptData = response.data?.detailStatisticById;
-      const hasStatisticError = response.errors?.some(
-        error =>
-          error.path?.[0] !== 'detailStatisticById' ||
-          error.path?.[1] !== 'authorizedUser' ||
-          error.path?.[2] !== 'userprofile',
-      );
-      if (!attemptData || hasStatisticError) {
-        throw new Error('Failed to load statistic');
-      }
-      runInAction(() => {
-        if (this.attempt_id !== attemptID) return;
-        this.attemptData = {
-          ...attemptData,
-          userName: attemptData.userName?.trim() || 'Анонимный пользователь',
-        };
-      });
-    } catch {
-      runInAction(() => {
-        if (this.attempt_id === attemptID) this.loadError = true;
-      });
-    }
+  reload?: () => unknown;
+  loadAttemptFromServer() {
+    this.reload?.();
   }
 
   questionText = '';
@@ -74,27 +38,6 @@ export class DetailStatisticStoreByID {
       return this.questionText;
     } else {
       return this.questionText.slice(0, 200);
-    }
-  }
-
-  async loadQuestionText() {
-    const questionID = this.attemptData?.question?.id;
-    runInAction(() => {
-      this.questionText = '';
-    });
-    if (!questionID) return;
-    try {
-      const response = await this.clientStorage.client.query({
-        query: GET_QUESTION_TEXT_BY_ID,
-        variables: { id: questionID },
-      });
-      runInAction(() => {
-        if (this.attemptData?.question?.id === questionID) {
-          this.questionText = response.data?.questionText?.text || '';
-        }
-      });
-    } catch {
-      // Question text is optional and must not prevent showing the result.
     }
   }
 
@@ -307,6 +250,5 @@ export class DetailStatisticStoreByID {
   }
 }
 
-export const DetailStatisticStoreByIDObject = new DetailStatisticStoreByID();
-export type DSSObjectType = typeof DetailStatisticStoreByIDObject;
-export type rowType = (typeof DetailStatisticStoreByIDObject)['dataForRow'];
+export type DSSObjectType = DetailStatisticStoreByID;
+export type rowType = DetailStatisticStoreByID['dataForRow'];

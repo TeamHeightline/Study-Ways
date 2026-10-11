@@ -1,11 +1,7 @@
-import { autorun, makeAutoObservable, reaction, toJS } from 'mobx';
+import { action, makeAutoObservable, reaction, runInAction, toJS } from 'mobx';
 import { ClientStorage } from '../../../../../../Shared/Store/ApolloStorage/ClientStorage';
 import { UserStorage } from '../../../../../../Shared/Store/UserStore/UserStore';
-import {
-  CREATE_NEW_ANSWER_BASED_ON_DATA,
-  LOAD_ANSWER_BY_ID,
-  UPDATE_ANSWER,
-} from './Query';
+import { CREATE_NEW_ANSWER_BASED_ON_DATA, UPDATE_ANSWER } from './Query';
 import {
   AnswerHardLevelOfAnswer,
   AnswerNode,
@@ -19,12 +15,16 @@ import { computedFn } from 'mobx-utils';
 import { SERVER_BASE_URL } from '../../../../../../settings';
 import { QuestionEditorStorage } from '../../../QuestionEditor/Store/QuestionEditorStorage';
 import axiosClient from '../../../../../../Shared/ServerLayer/QueryLayer/config';
+import { EditorAnswer } from '../../../../question-read-api';
+import { FILE_URL } from '../../../../../../settings';
 
 export class EditAnswerByIdStore {
   constructor(answer_id?: number) {
-    makeAutoObservable(this);
-    autorun(() => this.loadAnswerData());
-    autorun(() => this.getImageUrlFromServer());
+    makeAutoObservable<this, 'editVersion'>(this, {
+      editVersion: false,
+      reload: false,
+      invalidate: false,
+    });
     reaction(
       () => toJS(this.answer_object),
       () => this.autoSave(),
@@ -77,17 +77,16 @@ export class EditAnswerByIdStore {
         : default_value,
   );
 
-  changeField =
-    (
-      field: answer_object_field | number,
-      eventField: 'value' | 'checked' = 'value',
-      answer_object = this.answer_object,
-    ) =>
-    ({ target }) => {
+  changeField = (
+    field: answer_object_field | number,
+    eventField: 'value' | 'checked' = 'value',
+    answer_object = this.answer_object,
+  ) =>
+    action(({ target }) => {
       if (answer_object && field in answer_object) {
         answer_object[field] = target[eventField];
       }
-    };
+    });
 
   fillRequiredArray() {
     if (!toJS(this.answer_object)?.isDeleted) {
@@ -210,35 +209,30 @@ export class EditAnswerByIdStore {
     this.isOpenForEdit = !this.isOpenForEdit;
   };
 
+  reload?: () => unknown;
+  invalidate?: () => unknown;
   loadAnswerData = () => {
-    if (this.answer_id && !this.isAnswerDataLoaded) {
-      this.hasLoadError = false;
-      this.clientStorage.client
-        .query({
-          query: LOAD_ANSWER_BY_ID,
-          fetchPolicy: 'network-only',
-          variables: {
-            answer_id: this.answer_id,
-          },
-        })
-        .then(response => response.data.answerById)
-        .then(answer_object => {
-          const isTrue = String(answer_object.isTrue);
-          const question = answer_object.question.id;
-          this.answer_object = { ...answer_object, isTrue, question };
-          this.isAnswerDataLoaded = true;
-        })
-        .catch(() => {
-          this.hasLoadError = true;
-        });
-    }
+    this.reload?.();
   };
+  initializeAnswerData(data: EditorAnswer) {
+    if (this.isAnswerDataLoaded) return;
+    const { image, ...answer } = data;
+    this.answer_object = {
+      ...answer,
+      isTrue: String(data.isTrue) as 'true' | 'false',
+      question: data.question.id,
+    };
+    this.imageUrl = image ? `${FILE_URL}/${image}` : '';
+    this.isAnswerDataLoaded = true;
+    this.hasLoadError = false;
+  }
 
   isFirstLoadingIgnore = true;
   // сохранен/не сохранен
   stateOfSave = true;
   // Таймер для сохранения
   savingTimer: any;
+  private editVersion = 0;
 
   // Функция для авто сохранений
   autoSave = () => {
@@ -246,6 +240,7 @@ export class EditAnswerByIdStore {
       this.isFirstLoadingIgnore = false;
     } else {
       if (this.answer_object) {
+        this.editVersion += 1;
         this.hasSaveError = false;
         this.stateOfSave = false;
         clearTimeout(this.savingTimer);
@@ -261,6 +256,7 @@ export class EditAnswerByIdStore {
       this.hasSaveError = false;
       this.stateOfSave = false;
       const rawAnswerObject = toJS(this.answer_object);
+      const version = this.editVersion;
       this.clientStorage.client
         .mutate<Mutation>({
           mutation: UPDATE_ANSWER,
@@ -270,14 +266,19 @@ export class EditAnswerByIdStore {
           },
         })
         .then(response => response?.data?.updateAnswer)
-        .then(new_answer => {
-          if (new_answer?.errors?.length)
-            throw new Error('Answer was not saved');
-          this.stateOfSave = true;
-        })
-        .catch(() => {
-          this.hasSaveError = true;
-        });
+        .then(
+          action(new_answer => {
+            if (new_answer?.errors?.length)
+              throw new Error('Answer was not saved');
+            if (version === this.editVersion) this.stateOfSave = true;
+            this.invalidate?.();
+          }),
+        )
+        .catch(
+          action(() => {
+            if (version === this.editVersion) this.hasSaveError = true;
+          }),
+        );
     }
   }
 
@@ -321,6 +322,7 @@ export class EditAnswerByIdStore {
         .then(response => response.json())
         .then(() => {
           this.getImageUrlFromServer();
+          this.invalidate?.();
         })
         .catch(() => {
           this.getImageUrlFromServer();
@@ -374,9 +376,12 @@ export class EditAnswerByIdStore {
 
   loadAnswerErrorMessage = async () => {
     if (this.answer_id) {
-      this.answerErrorMessage = await axiosClient
+      const reports = await axiosClient
         .get(`page/edit-answer-by-id/answer-report-by-id/${this.answer_id}`)
         .then(res => res.data);
+      runInAction(() => {
+        this.answerErrorMessage = reports;
+      });
     }
   };
 
@@ -434,13 +439,10 @@ interface UsersUserprofile {
   lastname: string;
 }
 
-type answer_data_with_wrong_is_true_type = object_properties_to_array_mapper<
-  RemoveTypename<AnswerNode>
->;
 export type answer_data_object = Omit<
-  answer_data_with_wrong_is_true_type,
-  'isTrue' | 'videoUrl'
-> & { isTrue: 'true' | 'false' };
+  EditorAnswer,
+  'question' | 'image' | 'isTrue'
+> & { question: string; isTrue: 'true' | 'false' };
 type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 type answer_data_object_witch_out_id = PartialBy<answer_data_object, 'id'>;

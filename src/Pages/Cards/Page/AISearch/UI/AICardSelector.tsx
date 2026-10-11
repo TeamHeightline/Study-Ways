@@ -6,14 +6,15 @@ import { AISearchString } from './AISearchString';
 import { Box } from '@mui/material';
 
 interface IAIHomePageProps extends React.HTMLAttributes<HTMLDivElement> {
+  onThemeChange?: (id?: number) => void;
   onCardSelect: (card_id: number) => void;
 }
 
 export const AICardSelector = observer(
-  ({ onCardSelect, ...props }: IAIHomePageProps) => (
+  ({ onCardSelect, onThemeChange, ...props }: IAIHomePageProps) => (
     // useEffect(()=>AISObject.loadPersonalHomePage(), [])
     <div {...props}>
-      <AISearchString />
+      <AISearchString onThemeChange={onThemeChange} />
       <Box sx={{ mt: 2 }}>
         <MicoCardsField
           cards_id={AISObject.cardsIDArray}

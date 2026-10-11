@@ -1,17 +1,16 @@
 import { observer } from 'mobx-react';
 import React from 'react';
 import { Paper, PaperProps, Typography } from '@mui/material';
-import { CheckQuestionByIdStore } from '../Store/check-question-by-id-store';
 import { NanoQuestionStoreType } from '../../../Question/QuestionNanoViewByID/Store/question-nano-view-by-id-store';
 
 interface ICheckQuestionTitleProps extends PaperProps {
-  CQStore: CheckQuestionByIdStore;
+  questionId: string;
   QuestionDataStore: NanoQuestionStoreType;
 }
 
 const CheckQuestionTitle = observer(
   ({
-    CQStore,
+    questionId,
     QuestionDataStore,
     className = '',
     ...props
@@ -23,7 +22,7 @@ const CheckQuestionTitle = observer(
     >
       <div>
         <Typography component="h1" className="sw-card-library-title">
-          Проверка вопроса №{CQStore.question_id}
+          Проверка вопроса №{questionId}
         </Typography>
         <Typography component="p" className="sw-review-description">
           Оцените формулировку, правильность ответов и подсказки. Замечание

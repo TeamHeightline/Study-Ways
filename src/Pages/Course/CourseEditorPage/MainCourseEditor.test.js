@@ -2,23 +2,27 @@ import React from 'react';
 import { act as legacyAct } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
 import { MockedProvider } from '@apollo/client/testing';
-import { useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import { courseApi } from '../course-api';
+import axiosClient from '../../../Shared/ServerLayer/QueryLayer/config';
 import { useAppDispatch } from '../../../App/ReduxStore/RootStore';
 import MainCourseEditor, {
   CREATE_COURSE_WITH_DEFAULT_VALUE,
-  GET_OWN_COURSE,
 } from './MainCourseEditor';
 import {
   CourseLines,
   normalizeCourseData,
 } from '../EditCourseByID/course-data';
 
-jest.mock('react-redux', () => ({ useSelector: jest.fn() }));
 jest.mock('../../../App/ReduxStore/RootStore', () => ({
-  useAppDispatch: jest.fn(),
+  useAppDispatch: () => require('react-redux').useDispatch(),
 }));
-jest.mock('../Page/redux-store/async-functions', () => ({
-  loadCourseDataThunk: () => ({ type: 'load' }),
+jest.mock('../../../Shared/ServerLayer/QueryLayer/config', () => ({
+  request: jest.fn(),
+}));
+jest.mock('../../../Shared/Store/UserStore/UserStore', () => ({
+  UserStorage: { user_data: { id: 7 } },
 }));
 jest.mock('../EditCourseByID/EditCourseByID', () => ({
   __esModule: true,
@@ -42,28 +46,26 @@ const course = {
   name: 'Новый курс',
   courseData: normalizeCourseData(CourseLines),
 };
-const ownQuery = courses => ({
-  request: { query: GET_OWN_COURSE },
-  result: { data: { me: { cardcourseSet: courses } } },
-});
+const ownQuery = courses => ({ rest: courses });
 const createRequest = {
   query: CREATE_COURSE_WITH_DEFAULT_VALUE,
   variables: { default_data: normalizeCourseData(CourseLines) },
 };
-let root, container;
+let root, container, store;
 beforeEach(() => {
   global.IS_REACT_ACT_ENVIRONMENT = true;
   jest.useFakeTimers();
-  useSelector.mockImplementation(select =>
-    select({ coursePage: { courses_data: [] } }),
-  );
-  useAppDispatch.mockReturnValue(jest.fn());
+  store = configureStore({
+    reducer: { [courseApi.reducerPath]: courseApi.reducer },
+    middleware: getDefault => getDefault().concat(courseApi.middleware),
+  });
   container = document.createElement('div');
   document.body.appendChild(container);
   root = createRoot(container);
 });
 afterEach(async () => {
   await act(async () => root.unmount());
+  store.dispatch(courseApi.util.resetApiState());
   container.remove();
   jest.clearAllTimers();
   jest.useRealTimers();
@@ -74,11 +76,18 @@ const button = text =>
     node => node.textContent === text,
   );
 const render = async mocks => {
+  const lists = mocks.filter(mock => mock.rest).map(mock => mock.rest);
+  axiosClient.request.mockImplementation(async () => ({
+    data: lists.length > 1 ? lists.shift() : lists[0] || [],
+  }));
+  const mutations = mocks.filter(mock => !mock.rest);
   await act(async () =>
     root.render(
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <MainCourseEditor />
-      </MockedProvider>,
+      <Provider store={store}>
+        <MockedProvider mocks={mutations} addTypename={false}>
+          <MainCourseEditor />
+        </MockedProvider>
+      </Provider>,
     ),
   );
   await act(async () => jest.advanceTimersByTime(10));

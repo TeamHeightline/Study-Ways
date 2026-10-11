@@ -27,21 +27,23 @@ export const AIRoutes = observer(({ ...props }: IAIRoutesProps) => {
   const queryParams = useQueryParams();
 
   const handleOnChange = (e, value) => {
-    console.log(value);
-    if (value === 'AISearch') {
-      navigate(`${pathname}?searchType=AISearch`);
-    } else {
-      navigate(`${pathname}?searchType=DSearch`);
-    }
+    if (!value) return;
+    const params = new URLSearchParams(queryParams);
+    params.set('searchType', value);
+    navigate({ pathname, search: params.toString() });
   };
   const searchType = queryParams.get('searchType');
 
+  const defaultParams = new URLSearchParams(queryParams);
+  defaultParams.set('searchType', 'AISearch');
   if (!queryParams.get('searchType')) {
     return (
       <Routes>
         <Route
           path="*"
-          element={<Navigate to={`${pathname}?searchType=AISearch`} replace />}
+          element={
+            <Navigate to={`${pathname}?${defaultParams.toString()}`} replace />
+          }
         />
       </Routes>
     );

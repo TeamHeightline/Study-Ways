@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { Box, Divider, Pagination, Stack, Typography } from '@mui/material';
 import { CourseMicroStoreByID } from '../Store/CourseMicroStoreByID';
 import { observer } from 'mobx-react';
 import RowFragment from './RowFragment';
-import axiosClient from '../../../../../Shared/ServerLayer/QueryLayer/config';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,21 +13,14 @@ type CourseNavigationProps = {
 const CourseNavigation = observer(({ courseStore }: CourseNavigationProps) => {
   const navigate = useNavigate();
 
-  const [courseData, setCourseData] = useState<null | any>(null);
-
-  useEffect(() => {
-    if (courseStore.id) {
-      axiosClient
-        .get(`/page/course-by-id/get-course-by-id/${courseStore.id}`)
-        .then((res) => setCourseData(res.data));
-    }
-  }, [courseStore.id]);
-
+  const author = courseStore.author;
+  const profile = author?.users_userprofile;
+  const authorName =
+    [profile?.firstname, profile?.lastname].filter(Boolean).join(' ') ||
+    author?.username;
   function handleAuthorClick() {
-    navigate(`/author/${courseData?.users_customuser.id}`);
+    if (author) navigate(`/author/${author.id}`);
   }
-
-  const profile = courseData?.users_customuser?.users_userprofile;
 
   return (
     <Stack direction={'row'}>
@@ -36,7 +28,7 @@ const CourseNavigation = observer(({ courseStore }: CourseNavigationProps) => {
         <Typography variant={'subtitle2'} sx={{ p: 1, width: 500 }}>
           {courseStore?.courseName}
         </Typography>
-        {profile && (
+        {author && (
           <Typography
             variant="caption"
             onClick={handleAuthorClick}
@@ -48,7 +40,7 @@ const CourseNavigation = observer(({ courseStore }: CourseNavigationProps) => {
             }}
           >
             <OpenInNewIcon fontSize={'small'} sx={{ mr: 1 }} />
-            {profile?.firstname || ''} {profile?.lastname || ''}
+            {authorName}
           </Typography>
         )}
         <Divider />
@@ -65,11 +57,13 @@ const CourseNavigation = observer(({ courseStore }: CourseNavigationProps) => {
             <Pagination
               sx={{ p: 1, width: '100%' }}
               variant="outlined"
-              count={courseStore?.courseData[0].SameLine.length}
+              count={courseStore?.courseData[0]?.SameLine.length || 1}
               page={courseStore.position.activePage}
               onChange={(event, page) => courseStore.setActivePage(page)}
               color="primary"
-              disabled={Number(courseStore?.courseData[0].SameLine.length) <= 1}
+              disabled={
+                Number(courseStore?.courseData[0]?.SameLine.length || 1) <= 1
+              }
             />
           </Box>
         </Box>

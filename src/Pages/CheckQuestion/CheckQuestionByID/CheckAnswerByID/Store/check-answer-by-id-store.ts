@@ -1,45 +1,17 @@
-import { autorun, makeAutoObservable } from 'mobx';
-import { AnswerNode, Query } from '../../../../../SchemaTypes';
-import { ClientStorage } from '../../../../../Shared/Store/ApolloStorage/ClientStorage';
-import { AnswerDataByID } from './query';
+import { makeAutoObservable } from 'mobx';
+import { ReviewAnswer } from '../../../../Question/question-read-api';
 import axiosClient from '../../../../../Shared/ServerLayer/QueryLayer/config';
 
 export class CheckAnswerByIdStore {
   constructor(answerID) {
     makeAutoObservable(this);
     this.answerID = answerID;
-    autorun(() => this.loadAnswerData());
   }
 
-  clientStorage = ClientStorage;
   answerID?: string;
-  answerData?: AnswerNode;
+  answerData?: ReviewAnswer;
   isAnswerDataLoaded = false;
   hasLoadError = false;
-
-  loadAnswerData() {
-    if (this.answerID) {
-      this.hasLoadError = false;
-      this.clientStorage.client
-        .query<Query>({
-          query: AnswerDataByID,
-          variables: {
-            answerID: this.answerID,
-          },
-          fetchPolicy: 'network-only',
-        })
-        .then(response => response.data.answerById)
-        .then(answerByIDResponseObject => {
-          if (Number(answerByIDResponseObject?.id) === Number(this.answerID)) {
-            this.answerData = answerByIDResponseObject;
-            this.isAnswerDataLoaded = true;
-          }
-        })
-        .catch(() => {
-          this.hasLoadError = true;
-        });
-    }
-  }
 
   // Блок, посвященный созданию отчета об ошибке
   isOpenAnswerReportDialog = false;

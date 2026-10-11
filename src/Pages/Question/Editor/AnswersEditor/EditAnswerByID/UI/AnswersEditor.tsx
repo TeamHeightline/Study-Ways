@@ -34,6 +34,11 @@ export const AnswersEditor = observer(() => (
           <EditAnswerByID
             key={id}
             answer_id={Number(id)}
+            initialData={
+              QuestionEditorStorage.answers.find(
+                answer => String(answer.id) === String(id),
+              )?.data
+            }
             answer_index={index}
           />
         ))

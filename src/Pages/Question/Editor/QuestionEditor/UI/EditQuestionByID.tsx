@@ -17,17 +17,38 @@ import UiAdditionalActions from './ui-additional-actions';
 import ConnectedThemeSelector from './ui-connected-theme-selector';
 import UIQuestionStatistic from './ui-statistic';
 import '../../question-editor.css';
+import {
+  useLazyGetQuestionEditorDataQuery,
+  questionReadApi,
+} from '../../../question-read-api';
+import { useAppDispatch } from '../../../../../App/ReduxStore/RootStore';
+import { UserStorage } from '../../../../../Shared/Store/UserStore/UserStore';
 
 export const EditQuestionByID = observer(
   ({ questionID }: { questionID?: string }) => {
     const store = QuestionEditorStorage;
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    const [loadQuestion] = useLazyGetQuestionEditorDataQuery();
+    const userId = UserStorage.user_data?.id;
     useEffect(() => {
-      store.loadQuestionAuthorsAndThemes();
-    }, [store]);
+      store.fetchQuestionData = id => loadQuestion({ id, userId }).unwrap();
+      store.invalidateQuestionData = id =>
+        dispatch(
+          questionReadApi.util.invalidateTags([
+            { type: 'Question', id },
+            { type: 'QuestionAnswers', id },
+            { type: 'QuestionEditor', id },
+          ]),
+        );
+      return () => {
+        store.fetchQuestionData = undefined;
+        store.invalidateQuestionData = undefined;
+      };
+    }, [store, loadQuestion, userId, dispatch]);
     useEffect(() => {
       if (questionID) store.selectQuestionClickHandler(Number(questionID));
-    }, [questionID, store]);
+    }, [questionID, store, userId, UserStorage.userAccessLevel]);
     const ready =
       store.questionHasBeenSelected &&
       !store.loadingQuestionData &&

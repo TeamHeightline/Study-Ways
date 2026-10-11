@@ -1,16 +1,4 @@
 import { action, makeAutoObservable, reaction, runInAction, toJS } from 'mobx';
-import { ClientStorage } from '../../../../../Shared/Store/ApolloStorage/ClientStorage';
-import {
-  GET_MY_CARD_AUTHOR,
-  GET_QUESTION_TEXT_BY_ID,
-  UPDATE_CARD,
-} from './Struct';
-import {
-  CardAuthorNode,
-  Mutation,
-  Query,
-  QuestionNode,
-} from '../../../../../SchemaTypes';
 import { computedFn } from 'mobx-utils';
 import { SERVER_BASE_URL } from '../../../../../settings';
 import message from 'antd/es/message';
@@ -23,15 +11,7 @@ import { ICardDataInStore } from '../TYPES/card-data-in-store';
 import { saveCard } from '../API/save-card';
 export class CardEditorStorage {
   constructor() {
-    makeAutoObservable(this);
-    reaction(
-      () => this.getField('test_in_card_id', ''),
-      () => this.loadTestInCardText(),
-    );
-    reaction(
-      () => this.getField('test_before_card_id', ''),
-      () => this.loadTestBeforeCardText(),
-    );
+    makeAutoObservable(this, { invalidateCardData: false });
     reaction(
       () => toJS(this.card_object),
       (current, previous) => {
@@ -44,8 +24,7 @@ export class CardEditorStorage {
     );
   }
 
-  // Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
-  clientStorage = ClientStorage;
+  invalidateCardData?: (id: number) => unknown;
   cardDataLoaded = false;
   cardLoadError = false;
   private loadRequest = 0;
@@ -60,8 +39,6 @@ export class CardEditorStorage {
     this.stateOfSave = true;
     this.card_object = undefined;
     this.image_url = '';
-    this.testBeforeCardData = undefined;
-    this.testInCardData = undefined;
     try {
       const cardData = await getCardData(Number(id));
       if (request !== this.loadRequest) return;
@@ -108,6 +85,7 @@ export class CardEditorStorage {
         action(() => {
           if (this.card_object?.id === data.id && version === this.editVersion)
             this.stateOfSave = true;
+          this.invalidateCardData?.(Number(data.id));
           axiosClient
             .post('/page/edit-card-by-id/clear-card-cache')
             .catch(() => void 0);
@@ -119,26 +97,6 @@ export class CardEditorStorage {
             this.hasSaveError = true;
         }),
       );
-  }
-
-  // ---------------------раздел работы с авторами карточек---------------------------------------
-  all_my_card_authors: CardAuthorNode[] | undefined = undefined;
-  authorsDataLoaded = false;
-  loadCardAuthorsFromServer() {
-    if (haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR'])) {
-      this.clientStorage.client
-        .query({
-          query: GET_MY_CARD_AUTHOR,
-          fetchPolicy: 'network-only',
-        })
-        .then(response => response.data.me.cardauthorSet)
-        .then(
-          action(authors_data => {
-            this.all_my_card_authors = authors_data;
-            this.authorsDataLoaded = true;
-          }),
-        );
-    }
   }
 
   // ----------------------раздел работы с данными в самом редакторе ------------------------------
@@ -221,6 +179,7 @@ export class CardEditorStorage {
           // console.log('Success:', result);
           message.success(`${e.file.name} успешно загружен.`);
           this.image_url = result.image;
+          this.invalidateCardData?.(Number(card_id));
         }),
       )
       .catch(
@@ -271,48 +230,6 @@ export class CardEditorStorage {
   }
 
   // ----------------------------------------------------------------
-  // --------Работа с тестом перед и в карточки-----------------
-  testInCardData?: QuestionNode | null = undefined;
-  loadTestInCardText() {
-    const id = this.getField('test_in_card_id', '');
-    this.testInCardData = undefined;
-    if (!id || !haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR'])) return;
-    this.clientStorage.client
-      .query<Query>({
-        query: GET_QUESTION_TEXT_BY_ID,
-        variables: {
-          id,
-        },
-      })
-      .then(
-        action(response => {
-          if (this.getField('test_in_card_id', '') === id)
-            this.testInCardData = response.data.questionById;
-        }),
-      )
-      .catch(() => void 0);
-  }
-  testBeforeCardData?: QuestionNode | null = undefined;
-  loadTestBeforeCardText() {
-    const id = this.getField('test_before_card_id', '');
-    this.testBeforeCardData = undefined;
-    if (!id || !haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR'])) return;
-    this.clientStorage.client
-      .query<Query>({
-        query: GET_QUESTION_TEXT_BY_ID,
-        variables: {
-          id,
-        },
-      })
-      .then(
-        action(response => {
-          if (this.getField('test_before_card_id', '') === id)
-            this.testBeforeCardData = response.data.questionById;
-        }),
-      )
-      .catch(() => void 0);
-  }
-
   // -------Работа с созданием копии --------------------
 
   isOpenCopyCardDialog = false;

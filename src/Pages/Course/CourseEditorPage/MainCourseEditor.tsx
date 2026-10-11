@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import { useSelector } from 'react-redux';
+import React, { useRef, useState } from 'react';
+import { gql, useMutation } from '@apollo/client';
 import {
   Alert,
   Button,
@@ -25,8 +24,14 @@ import {
   courseStats,
   normalizeCourseData,
 } from '../EditCourseByID/course-data';
-import { RootState, useAppDispatch } from '../../../App/ReduxStore/RootStore';
-import { loadCourseDataThunk } from '../Page/redux-store/async-functions';
+import { useAppDispatch } from '../../../App/ReduxStore/RootStore';
+import {
+  courseApi,
+  useGetOwnCoursesQuery,
+  OwnCourseSummary,
+} from '../course-api';
+import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
+import { observer } from 'mobx-react';
 import { FILE_URL } from '../../../settings';
 import './course-editor-page.css';
 
@@ -41,69 +46,22 @@ export const CREATE_COURSE_WITH_DEFAULT_VALUE = gql`
     }
   }
 `;
-export const GET_OWN_COURSE = gql`
-  query GET_OWN_COURSE {
-    me {
-      cardcourseSet {
-        courseData
-        id
-        name
-      }
-    }
-  }
-`;
-interface OwnCourse {
-  id: string;
-  name?: string | null;
-  courseData: unknown;
-}
-interface OwnCoursesData {
-  me?: { cardcourseSet?: OwnCourse[] };
-}
-
-export default function MainCourseEditor() {
+const MainCourseEditor = observer(function MainCourseEditor() {
+  const userId = UserStorage.user_data?.id;
   const [selectedCourseID, setSelectedCourseID] = useState<string>();
   const [search, setSearch] = useState('');
   const [createError, setCreateError] = useState(false);
   const createLock = useRef(false);
-  const catalog = useSelector(
-    (state: RootState) => state.coursePage.courses_data,
-  );
   const dispatch = useAppDispatch();
-  const { data, loading, error, refetch } = useQuery<OwnCoursesData>(
-    GET_OWN_COURSE,
-    { fetchPolicy: 'cache-and-network' },
-  );
+  const {
+    currentData: data,
+    isFetching: loading,
+    error,
+    refetch,
+  } = useGetOwnCoursesQuery(userId, { skip: !userId });
   const [createCourse, { loading: creating }] = useMutation(
     CREATE_COURSE_WITH_DEFAULT_VALUE,
-    {
-      update(cache, result) {
-        const course = result.data?.createCardCourse?.course;
-        const existing = cache.readQuery<OwnCoursesData>({
-          query: GET_OWN_COURSE,
-        });
-        if (!course?.id || !existing?.me) return;
-        const courses = existing.me.cardcourseSet || [];
-        cache.writeQuery({
-          query: GET_OWN_COURSE,
-          data: {
-            ...existing,
-            me: {
-              ...existing.me,
-              cardcourseSet: courses.some(
-                item => String(item.id) === String(course.id),
-              )
-                ? courses
-                : [...courses, course],
-            },
-          },
-        });
-      },
-    },
   );
-  useEffect(() => {
-    dispatch(loadCourseDataThunk());
-  }, [dispatch]);
 
   const create = async () => {
     if (createLock.current) return;
@@ -115,6 +73,22 @@ export default function MainCourseEditor() {
       });
       const id = result.data?.createCardCourse?.course?.id;
       if (!id) throw new Error('No course ID returned');
+      const course = result.data?.createCardCourse?.course;
+      if (course) {
+        const summary: OwnCourseSummary = {
+          id: String(id),
+          name: course.name ?? null,
+          courseData: course.courseData,
+          cards_cardcourseimage: null,
+        };
+        dispatch(
+          courseApi.util.updateQueryData('getOwnCourses', userId, draft => {
+            if (!draft.some(item => item.id === String(id)))
+              draft.unshift(summary);
+          }),
+        );
+      }
+      dispatch(courseApi.util.invalidateTags(['OwnCourses']));
       setSearch('');
       setSelectedCourseID(String(id));
     } catch {
@@ -125,7 +99,6 @@ export default function MainCourseEditor() {
   };
   const refresh = () => {
     void refetch().catch(() => void 0);
-    dispatch(loadCourseDataThunk());
   };
   if (selectedCourseID)
     return (
@@ -140,12 +113,10 @@ export default function MainCourseEditor() {
       />
     );
 
-  // The owned-course query is authoritative. The catalog only supplies optional covers.
-  const courses = (data?.me?.cardcourseSet || []).map(course => ({
+  const courses = (data || []).map(course => ({
     ...course,
     stats: courseStats(normalizeCourseData(course.courseData)),
-    cover: catalog.find(item => String(item.id) === String(course.id))
-      ?.cards_cardcourseimage?.image,
+    cover: course.cards_cardcourseimage?.image,
   }));
   const query = search.trim().toLocaleLowerCase('ru');
   const visible = courses.filter(course =>
@@ -361,4 +332,5 @@ export default function MainCourseEditor() {
       )}
     </div>
   );
-}
+});
+export default MainCourseEditor;

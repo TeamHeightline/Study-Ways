@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { gql, useQuery } from '@apollo/client';
 import {
   Alert,
   Button,
@@ -22,19 +21,11 @@ import PlayCircleOutlineRoundedIcon from '@mui/icons-material/PlayCircleOutlineR
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
-import { SERVER_BASE_URL } from '../../../settings';
+import { FILE_URL } from '../../../settings';
+import { useGetCourseCardPreviewQuery } from '../course-api';
+import { skipToken } from '@reduxjs/toolkit/query';
 import { CardSelector } from '../../Cards/Selector/UI/CardSelector';
 import { CourseElementData, cardIDs, hasMaterial } from './course-data';
-
-export const GET_EDITOR_CARD = gql`
-  query GET_COURSE_EDITOR_CARD($id: ID!) {
-    cardById(id: $id) {
-      id
-      title
-      cardContentType
-    }
-  }
-`;
 
 interface Props {
   item_data: CourseElementData;
@@ -57,23 +48,20 @@ export default function EditCourseItem({
   const ids = cardIDs(item.id);
   const link = item.type === 'course-link';
   const filled = hasMaterial(item);
-  const { data, loading, error } = useQuery(GET_EDITOR_CARD, {
-    variables: { id: ids[0] },
-    skip: link || !ids.length,
-  });
-  const card = data?.cardById;
+  const {
+    currentData: card,
+    isFetching: loading,
+    error,
+  } = useGetCourseCardPreviewQuery(
+    link || !ids.length ? skipToken : Number(ids[0]),
+  );
   useEffect(() => {
-    setImage('');
-    if (link || !ids[0]) return;
-    const controller = new AbortController();
-    fetch(`${SERVER_BASE_URL}/cardfiles/card?id=${ids[0]}`, {
-      signal: controller.signal,
-    })
-      .then(response => response.json())
-      .then(result => setImage(result?.[0]?.image || ''))
-      .catch(() => void 0);
-    return () => controller.abort();
-  }, [item.id, link]);
+    setImage(
+      card?.cards_cardimage?.image
+        ? `${FILE_URL}/${card.cards_cardimage.image}`
+        : '',
+    );
+  }, [card?.cards_cardimage?.image]);
   const configure = () => {
     setDraft({ ...item });
     setChoosing(false);
@@ -105,7 +93,7 @@ export default function EditCourseItem({
     setOpen(false);
   };
   const contentType = Number(
-    String(card?.cardContentType ?? '').replace(/\D/g, ''),
+    String(card?.card_content_type ?? '').replace(/\D/g, ''),
   );
   const title = link
     ? 'Переход на курс'

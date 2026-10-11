@@ -1,26 +1,15 @@
-import { makeAutoObservable, reaction, toJS } from 'mobx';
+import { action, makeAutoObservable, reaction, runInAction, toJS } from 'mobx';
 import { ClientStorage } from '../../../../../Shared/Store/ApolloStorage/ClientStorage';
 import {
   CREATE_DEEP_QUESTION_COPY,
   CREATE_NEW_ANSWER,
   CREATE_NEW_QUESTION,
-  GET_QUESTION_DATA_BY_ID,
-  MY_QUESTIONS_BASIC_DATA,
-  THEMES_AND_AUTHORS_FOR_QUESTION,
 } from './Struct';
-import {
-  AnswerNode,
-  Maybe,
-  Mutation,
-  Query,
-  QuestionAuthorNode,
-  QuestionNode,
-  QuestionThemesNode,
-} from '../../../../../SchemaTypes';
-import { compareByIdDescending } from '../../../../../Shared/Utils/array';
+import { AnswerNode, Mutation } from '../../../../../SchemaTypes';
+import { EditorAnswer, QuestionEditorData } from '../../../question-read-api';
 import { Answer, answerStoreType } from './AnswersStorage';
 import { UserStorage } from '../../../../../Shared/Store/UserStore/UserStore';
-import { SERVER_BASE_URL } from '../../../../../settings';
+import { FILE_URL, SERVER_BASE_URL } from '../../../../../settings';
 import axiosClient from '../../../../../Shared/ServerLayer/QueryLayer/config';
 
 export enum variantsOfStateOfSave {
@@ -31,7 +20,12 @@ export enum variantsOfStateOfSave {
 
 class QuestionEditor {
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable<this, 'applyingServerData' | 'editVersion'>(this, {
+      fetchQuestionData: false,
+      invalidateQuestionData: false,
+      applyingServerData: false,
+      editVersion: false,
+    });
     reaction(
       () => this.selectedQuestionText,
       () => this.autoSave(),
@@ -54,17 +48,11 @@ class QuestionEditor {
     );
   }
 
-  // Получаем прямой доступ и подписку на изменение в хранилище @client для Apollo (для Query и Mutation)
+  // Existing write operations use Apollo; server reads are provided by RTK Query.
   clientStorage = ClientStorage;
 
   // доступ к данным о пользователе, чтобы можно было проверять уровень доступа
   userStorage = UserStorage;
-
-  // Все темы для вопросов
-  allThemesForQuestion: Maybe<QuestionThemesNode[]> | any = [];
-
-  // Все авторы для вопросов
-  allAuthorsForQuestion: Maybe<QuestionAuthorNode[]> | any = [];
 
   // Флаг, указывающий на то, был ли выбран вопрос в селекторе
   questionHasBeenSelected = false;
@@ -151,82 +139,37 @@ class QuestionEditor {
   // Флаг, указывающий на то, использовать превью или нет
   showPreview = false;
 
-  // Функция для получения данных о всех вопросов с сервера
-  loadQuestionAuthorsAndThemes() {
-    if (
-      this.userStorage.userAccessLevel === 'TEACHER' ||
-      this.userStorage.userAccessLevel === 'ADMIN'
-    ) {
-      this.clientStorage.client
-        .query({
-          query: THEMES_AND_AUTHORS_FOR_QUESTION,
-          fetchPolicy: 'network-only',
-        })
-        .then(response => {
-          this.allThemesForQuestion = [
-            ...(response?.data?.questionThemes ?? []),
-          ].sort(compareByIdDescending);
-          this.allAuthorsForQuestion = [
-            ...(response?.data?.me?.questionauthorSet ?? []),
-          ].sort(compareByIdDescending);
-          this.AuthorsAndThemesHasBeenLoaded = true;
-        })
-        .catch(() => void 0);
-    }
-  }
-
-  AuthorsAndThemesHasBeenLoaded = false;
-
-  loadBasicQuestionData() {
-    this.loadingBasicQuestionData = true;
-    if (
-      this.userStorage.userAccessLevel === 'TEACHER' ||
-      this.userStorage.userAccessLevel === 'ADMIN'
-    ) {
-      this.clientStorage.client
-        .query({ query: MY_QUESTIONS_BASIC_DATA, fetchPolicy: 'network-only' })
-        .then(response => response?.data?.me?.questionSet)
-        .then((questionsArray: QuestionNode[] | undefined) => {
-          if (questionsArray) {
-            this.basicQuestionData = [...questionsArray].sort(
-              compareByIdDescending,
-            );
-          }
-          this.loadingBasicQuestionData = false;
-        });
-    }
-  }
-
-  basicQuestionData: QuestionNode[] = [];
-  loadingBasicQuestionData = true;
   loadingQuestionData = false;
   questionLoadError = false;
   private questionLoadRequest = 0;
 
+  fetchQuestionData?: (id: number) => Promise<QuestionEditorData | null>;
+  invalidateQuestionData?: (id: number) => unknown;
+  private applyingServerData = false;
   selectQuestionClickHandler(id: number) {
     const request = ++this.questionLoadRequest;
+    clearTimeout(this.savingTimer);
+    this.stateOfSave = variantsOfStateOfSave.SAVED;
     this.clearAllStatisticData();
     this.questionHasBeenSelected = false;
+    this.loadingQuestionData = true;
     this.questionLoadError = false;
 
     if (
       this.userStorage.userAccessLevel === 'TEACHER' ||
       this.userStorage.userAccessLevel === 'ADMIN'
     ) {
-      this.clientStorage.client
-        .query<Query>({
-          query: GET_QUESTION_DATA_BY_ID,
-          fetchPolicy: 'network-only',
-          variables: { id },
-        })
-        .then(response => response.data.questionById)
+      this.fetchQuestionData?.(id)
         .then(question_data => {
           if (request !== this.questionLoadRequest) return;
           if (!question_data) throw new Error('Question not found');
-          if (question_data) {
+          this.applyingServerData = true;
+          runInAction(() => {
             this.selectedQuestionID = Number(question_data.id);
             this.selectedQuestionText = question_data.text;
-            this.selectedQuestionImageURL = '';
+            this.selectedQuestionImageURL = question_data.image
+              ? `${FILE_URL}/${question_data.image}`
+              : '';
             this.showPreview = false;
             if (question_data.numberOfShowingAnswers) {
               this.selectedQuestionNumberOfShowingAnswers = String(
@@ -258,23 +201,26 @@ class QuestionEditor {
               const __Answers: Answer[] = [];
               [...question_data.answers]
                 .sort((a, b) => Number(a.id) - Number(b.id))
-                .filter((answer: AnswerNode) => !answer.isDeleted)
-                .map((answer: AnswerNode) =>
+                .filter((answer: EditorAnswer) => !answer.isDeleted)
+                .map((answer: EditorAnswer) =>
                   __Answers.push(new Answer(this, answer)),
                 );
               this.answers = __Answers;
             }
             this.questionHasBeenSelected = true;
             this.loadingQuestionData = false;
-            this.deliverFromServerImageURL();
-          }
+          });
+          this.applyingServerData = false;
         })
-        .catch(() => {
-          if (request === this.questionLoadRequest) {
-            this.loadingQuestionData = false;
-            this.questionLoadError = true;
-          }
-        });
+        .catch(
+          action(() => {
+            this.applyingServerData = false;
+            if (request === this.questionLoadRequest) {
+              this.loadingQuestionData = false;
+              this.questionLoadError = true;
+            }
+          }),
+        );
     }
   }
 
@@ -315,6 +261,7 @@ class QuestionEditor {
       .then(response => response.json())
       .then(() => {
         this.deliverFromServerImageURL();
+        this.invalidateQuestionData?.(this.selectedQuestionID);
       })
       .catch(() => {
         this.deliverFromServerImageURL();
@@ -325,6 +272,7 @@ class QuestionEditor {
 
   // Таймер для сохранения
   savingTimer: any;
+  private editVersion = 0;
 
   // Функция для сохранения даных на сервере
   saveDataOnServer() {
@@ -332,6 +280,8 @@ class QuestionEditor {
       this.userStorage.userAccessLevel === 'TEACHER' ||
       this.userStorage.userAccessLevel === 'ADMIN'
     ) {
+      const id = this.selectedQuestionID;
+      const version = this.editVersion;
       axiosClient
         .post('/page/edit-question-by-id/update-question', {
           id: this.selectedQuestionID,
@@ -341,21 +291,26 @@ class QuestionEditor {
             this.selectedQuestionNumberOfShowingAnswers,
           ),
         })
-        .then(response => {
-          console.log(response);
-          if (response.data.id) {
-            this.stateOfSave = variantsOfStateOfSave.SAVED;
-          } else {
-            this.stateOfSave = variantsOfStateOfSave.ERROR;
-          }
-        })
-        .then(() => {
-          this.loadBasicQuestionData();
-          this.simpleUpdateFlag = true;
-        })
-        .catch(() => {
-          this.stateOfSave = variantsOfStateOfSave.ERROR;
-        });
+        .then(
+          action(response => {
+            if (
+              this.selectedQuestionID === id &&
+              this.editVersion === version
+            ) {
+              this.stateOfSave = response.data.id
+                ? variantsOfStateOfSave.SAVED
+                : variantsOfStateOfSave.ERROR;
+            }
+            if (response.data.id) this.invalidateQuestionData?.(id);
+            this.simpleUpdateFlag = true;
+          }),
+        )
+        .catch(
+          action(() => {
+            if (this.selectedQuestionID === id && this.editVersion === version)
+              this.stateOfSave = variantsOfStateOfSave.ERROR;
+          }),
+        );
     }
   }
 
@@ -365,6 +320,8 @@ class QuestionEditor {
 
   // Функция для авто сохранений
   autoSave() {
+    if (this.applyingServerData || !this.questionHasBeenSelected) return;
+    this.editVersion += 1;
     this.stateOfSave = variantsOfStateOfSave.SAVING;
     clearTimeout(this.savingTimer);
     this.savingTimer = setTimeout(() => {
@@ -470,10 +427,10 @@ class QuestionEditor {
         },
       })
       .then(response => {
-        console.log(response.data);
         this.addCreatedAnswerToAnswersObjectArray(
           response.data.createAnswer.answer,
         );
+        this.invalidateQuestionData?.(this.selectedQuestionID);
         // this.selectQuestionClickHandler(this.selectedQuestionID)
       })
       .catch(() => void 0);

@@ -21,16 +21,3 @@ export const CREATE_QUESTION_SEQUENCE = gql`
     }
   }
 `;
-
-export const GET_MY_QUESTION_SEQUENCE = gql`
-  query GET_MY_QUESTION_SEQUENCE {
-    me {
-      questionsequenceSet {
-        sequenceData
-        id
-        name
-        description
-      }
-    }
-  }
-`;

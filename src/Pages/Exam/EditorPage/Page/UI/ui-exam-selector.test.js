@@ -4,23 +4,15 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { MemoryRouter, Route, Routes, useParams } from 'react-router-dom';
-import {
-  ApolloClient,
-  ApolloLink,
-  InMemoryCache,
-  Observable,
-} from '@apollo/client';
 import UIExamSelector from './ui-exam-selector';
 import { examEditorPageReducer } from '../redux-store/reducer';
 import axiosClient from '../../../../../Shared/ServerLayer/QueryLayer/config';
-import { ClientStorage } from '../../../../../Shared/Store/ApolloStorage/ClientStorage';
+import { questionSequencesApi } from '../../../../QuestionSequence/question-sequences-api';
 
 jest.mock('../../../../../Shared/ServerLayer/QueryLayer/config', () => ({
   get: jest.fn(),
   post: jest.fn(),
-}));
-jest.mock('../../../../../Shared/Store/ApolloStorage/ClientStorage', () => ({
-  ClientStorage: { client: null },
+  request: jest.fn(),
 }));
 
 const act = React.act || legacyAct;
@@ -73,37 +65,33 @@ beforeEach(() => {
     configurable: true,
     value: { writeText: jest.fn().mockResolvedValue(undefined) },
   });
-  ClientStorage.client = new ApolloClient({
-    cache: new InMemoryCache(),
-    link: new ApolloLink(
-      () =>
-        new Observable(observer => {
-          if (failSeries) observer.error(new Error('Unavailable'));
-          else {
-            observer.next({
-              data: {
-                questionSequence: [
-                  {
-                    id: '42',
-                    name: 'Механика',
-                    sequenceData: { sequence: [11, 12, 13] },
-                  },
-                ],
-              },
-            });
-            observer.complete();
-          }
-        }),
-    ),
+  axiosClient.request.mockImplementation(async () => {
+    if (failSeries) throw new Error('Unavailable');
+    return {
+      data: [
+        {
+          id: '42',
+          name: 'Механика',
+          sequenceData: { sequence: [11, 12, 13] },
+        },
+      ],
+    };
   });
-  store = configureStore({ reducer: { examEditorPageReducer } });
+  store = configureStore({
+    reducer: {
+      examEditorPageReducer,
+      [questionSequencesApi.reducerPath]: questionSequencesApi.reducer,
+    },
+    middleware: getDefault =>
+      getDefault().concat(questionSequencesApi.middleware),
+  });
   container = document.createElement('div');
   document.body.appendChild(container);
   root = createRoot(container);
 });
 afterEach(async () => {
   await act(async () => root.unmount());
-  ClientStorage.client.stop();
+  store.dispatch(questionSequencesApi.util.resetApiState());
   container.remove();
   jest.clearAllTimers();
   jest.useRealTimers();

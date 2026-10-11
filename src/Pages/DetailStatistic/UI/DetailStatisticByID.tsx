@@ -7,6 +7,9 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { DetailStatisticStoreByID } from '../Store/DetailStatisticStoreByID';
 import { Avatar, Button, Skeleton, Stack, Tooltip } from '@mui/material';
+import { useGetAttemptQuery } from '../Store/attempt-api';
+import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
+import { runInAction } from 'mobx';
 import { ChartAndStepByStepStatistic } from './ChartAndStepByStepStatistic';
 
 interface IDetailStatisticByIDProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -18,9 +21,25 @@ export const DetailStatisticByID = observer(
     const [statisticByIDStore] = useState(
       () => new DetailStatisticStoreByID(attempt_id),
     );
+    const query = useGetAttemptQuery({
+      id: attempt_id,
+      userId: UserStorage.user_data?.id,
+    });
     useEffect(() => {
-      statisticByIDStore.changeAttemptID(attempt_id);
-    }, [attempt_id]);
+      runInAction(() => {
+        statisticByIDStore.changeAttemptID(attempt_id);
+        statisticByIDStore.attemptData = query.currentData;
+        statisticByIDStore.questionText = query.currentData?.questionText || '';
+        statisticByIDStore.loadError = query.isError;
+        statisticByIDStore.reload = query.refetch;
+      });
+    }, [
+      attempt_id,
+      query.currentData,
+      query.isError,
+      query.refetch,
+      statisticByIDStore,
+    ]);
     const textColor = statisticByIDStore.dataForRow.questionHasBeenCompleted
       ? ''
       : 'warning.main';

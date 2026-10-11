@@ -1,4 +1,10 @@
-import { getThemeDescendantIds, toThemeTreeData } from './model';
+import {
+  getThemePaths,
+  parseThemeId,
+  themeSearchUrl,
+  getThemeDescendantIds,
+  toThemeTreeData,
+} from './model';
 
 const themes = [
   { id: 1, text: 'Физика', parentId: null },
@@ -40,4 +46,53 @@ test('deep trees and historical duplicate or cyclic relationships cannot overflo
       1,
     ),
   ).toEqual(['1', '2']);
+});
+
+test('breadcrumbs contain every ancestor in root-to-leaf order, including multiple selected themes', () => {
+  expect(
+    getThemePaths(themes, [themes[2], themes[3], themes[2]]).map(path =>
+      path.map(theme => theme.id),
+    ),
+  ).toEqual([
+    [1, 2, 3],
+    [1, 4],
+  ]);
+  const deep = Array.from({ length: 20000 }, (_, index) => ({
+    id: index + 1,
+    text: String(index),
+    parentId: index || null,
+  }));
+  const [path] = getThemePaths(deep, [deep[19999]]);
+  expect(path).toHaveLength(20000);
+  expect(path[0].id).toBe(1);
+  expect(path[19999].id).toBe(20000);
+});
+
+test('missing ancestors and historical cycles preserve the available path without looping', () => {
+  const missing = { id: 90, text: 'Новая тема', parentId: 89 };
+  expect(getThemePaths(themes, [missing])).toEqual([[missing]]);
+  const cycle = [
+    { id: 1, text: 'A', parentId: 2 },
+    { id: 2, text: 'B', parentId: 1 },
+  ];
+  expect(getThemePaths(cycle, [cycle[0]])[0].map(theme => theme.id)).toEqual([
+    2, 1,
+  ]);
+  expect(getThemePaths(themes, [])).toEqual([]);
+});
+
+test('theme links select ordinary search and only valid database IDs are accepted', () => {
+  expect(themeSearchUrl(3)).toBe('/cards?searchType=DSearch&theme=3');
+  expect(parseThemeId('2147483647')).toBe(2147483647);
+  for (const value of [
+    null,
+    '',
+    '0',
+    '-1',
+    '1.2',
+    'abc',
+    '2147483648',
+    '1 OR 1=1',
+  ])
+    expect(parseThemeId(value)).toBeUndefined();
 });

@@ -1,70 +1,65 @@
-import { observer } from 'mobx-react';
-import React, { useEffect, useState } from 'react';
-import { useQuery } from '@apollo/client';
-import { GET_WRONG_ANSWERS } from '../Store/Query';
-import { Card, Grow, Typography } from '@mui/material';
+import React from 'react';
+import { Alert, Button, Card, Grow, Typography } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
-import { Query } from '../../../SchemaTypes';
-import { SERVER_BASE_URL } from '../../../settings';
 import Paper from '@mui/material/Paper';
-
+import { observer } from 'mobx-react';
+import { FILE_URL } from '../../../settings';
+import { useGetEditorAnswerQuery } from '../../Question/question-read-api';
+import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 interface IWrongAnswerByIDProps extends React.HTMLAttributes<HTMLDivElement> {
   answer_id: string | number;
 }
 export const WrongAnswerByID = observer(
   ({ answer_id, ...props }: IWrongAnswerByIDProps) => {
-    const { data: answer_data, loading } = useQuery<Query>(GET_WRONG_ANSWERS, {
-      variables: {
-        id: answer_id,
-      },
+    const {
+      currentData: answer,
+      isFetching,
+      isError,
+      refetch,
+    } = useGetEditorAnswerQuery({
+      id: Number(answer_id),
+      userId: UserStorage.user_data?.id,
     });
-    const [answerImageUrl, setAnswerImageUrl] = useState<undefined | string>(
-      undefined,
-    );
-
-    function getImageUrlFromServer() {
-      if (answer_id) {
-        fetch(`${SERVER_BASE_URL}/files/answer?id=${answer_id}`)
-          .then((response) => response.json())
-          .then((data) => {
-            if (data && data[0]?.image) {
-              setAnswerImageUrl(data[0].image);
-            }
-          })
-          .catch(() => void 0);
-      }
-    }
-    useEffect(() => {
-      getImageUrlFromServer();
-    }, [answer_id]);
-
-    // if(loading){
-    //     return (<Skeleton sx={{width: 385, height: 400}} variant="text"/>)
-    // }
+    if (isError)
+      return (
+        <Alert
+          severity="error"
+          action={<Button onClick={() => refetch()}>Повторить</Button>}
+        >
+          Не удалось загрузить ответ.
+        </Alert>
+      );
     return (
-      <Grow in={!loading}>
+      <Grow in={!isFetching && !!answer}>
         <Paper {...props} className="sw-mistake" elevation={0}>
-          <Card
-            variant="outlined"
-            className="sw-mistake-card"
-          >
+          <Card variant="outlined" className="sw-mistake-card">
             <div className="sw-mistake-status">
-              {answer_data?.answerById?.isTrue ? 'Верный ответ пропущен' : 'Неверный ответ выбран'}
-              <small>{answer_data?.answerById?.isTrue ? 'Этот вариант нужно было отметить.' : 'Этот вариант не нужно было отмечать.'}</small>
+              {answer?.isTrue
+                ? 'Верный ответ пропущен'
+                : 'Неверный ответ выбран'}
+              <small>
+                {answer?.isTrue
+                  ? 'Этот вариант нужно было отметить.'
+                  : 'Этот вариант не нужно было отмечать.'}
+              </small>
             </div>
-            {answerImageUrl && (
+            {answer?.image && (
               <CardMedia
                 component="img"
                 alt="Изображение к ответу с ошибкой"
                 className="sw-mistake-image"
-                image={answerImageUrl}
+                image={`${FILE_URL}/${answer.image}`}
               />
             )}
-            {answer_data?.answerById?.text && (
+            {answer?.text && (
               <CardContent>
-                <Typography className="sw-mistake-text" variant="body1" color="textSecondary">
-                  {answer_data?.answerById?.text}
+                <Typography
+                  className="sw-mistake-text"
+                  variant="body1"
+                  color="textSecondary"
+                >
+                  {answer.text}
                 </Typography>
               </CardContent>
             )}

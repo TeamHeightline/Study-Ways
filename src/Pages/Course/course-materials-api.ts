@@ -9,19 +9,28 @@ export interface CoursePageCard {
   cards_cardimage: { image: string } | null;
 }
 
-export const courseMaterialsApi = studyWaysApi.injectEndpoints({
-  endpoints: builder => ({
-    getCoursePageCards: builder.query<
-      CoursePageCard[],
-      { courseId: number; page: number }
-    >({
-      query: ({ courseId, page }) => ({
-        url: `/page/course-by-id/${courseId}/cards`,
-        params: { page },
+export const courseMaterialsApi = studyWaysApi
+  .enhanceEndpoints({ addTagTypes: ['Card', 'Course'] })
+  .injectEndpoints({
+    endpoints: builder => ({
+      getCoursePageCards: builder.query<
+        CoursePageCard[],
+        { courseId: number; page: number }
+      >({
+        providesTags: (result, error, { courseId }) => [
+          { type: 'Course', id: courseId },
+          ...(result ?? []).map(card => ({
+            type: 'Card' as const,
+            id: card.id,
+          })),
+        ],
+        query: ({ courseId, page }) => ({
+          url: `/page/course-by-id/${courseId}/cards`,
+          params: { page },
+        }),
       }),
     }),
-  }),
-});
+  });
 
 export function useCoursePageMaterials(
   courseId: number,

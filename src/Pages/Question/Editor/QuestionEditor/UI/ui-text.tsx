@@ -1,4 +1,5 @@
 import React from 'react';
+import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import { TextField } from '@mui/material';
 import { QuestionEditorStorage } from '../Store/QuestionEditorStorage';
@@ -13,8 +14,8 @@ export const QuestionText = observer(() => (
     maxRows={12}
     variant="outlined"
     value={QuestionEditorStorage.selectedQuestionText || ''}
-    onChange={event => {
+    onChange={action(event => {
       QuestionEditorStorage.selectedQuestionText = event.target.value;
-    }}
+    })}
   />
 ));

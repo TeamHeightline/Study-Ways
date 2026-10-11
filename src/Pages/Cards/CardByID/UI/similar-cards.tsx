@@ -1,3 +1,6 @@
+import { useGetSimilarCardsQuery } from '../API/card-api';
+import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
+import { skipToken } from '@reduxjs/toolkit/query';
 import { observer } from 'mobx-react';
 import React from 'react';
 import { PaperProps } from '@mui/material/Paper/Paper';
@@ -13,19 +16,26 @@ interface ISimilarCardsProps extends PaperProps {
 const SimilarCards = observer(
   ({ card_store, ...props }: ISimilarCardsProps) => {
     const navigate = useNavigate();
+    const { currentData: similarCardsID = [] } = useGetSimilarCardsQuery(
+      card_store.id
+        ? { id: card_store.id, userId: String(UserStorage.userIDForRecombee) }
+        : skipToken,
+    );
 
-    const onCardClick = (cardID) => () => {
+    const onCardClick = cardID => () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       navigate(`/card/${cardID}`);
     };
-    if (!card_store.similarCardsID?.length) return null;
+    if (!similarCardsID?.length) return null;
     return (
       <Paper elevation={0} {...props} className="sw-material-related">
         <Stack className="sw-material-related-heading">
-          <Typography variant="h6" component="h2">Похожие карточки</Typography>
+          <Typography variant="h6" component="h2">
+            Похожие карточки
+          </Typography>
         </Stack>
         <Grid container className="sw-material-related-grid">
-          {card_store.similarCardsID?.map((cardID) => (
+          {similarCardsID?.map(cardID => (
             <Grid item xs={12} sm={6} md={'auto'} key={cardID}>
               <CardMicroView
                 cardID={Number(cardID)}

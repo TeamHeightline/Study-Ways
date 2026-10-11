@@ -1,8 +1,16 @@
 import { observer } from 'mobx-react';
-import React, { useState } from 'react';
+import React from 'react';
 import { PaperProps } from '@mui/material/Paper/Paper';
-import { Card, CardActionArea, Chip, Paper, Typography } from '@mui/material';
-import { QuestionNanoViewByIdStore } from '../Store/question-nano-view-by-id-store';
+import {
+  Alert,
+  Button,
+  Card,
+  CardActionArea,
+  Chip,
+  Paper,
+  Typography,
+} from '@mui/material';
+import { useQuestionPreview } from '../Store/use-question-preview';
 import SkeletonNanoView from './skeleton-nano-view';
 import QuestionImage from './question-image';
 
@@ -17,9 +25,22 @@ export const questionNanoViewCardSize = {
 
 const QuestionNanoViewByID = observer(
   ({ question_id, ...props }: IQuestionNanoViewByIDProps) => {
-    const [QuestionObject] = useState(
-      new QuestionNanoViewByIdStore(question_id),
-    );
+    const QuestionObject = useQuestionPreview(question_id);
+    if (QuestionObject.hasLoadError)
+      return (
+        <Alert
+          severity="error"
+          action={
+            <Button
+              onClick={() => QuestionObject.loadQuestionTextNanoViewByID()}
+            >
+              Повторить
+            </Button>
+          }
+        >
+          Не удалось загрузить вопрос.
+        </Alert>
+      );
     if (!QuestionObject.dataHasBeenLoaded) {
       return <SkeletonNanoView />;
     }

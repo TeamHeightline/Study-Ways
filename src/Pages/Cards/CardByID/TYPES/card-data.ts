@@ -1,4 +1,14 @@
 export interface ICardData {
+  cards_cardimage?: { image: string } | null;
+  users_customuser?: {
+    id: number;
+    username: string;
+    users_userprofile: {
+      firstname: string | null;
+      lastname: string | null;
+      avatar_src: string | null;
+    } | null;
+  } | null;
   id: number;
   title: string;
   text: string;
@@ -43,5 +53,5 @@ export interface CardsUnstructuredtheme {
   id: number;
   text: string;
   created_by_id: number;
-  parent_id: number;
+  parent_id: number | null;
 }

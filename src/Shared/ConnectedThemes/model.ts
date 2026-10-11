@@ -4,6 +4,43 @@ export interface ConnectedTheme {
   parentId: number | null;
 }
 
+export function themeSearchUrl(id: number) {
+  return `/cards?searchType=DSearch&theme=${id}`;
+}
+
+export function parseThemeId(value: string | null): number | undefined {
+  if (!value || !/^\d+$/.test(value)) return undefined;
+  const id = Number(value);
+  return Number.isSafeInteger(id) && id > 0 && id <= 2147483647
+    ? id
+    : undefined;
+}
+
+export function getThemePaths(
+  themes: readonly ConnectedTheme[],
+  selected: readonly ConnectedTheme[],
+): ConnectedTheme[][] {
+  const byId = new Map(themes.map(theme => [theme.id, theme]));
+  for (const theme of selected)
+    if (!byId.has(theme.id)) byId.set(theme.id, theme);
+  const paths: ConnectedTheme[][] = [];
+  const added = new Set<number>();
+  for (const leaf of selected) {
+    if (added.has(leaf.id)) continue;
+    added.add(leaf.id);
+    const path: ConnectedTheme[] = [];
+    const visited = new Set<number>();
+    let theme = byId.get(leaf.id);
+    while (theme && !visited.has(theme.id)) {
+      visited.add(theme.id);
+      path.push(theme);
+      theme = theme.parentId === null ? undefined : byId.get(theme.parentId);
+    }
+    paths.push(path.reverse());
+  }
+  return paths;
+}
+
 export function toThemeTreeData(themes: readonly ConnectedTheme[]) {
   return themes.map(theme => ({
     id: String(theme.id),

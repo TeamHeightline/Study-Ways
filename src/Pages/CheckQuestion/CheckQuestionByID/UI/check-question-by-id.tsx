@@ -9,9 +9,10 @@ import {
   Typography,
 } from '@mui/material';
 import GoBackButton from './go-back-button';
-import { CheckQuestionByIdStore } from '../Store/check-question-by-id-store';
 import CheckQuestionTitle from './qcheck-question-title';
-import { QuestionNanoViewByIdStore } from '../../../Question/QuestionNanoViewByID/Store/question-nano-view-by-id-store';
+import { useQuestionPreview } from '../../../Question/QuestionNanoViewByID/Store/use-question-preview';
+import { useGetReviewAnswersQuery } from '../../../Question/question-read-api';
+import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
 import QuestionTextAndImage from './question-text-and-image';
 import CheckAnswerIndex from '../CheckAnswerByID/UI';
 import UIEditQuestionButton from './ui-edit-question-button';
@@ -23,14 +24,18 @@ interface ICheckQuestionByIDProps extends PaperProps {
 
 const CheckQuestionByID = observer(
   ({ question_id, className = '', ...props }: ICheckQuestionByIDProps) => {
-    const CQStore = useMemo(
-      () => new CheckQuestionByIdStore(question_id),
-      [question_id],
-    );
-    const question = useMemo(
-      () => new QuestionNanoViewByIdStore(Number(question_id)),
-      [question_id],
-    );
+    const question = useQuestionPreview(Number(question_id));
+    const answers = useGetReviewAnswersQuery({
+      id: Number(question_id),
+      userId: UserStorage.user_data?.id,
+    });
+    const CQStore = {
+      question_id,
+      isLoading: answers.isFetching && !answers.currentData,
+      hasLoadError: answers.isError,
+      answersIDArray: answers.currentData?.map(answer => answer.id) ?? [],
+      LoadQuestionAnswersIDArray: answers.refetch,
+    };
 
     return (
       <Paper
@@ -42,7 +47,10 @@ const CheckQuestionByID = observer(
           <GoBackButton />
           <UIEditQuestionButton question_id={question_id} />
         </div>
-        <CheckQuestionTitle CQStore={CQStore} QuestionDataStore={question} />
+        <CheckQuestionTitle
+          questionId={question_id}
+          QuestionDataStore={question}
+        />
         <QuestionTextAndImage QuestionDataStore={question} />
 
         <section
@@ -96,10 +104,11 @@ const CheckQuestionByID = observer(
             </div>
           ) : (
             <div className="sw-review-answers">
-              {CQStore.answersIDArray.map((answerID, answerIndex) => (
+              {answers.currentData?.map((answerData, answerIndex) => (
                 <CheckAnswerIndex
-                  key={answerID}
-                  answerID={answerID}
+                  key={answerData.id}
+                  answerID={answerData.id}
+                  answerData={answerData}
                   answerIndex={answerIndex}
                 />
               ))}

@@ -1,8 +1,10 @@
-import { autorun, makeAutoObservable, toJS } from 'mobx';
-import { SERVER_BASE_URL } from '../../../../../settings';
-import { ClientStorage } from '../../../../../Shared/Store/ApolloStorage/ClientStorage';
-import { GET_COURSE_DATA_BY_ID } from '../UI/Query';
-import { CourseLines } from '../../../EditCourseByID/course-data';
+import { makeAutoObservable, toJS } from 'mobx';
+import {
+  CourseLines,
+  normalizeCourseData,
+} from '../../../EditCourseByID/course-data';
+import { CourseReadData } from '../../../course-api';
+import { FILE_URL } from '../../../../../settings';
 
 export interface positionDataI {
   activePage: number;
@@ -15,14 +17,18 @@ export class CourseMicroStoreByID {
   constructor(id: number) {
     this.id = id;
     makeAutoObservable(this);
-    autorun(() => this.getCourseImage());
-    autorun(() => this.getCourseData());
   }
 
-  clientStorage = ClientStorage;
   id?: number;
 
   changeID = (course_id?: number) => {
+    if (this.id !== course_id) {
+      this.courseData = [];
+      this.courseName = undefined;
+      this.courseImage = undefined;
+      this.author = null;
+      this.mainLineIndex = null;
+    }
     this.id = course_id;
   };
 
@@ -44,7 +50,9 @@ export class CourseMicroStoreByID {
 
   // ------Стрелочная навигация и получение ID карточки--------------
 
-  get_card_id_by_position(selected_position: positionDataI): string | number | null {
+  get_card_id_by_position(
+    selected_position: positionDataI,
+  ): string | number | null {
     if (selected_position) {
       try {
         return this.course[Number(selected_position.selectedRow)].SameLine[
@@ -106,32 +114,17 @@ export class CourseMicroStoreByID {
     }
   };
 
-  getCourseData() {
-    if (this.id) {
-      try {
-        this.clientStorage.client
-          .query({
-            query: GET_COURSE_DATA_BY_ID,
-            fetchPolicy: 'network-only',
-            variables: {
-              id: this.id,
-            },
-          })
-          .then((response) => response.data.cardCourseById)
-          .then((course_data) => {
-            if (course_data && course_data.id) {
-              this.changeCourseName(course_data.name);
-              this.courseData = course_data.courseData;
-              const matches = (course_data?.name || '').match(/\[(.*?)\]/);
-              if (matches && matches[1]) {
-                this.mainLineIndex = Number(matches[1]) - 1;
-              }
-            }
-          });
-      } catch (e) {
-        console.log(e);
-      }
-    }
+  author: CourseReadData['users_customuser'] = null;
+  applyCourseData(course: CourseReadData) {
+    if (course.id !== this.id) return;
+    this.changeCourseName(course.name ?? undefined);
+    this.courseData = normalizeCourseData(course.course_data);
+    this.mainLineIndex =
+      Number((course.name || '').match(/\[(.*?)\]/)?.[1]) - 1;
+    this.courseImage = course.cards_cardcourseimage?.image
+      ? `${FILE_URL}/${course.cards_cardcourseimage.image}`
+      : undefined;
+    this.author = course.users_customuser;
   }
 
   // Игнорирование URL роутинга, нужно для использования в качестве селектора
@@ -143,25 +136,6 @@ export class CourseMicroStoreByID {
 
   // --------Изображение для курса------------------------------------------------
   courseImage?: string;
-
-  getCourseImage(useCache = true) {
-    if (this.id) {
-      fetch(`${SERVER_BASE_URL}/cardfiles/course?id=${this.id}`)
-        .then((response) => response.json())
-        .then((result) => {
-          // console.log('Success:', result);
-          if (result[0].image !== this.courseImage) {
-            this.courseImage = result[0].image;
-          }
-          if (useCache) {
-            this.getCourseImage(false);
-          }
-        })
-        .catch(() => {
-          void 0;
-        });
-    }
-  }
 
   // ------------------------------------------------------------------------------------------------
 

@@ -61,16 +61,16 @@ beforeEach(() => {
   jest.useFakeTimers();
   saveCard.mockResolvedValue({});
   axiosClient.post.mockResolvedValue({});
-  ClientStorage.client.query.mockImplementation(({ variables }) =>
-    Promise.resolve({
-      data: {
-        questionById: {
-          id: String(variables?.id || 42),
+  axiosClient.request.mockImplementation(async ({ url }) => ({
+    data: url.includes('/preview')
+      ? {
+          id: url.split('/')[3],
           text: 'Текст вопроса',
-        },
-      },
-    }),
-  );
+          ownerUsername: '',
+          questionImage: null,
+        }
+      : [],
+  }));
   runInAction(() => {
     CESObject.cardDataLoaded = false;
     CESObject.card_object = undefined;

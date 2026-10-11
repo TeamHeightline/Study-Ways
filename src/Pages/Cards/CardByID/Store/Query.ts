@@ -23,20 +23,3 @@ export const SET_RATING = gql`
     }
   }
 `;
-
-export const GET_THEME_ANCESTORS = gql`
-  query GET_THEME_ANCESTORS($theme_id: Int!) {
-    themeAncestors(themeId: $theme_id) {
-      id
-      text
-    }
-  }
-`;
-
-export const GET_SIMILAR_CARDS_ID_ARRAY = gql`
-  query GET_SIMILAR_CARDS($card_id: Int!) {
-    similarCards(cardId: $card_id) {
-      IDs
-    }
-  }
-`;

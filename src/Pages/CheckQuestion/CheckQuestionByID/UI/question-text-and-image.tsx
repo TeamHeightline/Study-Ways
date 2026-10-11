@@ -33,7 +33,7 @@ const QuestionTextAndImage = observer(
             action={
               <Button
                 color="inherit"
-                onClick={() => question.loadQuestionTextNanoViewByID(false)}
+                onClick={() => question.loadQuestionTextNanoViewByID()}
               >
                 Повторить
               </Button>

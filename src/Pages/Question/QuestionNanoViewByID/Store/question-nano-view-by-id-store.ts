@@ -1,18 +1,13 @@
-import { autorun, makeAutoObservable } from 'mobx';
-import { Query } from '../../../../SchemaTypes';
-import { ClientStorage } from '../../../../Shared/Store/ApolloStorage/ClientStorage';
-import { GET_QUESTION_NANO_VIEW_BY_ID } from '../../Selector/Store/query';
+import { makeAutoObservable } from 'mobx';
 import React from 'react';
 
 export class QuestionNanoViewByIdStore {
   constructor(id?: number) {
-    makeAutoObservable(this);
-    autorun(() => this.loadQuestionTextNanoViewByID());
+    makeAutoObservable(this, { reload: false });
     this.id = id;
   }
 
   id?: number;
-  clientStorage = ClientStorage;
 
   text?: string;
   owner_username?: string;
@@ -21,37 +16,9 @@ export class QuestionNanoViewByIdStore {
   dataHasBeenLoaded = false;
   hasLoadError = false;
 
-  loadQuestionTextNanoViewByID(useCache = true) {
-    if (this.id) {
-      this.hasLoadError = false;
-      this.clientStorage.client
-        .query<Query>({
-          query: GET_QUESTION_NANO_VIEW_BY_ID,
-          variables: {
-            id: this.id,
-          },
-          fetchPolicy: useCache ? 'cache-only' : 'network-only',
-        })
-        .then((response) => response.data.questionNanoViewById)
-        .then((questionNanoViewData) => {
-          if (questionNanoViewData) {
-            this.text = questionNanoViewData.text;
-            this.owner_username = questionNanoViewData.ownerUsername;
-            this.questionImage = questionNanoViewData.questionImage;
-            this.dataHasBeenLoaded = true;
-          }
-          if (useCache) {
-            this.loadQuestionTextNanoViewByID(false);
-          }
-        })
-        .catch(() => {
-          if (useCache) {
-            this.loadQuestionTextNanoViewByID(false);
-          } else {
-            this.hasLoadError = true;
-          }
-        });
-    }
+  reload?: () => unknown;
+  loadQuestionTextNanoViewByID() {
+    this.reload?.();
   }
 
   // Изображение вопроса
@@ -71,6 +38,4 @@ export class QuestionNanoViewByIdStore {
   }
 }
 
-const sampleQNVByID = new QuestionNanoViewByIdStore();
-
-export type NanoQuestionStoreType = typeof sampleQNVByID;
+export type NanoQuestionStoreType = QuestionNanoViewByIdStore;

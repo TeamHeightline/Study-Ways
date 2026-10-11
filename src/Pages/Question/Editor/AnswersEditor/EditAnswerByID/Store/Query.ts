@@ -2,29 +2,6 @@ import { gql } from '@apollo/client';
 import axiosClient from '../../../../../../Shared/ServerLayer/QueryLayer/config';
 import { IAnswerStatistic } from './type';
 
-export const LOAD_ANSWER_BY_ID = gql`
-  query LOAD_ANSWER_BY_ID($answer_id: ID!) {
-    answerById(id: $answer_id) {
-      question {
-        id
-      }
-      id
-      isTrue
-      text
-      helpTextv1
-      helpTextv2
-      helpTextv3
-      checkQueue
-      hardLevelOfAnswer
-      isImageDeleted
-      isDeleted
-      isInvisible
-      isRequired
-      onlyForExam
-    }
-  }
-`;
-
 export const CREATE_NEW_ANSWER_BASED_ON_DATA = gql`
   mutation CREATE_ANSWER(
     $question: ID!
@@ -115,5 +92,5 @@ export async function getAnswerStatistic(answer_id: number) {
     .get<IAnswerStatistic>(
       `/page/edit-answer-by-id/answer-statistics/${answer_id}`,
     )
-    .then((res) => res.data);
+    .then(res => res.data);
 }

@@ -9,7 +9,19 @@ import {
   Observable,
 } from '@apollo/client';
 import QuestionSequenceMainEditor from './QuestionSequenceMainEditor';
-import { GET_MY_QUESTION_SEQUENCE } from '../Struct';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import { questionSequencesApi } from '../../question-sequences-api';
+import axiosClient from '../../../../Shared/ServerLayer/QueryLayer/config';
+jest.mock('../../../../Shared/ServerLayer/QueryLayer/config', () => ({
+  request: jest.fn(),
+}));
+jest.mock('../../../../Shared/Store/UserStore/UserStore', () => ({
+  UserStorage: { user_data: { id: 7 } },
+}));
+jest.mock('../../../../App/ReduxStore/RootStore', () => ({
+  useAppDispatch: () => require('react-redux').useDispatch(),
+}));
 
 jest.mock('../EditByID/UI/edit-question-sequence-ui', () => ({
   __esModule: true,
@@ -46,6 +58,7 @@ const series = [
 let root,
   container,
   client,
+  store,
   request,
   rows,
   failLoad,
@@ -58,14 +71,27 @@ beforeEach(() => {
   failLoad = false;
   failCreate = false;
   missingCreatedID = false;
+  axiosClient.request.mockImplementation(
+    () =>
+      new Promise((resolve, reject) =>
+        setTimeout(() => {
+          if (failLoad) reject(new Error('Unavailable'));
+          else resolve({ data: [...rows] });
+        }, 10),
+      ),
+  );
+  store = configureStore({
+    reducer: {
+      [questionSequencesApi.reducerPath]: questionSequencesApi.reducer,
+    },
+    middleware: getDefault =>
+      getDefault().concat(questionSequencesApi.middleware),
+  });
   request = jest.fn(
     operation =>
       new Observable(observer => {
         const timer = setTimeout(() => {
-          if (operation.operationName === 'GET_MY_QUESTION_SEQUENCE') {
-            if (failLoad) observer.error(new Error('Unavailable'));
-            else observer.next({ data: { me: { questionsequenceSet: rows } } });
-          } else if (failCreate) observer.error(new Error('Unavailable'));
+          if (failCreate) observer.error(new Error('Unavailable'));
           else if (missingCreatedID)
             observer.next({
               data: {
@@ -105,6 +131,7 @@ beforeEach(() => {
 afterEach(async () => {
   await act(async () => root.unmount());
   client.stop();
+  store.dispatch(questionSequencesApi.util.resetApiState());
   container.remove();
   jest.clearAllTimers();
   jest.useRealTimers();
@@ -116,9 +143,11 @@ async function settle() {
 async function render() {
   await act(async () =>
     root.render(
-      <ApolloProvider client={client}>
-        <QuestionSequenceMainEditor />
-      </ApolloProvider>,
+      <Provider store={store}>
+        <ApolloProvider client={client}>
+          <QuestionSequenceMainEditor />
+        </ApolloProvider>
+      </Provider>,
     ),
   );
   await settle();
@@ -202,8 +231,9 @@ test('creates once, opens its editor and retains the new series even if the refr
   expect(creates()[0][0].variables).toEqual({ sequenceData: { sequence: [] } });
   expect(container.textContent).toContain('Редактор серии №114');
   expect(
-    client.readQuery({ query: GET_MY_QUESTION_SEQUENCE }).me
-      .questionsequenceSet,
+    questionSequencesApi.endpoints.getMyQuestionSequences.select(7)(
+      store.getState(),
+    ).data,
   ).toHaveLength(4);
   failLoad = true;
   await click(button('К списку серий'));

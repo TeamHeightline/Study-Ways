@@ -1,3 +1,4 @@
+import { CardRouteBreadcrumbs } from '../../../Pages/Cards/CardByID/UI/card-route-breadcrumbs';
 import React, { useState } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import { observer } from 'mobx-react';
@@ -66,6 +67,7 @@ export const Navibar = observer(() => {
   };
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const cardId = Number(location.pathname.match(/^\/card\/(\d+)\/?$/)?.[1]);
   const navLabel = (item: { to: string; label: string }) =>
     getThemedNavigationLabel(
       item.to,
@@ -193,9 +195,15 @@ export const Navibar = observer(() => {
           >
             <MenuIcon />
           </IconButton>
-          <span>Обучение</span>
-          <span className="sw-breadcrumb">/</span>
-          <strong>{title}</strong>
+          {cardId > 0 ? (
+            <CardRouteBreadcrumbs id={cardId} />
+          ) : (
+            <>
+              <span>Обучение</span>
+              <span className="sw-breadcrumb">/</span>
+              <strong>{title}</strong>
+            </>
+          )}
         </div>
         <div className="sw-account">
           <ThemeSelector />

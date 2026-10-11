@@ -12,12 +12,15 @@ export class SameAnswerNode {
     helpTextv3?,
     hardLevelOfAnswer?,
     is_image_deleted?,
+    imageUrl?: string | null,
   ) {
     makeAutoObservable(this);
-    reaction(
-      () => this.id,
-      () => this.getImageUrlFromServer(),
-    );
+    if (imageUrl === undefined)
+      reaction(
+        () => this.id,
+        () => this.getImageUrlFromServer(),
+      );
+    this.answerImageUrl = imageUrl || '';
     this.id = id;
     this.answerText = text;
     this.isTrue = isTrue;
@@ -44,8 +47,8 @@ export class SameAnswerNode {
 
   getImageUrlFromServer() {
     fetch(`${SERVER_BASE_URL}/files/answer?id=${this.id}`)
-      .then((response) => response.json())
-      .then((data) => {
+      .then(response => response.json())
+      .then(data => {
         if (data && data[0]?.image) {
           this.answerImageUrl = data[0].image;
         }

@@ -10,55 +10,6 @@ export const CREATE_DEEP_QUESTION_COPY = gql`
   }
 `;
 
-export const THEMES_AND_AUTHORS_FOR_QUESTION = gql`
-  query {
-    me {
-      questionauthorSet {
-        id
-        name
-      }
-    }
-    questionThemes {
-      id
-      name
-      description
-    }
-  }
-`;
-export const MY_QUESTIONS_BASIC_DATA = gql`
-  query {
-    me {
-      questionSet {
-        id
-        text
-      }
-    }
-  }
-`;
-
-export const GET_QUESTION_DATA_BY_ID = gql`
-  query GET_QUESTION_DATA_BY_ID($id: ID!) {
-    questionById(id: $id) {
-      id
-      numberOfShowingAnswers
-      text
-      author {
-        id
-      }
-      theme {
-        id
-      }
-      answers {
-        id
-        isDeleted
-      }
-      connectedTheme {
-        id
-      }
-    }
-  }
-`;
-
 export const CREATE_NEW_ANSWER = gql`
   mutation CREATE_ANSWER($question: ID!) {
     createAnswer(
@@ -192,7 +143,6 @@ export const UPDATE_ANSWER = gql`
   }
 `;
 
-
 export interface IQuestionStatistic {
   question_id: number;
   exam_avg: number | null;
@@ -204,5 +154,5 @@ export async function getQuestionStatistic(question_id: number) {
     .get<IQuestionStatistic>(
       `/page/edit-question-by-id/question-statistic/${question_id}`,
     )
-    .then((res) => res.data);
+    .then(res => res.data);
 }

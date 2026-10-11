@@ -3,16 +3,21 @@ import React from 'react';
 import { Pagination, Stack } from '@mui/material';
 import { CSSObject } from '../Store/CardSelectorStore';
 
-type IPagesProps = React.HTMLAttributes<HTMLDivElement>;
+type IPagesProps = React.HTMLAttributes<HTMLDivElement> & {
+  activePage: number;
+  count: number;
+};
 
-export const Pages = observer(({ ...props }: IPagesProps) => (
-  <div {...props}>
-    <Stack alignItems={'center'}>
-      <Pagination
-        page={CSSObject.activePage_for_selector}
-        count={CSSObject.maxPages_for_selector}
-        onChange={CSSObject.changeActivePage}
-      />
-    </Stack>
-  </div>
-));
+export const Pages = observer(
+  ({ activePage, count, ...props }: IPagesProps) => (
+    <div {...props}>
+      <Stack alignItems={'center'}>
+        <Pagination
+          page={activePage}
+          count={count}
+          onChange={CSSObject.changeActivePage}
+        />
+      </Stack>
+    </div>
+  ),
+);

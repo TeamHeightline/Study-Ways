@@ -4,9 +4,20 @@ import {
   CourseMicroStoreByID,
   positionDataI,
 } from '../Store/CourseMicroStoreByID';
-import { Card, CardActionArea, Stack, Tooltip } from '@mui/material';
+import {
+  Alert,
+  Button,
+  Skeleton,
+  Card,
+  CardActionArea,
+  Stack,
+  Tooltip,
+} from '@mui/material';
 import CourseNavigation from './CourseNavigation';
 import { useNavigate } from 'react-router-dom';
+import { useGetCourseQuery } from '../../../course-api';
+import { skipToken } from '@reduxjs/toolkit/query';
+import { runInAction } from 'mobx';
 import { isMobileHook } from '../../../../../Shared/CustomHooks/isMobileHook';
 
 interface ICourseMicroViewProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -29,10 +40,18 @@ const CourseMicroView = observer(
     ignoreURLRedirectOnSelectCard,
     ...props
   }: ICourseMicroViewProps) => {
-    const [courseStore] = useState(new CourseMicroStoreByID(course_id));
+    const [courseStore] = useState(() => new CourseMicroStoreByID(course_id));
     const navigate = useNavigate();
     const isMobile = isMobileHook();
-    useEffect(() => courseStore.changeID(course_id), [course_id]);
+    const query = useGetCourseQuery(
+      Number.isInteger(course_id) && course_id > 0 ? course_id : skipToken,
+    );
+    useEffect(() => {
+      runInAction(() => {
+        courseStore.changeID(course_id);
+        if (query.currentData) courseStore.applyCourseData(query.currentData);
+      });
+    }, [course_id, query.currentData, courseStore]);
 
     useEffect(
       () =>
@@ -50,9 +69,11 @@ const CourseMicroView = observer(
     }, [courseStore.position]);
 
     useEffect(() => {
-      const new_selected_card_id = String(
-        courseStore.get_card_id_by_position(courseStore.position),
+      const selectedId = courseStore.get_card_id_by_position(
+        courseStore.position,
       );
+      const new_selected_card_id =
+        selectedId == null ? undefined : String(selectedId);
       if (onCardSelect && new_selected_card_id) {
         onCardSelect(new_selected_card_id);
       }
@@ -67,6 +88,19 @@ const CourseMicroView = observer(
       }
     }, [position_data]);
 
+    if (query.isError)
+      return (
+        <Alert
+          severity="error"
+          action={<Button onClick={() => query.refetch()}>Повторить</Button>}
+        >
+          Не удалось загрузить курс.
+        </Alert>
+      );
+    if (query.currentData === null)
+      return <Alert severity="info">Курс не найден.</Alert>;
+    if (!query.currentData || courseStore.id !== course_id)
+      return <Skeleton height={200} />;
     return (
       <div
         {...props}

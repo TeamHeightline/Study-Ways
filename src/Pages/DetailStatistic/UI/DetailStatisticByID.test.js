@@ -1,35 +1,26 @@
 import React from 'react';
 import { act as legacyAct } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
-import {
-  ApolloClient,
-  ApolloLink,
-  InMemoryCache,
-  Observable,
-} from '@apollo/client';
-import { buildSchema, execute } from 'graphql';
-import { readFileSync } from 'fs';
-import { ClientStorage } from '../../../Shared/Store/ApolloStorage/ClientStorage';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import { attemptApi } from '../Store/attempt-api';
+import axiosClient from '../../../Shared/ServerLayer/QueryLayer/config';
 import { DetailStatisticByID } from './DetailStatisticByID';
 
-jest.mock('../../../Shared/Store/ApolloStorage/ClientStorage', () => ({
-  ClientStorage: { client: null },
+jest.mock('../../../Shared/ServerLayer/QueryLayer/config', () => ({
+  request: jest.fn(),
 }));
 jest.mock('../../../Shared/Store/UserStore/UserStore', () => ({
-  UserStorage: { userAccessLevel: 'TEACHER' },
+  UserStorage: { userAccessLevel: 'TEACHER', user_data: { id: 7 } },
 }));
 jest.mock('./ChartAndStepByStepStatistic', () => ({
   ChartAndStepByStepStatistic: () => null,
 }));
 
 const act = React.act || legacyAct;
-// Execute the real query against the checked-in server schema, including its
-// non-null firstname/lastname fields and GraphQL's null propagation.
-const schema = buildSchema(readFileSync('schema.graphql', 'utf8'));
-let root, container, attempt, responses, failNetwork;
+let root, container, attempt, store, failNetwork;
 beforeEach(() => {
   global.IS_REACT_ACT_ENVIRONMENT = true;
-  responses = [];
   failNetwork = false;
   attempt = {
     id: '7',
@@ -38,6 +29,7 @@ beforeEach(() => {
     isUseexammode: false,
     maxSumOfAnswersPoint: 10,
     question: { id: '33' },
+    questionText: 'Тестовый вопрос',
     questionHasBeenCompleted: true,
     questionSequence: null,
     statistic: {
@@ -54,35 +46,18 @@ beforeEach(() => {
     createdAt: '2026-10-10T10:00:00Z',
     authorizedUser: { userprofile: null },
   };
-  ClientStorage.client = new ApolloClient({
-    cache: new InMemoryCache(),
-    link: new ApolloLink(
-      operation =>
-        new Observable(observer => {
-          if (failNetwork) {
-            observer.error(new Error('Network unavailable'));
-            return;
-          }
-          Promise.resolve(
-            execute({
-              schema,
-              document: operation.query,
-              variableValues: operation.variables,
-              rootValue: {
-                detailStatisticById: attempt,
-                questionText: { id: '33', text: 'Тестовый вопрос' },
-              },
-            }),
-          ).then(
-            result => {
-              responses.push(result);
-              observer.next(result);
-              observer.complete();
-            },
-            error => observer.error(error),
-          );
-        }),
-    ),
+  axiosClient.request.mockImplementation(async () => {
+    if (failNetwork) throw new Error('Network unavailable');
+    return {
+      data: {
+        ...attempt,
+        userName: attempt.userName || 'Анонимный пользователь',
+      },
+    };
+  });
+  store = configureStore({
+    reducer: { [attemptApi.reducerPath]: attemptApi.reducer },
+    middleware: getDefault => getDefault().concat(attemptApi.middleware),
   });
   container = document.createElement('div');
   document.body.appendChild(container);
@@ -90,18 +65,20 @@ beforeEach(() => {
 });
 afterEach(async () => {
   await act(async () => root.unmount());
-  ClientStorage.client.stop();
+  store.dispatch(attemptApi.util.resetApiState());
   container.remove();
   delete global.IS_REACT_ACT_ENVIRONMENT;
 });
 async function renderResult() {
   await act(async () =>
     root.render(
-      <table>
-        <tbody>
-          <DetailStatisticByID attempt_id={7} />
-        </tbody>
-      </table>,
+      <Provider store={store}>
+        <table>
+          <tbody>
+            <DetailStatisticByID attempt_id={7} />
+          </tbody>
+        </table>
+      </Provider>,
     ),
   );
   await act(async () => new Promise(resolve => setTimeout(resolve, 0)));
@@ -122,21 +99,15 @@ test.each([
     'missing firstname',
     { firstname: null, lastname: 'Иванова', avatarSrc: null },
   ],
-])(
-  'statistics survives a non-null GraphQL error for %s',
-  async (_, profile) => {
-    attempt.authorizedUser.userprofile = profile;
-    await renderResult();
-    expect(responses[0].errors[0].message).toMatch(
-      /Cannot return null for non-nullable field UserProfileNode\.(lastname|firstname)/,
-    );
-    expect(
-      responses[0].data.detailStatisticById.authorizedUser.userprofile,
-    ).toBeNull();
-    expectStatistic();
-    expect(container.textContent).toContain('Не указаны');
-  },
-);
+])('REST statistics renders nullable fields for %s', async (_, profile) => {
+  attempt.authorizedUser.userprofile = profile;
+  await renderResult();
+  expectStatistic();
+  expect(container.textContent).toContain(
+    [profile.firstname, profile.lastname].filter(Boolean).join(' ') ||
+      'Не указаны',
+  );
+});
 
 test.each([
   ['no profile record', null],
@@ -144,7 +115,6 @@ test.each([
 ])('statistics renders with %s', async (_, profile) => {
   attempt.authorizedUser.userprofile = profile;
   await renderResult();
-  expect(responses[0].errors).toBeUndefined();
   expectStatistic();
   expect(container.textContent).toContain('Не указаны');
   expect(container.querySelector('img')).toBeNull();
@@ -174,20 +144,6 @@ test('an anonymous attempt does not require an authorized user', async () => {
   expect(container.textContent).toContain('Не указаны');
 });
 
-test('unrelated GraphQL errors remain visible and retry fetches fresh data', async () => {
-  attempt.maxSumOfAnswersPoint = () => {
-    throw new Error('Statistic unavailable');
-  };
-  await renderResult();
-  expect(container.querySelector('[role="alert"]').textContent).toContain(
-    'Не удалось загрузить результат №7',
-  );
-  attempt.maxSumOfAnswersPoint = 10;
-  await act(async () => container.querySelector('button').click());
-  await act(async () => new Promise(resolve => setTimeout(resolve, 0)));
-  expectStatistic();
-});
-
 test('network failure offers retry instead of an unhandled rejection', async () => {
   failNetwork = true;
   await renderResult();
@@ -198,4 +154,32 @@ test('network failure offers retry instead of an unhandled rejection', async () 
   await act(async () => container.querySelector('button').click());
   await act(async () => new Promise(resolve => setTimeout(resolve, 0)));
   expectStatistic();
+});
+
+test('changing results ignores a late response from the previous attempt', async () => {
+  let finishOld;
+  axiosClient.request.mockImplementation(({ url }) =>
+    url.endsWith('/7')
+      ? new Promise(resolve => {
+          finishOld = resolve;
+        })
+      : Promise.resolve({
+          data: { ...attempt, id: '8', userName: 'new@example.com' },
+        }),
+  );
+  await renderResult();
+  await act(async () =>
+    root.render(
+      <Provider store={store}>
+        <table>
+          <tbody>
+            <DetailStatisticByID attempt_id={8} />
+          </tbody>
+        </table>
+      </Provider>,
+    ),
+  );
+  expect(container.textContent).toContain('new@example.com');
+  await act(async () => finishOld({ data: attempt }));
+  expect(container.textContent).not.toContain('student@example.com');
 });

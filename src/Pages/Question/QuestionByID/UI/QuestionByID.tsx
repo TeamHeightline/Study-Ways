@@ -1,9 +1,8 @@
-// @ts-nocheck
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { observer } from 'mobx-react';
 import { QuestionPlayerStore } from '../Store/QuestionPlayerStore';
 import UiQuestionData from './ui-question-data';
-import { Box, CircularProgress, Stack } from '@mui/material';
+import { Alert, Button, Box, CircularProgress, Stack } from '@mui/material';
 
 import { useLocation, useParams } from 'react-router-dom';
 import { RequireLogInAlert } from '../../../../App/SharedComponents/Notifications/RequireLogInAlert';
@@ -16,44 +15,54 @@ import UIStatistic from './ui-statistic';
 import UIHelpText from './ui-help-text';
 import UIAnswerReportSuccessSavedMessage from './ui-answer-report-success-saved-message';
 import { NoAnswers } from './no-answers';
+import { useGetQuestionPlayerDataQuery } from '../../question-read-api';
+import { runInAction } from 'mobx';
 
 export const QuestionByID = observer((props: any) => {
   const slug = useLocation();
 
   const { id } = useParams();
 
-  const [questionStore, setQuestionStore] = useState(
-    new QuestionPlayerStore(null, undefined),
+  const questionId = Number(id ?? props.id);
+  const examMode = new URLSearchParams(slug.search).get('exam') === 'true';
+  const userId = UserStorage.user_data?.id;
+  const [restart, setRestart] = useState(0);
+  const questionStore = useMemo(() => {
+    const store = new QuestionPlayerStore(null, questionId);
+    store.changeIsUseExamMode(examMode);
+    return store;
+  }, [questionId, examMode, userId, restart]);
+  const query = useGetQuestionPlayerDataQuery(
+    { id: questionId, examMode, userId },
+    {
+      skip:
+        !UserStorage.isLogin || !Number.isInteger(questionId) || questionId < 1,
+    },
   );
-
+  useEffect(() => () => questionStore.dispose(), [questionStore]);
   useEffect(() => {
-    if (slug?.search === '?exam=true') {
-      questionStore?.changeIsUseExamMode(true);
-    }
-
-    questionStore?.changeQuestionId(id ? id : props?.id);
-  }, [props, id]);
-
+    const data = query.currentData;
+    if (data) runInAction(() => questionStore.applyQuestionData(data));
+  }, [query.currentData, questionStore]);
   useEffect(() => {
-    questionStore?.loadQuestionDataFromServer();
-  }, [props?.id]);
-
-  useEffect(() => {
-    if (questionStore?.questionHasBeenCompleted) {
-      if (props?.questionHasBeenCompleted) {
-        props?.questionHasBeenCompleted(true);
-      }
-    }
-  }, [questionStore?.questionHasBeenCompleted, props?.id]);
-
-  const restartQuestion = () => {
-    const questionID = id ? id : props?.id;
-    setQuestionStore(new QuestionPlayerStore(null, questionID));
-  };
+    if (questionStore.questionHasBeenCompleted)
+      props.questionHasBeenCompleted?.(true);
+  }, [questionStore.questionHasBeenCompleted, props.questionHasBeenCompleted]);
+  const restartQuestion = () => setRestart(value => value + 1);
 
   if (!UserStorage.isLogin) {
     return <RequireLogInAlert requireShow />;
   }
+
+  if (query.isError)
+    return (
+      <Alert
+        severity="error"
+        action={<Button onClick={() => query.refetch()}>Повторить</Button>}
+      >
+        Не удалось загрузить вопрос.
+      </Alert>
+    );
 
   if (!questionStore?.isDataLoaded) {
     return (
@@ -87,7 +96,7 @@ export const QuestionByID = observer((props: any) => {
     <Box>
       <UiQuestionData
         ignoreAspectRatio={true}
-        onChange1={(e) => {
+        onChange1={e => {
           questionStore?.changeHardLevelOfHelpText(e.target.value);
         }}
         onClick1={() => questionStore?.checkErrors()}

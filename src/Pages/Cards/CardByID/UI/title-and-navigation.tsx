@@ -39,11 +39,11 @@ const TitleAndNavigation = observer(
                 <DefaultCardNavigation card_store={card_store} />
               )}
           <Stack direction={'column'} className="sw-material-heading">
+            <CardTheme card_store={card_store} />
             <CardTitleWithId card_store={card_store} />
             <CardAuthor card_store={card_store} />
             <Stack direction={{ xs: 'column', md: 'row' }} spacing={1}>
               <CardCopyright card_store={card_store} />
-              <CardTheme card_store={card_store} />
             </Stack>
           </Stack>
         </Stack>

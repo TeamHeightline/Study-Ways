@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React from 'react';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -27,10 +26,16 @@ const AppWithAllProviders = () => (
       <Auth0Provider
         domain="dev-xjng6xd9.us.auth0.com"
         clientId="SJ055fS1pu4cnBi8zmWkUpu3LTolh2Oj"
-        redirectUri={window.location.origin}
-        audience="sw-backend-identifier"
-        scope="read:current_user update:current_user_metadata"
+        authorizationParams={{
+          redirect_uri: window.location.origin,
+          audience: 'sw-backend-identifier',
+          scope:
+            'openid profile email read:current_user update:current_user_metadata',
+        }}
         cacheLocation="localstorage"
+        useRefreshTokens
+        useRefreshTokensFallback
+        sessionCheckExpiryDays={30}
       >
         <ThemedApp />
       </Auth0Provider>
@@ -38,6 +43,7 @@ const AppWithAllProviders = () => (
   </ReactFlowProvider>
 );
 const container = document.getElementById('root');
+if (!container) throw new Error('Не найден корневой элемент приложения.');
 const root = createRoot(container);
 root.render(<AppWithAllProviders />);
 reportWebVitals();

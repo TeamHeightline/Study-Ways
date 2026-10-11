@@ -9,7 +9,8 @@ export default function Auth0Logout(props: IAuth0LogoutProps) {
   const dispatch = useAppDispatch();
   useEffect(() => {
     clearUserSession(dispatch);
-    if (isAuthenticated) logout({ returnTo: window.location.origin });
+    if (isAuthenticated)
+      void logout({ logoutParams: { returnTo: window.location.origin } });
   }, [dispatch, isAuthenticated, logout]);
   return <div {...props} />;
 }

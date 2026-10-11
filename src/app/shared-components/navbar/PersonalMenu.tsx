@@ -71,8 +71,10 @@ export default function PersonalMenu({ ...props }: IPersonalMenuProps) {
             onClick={() => {
               handleClose();
               clearUserSession(dispatch);
-              if (isAuthenticated) {
-                logout({ returnTo: window.location.origin });
+              if (isAuthenticated || session.isLogin) {
+                void logout({
+                  logoutParams: { returnTo: window.location.origin },
+                });
               }
             }}
           >

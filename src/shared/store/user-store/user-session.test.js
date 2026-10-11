@@ -5,6 +5,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import { useAuth0 } from '@auth0/auth0-react';
 import AppHook from '../../../app.hook';
+import Auth0Logout from '../../../pages/auth0/auth0-logout';
 import { RootReducer } from '../../../app/redux-store/RootReducer';
 import { userApi, useUserSession, selectUserSession } from './user-session';
 import { clearUserSession } from './session-lifecycle';
@@ -75,6 +76,7 @@ beforeEach(() => {
     isAuthenticated: true,
     user: { sub: 'auth0|teacher' },
     getAccessTokenSilently: jest.fn().mockResolvedValue('teacher-token'),
+    logout: jest.fn(),
   };
   host = document.createElement('div');
   document.body.appendChild(host);
@@ -259,4 +261,141 @@ test('changing another user role does not refetch the current identity', async (
   expect(
     request.mock.calls.filter(([args]) => args.url === '/page/me/basic-data'),
   ).toHaveLength(1);
+});
+
+test('REST requests use Auth0 renewal while the cached identity and role stay intact', async () => {
+  await render();
+  auth.getAccessTokenSilently.mockClear().mockResolvedValue('renewed-token');
+  const version =
+    require('../../server-layer/query-layer/auth-session').getAuthSessionVersion();
+  const adapter = jest.fn(async config => ({
+    data: config.headers.Authorization,
+    status: 200,
+    headers: {},
+    config,
+  }));
+  let response;
+  await act(async () => {
+    response = await axiosClient.get('/test', { adapter });
+  });
+  expect(response.data).toBe('Bearer renewed-token');
+  expect(auth.getAccessTokenSilently).toHaveBeenCalledTimes(1);
+  expect(auth.getAccessTokenSilently.mock.calls[0]).toEqual([]);
+  expect(
+    require('../../server-layer/query-layer/auth-session').getAuthSessionVersion(),
+  ).toBe(version);
+  expect(identity().id).toBe(7);
+  expect(identity().role).toBe('TEACHER');
+  expect(request).toHaveBeenCalledTimes(1);
+});
+
+test('a temporary Auth0 network failure keeps RTK identity and permits recovery', async () => {
+  await render();
+  const error = new Error('Network unavailable');
+  auth.getAccessTokenSilently.mockRejectedValueOnce(error);
+  const adapter = jest.fn(async config => ({
+    data: 'ok',
+    status: 200,
+    headers: {},
+    config,
+  }));
+  await act(async () => {
+    await expect(axiosClient.get('/test', { adapter })).rejects.toBe(error);
+  });
+  expect(adapter).not.toHaveBeenCalled();
+  expect(identity().id).toBe(7);
+  expect(isAuthSessionActive()).toBe(true);
+  expect(auth.logout).not.toHaveBeenCalled();
+  // A transient SDK state change must not discard an established REST identity.
+  auth = { ...auth, isAuthenticated: false, user: undefined };
+  await render();
+  expect(identity().id).toBe(7);
+  expect(identity().role).toBe('TEACHER');
+  expect(isAuthSessionActive()).toBe(true);
+  auth.getAccessTokenSilently.mockResolvedValue('recovered-token');
+  await act(async () => {
+    await axiosClient.get('/test', { adapter });
+  });
+  expect(adapter).toHaveBeenCalledTimes(1);
+  auth = { ...auth, isAuthenticated: true, user: { sub: 'auth0|teacher' } };
+  await render();
+  expect(identity().id).toBe(7);
+  expect(request).toHaveBeenCalledTimes(1);
+});
+
+test('an expired Auth0 session clears private RTK data and offers login without a redirect', async () => {
+  await render();
+  store.dispatch(changeExamNameForCreate('Личный черновик'));
+  auth.getAccessTokenSilently.mockRejectedValueOnce({
+    error: 'login_required',
+  });
+  const adapter = jest.fn();
+  await act(async () => {
+    await expect(axiosClient.get('/test', { adapter })).rejects.toMatchObject({
+      error: 'login_required',
+    });
+  });
+  expect(adapter).not.toHaveBeenCalled();
+  expect(identity().isLogin).toBe(false);
+  expect(identity().role).toBe('STUDENT');
+  expect(isAuthSessionActive()).toBe(false);
+  expect(store.getState().studyWaysApi.queries).toEqual({});
+  expect(store.getState().examEditorPageReducer).toEqual(
+    RootReducer(undefined, { type: '@@INIT' }).examEditorPageReducer,
+  );
+  expect(auth.logout).toHaveBeenCalledWith({ openUrl: false });
+});
+
+test('the logout page clears private data and uses Auth0 v2 logoutParams', async () => {
+  await render();
+  expect(identity().isLogin).toBe(true);
+  await act(async () =>
+    root.render(
+      <Provider store={store}>
+        <Auth0Logout />
+      </Provider>,
+    ),
+  );
+  expect(auth.logout).toHaveBeenCalledWith({
+    logoutParams: { returnTo: window.location.origin },
+  });
+  expect(axiosClient.defaults.headers.common.Authorization).toBeUndefined();
+  expect(isAuthSessionActive()).toBe(false);
+  expect(store.getState().studyWaysApi.queries).toEqual({});
+});
+
+test('an absent token from SDK v2 cannot initialize an authenticated REST session', async () => {
+  auth.getAccessTokenSilently.mockResolvedValue(undefined);
+  await render();
+  expect(request).not.toHaveBeenCalled();
+  expect(identity().isLogin).toBe(false);
+  expect(isAuthSessionActive()).toBe(false);
+  expect(axiosClient.defaults.headers.common.Authorization).toBeUndefined();
+  expect(host.textContent).toContain('Готово');
+});
+
+test('an absent token during renewal never sends the previous token and can recover', async () => {
+  await render();
+  auth.getAccessTokenSilently.mockResolvedValueOnce(undefined);
+  const adapter = jest.fn(async config => ({
+    data: config.headers.Authorization,
+    status: 200,
+    headers: {},
+    config,
+  }));
+  await act(async () => {
+    await expect(axiosClient.get('/test', { adapter })).rejects.toThrow(
+      'Auth0 не вернул токен доступа.',
+    );
+  });
+  expect(adapter).not.toHaveBeenCalled();
+  expect(identity().id).toBe(7);
+  expect(auth.logout).not.toHaveBeenCalled();
+  auth.getAccessTokenSilently.mockResolvedValue('recovered-token');
+  let response;
+  await act(async () => {
+    response = await axiosClient.get('/test', { adapter });
+  });
+  expect(response.data).toBe('Bearer recovered-token');
+  expect(adapter).toHaveBeenCalledTimes(1);
 });

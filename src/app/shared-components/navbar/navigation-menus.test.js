@@ -9,6 +9,9 @@ import { createRoot } from 'react-dom/client';
 import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import PersonalMenu from './PersonalMenu';
+import axiosClient, {
+  setAccessToken,
+} from '../../../shared/server-layer/query-layer/config';
 import PagesMenu from './PagesMenu';
 
 jest.mock('react-router-dom', () => ({ useNavigate: jest.fn() }));
@@ -69,5 +72,32 @@ test.each([
     );
     await act(async () => item.click());
     expect(navigate).toHaveBeenCalledWith(path);
+  },
+);
+
+test.each([true, false])(
+  'logout clears the REST session and uses Auth0 v2 redirect options (SDK authenticated: %s)',
+  async isAuthenticated => {
+    const logout = jest.fn().mockResolvedValue(undefined);
+    useAuth0.mockReturnValue({ isAuthenticated, logout });
+    setAccessToken('current-token');
+    await act(async () =>
+      root.render(
+        <Provider store={store}>
+          <PersonalMenu />
+        </Provider>,
+      ),
+    );
+    await act(async () => container.querySelector('button').click());
+    const item = [...document.querySelectorAll('[role="menuitem"]')].find(
+      node => node.textContent.trim() === 'Выйти',
+    );
+    await act(async () => item.click());
+    expect(logout).toHaveBeenCalledTimes(1);
+    expect(logout).toHaveBeenCalledWith({
+      logoutParams: { returnTo: window.location.origin },
+    });
+    expect(axiosClient.defaults.headers.common.Authorization).toBeUndefined();
+    expect(store.getState().studyWaysApi.queries).toEqual({});
   },
 );

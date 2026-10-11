@@ -1,4 +1,5 @@
 import React from 'react';
+import { useUserSession } from '../../../shared/store/user-store/user-session';
 import Button from '@mui/material/Button';
 import { useAuth0 } from '@auth0/auth0-react';
 import LockOpenRoundedIcon from '@mui/icons-material/LockOpenRounded';
@@ -10,7 +11,8 @@ export const RequireLogInAlert = ({
   requireShow = false,
 }: LogInNotificationProps) => {
   const { isLoading, loginWithPopup, isAuthenticated } = useAuth0();
-  if (isAuthenticated || isLoading) {
+  const { isLogin } = useUserSession();
+  if (isAuthenticated || isLogin || isLoading) {
     return <div />;
   }
   if (!requireShow) return null;
@@ -25,7 +27,7 @@ export const RequireLogInAlert = ({
       <h2 id="sw-login-required-title">Войдите, чтобы продолжить</h2>
       <p>Для прохождения тестов и экзаменов нужен аккаунт.</p>
       <Button
-        onClick={loginWithPopup}
+        onClick={() => void loginWithPopup()}
         variant="contained"
         disableElevation
         startIcon={<LoginRoundedIcon />}

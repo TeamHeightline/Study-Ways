@@ -1,3 +1,4 @@
+import { useUserSession } from '../../../Shared/Store/UserStore/user-session';
 import React, { useRef, useState } from 'react';
 import { useCreateCourseMutation } from '../../../Shared/ServerLayer/QueryLayer/write-api';
 import {
@@ -30,13 +31,12 @@ import {
   useGetOwnCoursesQuery,
   OwnCourseSummary,
 } from '../course-api';
-import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
-import { observer } from 'mobx-react';
 import { FILE_URL } from '../../../settings';
 import './course-editor-page.css';
 
-const MainCourseEditor = observer(function MainCourseEditor() {
-  const userId = UserStorage.user_data?.id;
+const MainCourseEditor = function MainCourseEditor() {
+  const session = useUserSession();
+  const userId = session.user?.id;
   const [selectedCourseID, setSelectedCourseID] = useState<string>();
   const [search, setSearch] = useState('');
   const [createError, setCreateError] = useState(false);
@@ -320,5 +320,5 @@ const MainCourseEditor = observer(function MainCourseEditor() {
       )}
     </div>
   );
-});
+};
 export default MainCourseEditor;

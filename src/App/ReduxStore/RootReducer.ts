@@ -1,3 +1,5 @@
+import cardEditorReducer from '../../Pages/Cards/Editor/EditorByIDV2/model/card-editor-slice';
+import { resetSession } from '../../Shared/Store/UserStore/session-lifecycle';
 import ExamPlayerReducer from '../../Pages/Exam/ExamByUid/redux-store/ExamPlayerSlice';
 import { examEditorPageReducer } from '../../Pages/Exam/EditorPage/Page/redux-store/reducer';
 import examResultsByIDReducer from '../../Pages/Exam/ExamResultsByID/redux-store/reducer';
@@ -9,7 +11,6 @@ import examEditorSlice from '../../Pages/Exam/EditorPage/ExamByID/redux-store/ex
 import questionEditorPageSlice from '../../Pages/Question/Editor/Page/redux-store/QuestionEditorPageSlice';
 import recentCardSlice from '../../Pages/RecentCards/Store/recent-card-slice';
 import cardBookmarksSlice from '../../Pages/CardBookmarks/Store/card-bookmarks-slice';
-import cardMicroViewSlice from '../../Pages/Cards/CardMicroView/store';
 import profileSlice from '../../Pages/Profile/redux-store';
 import { studyWaysApi } from '../../Shared/ServerLayer/QueryLayer/api';
 
@@ -25,12 +26,12 @@ const appReducer = combineReducers({
   questionEditorPage: questionEditorPageSlice,
   recentCards: recentCardSlice,
   cardBookmarks: cardBookmarksSlice,
-  cardMicroView: cardMicroViewSlice,
   profile: profileSlice,
+  cardEditor: cardEditorReducer,
 });
 
 // Local drafts and legacy Redux page data must not survive a change of account.
 export const RootReducer = (
   state: ReturnType<typeof appReducer> | undefined,
   action: AnyAction,
-) => appReducer(action.type === 'session/reset' ? undefined : state, action);
+) => appReducer(resetSession.match(action) ? undefined : state, action);

@@ -1,3 +1,4 @@
+import { setTestUser } from '../../../../Shared/Store/UserStore/user-session.test-utils';
 import React from 'react';
 import { act as legacyAct } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
@@ -5,11 +6,9 @@ import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { Auth0Provider } from '@auth0/auth0-react';
-import { runInAction } from 'mobx';
 import SelectQuestionAndOpenIt from './select-question-and-open-it';
 import { questionReviewApi } from '../Store/question-review-api';
 import axiosClient from '../../../../Shared/ServerLayer/QueryLayer/config';
-import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
 
 jest.mock('../../../../Shared/ServerLayer/QueryLayer/config', () => ({
   request: jest.fn(),
@@ -22,9 +21,7 @@ jest.mock('@auth0/auth0-react', () => {
     useAuth0: () => React.useContext(Context),
   };
 });
-jest.mock('../../../../Shared/Store/UserStore/UserStore', () => ({
-  UserStorage: require('mobx').observable({ user_data: null }),
-}));
+
 jest.mock(
   '../../../../App/SharedComponents/Notifications/RequireLogInAlert',
   () => ({ RequireLogInAlert: () => <div>Войдите в аккаунт</div> }),
@@ -88,12 +85,9 @@ async function selectAuthor(label) {
     ),
   );
 }
-beforeEach(() => {
+beforeEach(async () => {
   global.IS_REACT_ACT_ENVIRONMENT = true;
   auth = { isAuthenticated: true, isLoading: false };
-  runInAction(() => {
-    UserStorage.user_data = { id: 7 };
-  });
   axiosClient.request
     .mockReset()
     .mockImplementation(async ({ url, params }) => ({
@@ -112,22 +106,25 @@ beforeEach(() => {
     reducer: { [questionReviewApi.reducerPath]: questionReviewApi.reducer },
     middleware: get => get().concat(questionReviewApi.middleware),
   });
+  await setTestUser(store, {
+    id: 7,
+    username: 'student',
+    user_access_level: 'TEACHER',
+  });
   container = document.createElement('div');
   document.body.appendChild(container);
   root = createRoot(container);
-  jest
-    .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
-    .mockReturnValue({
-      width: 300,
-      height: 44,
-      top: 100,
-      bottom: 144,
-      left: 100,
-      right: 400,
-      x: 100,
-      y: 100,
-      toJSON: () => {},
-    });
+  jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
+    width: 300,
+    height: 44,
+    top: 100,
+    bottom: 144,
+    left: 100,
+    right: 400,
+    x: 100,
+    y: 100,
+    toJSON: () => {},
+  });
 });
 afterEach(() => {
   act(() => {
@@ -212,20 +209,14 @@ test('new filters hide old results and delayed responses cannot replace the sele
 
 test('personal questions wait for authenticated Axios setup and never send an owner ID', async () => {
   auth = { isAuthenticated: true, isLoading: true };
-  runInAction(() => {
-    UserStorage.user_data = null;
-  });
+  await act(async () => setTestUser(store, null));
   await render();
   await selectAuthor('Мои вопросы');
   expect(listCalls()).toHaveLength(1);
   auth = { isAuthenticated: true, isLoading: false };
   await render();
   expect(listCalls()).toHaveLength(1);
-  await act(async () =>
-    runInAction(() => {
-      UserStorage.user_data = { id: 7 };
-    }),
-  );
+  await act(async () => setTestUser(store, { id: 7 }));
   expect(listCalls().at(-1).url).toBe('/page/question-selector/my');
   expect(listCalls().at(-1).params).toEqual({ page: 1 });
   await click(container.querySelector('[aria-label="Go to page 2"]'));
@@ -234,9 +225,7 @@ test('personal questions wait for authenticated Axios setup and never send an ow
 
 test('anonymous users can browse authors and are asked to sign in for personal questions', async () => {
   auth = { isAuthenticated: false, isLoading: false };
-  runInAction(() => {
-    UserStorage.user_data = null;
-  });
+  await act(async () => setTestUser(store, null));
   await render();
   expect(listText()).toContain('Оптика 100');
   await selectAuthor('Мои вопросы');
@@ -257,11 +246,7 @@ test('personal cached questions never cross accounts or remain visible after log
         finish = resolve;
       }),
   );
-  await act(async () =>
-    runInAction(() => {
-      UserStorage.user_data = { id: 8 };
-    }),
-  );
+  await act(async () => setTestUser(store, { id: 8 }));
   expect(listText()).not.toContain('Оптика 100');
   await act(async () => finish({ data: page('88') }));
   expect(listText()).toContain('Оптика 88');

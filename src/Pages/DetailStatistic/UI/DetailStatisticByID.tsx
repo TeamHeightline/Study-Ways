@@ -1,3 +1,4 @@
+import { useUserSession } from '../../../Shared/Store/UserStore/user-session';
 import { observer } from 'mobx-react';
 import React, { Fragment, useEffect, useState } from 'react';
 import TableRow from '@mui/material/TableRow';
@@ -8,7 +9,6 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { DetailStatisticStoreByID } from '../Store/DetailStatisticStoreByID';
 import { Avatar, Button, Skeleton, Stack, Tooltip } from '@mui/material';
 import { useGetAttemptQuery } from '../Store/attempt-api';
-import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 import { runInAction } from 'mobx';
 import { ChartAndStepByStepStatistic } from './ChartAndStepByStepStatistic';
 
@@ -18,12 +18,13 @@ interface IDetailStatisticByIDProps extends React.HTMLAttributes<HTMLDivElement>
 
 export const DetailStatisticByID = observer(
   ({ attempt_id }: IDetailStatisticByIDProps) => {
+    const session = useUserSession();
     const [statisticByIDStore] = useState(
       () => new DetailStatisticStoreByID(attempt_id),
     );
     const query = useGetAttemptQuery({
       id: attempt_id,
-      userId: UserStorage.user_data?.id,
+      userId: session.user?.id,
     });
     useEffect(() => {
       runInAction(() => {
@@ -121,7 +122,11 @@ export const DetailStatisticByID = observer(
 
           <Tooltip
             disableInteractive
-            title={statisticByIDStore.dataForRow.QuestionTextForStatistic}
+            title={
+              ['ADMIN', 'TEACHER'].includes(session.role)
+                ? statisticByIDStore.questionText
+                : statisticByIDStore.questionText.slice(0, 200)
+            }
           >
             <TableCell sx={{ color: textColor }}>
               {statisticByIDStore.dataForRow.questionID}

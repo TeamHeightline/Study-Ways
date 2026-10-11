@@ -1,7 +1,7 @@
 import { loadExamOnOpenData } from '../../../../Shared/ServerLayer/QueryLayer/exam.query';
 import { loadQuestionByID } from '../../../../Shared/ServerLayer/QueryLayer/question.query';
 import { createDetailStatistic } from '../../../../Shared/ServerLayer/QueryLayer/detail-statistic.query';
-import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
+import { selectUserSession } from '../../../../Shared/Store/UserStore/user-session';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { initialState } from './InitialState';
 import axiosClient from '../../../../Shared/ServerLayer/QueryLayer/config';
@@ -45,11 +45,13 @@ export const openExamPageThunk = createAsyncThunk(
 
 export const saveDetailStatisticThunk = createAsyncThunk(
   'examPlayer/saveDetailStatistic',
-  async (store: typeof initialState) => {
+  async (store: typeof initialState, { getState }) => {
     if (store.selected_question_id) {
       return createDetailStatistic({
         question_id: Number(store.selected_question_id),
-        user_name: UserStorage.username,
+        user_name: selectUserSession(
+          getState() as Parameters<typeof selectUserSession>[0],
+        ).username,
         is_login: true,
         question_has_been_completed: store.is_question_completed,
         statistic: store.statistic || emptyStatistic,

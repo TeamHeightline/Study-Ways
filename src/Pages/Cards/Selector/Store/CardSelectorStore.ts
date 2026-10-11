@@ -1,5 +1,4 @@
 import { makeAutoObservable, reaction } from 'mobx';
-import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
 import {
   CardContentType,
   CardHardLevel,
@@ -21,8 +20,6 @@ export class CardSelectorStore {
       },
     );
   }
-
-  userStorage = UserStorage;
 
   activePage = 1;
   maxPages = 1;

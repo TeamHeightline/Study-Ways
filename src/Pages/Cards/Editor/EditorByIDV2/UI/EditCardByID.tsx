@@ -1,39 +1,90 @@
 import React, { useEffect } from 'react';
-import { observer } from 'mobx-react';
 import { Alert, Button, Skeleton } from '@mui/material';
-import { CESObject } from '../Store/CardEditorStorage';
-import { UserStorage } from '../../../../../Shared/Store/UserStore/UserStore';
-import EditCardUI from './EditCardUI';
+import {
+  useUserSession,
+  UserRole,
+} from '../../../../../Shared/Store/UserStore/user-session';
 import { useAppDispatch } from '../../../../../App/ReduxStore/RootStore';
-import { cardApi } from '../../../CardByID/API/card-api';
-import { cardSelectorApi } from '../../../Selector/Store/card-selector-api';
+import { useGetCardEditorDataQuery } from '../model/card-editor-api';
+import { initializeDraft } from '../model/card-editor-slice';
+import { toCardDraft } from '../model/types';
+import {
+  CardEditorProvider,
+  useCardEditorController,
+} from '../model/use-card-editor';
+import EditCardUI from './EditCardUI';
 import '../card-editor.css';
 
-export const EditCardByID = observer(({ id }: { id?: string | number }) => {
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    CESObject.invalidateCardData = cardId => {
-      dispatch(cardApi.util.invalidateTags([{ type: 'Card', id: cardId }]));
-      dispatch(cardSelectorApi.util.invalidateTags(['CardList']));
-    };
-    return () => {
-      CESObject.invalidateCardData = undefined;
-    };
-  }, [dispatch]);
-  useEffect(() => {
-    CESObject.loadCardDataFromServer(id);
-  }, [id, UserStorage.userAccessLevel]);
+interface Props {
+  id?: string | number;
+  onSaveStateChange?: (saved: boolean) => void;
+}
 
-  if (CESObject.cardLoadError)
+export function EditCardByID({ id, onSaveStateChange }: Props) {
+  const { user, role } = useUserSession();
+  const cardId = Number(id);
+  if (!user || !['ADMIN', 'TEACHER', 'CARD_EDITOR'].includes(role))
+    return (
+      <Alert severity="error">
+        Недостаточно прав для редактирования карточки.
+      </Alert>
+    );
+  if (!Number.isInteger(cardId) || cardId < 1)
+    return <Alert severity="error">Укажите корректный номер карточки.</Alert>;
+  return (
+    <EditorSession
+      key={`${user.id}:${cardId}`}
+      id={cardId}
+      userId={user.id}
+      role={role}
+      onSaveStateChange={onSaveStateChange}
+    />
+  );
+}
+
+function EditorSession({
+  id,
+  userId,
+  role,
+  onSaveStateChange,
+}: {
+  id: number;
+  userId: number;
+  role: UserRole;
+  onSaveStateChange?: Props['onSaveStateChange'];
+}) {
+  const dispatch = useAppDispatch();
+  const key = `${userId}:${id}`;
+  const query = useGetCardEditorDataQuery({ id, userId });
+  const data = query.currentData;
+  const allowed = !!data && (role === 'ADMIN' || data.created_by_id === userId);
+  useEffect(() => {
+    if (data && allowed)
+      dispatch(
+        initializeDraft({
+          key,
+          draft: toCardDraft(data),
+          imagePath: data.cards_cardimage?.image ?? '',
+        }),
+      );
+  }, [data, allowed, dispatch, key]);
+  const editor = useCardEditorController(key, userId);
+  useEffect(() => {
+    onSaveStateChange?.(editor?.isSaved ?? true);
+  }, [editor?.isSaved, onSaveStateChange]);
+
+  if (data && !allowed)
+    return (
+      <Alert severity="error">Можно редактировать только свои карточки.</Alert>
+    );
+  if (data === null) return <Alert severity="info">Карточка не найдена.</Alert>;
+  if (query.isError && !editor)
     return (
       <div className="sw-cedit sw-cedit-workspace">
         <Alert
           severity="error"
           action={
-            <Button
-              color="inherit"
-              onClick={() => CESObject.loadCardDataFromServer(id)}
-            >
+            <Button color="inherit" onClick={() => query.refetch()}>
               Повторить
             </Button>
           }
@@ -42,7 +93,7 @@ export const EditCardByID = observer(({ id }: { id?: string | number }) => {
         </Alert>
       </div>
     );
-  if (!CESObject.cardDataLoaded)
+  if (!editor)
     return (
       <div
         className="sw-cedit sw-cedit-workspace"
@@ -56,5 +107,9 @@ export const EditCardByID = observer(({ id }: { id?: string | number }) => {
         </div>
       </div>
     );
-  return <EditCardUI />;
-});
+  return (
+    <CardEditorProvider value={editor}>
+      <EditCardUI />
+    </CardEditorProvider>
+  );
+}

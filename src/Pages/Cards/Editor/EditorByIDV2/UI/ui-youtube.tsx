@@ -1,13 +1,13 @@
 import React from 'react';
-import { observer } from 'mobx-react';
 import ReactPlayer from 'react-player';
 import { TextField } from '@mui/material';
 import PlayCircleOutlineRoundedIcon from '@mui/icons-material/PlayCircleOutlineRounded';
 import urlParser from 'js-video-url-parser';
 import 'js-video-url-parser/lib/provider/youtube';
-import { CESObject } from '../Store/CardEditorStorage';
-export const UiYoutube = observer(() => {
-  const value = CESObject.getField('video_url', '');
+import { useCardEditor } from '../model/use-card-editor';
+export const UiYoutube = () => {
+  const editor = useCardEditor();
+  const value = editor.draft.video_url ?? '';
   const invalid = !!value && urlParser.parse(value)?.provider !== 'youtube';
   return (
     <div className="sw-cedit-video-fields">
@@ -16,7 +16,7 @@ export const UiYoutube = observer(() => {
         label="Ссылка на видео YouTube"
         placeholder="https://www.youtube.com/watch?v=…"
         value={value}
-        onChange={CESObject.changeField('video_url')}
+        onChange={editor.changeField('video_url')}
         error={invalid}
         helperText={invalid ? 'Укажите ссылку на видео YouTube.' : undefined}
       />
@@ -33,4 +33,4 @@ export const UiYoutube = observer(() => {
       </div>
     </div>
   );
-});
+};

@@ -1,5 +1,4 @@
 import Paper from '@mui/material/Paper';
-import { observer } from 'mobx-react';
 import React from 'react';
 import { CardSelector } from '../../Selector/UI/CardSelector';
 import { Route, Routes, useNavigate } from 'react-router-dom';
@@ -7,7 +6,7 @@ import { EditCardByUrl } from './EditCardByUrl';
 
 type IEditorPageProps = React.HTMLAttributes<HTMLDivElement>;
 
-export const EditorPage = observer(({ ...props }: IEditorPageProps) => {
+export const EditorPage = ({ ...props }: IEditorPageProps) => {
   const navigate = useNavigate();
 
   return (
@@ -33,4 +32,4 @@ export const EditorPage = observer(({ ...props }: IEditorPageProps) => {
       </Routes>
     </Paper>
   );
-});
+};

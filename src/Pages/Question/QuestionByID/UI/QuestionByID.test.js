@@ -1,3 +1,4 @@
+import { setTestUser } from '../../../../Shared/Store/UserStore/user-session.test-utils';
 import React from 'react';
 import { act as legacyAct } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
@@ -7,13 +8,10 @@ import { MemoryRouter } from 'react-router-dom';
 import CryptoJS from 'crypto-js';
 import { studyWaysApi } from '../../../../Shared/ServerLayer/QueryLayer/api';
 import axiosClient from '../../../../Shared/ServerLayer/QueryLayer/config';
-import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
+
 import { createDetailStatistic } from '../../../../Shared/ServerLayer/QueryLayer/detail-statistic.query';
 import { QuestionByID } from './QuestionByID';
 
-jest.mock('../../../../Shared/Store/UserStore/UserStore', () => ({
-  UserStorage: { isLogin: true, user_data: { id: 7 }, username: 'student' },
-}));
 jest.mock('../../../../Shared/ServerLayer/QueryLayer/config', () => ({
   request: jest.fn(),
 }));
@@ -143,9 +141,8 @@ function button(text) {
     item.textContent.includes(text),
   );
 }
-beforeEach(() => {
+beforeEach(async () => {
   global.IS_REACT_ACT_ENVIRONMENT = true;
-  UserStorage.isLogin = true;
   createDetailStatistic.mockResolvedValue({});
   axiosClient.request.mockImplementation(async ({ url }) =>
     encrypted(makeData(Number(url.split('/')[3]))),
@@ -155,6 +152,11 @@ beforeEach(() => {
   store = configureStore({
     reducer: { [studyWaysApi.reducerPath]: studyWaysApi.reducer },
     middleware: getDefault => getDefault().concat(studyWaysApi.middleware),
+  });
+  await setTestUser(store, {
+    id: 7,
+    username: 'student',
+    user_access_level: 'STUDENT',
   });
   container = document.createElement('div');
   document.body.appendChild(container);
@@ -211,7 +213,7 @@ test('reads the encrypted REST batch, keeps required answers, scores completion 
 });
 
 test('does not fetch private question data before login', async () => {
-  UserStorage.isLogin = false;
+  await act(async () => setTestUser(store, null));
   await render();
   expect(container.textContent).toContain('Войдите в аккаунт');
   expect(axiosClient.request).not.toHaveBeenCalled();

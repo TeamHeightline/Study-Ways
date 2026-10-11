@@ -1,5 +1,5 @@
+import { useUserSession } from '../../../../Shared/Store/UserStore/user-session';
 import { useGetSimilarCardsQuery } from '../API/card-api';
-import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { observer } from 'mobx-react';
 import React from 'react';
@@ -15,10 +15,11 @@ interface ISimilarCardsProps extends PaperProps {
 
 const SimilarCards = observer(
   ({ card_store, ...props }: ISimilarCardsProps) => {
+    const session = useUserSession();
     const navigate = useNavigate();
     const { currentData: similarCardsID = [] } = useGetSimilarCardsQuery(
       card_store.id
-        ? { id: card_store.id, userId: String(UserStorage.userIDForRecombee) }
+        ? { id: card_store.id, userId: String(session.recommendationUserId) }
         : skipToken,
     );
 

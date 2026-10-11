@@ -20,7 +20,6 @@ import {
   TextField,
   Tooltip,
 } from '@mui/material';
-import { observer } from 'mobx-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import OpenInNewRoundedIcon from '@mui/icons-material/OpenInNewRounded';
@@ -46,7 +45,6 @@ import {
 import { useCourseDraft } from './use-course-draft';
 import { SERVER_BASE_URL } from '../../../settings';
 import { EditCardByID } from '../../Cards/Editor/EditorByIDV2/UI/EditCardByID';
-import { CESObject } from '../../Cards/Editor/EditorByIDV2/Store/CardEditorStorage';
 import { CardSelector } from '../../Cards/Selector/UI/CardSelector';
 import './course-editor.css';
 import { courseApi, useGetCourseQuery } from '../course-api';
@@ -125,12 +123,20 @@ export default function EditCourseByID({ course_id, onChange }: Props) {
   );
 }
 
-const CardEditorDialog = observer(
-  ({ id, onClose }: { id?: string; onClose: () => void }) => (
+const CardEditorDialog = ({
+  id,
+  onClose,
+}: {
+  id?: string;
+  onClose: () => void;
+}) => {
+  const [isSaved, setIsSaved] = useState(true);
+  useEffect(() => setIsSaved(true), [id]);
+  return (
     <Dialog
       open={!!id}
       onClose={() => {
-        if (CESObject.stateOfSave) onClose();
+        if (isSaved) onClose();
       }}
       fullWidth
       maxWidth="lg"
@@ -142,15 +148,13 @@ const CardEditorDialog = observer(
         Редактор карточки
         <Tooltip
           title={
-            CESObject.stateOfSave
-              ? 'Вернуться к курсу'
-              : 'Дождитесь сохранения карточки'
+            isSaved ? 'Вернуться к курсу' : 'Дождитесь сохранения карточки'
           }
         >
           <span>
             <IconButton
               aria-label="Вернуться к курсу"
-              disabled={!CESObject.stateOfSave}
+              disabled={!isSaved}
               onClick={onClose}
             >
               <CloseRoundedIcon />
@@ -158,10 +162,12 @@ const CardEditorDialog = observer(
           </span>
         </Tooltip>
       </DialogTitle>
-      <DialogContent>{id && <EditCardByID id={id} />}</DialogContent>
+      <DialogContent>
+        {id && <EditCardByID id={id} onSaveStateChange={setIsSaved} />}
+      </DialogContent>
     </Dialog>
-  ),
-);
+  );
+};
 
 function CourseEditor({
   id,

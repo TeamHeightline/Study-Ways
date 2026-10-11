@@ -1,8 +1,12 @@
+import { setTestUser } from '../../../Shared/Store/UserStore/user-session.test-utils';
 jest.mock('../../../App/ReduxStore/RootStore', () => ({
   useAppDispatch: () => require('react-redux').useDispatch(),
   useAppSelector: () => require('react-redux').useSelector(),
   __esModule: true,
-  default: { dispatch: (...args) => mockStore.dispatch(...args) },
+  default: {
+    dispatch: (...args) => mockStore.dispatch(...args),
+    getState: () => mockStore.getState(),
+  },
 }));
 let mockStore;
 import React from 'react';
@@ -14,15 +18,17 @@ import { MemoryRouter } from 'react-router-dom';
 import { studyWaysApi } from '../../../Shared/ServerLayer/QueryLayer/api';
 import axiosClient from '../../../Shared/ServerLayer/QueryLayer/config';
 import CheckQuestionByID from './UI/check-question-by-id';
-import QuestionNanoViewByID from '../../Question/QuestionNanoViewByID/UI/question-nano-view-by-id';
+import { useQuestionPreview } from './use-question-preview';
+function Preview({ id }) {
+  const preview = useQuestionPreview(id);
+  return <span>{preview.text}</span>;
+}
 
 jest.mock('../../../Shared/ServerLayer/QueryLayer/config', () => ({
   request: jest.fn(),
   post: jest.fn(),
 }));
-jest.mock('../../../Shared/Store/UserStore/UserStore', () => ({
-  UserStorage: { user_data: { id: 7 }, userAccessLevel: 'TEACHER' },
-}));
+
 const act = React.act || legacyAct;
 let container, root, store;
 const preview = {
@@ -41,7 +47,7 @@ const answers = Array.from({ length: 12 }, (_, index) => ({
   helpTextv2: 'Средняя подсказка',
   helpTextv3: 'Сложная подсказка',
 }));
-beforeEach(() => {
+beforeEach(async () => {
   global.IS_REACT_ACT_ENVIRONMENT = true;
   axiosClient.request.mockImplementation(async ({ url, method }) => ({
     data:
@@ -55,6 +61,11 @@ beforeEach(() => {
   store = mockStore = configureStore({
     reducer: { [studyWaysApi.reducerPath]: studyWaysApi.reducer },
     middleware: getDefault => getDefault().concat(studyWaysApi.middleware),
+  });
+  await setTestUser(store, {
+    id: 7,
+    username: 'student',
+    user_access_level: 'TEACHER',
   });
   container = document.createElement('div');
   document.body.appendChild(container);
@@ -83,7 +94,7 @@ const button = (text, scope = document) =>
   [...scope.querySelectorAll('button')].find(node => node.textContent === text);
 
 test('review and question previews share one question read and all answers, hints and images arrive in one batch', async () => {
-  await render('327', <QuestionNanoViewByID question_id={327} />);
+  await render('327', <Preview id={327} />);
   expect(axiosClient.request).toHaveBeenCalledTimes(2);
   expect(axiosClient.request.mock.calls.map(([args]) => args.url)).toEqual(
     expect.arrayContaining([

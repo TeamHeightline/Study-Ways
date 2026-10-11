@@ -1,13 +1,13 @@
 import React from 'react';
-import { observer } from 'mobx-react';
 import { TextField } from '@mui/material';
 import PlayCircleOutlineRoundedIcon from '@mui/icons-material/PlayCircleOutlineRounded';
-import { CESObject } from '../Store/CardEditorStorage';
+import { useCardEditor } from '../model/use-card-editor';
 import { parseRutubeUrl } from '../../../../../Shared/Video/rutube';
 import RutubePlayer from '../../../../../Shared/Video/RutubePlayer';
 
-export const UiRutube = observer(() => {
-  const value = CESObject.getField('video_url', '');
+export const UiRutube = () => {
+  const editor = useCardEditor();
+  const value = editor.draft.video_url ?? '';
   const valid = parseRutubeUrl(value);
   return (
     <div className="sw-cedit-video-fields">
@@ -16,7 +16,7 @@ export const UiRutube = observer(() => {
         label="Ссылка на видео Rutube"
         placeholder="https://rutube.ru/video/…/"
         value={value}
-        onChange={CESObject.changeField('video_url')}
+        onChange={editor.changeField('video_url')}
         error={!!value && !valid}
         helperText={
           value && !valid
@@ -37,4 +37,4 @@ export const UiRutube = observer(() => {
       </div>
     </div>
   );
-});
+};

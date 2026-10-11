@@ -7,7 +7,7 @@ import { writeApi } from '../../../../../Shared/ServerLayer/QueryLayer/write-api
 import { writtenAnswerData } from '../../../../../Shared/ServerLayer/QueryLayer/answer-write-data';
 import { EditorAnswer, QuestionEditorData } from '../../../question-read-api';
 import { Answer, answerStoreType } from './AnswersStorage';
-import { UserStorage } from '../../../../../Shared/Store/UserStore/UserStore';
+import haveStatus from '../../../../../Shared/Store/UserStore/utils/HaveStatus';
 import { FILE_URL, SERVER_BASE_URL } from '../../../../../settings';
 
 export enum variantsOfStateOfSave {
@@ -45,9 +45,6 @@ class QuestionEditor {
       () => this.autoSave(),
     );
   }
-
-  // доступ к данным о пользователе, чтобы можно было проверять уровень доступа
-  userStorage = UserStorage;
 
   // Флаг, указывающий на то, был ли выбран вопрос в селекторе
   questionHasBeenSelected = false;
@@ -150,10 +147,7 @@ class QuestionEditor {
     this.loadingQuestionData = true;
     this.questionLoadError = false;
 
-    if (
-      this.userStorage.userAccessLevel === 'TEACHER' ||
-      this.userStorage.userAccessLevel === 'ADMIN'
-    ) {
+    if (haveStatus(['TEACHER', 'ADMIN'])) {
       this.fetchQuestionData?.(id)
         .then(question_data => {
           if (request !== this.questionLoadRequest) return;
@@ -273,10 +267,7 @@ class QuestionEditor {
 
   // Функция для сохранения даных на сервере
   saveDataOnServer() {
-    if (
-      this.userStorage.userAccessLevel === 'TEACHER' ||
-      this.userStorage.userAccessLevel === 'ADMIN'
-    ) {
+    if (haveStatus(['TEACHER', 'ADMIN'])) {
       const id = this.selectedQuestionID;
       const version = this.editVersion;
       executeQueuedMutation(

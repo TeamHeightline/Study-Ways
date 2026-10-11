@@ -1,7 +1,7 @@
 import { makeAutoObservable, reaction, toJS } from 'mobx';
 import { SameAnswerNode } from '../../../../Shared/Store/PublicStorage/QSPage/QuestionSequencePlayer/SameAnswerNode';
 import { shuffle } from '../../../../Shared/Utils/array';
-import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
+import type { BasicUserData } from '../../../../Shared/Store/UserStore/user-session';
 import { FILE_URL, SERVER_BASE_URL } from '../../../../settings';
 import { executeMutation } from '../../../../Shared/ServerLayer/QueryLayer/execute-mutation';
 import { writeApi } from '../../../../Shared/ServerLayer/QueryLayer/write-api';
@@ -10,10 +10,14 @@ import { createDetailStatistic } from '../../../../Shared/ServerLayer/QueryLayer
 
 export class QuestionPlayerStore {
   disposers: Array<() => void> = [];
-  constructor(ownStore, questionID) {
+  constructor(
+    ownStore,
+    questionID,
+    private readonly user: BasicUserData | null = null,
+  ) {
     this.ownStore = ownStore;
     this.questionID = questionID;
-    makeAutoObservable(this, { disposers: false });
+    makeAutoObservable<this, 'user'>(this, { disposers: false, user: false });
     this.disposers.push(
       reaction(
         () => this.questionHasBeenCompleted,
@@ -358,8 +362,8 @@ export class QuestionPlayerStore {
   saveDetailStatistic() {
     createDetailStatistic({
       question_id: Number(this.questionID),
-      user_name: UserStorage?.username || 'Анонимный пользователь',
-      is_login: UserStorage.isLogin,
+      user_name: this.user?.username || 'Анонимный пользователь',
+      is_login: !!this.user?.id,
       question_has_been_completed: this?.questionHasBeenCompleted,
       statistic: {
         numberOfPasses: this.numberOfPasses,

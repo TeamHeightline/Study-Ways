@@ -20,7 +20,7 @@ import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import ForkRightIcon from '@mui/icons-material/ForkRight';
 import ThemeStoreObject from '../../../../../global-theme';
 import { alpha } from '@mui/material/styles';
-import { useAppSelector } from '../../../../../App/ReduxStore/RootStore';
+import { useCardPreviewMap } from '../../../../Cards/CardMicroView/store/api';
 import Typography from '@mui/material/Typography';
 import { toJS } from 'mobx';
 
@@ -40,9 +40,7 @@ const RowFragment = observer(({ CRI, courseStore }: RowFragmentI) => {
   const [hoverItemLevel, setHoveredItemLevel] = useState<number>(0);
   const navigate = useNavigate();
   const isMobile = isMobileHook();
-  const card_hash_map = useAppSelector(
-    state => state.cardMicroView.card_hash_map,
-  );
+  const card_hash_map = useCardPreviewMap();
 
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);

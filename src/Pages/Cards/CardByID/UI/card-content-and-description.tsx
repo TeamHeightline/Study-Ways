@@ -1,3 +1,4 @@
+import { useUserSession } from '../../../../Shared/Store/UserStore/user-session';
 import { observer } from 'mobx-react';
 import React from 'react';
 import { PaperProps } from '@mui/material/Paper';
@@ -9,7 +10,6 @@ import CardGoToResource from './card-go-to-resourse';
 import TestBeforeCard from './test-before-card';
 import CardHistoryDrawer from '../../../CardHistory/UI/card-history-drawer';
 import CardFindInCourse from './card-find-in-course';
-import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
 import { useAuth0 } from '@auth0/auth0-react';
 import CardViews from './card-views';
 
@@ -19,6 +19,7 @@ interface ICardContentAndDescriptionProps extends PaperProps {
 
 const CardContentAndDescription = observer(
   ({ card_store, ...props }: ICardContentAndDescriptionProps) => {
+    const session = useUserSession();
     const { isAuthenticated } = useAuth0();
 
     return (
@@ -61,7 +62,7 @@ const CardContentAndDescription = observer(
             <Stack className="sw-card-details" direction={'column'} spacing={2}>
               <TestBeforeCard card_store={card_store} />
               <CardGoToResource card_store={card_store} />
-              {UserStorage.isLogin && <CardHistoryDrawer />}
+              {session.isLogin && <CardHistoryDrawer />}
               <CardDescription card_store={card_store} />
               <CardFindInCourse card_store={card_store} />
             </Stack>

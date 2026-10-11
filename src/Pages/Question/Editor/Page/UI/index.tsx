@@ -1,3 +1,4 @@
+import { useUserSession } from '../../../../../Shared/Store/UserStore/user-session';
 import React, { useEffect, useState } from 'react';
 import {
   Alert,
@@ -23,7 +24,6 @@ import { loadQuestionsThunk } from '../redux-store/AsyncActions';
 import { useGetAuthorsQuery } from '../../../../../Shared/Authors/api';
 import { getAuthorName } from '../../../../../Shared/Authors/types';
 import { useNavigate } from 'react-router-dom';
-import { UserStorage } from '../../../../../Shared/Store/UserStore/UserStore';
 import { UiCreateNewQuestion } from './ui-create-new-question';
 import HideNotFilledQuestions from './ui-hide-not-filled-questions';
 import UIOrderingByCreatedAt from './ui-ordering-by-created-at';
@@ -32,6 +32,7 @@ import AuthorSelector from './author-selector';
 import '../../question-editor.css';
 
 export const Index = observer(() => {
+  const session = useUserSession();
   const dispatch = useAppDispatch();
   const page = useAppSelector(state => state.questionEditorPage);
   const { data: authors = [] } = useGetAuthorsQuery('questions');
@@ -54,7 +55,7 @@ export const Index = observer(() => {
     const matchesAuthor =
       author_filter === 'all' ||
       (author_filter === 'my'
-        ? question.created_by_id === UserStorage.user_data?.id
+        ? question.created_by_id === session.user?.id
         : String(question.created_by_id) === author_filter);
     return (
       matchesAuthor &&
@@ -189,7 +190,7 @@ export const Index = observer(() => {
                   </Typography>
                   <span className="sw-qedit-card-author">
                     {authorName ||
-                      (question.created_by_id === UserStorage.user_data?.id
+                      (question.created_by_id === session.user?.id
                         ? 'Мой вопрос'
                         : 'Автор не указан')}
                   </span>

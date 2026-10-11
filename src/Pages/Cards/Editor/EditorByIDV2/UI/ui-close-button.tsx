@@ -1,19 +1,19 @@
 import React from 'react';
-import { observer } from 'mobx-react';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import { Button } from '@mui/material';
-import { CESObject } from '../Store/CardEditorStorage';
-export const UiCloseButton = observer(() => {
+import { useCardEditor } from '../model/use-card-editor';
+export const UiCloseButton = () => {
+  const editor = useCardEditor();
   const navigate = useNavigate();
   return (
     <Button
       className="sw-cedit-back"
       startIcon={<ArrowBackRoundedIcon />}
-      disabled={!CESObject.stateOfSave}
+      disabled={!editor.isSaved}
       onClick={() => navigate(-1)}
     >
       Назад
     </Button>
   );
-});
+};

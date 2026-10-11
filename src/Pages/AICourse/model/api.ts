@@ -1,7 +1,7 @@
 import recombeeClient from '../../../Shared/Store/RecombeeClient/recombee-client';
 // @ts-ignore
 import recombee, { RecommendItemsToItem } from 'recombee-js-api-client';
-import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
+import { getUserSession } from '../../../Shared/Store/UserStore/session-access';
 
 const NUMBER_OF_NEXT_CARDS = 3;
 
@@ -15,7 +15,7 @@ export async function getCardsBySearch(
     recombeeClient.send(
       // @ts-ignore
       new recombee.SearchItems(
-        String(UserStorage.userIDForRecombee),
+        String(getUserSession().recommendationUserId),
         searchString,
         NUMBER_OF_DEFAULT_CARDS,
         {
@@ -31,7 +31,7 @@ export async function getCardsBySearch(
           return;
         }
         // @ts-ignore
-        res(matches?.recomms?.map((recommItem) => recommItem?.id));
+        res(matches?.recomms?.map(recommItem => recommItem?.id));
       },
     );
   });
@@ -42,7 +42,7 @@ export async function getNextCards(cardID: number): Promise<number[]> {
     recombeeClient.send(
       new RecommendItemsToItem(
         String(cardID),
-        String(UserStorage.userIDForRecombee),
+        String(getUserSession().recommendationUserId),
         NUMBER_OF_NEXT_CARDS,
       ),
       (err, matches) => {
@@ -51,7 +51,7 @@ export async function getNextCards(cardID: number): Promise<number[]> {
           return;
         }
         // @ts-ignore
-        res(matches?.recomms?.map((recommItem) => recommItem?.id));
+        res(matches?.recomms?.map(recommItem => recommItem?.id));
       },
     );
   });

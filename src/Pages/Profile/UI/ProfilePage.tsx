@@ -1,5 +1,5 @@
+import { useUserSession } from '../../../Shared/Store/UserStore/user-session';
 import { ThemeManulNote } from '../../../Shared/Theme/ThemeManulNote';
-import { observer } from 'mobx-react';
 import React, { useEffect } from 'react';
 import {
   Alert,
@@ -20,7 +20,6 @@ import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
-import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 import {
   useAppDispatch,
   useAppSelector,
@@ -41,7 +40,8 @@ const editable = (profile: IProfile | null) =>
       key => profile?.[key] ?? '',
     ),
   );
-const ProfilePage = observer(({ className = '', ...props }: PaperProps) => {
+const ProfilePage = ({ className = '', ...props }: PaperProps) => {
+  const session = useUserSession();
   const dispatch = useAppDispatch();
   const {
     profileData: profile,
@@ -53,8 +53,8 @@ const ProfilePage = observer(({ className = '', ...props }: PaperProps) => {
     saved,
   } = useAppSelector(state => state.profile);
   useEffect(() => {
-    if (UserStorage.isLogin) dispatch(loadMyProfile());
-  }, [dispatch, UserStorage.isLogin]);
+    if (session.isLogin) dispatch(loadMyProfile());
+  }, [dispatch, session.user?.id]);
   const changed = editable(profile) !== editable(savedProfileData);
   const field = (key: keyof IProfile, value: IProfile[keyof IProfile]) =>
     dispatch(changeProfileData({ key, value }));
@@ -85,7 +85,7 @@ const ProfilePage = observer(({ className = '', ...props }: PaperProps) => {
           результатах обучения.
         </p>
       </header>
-      {pending && !profile && UserStorage.isLogin ? (
+      {pending && !profile && session.isLogin ? (
         <div className="sw-profile-loading" aria-label="Загрузка профиля">
           <Skeleton variant="rounded" height={300} />
           <Skeleton variant="rounded" height={450} />
@@ -300,5 +300,5 @@ const ProfilePage = observer(({ className = '', ...props }: PaperProps) => {
       )}
     </Paper>
   );
-});
+};
 export default ProfilePage;

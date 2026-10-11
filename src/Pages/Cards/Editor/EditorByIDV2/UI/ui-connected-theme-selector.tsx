@@ -1,22 +1,19 @@
 import React from 'react';
-import { observer } from 'mobx-react';
-import { toJS } from 'mobx';
-import { CESObject } from '../Store/CardEditorStorage';
+import { useCardEditor } from '../model/use-card-editor';
 import { useGetConnectedThemesQuery } from '../../../../../Shared/ConnectedThemes/api';
 import { ThemeLoadError } from '../../../../../Shared/ConnectedThemes/ThemeLoadError';
 import { ThemeSelect } from '../../../../../Shared/ConnectedThemes/ThemeSelect';
 
-export const UiConnectedThemeSelector = observer(() => {
+export const UiConnectedThemeSelector = () => {
+  const editor = useCardEditor();
   const themes = useGetConnectedThemesQuery();
   return (
     <div className="sw-cedit-theme">
       <ThemeSelect
         id="cedit-card-themes"
         themes={themes.data ?? []}
-        selectedIds={toJS(CESObject.card_object?.connectedTheme || []).map(
-          String,
-        )}
-        onChange={ids => CESObject.changeFieldByValue('connectedTheme', ids)}
+        selectedIds={(editor.draft.connectedTheme || []).map(String)}
+        onChange={ids => editor.changeFieldByValue('connectedTheme', ids)}
         multiple
         disabled={!themes.data}
         loading={themes.isFetching}
@@ -29,4 +26,4 @@ export const UiConnectedThemeSelector = observer(() => {
       </p>
     </div>
   );
-});
+};

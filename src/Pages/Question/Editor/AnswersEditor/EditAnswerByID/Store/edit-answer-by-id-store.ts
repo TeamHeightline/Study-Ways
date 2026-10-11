@@ -8,12 +8,7 @@ import {
   answerWriteData,
   writtenAnswerData,
 } from '../../../../../../Shared/ServerLayer/QueryLayer/answer-write-data';
-import { UserStorage } from '../../../../../../Shared/Store/UserStore/UserStore';
 import { AnswerDifficulty } from '../../../../../../Shared/ServerLayer/Types/question.type';
-import {
-  object_properties_to_array_mapper,
-  RemoveTypename,
-} from '../../../../../Cards/Editor/EditorByIDV2/Store/CardEditorStorage';
 import { computedFn } from 'mobx-utils';
 import { SERVER_BASE_URL } from '../../../../../../settings';
 import { QuestionEditorStorage } from '../../../QuestionEditor/Store/QuestionEditorStorage';
@@ -57,7 +52,6 @@ export class EditAnswerByIdStore {
     }
   }
 
-  userStorage = UserStorage;
   questionStore = QuestionEditorStorage;
   answer_id?: number;
   answer_object?: answer_data_object;

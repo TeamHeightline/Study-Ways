@@ -1,3 +1,4 @@
+import { useUserSession } from '../../../../../Shared/Store/UserStore/user-session';
 import { Badge, Box, IconButton, Paper, Popover, Tooltip } from '@mui/material';
 import { BoxProps } from '@mui/material/Box';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
@@ -14,13 +15,13 @@ import {
 } from '../redux-store/NotificationSlice';
 import { useSelector } from 'react-redux';
 import NotificationContent from './notification-content';
-import { UserStorage } from '../../../../../Shared/Store/UserStore/UserStore';
 
 type INotificationButtonForNavbarProps = BoxProps;
 
 export default function NotificationButtonForNavbar({
   ...props
 }: INotificationButtonForNavbarProps) {
+  const session = useUserSession();
   const dispatch = useAppDispatch();
   const number_of_not_viewed_notifications = useSelector(
     (state: RootState) => state.notification.number_of_not_viewed_notifications,
@@ -35,13 +36,15 @@ export default function NotificationButtonForNavbar({
   }
 
   useEffect(() => {
+    let cancelled = false;
     // @ts-ignore
     recombeeClient.send(
       // @ts-ignore
-      new recombee.RecommendItemsToUser(UserStorage.userIDForRecombee, 5, {
+      new recombee.RecommendItemsToUser(session.recommendationUserId, 5, {
         scenario: 'On-open-suggestion',
       }),
       (err, matches) => {
+        if (cancelled) return;
         const cardsID = matches?.recomms?.map(recomm => recomm.id);
         if (cardsID) {
           const notification: INotificationFormat = {
@@ -53,7 +56,10 @@ export default function NotificationButtonForNavbar({
         }
       },
     );
-  }, []);
+    return () => {
+      cancelled = true;
+    };
+  }, [session.recommendationUserId, dispatch]);
   return (
     <Box {...props}>
       <Tooltip title={'Уведомления'}>

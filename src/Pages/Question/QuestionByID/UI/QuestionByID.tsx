@@ -1,3 +1,4 @@
+import { useUserSession } from '../../../../Shared/Store/UserStore/user-session';
 import React, { useEffect, useMemo, useState } from 'react';
 import { observer } from 'mobx-react';
 import { QuestionPlayerStore } from '../Store/QuestionPlayerStore';
@@ -6,7 +7,6 @@ import { Alert, Button, Box, CircularProgress, Stack } from '@mui/material';
 
 import { useLocation, useParams } from 'react-router-dom';
 import { RequireLogInAlert } from '../../../../App/SharedComponents/Notifications/RequireLogInAlert';
-import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
 
 import UiCreateAnswerErrorReport from './ui-create-answer-error-report';
 import UISelectHardLevel from './ui-select-hard-level';
@@ -19,24 +19,24 @@ import { useGetQuestionPlayerDataQuery } from '../../question-read-api';
 import { runInAction } from 'mobx';
 
 export const QuestionByID = observer((props: any) => {
+  const session = useUserSession();
   const slug = useLocation();
 
   const { id } = useParams();
 
   const questionId = Number(id ?? props.id);
   const examMode = new URLSearchParams(slug.search).get('exam') === 'true';
-  const userId = UserStorage.user_data?.id;
+  const userId = session.user?.id;
   const [restart, setRestart] = useState(0);
   const questionStore = useMemo(() => {
-    const store = new QuestionPlayerStore(null, questionId);
+    const store = new QuestionPlayerStore(null, questionId, session.user);
     store.changeIsUseExamMode(examMode);
     return store;
-  }, [questionId, examMode, userId, restart]);
+  }, [questionId, examMode, session.user, restart]);
   const query = useGetQuestionPlayerDataQuery(
     { id: questionId, examMode, userId },
     {
-      skip:
-        !UserStorage.isLogin || !Number.isInteger(questionId) || questionId < 1,
+      skip: !session.isLogin || !Number.isInteger(questionId) || questionId < 1,
     },
   );
   useEffect(() => () => questionStore.dispose(), [questionStore]);
@@ -50,7 +50,7 @@ export const QuestionByID = observer((props: any) => {
   }, [questionStore.questionHasBeenCompleted, props.questionHasBeenCompleted]);
   const restartQuestion = () => setRestart(value => value + 1);
 
-  if (!UserStorage.isLogin) {
+  if (!session.isLogin) {
     return <RequireLogInAlert requireShow />;
   }
 

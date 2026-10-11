@@ -1,11 +1,9 @@
 import { observer } from 'mobx-react';
 import { Box, Fade, LinearProgress, Typography } from '@mui/material';
-import { useAppSelector } from '../../../App/ReduxStore/RootStore';
+import { useCardPreviewMap } from '../../Cards/CardMicroView/store/api';
 
 export const CardsNotLoadedIndicator = observer(() => {
-  const card_hash_map = useAppSelector(
-    (state) => state.cardMicroView.card_hash_map,
-  );
+  const card_hash_map = useCardPreviewMap();
 
   const isCardsNotLoaded = Object.keys(card_hash_map).length === 0;
 

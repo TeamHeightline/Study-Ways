@@ -1,5 +1,5 @@
+import { useUserSession } from '../../../Shared/Store/UserStore/user-session';
 import React, { useEffect, useState } from 'react';
-import { observer } from 'mobx-react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { AccountCircle } from '@mui/icons-material';
@@ -14,7 +14,6 @@ import {
   Switch,
   TextField,
 } from '@mui/material';
-import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 import { RequireLogInAlert } from '../../../App/SharedComponents/Notifications/RequireLogInAlert';
 import { ShowStatisticTable } from './show-statistic-for-selected-questions/ShowStatisticTable';
 import { SpecificQuestion } from './show-statistic-for-selected-questions/statistic-selector/UI/SpecificQuestion';
@@ -223,9 +222,10 @@ function StatisticContent({ userId }: { userId: number }) {
   );
 }
 
-export const StatisticV2 = observer(() => {
+export const StatisticV2 = () => {
+  const session = useUserSession();
   const { isLoading, isAuthenticated } = useAuth0();
-  const user = UserStorage.user_data;
+  const user = session.user;
   return (
     <div className="sw-statistics-page">
       <div className="sw-statistics-heading">
@@ -247,4 +247,4 @@ export const StatisticV2 = observer(() => {
       )}
     </div>
   );
-});
+};

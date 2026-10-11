@@ -1,3 +1,4 @@
+import { setTestUser } from '../../../Shared/Store/UserStore/user-session.test-utils';
 import { studyWaysApi } from '../../../Shared/ServerLayer/QueryLayer/api';
 let mockStore;
 import React from 'react';
@@ -11,13 +12,14 @@ import axiosClient from '../../../Shared/ServerLayer/QueryLayer/config';
 
 jest.mock('../../../App/ReduxStore/RootStore', () => ({
   __esModule: true,
-  default: { dispatch: (...args) => mockStore.dispatch(...args) },
+  default: {
+    dispatch: (...args) => mockStore.dispatch(...args),
+    getState: () => mockStore.getState(),
+  },
   useAppDispatch: require('react-redux').useDispatch,
   useAppSelector: require('react-redux').useSelector,
 }));
-jest.mock('../../../Shared/Store/UserStore/UserStore', () => ({
-  UserStorage: { isLogin: true },
-}));
+
 jest.mock('../../../Shared/ServerLayer/QueryLayer/config', () => ({
   get: jest.fn(),
   request: jest.fn(),
@@ -53,7 +55,7 @@ async function fill(label, value) {
     field.dispatchEvent(new Event('input', { bubbles: true }));
   });
 }
-beforeEach(() => {
+beforeEach(async () => {
   global.IS_REACT_ACT_ENVIRONMENT = true;
   axiosClient.get.mockReset().mockResolvedValue({ data: empty });
   axiosClient.request.mockReset().mockResolvedValue({ data: {} });
@@ -63,6 +65,11 @@ beforeEach(() => {
       [studyWaysApi.reducerPath]: studyWaysApi.reducer,
     },
     middleware: getDefault => getDefault().concat(studyWaysApi.middleware),
+  });
+  await setTestUser(store, {
+    id: 7,
+    username: 'student',
+    user_access_level: 'STUDENT',
   });
   container = document.createElement('div');
   document.body.appendChild(container);

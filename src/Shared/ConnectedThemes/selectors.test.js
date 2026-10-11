@@ -1,17 +1,22 @@
 import React from 'react';
 import { act as legacyAct, Simulate } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
-import { Provider } from 'react-redux';
+import { Provider, useSelector, useDispatch } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { runInAction } from 'mobx';
 import { connectedThemesApi } from './api';
 import axiosClient from '../ServerLayer/QueryLayer/config';
 import { ConnectedThemes } from '../../Pages/Cards/Selector/UI/ConnectedThemes';
-import { UiConnectedThemeSelector } from '../../Pages/Cards/Editor/EditorByIDV2/UI/ui-connected-theme-selector';
+import { UiConnectedThemeSelector as CardThemeSelector } from '../../Pages/Cards/Editor/EditorByIDV2/UI/ui-connected-theme-selector';
 import ConnectedThemeSelector from '../../Pages/Question/Editor/QuestionEditor/UI/ui-connected-theme-selector';
 import AIThemeFilter from '../../Pages/Cards/Page/AISearch/UI/AIThemeFilter';
 import { CSSObject } from '../../Pages/Cards/Selector/Store/CardSelectorStore';
-import { CESObject } from '../../Pages/Cards/Editor/EditorByIDV2/Store/CardEditorStorage';
+import cardEditorReducer, {
+  initializeDraft,
+  changeCardField,
+} from '../../Pages/Cards/Editor/EditorByIDV2/model/card-editor-slice';
+import { editableDefaults } from '../../Pages/Cards/Editor/EditorByIDV2/model/types';
+import { CardEditorProvider } from '../../Pages/Cards/Editor/EditorByIDV2/model/use-card-editor';
 import { QuestionEditorStorage } from '../../Pages/Question/Editor/QuestionEditor/Store/QuestionEditorStorage';
 import { AISObject } from '../../Pages/Cards/Page/AISearch/Store/AISearch';
 import { getAutocompleteCardDataAsync } from '../../Pages/Cards/Page/AISearch/Store/Query';
@@ -22,20 +27,6 @@ jest.mock('../../Pages/Cards/Selector/Store/CardSelectorStore', () => ({
     cardConnectedTheme: undefined,
   }),
 }));
-jest.mock(
-  '../../Pages/Cards/Editor/EditorByIDV2/Store/CardEditorStorage',
-  () => ({
-    CESObject: require('mobx').makeAutoObservable(
-      {
-        card_object: { connectedTheme: [] },
-        changeFieldByValue: jest.fn(function (field, value) {
-          this.card_object[field] = value;
-        }),
-      },
-      { changeFieldByValue: false },
-    ),
-  }),
-);
 jest.mock(
   '../../Pages/Question/Editor/QuestionEditor/Store/QuestionEditorStorage',
   () => ({
@@ -49,6 +40,26 @@ jest.mock('../../Pages/Cards/Page/AISearch/Store/Query', () => ({
   selectRecommendedCardReport: jest.fn(),
 }));
 
+function UiConnectedThemeSelector() {
+  const draft = useSelector(state => state.cardEditor.entries.test.draft);
+  const dispatch = useDispatch();
+  return (
+    <CardEditorProvider
+      value={{
+        draft,
+        changeFieldByValue: (field, value) =>
+          dispatch(changeCardField({ key: 'test', field, value })),
+      }}
+    >
+      <CardThemeSelector />
+    </CardEditorProvider>
+  );
+}
+const cardDraft = () => store.getState().cardEditor.entries.test.draft;
+const setCardThemes = value =>
+  store.dispatch(
+    changeCardField({ key: 'test', field: 'connectedTheme', value }),
+  );
 const act = React.act || legacyAct;
 const themes = [
   { id: 10, text: 'Физика', parentId: null },
@@ -77,22 +88,31 @@ beforeEach(() => {
   global.IS_REACT_ACT_ENVIRONMENT = true;
   axiosClient.request.mockReset().mockResolvedValue({ data: themes });
   getAutocompleteCardDataAsync.mockClear();
-  CESObject.changeFieldByValue.mockImplementation(function (field, value) {
-    runInAction(() => {
-      this.card_object[field] = value;
-    });
-  });
   runInAction(() => {
     CSSObject.cardConnectedTheme = undefined;
-    CESObject.card_object.connectedTheme = [];
     QuestionEditorStorage.selectedConnectedTheme = undefined;
     AISObject.setThemeFilter(undefined, []);
   });
   store = configureStore({
-    reducer: { [connectedThemesApi.reducerPath]: connectedThemesApi.reducer },
+    reducer: {
+      [connectedThemesApi.reducerPath]: connectedThemesApi.reducer,
+      cardEditor: cardEditorReducer,
+    },
     middleware: getDefault =>
       getDefault().concat(connectedThemesApi.middleware),
   });
+  store.dispatch(
+    initializeDraft({
+      key: 'test',
+      draft: {
+        ...editableDefaults,
+        id: 812,
+        created_by_id: 7,
+        connectedTheme: [],
+      },
+      imagePath: '',
+    }),
+  );
   jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
     width: 400,
     height: 40,
@@ -123,7 +143,7 @@ afterEach(() => {
 test('all selectors share one lazy REST read and loading never changes saved selections', async () => {
   expect(axiosClient.request).not.toHaveBeenCalled();
   runInAction(() => {
-    CESObject.card_object.connectedTheme = [12];
+    setCardThemes([12]);
     QuestionEditorStorage.selectedConnectedTheme = '11';
     AISObject.setThemeFilter(10, ['10']);
   });
@@ -153,8 +173,8 @@ test('all selectors share one lazy REST read and loading never changes saved sel
   expect(container.querySelectorAll('[role=combobox]:disabled')).toHaveLength(
     0,
   );
-  expect(CESObject.changeFieldByValue).not.toHaveBeenCalled();
-  expect(CESObject.card_object.connectedTheme).toEqual([12]);
+  expect(store.getState().cardEditor.entries.test.revision).toBe(1);
+  expect(cardDraft().connectedTheme).toEqual([12]);
   expect(QuestionEditorStorage.selectedConnectedTheme).toBe('11');
   expect(AISObject.themeWithPatentIDArray).toEqual(['10', '11', '12']);
   expect(AISObject.AIQueryFilterString).toContain('{"10", "11", "12"}');
@@ -178,17 +198,14 @@ test('ordinary search can select a nested theme and clear it', async () => {
   expect(CSSObject.cardConnectedTheme).toBeUndefined();
 });
 
-test('card editor saves multiple string IDs while question editor saves a single ID', async () => {
+test('card editor saves multiple numeric IDs while question editor saves a single ID', async () => {
   await render(<UiConnectedThemeSelector />);
   await open();
   await expand('Физика');
   await expand('Оптика');
   await click(title('Волны'));
   await click(title('Механика'));
-  expect(CESObject.changeFieldByValue).toHaveBeenLastCalledWith(
-    'connectedTheme',
-    ['12', '20'],
-  );
+  expect(cardDraft().connectedTheme).toEqual([12, 20]);
   await render(<ConnectedThemeSelector />);
   await open();
   await expand('Физика');
@@ -265,7 +282,7 @@ test('keyboard navigation expands branches and selects a deeply nested theme', a
 
 test('removing one selected chip and clearing the rest preserves independent multi-selection', async () => {
   runInAction(() => {
-    CESObject.card_object.connectedTheme = [12, 20];
+    setCardThemes([12, 20]);
   });
   await render(<UiConnectedThemeSelector />);
   expect(
@@ -276,9 +293,9 @@ test('removing one selected chip and clearing the rest preserves independent mul
   await act(async () =>
     Simulate.click(container.querySelector('.MuiChip-deleteIcon')),
   );
-  expect(CESObject.card_object.connectedTheme).toEqual(['20']);
+  expect(cardDraft().connectedTheme).toEqual([20]);
   await click(container.querySelector('[aria-label="Сбросить тему"]'));
-  expect(CESObject.card_object.connectedTheme).toEqual([]);
+  expect(cardDraft().connectedTheme).toEqual([]);
 });
 
 test('closing search with Escape and reopening keeps the visible query and its results in sync', async () => {

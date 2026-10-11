@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { observer } from 'mobx-react';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { CESObject } from '../Store/CardEditorStorage';
+import { useCardEditor } from '../model/use-card-editor';
 import { UiYoutube } from './ui-youtube';
 import { UiVkVideo } from './ui-vk-video';
 import { UiRutube } from './ui-rutube';
 import { parseRutubeUrl } from '../../../../../Shared/Video/rutube';
-export const UiVideo = observer(() => {
+export const UiVideo = () => {
+  const editor = useCardEditor();
   const defaultHosting = () =>
-    CESObject.getField('vk_video_url', '')
+    (editor.draft.vk_video_url ?? '')
       ? 'VK'
-      : parseRutubeUrl(CESObject.getField('video_url', ''))
+      : parseRutubeUrl(editor.draft.video_url ?? '')
         ? 'Rutube'
         : 'Youtube';
-  const cardID = CESObject.getField('id', '');
+  const cardID = editor.draft.id ?? '';
   const [hosting, setHosting] = useState<'VK' | 'Youtube' | 'Rutube'>(
     defaultHosting,
   );
   useEffect(() => setHosting(defaultHosting()), [cardID]);
   return (
-    <div className="sw-cedit-video" key={CESObject.getField('id', '')}>
+    <div className="sw-cedit-video" key={editor.draft.id ?? ''}>
       <ToggleButtonGroup
         value={hosting}
         exclusive
@@ -42,4 +42,4 @@ export const UiVideo = observer(() => {
       )}
     </div>
   );
-});
+};

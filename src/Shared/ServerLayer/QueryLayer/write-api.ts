@@ -32,6 +32,7 @@ export interface WrittenAnswer {
   only_for_exam: boolean;
 }
 const cardTags = [
+  'CardEditor',
   'CardList',
   'Card',
   'Course',
@@ -65,6 +66,7 @@ const additionalTags = [
   'Bookmarks',
   'Profile',
   'Users',
+  'CurrentUser',
   'SelfStatistic',
   'Statistic',
 ] as const;
@@ -87,13 +89,16 @@ const questionIdTags = (id: number): WriteTag[] => [
   { type: 'QuestionAnswers', id },
   { type: 'QuestionEditor', id },
 ];
-const materialChanged = (type: 'Card' | 'Course', id: number): WriteTag[] => [
-  { type, id },
-  ...(type === 'Card'
-    ? (['CardList'] as const)
-    : (['OwnCourses', 'CourseCatalog', 'CardCourseLinks'] as const)),
-  'Authors',
-];
+const materialChanged = (type: 'Card' | 'Course', id: number): WriteTag[] =>
+  type === 'Card'
+    ? [...cardTags]
+    : [
+        { type, id },
+        'OwnCourses',
+        'CourseCatalog',
+        'CardCourseLinks',
+        'Authors',
+      ];
 
 export const writeApi = studyWaysApi
   .enhanceEndpoints({ addTagTypes: writeTags })
@@ -285,7 +290,8 @@ export const writeApi = studyWaysApi
           method: 'PUT',
           data: { user_access_level: role },
         }),
-        invalidatesTags: success(['Users']),
+        invalidatesTags: (_result, error, { id }) =>
+          error ? [] : ['Users', { type: 'CurrentUser', id }],
       }),
       createAnswerReport: builder.mutation<
         { id: number },

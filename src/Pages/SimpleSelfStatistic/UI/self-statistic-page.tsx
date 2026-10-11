@@ -1,5 +1,5 @@
+import { useUserSession } from '../../../Shared/Store/UserStore/user-session';
 import { ThemeManulNote } from '../../../Shared/Theme/ThemeManulNote';
-import { observer } from 'mobx-react';
 import React, { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import {
@@ -10,7 +10,6 @@ import {
   Stack,
 } from '@mui/material';
 import { ShowStatisticTable } from '../../Statistic/V2/show-statistic-for-selected-questions/ShowStatisticTable';
-import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 import { RequireLogInAlert } from '../../../App/SharedComponents/Notifications/RequireLogInAlert';
 import { useGetSelfStatisticPageQuery } from '../Store/self-statistic-api';
 
@@ -82,24 +81,21 @@ function SelfStatisticResults({ userId }: { userId: number }) {
   );
 }
 
-export const SelfStatisticPage = observer(
-  ({ ...props }: ISelfStatisticPageProps) => {
-    const { isLoading, isAuthenticated } = useAuth0();
-    // Shared authentication is still backed by UserStorage. It becomes ready
-    // after AppHook installs the authenticated Axios interceptor.
-    const userId = UserStorage.user_data?.id;
+export const SelfStatisticPage = ({ ...props }: ISelfStatisticPageProps) => {
+  const session = useUserSession();
+  const { isLoading, isAuthenticated } = useAuth0();
+  const userId = session.user?.id;
 
-    return (
-      <div {...props}>
-        <ThemeManulNote context="results" />
-        {isLoading || (isAuthenticated && !userId) ? (
-          <LoadingStatistic />
-        ) : !isAuthenticated ? (
-          <RequireLogInAlert requireShow />
-        ) : (
-          <SelfStatisticResults key={userId} userId={userId!} />
-        )}
-      </div>
-    );
-  },
-);
+  return (
+    <div {...props}>
+      <ThemeManulNote context="results" />
+      {isLoading || (isAuthenticated && !userId) ? (
+        <LoadingStatistic />
+      ) : !isAuthenticated ? (
+        <RequireLogInAlert requireShow />
+      ) : (
+        <SelfStatisticResults key={userId} userId={userId!} />
+      )}
+    </div>
+  );
+};

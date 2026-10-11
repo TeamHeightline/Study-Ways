@@ -1,5 +1,5 @@
-import { UserStorage } from '../UserStore';
+import { getUserSession } from '../session-access';
 
-export default function haveStatus(statusArray: string[]) {
-  return statusArray.includes(UserStorage.userAccessLevel);
+export default function haveStatus(roles: string[]) {
+  return roles.includes(getUserSession().role);
 }

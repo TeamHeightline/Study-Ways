@@ -1,16 +1,18 @@
 import React from 'react';
-import { observer } from 'mobx-react';
 import { Button } from '@mui/material';
 import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded';
-import { CESObject } from '../Store/CardEditorStorage';
-const UICreateButton = observer(() => (
-  <Button
-    variant="outlined"
-    startIcon={<ContentCopyRoundedIcon />}
-    disabled={!CESObject.stateOfSave}
-    onClick={CESObject.openCopyCardDialog}
-  >
-    Создать копию
-  </Button>
-));
+import { useCardEditor } from '../model/use-card-editor';
+const UICreateButton = () => {
+  const editor = useCardEditor();
+  return (
+    <Button
+      variant="outlined"
+      startIcon={<ContentCopyRoundedIcon />}
+      disabled={!editor.isSaved}
+      onClick={editor.openCopyCardDialog}
+    >
+      Создать копию
+    </Button>
+  );
+};
 export default UICreateButton;

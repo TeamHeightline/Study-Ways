@@ -1,3 +1,4 @@
+import { setTestUser } from '../../../Shared/Store/UserStore/user-session.test-utils';
 import React from 'react';
 import { act as legacyAct } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
@@ -18,9 +19,7 @@ jest.mock('../../../App/ReduxStore/RootStore', () => ({
 jest.mock('../../../Shared/ServerLayer/QueryLayer/config', () => ({
   request: jest.fn(),
 }));
-jest.mock('../../../Shared/Store/UserStore/UserStore', () => ({
-  UserStorage: { user_data: { id: 7 } },
-}));
+
 jest.mock('../EditCourseByID/EditCourseByID', () => ({
   __esModule: true,
   default: ({ course_id, onChange }) => {
@@ -46,12 +45,17 @@ const course = {
 const ownQuery = courses => ({ rest: courses });
 const createRequest = {};
 let root, container, store;
-beforeEach(() => {
+beforeEach(async () => {
   global.IS_REACT_ACT_ENVIRONMENT = true;
   jest.useFakeTimers();
   store = configureStore({
     reducer: { [courseApi.reducerPath]: courseApi.reducer },
     middleware: getDefault => getDefault().concat(courseApi.middleware),
+  });
+  await setTestUser(store, {
+    id: 7,
+    username: 'student',
+    user_access_level: 'TEACHER',
   });
   container = document.createElement('div');
   document.body.appendChild(container);

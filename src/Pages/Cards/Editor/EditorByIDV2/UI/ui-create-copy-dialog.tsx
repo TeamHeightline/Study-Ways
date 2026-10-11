@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { observer } from 'mobx-react';
 import {
   Alert,
   Button,
@@ -13,25 +12,26 @@ import {
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CESObject } from '../Store/CardEditorStorage';
-const UICreateCopyDialog = observer(() => {
+import { useCardEditor } from '../model/use-card-editor';
+const UICreateCopyDialog = () => {
+  const editor = useCardEditor();
   const navigate = useNavigate();
   const location = useLocation();
   const [error, setError] = useState(false);
   useEffect(() => {
-    if (CESObject.isOpenCopyCardDialog) setError(false);
-  }, [CESObject.isOpenCopyCardDialog]);
+    if (editor.copyOpen) setError(false);
+  }, [editor.copyOpen]);
   const close = () => {
-    if (!CESObject.isPendingCreateCopy) CESObject.closeCopyCardDialog();
+    if (!editor.copying) editor.closeCopyCardDialog();
   };
   const create = async () => {
     setError(false);
     try {
-      const oldId = CESObject.card_object?.id;
-      const result = await CESObject.createCopyCard();
+      const oldId = editor.draft?.id;
+      const result = await editor.createCopyCard();
       const newId = result?.data?.id;
       if (!oldId || !newId) throw new Error('Copy was not created');
-      CESObject.closeCopyCardDialog();
+      editor.closeCopyCardDialog();
       navigate(
         location.pathname.replace(new RegExp(`/${oldId}/?$`), `/${newId}`),
       );
@@ -41,7 +41,7 @@ const UICreateCopyDialog = observer(() => {
   };
   return (
     <Dialog
-      open={CESObject.isOpenCopyCardDialog}
+      open={editor.copyOpen}
       onClose={close}
       fullWidth
       maxWidth="xs"
@@ -52,7 +52,7 @@ const UICreateCopyDialog = observer(() => {
       <DialogTitle>
         Создать копию карточки
         <IconButton
-          disabled={CESObject.isPendingCreateCopy}
+          disabled={editor.copying}
           onClick={close}
           aria-label="Закрыть"
         >
@@ -71,13 +71,13 @@ const UICreateCopyDialog = observer(() => {
         )}
       </DialogContent>
       <DialogActions>
-        <Button disabled={CESObject.isPendingCreateCopy} onClick={close}>
+        <Button disabled={editor.copying} onClick={close}>
           Отмена
         </Button>
         <Button
           variant="contained"
           startIcon={<ContentCopyRoundedIcon />}
-          loading={CESObject.isPendingCreateCopy}
+          loading={editor.copying}
           onClick={create}
         >
           Создать копию
@@ -85,5 +85,5 @@ const UICreateCopyDialog = observer(() => {
       </DialogActions>
     </Dialog>
   );
-});
+};
 export default UICreateCopyDialog;

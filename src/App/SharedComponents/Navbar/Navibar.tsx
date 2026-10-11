@@ -1,7 +1,7 @@
+import { useUserSession } from '../../../Shared/Store/UserStore/user-session';
 import { CardRouteBreadcrumbs } from '../../../Pages/Cards/CardByID/UI/card-route-breadcrumbs';
 import React, { useState } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
-import { observer } from 'mobx-react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button, IconButton } from '@mui/material';
 import {
@@ -17,8 +17,6 @@ import {
   Menu as MenuIcon,
   EditOutlined,
 } from '@mui/icons-material';
-import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
-import haveStatus from '../../../Shared/Store/UserStore/utils/HaveStatus';
 import PersonalMenu from './PersonalMenu';
 import { LoginButton } from './LoginButton';
 import { ThemeSelector } from '../../../Shared/Theme/ThemeSelector';
@@ -49,7 +47,9 @@ const personal = [
   { to: '/selfstatistic', label: 'Мои результаты', icon: <BarChartOutlined /> },
 ];
 
-export const Navibar = observer(() => {
+export const Navibar = () => {
+  const session = useUserSession();
+  const haveStatus = (roles: string[]) => roles.includes(session.role);
   const { loginWithPopup, isLoading, isAuthenticated } = useAuth0();
   const [loginError, setLoginError] = useState(false);
   const [loginPending, setLoginPending] = useState(false);
@@ -135,7 +135,7 @@ export const Navibar = observer(() => {
         <div className="sw-nav-caption">ПРОСТРАНСТВО ЗНАНИЙ</div>
         <nav>{renderLinks(links)}</nav>
         <div className="sw-nav-caption">МОЁ ОБУЧЕНИЕ</div>
-        {UserStorage.isLogin || isAuthenticated ? (
+        {session.isLogin || isAuthenticated ? (
           <nav>
             {renderLinks(personal)}
             {haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR']) &&
@@ -207,9 +207,9 @@ export const Navibar = observer(() => {
         </div>
         <div className="sw-account">
           <ThemeSelector />
-          {UserStorage.isLogin ? <PersonalMenu /> : <LoginButton />}
+          {session.isLogin ? <PersonalMenu /> : <LoginButton />}
         </div>
       </header>
     </>
   );
-});
+};

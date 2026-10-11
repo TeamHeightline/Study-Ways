@@ -1,3 +1,4 @@
+import { setTestUser } from '../../../Shared/Store/UserStore/user-session.test-utils';
 import React from 'react';
 import { act as legacyAct } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
@@ -5,11 +6,9 @@ import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { Auth0Provider } from '@auth0/auth0-react';
-import { runInAction } from 'mobx';
 import { selfStatisticApi } from '../Store/self-statistic-api';
 import { SelfStatisticPage } from './self-statistic-page';
 import axiosClient from '../../../Shared/ServerLayer/QueryLayer/config';
-import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 
 jest.mock('../../../Shared/ServerLayer/QueryLayer/config', () => ({
   request: jest.fn(),
@@ -22,9 +21,7 @@ jest.mock('@auth0/auth0-react', () => {
     useAuth0: () => React.useContext(AuthContext),
   };
 });
-jest.mock('../../../Shared/Store/UserStore/UserStore', () => ({
-  UserStorage: require('mobx').observable({ user_data: { id: 7 } }),
-}));
+
 jest.mock('../../../Shared/Theme/ThemeManulNote', () => ({
   ThemeManulNote: () => null,
 }));
@@ -52,12 +49,9 @@ const attempts = () => container.querySelector('[data-testid="attempts"]');
 const pageTwo = () =>
   container.querySelector('button[aria-label="Go to page 2"]');
 
-beforeEach(() => {
+beforeEach(async () => {
   global.IS_REACT_ACT_ENVIRONMENT = true;
   auth = { isLoading: false, isAuthenticated: true };
-  runInAction(() => {
-    UserStorage.user_data = { id: 7 };
-  });
   axiosClient.request.mockReset().mockImplementation(async ({ params }) => ({
     data: {
       ids: params.page === 1 ? [105, 104] : [55],
@@ -69,6 +63,11 @@ beforeEach(() => {
     reducer: { [selfStatisticApi.reducerPath]: selfStatisticApi.reducer },
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware().concat(selfStatisticApi.middleware),
+  });
+  await setTestUser(store, {
+    id: 7,
+    username: 'student',
+    user_access_level: 'STUDENT',
   });
   container = document.createElement('div');
   document.body.appendChild(container);
@@ -120,16 +119,10 @@ test('does not request statistics for anonymous users or while Auth0 is loading'
 });
 
 test('waits for authenticated Axios setup and the current user before requesting the list', async () => {
-  runInAction(() => {
-    UserStorage.user_data = null;
-  });
+  await act(async () => setTestUser(store, null));
   await render();
   expect(axiosClient.request).not.toHaveBeenCalled();
-  await act(async () =>
-    runInAction(() => {
-      UserStorage.user_data = { id: 7 };
-    }),
-  );
+  await act(async () => setTestUser(store, { id: 7 }));
   expect(attempts().textContent).toBe('105,104');
   expect(axiosClient.request).toHaveBeenCalledTimes(1);
   expect(axiosClient.request.mock.calls[0][0]).toEqual(
@@ -195,11 +188,7 @@ test('resets pagination and isolates private results when the current account ch
         finish = resolve;
       }),
   );
-  await act(async () =>
-    runInAction(() => {
-      UserStorage.user_data = { id: 8 };
-    }),
-  );
+  await act(async () => setTestUser(store, { id: 8 }));
   expect(attempts()).toBeNull();
   expect(axiosClient.request.mock.calls[2][0].params).toEqual({ page: 1 });
   await act(async () =>

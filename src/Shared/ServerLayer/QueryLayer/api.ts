@@ -30,6 +30,7 @@ const axiosBaseQuery: BaseQueryFn<
 
 export const studyWaysApi = createApi({
   reducerPath: 'studyWaysApi',
+  tagTypes: ['CurrentUser'],
   baseQuery: axiosBaseQuery,
   keepUnusedDataFor: 300,
   endpoints: () => ({}),

@@ -1,3 +1,4 @@
+import { useUserSession } from '../../../../../Shared/Store/UserStore/user-session';
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { Alert, Button, Paper, Skeleton, Typography } from '@mui/material';
@@ -22,15 +23,15 @@ import {
   questionReadApi,
 } from '../../../question-read-api';
 import { useAppDispatch } from '../../../../../App/ReduxStore/RootStore';
-import { UserStorage } from '../../../../../Shared/Store/UserStore/UserStore';
 
 export const EditQuestionByID = observer(
   ({ questionID }: { questionID?: string }) => {
+    const session = useUserSession();
     const store = QuestionEditorStorage;
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const [loadQuestion] = useLazyGetQuestionEditorDataQuery();
-    const userId = UserStorage.user_data?.id;
+    const userId = session.user?.id;
     useEffect(() => {
       store.fetchQuestionData = id => loadQuestion({ id, userId }).unwrap();
       store.invalidateQuestionData = id =>
@@ -48,7 +49,7 @@ export const EditQuestionByID = observer(
     }, [store, loadQuestion, userId, dispatch]);
     useEffect(() => {
       if (questionID) store.selectQuestionClickHandler(Number(questionID));
-    }, [questionID, store, userId, UserStorage.userAccessLevel]);
+    }, [questionID, store, userId, session.role]);
     const ready =
       store.questionHasBeenSelected &&
       !store.loadingQuestionData &&

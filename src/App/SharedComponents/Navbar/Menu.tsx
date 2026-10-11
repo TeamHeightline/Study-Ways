@@ -1,18 +1,20 @@
+import { useUserSession } from '../../../Shared/Store/UserStore/user-session';
 import { Stack } from '@mui/material';
-import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 import PagesMenu from './PagesMenu';
 import React from 'react';
-import { observer } from 'mobx-react';
 import PersonalMenu from './PersonalMenu';
 import { LoginButton } from './LoginButton';
 
-const Menu = observer(() => (
-  <Stack direction={'row'} sx={{ backdropFilter: 'none' }}>
-    <Stack direction={'row'} spacing={2}>
-      <PagesMenu />
-      {UserStorage.isLogin ? <PersonalMenu /> : <LoginButton />}
+const Menu = () => {
+  const session = useUserSession();
+  return (
+    <Stack direction={'row'} sx={{ backdropFilter: 'none' }}>
+      <Stack direction={'row'} spacing={2}>
+        <PagesMenu />
+        {session.isLogin ? <PersonalMenu /> : <LoginButton />}
+      </Stack>
     </Stack>
-  </Stack>
-));
+  );
+};
 
 export default Menu;

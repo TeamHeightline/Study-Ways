@@ -1,3 +1,4 @@
+import { setTestUser } from '../../../../Shared/Store/UserStore/user-session.test-utils';
 import React from 'react';
 import { act as legacyAct } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
@@ -9,9 +10,7 @@ import axiosClient from '../../../../Shared/ServerLayer/QueryLayer/config';
 jest.mock('../../../../Shared/ServerLayer/QueryLayer/config', () => ({
   request: jest.fn(),
 }));
-jest.mock('../../../../Shared/Store/UserStore/UserStore', () => ({
-  UserStorage: { user_data: { id: 7 } },
-}));
+
 jest.mock('../../../../App/ReduxStore/RootStore', () => ({
   useAppDispatch: () => require('react-redux').useDispatch(),
 }));
@@ -57,7 +56,7 @@ let root,
   failLoad,
   failCreate,
   missingCreatedID;
-beforeEach(() => {
+beforeEach(async () => {
   global.IS_REACT_ACT_ENVIRONMENT = true;
   jest.useFakeTimers();
   rows = [...series];
@@ -98,6 +97,11 @@ beforeEach(() => {
     },
     middleware: getDefault =>
       getDefault().concat(questionSequencesApi.middleware),
+  });
+  await setTestUser(store, {
+    id: 7,
+    username: 'student',
+    user_access_level: 'TEACHER',
   });
   container = document.createElement('div');
   document.body.appendChild(container);

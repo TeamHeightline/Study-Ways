@@ -1,3 +1,4 @@
+import { setTestUser } from '../../../../../Shared/Store/UserStore/user-session.test-utils';
 import { activateAuthSession } from '../../../../../Shared/ServerLayer/QueryLayer/auth-session';
 let mockStore;
 import React from 'react';
@@ -16,15 +17,11 @@ import { EditQuestionByID } from './EditQuestionByID';
 
 jest.mock('../../../../../App/ReduxStore/RootStore', () => ({
   __esModule: true,
-  default: { dispatch: (...args) => mockStore.dispatch(...args) },
-  useAppDispatch: () => require('react-redux').useDispatch(),
-}));
-jest.mock('../../../../../Shared/Store/UserStore/UserStore', () => ({
-  UserStorage: {
-    user_data: { id: 7 },
-    userAccessLevel: 'TEACHER',
-    isLogin: true,
+  default: {
+    dispatch: (...args) => mockStore.dispatch(...args),
+    getState: () => mockStore.getState(),
   },
+  useAppDispatch: () => require('react-redux').useDispatch(),
 }));
 
 jest.mock('../../../../../Shared/ServerLayer/QueryLayer/config', () => ({
@@ -84,7 +81,7 @@ async function render(id = '42') {
     ),
   );
 }
-beforeEach(() => {
+beforeEach(async () => {
   activateAuthSession();
   global.IS_REACT_ACT_ENVIRONMENT = true;
   jest.useFakeTimers();
@@ -124,6 +121,11 @@ beforeEach(() => {
   reduxStore = mockStore = configureStore({
     reducer: { [studyWaysApi.reducerPath]: studyWaysApi.reducer },
     middleware: getDefault => getDefault().concat(studyWaysApi.middleware),
+  });
+  await setTestUser(reduxStore, {
+    id: 7,
+    username: 'student',
+    user_access_level: 'TEACHER',
   });
   container = document.createElement('div');
   document.body.appendChild(container);

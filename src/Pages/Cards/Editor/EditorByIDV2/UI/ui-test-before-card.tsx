@@ -1,11 +1,11 @@
 import React from 'react';
-import { observer } from 'mobx-react';
 import { Alert, Button, Skeleton, TextField } from '@mui/material';
 import { skipToken } from '@reduxjs/toolkit/query';
-import { CESObject } from '../Store/CardEditorStorage';
+import { useCardEditor } from '../model/use-card-editor';
 import { useGetQuestionPreviewQuery } from '../../../../Question/question-read-api';
-export const UiTestBeforeCard = observer(() => {
-  const id = Number(CESObject.getField('test_before_card_id', ''));
+export const UiTestBeforeCard = () => {
+  const editor = useCardEditor();
+  const id = Number(editor.draft.test_before_card_id ?? '');
   const {
     currentData: question,
     isFetching,
@@ -21,8 +21,8 @@ export const UiTestBeforeCard = observer(() => {
         size="small"
         type="number"
         label="ID вопроса перед ресурсом"
-        value={CESObject.getField('test_before_card_id', '') || ''}
-        onChange={CESObject.changeField('test_before_card_id')}
+        value={(editor.draft.test_before_card_id ?? '') || ''}
+        onChange={editor.changeField('test_before_card_id')}
         slotProps={{
           htmlInput: { min: 1 },
         }}
@@ -45,4 +45,4 @@ export const UiTestBeforeCard = observer(() => {
       )}
     </div>
   );
-});
+};

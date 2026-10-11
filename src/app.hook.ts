@@ -1,8 +1,9 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { setAccessToken } from './Shared/ServerLayer/QueryLayer/config';
-import { studyWaysApi } from './Shared/ServerLayer/QueryLayer/api';
+import { getAuthSessionVersion } from './Shared/ServerLayer/QueryLayer/auth-session';
 import { useEffect, useState } from 'react';
-import { UserStorage } from './Shared/Store/UserStore/UserStore';
+import { userApi } from './Shared/Store/UserStore/user-session';
+import { clearUserSession } from './Shared/Store/UserStore/session-lifecycle';
 import { useAppDispatch } from './App/ReduxStore/RootStore';
 
 export default function AppHook() {
@@ -13,11 +14,14 @@ export default function AppHook() {
   useEffect(() => {
     if (isLoading) return;
     let cancelled = false;
+    let request:
+      | ReturnType<ReturnType<typeof userApi.endpoints.getCurrentUser.initiate>>
+      | undefined;
     setPreparingUser(true);
-    setAccessToken(null);
-    UserStorage.user_data = null;
-    dispatch(studyWaysApi.util.resetApiState());
-    dispatch({ type: 'session/reset' });
+    clearUserSession(dispatch);
+    const sessionVersion = getAuthSessionVersion();
+    const isCurrent = () =>
+      !cancelled && sessionVersion === getAuthSessionVersion();
     if (!isAuthenticated) {
       setPreparingUser(false);
       return;
@@ -27,18 +31,25 @@ export default function AppHook() {
       scope: 'read:current_user',
     })
       .then(async token => {
-        if (cancelled) return;
+        if (!isCurrent()) return;
         setAccessToken(token);
-        await UserStorage.reloadUser(() => !cancelled);
+        request = dispatch(
+          userApi.endpoints.getCurrentUser.initiate(undefined, {
+            forceRefetch: true,
+          }),
+        );
+        await request.unwrap();
       })
       .catch(() => {
-        if (!cancelled) setAccessToken(null);
+        if (isCurrent()) clearUserSession(dispatch);
       })
       .finally(() => {
         if (!cancelled) setPreparingUser(false);
       });
     return () => {
       cancelled = true;
+      request?.abort();
+      request?.unsubscribe();
     };
   }, [isLoading, isAuthenticated, user?.sub, getAccessTokenSilently, dispatch]);
   return { isLoading: isLoading || preparingUser };

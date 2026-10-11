@@ -2,18 +2,16 @@ import { observer } from 'mobx-react';
 import { Box, Fade, IconButton, InputBase, Paper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { AICourseStore } from '../model/store';
-import { useAppSelector } from '../../../App/ReduxStore/RootStore';
+import { useCardPreviewMap } from '../../Cards/CardMicroView/store/api';
 
 export const Search = observer(() => {
-  const card_hash_map = useAppSelector(
-    (state) => state.cardMicroView.card_hash_map,
-  );
+  const card_hash_map = useCardPreviewMap();
 
   const isCardsNotLoaded = Object.keys(card_hash_map).length === 0;
 
   const searchString = AICourseStore.searchString;
 
-  const setSearchString = (e) => {
+  const setSearchString = e => {
     AICourseStore.setSearchString(e.target.value);
   };
   return (
@@ -23,7 +21,7 @@ export const Search = observer(() => {
       >
         <Paper
           component="form"
-          onSubmit={(event) => {
+          onSubmit={event => {
             event.preventDefault();
             if (isCardsNotLoaded) {
               return;

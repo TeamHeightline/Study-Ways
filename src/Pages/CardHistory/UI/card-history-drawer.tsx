@@ -1,3 +1,4 @@
+import { useUserSession } from '../../../Shared/Store/UserStore/user-session';
 import {
   Box,
   Button,
@@ -7,12 +8,10 @@ import {
 } from '@mui/material';
 import { BoxProps } from '@mui/material/Box';
 import React, { useEffect, useState } from 'react';
-import { observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
 import HistoryRoundedIcon from '@mui/icons-material/HistoryRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
-import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 import { loadRecentCardsThunk } from '../../RecentCards/Store/async-actions';
 import {
   useAppDispatch,
@@ -21,17 +20,18 @@ import {
 import { isMobileHook } from '../../../Shared/CustomHooks/isMobileHook';
 import CardHistoryTimeline from './card-history-timeline';
 
-const CardHistoryDrawer = observer((props: BoxProps) => {
+const CardHistoryDrawer = (props: BoxProps) => {
+  const session = useUserSession();
   const dispatch = useAppDispatch();
   const history = useAppSelector(state => state.recentCards);
   const [isOpen, setIsOpen] = useState(false);
   const isMobile = isMobileHook();
-  const isLogin = UserStorage.isLogin;
+  const isLogin = session.isLogin;
   const closeHistoryDrawer = () => setIsOpen(false);
 
   useEffect(() => {
     if (isLogin) dispatch(loadRecentCardsThunk());
-  }, [dispatch, isLogin]);
+  }, [dispatch, isLogin, session.user?.id]);
 
   return (
     <Box {...props}>
@@ -100,6 +100,6 @@ const CardHistoryDrawer = observer((props: BoxProps) => {
       </SwipeableDrawer>
     </Box>
   );
-});
+};
 
 export default CardHistoryDrawer;

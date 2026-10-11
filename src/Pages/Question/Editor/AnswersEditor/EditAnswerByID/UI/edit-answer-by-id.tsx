@@ -1,3 +1,4 @@
+import { useUserSession } from '../../../../../../Shared/Store/UserStore/user-session';
 import React, { useEffect, useMemo } from 'react';
 import { PaperProps } from '@mui/material';
 import { EditAnswerByIdStore } from '../Store/edit-answer-by-id-store';
@@ -7,7 +8,6 @@ import {
   useGetEditorAnswerQuery,
   questionReadApi,
 } from '../../../../question-read-api';
-import { UserStorage } from '../../../../../../Shared/Store/UserStore/UserStore';
 import { useAppDispatch } from '../../../../../../App/ReduxStore/RootStore';
 import { runInAction } from 'mobx';
 
@@ -22,10 +22,11 @@ export default function EditAnswerByID({
   initialData,
   ...props
 }: EditAnswerByIDProps) {
+  const session = useUserSession();
   const store = useMemo(() => new EditAnswerByIdStore(answer_id), [answer_id]);
   const dispatch = useAppDispatch();
   const query = useGetEditorAnswerQuery(
-    { id: answer_id, userId: UserStorage.user_data?.id },
+    { id: answer_id, userId: session.user?.id },
     { skip: !!initialData },
   );
   useEffect(() => {

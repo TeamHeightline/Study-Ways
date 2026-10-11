@@ -1,3 +1,4 @@
+import { setTestUser } from '../Store/UserStore/user-session.test-utils';
 import React from 'react';
 import { act as legacyAct } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
@@ -25,14 +26,8 @@ import { AISObject } from '../../Pages/Cards/Page/AISearch/Store/AISearch';
 
 jest.mock('../ServerLayer/QueryLayer/config', () => ({ request: jest.fn() }));
 
-jest.mock('../Store/UserStore/UserStore', () => ({
-  UserStorage: { user_data: { id: 7 } },
-}));
 jest.mock('../../App/ReduxStore/RootStore', () => ({
   useAppDispatch: () => require('react-redux').useDispatch(),
-}));
-jest.mock('../../Pages/Cards/CardMicroView/store/async-actions', () => ({
-  loadAllCardsData: () => ({ type: 'previews/load' }),
 }));
 jest.mock('../Authors/AuthorFilter', () => ({ AuthorFilter: () => null }));
 jest.mock('../Theme/ThemeManulNote', () => ({ ThemeManulNote: () => null }));
@@ -114,7 +109,7 @@ const searchCalls = () =>
     .map(([args]) => args)
     .filter(args => args.url === '/page/card-selector');
 
-beforeEach(() => {
+beforeEach(async () => {
   global.IS_REACT_ACT_ENVIRONMENT = true;
   runInAction(() => {
     CSSObject.searching_string = 'старый поиск';
@@ -134,6 +129,11 @@ beforeEach(() => {
   store = configureStore({
     reducer: { [studyWaysApi.reducerPath]: studyWaysApi.reducer },
     middleware: getDefault => getDefault().concat(studyWaysApi.middleware),
+  });
+  await setTestUser(store, {
+    id: 7,
+    username: 'student',
+    user_access_level: 'TEACHER',
   });
   jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
     width: 400,

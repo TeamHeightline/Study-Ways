@@ -1,5 +1,4 @@
 import React from 'react';
-import { observer } from 'mobx-react';
 import {
   Button,
   Collapse,
@@ -12,7 +11,7 @@ import NotesRoundedIcon from '@mui/icons-material/NotesRounded';
 import TuneRoundedIcon from '@mui/icons-material/TuneRounded';
 import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
 import OpenInNewRoundedIcon from '@mui/icons-material/OpenInNewRounded';
-import { CESObject } from '../Store/CardEditorStorage';
+import { useCardEditor } from '../model/use-card-editor';
 import { UiCloseButton } from './ui-close-button';
 import { UiCMenu } from './ui-c-menu';
 import { UiTitle } from './ui-title';
@@ -48,8 +47,8 @@ function SectionHeading({
   );
 }
 
-const EditCardUI = observer((props: React.HTMLAttributes<HTMLDivElement>) => {
-  const store = CESObject;
+const EditCardUI = (props: React.HTMLAttributes<HTMLDivElement>) => {
+  const editor = useCardEditor();
   return (
     <div
       {...props}
@@ -61,7 +60,7 @@ const EditCardUI = observer((props: React.HTMLAttributes<HTMLDivElement>) => {
         <div>
           <Button
             component="a"
-            href={`/card/${store.getField('id', '')}`}
+            href={`/card/${editor.draft.id}`}
             target="_blank"
             rel="noopener noreferrer"
             startIcon={<OpenInNewRoundedIcon />}
@@ -74,7 +73,7 @@ const EditCardUI = observer((props: React.HTMLAttributes<HTMLDivElement>) => {
       <header className="sw-cedit-heading">
         <div className="sw-card-library-heading">
           <Typography component="h1" className="sw-card-library-title">
-            Карточка №{store.getField('id', '')}
+            Карточка №{editor.draft.id}
           </Typography>
           <Typography component="p" className="sw-cedit-description">
             Подготовьте материал, настройте вопросы и свяжите карточку с темами.
@@ -93,7 +92,7 @@ const EditCardUI = observer((props: React.HTMLAttributes<HTMLDivElement>) => {
           <div className="sw-cedit-fields">
             <UiTitle />
             <UiCMenu />
-            {store.getField('card_content_type', 0) === 0 ? (
+            {(editor.draft.card_content_type ?? 0) === 0 ? (
               <UiVideo />
             ) : (
               <UiUploadImage />
@@ -119,8 +118,8 @@ const EditCardUI = observer((props: React.HTMLAttributes<HTMLDivElement>) => {
               <FormControlLabel
                 control={
                   <Switch
-                    checked={!!store.getField('is_card_use_copyright', false)}
-                    onChange={store.changeField(
+                    checked={!!(editor.draft.is_card_use_copyright ?? false)}
+                    onChange={editor.changeField(
                       'is_card_use_copyright',
                       'checked',
                     )}
@@ -144,9 +143,9 @@ const EditCardUI = observer((props: React.HTMLAttributes<HTMLDivElement>) => {
                   control={
                     <Switch
                       checked={
-                        !!store.getField('is_card_use_test_before_card', false)
+                        !!(editor.draft.is_card_use_test_before_card ?? false)
                       }
-                      onChange={store.changeField(
+                      onChange={editor.changeField(
                         'is_card_use_test_before_card',
                         'checked',
                       )}
@@ -156,7 +155,7 @@ const EditCardUI = observer((props: React.HTMLAttributes<HTMLDivElement>) => {
                 />
                 <p>Поможет оценить знания перед изучением материала.</p>
                 <Collapse
-                  in={!!store.getField('is_card_use_test_before_card', false)}
+                  in={!!(editor.draft.is_card_use_test_before_card ?? false)}
                   unmountOnExit
                 >
                   <UiTestBeforeCard />
@@ -167,9 +166,9 @@ const EditCardUI = observer((props: React.HTMLAttributes<HTMLDivElement>) => {
                   control={
                     <Switch
                       checked={
-                        !!store.getField('is_card_use_test_in_card', false)
+                        !!(editor.draft.is_card_use_test_in_card ?? false)
                       }
-                      onChange={store.changeField(
+                      onChange={editor.changeField(
                         'is_card_use_test_in_card',
                         'checked',
                       )}
@@ -179,7 +178,7 @@ const EditCardUI = observer((props: React.HTMLAttributes<HTMLDivElement>) => {
                 />
                 <p>Поможет закрепить знания после изучения материала.</p>
                 <Collapse
-                  in={!!store.getField('is_card_use_test_in_card', false)}
+                  in={!!(editor.draft.is_card_use_test_in_card ?? false)}
                   unmountOnExit
                 >
                   <UiTestInCard />
@@ -203,5 +202,5 @@ const EditCardUI = observer((props: React.HTMLAttributes<HTMLDivElement>) => {
       </Paper>
     </div>
   );
-});
+};
 export default EditCardUI;

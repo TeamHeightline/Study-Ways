@@ -1,5 +1,4 @@
 import { makeAutoObservable } from 'mobx';
-import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 
 export class DetailStatisticStoreByID {
   constructor(id?: number) {
@@ -18,8 +17,6 @@ export class DetailStatisticStoreByID {
   }
 
   attempt_id: number | undefined = undefined;
-  // доступ к данным о пользователе, чтобы можно было проверять уровень доступа
-  userStorage = UserStorage;
 
   loadError = false;
 
@@ -29,17 +26,6 @@ export class DetailStatisticStoreByID {
   }
 
   questionText = '';
-
-  get QuestionTextForStatistic() {
-    if (
-      this.userStorage.userAccessLevel === 'ADMIN' ||
-      this.userStorage.userAccessLevel === 'TEACHER'
-    ) {
-      return this.questionText;
-    } else {
-      return this.questionText.slice(0, 200);
-    }
-  }
 
   // Массив индексов попыток, которые открыты для детальной статистики
   openAttemptForDetailStatistic = new Set();
@@ -195,13 +181,6 @@ export class DetailStatisticStoreByID {
     return !this?.attemptData?.id;
   }
 
-  get ShowStepByStepStatistic() {
-    return (
-      this.userStorage.userAccessLevel == 'ADMIN' ||
-      this.userStorage.userAccessLevel == 'TEACHER'
-    );
-  }
-
   openedSteps = new Set();
 
   addOrRemoveOpenedSteps(index) {
@@ -245,7 +224,6 @@ export class DetailStatisticStoreByID {
       questionHasBeenCompleted: this?.attemptData?.questionHasBeenCompleted,
       SumOFPointsWithNewMethod: this?.SumOFPointsWithNewMethod,
       FormattedCreatedAt: this?.FormattedCreatedAt,
-      QuestionTextForStatistic: this.QuestionTextForStatistic,
     };
   }
 }

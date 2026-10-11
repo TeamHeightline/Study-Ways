@@ -24,7 +24,7 @@ import urlParser from 'js-video-url-parser';
 import 'js-video-url-parser/lib/provider/youtube';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import ReactPlayer from 'react-player';
-import { useAppSelector } from '../../../App/ReduxStore/RootStore';
+import { useGetCardPreviewsQuery } from './store/api';
 import { CardType } from './store/type';
 import { FILE_URL } from '../../../settings';
 import { parseRutubeUrl } from '../../../Shared/Video/rutube';
@@ -40,9 +40,11 @@ export default function CardMicroView({
   cardID = 1,
   ...props
 }: ICardMicroViewProps) {
-  const cardData = useAppSelector(
-    state => state.cardMicroView.card_hash_map[String(cardID)] ?? null,
-  );
+  const { cardData } = useGetCardPreviewsQuery(undefined, {
+    selectFromResult: ({ data }) => ({
+      cardData: data?.[String(cardID)] ?? null,
+    }),
+  });
   return <CardMicroViewByData {...props} cardID={cardID} cardData={cardData} />;
 }
 

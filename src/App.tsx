@@ -15,11 +15,9 @@ import { CircularProgress, Grid } from '@mui/material';
 import SeoData from './seo-data';
 import AppRoutes from './App/Routers/PublicRouter';
 import AppHook from './app.hook';
-import { useLoadCardsDataForMicroView } from './Pages/Cards/CardMicroView/store/hooks';
 import { RouterWrapper } from './router-wrapper';
 
 const App = observer(() => {
-  useLoadCardsDataForMicroView();
   const { isLoading } = AppHook();
 
   if (isLoading) {

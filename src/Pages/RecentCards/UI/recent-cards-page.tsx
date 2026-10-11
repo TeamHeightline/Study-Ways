@@ -1,25 +1,25 @@
+import { useUserSession } from '../../../Shared/Store/UserStore/user-session';
 import { ThemeManulNote } from '../../../Shared/Theme/ThemeManulNote';
 import { Box, Typography } from '@mui/material';
 import { BoxProps } from '@mui/material/Box';
 import { useEffect } from 'react';
-import { observer } from 'mobx-react';
 import {
   useAppDispatch,
   useAppSelector,
 } from '../../../App/ReduxStore/RootStore';
-import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 import { loadRecentCardsThunk } from '../Store/async-actions';
 import UIIsHideDuplicates from './ui-is-hide-duplicates';
 import CardHistoryTimeline from '../../CardHistory/UI/card-history-timeline';
 
-const RecentCardsPage = observer(({ className = '', ...props }: BoxProps) => {
+const RecentCardsPage = ({ className = '', ...props }: BoxProps) => {
+  const session = useUserSession();
   const dispatch = useAppDispatch();
   const history = useAppSelector(state => state.recentCards);
-  const isLogin = UserStorage.isLogin;
+  const isLogin = session.isLogin;
 
   useEffect(() => {
     if (isLogin) dispatch(loadRecentCardsThunk());
-  }, [dispatch, isLogin]);
+  }, [dispatch, isLogin, session.user?.id]);
 
   const cardIDs = history.is_hide_duplicates
     ? history.unique_recent_card_id_array
@@ -53,6 +53,6 @@ const RecentCardsPage = observer(({ className = '', ...props }: BoxProps) => {
       />
     </Box>
   );
-});
+};
 
 export default RecentCardsPage;

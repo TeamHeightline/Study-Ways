@@ -1,3 +1,4 @@
+import { useUserSession } from '../../../../Shared/Store/UserStore/user-session';
 import { Alert, Button, CircularProgress, Paper, Stack } from '@mui/material';
 import { useEffect } from 'react';
 import {
@@ -8,7 +9,6 @@ import UIExamName from './ui-exam-name';
 import UIExamQuestionProgress from './mini-question-selector/ui-exam-questions-progress';
 import QuestionPlayer from './question-player/question-player';
 import { isMobileHook } from '../../../../Shared/CustomHooks/isMobileHook';
-import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
 import {
   useAppDispatch,
   useAppSelector,
@@ -19,6 +19,7 @@ import { resetExam } from '../redux-store/ExamPlayerSlice';
 import UIAccessPassword from './ui-access-password';
 
 const ExamByUIDPge = observer(({ ...props }) => {
+  const session = useUserSession();
   const isMobile = isMobileHook();
   const dispatch = useAppDispatch();
   const { uid } = useParams();
@@ -45,7 +46,7 @@ const ExamByUIDPge = observer(({ ...props }) => {
   );
 
   useEffect(() => {
-    if (UserStorage.isLogin && uid) {
+    if (session.isLogin && uid) {
       dispatch(resetExam());
       const request = dispatch(loadExamDataThunk(uid));
       return () => {
@@ -53,10 +54,10 @@ const ExamByUIDPge = observer(({ ...props }) => {
         dispatch(resetExam());
       };
     }
-  }, [uid, UserStorage.isLogin, dispatch]);
+  }, [uid, session.isLogin, dispatch]);
   useEffect(() => {
     if (
-      UserStorage.isLogin &&
+      session.isLogin &&
       uid &&
       exam?.uid === uid &&
       !exam.is_enable_password_check &&
@@ -72,10 +73,10 @@ const ExamByUIDPge = observer(({ ...props }) => {
     exam?.uid,
     exam?.is_enable_password_check,
     exam?.access_mode,
-    UserStorage.isLogin,
+    session.isLogin,
     dispatch,
   ]);
-  if (!UserStorage.isLogin) {
+  if (!session.isLogin) {
     return (
       <Stack
         sx={{

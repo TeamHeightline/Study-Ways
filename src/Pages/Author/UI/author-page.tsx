@@ -11,10 +11,8 @@ import {
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { AuthorData, getAuthorName } from '../Store/types';
-import {
-  useGetCardPreviewsQuery,
-  useGetCourseCatalogQuery,
-} from '../Store/author-api';
+import { useGetCourseCatalogQuery } from '../Store/author-api';
+import { useGetCardPreviewsQuery } from '../../Cards/CardMicroView/store/api';
 import { DEFAULT_COURSE_TITLE } from '../../Course/Page/constants';
 import { ThemeIllustration } from '../../../Shared/Theme/ThemeIllustration';
 import { ThemeManulNote } from '../../../Shared/Theme/ThemeManulNote';

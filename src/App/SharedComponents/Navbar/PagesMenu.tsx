@@ -1,4 +1,4 @@
-import { observer } from 'mobx-react';
+import { useUserSession } from '../../../Shared/Store/UserStore/user-session';
 import React from 'react';
 import { PaperProps } from '@mui/material/Paper';
 import {
@@ -16,17 +16,17 @@ import { useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import MenuIcon from '@mui/icons-material/Menu';
-import haveStatus from '../../../Shared/Store/UserStore/utils/HaveStatus';
 import HomeIcon from '@mui/icons-material/Home';
 import AppsIcon from '@mui/icons-material/Apps';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 import { isMobileHook } from '../../../Shared/CustomHooks/isMobileHook';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 type INavbarMenuProps = PaperProps;
 
-const PagesMenu = observer(({ ...props }: INavbarMenuProps) => {
+const PagesMenu = ({ ...props }: INavbarMenuProps) => {
+  const session = useUserSession();
+  const haveStatus = (roles: string[]) => roles.includes(session.role);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
   const isMobile = isMobileHook();
@@ -106,7 +106,7 @@ const PagesMenu = observer(({ ...props }: INavbarMenuProps) => {
             <Badge
               color="secondary"
               badgeContent={'new'}
-              invisible={haveStatus(['ADMIN', 'TEACHER', ', CARD_EDITOR'])}
+              invisible={haveStatus(['ADMIN', 'TEACHER', 'CARD_EDITOR'])}
             >
               Тесты
             </Badge>
@@ -128,6 +128,6 @@ const PagesMenu = observer(({ ...props }: INavbarMenuProps) => {
       </Popover>
     </>
   );
-});
+};
 
 export default PagesMenu;

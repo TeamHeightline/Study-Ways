@@ -1,9 +1,9 @@
+import { useUserSession } from '../../../../Shared/Store/UserStore/user-session';
 import {
   useGetCardSelectorPageQuery,
   cardSelectorApi,
 } from '../Store/card-selector-api';
 import { skipToken } from '@reduxjs/toolkit/query';
-import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
 import { MicroCardField } from './MicroCardField';
@@ -14,7 +14,6 @@ import { HardLevel } from './HardLevel';
 import { ContentType } from './ContentType';
 import { ConnectedThemes } from './ConnectedThemes';
 import { Pages } from './Pages';
-import { loadAllCardsData } from '../../CardMicroView/store/async-actions';
 import { useAppDispatch } from '../../../../App/ReduxStore/RootStore';
 import { AuthorFilter } from '../../../../Shared/Authors/AuthorFilter';
 
@@ -33,6 +32,7 @@ export const CardSelector = observer(
     onThemeChange,
     ...props
   }: ICardSelectorProps) => {
+    const session = useUserSession();
     const dispatch = useAppDispatch();
     const [search, setSearch] = useState(CSSObject.searching_string);
     useEffect(() => {
@@ -44,7 +44,7 @@ export const CardSelector = observer(
     }, [CSSObject.searching_string]);
     const mine = mode === 'onlyCreatedByMe';
     const query = useGetCardSelectorPageQuery(
-      mine && !UserStorage.user_data?.id
+      mine && !session.user?.id
         ? skipToken
         : {
             page: CSSObject.activePage,
@@ -60,7 +60,7 @@ export const CardSelector = observer(
                 ? undefined
                 : Number(CSSObject.contentType.slice(2)),
             mine,
-            userId: mine ? UserStorage.user_data?.id : undefined,
+            userId: mine ? session.user?.id : undefined,
           },
     );
     useEffect(() => {
@@ -70,10 +70,6 @@ export const CardSelector = observer(
         CSSObject.refreshResults = undefined;
       };
     }, [dispatch]);
-
-    useEffect(() => {
-      dispatch(loadAllCardsData());
-    }, []);
 
     useEffect(() => CSSObject.setMode(mode), [mode]);
     useEffect(() => {

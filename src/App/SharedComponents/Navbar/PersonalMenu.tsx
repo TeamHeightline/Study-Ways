@@ -1,3 +1,6 @@
+import { useDispatch } from 'react-redux';
+import { clearUserSession } from '../../../Shared/Store/UserStore/session-lifecycle';
+import { useUserSession } from '../../../Shared/Store/UserStore/user-session';
 import {
   Box,
   Button,
@@ -9,7 +12,6 @@ import {
 } from '@mui/material';
 import { BoxProps } from '@mui/material/Box';
 import React from 'react';
-import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 import { useNavigate } from 'react-router-dom';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -19,6 +21,8 @@ import { useAuth0 } from '@auth0/auth0-react';
 type IPersonalMenuProps = BoxProps;
 
 export default function PersonalMenu({ ...props }: IPersonalMenuProps) {
+  const session = useUserSession();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
   const { logout, isAuthenticated } = useAuth0();
@@ -51,7 +55,7 @@ export default function PersonalMenu({ ...props }: IPersonalMenuProps) {
       >
         <MenuList autoFocusItem sx={{ py: 1 }}>
           <MenuItem
-            disabled={!UserStorage.isLogin}
+            disabled={!session.isLogin}
             onClick={() => {
               handleClose();
               navigate('/profile');
@@ -66,6 +70,7 @@ export default function PersonalMenu({ ...props }: IPersonalMenuProps) {
           <MenuItem
             onClick={() => {
               handleClose();
+              clearUserSession(dispatch);
               if (isAuthenticated) {
                 logout({ returnTo: window.location.origin });
               }

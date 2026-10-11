@@ -18,6 +18,7 @@ export const courseMaterialsApi = studyWaysApi
         { courseId: number; page: number }
       >({
         providesTags: (result, error, { courseId }) => [
+          'Card',
           { type: 'Course', id: courseId },
           ...(result ?? []).map(card => ({
             type: 'Card' as const,

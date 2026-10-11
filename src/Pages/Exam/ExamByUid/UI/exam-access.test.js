@@ -1,3 +1,4 @@
+import { setTestUser } from '../../../../Shared/Store/UserStore/user-session.test-utils';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { act as legacyAct, Simulate } from 'react-dom/test-utils';
@@ -15,19 +16,20 @@ import UIAccessPassword from './ui-access-password';
 let mockStore;
 jest.mock('../../../../App/ReduxStore/RootStore', () => ({
   __esModule: true,
-  default: { dispatch: (...args) => mockStore.dispatch(...args) },
+  default: {
+    dispatch: (...args) => mockStore.dispatch(...args),
+    getState: () => mockStore.getState(),
+  },
   useAppDispatch: () => require('react-redux').useDispatch(),
   useAppSelector: require('react-redux').useSelector,
 }));
 jest.mock('../../../../Shared/ServerLayer/QueryLayer/config', () => ({
   request: jest.fn(),
 }));
-jest.mock('../../../../Shared/Store/UserStore/UserStore', () => ({
-  UserStorage: { username: 'student' },
-}));
+
 const act = React.act || legacyAct;
 let root, host;
-beforeEach(() => {
+beforeEach(async () => {
   global.IS_REACT_ACT_ENVIRONMENT = true;
   mockStore = configureStore({
     reducer: {
@@ -36,6 +38,11 @@ beforeEach(() => {
     },
     middleware: getDefault =>
       getDefault({ serializableCheck: false }).concat(studyWaysApi.middleware),
+  });
+  await setTestUser(mockStore, {
+    id: 7,
+    username: 'student',
+    user_access_level: 'STUDENT',
   });
   axiosClient.request.mockReset();
   host = document.createElement('div');

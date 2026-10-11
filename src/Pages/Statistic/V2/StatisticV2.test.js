@@ -1,14 +1,13 @@
+import { setTestUser } from '../../../Shared/Store/UserStore/user-session.test-utils';
 import React from 'react';
 import { act as legacyAct } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import { Auth0Provider } from '@auth0/auth0-react';
-import { runInAction } from 'mobx';
 import { StatisticV2 } from './StatisticV2';
 import { statisticApi } from './Store/statistic-api';
 import axiosClient from '../../../Shared/ServerLayer/QueryLayer/config';
-import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 
 jest.mock('../../../Shared/ServerLayer/QueryLayer/config', () => ({
   request: jest.fn(),
@@ -21,9 +20,7 @@ jest.mock('@auth0/auth0-react', () => {
     useAuth0: () => React.useContext(Context),
   };
 });
-jest.mock('../../../Shared/Store/UserStore/UserStore', () => ({
-  UserStorage: require('mobx').observable({ user_data: null }),
-}));
+
 jest.mock(
   '../../../App/SharedComponents/Notifications/RequireLogInAlert',
   () => ({
@@ -49,12 +46,9 @@ const calls = () =>
 const pageTwo = () =>
   container.querySelector('button[aria-label="Go to page 2"]');
 
-beforeEach(() => {
+beforeEach(async () => {
   global.IS_REACT_ACT_ENVIRONMENT = true;
   auth = { isLoading: false, isAuthenticated: true };
-  runInAction(() => {
-    UserStorage.user_data = { id: 7, user_access_level: 'TEACHER' };
-  });
   axiosClient.request
     .mockReset()
     .mockImplementation(async ({ url, params }) => ({
@@ -73,6 +67,11 @@ beforeEach(() => {
     reducer: { [statisticApi.reducerPath]: statisticApi.reducer },
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware().concat(statisticApi.middleware),
+  });
+  await setTestUser(store, {
+    id: 7,
+    username: 'student',
+    user_access_level: 'TEACHER',
   });
   container = document.createElement('div');
   document.body.appendChild(container);
@@ -120,18 +119,12 @@ test('does not fetch before authentication is ready or for a student', async () 
   expect(container.textContent).toContain('Войдите в аккаунт');
   auth = { isLoading: true, isAuthenticated: true };
   await render();
-  await act(async () =>
-    runInAction(() => {
-      UserStorage.user_data = null;
-    }),
-  );
+  await act(async () => setTestUser(store, null));
   auth = { isLoading: false, isAuthenticated: true };
   await render();
   expect(axiosClient.request).not.toHaveBeenCalled();
   await act(async () =>
-    runInAction(() => {
-      UserStorage.user_data = { id: 7, user_access_level: 'STUDENT' };
-    }),
+    setTestUser(store, { id: 7, user_access_level: 'STUDENT' }),
   );
   expect(container.textContent).toContain('Недостаточно прав');
   expect(axiosClient.request).not.toHaveBeenCalled();
@@ -254,9 +247,7 @@ test('switching accounts resets filters and never shows the previous account cac
         }),
   );
   await act(async () =>
-    runInAction(() => {
-      UserStorage.user_data = { id: 8, user_access_level: 'ADMIN' };
-    }),
+    setTestUser(store, { id: 8, user_access_level: 'ADMIN' }),
   );
   expect(attempts()).toBeNull();
   expect(calls().at(-1).params.page).toBe(1);

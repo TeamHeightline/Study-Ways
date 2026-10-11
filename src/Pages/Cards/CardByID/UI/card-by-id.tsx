@@ -1,3 +1,4 @@
+import { useUserSession } from '../../../../Shared/Store/UserStore/user-session';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
 import { CardByIDStore } from '../Store/CardByIDStore';
@@ -14,7 +15,6 @@ import { Alert, Button, Box, Skeleton } from '@mui/material';
 import { runInAction } from 'mobx';
 import { useGetCardQuery } from '../API/card-api';
 import { skipToken } from '@reduxjs/toolkit/query';
-import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
 import recombeeClient from '../../../../Shared/Store/RecombeeClient/recombee-client';
 import recombee from 'recombee-js-api-client';
 import TestAfterCard from './test-after-card';
@@ -36,6 +36,7 @@ const CardByID = observer(
     is_hidden_similar_cards = false,
     ...props
   }: ICardByIDProps) => {
+    const session = useUserSession();
     const { width } = useWindowDimensions();
 
     const [cardStorage] = useState<CardByIDStore>(() => new CardByIDStore());
@@ -43,7 +44,7 @@ const CardByID = observer(
     const query = useGetCardQuery(
       card_id && Number.isInteger(card_id) && card_id > 0 ? card_id : skipToken,
     );
-    const userId = UserStorage.userIDForRecombee;
+    const userId = session.recommendationUserId;
     useEffect(() => {
       runInAction(() => {
         cardStorage.changeID(card_id);

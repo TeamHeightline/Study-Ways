@@ -7,7 +7,7 @@ import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import { Link } from 'react-router-dom';
-import { useAppSelector } from '../../../App/ReduxStore/RootStore';
+import { useCardPreviewMap } from '../../Cards/CardMicroView/store/api';
 import '../card-history.css';
 
 interface CardHistoryTimelineProps {
@@ -31,7 +31,7 @@ export default function CardHistoryTimeline({
   onRetry,
   onOpenCard,
 }: CardHistoryTimelineProps) {
-  const cards = useAppSelector(state => state.cardMicroView.card_hash_map);
+  const cards = useCardPreviewMap();
 
   if (isLoading) {
     return (

@@ -1,7 +1,7 @@
+import { useUserSession } from '../../../Shared/Store/UserStore/user-session';
 import { ThemeManulNote } from '../../../Shared/Theme/ThemeManulNote';
 import { Box, CircularProgress, Grid, Stack, Typography } from '@mui/material';
 import { BoxProps } from '@mui/material/Box';
-import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 import { useEffect } from 'react';
 import { loadCardBookmarks } from '../Store/async-actions';
 import {
@@ -16,6 +16,7 @@ type ICardBookmarksPageProps = BoxProps;
 export default function CardBookmarksPage({
   ...props
 }: ICardBookmarksPageProps) {
+  const session = useUserSession();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -27,14 +28,10 @@ export default function CardBookmarksPage({
   );
 
   useEffect(() => {
-    if (UserStorage.isLogin) {
+    if (session.isLogin) {
       dispatch(loadCardBookmarks());
     }
-  }, [UserStorage.isLogin]);
-
-  useEffect(() => {
-    dispatch(loadCardBookmarks());
-  }, []);
+  }, [session.user?.id, dispatch]);
 
   if (is_loading_card_bookmarks) {
     return (

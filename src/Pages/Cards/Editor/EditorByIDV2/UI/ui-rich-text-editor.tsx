@@ -1,14 +1,14 @@
 import React, { lazy, Suspense } from 'react';
-import { observer } from 'mobx-react';
 import { Skeleton } from '@mui/material';
-import { CESObject } from '../Store/CardEditorStorage';
+import { useCardEditor } from '../model/use-card-editor';
 
 const RichTextEditor = lazy(
   () => import('../../../../../Shared/RichTextEditor/RichTextEditor'),
 );
 
-export const UiRichTextEditor = observer(() => {
-  const text = CESObject.getField('text', '');
+export const UiRichTextEditor = () => {
+  const editor = useCardEditor();
+  const text = editor.draft.text ?? '';
   return (
     <Suspense
       fallback={
@@ -20,10 +20,10 @@ export const UiRichTextEditor = observer(() => {
       }
     >
       <RichTextEditor
-        key={CESObject.getField('id', '')}
+        key={editor.draft.id ?? ''}
         value={text === 'Описание карточки' ? '' : String(text)}
-        onChange={html => CESObject.changeFieldByValue('text', html)}
+        onChange={html => editor.changeFieldByValue('text', html)}
       />
     </Suspense>
   );
-});
+};

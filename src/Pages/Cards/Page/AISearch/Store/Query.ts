@@ -1,7 +1,7 @@
 // @ts-ignore
 import recombee from 'recombee-js-api-client';
 import recombeeClient from '../../../../../Shared/Store/RecombeeClient/recombee-client';
-import { UserStorage } from '../../../../../Shared/Store/UserStore/UserStore';
+import { getUserSession } from '../../../../../Shared/Store/UserStore/session-access';
 
 export async function getAutocompleteCardDataAsync(
   searchString: string | undefined,
@@ -10,12 +10,12 @@ export async function getAutocompleteCardDataAsync(
   numberOfCards = 10,
 ) {
   console.log(searchString);
-  if (searchString && UserStorage.userIDForRecombee) {
+  if (searchString && getUserSession().recommendationUserId) {
     // @ts-ignore
     recombeeClient.send(
       // @ts-ignore
       new recombee.SearchItems(
-        String(UserStorage.userIDForRecombee),
+        String(getUserSession().recommendationUserId),
         searchString,
         numberOfCards,
         {
@@ -72,9 +72,13 @@ export async function selectRecommendedCardReport(
     // @ts-ignore
     recombeeClient.send(
       // @ts-ignore
-      new recombee.AddDetailView(UserStorage.userIDForRecombee, itemId, {
-        recommId: recommendationID,
-      }),
+      new recombee.AddDetailView(
+        getUserSession().recommendationUserId,
+        itemId,
+        {
+          recommId: recommendationID,
+        },
+      ),
     );
   }
 }

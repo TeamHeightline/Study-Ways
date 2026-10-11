@@ -1,3 +1,4 @@
+import { setTestUser } from '../../../Shared/Store/UserStore/user-session.test-utils';
 import React from 'react';
 import { act as legacyAct } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
@@ -10,16 +11,14 @@ import { DetailStatisticByID } from './DetailStatisticByID';
 jest.mock('../../../Shared/ServerLayer/QueryLayer/config', () => ({
   request: jest.fn(),
 }));
-jest.mock('../../../Shared/Store/UserStore/UserStore', () => ({
-  UserStorage: { userAccessLevel: 'TEACHER', user_data: { id: 7 } },
-}));
+
 jest.mock('./ChartAndStepByStepStatistic', () => ({
   ChartAndStepByStepStatistic: () => null,
 }));
 
 const act = React.act || legacyAct;
 let root, container, attempt, store, failNetwork;
-beforeEach(() => {
+beforeEach(async () => {
   global.IS_REACT_ACT_ENVIRONMENT = true;
   failNetwork = false;
   attempt = {
@@ -58,6 +57,11 @@ beforeEach(() => {
   store = configureStore({
     reducer: { [attemptApi.reducerPath]: attemptApi.reducer },
     middleware: getDefault => getDefault().concat(attemptApi.middleware),
+  });
+  await setTestUser(store, {
+    id: 7,
+    username: 'student',
+    user_access_level: 'TEACHER',
   });
   container = document.createElement('div');
   document.body.appendChild(container);

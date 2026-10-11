@@ -1,12 +1,9 @@
 import { makeAutoObservable, reaction } from 'mobx';
-import { ClientStorage } from '../../../../Shared/Store/ApolloStorage/ClientStorage';
-import { CREATE_NEW_CARD } from './Query';
 import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
 import {
-  CardCardContentType,
+  CardContentType,
   CardHardLevel,
-  Mutation,
-} from '../../../../SchemaTypes';
+} from '../../../../Shared/ServerLayer/Types/card.types';
 
 export class CardSelectorStore {
   constructor() {
@@ -25,32 +22,7 @@ export class CardSelectorStore {
     );
   }
 
-  clientStorage = ClientStorage;
-  // доступ к данным о пользователе, чтобы можно было проверять уровень доступа
   userStorage = UserStorage;
-
-  // ---Создание новых карточек--------------------------------------------------------
-  createNewCard() {
-    try {
-      this.clientStorage.client
-        .mutate<Mutation>({
-          mutation: CREATE_NEW_CARD,
-          variables: {},
-        })
-        .then(response => response?.data?.card?.card)
-        .then(new_card => {
-          if (new_card) {
-            this.selectedCardID = new_card.id;
-          }
-          this.refreshResults?.();
-        })
-        .catch(e => console.log(e));
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  // -------------------------------------------------------------------------------
 
   activePage = 1;
   maxPages = 1;
@@ -97,6 +69,6 @@ export class CardSelectorStore {
 }
 
 type hardLevelTypes = CardHardLevel | 'undefined';
-export type cardContentType = CardCardContentType | 'undefined';
+export type cardContentType = CardContentType | 'undefined';
 
 export const CSSObject = new CardSelectorStore();

@@ -2,7 +2,7 @@ import ExamPlayerReducer from '../../Pages/Exam/ExamByUid/redux-store/ExamPlayer
 import { enableMapSet } from 'immer';
 import { examEditorPageReducer } from '../../Pages/Exam/EditorPage/Page/redux-store/reducer';
 import examResultsByIDReducer from '../../Pages/Exam/ExamResultsByID/redux-store/reducer';
-import { combineReducers } from '@reduxjs/toolkit';
+import { AnyAction, combineReducers } from '@reduxjs/toolkit';
 import StatusEditorSlice from '../../Pages/StatusEditor/redux-store/StatusEditorSlice';
 import NotificationSlice from '../SharedComponents/Navbar/Notification/redux-store/NotificationSlice';
 import coursePageSlice from '../../Pages/Course/Page/redux-store/course-page-slice';
@@ -15,7 +15,7 @@ import profileSlice from '../../Pages/Profile/redux-store';
 import { studyWaysApi } from '../../Shared/ServerLayer/QueryLayer/api';
 
 enableMapSet();
-export const RootReducer = combineReducers({
+const appReducer = combineReducers({
   [studyWaysApi.reducerPath]: studyWaysApi.reducer,
   examEditorPageReducer,
   examResultsByIDReducer,
@@ -30,3 +30,9 @@ export const RootReducer = combineReducers({
   cardMicroView: cardMicroViewSlice,
   profile: profileSlice,
 });
+
+// Local drafts and legacy Redux page data must not survive a change of account.
+export const RootReducer = (
+  state: ReturnType<typeof appReducer> | undefined,
+  action: AnyAction,
+) => appReducer(action.type === 'session/reset' ? undefined : state, action);

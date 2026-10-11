@@ -23,22 +23,26 @@ export interface CardCourseLink {
   position: ICoursePosition;
 }
 
-export const courseCatalogApi = studyWaysApi.injectEndpoints({
-  endpoints: builder => ({
-    getCourseCatalogPage: builder.query<
-      CourseCatalogPage,
-      CourseCatalogFilters
-    >({
-      query: ({ authorId, ...params }) => ({
-        url: '/page/course/catalog',
-        params: { ...params, ...(authorId === null ? {} : { authorId }) },
+export const courseCatalogApi = studyWaysApi
+  .enhanceEndpoints({ addTagTypes: ['CourseCatalog', 'CardCourseLinks'] })
+  .injectEndpoints({
+    endpoints: builder => ({
+      getCourseCatalogPage: builder.query<
+        CourseCatalogPage,
+        CourseCatalogFilters
+      >({
+        providesTags: ['CourseCatalog'],
+        query: ({ authorId, ...params }) => ({
+          url: '/page/course/catalog',
+          params: { ...params, ...(authorId === null ? {} : { authorId }) },
+        }),
+      }),
+      getCardCourseLinks: builder.query<CardCourseLink[], number>({
+        providesTags: ['CardCourseLinks'],
+        query: id => ({ url: `/page/course/card/${id}` }),
       }),
     }),
-    getCardCourseLinks: builder.query<CardCourseLink[], number>({
-      query: id => ({ url: `/page/course/card/${id}` }),
-    }),
-  }),
-});
+  });
 
 export const { useGetCourseCatalogPageQuery, useGetCardCourseLinksQuery } =
   courseCatalogApi;

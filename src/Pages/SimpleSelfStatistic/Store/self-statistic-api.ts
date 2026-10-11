@@ -12,19 +12,22 @@ interface SelfStatisticPageRequest {
   userId: number;
 }
 
-export const selfStatisticApi = studyWaysApi.injectEndpoints({
-  endpoints: builder => ({
-    getSelfStatisticPage: builder.query<
-      SelfStatisticPageData,
-      SelfStatisticPageRequest
-    >({
-      query: ({ page }) => ({
-        url: '/page/self-statistic',
-        params: { page },
+export const selfStatisticApi = studyWaysApi
+  .enhanceEndpoints({ addTagTypes: ['SelfStatistic'] })
+  .injectEndpoints({
+    endpoints: builder => ({
+      getSelfStatisticPage: builder.query<
+        SelfStatisticPageData,
+        SelfStatisticPageRequest
+      >({
+        query: ({ page }) => ({
+          url: '/page/self-statistic',
+          params: { page },
+        }),
+        providesTags: ['SelfStatistic'],
+        keepUnusedDataFor: 0,
       }),
-      keepUnusedDataFor: 0,
     }),
-  }),
-});
+  });
 
 export const { useGetSelfStatisticPageQuery } = selfStatisticApi;

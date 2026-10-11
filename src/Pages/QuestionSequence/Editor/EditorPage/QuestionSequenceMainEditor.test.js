@@ -1,13 +1,6 @@
 import React from 'react';
 import { act as legacyAct } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
-import {
-  ApolloClient,
-  ApolloLink,
-  ApolloProvider,
-  InMemoryCache,
-  Observable,
-} from '@apollo/client';
 import QuestionSequenceMainEditor from './QuestionSequenceMainEditor';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
@@ -72,10 +65,29 @@ beforeEach(() => {
   failCreate = false;
   missingCreatedID = false;
   axiosClient.request.mockImplementation(
-    () =>
+    ({ method }) =>
       new Promise((resolve, reject) =>
         setTimeout(() => {
-          if (failLoad) reject(new Error('Unavailable'));
+          if (method === 'POST') {
+            if (failCreate) {
+              reject(new Error('Unavailable'));
+              return;
+            }
+            if (missingCreatedID) {
+              resolve({ data: {} });
+              return;
+            }
+            const sequence = {
+              id: '114',
+              name: null,
+              description: null,
+              sequenceData: { sequence: [] },
+            };
+            rows = [...rows, sequence];
+            resolve({
+              data: { ...sequence, sequence_data: sequence.sequenceData },
+            });
+          } else if (failLoad) reject(new Error('Unavailable'));
           else resolve({ data: [...rows] });
         }, 10),
       ),
@@ -87,50 +99,12 @@ beforeEach(() => {
     middleware: getDefault =>
       getDefault().concat(questionSequencesApi.middleware),
   });
-  request = jest.fn(
-    operation =>
-      new Observable(observer => {
-        const timer = setTimeout(() => {
-          if (failCreate) observer.error(new Error('Unavailable'));
-          else if (missingCreatedID)
-            observer.next({
-              data: {
-                createQuestionSequence: {
-                  clientMutationId: null,
-                  sequence: null,
-                },
-              },
-            });
-          else {
-            const sequence = {
-              id: '114',
-              name: null,
-              description: null,
-              sequenceData: { sequence: [] },
-            };
-            rows = [...rows, sequence];
-            observer.next({
-              data: {
-                createQuestionSequence: { clientMutationId: null, sequence },
-              },
-            });
-          }
-          observer.complete();
-        }, 10);
-        return () => clearTimeout(timer);
-      }),
-  );
-  client = new ApolloClient({
-    cache: new InMemoryCache({ addTypename: false }),
-    link: new ApolloLink(request),
-  });
   container = document.createElement('div');
   document.body.appendChild(container);
   root = createRoot(container);
 });
 afterEach(async () => {
   await act(async () => root.unmount());
-  client.stop();
   store.dispatch(questionSequencesApi.util.resetApiState());
   container.remove();
   jest.clearAllTimers();
@@ -144,9 +118,7 @@ async function render() {
   await act(async () =>
     root.render(
       <Provider store={store}>
-        <ApolloProvider client={client}>
-          <QuestionSequenceMainEditor />
-        </ApolloProvider>
+        <QuestionSequenceMainEditor />
       </Provider>,
     ),
   );
@@ -176,8 +148,8 @@ async function fill(value) {
 }
 const cards = () => [...container.querySelectorAll('.sw-qslist-card')];
 const creates = () =>
-  request.mock.calls.filter(
-    ([operation]) => operation.operationName === 'CREATE_QUESTION_SEQUENCE',
+  axiosClient.request.mock.calls.filter(
+    ([request]) => request.method === 'POST',
   );
 
 test('searches names, descriptions and numbers; combines filters and keeps long series compact', async () => {
@@ -228,7 +200,10 @@ test('creates once, opens its editor and retains the new series even if the refr
   expect(button('Создаём серию…').disabled).toBe(true);
   await settle();
   expect(creates()).toHaveLength(1);
-  expect(creates()[0][0].variables).toEqual({ sequenceData: { sequence: [] } });
+  expect(creates()[0][0]).toMatchObject({
+    url: '/page/write/sequences',
+    data: { sequence_data: { sequence: [] } },
+  });
   expect(container.textContent).toContain('Редактор серии №114');
   expect(
     questionSequencesApi.endpoints.getMyQuestionSequences.select(7)(

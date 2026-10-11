@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { gql, useMutation } from '@apollo/client';
+import { useCreateCourseMutation } from '../../../Shared/ServerLayer/QueryLayer/write-api';
 import {
   Alert,
   Button,
@@ -35,17 +35,6 @@ import { observer } from 'mobx-react';
 import { FILE_URL } from '../../../settings';
 import './course-editor-page.css';
 
-export const CREATE_COURSE_WITH_DEFAULT_VALUE = gql`
-  mutation CREATE_COURSE_WITH_DEFAULT_VALUE($default_data: GenericScalar) {
-    createCardCourse(input: { courseData: $default_data }) {
-      course {
-        courseData
-        id
-        name
-      }
-    }
-  }
-`;
 const MainCourseEditor = observer(function MainCourseEditor() {
   const userId = UserStorage.user_data?.id;
   const [selectedCourseID, setSelectedCourseID] = useState<string>();
@@ -59,26 +48,23 @@ const MainCourseEditor = observer(function MainCourseEditor() {
     error,
     refetch,
   } = useGetOwnCoursesQuery(userId, { skip: !userId });
-  const [createCourse, { loading: creating }] = useMutation(
-    CREATE_COURSE_WITH_DEFAULT_VALUE,
-  );
+  const [createCourse, { isLoading: creating }] = useCreateCourseMutation();
 
   const create = async () => {
     if (createLock.current) return;
     createLock.current = true;
     setCreateError(false);
     try {
-      const result = await createCourse({
-        variables: { default_data: normalizeCourseData(CourseLines) },
-      });
-      const id = result.data?.createCardCourse?.course?.id;
+      const course = await createCourse(
+        normalizeCourseData(CourseLines),
+      ).unwrap();
+      const id = course.id;
       if (!id) throw new Error('No course ID returned');
-      const course = result.data?.createCardCourse?.course;
       if (course) {
         const summary: OwnCourseSummary = {
           id: String(id),
           name: course.name ?? null,
-          courseData: course.courseData,
+          courseData: course.course_data,
           cards_cardcourseimage: null,
         };
         dispatch(

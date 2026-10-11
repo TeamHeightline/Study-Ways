@@ -1,3 +1,11 @@
+jest.mock('../../../../../App/ReduxStore/RootStore', () => ({
+  useAppDispatch: () => require('react-redux').useDispatch(),
+  useAppSelector: require('react-redux').useSelector,
+  __esModule: true,
+  default: { dispatch: (...args) => mockStore.dispatch(...args) },
+}));
+import { studyWaysApi } from '../../../../../Shared/ServerLayer/QueryLayer/api';
+let mockStore;
 import React from 'react';
 import { act as legacyAct } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
@@ -31,7 +39,7 @@ const exam = {
   question_sequence_id: 42,
   question_sequence: sequence,
 };
-let root, container, store, failSeries;
+let root, container, store, failSeries, failCreate;
 function EditorDestination() {
   return <p>Редактор экзамена №{useParams().id}</p>;
 }
@@ -39,6 +47,7 @@ beforeEach(() => {
   global.IS_REACT_ACT_ENVIRONMENT = true;
   jest.useFakeTimers();
   failSeries = false;
+  failCreate = false;
   axiosClient.get.mockImplementation(url =>
     Promise.resolve({
       data:
@@ -58,14 +67,15 @@ beforeEach(() => {
           : { questionSequence: sequence },
     }),
   );
-  axiosClient.post.mockResolvedValue({
-    data: { createdExam: { ...exam, id: '9', name: 'Новый экзамен' } },
-  });
+
   Object.defineProperty(navigator, 'clipboard', {
     configurable: true,
     value: { writeText: jest.fn().mockResolvedValue(undefined) },
   });
-  axiosClient.request.mockImplementation(async () => {
+  axiosClient.request.mockImplementation(async ({ method }) => {
+    if (method === 'POST' && failCreate) throw new Error('Unavailable');
+    if (method === 'POST')
+      return { data: { ...exam, id: '9', name: 'Новый экзамен' } };
     if (failSeries) throw new Error('Unavailable');
     return {
       data: [
@@ -77,7 +87,7 @@ beforeEach(() => {
       ],
     };
   });
-  store = configureStore({
+  store = mockStore = configureStore({
     reducer: {
       examEditorPageReducer,
       [questionSequencesApi.reducerPath]: questionSequencesApi.reducer,
@@ -185,9 +195,13 @@ test('creating an exam with a selected series opens its editor and updates the l
   await prepareCreate();
   expect(button('Создать').disabled).toBe(false);
   await click(button('Создать'));
-  expect(axiosClient.post).toHaveBeenCalledWith('/exam/create', {
-    examData: { question_sequence_id: 42, name: 'Новый экзамен' },
-  });
+  expect(axiosClient.request).toHaveBeenCalledWith(
+    expect.objectContaining({
+      url: '/page/write/exams',
+      method: 'POST',
+      data: { question_sequence_id: 42, name: 'Новый экзамен' },
+    }),
+  );
   expect(container.textContent).toContain('Редактор экзамена №9');
   expect(store.getState().examEditorPageReducer.exams[0].id).toBe('9');
   expect(
@@ -196,29 +210,30 @@ test('creating an exam with a selected series opens its editor and updates the l
 });
 
 test('creation errors keep the entered data and allow retry', async () => {
-  axiosClient.post.mockRejectedValueOnce(new Error('Unavailable'));
   await render();
   await prepareCreate();
+  failCreate = true;
   await click(button('Создать'));
   expect(document.body.textContent).toContain('Не удалось создать экзамен');
   expect(store.getState().examEditorPageReducer.exam_name_for_create).toBe(
     '  Новый экзамен  ',
   );
   expect(store.getState().examEditorPageReducer.exam_qs_id_for_create).toBe(42);
+  failCreate = false;
   await click(button('Создать'));
   expect(container.textContent).toContain('Редактор экзамена №9');
 });
 
 test('pending creation blocks dismissal and duplicate requests', async () => {
+  await render();
+  await prepareCreate();
   let finish;
-  axiosClient.post.mockImplementationOnce(
+  axiosClient.request.mockImplementationOnce(
     () =>
       new Promise(resolve => {
         finish = resolve;
       }),
   );
-  await render();
-  await prepareCreate();
   await click(button('Создать'));
   expect(button('Создать').disabled).toBe(true);
   expect(button('Отмена').disabled).toBe(true);
@@ -226,10 +241,10 @@ test('pending creation blocks dismissal and duplicate requests', async () => {
     document.querySelector('[aria-label="Закрыть создание экзамена"]').disabled,
   ).toBe(true);
   await click(button('Создать'));
-  expect(axiosClient.post).toHaveBeenCalledTimes(1);
-  await act(async () =>
-    finish({ data: { createdExam: { ...exam, id: '9' } } }),
-  );
+  expect(
+    axiosClient.request.mock.calls.filter(([args]) => args.method === 'POST'),
+  ).toHaveLength(1);
+  await act(async () => finish({ data: { ...exam, id: '9' } }));
   await settle();
   expect(container.textContent).toContain('Редактор экзамена №9');
 });
@@ -253,6 +268,7 @@ test('series loading failure is visible and can be retried', async () => {
     'Не удалось загрузить серии вопросов',
   );
   failSeries = false;
+  failCreate = false;
   await click(button('Повторить'));
   expect(
     document.querySelector('[aria-label="Выбрать серию «Механика»"]'),

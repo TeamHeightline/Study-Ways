@@ -1,3 +1,5 @@
+import { studyWaysApi } from '../../../Shared/ServerLayer/QueryLayer/api';
+let mockStore;
 import React from 'react';
 import { act as legacyAct } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
@@ -8,6 +10,8 @@ import ProfilePage from './ProfilePage';
 import axiosClient from '../../../Shared/ServerLayer/QueryLayer/config';
 
 jest.mock('../../../App/ReduxStore/RootStore', () => ({
+  __esModule: true,
+  default: { dispatch: (...args) => mockStore.dispatch(...args) },
   useAppDispatch: require('react-redux').useDispatch,
   useAppSelector: require('react-redux').useSelector,
 }));
@@ -16,7 +20,7 @@ jest.mock('../../../Shared/Store/UserStore/UserStore', () => ({
 }));
 jest.mock('../../../Shared/ServerLayer/QueryLayer/config', () => ({
   get: jest.fn(),
-  post: jest.fn(),
+  request: jest.fn(),
 }));
 const act = React.act || legacyAct;
 const empty = {
@@ -52,8 +56,14 @@ async function fill(label, value) {
 beforeEach(() => {
   global.IS_REACT_ACT_ENVIRONMENT = true;
   axiosClient.get.mockReset().mockResolvedValue({ data: empty });
-  axiosClient.post.mockReset().mockResolvedValue({ data: {} });
-  store = configureStore({ reducer: { profile: reducer } });
+  axiosClient.request.mockReset().mockResolvedValue({ data: {} });
+  store = mockStore = configureStore({
+    reducer: {
+      profile: reducer,
+      [studyWaysApi.reducerPath]: studyWaysApi.reducer,
+    },
+    middleware: getDefault => getDefault().concat(studyWaysApi.middleware),
+  });
   container = document.createElement('div');
   document.body.appendChild(container);
   root = createRoot(container);
@@ -84,7 +94,7 @@ test('a completely empty profile remains editable, and cancel restores nullable 
   expect(store.getState().profile.profileData.firstname).toBeNull();
 });
 test('a failed save preserves the draft and succeeds on retry without reloading it', async () => {
-  axiosClient.post.mockRejectedValueOnce(new Error('Offline'));
+  axiosClient.request.mockRejectedValueOnce(new Error('Offline'));
   await render();
   await fill('Имя', 'Анна');
   await act(async () => button('Сохранить').click());
@@ -92,9 +102,12 @@ test('a failed save preserves the draft and succeeds on retry without reloading 
   expect(input('Имя').value).toBe('Анна');
   expect(axiosClient.get).toHaveBeenCalledTimes(1);
   await act(async () => button('Сохранить').click());
-  expect(axiosClient.post).toHaveBeenLastCalledWith(
-    '/page/profile/update-profile',
-    { profileData: { ...empty, firstname: 'Анна' } },
+  expect(axiosClient.request).toHaveBeenLastCalledWith(
+    expect.objectContaining({
+      url: '/page/write/profile',
+      method: 'PUT',
+      data: { ...empty, firstname: 'Анна' },
+    }),
   );
   expect(container.textContent).toContain('Профиль сохранён');
   expect(button('Сохранить').disabled).toBe(true);
@@ -106,7 +119,7 @@ test('pending save blocks duplicate submissions and invalid avatar links cannot 
   await fill('Ссылка на изображение', '');
   await fill('Группа', '101');
   let finish;
-  axiosClient.post.mockImplementation(
+  axiosClient.request.mockImplementation(
     () =>
       new Promise(resolve => {
         finish = resolve;

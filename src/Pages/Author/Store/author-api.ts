@@ -3,20 +3,25 @@ import { CardHashMap } from '../../Cards/CardMicroView/store/type';
 import { ICourseData } from '../../Course/Page/redux-store/types';
 import { AuthorData } from './types';
 
-export const authorApi = studyWaysApi.injectEndpoints({
-  endpoints: builder => ({
-    getAuthor: builder.query<AuthorData | null, number>({
-      query: id => ({ url: `/page/author/${id}` }),
+export const authorApi = studyWaysApi
+  .enhanceEndpoints({ addTagTypes: ['Authors', 'CourseCatalog', 'CardList'] })
+  .injectEndpoints({
+    endpoints: builder => ({
+      getAuthor: builder.query<AuthorData | null, number>({
+        providesTags: ['Authors'],
+        query: id => ({ url: `/page/author/${id}` }),
+      }),
+      // The REST API returns catalogs; the page selects this author's IDs locally.
+      getCourseCatalog: builder.query<ICourseData[], void>({
+        query: () => ({ url: '/page/course' }),
+        providesTags: ['CourseCatalog'],
+      }),
+      getCardPreviews: builder.query<CardHashMap, void>({
+        query: () => ({ url: '/page/card-micro-view/all' }),
+        providesTags: ['CardList'],
+      }),
     }),
-    // The REST API returns catalogs; the page selects this author's IDs locally.
-    getCourseCatalog: builder.query<ICourseData[], void>({
-      query: () => ({ url: '/page/course' }),
-    }),
-    getCardPreviews: builder.query<CardHashMap, void>({
-      query: () => ({ url: '/page/card-micro-view/all' }),
-    }),
-  }),
-});
+  });
 
 export const {
   useGetAuthorQuery,

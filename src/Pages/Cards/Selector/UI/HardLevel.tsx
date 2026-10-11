@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import React from 'react';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { CardHardLevel } from '../../../../SchemaTypes';
+import { CardHardLevel } from '../../../../Shared/ServerLayer/Types/card.types';
 import ArchitectureIcon from '@mui/icons-material/Architecture';
 import FunctionsIcon from '@mui/icons-material/Functions';
 import SchoolIcon from '@mui/icons-material/School';

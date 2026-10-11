@@ -1,6 +1,15 @@
-import axiosClient from '../../../../../Shared/ServerLayer/QueryLayer/config';
+import {
+  executeMutation,
+  executeQueuedMutation,
+} from '../../../../../Shared/ServerLayer/QueryLayer/execute-mutation';
+import { writeApi } from '../../../../../Shared/ServerLayer/QueryLayer/write-api';
 import { ICardDataInStore } from '../TYPES/card-data-in-store';
-
-export async function saveCard(cardData: ICardDataInStore) {
-  return axiosClient.post('/page/edit-card-by-id/save-card', cardData);
+export function saveCard(cardData: ICardDataInStore) {
+  return executeQueuedMutation(
+    `card-${cardData.id}`,
+    writeApi.endpoints.saveCard.initiate({
+      id: Number(cardData.id),
+      data: cardData,
+    }),
+  );
 }

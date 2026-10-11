@@ -3,7 +3,8 @@ import { SameAnswerNode } from '../../../../Shared/Store/PublicStorage/QSPage/Qu
 import { shuffle } from '../../../../Shared/Utils/array';
 import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
 import { FILE_URL, SERVER_BASE_URL } from '../../../../settings';
-import axiosClient from '../../../../Shared/ServerLayer/QueryLayer/config';
+import { executeMutation } from '../../../../Shared/ServerLayer/QueryLayer/execute-mutation';
+import { writeApi } from '../../../../Shared/ServerLayer/QueryLayer/write-api';
 import { PlayerQuestionData } from '../../question-read-api';
 import { createDetailStatistic } from '../../../../Shared/ServerLayer/QueryLayer/detail-statistic.query';
 
@@ -419,15 +420,16 @@ export class QuestionPlayerStore {
   };
 
   saveAnswerReport = () => {
-    if (this.answerReportText && this.answerIndexForCreateErrorReport) {
-      axiosClient
-        .post('/page/question-page/create-answer-report', {
-          report_data: {
-            answer_id:
-              this.answersArray[this.answerIndexForCreateErrorReport].id,
-            text: this.answerReportText,
-          },
-        })
+    if (
+      this.answerReportText &&
+      this.answerIndexForCreateErrorReport !== undefined
+    ) {
+      executeMutation(
+        writeApi.endpoints.createAnswerReport.initiate({
+          answer_id: this.answersArray[this.answerIndexForCreateErrorReport].id,
+          text: this.answerReportText,
+        }),
+      )
         .then(() => {
           this.addAnswerReportSavedMessage();
         })

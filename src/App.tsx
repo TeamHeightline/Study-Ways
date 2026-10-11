@@ -10,9 +10,7 @@ import { Navibar } from './App/SharedComponents/Navbar/Navibar';
 
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import { ApolloProvider } from '@apollo/client';
 import { observer } from 'mobx-react';
-import { ClientStorage } from './Shared/Store/ApolloStorage/ClientStorage';
 import { CircularProgress, Grid } from '@mui/material';
 import SeoData from './seo-data';
 import AppRoutes from './App/Routers/PublicRouter';
@@ -35,15 +33,13 @@ const App = observer(() => {
 
   return (
     <>
-      <ApolloProvider client={ClientStorage.client}>
-        <Router>
-          <Navibar />
-          <SeoData />
-          <RouterWrapper>
-            <AppRoutes />
-          </RouterWrapper>
-        </Router>
-      </ApolloProvider>
+      <Router>
+        <Navibar />
+        <SeoData />
+        <RouterWrapper>
+          <AppRoutes />
+        </RouterWrapper>
+      </Router>
     </>
   );
 });

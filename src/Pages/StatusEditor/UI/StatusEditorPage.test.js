@@ -1,3 +1,11 @@
+jest.mock('../../../App/ReduxStore/RootStore', () => ({
+  useAppDispatch: () => require('react-redux').useDispatch(),
+  useAppSelector: require('react-redux').useSelector,
+  __esModule: true,
+  default: { dispatch: (...args) => mockStore.dispatch(...args) },
+}));
+import { studyWaysApi } from '../../../Shared/ServerLayer/QueryLayer/api';
+let mockStore;
 import React from 'react';
 import { act as legacyAct } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
@@ -9,7 +17,7 @@ import axiosClient from '../../../Shared/ServerLayer/QueryLayer/config';
 
 jest.mock('../../../Shared/ServerLayer/QueryLayer/config', () => ({
   get: jest.fn(),
-  post: jest.fn(),
+  request: jest.fn(),
 }));
 
 const act = React.act || legacyAct;
@@ -48,17 +56,21 @@ beforeEach(() => {
   global.IS_REACT_ACT_ENVIRONMENT = true;
   jest.useFakeTimers();
   axiosClient.get.mockResolvedValue({ data: { allUsers: people } });
-  axiosClient.post.mockImplementation((_, data) =>
+  axiosClient.request.mockImplementation(({ url, data }) =>
     Promise.resolve({
       data: {
-        updatedUser: {
-          ...people.find(user => user.id === data.user_id),
-          user_access_level: data.user_access_level,
-        },
+        ...people.find(user => user.id === Number(url.split('/').at(-2))),
+        user_access_level: data.user_access_level,
       },
     }),
   );
-  store = configureStore({ reducer: { statusEditor: reducer } });
+  store = mockStore = configureStore({
+    reducer: {
+      statusEditor: reducer,
+      [studyWaysApi.reducerPath]: studyWaysApi.reducer,
+    },
+    middleware: getDefault => getDefault().concat(studyWaysApi.middleware),
+  });
   container = document.createElement('div');
   document.body.appendChild(container);
   root = createRoot(container);
@@ -143,14 +155,17 @@ test('cancel leaves the user role unchanged and CARD_EDITOR can be saved', async
   expect(store.getState().statusEditor.users[0].user_access_level).toBe(
     'STUDENT',
   );
-  expect(axiosClient.post).not.toHaveBeenCalled();
+  expect(axiosClient.request).not.toHaveBeenCalled();
   await open();
   await choose('CARD_EDITOR');
   await click(button('Сохранить'));
-  expect(axiosClient.post).toHaveBeenCalledWith('/user/status/update', {
-    user_id: 1,
-    user_access_level: 'CARD_EDITOR',
-  });
+  expect(axiosClient.request).toHaveBeenCalledWith(
+    expect.objectContaining({
+      url: '/page/write/users/1/role',
+      method: 'PUT',
+      data: { user_access_level: 'CARD_EDITOR' },
+    }),
+  );
   expect(store.getState().statusEditor.selectedUser).toBeNull();
   expect(store.getState().statusEditor.users[0].user_access_level).toBe(
     'CARD_EDITOR',
@@ -159,7 +174,7 @@ test('cancel leaves the user role unchanged and CARD_EDITOR can be saved', async
 });
 
 test('failed save preserves the draft, shows an error and allows retry', async () => {
-  axiosClient.post.mockRejectedValueOnce(new Error('Unavailable'));
+  axiosClient.request.mockRejectedValueOnce(new Error('Unavailable'));
   await render();
   await open();
   await choose('ADMIN');
@@ -182,7 +197,7 @@ test('failed save preserves the draft, shows an error and allows retry', async (
 
 test('saving disables dismissal and prevents duplicate requests', async () => {
   let finish;
-  axiosClient.post.mockImplementationOnce(
+  axiosClient.request.mockImplementationOnce(
     () =>
       new Promise(resolve => {
         finish = resolve;
@@ -199,10 +214,10 @@ test('saving disables dismissal and prevents duplicate requests', async () => {
       .disabled,
   ).toBe(true);
   await click(button('Сохранить'));
-  expect(axiosClient.post).toHaveBeenCalledTimes(1);
+  expect(axiosClient.request).toHaveBeenCalledTimes(1);
   await act(async () =>
     finish({
-      data: { updatedUser: { ...people[0], user_access_level: 'TEACHER' } },
+      data: { ...people[0], user_access_level: 'TEACHER' },
     }),
   );
   await act(async () => jest.advanceTimersByTime(500));

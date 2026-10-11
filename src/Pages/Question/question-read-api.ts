@@ -1,38 +1,19 @@
 import { studyWaysApi } from '../../Shared/ServerLayer/QueryLayer/api';
 import CryptoJS from 'crypto-js';
-import { AnswerNode } from '../../SchemaTypes';
+import type {
+  EditorAnswer,
+  ReviewAnswer,
+} from '../../Shared/ServerLayer/Types/question.type';
+export type {
+  EditorAnswer,
+  ReviewAnswer,
+} from '../../Shared/ServerLayer/Types/question.type';
 export interface QuestionPreview {
   id: string;
   text: string;
   ownerUsername: string;
   questionImage: string | null;
 }
-export type ReviewAnswer = Pick<
-  AnswerNode,
-  | 'id'
-  | 'text'
-  | 'isTrue'
-  | 'helpTextv1'
-  | 'helpTextv2'
-  | 'helpTextv3'
-  | 'isImageDeleted'
-> & { image: string | null };
-export type EditorAnswer = Pick<
-  AnswerNode,
-  | 'id'
-  | 'text'
-  | 'isTrue'
-  | 'helpTextv1'
-  | 'helpTextv2'
-  | 'helpTextv3'
-  | 'isImageDeleted'
-  | 'checkQueue'
-  | 'hardLevelOfAnswer'
-  | 'isDeleted'
-  | 'isInvisible'
-  | 'isRequired'
-  | 'onlyForExam'
-> & { question: { id: string }; image: string | null };
 export interface QuestionEditorData {
   id: string;
   text: string;

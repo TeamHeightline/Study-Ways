@@ -4,7 +4,9 @@ import { SERVER_BASE_URL } from '../../../../../settings';
 import message from 'antd/es/message';
 import 'js-video-url-parser/lib/provider/youtube';
 import urlParser from 'js-video-url-parser';
-import axiosClient from '../../../../../Shared/ServerLayer/QueryLayer/config';
+import { executeMutation } from '../../../../../Shared/ServerLayer/QueryLayer/execute-mutation';
+import { writeApi } from '../../../../../Shared/ServerLayer/QueryLayer/write-api';
+import { FILE_URL } from '../../../../../settings';
 import haveStatus from '../../../../../Shared/Store/UserStore/utils/HaveStatus';
 import { getCardData } from '../API/get-card-data';
 import { ICardDataInStore } from '../TYPES/card-data-in-store';
@@ -86,9 +88,6 @@ export class CardEditorStorage {
           if (this.card_object?.id === data.id && version === this.editVersion)
             this.stateOfSave = true;
           this.invalidateCardData?.(Number(data.id));
-          axiosClient
-            .post('/page/edit-card-by-id/clear-card-cache')
-            .catch(() => void 0);
         }),
       )
       .catch(
@@ -165,20 +164,19 @@ export class CardEditorStorage {
 
   // Загрузка изображения для карточки
   handleUploadImage(e, card_id) {
-    const formData = new FormData();
-    formData.append('image', e.file);
-    formData.append('card', String(card_id));
-    fetch(`${SERVER_BASE_URL}/cardfiles/card?update_id=${String(card_id)}`, {
-      method: 'POST',
-      body: formData,
-    })
-      .then(response => response.json())
+    executeMutation(
+      writeApi.endpoints.uploadMaterialImage.initiate({
+        kind: 'card',
+        id: Number(card_id),
+        file: e.file,
+      }),
+    )
       .then(
         action(result => {
           this.update_image_counter = this.update_image_counter + 1;
           // console.log('Success:', result);
           message.success(`${e.file.name} успешно загружен.`);
-          this.image_url = result.image;
+          this.image_url = `${FILE_URL}/${result.image}`;
           this.invalidateCardData?.(Number(card_id));
         }),
       )
@@ -244,9 +242,10 @@ export class CardEditorStorage {
     if (!this.card_object?.id) return;
     this.isPendingCreateCopy = true;
     try {
-      return await axiosClient.post(
-        `/page/edit-card-by-id/create-card-copy/${this.card_object.id}`,
+      const card = await executeMutation(
+        writeApi.endpoints.copyCard.initiate(Number(this.card_object.id)),
       );
+      return { data: card };
     } finally {
       runInAction(() => {
         this.isPendingCreateCopy = false;

@@ -1,32 +1,51 @@
-import { Paper } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
-import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { Alert, Button, Box } from '@mui/material';
+import { useEffect, useRef } from 'react';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '../../../../../App/ReduxStore/RootStore';
 import { updateExamThunk } from '../redux-store/async-actions';
 import {
-  RootState,
-  useAppDispatch,
-} from '../../../../../App/ReduxStore/RootStore';
-import { prepareForUpdateExamData } from '../redux-store/examEditorSlice';
-
-type IAutoSaveModuleProps = PaperProps;
-
-let updateTimer: any = null;
-export default function AutoSaveModule({ ...props }: IAutoSaveModuleProps) {
-  const examData = useSelector(
-    (state: RootState) => state?.examEditor?.exam_data,
-  );
+  IExamData,
+  prepareForUpdateExamData,
+} from '../redux-store/examEditorSlice';
+export default function AutoSaveModule() {
+  const exam = useAppSelector(state => state.examEditor.exam_data);
+  const error = useAppSelector(state => state.examEditor.update_exam_error);
   const dispatch = useAppDispatch();
-
+  const previous = useRef(exam),
+    pending = useRef<IExamData | null>(null);
   useEffect(() => {
-    clearTimeout(updateTimer);
+    if (previous.current === exam || !exam) return;
+    previous.current = exam;
+    pending.current = exam;
     dispatch(prepareForUpdateExamData());
-    updateTimer = setTimeout(() => updateExam(), 2000);
-  }, [examData]);
-
-  function updateExam() {
-    dispatch(updateExamThunk(examData));
-  }
-
-  return <Paper elevation={0} {...props}></Paper>;
+    const timer = setTimeout(() => {
+      if (pending.current) {
+        dispatch(updateExamThunk(pending.current));
+        pending.current = null;
+      }
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [exam, dispatch]);
+  useEffect(
+    () => () => {
+      if (pending.current) dispatch(updateExamThunk(pending.current));
+    },
+    [dispatch],
+  );
+  return error ? (
+    <Alert
+      severity="error"
+      action={
+        <Button onClick={() => exam && dispatch(updateExamThunk(exam))}>
+          Повторить
+        </Button>
+      }
+    >
+      {String(error)}. Изменения остаются в редакторе.
+    </Alert>
+  ) : (
+    <Box />
+  );
 }

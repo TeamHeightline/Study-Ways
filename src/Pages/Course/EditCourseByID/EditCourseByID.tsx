@@ -1,5 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { gql, useMutation } from '@apollo/client';
+import {
+  useSaveCourseMutation,
+  useUploadMaterialImageMutation,
+} from '../../../Shared/ServerLayer/QueryLayer/write-api';
+import { FILE_URL } from '../../../settings';
 import {
   Alert,
   Button,
@@ -52,22 +56,6 @@ import { skipToken } from '@reduxjs/toolkit/query';
 export { CourseLines } from './course-data';
 export type { CourseData, ICourseLine } from './course-data';
 
-export const UPDATE_COURSE_DATA = gql`
-  mutation UPDATE_COURSE_DATA(
-    $new_data: GenericScalar
-    $course_id: ID!
-    $name: String
-  ) {
-    updateCardCourse(
-      input: { courseData: $new_data, courseId: $course_id, name: $name }
-    ) {
-      course {
-        id
-      }
-    }
-  }
-`;
-
 interface Props {
   course_id?: string | number;
   onChange?: (action: 'goBack') => void;
@@ -85,16 +73,16 @@ export default function EditCourseByID({ course_id, onChange }: Props) {
   } = useGetCourseQuery(
     Number.isInteger(numericId) && numericId > 0 ? numericId : skipToken,
   );
-  const [mutate] = useMutation(UPDATE_COURSE_DATA);
-  const save: Parameters<typeof useCourseDraft>[2] = async options => {
-    const result = await mutate(options);
-    dispatch(
-      courseApi.util.invalidateTags([
-        { type: 'Course', id: numericId },
-        'OwnCourses',
-      ]),
-    );
-    return result;
+  const [saveCourse] = useSaveCourseMutation();
+  const save: Parameters<typeof useCourseDraft>[2] = async ({ variables }) => {
+    const course = await saveCourse({
+      id: Number(variables.course_id),
+      name: variables.name,
+      course_data: variables.new_data,
+    }).unwrap();
+    return {
+      data: { updateCardCourse: { course: { id: String(course.id) } } },
+    };
   };
   if (loading && !data)
     return (
@@ -226,6 +214,7 @@ function CourseEditor({
       .catch(() => void 0);
     return () => controller.abort();
   }, [id]);
+  const [uploadMaterialImage] = useUploadMaterialImageMutation();
   const uploadImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     event.target.value = '';
@@ -233,17 +222,12 @@ function CourseEditor({
     setImageBusy(true);
     setImageError(false);
     try {
-      const form = new FormData();
-      form.append('image', file);
-      form.append('card_course', String(id));
-      const response = await fetch(
-        `${SERVER_BASE_URL}/cardfiles/course?update_id=${id}`,
-        { method: 'POST', body: form },
-      );
-      if (!response.ok) throw new Error('Upload failed');
-      const result = await response.json();
-      if (!result.image) throw new Error('No image returned');
-      setImage(result.image);
+      const result = await uploadMaterialImage({
+        kind: 'course',
+        id: Number(id),
+        file,
+      }).unwrap();
+      setImage(`${FILE_URL}/${result.image}`);
     } catch {
       setImageError(true);
     } finally {

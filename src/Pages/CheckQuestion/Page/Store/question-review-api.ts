@@ -19,25 +19,28 @@ interface QuestionReviewRequest {
   userId?: number;
 }
 
-export const questionReviewApi = studyWaysApi.injectEndpoints({
-  endpoints: builder => ({
-    getQuestionReviewPage: builder.query<
-      QuestionReviewPage,
-      QuestionReviewRequest
-    >({
-      query: ({ page, authorId }) => ({
-        url:
-          authorId === '-1'
-            ? '/page/question-selector/my'
-            : '/page/question-selector',
-        params: {
-          page,
-          ...(authorId !== null && authorId !== '-1' ? { authorId } : {}),
-        },
+export const questionReviewApi = studyWaysApi
+  .enhanceEndpoints({ addTagTypes: ['QuestionList'] })
+  .injectEndpoints({
+    endpoints: builder => ({
+      getQuestionReviewPage: builder.query<
+        QuestionReviewPage,
+        QuestionReviewRequest
+      >({
+        query: ({ page, authorId }) => ({
+          url:
+            authorId === '-1'
+              ? '/page/question-selector/my'
+              : '/page/question-selector',
+          params: {
+            page,
+            ...(authorId !== null && authorId !== '-1' ? { authorId } : {}),
+          },
+        }),
+        providesTags: ['QuestionList'],
+        keepUnusedDataFor: 0,
       }),
-      keepUnusedDataFor: 0,
     }),
-  }),
-});
+  });
 
 export const { useGetQuestionReviewPageQuery } = questionReviewApi;

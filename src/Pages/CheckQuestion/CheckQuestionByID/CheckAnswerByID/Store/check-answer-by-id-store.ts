@@ -1,6 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import { ReviewAnswer } from '../../../../Question/question-read-api';
-import axiosClient from '../../../../../Shared/ServerLayer/QueryLayer/config';
+import { executeMutation } from '../../../../../Shared/ServerLayer/QueryLayer/execute-mutation';
+import { writeApi } from '../../../../../Shared/ServerLayer/QueryLayer/write-api';
 
 export class CheckAnswerByIdStore {
   constructor(answerID) {
@@ -31,13 +32,12 @@ export class CheckAnswerByIdStore {
 
   saveAnswerReport = () => {
     if (this.answerReportText && this.answerID) {
-      axiosClient
-        .post('/page/question-page/create-answer-report', {
-          report_data: {
-            answer_id: Number(this.answerID),
-            text: this.answerReportText,
-          },
-        })
+      executeMutation(
+        writeApi.endpoints.createAnswerReport.initiate({
+          answer_id: Number(this.answerID),
+          text: this.answerReportText,
+        }),
+      )
         .then(() => {
           this.addAnswerReportSavedMessage();
         })

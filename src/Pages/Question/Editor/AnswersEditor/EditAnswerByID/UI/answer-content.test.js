@@ -6,9 +6,6 @@ import { EditAnswerByIdStore } from '../Store/edit-answer-by-id-store';
 import AnswerContent from './answer-content';
 import IsEditAnswer from './is-edit-answer';
 
-jest.mock('../../../../../../Shared/Store/ApolloStorage/ClientStorage', () => ({
-  ClientStorage: { client: { query: jest.fn(), mutate: jest.fn() } },
-}));
 jest.mock('../../../../../../Shared/Store/UserStore/UserStore', () => ({
   UserStorage: {},
 }));

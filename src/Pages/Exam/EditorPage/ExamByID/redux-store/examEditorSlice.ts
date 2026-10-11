@@ -17,6 +17,7 @@ const examEditorSlice = createSlice({
     exam_data: null as null | IExamData,
     exam_data_loading: true,
     exam_data_error: null,
+    exam_request_id: null as string | null,
     exam_id: null as null | string,
 
     update_exam_loading: false,
@@ -25,6 +26,16 @@ const examEditorSlice = createSlice({
     original_password: '',
   },
   reducers: {
+    changeExamDate: (
+      state,
+      action: PayloadAction<{
+        field: 'start_at' | 'end_at';
+        value: string | null;
+      }>,
+    ) => {
+      if (state.exam_data)
+        state.exam_data[action.payload.field] = action.payload.value;
+    },
     changeAccessMode: (
       state,
       action: PayloadAction<IExamData['access_mode']>,
@@ -43,10 +54,10 @@ const examEditorSlice = createSlice({
         state.exam_data.minutes = action.payload;
       }
     },
-    prepareForUpdateExamData: (state) => {
+    prepareForUpdateExamData: state => {
       state.update_exam_loading = true;
     },
-    changeIsEnableHelpText: (state) => {
+    changeIsEnableHelpText: state => {
       if (state.exam_data) {
         state.exam_data.is_enable_help_text =
           !state.exam_data.is_enable_help_text;
@@ -60,7 +71,7 @@ const examEditorSlice = createSlice({
         state.exam_data.help_text_level = action.payload;
       }
     },
-    changeIsEnableMaxQuestionAttempts: (state) => {
+    changeIsEnableMaxQuestionAttempts: state => {
       if (state.exam_data) {
         state.exam_data.is_enable_max_question_attempts =
           !state.exam_data.is_enable_max_question_attempts;
@@ -74,7 +85,7 @@ const examEditorSlice = createSlice({
         state.exam_data.max_question_attempts = action.payload;
       }
     },
-    changeIsEnablePasswordCheck: (state) => {
+    changeIsEnablePasswordCheck: state => {
       if (state.exam_data) {
         state.exam_data.is_enable_password_check =
           !state.exam_data.is_enable_password_check;
@@ -83,6 +94,9 @@ const examEditorSlice = createSlice({
     changeOriginalPassword: (state, action: PayloadAction<string>) => {
       if (state.exam_data) {
         state.original_password = action.payload;
+        state.exam_data.password = action.payload
+          ? CryptoJS.AES.encrypt(action.payload, 'sw-secret-key').toString()
+          : null;
       }
     },
     changePassword: (state, action: PayloadAction<string>) => {
@@ -90,7 +104,7 @@ const examEditorSlice = createSlice({
         state.exam_data.password = action.payload;
       }
     },
-    changeIsEnableStartAndFinishTime: (state) => {
+    changeIsEnableStartAndFinishTime: state => {
       if (state.exam_data) {
         state.exam_data.is_enable_start_and_finish_time =
           !state.exam_data.is_enable_start_and_finish_time;
@@ -99,7 +113,7 @@ const examEditorSlice = createSlice({
   },
   extraReducers: {
     // Загрузка данных серии вопросов
-    [loadQSDataThunk.pending.type]: (state) => {
+    [loadQSDataThunk.pending.type]: state => {
       state.selected_qs_data_loading = true;
       state.selected_qs_data = null;
       state.selected_qs_data_error = null;
@@ -114,11 +128,15 @@ const examEditorSlice = createSlice({
     },
 
     // Загрузка данных экзамена
-    [loadExamDataThunk.pending.type]: (state) => {
+    [loadExamDataThunk.pending.type]: (state, action) => {
+      state.exam_request_id = action.meta.requestId;
+      state.exam_data_error = null;
       state.exam_data_loading = true;
       state.exam_data = null;
     },
     [loadExamDataThunk.fulfilled.type]: (state, action) => {
+      if (state.exam_request_id !== action.meta.requestId) return;
+      state.original_password = '';
       state.exam_data = action.payload;
       if (action?.payload?.password) {
         state.original_password = CryptoJS.AES.decrypt(
@@ -129,18 +147,24 @@ const examEditorSlice = createSlice({
       state.exam_data_loading = false;
     },
     [loadExamDataThunk.rejected.type]: (state, action) => {
+      if (state.exam_request_id !== action.meta.requestId) return;
       state.exam_data_loading = false;
       state.exam_data_error = action.payload;
     },
 
     // Обновление данных экзамена
-    [updateExamThunk.pending.type]: (state) => {
+    [updateExamThunk.pending.type]: state => {
+      state.update_exam_error = null;
       state.update_exam_loading = true;
     },
-    [updateExamThunk.fulfilled.type]: (state) => {
+    [updateExamThunk.fulfilled.type]: (state, action) => {
+      if (JSON.stringify(action.meta.arg) !== JSON.stringify(state.exam_data))
+        return;
       state.update_exam_loading = false;
     },
     [updateExamThunk.rejected.type]: (state, action) => {
+      if (JSON.stringify(action.meta.arg) !== JSON.stringify(state.exam_data))
+        return;
       state.update_exam_loading = false;
       state.update_exam_error = action.payload;
     },
@@ -150,8 +174,8 @@ const examEditorSlice = createSlice({
 export interface IExamData {
   id: string;
   name: string;
-  start_at: string;
-  end_at: string;
+  start_at: string | null;
+  end_at: string | null;
   access_mode: 'manual' | 'timeInterval' | 'open' | 'closed' | 'password';
   uid: string;
   created_by_id: string;
@@ -169,6 +193,8 @@ export interface IExamData {
 export default examEditorSlice.reducer;
 
 export const {
+  changeIsEnableStartAndFinishTime,
+  changeExamDate,
   changeExamName,
   changeExamMinutes,
   changeAccessMode,

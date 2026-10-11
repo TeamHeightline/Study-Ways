@@ -1,16 +1,14 @@
 import { action, makeAutoObservable, reaction, runInAction, toJS } from 'mobx';
-import { ClientStorage } from '../../../../../Shared/Store/ApolloStorage/ClientStorage';
 import {
-  CREATE_DEEP_QUESTION_COPY,
-  CREATE_NEW_ANSWER,
-  CREATE_NEW_QUESTION,
-} from './Struct';
-import { AnswerNode, Mutation } from '../../../../../SchemaTypes';
+  executeMutation,
+  executeQueuedMutation,
+} from '../../../../../Shared/ServerLayer/QueryLayer/execute-mutation';
+import { writeApi } from '../../../../../Shared/ServerLayer/QueryLayer/write-api';
+import { writtenAnswerData } from '../../../../../Shared/ServerLayer/QueryLayer/answer-write-data';
 import { EditorAnswer, QuestionEditorData } from '../../../question-read-api';
 import { Answer, answerStoreType } from './AnswersStorage';
 import { UserStorage } from '../../../../../Shared/Store/UserStore/UserStore';
 import { FILE_URL, SERVER_BASE_URL } from '../../../../../settings';
-import axiosClient from '../../../../../Shared/ServerLayer/QueryLayer/config';
 
 export enum variantsOfStateOfSave {
   SAVED = 'SAVED',
@@ -47,9 +45,6 @@ class QuestionEditor {
       () => this.autoSave(),
     );
   }
-
-  // Existing write operations use Apollo; server reads are provided by RTK Query.
-  clientStorage = ClientStorage;
 
   // доступ к данным о пользователе, чтобы можно было проверять уровень доступа
   userStorage = UserStorage;
@@ -247,25 +242,27 @@ class QuestionEditor {
   }
 
   // Функция для загрузки нового изображения на сервер (обработчик нажатия на кнопку для загрузки изображения)
-  uploadNewQuestionImage(event) {
-    const formData = new FormData();
-    formData.append('image', event.target.files[0]);
-    formData.append('owner_question', String(this.selectedQuestionID));
-    fetch(
-      `${SERVER_BASE_URL}/files/question?update_id=${String(this.selectedQuestionID)}`,
-      {
-        method: 'POST',
-        body: formData,
-      },
-    )
-      .then(response => response.json())
-      .then(() => {
-        this.deliverFromServerImageURL();
-        this.invalidateQuestionData?.(this.selectedQuestionID);
-      })
-      .catch(() => {
-        this.deliverFromServerImageURL();
+  async uploadNewQuestionImage(event) {
+    const file = event.target.files?.[0];
+    const id = this.selectedQuestionID;
+    if (!file || !id) return;
+    try {
+      const result = await executeMutation(
+        writeApi.endpoints.uploadMaterialImage.initiate({
+          kind: 'question',
+          id,
+          file,
+        }),
+      );
+      runInAction(() => {
+        if (this.selectedQuestionID === id)
+          this.selectedQuestionImageURL = `${FILE_URL}/${result.image}`;
       });
+    } catch {
+      runInAction(() => {
+        this.stateOfSave = variantsOfStateOfSave.ERROR;
+      });
+    }
   }
 
   // Авто сохранение ---------------------------------------------
@@ -282,26 +279,32 @@ class QuestionEditor {
     ) {
       const id = this.selectedQuestionID;
       const version = this.editVersion;
-      axiosClient
-        .post('/page/edit-question-by-id/update-question', {
-          id: this.selectedQuestionID,
-          connected_theme_id: Number(this.selectedConnectedTheme),
-          text: this.selectedQuestionText,
-          number_of_showing_answers: Number(
-            this.selectedQuestionNumberOfShowingAnswers,
-          ),
-        })
+      executeQueuedMutation(
+        `question-${id}`,
+        writeApi.endpoints.saveQuestion.initiate({
+          id,
+          data: {
+            connected_theme_id: this.selectedConnectedTheme
+              ? Number(this.selectedConnectedTheme)
+              : null,
+            text: this.selectedQuestionText,
+            number_of_showing_answers: Number(
+              this.selectedQuestionNumberOfShowingAnswers,
+            ),
+          },
+        }),
+      )
         .then(
           action(response => {
             if (
               this.selectedQuestionID === id &&
               this.editVersion === version
             ) {
-              this.stateOfSave = response.data.id
+              this.stateOfSave = response.id
                 ? variantsOfStateOfSave.SAVED
                 : variantsOfStateOfSave.ERROR;
             }
-            if (response.data.id) this.invalidateQuestionData?.(id);
+            if (response.id) this.invalidateQuestionData?.(id);
             this.simpleUpdateFlag = true;
           }),
         )
@@ -381,59 +384,52 @@ class QuestionEditor {
 
   // Создаем новый вопрос
   async createNewQuestion() {
-    return this.clientStorage.client
-      .mutate<Mutation>({ mutation: CREATE_NEW_QUESTION })
-      .then(response => response?.data?.updateQuestion?.question?.id);
+    const question = await executeMutation(
+      writeApi.endpoints.createQuestion.initiate(),
+    );
+    return String(question.id);
   }
-
-  // Создаем копию этого вопроса со всеми ответами и переходим в нее
   createDeepCopyInProgress = false;
-  deepQuestionCopyWithAnswers = () => {
+  deepQuestionCopyWithAnswers = async () => {
+    if (this.createDeepCopyInProgress || !this.selectedQuestionID) return;
     this.createDeepCopyInProgress = true;
     try {
-      this.clientStorage.client
-        .mutate<Mutation>({
-          mutation: CREATE_DEEP_QUESTION_COPY,
-          variables: {
-            questionId: this.selectedQuestionID,
-          },
-        })
-        .then(response => response?.data?.copyQuestionWithAnswers)
-        .then(create_question_data => {
-          if (create_question_data?.ok && create_question_data.newQuestionId) {
-            this.createDeepCopyInProgress = false;
-            this.selectQuestionClickHandler(
-              Number(create_question_data.newQuestionId),
-            );
-          }
-        });
-    } catch (e) {
-      console.log(e);
+      const question = await executeMutation(
+        writeApi.endpoints.copyQuestion.initiate(this.selectedQuestionID),
+      );
+      runInAction(() => this.selectQuestionClickHandler(question.id));
+    } catch {
+      runInAction(() => {
+        this.stateOfSave = variantsOfStateOfSave.ERROR;
+      });
+    } finally {
+      runInAction(() => {
+        this.createDeepCopyInProgress = false;
+      });
     }
   };
 
-  addCreatedAnswerToAnswersObjectArray = (answer: AnswerNode) => {
+  addCreatedAnswerToAnswersObjectArray = (answer: EditorAnswer) => {
     this.answers_id_array.push(String(answer.id));
     this.answers.push(new Answer(this, answer));
   };
 
   // Создаем новый ответ
-  createNewAnswer() {
-    this.clientStorage.client
-      .mutate({
-        mutation: CREATE_NEW_ANSWER,
-        variables: {
-          question: this.selectedQuestionID,
-        },
-      })
-      .then(response => {
-        this.addCreatedAnswerToAnswersObjectArray(
-          response.data.createAnswer.answer,
-        );
-        this.invalidateQuestionData?.(this.selectedQuestionID);
-        // this.selectQuestionClickHandler(this.selectedQuestionID)
-      })
-      .catch(() => void 0);
+  async createNewAnswer() {
+    const questionId = this.selectedQuestionID;
+    try {
+      const answer = await executeMutation(
+        writeApi.endpoints.createAnswer.initiate({ questionId }),
+      );
+      runInAction(() => {
+        if (questionId === this.selectedQuestionID)
+          this.addCreatedAnswerToAnswersObjectArray(writtenAnswerData(answer));
+      });
+    } catch {
+      runInAction(() => {
+        this.stateOfSave = variantsOfStateOfSave.ERROR;
+      });
+    }
   }
 
   clearAllStatisticData() {

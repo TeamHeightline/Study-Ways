@@ -1,4 +1,4 @@
-import { Alert, CircularProgress, Paper, Stack } from '@mui/material';
+import { Alert, Button, CircularProgress, Paper, Stack } from '@mui/material';
 import { useEffect } from 'react';
 import {
   loadExamDataThunk,
@@ -15,6 +15,7 @@ import {
 } from '../../../../App/ReduxStore/RootStore';
 import { useParams } from 'react-router-dom';
 import { observer } from 'mobx-react';
+import { resetExam } from '../redux-store/ExamPlayerSlice';
 import UIAccessPassword from './ui-access-password';
 
 const ExamByUIDPge = observer(({ ...props }) => {
@@ -22,27 +23,58 @@ const ExamByUIDPge = observer(({ ...props }) => {
   const dispatch = useAppDispatch();
   const { uid } = useParams();
   const access_mode = useAppSelector(
-    (state) => state.examPlayer?.exam_data?.access_mode,
+    state => state.examPlayer?.exam_data?.access_mode,
   );
   const is_enable_password_check = useAppSelector(
-    (state) => state.examPlayer?.exam_data?.is_enable_password_check,
+    state => state.examPlayer?.exam_data?.is_enable_password_check,
   );
-  const password = useAppSelector(
-    (state) => state.examPlayer?.exam_data?.password,
+  const exam = useAppSelector(state => state.examPlayer.exam_data);
+  const loadingExam = useAppSelector(state => state.examPlayer.loading_exam);
+  const examError = useAppSelector(state => state.examPlayer.exam_load_error);
+  const opening = useAppSelector(
+    state => state.examPlayer.loading_question_statuses,
+  );
+  const openError = useAppSelector(
+    state => state.examPlayer.question_statuses_load_error,
   );
   const is_password_check_passed = useAppSelector(
-    (state) => state.examPlayer?.is_password_check_passed,
+    state => state.examPlayer?.is_password_check_passed,
   );
   const remaining_minutes = useAppSelector(
-    (state) => state.examPlayer?.remaining_minutes,
+    state => state.examPlayer?.remaining_minutes,
   );
 
   useEffect(() => {
     if (UserStorage.isLogin && uid) {
-      dispatch(openExamPageThunk(uid));
-      dispatch(loadExamDataThunk(uid));
+      dispatch(resetExam());
+      const request = dispatch(loadExamDataThunk(uid));
+      return () => {
+        request.abort();
+        dispatch(resetExam());
+      };
     }
-  }, [uid, UserStorage.isLogin]);
+  }, [uid, UserStorage.isLogin, dispatch]);
+  useEffect(() => {
+    if (
+      UserStorage.isLogin &&
+      uid &&
+      exam?.uid === uid &&
+      !exam.is_enable_password_check &&
+      exam.access_mode !== 'closed'
+    ) {
+      const request = dispatch(openExamPageThunk(uid));
+      return () => {
+        request.abort();
+      };
+    }
+  }, [
+    uid,
+    exam?.uid,
+    exam?.is_enable_password_check,
+    exam?.access_mode,
+    UserStorage.isLogin,
+    dispatch,
+  ]);
   if (!UserStorage.isLogin) {
     return (
       <Stack alignItems="center">
@@ -50,6 +82,20 @@ const ExamByUIDPge = observer(({ ...props }) => {
       </Stack>
     );
   }
+  if (loadingExam) return <CircularProgress />;
+  if (examError || !exam)
+    return (
+      <Alert
+        severity="error"
+        action={
+          <Button onClick={() => uid && dispatch(loadExamDataThunk(uid))}>
+            Повторить
+          </Button>
+        }
+      >
+        Не удалось загрузить экзамен
+      </Alert>
+    );
   if (remaining_minutes < 0) {
     return <Alert severity={'error'}>Время экзамена закончилось</Alert>;
   }
@@ -63,10 +109,24 @@ const ExamByUIDPge = observer(({ ...props }) => {
     );
   }
 
-  if (is_enable_password_check && password && !is_password_check_passed) {
+  if (is_enable_password_check && !is_password_check_passed) {
     return <UIAccessPassword />;
   }
 
+  if (opening) return <CircularProgress />;
+  if (openError)
+    return (
+      <Alert
+        severity="error"
+        action={
+          <Button onClick={() => uid && dispatch(openExamPageThunk(uid))}>
+            Повторить
+          </Button>
+        }
+      >
+        {openError}
+      </Alert>
+    );
   return (
     <Paper elevation={0} {...props} sx={{ p: isMobile ? 0 : 2 }}>
       <UIExamName />

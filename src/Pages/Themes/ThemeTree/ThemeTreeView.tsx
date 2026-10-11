@@ -5,11 +5,8 @@ import styles from './App.module.css';
 import { Placeholder } from './Placeholder';
 import { Card } from '@mui/material';
 import React, { memo, useEffect, useState } from 'react';
-import { useMutation } from '@apollo/client';
-import { Mutation } from '../../../SchemaTypes';
-import { UpdateTheme } from './Struct';
-import { useAppDispatch } from '../../../App/ReduxStore/RootStore';
-import { connectedThemesApi } from '../../../Shared/ConnectedThemes/api';
+import { useSaveThemeMutation } from '../../../Shared/ServerLayer/QueryLayer/write-api';
+import { Alert } from '@mui/material';
 
 type IThemeTreeViewProps = {
   treeData?: NodeModel[];
@@ -26,48 +23,29 @@ export const ThemeTreeView = memo(function ThemeTreeView({
   setSelectedThemeID,
   manualUpdate,
 }: IThemeTreeViewProps) {
-  const dispatch = useAppDispatch();
-  const [updateData, setUpdateData] = useState<{
-    id: number;
-    parent: number;
-    text: string;
-  }>({ id: 0, parent: 0, text: '_' });
-
-  useEffect(() => {
-    if (updateData.id !== 0) {
-      updateTheme();
-    }
-  }, [updateData]);
-
-  const [updateTheme] = useMutation<Mutation>(UpdateTheme, {
-    onCompleted: data => {
-      if (data.updateUnstructuredTheme?.theme?.id) {
-        dispatch(connectedThemesApi.util.invalidateTags(['ConnectedThemes']));
-      }
-    },
-    variables: {
-      id: updateData.id,
-      parent: updateData.parent,
-      text: updateData.text,
-    },
-  });
-
-  const handleDrop = (newTree: NodeModel[]) => {
-    const diff = newTree.find(node => !treeData?.includes(node));
-    if (diff?.id && diff?.id !== 0) {
-      setUpdateData({
-        id: Number(diff.id),
-        parent: Number(diff.parent),
-        text: diff.text,
-      });
-    }
-    setTreeData(newTree);
+  const [updateTheme, { isLoading, isError }] = useSaveThemeMutation();
+  const handleDrop = async (newTree: NodeModel[]) => {
+    if (isLoading) return;
+    const changed = newTree.find(
+      node => treeData?.find(old => old.id === node.id)?.parent !== node.parent,
+    );
+    try {
+      if (changed)
+        await updateTheme({
+          id: Number(changed.id),
+          parentId: Number(changed.parent) || null,
+          text: changed.text,
+        }).unwrap();
+      setTreeData(newTree);
+    } catch {}
   };
-  useEffect(() => {
-    void 0;
-  }, [manualUpdate]);
   return (
     <Card variant="outlined" style={{ height: 650, overflow: 'auto' }}>
+      {isError && (
+        <Alert severity="error">
+          Не удалось переместить тему. Изменения не сохранены.
+        </Alert>
+      )}
       <Tree
         tree={treeData || []}
         rootId={0}
@@ -92,7 +70,9 @@ export const ThemeTreeView = memo(function ThemeTreeView({
         }}
         sort={false}
         insertDroppableFirst={false}
+        canDrag={() => !isLoading}
         canDrop={(tree, { dragSource, dropTargetId }) => {
+          if (isLoading) return false;
           if (dragSource?.parent === dropTargetId) {
             return true;
           }

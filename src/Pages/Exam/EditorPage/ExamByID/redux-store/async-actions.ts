@@ -12,13 +12,28 @@ export const loadQSDataThunk = createAsyncThunk(
 
 export const loadExamDataThunk = createAsyncThunk(
   'examEditor/loadExamData',
-  async (examID: string) => loadExamByID(examID),
+  async (examID: string, { rejectWithValue }) => {
+    try {
+      return await loadExamByID(examID);
+    } catch (error) {
+      return rejectWithValue(
+        (error as any)?.response?.data?.message ||
+          'Не удалось загрузить экзамен',
+      );
+    }
+  },
 );
 
 export const updateExamThunk = createAsyncThunk(
   'examEditor/updateExam',
-  async (examData: any) => {
-    const { id, ...examDataWithoutID } = examData;
-    return updateExam(id, examDataWithoutID);
+  async (examData: any, { rejectWithValue }) => {
+    try {
+      const { id, ...examDataWithoutID } = examData;
+      return await updateExam(id, examDataWithoutID);
+    } catch (error) {
+      return rejectWithValue(
+        (error as any)?.data?.message || 'Не удалось сохранить экзамен',
+      );
+    }
   },
 );

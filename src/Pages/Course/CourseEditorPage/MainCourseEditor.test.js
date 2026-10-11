@@ -1,15 +1,12 @@
 import React from 'react';
 import { act as legacyAct } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
-import { MockedProvider } from '@apollo/client/testing';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { courseApi } from '../course-api';
 import axiosClient from '../../../Shared/ServerLayer/QueryLayer/config';
 import { useAppDispatch } from '../../../App/ReduxStore/RootStore';
-import MainCourseEditor, {
-  CREATE_COURSE_WITH_DEFAULT_VALUE,
-} from './MainCourseEditor';
+import MainCourseEditor from './MainCourseEditor';
 import {
   CourseLines,
   normalizeCourseData,
@@ -47,10 +44,7 @@ const course = {
   courseData: normalizeCourseData(CourseLines),
 };
 const ownQuery = courses => ({ rest: courses });
-const createRequest = {
-  query: CREATE_COURSE_WITH_DEFAULT_VALUE,
-  variables: { default_data: normalizeCourseData(CourseLines) },
-};
+const createRequest = {};
 let root, container, store;
 beforeEach(() => {
   global.IS_REACT_ACT_ENVIRONMENT = true;
@@ -77,16 +71,32 @@ const button = text =>
   );
 const render = async mocks => {
   const lists = mocks.filter(mock => mock.rest).map(mock => mock.rest);
-  axiosClient.request.mockImplementation(async () => ({
-    data: lists.length > 1 ? lists.shift() : lists[0] || [],
-  }));
   const mutations = mocks.filter(mock => !mock.rest);
+  axiosClient.request.mockImplementation(({ method }) =>
+    method === 'POST'
+      ? new Promise((resolve, reject) =>
+          setTimeout(() => {
+            const mutation = mutations.shift();
+            if (mutation.error) {
+              reject(mutation.error);
+              return;
+            }
+            const result =
+              typeof mutation.result === 'function'
+                ? mutation.result()
+                : mutation.result;
+            const created = result.data.createCardCourse.course;
+            resolve({ data: { ...created, course_data: created.courseData } });
+          }, 5),
+        )
+      : Promise.resolve({
+          data: lists.length > 1 ? lists.shift() : lists[0] || [],
+        }),
+  );
   await act(async () =>
     root.render(
       <Provider store={store}>
-        <MockedProvider mocks={mutations} addTypename={false}>
-          <MainCourseEditor />
-        </MockedProvider>
+        <MainCourseEditor />
       </Provider>,
     ),
   );

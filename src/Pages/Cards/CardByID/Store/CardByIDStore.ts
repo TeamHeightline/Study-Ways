@@ -1,11 +1,6 @@
 import { makeAutoObservable } from 'mobx';
-import { Mutation } from '../../../../SchemaTypes';
-import { ClientStorage } from '../../../../Shared/Store/ApolloStorage/ClientStorage';
-import {
-  ADD_TO_BOOKMARK,
-  REMOVE_CARD_FROM_BOOKMARK,
-  SET_RATING,
-} from './Query';
+import { executeMutation } from '../../../../Shared/ServerLayer/QueryLayer/execute-mutation';
+import { writeApi } from '../../../../Shared/ServerLayer/QueryLayer/write-api';
 import { FILE_URL } from '../../../../settings';
 import React, { RefObject } from 'react';
 import { ICardData } from '../TYPES/card-data';
@@ -15,7 +10,6 @@ export class CardByIDStore {
   constructor() {
     makeAutoObservable(this, { reloadCardData: false });
   }
-  clientStorage = ClientStorage;
   id?: number;
   card_data?: ICardData;
   reloadCardData?: () => unknown;
@@ -40,65 +34,33 @@ export class CardByIDStore {
         ? `${FILE_URL}/cards-images/card/${this.card_data.id}`
         : '';
   }
-  removeCardFromBookmark = () => {
-    if (this.card_data?.id) {
-      this.clientStorage.client
-        .mutate<Mutation>({
-          mutation: REMOVE_CARD_FROM_BOOKMARK,
-          variables: {
-            id: Number(this.card_data?.id),
-          },
-        })
-        .then(response => response?.data?.removeCardFromBookmark)
-        .then(() => {
-          this.loadCardData();
-        })
-        .catch(e => console.log(e));
-    }
-  };
-
-  addToBookmark = () => {
-    if (this.card_data?.id) {
-      this.clientStorage.client
-        .mutate<Mutation>({
-          mutation: ADD_TO_BOOKMARK,
-          variables: {
-            id: Number(this.card_data?.id),
-          },
-        })
-        .then(response => response?.data?.addCardToBookmark)
-        .then(response => {
-          if (response?.ok) {
-            this.loadCardData();
-          }
-        })
-        .catch(e => console.log(e));
-    }
-  };
-
-  setRating = (rating: number | null) => {
-    if (rating && this.card_data?.id) {
-      this.rating = rating;
-      this.clientStorage.client
-        .mutate<Mutation>({
-          mutation: SET_RATING,
-          variables: {
-            id: Number(this.card_data?.id),
+  removeCardFromBookmark = () =>
+    this.card_data?.id
+      ? executeMutation(
+          writeApi.endpoints.setCardBookmark.initiate({
+            id: this.card_data.id,
+            bookmarked: false,
+          }),
+        )
+      : Promise.resolve();
+  addToBookmark = () =>
+    this.card_data?.id
+      ? executeMutation(
+          writeApi.endpoints.setCardBookmark.initiate({
+            id: this.card_data.id,
+            bookmarked: true,
+          }),
+        )
+      : Promise.resolve();
+  setRating = (rating: number | null) =>
+    this.card_data?.id
+      ? executeMutation(
+          writeApi.endpoints.setCardRating.initiate({
+            id: this.card_data.id,
             rating,
-          },
-        })
-        .then(response => response?.data?.setCardRating)
-        .then(response => {
-          if (response?.ok) {
-            this.loadCardData();
-          }
-        })
-        .catch(e => console.log(e));
-    }
-  };
-
-  rating?: number;
-  isBookmarked = false;
+          }),
+        )
+      : Promise.resolve();
 
   isOpenGoToTestDialogAfterVideo = false;
   testElementRef = React.createRef() as RefObject<HTMLDivElement>;

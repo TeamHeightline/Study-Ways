@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { useMutation } from '@apollo/client';
+import { useCreateSequenceMutation } from '../../../../Shared/ServerLayer/QueryLayer/write-api';
 import {
   Alert,
   Button,
@@ -21,8 +21,7 @@ import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined';
 import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 import ManageSearchRoundedIcon from '@mui/icons-material/ManageSearchRounded';
-import { Mutation } from '../../../../SchemaTypes';
-import { CREATE_QUESTION_SEQUENCE, question_sequence_struct } from '../Struct';
+import { question_sequence_struct } from '../Struct';
 import EditQuestionSequenceUI from '../EditByID/UI/edit-question-sequence-ui';
 import './question-sequence-list.css';
 import {
@@ -65,10 +64,8 @@ const QuestionSequenceMainEditor = observer(
       error,
       refetch,
     } = useGetMyQuestionSequencesQuery(userId, { skip: !userId });
-    const [createSequence, { loading: creating }] = useMutation<
-      Mutation,
-      { sequenceData: typeof question_sequence_struct }
-    >(CREATE_QUESTION_SEQUENCE);
+    const [createSequence, { isLoading: creating }] =
+      useCreateSequenceMutation();
     const refresh = () => {
       void refetch().catch(() => {});
     };
@@ -77,18 +74,18 @@ const QuestionSequenceMainEditor = observer(
       createLock.current = true;
       setCreateError(false);
       try {
-        const result = await createSequence({
-          variables: { sequenceData: question_sequence_struct },
-        });
-        const id = result.data?.createQuestionSequence?.sequence?.id;
+        const sequence = await createSequence(
+          question_sequence_struct,
+        ).unwrap();
+        const id = sequence.id;
         if (!id) throw new Error('No created sequence returned');
-        const sequence = result.data?.createQuestionSequence?.sequence;
         if (sequence) {
           const summary: QuestionSequenceSummary = {
             id: String(id),
             name: sequence.name ?? null,
             description: sequence.description ?? null,
-            sequenceData: sequence.sequenceData ?? null,
+            sequenceData: (sequence.sequence_data ??
+              null) as QuestionSequenceSummary['sequenceData'],
           };
           dispatch(
             questionSequencesApi.util.updateQueryData(

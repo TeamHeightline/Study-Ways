@@ -1,22 +1,24 @@
-import { observer } from 'mobx-react';
 import React from 'react';
 import { PaperProps } from '@mui/material/Paper/Paper';
 import { Paper, TextField } from '@mui/material';
-import editQSStore from '../store/edit-question-sequence-sore';
+import { useSequenceEditor } from '../store/sequence-editor-context';
 
 type IUIQSDescriptionProps = PaperProps;
 
-const UIQSDescription = observer(({ ...props }: IUIQSDescriptionProps) => (
-  <Paper elevation={0} {...props}>
-    <TextField
-      value={editQSStore.qsData?.description}
-      onChange={editQSStore.changeQSDescription}
-      size="small"
-      label="Описание серии вопросов"
-      variant="outlined"
-      fullWidth
-    />
-  </Paper>
-));
+const UIQSDescription = ({ ...props }: IUIQSDescriptionProps) => {
+  const editQSStore = useSequenceEditor();
+  return (
+    <Paper elevation={0} {...props}>
+      <TextField
+        value={editQSStore.qsData?.description}
+        onChange={editQSStore.changeQSDescription}
+        size="small"
+        label="Описание серии вопросов"
+        variant="outlined"
+        fullWidth
+      />
+    </Paper>
+  );
+};
 
 export default UIQSDescription;

@@ -1,16 +1,24 @@
-import { Box, Checkbox, FormControlLabel } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
-import React from 'react';
-
-type IUIIsEnableStartAndFinishTimeProps = BoxProps;
-
-export default function UIIsEnableStartAndFinishTime({
-  ...props
-}: IUIIsEnableStartAndFinishTimeProps) {
+import { Box, Checkbox, FormControlLabel, BoxProps } from '@mui/material';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '../../../../../App/ReduxStore/RootStore';
+import { changeIsEnableStartAndFinishTime } from '../redux-store/examEditorSlice';
+export default function UIIsEnableStartAndFinishTime(props: BoxProps) {
+  const dispatch = useAppDispatch();
+  const enabled = useAppSelector(
+    state =>
+      state.examEditor.exam_data?.is_enable_start_and_finish_time ?? false,
+  );
   return (
     <Box {...props}>
       <FormControlLabel
-        control={<Checkbox defaultChecked />}
+        control={
+          <Checkbox
+            checked={enabled}
+            onChange={() => dispatch(changeIsEnableStartAndFinishTime())}
+          />
+        }
         label="Начало и конец в определенное время"
       />
     </Box>

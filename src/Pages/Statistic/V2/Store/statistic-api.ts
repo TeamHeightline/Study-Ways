@@ -21,22 +21,26 @@ export interface StatisticRequest {
   onlyInQs: boolean;
 }
 
-export const statisticApi = studyWaysApi.injectEndpoints({
-  endpoints: builder => ({
-    getStatisticAttempts: builder.query<StatisticPageData, StatisticRequest>({
-      query: ({ userId, questions, ...params }) => ({
-        url: '/page/statistic/attempts',
-        params: { ...params, questions: questions.join(',') },
+export const statisticApi = studyWaysApi
+  .enhanceEndpoints({ addTagTypes: ['Statistic', 'QuestionList'] })
+  .injectEndpoints({
+    endpoints: builder => ({
+      getStatisticAttempts: builder.query<StatisticPageData, StatisticRequest>({
+        query: ({ userId, questions, ...params }) => ({
+          url: '/page/statistic/attempts',
+          params: { ...params, questions: questions.join(',') },
+        }),
+        providesTags: ['Statistic'],
+        keepUnusedDataFor: 0,
       }),
-      keepUnusedDataFor: 0,
+      getStatisticQuestions: builder.query<StatisticQuestion[], number>({
+        providesTags: ['QuestionList'],
+        // The argument isolates authenticated users in the cache, not on the server.
+        query: () => ({ url: '/page/statistic/questions' }),
+        keepUnusedDataFor: 0,
+      }),
     }),
-    getStatisticQuestions: builder.query<StatisticQuestion[], number>({
-      // The argument isolates authenticated users in the cache, not on the server.
-      query: () => ({ url: '/page/statistic/questions' }),
-      keepUnusedDataFor: 0,
-    }),
-  }),
-});
+  });
 
 export const { useGetStatisticAttemptsQuery, useGetStatisticQuestionsQuery } =
   statisticApi;

@@ -1,35 +1,45 @@
-import { Box, TextField } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { useState } from 'react';
-
-type IUIStartAndFinishTimeProps = BoxProps;
-
-export default function UIStartAndFinishTime({
-  ...props
-}: IUIStartAndFinishTimeProps) {
-  const [value, setValue] = useState(new Date('2014-08-18T21:11:54'));
-
-  const handleChange = (newValue) => {
-    setValue(newValue);
-  };
-
+import { Box, TextField, BoxProps, Stack } from '@mui/material';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '../../../../../App/ReduxStore/RootStore';
+import { changeExamDate } from '../redux-store/examEditorSlice';
+const localTime = (value: string | null | undefined) => {
+  if (!value) return '';
+  const date = new Date(value);
+  if (!Number.isFinite(date.getTime())) return '';
+  return new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+    .toISOString()
+    .slice(0, 16);
+};
+export default function UIStartAndFinishTime(props: BoxProps) {
+  const exam = useAppSelector(state => state.examEditor.exam_data);
+  const dispatch = useAppDispatch();
   return (
     <Box {...props}>
-      <DateTimePicker
-        label="Начало"
-        value={value}
-        onChange={handleChange}
-        renderInput={(params) => <TextField {...params} />}
-      />
-      <Box sx={{ mt: 1 }}>
-        <DateTimePicker
-          label="Конец"
-          value={value}
-          onChange={handleChange}
-          renderInput={(params) => <TextField {...params} />}
-        />
-      </Box>
+      <Stack spacing={1}>
+        {(['start_at', 'end_at'] as const).map(field => (
+          <TextField
+            key={field}
+            type="datetime-local"
+            label={field === 'start_at' ? 'Начало' : 'Конец'}
+            InputLabelProps={{ shrink: true }}
+            disabled={!exam?.is_enable_start_and_finish_time}
+            value={localTime(exam?.[field])}
+            onChange={event => {
+              const value = event.target.value;
+              if (!value) dispatch(changeExamDate({ field, value: null }));
+              else {
+                const date = new Date(value);
+                if (Number.isFinite(date.getTime()))
+                  dispatch(
+                    changeExamDate({ field, value: date.toISOString() }),
+                  );
+              }
+            }}
+          />
+        ))}
+      </Stack>
     </Box>
   );
 }

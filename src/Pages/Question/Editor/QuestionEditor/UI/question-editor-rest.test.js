@@ -1,3 +1,5 @@
+import { activateAuthSession } from '../../../../../Shared/ServerLayer/QueryLayer/auth-session';
+let mockStore;
 import React from 'react';
 import { act as legacyAct } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
@@ -9,11 +11,12 @@ import { runInAction } from 'mobx';
 import { studyWaysApi } from '../../../../../Shared/ServerLayer/QueryLayer/api';
 import { questionReadApi } from '../../../question-read-api';
 import axiosClient from '../../../../../Shared/ServerLayer/QueryLayer/config';
-import { ClientStorage } from '../../../../../Shared/Store/ApolloStorage/ClientStorage';
 import { QuestionEditorStorage as editor } from '../Store/QuestionEditorStorage';
 import { EditQuestionByID } from './EditQuestionByID';
 
 jest.mock('../../../../../App/ReduxStore/RootStore', () => ({
+  __esModule: true,
+  default: { dispatch: (...args) => mockStore.dispatch(...args) },
   useAppDispatch: () => require('react-redux').useDispatch(),
 }));
 jest.mock('../../../../../Shared/Store/UserStore/UserStore', () => ({
@@ -23,9 +26,7 @@ jest.mock('../../../../../Shared/Store/UserStore/UserStore', () => ({
     isLogin: true,
   },
 }));
-jest.mock('../../../../../Shared/Store/ApolloStorage/ClientStorage', () => ({
-  ClientStorage: { client: { query: jest.fn(), mutate: jest.fn() } },
-}));
+
 jest.mock('../../../../../Shared/ServerLayer/QueryLayer/config', () => ({
   request: jest.fn(),
   get: jest.fn(),
@@ -84,23 +85,43 @@ async function render(id = '42') {
   );
 }
 beforeEach(() => {
+  activateAuthSession();
   global.IS_REACT_ACT_ENVIRONMENT = true;
   jest.useFakeTimers();
   axiosClient.get.mockResolvedValue({ data: [] });
   axiosClient.post.mockResolvedValue({ data: { id: 42 } });
-  axiosClient.request.mockImplementation(async ({ url }) => ({
-    data: url.includes('/answers/')
-      ? answer(Number(url.split('/')[4]))
-      : data(Number(url.split('/')[3])),
-  }));
-  ClientStorage.client.mutate.mockResolvedValue({
-    data: { updateAnswer: { errors: [] } },
-  });
+  axiosClient.request.mockImplementation(
+    async ({ url, method, data: body }) => ({
+      data:
+        method === 'PUT'
+          ? { ...body, id: Number(url.split('/').at(-1)), question_id: 42 }
+          : method === 'POST'
+            ? {
+                id: 23,
+                question_id: 42,
+                text: 'Новый ответ',
+                is_true: true,
+                help_textV1: '',
+                help_textV2: '',
+                help_textV3: '',
+                check_queue: 1,
+                hard_level_of_answer: 'MEDIUM',
+                is_deleted: false,
+                is_invisible: false,
+                is_required: false,
+                is_image_deleted: false,
+                only_for_exam: false,
+              }
+            : url.includes('/answers/')
+              ? answer(Number(url.split('/')[4]))
+              : data(Number(url.split('/')[3])),
+    }),
+  );
   runInAction(() => {
     editor.questionHasBeenSelected = false;
     editor.clearAllStatisticData();
   });
-  reduxStore = configureStore({
+  reduxStore = mockStore = configureStore({
     reducer: { [studyWaysApi.reducerPath]: studyWaysApi.reducer },
     middleware: getDefault => getDefault().concat(studyWaysApi.middleware),
   });
@@ -131,9 +152,7 @@ test('loads all editor answers in one REST batch without auto-saving initial dat
   expect(axiosClient.request.mock.calls[0][0].url).toBe(
     '/page/question-read/42/editor',
   );
-  expect(ClientStorage.client.query).not.toHaveBeenCalled();
   expect(axiosClient.post).not.toHaveBeenCalled();
-  expect(ClientStorage.client.mutate).not.toHaveBeenCalled();
 });
 
 test('answer settings work after batch hydration; editing a hint saves and cache refresh preserves the draft', async () => {
@@ -152,16 +171,20 @@ test('answer settings work after batch hydration; editing a hint saves and cache
     Simulate.change(fields[1]);
   });
   await act(async () => jest.advanceTimersByTime(1600));
-  expect(ClientStorage.client.mutate).toHaveBeenCalledTimes(1);
-  expect(ClientStorage.client.mutate.mock.calls[0][0].variables).toMatchObject({
-    id: '21',
-    helpTextv1: 'Новая подсказка',
-    isTrue: true,
-  });
+  expect(axiosClient.request).toHaveBeenCalledWith(
+    expect.objectContaining({
+      url: '/page/write/answers/21',
+      method: 'PUT',
+      data: expect.objectContaining({
+        help_textV1: 'Новая подсказка',
+        is_true: true,
+      }),
+    }),
+  );
   expect(fields[1].value).toBe('Новая подсказка');
   expect(
     axiosClient.request.mock.calls.some(([request]) =>
-      request.url.includes('/answers/'),
+      request.url.includes('/question-read/answers/'),
     ),
   ).toBe(false);
 });
@@ -174,12 +197,14 @@ test('editing the question saves through the existing writer and invalidates pre
     Simulate.change(field);
   });
   await act(async () => jest.advanceTimersByTime(1600));
-  expect(axiosClient.post).toHaveBeenCalledWith(
-    '/page/edit-question-by-id/update-question',
+  expect(axiosClient.request).toHaveBeenCalledWith(
     expect.objectContaining({
-      id: 42,
-      text: 'Новая формулировка',
-      connected_theme_id: 900,
+      url: '/page/write/questions/42',
+      method: 'PUT',
+      data: expect.objectContaining({
+        text: 'Новая формулировка',
+        connected_theme_id: 900,
+      }),
     }),
   );
   expect(field.value).toBe('Новая формулировка');
@@ -195,17 +220,14 @@ test('editing the question saves through the existing writer and invalidates pre
   expect(field.value).toBe('Ещё не сохранено');
 });
 
-test('only a newly created answer needs a separate REST read', async () => {
+test('a newly created answer uses the mutation response without an individual read', async () => {
   await render();
-  ClientStorage.client.mutate.mockResolvedValueOnce({
-    data: { createAnswer: { answer: { id: '23' } } },
-  });
   await act(async () => button('Добавить ответ').click());
   expect(
     axiosClient.request.mock.calls
-      .filter(([request]) => request.url.includes('/answers/'))
+      .filter(([request]) => request.url.includes('/question-read/answers/'))
       .map(([request]) => request.url),
-  ).toEqual(['/page/question-read/answers/23/editor']);
+  ).toEqual([]);
   expect(container.querySelectorAll('article.sw-qedit-answer')).toHaveLength(3);
 });
 
@@ -220,7 +242,7 @@ test('editor read errors can be retried', async () => {
 test('a late question save cannot mark a newer edit as saved', async () => {
   await render();
   let finishSave;
-  axiosClient.post.mockImplementationOnce(
+  axiosClient.request.mockImplementationOnce(
     () =>
       new Promise(resolve => {
         finishSave = resolve;
@@ -241,5 +263,9 @@ test('a late question save cannot mark a newer edit as saved', async () => {
   expect(editor.unsavedFlag).toBe(true);
   await act(async () => jest.advanceTimersByTime(1600));
   expect(editor.unsavedFlag).toBe(false);
-  expect(axiosClient.post.mock.calls.at(-1)[1].text).toBe('Вторая правка');
+  expect(
+    axiosClient.request.mock.calls
+      .filter(([args]) => args.method === 'PUT')
+      .at(-1)[0].data.text,
+  ).toBe('Вторая правка');
 });

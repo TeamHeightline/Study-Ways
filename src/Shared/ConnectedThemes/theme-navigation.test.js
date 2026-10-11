@@ -25,9 +25,7 @@ import { AISObject } from '../../Pages/Cards/Page/AISearch/Store/AISearch';
 
 jest.mock('antd/es/tree-select', () => require('antd/lib/tree-select'));
 jest.mock('../ServerLayer/QueryLayer/config', () => ({ request: jest.fn() }));
-jest.mock('../Store/ApolloStorage/ClientStorage', () => ({
-  ClientStorage: { client: {} },
-}));
+
 jest.mock('../Store/UserStore/UserStore', () => ({
   UserStorage: { user_data: { id: 7 } },
 }));

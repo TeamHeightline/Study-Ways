@@ -1,16 +1,14 @@
 import { makeAutoObservable } from 'mobx';
 import React from 'react';
-import { ClientStorage } from '../ApolloStorage/ClientStorage';
 import axiosClient from '../../ServerLayer/QueryLayer/config';
 
 interface IBasicUserData {
   id: number;
   username: string;
-  user_access_level: 'STUDENT' | 'TEACHER' | 'ADMIN';
+  user_access_level: 'STUDENT' | 'TEACHER' | 'ADMIN' | 'CARD_EDITOR';
 }
 
 class User {
-  clientStorage = ClientStorage; // Получаем прямой доступ и подписку на изменение в хранилище @client
   user_data: IBasicUserData | null = null;
 
   constructor() {
@@ -33,9 +31,9 @@ class User {
     return this.user_data?.id ?? '-1';
   }
 
-  reloadUser() {
-    axiosClient.get<IBasicUserData>('/page/me/basic-data').then((res) => {
-      this.user_data = res.data;
+  reloadUser(isCurrent: () => boolean = () => true) {
+    return axiosClient.get<IBasicUserData>('/page/me/basic-data').then(res => {
+      if (isCurrent()) this.user_data = res.data;
     });
   }
 }

@@ -55,3 +55,30 @@ export interface IQuestionWithAnswers {
   usertests_questionimage?: IQuestionImage;
   usertests_answer: IAnswer[];
 }
+
+export enum AnswerDifficulty {
+  Easy = 'EASY',
+  Medium = 'MEDIUM',
+  Hard = 'HARD',
+}
+
+export interface ReviewAnswer {
+  id: string;
+  text: string;
+  isTrue: boolean;
+  helpTextv1?: string | null;
+  helpTextv2?: string | null;
+  helpTextv3?: string | null;
+  isImageDeleted: boolean;
+  image: string | null;
+}
+
+export interface EditorAnswer extends ReviewAnswer {
+  question: { id: string };
+  checkQueue: number;
+  hardLevelOfAnswer: AnswerDifficulty;
+  isDeleted: boolean;
+  isInvisible: boolean;
+  isRequired: boolean;
+  onlyForExam: boolean;
+}

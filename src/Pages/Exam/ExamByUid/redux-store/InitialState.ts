@@ -22,13 +22,17 @@ export interface IExamData {
   is_enable_start_and_finish_time: boolean;
   is_enable_max_question_attempts: boolean;
   help_text_level: number;
-  password: string;
+  password?: string; // Returned only by the protected editor endpoint.
   max_question_attempts: number;
 }
 
 export const initialState = {
-  loading_question_statuses: true,
-  question_statuses_load_error: null,
+  loading_exam: true,
+  exam_load_error: false,
+  exam_request_id: null as string | null,
+  open_request_id: null as string | null,
+  loading_question_statuses: false,
+  question_statuses_load_error: null as string | null,
   question_statuses: [] as IQuestionStatus[],
   selected_question_id: null as number | null,
   exam_data: null as IExamData | null,

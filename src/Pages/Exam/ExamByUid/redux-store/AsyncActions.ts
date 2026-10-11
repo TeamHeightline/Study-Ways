@@ -26,7 +26,21 @@ export const loadQuestionDataThunk = createAsyncThunk(
 
 export const openExamPageThunk = createAsyncThunk(
   'examPlayer/openExamPage',
-  async (examUID: string) => loadExamOnOpenData(examUID),
+  async (
+    input: string | { uid: string; password?: string },
+    { rejectWithValue },
+  ) => {
+    try {
+      return await loadExamOnOpenData(
+        typeof input === 'string' ? input : input.uid,
+        typeof input === 'string' ? undefined : input.password,
+      );
+    } catch (error) {
+      return rejectWithValue(
+        (error as any)?.data?.message || 'Не удалось открыть экзамен',
+      );
+    }
+  },
 );
 
 export const saveDetailStatisticThunk = createAsyncThunk(
@@ -44,7 +58,7 @@ export const saveDetailStatisticThunk = createAsyncThunk(
         question_sequence_id: undefined,
         answers_id_array:
           store.selected_question_data?.usertests_answer?.map(
-            (answer) => answer.id,
+            answer => answer.id,
           ) || [],
       });
     }

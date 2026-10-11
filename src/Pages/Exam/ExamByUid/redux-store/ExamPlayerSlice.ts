@@ -8,7 +8,6 @@ import {
 } from './AsyncActions';
 import { IQuestionWithAnswers } from '../../../../Shared/ServerLayer/Types/question.type';
 import { IDetailStatistic } from '../../../../Shared/ServerLayer/Types/detail-statistic.types';
-import CryptoJS from 'crypto-js';
 
 import { IExamData, initialState, IQuestionStatus } from './InitialState';
 
@@ -16,6 +15,7 @@ const examPlayerSlicer = createSlice({
   name: 'examPlayer',
   initialState,
   reducers: {
+    resetExam: () => ({ ...initialState, selected_answers_id: new Set() }),
     changeSelectedQuestionId: (state, action: PayloadAction<number | null>) => {
       state.selected_question_id = action?.payload;
       state.help_text = '';
@@ -120,26 +120,30 @@ const examPlayerSlicer = createSlice({
     },
     setAccessPassword: (state, action: PayloadAction<string>) => {
       state.access_password = action.payload;
-      // Именно так, потому что нам критически важно нигде (ни в экшене, ни в стейте не отображать реальный пароль)
-      const original_password = CryptoJS.AES.decrypt(
-        // @ts-ignore
-        state?.exam_data?.password,
-        'sw-secret-key',
-      ).toString(CryptoJS.enc.Utf8);
-      if (action.payload === original_password) {
-        state.is_password_check_passed = true;
-      }
     },
     removeOneMinute: state => {
       state.remaining_minutes = state.remaining_minutes - 1;
     },
   },
   extraReducers: {
+    [loadExamDataThunk.pending.type]: (state, action: any) => {
+      state.loading_exam = true;
+      state.exam_load_error = false;
+      state.exam_request_id = action.meta.requestId;
+    },
+    [loadExamDataThunk.rejected.type]: (state, action: any) => {
+      if (state.exam_request_id !== action.meta.requestId) return;
+      state.loading_exam = false;
+      state.exam_load_error = true;
+    },
     [loadExamDataThunk.fulfilled.type]: (
       state,
-      action: PayloadAction<{ data: IExamData }>,
+      action: PayloadAction<{ data: IExamData }> & {
+        meta: { requestId: string };
+      },
     ) => {
-      // @ts-ignore
+      if (state.exam_request_id !== action.meta.requestId) return;
+      state.loading_exam = false;
       state.exam_data = action.payload.data;
       state.remaining_minutes = action.payload.data.minutes || 100;
       state.remaining_attempts = action.payload.data.max_question_attempts;
@@ -167,17 +171,26 @@ const examPlayerSlicer = createSlice({
       state.is_statistic_save_error = true;
     },
 
-    [openExamPageThunk.pending.type]: state => {
+    [openExamPageThunk.pending.type]: (state, action: any) => {
+      state.open_request_id = action.meta.requestId;
+      state.question_statuses_load_error = null;
       state.loading_question_statuses = true;
     },
     [openExamPageThunk.rejected.type]: (state, action: any) => {
+      if (state.open_request_id !== action.meta.requestId) return;
       state.loading_question_statuses = false;
-      state.question_statuses_load_error = action.payload;
+      state.question_statuses_load_error =
+        action.payload || 'Не удалось открыть экзамен';
     },
     [openExamPageThunk.fulfilled.type]: (
       state,
-      action: PayloadAction<{ question_statuses: IQuestionStatus[] }>,
+      action: PayloadAction<{ question_statuses: IQuestionStatus[] }> & {
+        meta: { requestId: string };
+      },
     ) => {
+      if (state.open_request_id !== action.meta.requestId) return;
+      state.is_password_check_passed = true;
+      state.question_statuses_load_error = null;
       const questionStatuses: IQuestionStatus[] = shuffle(
         action.payload.question_statuses,
       );
@@ -257,6 +270,7 @@ const examPlayerSlicer = createSlice({
 export default examPlayerSlicer.reducer;
 
 export const {
+  resetExam,
   changeSelectedAnswersId,
   changeSelectedQuestionId,
   checkAnswers,

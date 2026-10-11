@@ -1,7 +1,14 @@
 import { observer } from 'mobx-react';
 import React, { useEffect } from 'react';
 import { PaperProps } from '@mui/material/Paper/Paper';
-import { CircularProgress, Typography, Paper, Stack } from '@mui/material';
+import {
+  Alert,
+  Button,
+  CircularProgress,
+  Typography,
+  Paper,
+  Stack,
+} from '@mui/material';
 import GoBackButton from './go-back';
 import ExamName from './exam-name';
 
@@ -36,12 +43,27 @@ const ExamByID = observer(({ exam_id, ...props }: IExamByIDProps) => {
     (state: RootState) => state?.examEditor?.exam_data?.id,
   );
   const dispatch = useAppDispatch();
-
+  const loadError = useSelector(
+    (state: RootState) => state.examEditor.exam_data_error,
+  );
 
   useEffect(() => {
     dispatch(loadExamDataThunk(String(exam_id)));
   }, [exam_id]);
 
+  if (loadError)
+    return (
+      <Alert
+        severity="error"
+        action={
+          <Button onClick={() => dispatch(loadExamDataThunk(String(exam_id)))}>
+            Повторить
+          </Button>
+        }
+      >
+        {String(loadError)}
+      </Alert>
+    );
   if (Number(loadedExamDataID) !== Number(exam_id)) {
     return (
       <Stack alignItems={'center'}>
@@ -53,33 +75,90 @@ const ExamByID = observer(({ exam_id, ...props }: IExamByIDProps) => {
     <Paper elevation={0} {...props} className="sw-exam-editor">
       <AutoSaveModule />
       <header className="sw-exam-heading">
-        <div><Typography variant="h5" component="h1">Редактор экзамена</Typography><Typography variant="body2" color="text.secondary">Содержание, правила прохождения и доступ для участников.</Typography></div>
+        <div>
+          <Typography variant="h5" component="h1">
+            Редактор экзамена
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Содержание, правила прохождения и доступ для участников.
+          </Typography>
+        </div>
         <GoBackButton />
       </header>
       <div className="sw-exam-settings-grid">
         <section className="sw-exam-panel">
-          <div className="sw-exam-panel-heading"><span>01</span><div><Typography variant="h6">Об экзамене</Typography><Typography variant="body2" color="text.secondary">Название, длительность и серия вопросов.</Typography></div></div>
-          <Stack spacing={2.5}><ExamName /><UIDuration /><SelectedQSByData /></Stack>
+          <div className="sw-exam-panel-heading">
+            <span>01</span>
+            <div>
+              <Typography variant="h6">Об экзамене</Typography>
+              <Typography variant="body2" color="text.secondary">
+                Название, длительность и серия вопросов.
+              </Typography>
+            </div>
+          </div>
+          <Stack spacing={2.5}>
+            <ExamName />
+            <UIDuration />
+            <SelectedQSByData />
+          </Stack>
         </section>
         <section className="sw-exam-panel">
-          <div className="sw-exam-panel-heading"><span>02</span><div><Typography variant="h6">Правила прохождения</Typography><Typography variant="body2" color="text.secondary">Подсказки и количество попыток на вопрос.</Typography></div></div>
-          <div className="sw-exam-option"><UIIsEnableHelpText /><UIHelpTextLevel /></div>
-          <div className="sw-exam-option"><UIIsEnableMaxQuestionAttempts /><UIMaxAttemptsForQuestions /></div>
+          <div className="sw-exam-panel-heading">
+            <span>02</span>
+            <div>
+              <Typography variant="h6">Правила прохождения</Typography>
+              <Typography variant="body2" color="text.secondary">
+                Подсказки и количество попыток на вопрос.
+              </Typography>
+            </div>
+          </div>
+          <div className="sw-exam-option">
+            <UIIsEnableHelpText />
+            <UIHelpTextLevel />
+          </div>
+          <div className="sw-exam-option">
+            <UIIsEnableMaxQuestionAttempts />
+            <UIMaxAttemptsForQuestions />
+          </div>
         </section>
         <section className="sw-exam-panel">
-          <div className="sw-exam-panel-heading"><span>03</span><div><Typography variant="h6">Доступ к экзамену</Typography><Typography variant="body2" color="text.secondary">Управляйте доступом и защитой паролем.</Typography></div></div>
+          <div className="sw-exam-panel-heading">
+            <span>03</span>
+            <div>
+              <Typography variant="h6">Доступ к экзамену</Typography>
+              <Typography variant="body2" color="text.secondary">
+                Управляйте доступом и защитой паролем.
+              </Typography>
+            </div>
+          </div>
           <UIAccessModeSelector />
-          <div className="sw-exam-option"><UIIsEnablePasswordCheck /><UIPassword /></div>
-          <div className="sw-exam-option"><UIIsEnableStartAndFinishTime /><UIStartAndFinishTime /></div>
+          <div className="sw-exam-option">
+            <UIIsEnablePasswordCheck />
+            <UIPassword />
+          </div>
+          <div className="sw-exam-option">
+            <UIIsEnableStartAndFinishTime />
+            <UIStartAndFinishTime />
+          </div>
         </section>
         <section className="sw-exam-panel sw-exam-share-panel">
-          <div className="sw-exam-panel-heading"><span>04</span><div><Typography variant="h6">Ссылки для участников</Typography><Typography variant="body2" color="text.secondary">Откройте экзамен или отправьте ссылку ученикам.</Typography></div></div>
+          <div className="sw-exam-panel-heading">
+            <span>04</span>
+            <div>
+              <Typography variant="h6">Ссылки для участников</Typography>
+              <Typography variant="body2" color="text.secondary">
+                Откройте экзамен или отправьте ссылку ученикам.
+              </Typography>
+            </div>
+          </div>
           <UIExamUrls />
         </section>
       </div>
       <section className="sw-exam-results">
         <Typography variant="h6">Результаты экзамена</Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>Статистика прохождения и выгрузка результатов.</Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Статистика прохождения и выгрузка результатов.
+        </Typography>
         {exam_id && <Index exam_id={Number(exam_id)} />}
       </section>
     </Paper>

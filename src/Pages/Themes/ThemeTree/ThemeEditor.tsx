@@ -1,25 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { NodeModel } from '@minoru/react-dnd-treeview';
-import { CreateTheme, SAVE_NEW_THEMES_SEQUENCE, UpdateTheme } from './Struct';
-import { useMutation } from '@apollo/client';
 import {
+  useCreateThemeMutation,
+  useSaveThemeMutation,
+  useSaveThemeOrderMutation,
+} from '../../../Shared/ServerLayer/QueryLayer/write-api';
+import {
+  Alert,
   CircularProgress,
   Collapse,
   Fab,
   Grid,
   TextField,
 } from '@mui/material';
-import { Mutation } from '../../../SchemaTypes';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AddIcon from '@mui/icons-material/Add';
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 import { ThemeTreeView } from './ThemeTreeView';
 import { LoadingButton } from '@mui/lab';
-import { useAppDispatch } from '../../../App/ReduxStore/RootStore';
-import {
-  connectedThemesApi,
-  useGetConnectedThemesQuery,
-} from '../../../Shared/ConnectedThemes/api';
+import { useGetConnectedThemesQuery } from '../../../Shared/ConnectedThemes/api';
 import { ThemeLoadError } from '../../../Shared/ConnectedThemes/ThemeLoadError';
 
 enum editingModes {
@@ -29,12 +28,9 @@ enum editingModes {
 }
 
 function ThemeEditor() {
-  const dispatch = useAppDispatch();
   const themes = useGetConnectedThemesQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
-  const refreshThemes = () =>
-    dispatch(connectedThemesApi.util.invalidateTags(['ConnectedThemes']));
   const [treeData, setTreeData] = useState<NodeModel[] | undefined>();
   const [activeEditMode, setActiveEditMode] = useState<editingModes>(
     editingModes.EditTheme,
@@ -46,31 +42,13 @@ function ThemeEditor() {
   const sequenceDataForSave = treeData?.map(theme => theme.id).join(',');
   const [lastSavedSequenceData, setLSSD] = useState<string>();
 
-  const [updateTheme, { loading: update_theme_loading }] =
-    useMutation<Mutation>(UpdateTheme, {
-      onCompleted: data => {
-        if (data.updateUnstructuredTheme?.theme?.id) refreshThemes();
-      },
-      variables: {
-        id: selectedThemeID,
-        parent: getParentIDByTargetID(selectedThemeID),
-        text: activeEditText,
-      },
-    });
-
-  const [createTheme, { loading: create_theme_loading }] =
-    useMutation<Mutation>(CreateTheme, {
-      onCompleted: data => {
-        if (data.unstructuredTheme?.theme?.id) refreshThemes();
-      },
-      variables: {
-        text: activeEditText,
-        parent:
-          activeEditMode === editingModes.CreateThemeOnSameLevel
-            ? getParentIDByTargetID(selectedThemeID)
-            : selectedThemeID,
-      },
-    });
+  const [updateTheme, { isLoading: update_theme_loading }] =
+    useSaveThemeMutation();
+  const [createTheme, { isLoading: create_theme_loading }] =
+    useCreateThemeMutation();
+  const [saveThemeOrder] = useSaveThemeOrderMutation();
+  const [saveError, setSaveError] = useState(false);
+  const orderQueue = useRef(Promise.resolve());
 
   function onButtonsClickHandler(buttonType: editingModes) {
     if (buttonType === activeEditMode) {
@@ -102,56 +80,45 @@ function ThemeEditor() {
     }
   }
 
-  function onSaveButtonClickHandler() {
-    if (activeEditMode === editingModes.EditTheme && activeEditText) {
-      const newTree: NodeModel[] | undefined = treeData?.map(
-        (node: NodeModel) => {
-          if (node.id === selectedThemeID && activeEditText) {
-            updateTheme();
-            return { ...node, text: activeEditText };
-          } else {
-            return node;
-          }
-        },
-      );
-      setTreeData(newTree);
-      setManualUpdate(!manualUpdate);
-    } else if (
-      activeEditMode === editingModes.CreateSubTheme &&
-      activeEditText
-    ) {
-      createTheme().then(data => {
-        if (data.data?.unstructuredTheme?.theme?.id) {
-          const newNode: NodeModel = {
-            id: data.data?.unstructuredTheme?.theme?.id,
-            parent: selectedThemeID || 0,
+  async function onSaveButtonClickHandler() {
+    if (!activeEditText.trim() || !selectedThemeID) return;
+    setSaveError(false);
+    const parentId =
+      activeEditMode === editingModes.CreateSubTheme
+        ? Number(selectedThemeID)
+        : getParentIDByTargetID();
+    try {
+      if (activeEditMode === editingModes.EditTheme) {
+        await updateTheme({
+          id: Number(selectedThemeID),
+          text: activeEditText,
+          parentId: parentId || null,
+        }).unwrap();
+        setTreeData(current =>
+          current?.map(node =>
+            String(node.id) === selectedThemeID
+              ? { ...node, text: activeEditText }
+              : node,
+          ),
+        );
+      } else {
+        const theme = await createTheme({
+          text: activeEditText,
+          parentId: parentId || null,
+        }).unwrap();
+        setTreeData(current => [
+          ...(current ?? []),
+          {
+            id: String(theme.id),
+            parent: parentId ? String(parentId) : 0,
             text: activeEditText,
             droppable: true,
-          };
-          setTreeData(current => [...(current ?? []), newNode]);
-          setActiveEditText('');
-          setManualUpdate(!manualUpdate);
-        }
-      });
-    } else if (
-      activeEditMode === editingModes.CreateThemeOnSameLevel &&
-      activeEditText
-    ) {
-      createTheme().then(data => {
-        if (data.data?.unstructuredTheme?.theme?.id) {
-          const newNode: NodeModel = {
-            id: data.data?.unstructuredTheme?.theme?.id,
-            parent: getParentIDByTargetID()
-              ? String(getParentIDByTargetID())
-              : 0,
-            text: activeEditText,
-            droppable: true,
-          };
-          setTreeData(current => [...(current ?? []), newNode]);
-          setActiveEditText('');
-          setManualUpdate(!manualUpdate);
-        }
-      });
+          },
+        ]);
+        setActiveEditText('');
+      }
+    } catch {
+      setSaveError(true);
     }
   }
 
@@ -176,31 +143,23 @@ function ThemeEditor() {
       setLSSD(initialTree.map(theme => theme.id).join(','));
     }
   }, [themes.data, treeData]);
-  const [save_themes_sequence] = useMutation<Mutation>(
-    SAVE_NEW_THEMES_SEQUENCE,
-    {
-      variables: {
-        sequence: sequenceDataForSave,
-      },
-      onCompleted: data => {
-        if (
-          data?.usThemeSequence?.uSThemeSequence &&
-          data?.usThemeSequence?.uSThemeSequence?.sequence
-        ) {
-          setLSSD(String(data.usThemeSequence.uSThemeSequence.sequence));
-          refreshThemes();
-        }
-      },
-    },
-  );
-
   useEffect(() => {
     if (
-      sequenceDataForSave !== undefined &&
-      sequenceDataForSave !== lastSavedSequenceData
-    ) {
-      save_themes_sequence();
-    }
+      sequenceDataForSave === undefined ||
+      sequenceDataForSave === lastSavedSequenceData
+    )
+      return;
+    const ids = sequenceDataForSave.split(',').filter(Boolean).map(Number);
+    orderQueue.current = orderQueue.current
+      .catch(() => {})
+      .then(async () => {
+        try {
+          const saved = await saveThemeOrder(ids).unwrap();
+          setLSSD(saved.sequence);
+        } catch {
+          setSaveError(true);
+        }
+      });
   }, [sequenceDataForSave]);
 
   if (treeData === undefined) {
@@ -214,6 +173,12 @@ function ThemeEditor() {
   }
   return (
     <Grid item xs={12} md={8}>
+      {saveError && (
+        <Alert severity="error" onClose={() => setSaveError(false)}>
+          Не удалось сохранить темы. Проверьте права доступа и повторите
+          действие.
+        </Alert>
+      )}
       <ThemeTreeView
         {...{
           treeData,

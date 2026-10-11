@@ -12,7 +12,6 @@
     "npm": "8.5.5"
   },
   "dependencies": {
-    "@apollo/client": "3.6.9",
     "@auth0/auth0-react": "1.10.2",
     "@ckeditor/ckeditor5-build-classic": "34.2.0",
     "@ckeditor/ckeditor5-react": "5.0.2",
@@ -27,13 +26,10 @@
     "@reduxjs/toolkit": "^1.8.3",
     "@xyflow/react": "^12.3.1",
     "antd": "4.22.1",
-    "apollo-link-error": "^1.1.13",
     "axios": "^0.27.2",
     "chart.js": "^4.5.1",
     "crypto-js": "^4.2.0",
     "file-saver": "^2.0.5",
-    "graphql": "^16.5.0",
-    "graphql.macro": "^1.4.2",
     "immer": "^9.0.15",
     "js-video-url-parser": "^0.5.1",
     "mobx": "^6.6.1",
@@ -62,7 +58,6 @@
     "build": "TSC_COMPILE_ON_ERROR=true react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "schema": "graphql-codegen --config codegen.yml",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\""
   },
@@ -82,9 +77,6 @@
     ]
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "2.6.2",
-    "@graphql-codegen/schema-ast": "^2.5.0",
-    "@graphql-codegen/typescript": "2.4.5",
     "@types/crypto-js": "^4.2.2",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",

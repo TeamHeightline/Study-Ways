@@ -1,26 +1,26 @@
-import { observer } from 'mobx-react';
 import React from 'react';
 import { PaperProps } from '@mui/material/Paper/Paper';
 import { Button, Grid } from '@mui/material';
-import editQSStore from '../store/edit-question-sequence-sore';
+import { useSequenceEditor } from '../store/sequence-editor-context';
 import UIQuestionMiniViewByData from './ui-question-mini-view-by-data';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 type IUiSelectedQuestionsProps = PaperProps;
 
-const UiSelectedQuestions = observer(
-  ({ ...props }: IUiSelectedQuestionsProps) => (
+const UiSelectedQuestions = ({ ...props }: IUiSelectedQuestionsProps) => {
+  const editQSStore = useSequenceEditor();
+  return (
     <Grid container className="sw-sequence-grid">
       {editQSStore?.qsData?.sequence_data?.sequence?.map(
         (questionID, questionIndex) => {
           const questionData = editQSStore?.allQuestions.find(
-            (questionObj) => questionObj.id == String(questionID),
+            questionObj => questionObj.id == String(questionID),
           );
           if (questionData) {
             return (
               <UIQuestionMiniViewByData
                 onClickOnCard={() =>
-                  (editQSStore.checkQuestionID = String(questionID))
+                  editQSStore.setCheckQuestionID(String(questionID))
                 }
                 questionData={questionData}
                 key={`${questionData.id}-${questionIndex}`}
@@ -45,7 +45,7 @@ const UiSelectedQuestions = observer(
         },
       )}
     </Grid>
-  ),
-);
+  );
+};
 
 export default UiSelectedQuestions;

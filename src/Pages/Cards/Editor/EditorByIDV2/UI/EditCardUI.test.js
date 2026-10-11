@@ -8,7 +8,6 @@ import { MemoryRouter } from 'react-router-dom';
 import { runInAction } from 'mobx';
 import { CESObject } from '../Store/CardEditorStorage';
 import { saveCard } from '../API/save-card';
-import { ClientStorage } from '../../../../../Shared/Store/ApolloStorage/ClientStorage';
 import axiosClient from '../../../../../Shared/ServerLayer/QueryLayer/config';
 import EditCardUI from './EditCardUI';
 
@@ -18,22 +17,7 @@ jest.mock('antd/es/tree-select', () => require('antd/lib/tree-select'));
 
 jest.mock('@ckeditor/ckeditor5-react', () => ({ CKEditor: () => null }));
 jest.mock('@ckeditor/ckeditor5-build-classic', () => ({}));
-jest.mock('../../../../../Shared/Store/ApolloStorage/ClientStorage', () => ({
-  ClientStorage: {
-    client: {
-      query: jest.fn(({ variables }) =>
-        Promise.resolve({
-          data: {
-            questionById: {
-              id: String(variables?.id || 42),
-              text: 'Текст вопроса',
-            },
-          },
-        }),
-      ),
-    },
-  },
-}));
+
 jest.mock(
   '../../../../../Shared/Store/UserStore/utils/HaveStatus',
   () => () => true,

@@ -8,7 +8,7 @@ export interface ApiError {
   data: unknown;
 }
 
-// Reuse the application's Axios client, including its authentication interceptor.
+// Reuse the application's Axios client and current authentication headers.
 const axiosBaseQuery: BaseQueryFn<
   AxiosRequestConfig,
   unknown,

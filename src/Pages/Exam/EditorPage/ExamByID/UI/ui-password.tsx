@@ -1,17 +1,13 @@
 import { Box, IconButton, InputAdornment, TextField } from '@mui/material';
 import { BoxProps } from '@mui/material/Box/Box';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
   RootState,
   useAppDispatch,
 } from '../../../../../App/ReduxStore/RootStore';
 import { useSelector } from 'react-redux';
-import {
-  changeOriginalPassword,
-  changePassword,
-} from '../redux-store/examEditorSlice';
-import CryptoJS from 'crypto-js';
+import { changeOriginalPassword } from '../redux-store/examEditorSlice';
 
 type IUIPasswordProps = BoxProps;
 
@@ -30,14 +26,6 @@ export default function UIPassword({ ...props }: IUIPasswordProps) {
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
-  useEffect(() => {
-    const encryptedPassword = CryptoJS.AES.encrypt(
-      original_password,
-      'sw-secret-key',
-    ).toString();
-    dispatch(changePassword(encryptedPassword));
-  }, [original_password]);
-
   return (
     <Box {...props}>
       <TextField
@@ -47,14 +35,18 @@ export default function UIPassword({ ...props }: IUIPasswordProps) {
         fullWidth
         id={'exam-password'}
         value={original_password}
-        onChange={(e) => {
+        onChange={e => {
           dispatch(changeOriginalPassword(e.target.value));
         }}
         disabled={!is_enable_password_check}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'} onClick={handleClickShowPassword} edge="end">
+              <IconButton
+                aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
+                onClick={handleClickShowPassword}
+                edge="end"
+              >
                 {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
             </InputAdornment>

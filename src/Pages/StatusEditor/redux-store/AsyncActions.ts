@@ -1,3 +1,5 @@
+import { executeMutation } from '../../../Shared/ServerLayer/QueryLayer/execute-mutation';
+import { writeApi } from '../../../Shared/ServerLayer/QueryLayer/write-api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosClient from '../../../Shared/ServerLayer/QueryLayer/config';
 import {
@@ -24,11 +26,13 @@ export const updateUserStatusAsync = createAsyncThunk(
     user_id: number;
     user_access_level: user_access_level;
   }) => {
-    const res = await axiosClient.post<{ updatedUser: IBasicUserInformation }>(
-      '/user/status/update',
-      { user_id, user_access_level },
+    const updatedUser = await executeMutation(
+      writeApi.endpoints.setUserRole.initiate({
+        id: user_id,
+        role: user_access_level,
+      }),
     );
-    if (!res.data.updatedUser?.id) throw new Error('No updated user returned');
-    return res.data.updatedUser;
+    if (!updatedUser?.id) throw new Error('No updated user returned');
+    return updatedUser;
   },
 );

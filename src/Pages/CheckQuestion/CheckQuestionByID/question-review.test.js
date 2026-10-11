@@ -1,3 +1,10 @@
+jest.mock('../../../App/ReduxStore/RootStore', () => ({
+  useAppDispatch: () => require('react-redux').useDispatch(),
+  useAppSelector: () => require('react-redux').useSelector(),
+  __esModule: true,
+  default: { dispatch: (...args) => mockStore.dispatch(...args) },
+}));
+let mockStore;
 import React from 'react';
 import { act as legacyAct } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
@@ -36,11 +43,16 @@ const answers = Array.from({ length: 12 }, (_, index) => ({
 }));
 beforeEach(() => {
   global.IS_REACT_ACT_ENVIRONMENT = true;
-  axiosClient.request.mockImplementation(async ({ url }) => ({
-    data: url.endsWith('/preview') ? preview : answers,
+  axiosClient.request.mockImplementation(async ({ url, method }) => ({
+    data:
+      method === 'POST'
+        ? { id: 1 }
+        : url.endsWith('/preview')
+          ? preview
+          : answers,
   }));
   axiosClient.post.mockResolvedValue({});
-  store = configureStore({
+  store = mockStore = configureStore({
     reducer: { [studyWaysApi.reducerPath]: studyWaysApi.reducer },
     middleware: getDefault => getDefault().concat(studyWaysApi.middleware),
   });
@@ -100,11 +112,14 @@ test('review and question previews share one question read and all answers, hint
     input.dispatchEvent(new Event('input', { bubbles: true }));
   });
   await act(async () => button('Отправить замечание').click());
-  expect(axiosClient.post).toHaveBeenCalledWith(
-    '/page/question-page/create-answer-report',
-    { report_data: { answer_id: 1, text: 'Проверьте формулировку' } },
+  expect(axiosClient.request).toHaveBeenCalledWith(
+    expect.objectContaining({
+      url: '/page/write/answer-reports',
+      method: 'POST',
+      data: { answer_id: 1, text: 'Проверьте формулировку' },
+    }),
   );
-  expect(axiosClient.request).toHaveBeenCalledTimes(2);
+  expect(axiosClient.request).toHaveBeenCalledTimes(3);
 });
 
 test('a failed answer batch can be retried and does not get stuck in loading', async () => {

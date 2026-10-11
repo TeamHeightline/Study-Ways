@@ -1,12 +1,15 @@
 import { action, makeAutoObservable, reaction, runInAction, toJS } from 'mobx';
-import { ClientStorage } from '../../../../../../Shared/Store/ApolloStorage/ClientStorage';
-import { UserStorage } from '../../../../../../Shared/Store/UserStore/UserStore';
-import { CREATE_NEW_ANSWER_BASED_ON_DATA, UPDATE_ANSWER } from './Query';
 import {
-  AnswerHardLevelOfAnswer,
-  AnswerNode,
-  Mutation,
-} from '../../../../../../SchemaTypes';
+  executeMutation,
+  executeQueuedMutation,
+} from '../../../../../../Shared/ServerLayer/QueryLayer/execute-mutation';
+import { writeApi } from '../../../../../../Shared/ServerLayer/QueryLayer/write-api';
+import {
+  answerWriteData,
+  writtenAnswerData,
+} from '../../../../../../Shared/ServerLayer/QueryLayer/answer-write-data';
+import { UserStorage } from '../../../../../../Shared/Store/UserStore/UserStore';
+import { AnswerDifficulty } from '../../../../../../Shared/ServerLayer/Types/question.type';
 import {
   object_properties_to_array_mapper,
   RemoveTypename,
@@ -54,7 +57,6 @@ export class EditAnswerByIdStore {
     }
   }
 
-  clientStorage = ClientStorage;
   userStorage = UserStorage;
   questionStore = QuestionEditorStorage;
   answer_id?: number;
@@ -136,7 +138,7 @@ export class EditAnswerByIdStore {
       }
     }
   };
-  setHardLevel = (hardLevel: AnswerHardLevelOfAnswer) => {
+  setHardLevel = (hardLevel: AnswerDifficulty) => {
     if (this.answer_object) {
       this.answer_object.hardLevelOfAnswer = hardLevel;
     }
@@ -145,12 +147,12 @@ export class EditAnswerByIdStore {
   changeHardLevelSimpleMode = () => {
     if (this.answer_object) {
       const hardLevel = this.answer_object.hardLevelOfAnswer;
-      if (hardLevel == AnswerHardLevelOfAnswer.Easy) {
-        this.setHardLevel(AnswerHardLevelOfAnswer.Medium);
-      } else if (hardLevel == AnswerHardLevelOfAnswer.Medium) {
-        this.setHardLevel(AnswerHardLevelOfAnswer.Hard);
-      } else if (hardLevel == AnswerHardLevelOfAnswer.Hard) {
-        this.setHardLevel(AnswerHardLevelOfAnswer.Easy);
+      if (hardLevel == AnswerDifficulty.Easy) {
+        this.setHardLevel(AnswerDifficulty.Medium);
+      } else if (hardLevel == AnswerDifficulty.Medium) {
+        this.setHardLevel(AnswerDifficulty.Hard);
+      } else if (hardLevel == AnswerDifficulty.Hard) {
+        this.setHardLevel(AnswerDifficulty.Easy);
       }
     }
   };
@@ -257,19 +259,15 @@ export class EditAnswerByIdStore {
       this.stateOfSave = false;
       const rawAnswerObject = toJS(this.answer_object);
       const version = this.editVersion;
-      this.clientStorage.client
-        .mutate<Mutation>({
-          mutation: UPDATE_ANSWER,
-          variables: {
-            ...rawAnswerObject,
-            isTrue: rawAnswerObject.isTrue == 'true',
-          },
-        })
-        .then(response => response?.data?.updateAnswer)
+      executeQueuedMutation(
+        `answer-${rawAnswerObject.id}`,
+        writeApi.endpoints.saveAnswer.initiate({
+          id: Number(rawAnswerObject.id),
+          data: answerWriteData(rawAnswerObject),
+        }),
+      )
         .then(
           action(new_answer => {
-            if (new_answer?.errors?.length)
-              throw new Error('Answer was not saved');
             if (version === this.editVersion) this.stateOfSave = true;
             this.invalidate?.();
           }),
@@ -308,25 +306,26 @@ export class EditAnswerByIdStore {
     return this.imageUrl.slice(68).split('?')[0];
   }
 
-  updateImage(e) {
-    const answer_id = this.answer_object?.id;
-    if (answer_id) {
-      const formData = new FormData();
-      console.log(e.target.files[0]);
-      formData.append('image', e.target.files[0]);
-      formData.append('owner_answer', String(answer_id));
-      fetch(`${SERVER_BASE_URL}/files/answer?update_id=${String(answer_id)}`, {
-        method: 'POST',
-        body: formData,
-      })
-        .then(response => response.json())
-        .then(() => {
-          this.getImageUrlFromServer();
-          this.invalidate?.();
-        })
-        .catch(() => {
-          this.getImageUrlFromServer();
-        });
+  async updateImage(e) {
+    const id = Number(this.answer_object?.id);
+    const file = e.target.files?.[0];
+    if (!id || !file) return;
+    try {
+      const result = await executeMutation(
+        writeApi.endpoints.uploadMaterialImage.initiate({
+          kind: 'answer',
+          id,
+          file,
+        }),
+      );
+      runInAction(() => {
+        this.imageUrl = `${FILE_URL}/${result.image}`;
+        this.fakeAnswerIndexForUpdatePreview++;
+      });
+    } catch {
+      runInAction(() => {
+        this.hasSaveError = true;
+      });
     }
   }
 
@@ -336,33 +335,26 @@ export class EditAnswerByIdStore {
     }
   };
 
-  createNewAnswerBasedOnExist() {
-    if (this.answer_object && this.answer_object.id) {
-      const answer_object: answer_data_object_witch_out_id = toJS(
-        this.answer_object,
+  async createNewAnswerBasedOnExist() {
+    if (!this.answer_object) return;
+    const questionId = Number(this.answer_object.question);
+    try {
+      const answer = await executeMutation(
+        writeApi.endpoints.createAnswer.initiate({
+          questionId,
+          data: answerWriteData(toJS(this.answer_object)),
+        }),
       );
-      const objectForSave = {
-        ...answer_object,
-        isTrue: this.answer_object?.isTrue == 'true',
-      };
-
-      delete objectForSave?.id;
-
-      this.clientStorage.client
-        .mutate<Mutation>({
-          mutation: CREATE_NEW_ANSWER_BASED_ON_DATA,
-          variables: {
-            ...objectForSave,
-          },
-        })
-        .then(response => response?.data?.createAnswer)
-        .then(answer => {
-          if (answer?.answer?.id) {
-            this.questionStore.addCreatedAnswerToAnswersObjectArray(
-              answer?.answer,
-            );
-          }
-        });
+      runInAction(() => {
+        if (this.questionStore.selectedQuestionID === questionId)
+          this.questionStore.addCreatedAnswerToAnswersObjectArray(
+            writtenAnswerData(answer),
+          );
+      });
+    } catch {
+      runInAction(() => {
+        this.hasSaveError = true;
+      });
     }
   }
 
@@ -397,10 +389,11 @@ export class EditAnswerByIdStore {
   updatingAnswerErrorMessageID: null | number = null;
 
   updateAnswerErrorMessageID = async () => {
-    await axiosClient
-      .post(
-        `page/edit-answer-by-id/close-answer-report/${this.updatingAnswerErrorMessageID}`,
-      )
+    await executeMutation(
+      writeApi.endpoints.closeAnswerReport.initiate(
+        Number(this.updatingAnswerErrorMessageID),
+      ),
+    )
       .then(() => this.errorMessageClosedSuccessArray.push(true))
       .catch(() => this.errorMessageClosedSuccessArray.push(false));
     this.updatingAnswerErrorMessageID = null;

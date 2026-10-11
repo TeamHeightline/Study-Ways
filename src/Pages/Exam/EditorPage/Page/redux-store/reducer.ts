@@ -1,5 +1,5 @@
 import { initialState } from './initial-state';
-import produce from 'immer';
+import { createNextState } from '@reduxjs/toolkit';
 import {
   CHANGE_EXAM_NAME_FOR_CREATE,
   CHANGE_EXAM_QS_ID_FOR_CREATE,
@@ -23,7 +23,7 @@ export const examEditorPageReducer = (
   previousState: typeof initialState = initialState,
   action: IActionsType,
 ): typeof initialState =>
-  produce(previousState, state => {
+  createNextState(previousState, state => {
     switch (action.type) {
       case START_LOADING_MY_EXAMS:
         state.loading_exams = true;

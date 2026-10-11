@@ -1,5 +1,4 @@
 import ExamPlayerReducer from '../../Pages/Exam/ExamByUid/redux-store/ExamPlayerSlice';
-import { enableMapSet } from 'immer';
 import { examEditorPageReducer } from '../../Pages/Exam/EditorPage/Page/redux-store/reducer';
 import examResultsByIDReducer from '../../Pages/Exam/ExamResultsByID/redux-store/reducer';
 import { AnyAction, combineReducers } from '@reduxjs/toolkit';
@@ -14,7 +13,6 @@ import cardMicroViewSlice from '../../Pages/Cards/CardMicroView/store';
 import profileSlice from '../../Pages/Profile/redux-store';
 import { studyWaysApi } from '../../Shared/ServerLayer/QueryLayer/api';
 
-enableMapSet();
 const appReducer = combineReducers({
   [studyWaysApi.reducerPath]: studyWaysApi.reducer,
   examEditorPageReducer,

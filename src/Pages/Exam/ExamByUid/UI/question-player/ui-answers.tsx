@@ -43,7 +43,7 @@ export default function UIAnswers({ ...props }: IUIAnswersProps) {
               key={aIndex}
               variant="outlined"
               sx={{
-                backgroundColor: selectedAnswersID?.has(answer?.id)
+                backgroundColor: selectedAnswersID?.includes(answer?.id)
                   ? 'var(--sw-accent)'
                   : '',
                 width: 385,
@@ -58,7 +58,9 @@ export default function UIAnswers({ ...props }: IUIAnswersProps) {
                   answer?.usertests_answerimage?.image && (
                     <CardMedia
                       sx={{
-                        opacity: selectedAnswersID?.has(answer?.id) ? 0.5 : 1,
+                        opacity: selectedAnswersID?.includes(answer?.id)
+                          ? 0.5
+                          : 1,
                         height: answer?.text ? 240 : 400,
                       }}
                       // className={answer?.answerText ? classes.media : classes.fullHeightMedia}

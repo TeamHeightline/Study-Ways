@@ -39,7 +39,7 @@ export const initialState = {
   selected_question_data: null as IQuestionWithAnswers | null,
   help_text: '',
   loading_selected_question_data: true,
-  selected_answers_id: new Set(),
+  selected_answers_id: [] as number[],
   max_sum_of_points: 0,
   statistic: null as IStatistic | null,
   is_question_completed: false,

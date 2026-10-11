@@ -15,21 +15,22 @@ const examPlayerSlicer = createSlice({
   name: 'examPlayer',
   initialState,
   reducers: {
-    resetExam: () => ({ ...initialState, selected_answers_id: new Set() }),
+    resetExam: () => ({ ...initialState, selected_answers_id: [] }),
     changeSelectedQuestionId: (state, action: PayloadAction<number | null>) => {
       state.selected_question_id = action?.payload;
       state.help_text = '';
       state.statistic = null;
       state.is_question_completed = false;
       state.max_sum_of_points = 0;
-      state.selected_answers_id = new Set();
+      state.selected_answers_id = [];
     },
     changeSelectedAnswersId: (state, action: PayloadAction<number>) => {
       const answersId = action.payload;
-      if (state.selected_answers_id.has(answersId)) {
-        state.selected_answers_id.delete(answersId);
+      const index = state.selected_answers_id.indexOf(answersId);
+      if (index >= 0) {
+        state.selected_answers_id.splice(index, 1);
       } else {
-        state.selected_answers_id.add(answersId);
+        state.selected_answers_id.push(answersId);
       }
     },
     checkAnswers: state => {
@@ -56,8 +57,8 @@ const examPlayerSlicer = createSlice({
 
       state.selected_question_data?.usertests_answer.map((answer, aIndex) => {
         if (
-          (answer.is_true && !state.selected_answers_id.has(answer.id)) ||
-          (!answer.is_true && state.selected_answers_id.has(answer.id))
+          (answer.is_true && !state.selected_answers_id.includes(answer.id)) ||
+          (!answer.is_true && state.selected_answers_id.includes(answer.id))
         ) {
           __errorArray.push(answer.id);
 

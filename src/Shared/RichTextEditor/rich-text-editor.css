@@ -1,0 +1,208 @@
+.sw-rich-text {
+  min-width: 0;
+  color: var(--sw-ink);
+}
+.sw-rich-text-frame {
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-12);
+  overflow: hidden;
+  background: var(--sw-surface);
+}
+.sw-rich-text-modes {
+  padding: 10px;
+  border-bottom: 1px solid var(--sw-border-subtle);
+  background: var(--sw-surface-subtle);
+}
+.sw-rich-text-modes .MuiToggleButton-root {
+  text-transform: none;
+}
+.sw-rich-text-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 3px;
+  padding: 8px;
+  border-bottom: 1px solid var(--sw-border-subtle);
+  background: var(--sw-surface-subtle);
+}
+.sw-rich-text-toolbar .MuiSelect-select {
+  padding: 7px 30px 7px 10px;
+  font-size: var(--sw-font-size-12);
+}
+.sw-rich-text-toolbar .MuiIconButton-root {
+  border-radius: var(--sw-radius-8);
+  color: var(--sw-secondary);
+}
+.sw-rich-text-toolbar .MuiIconButton-root[aria-pressed='true'] {
+  color: var(--sw-accent);
+  background: var(--sw-accent-100);
+}
+.sw-rich-text-toolbar .MuiIconButton-root.Mui-disabled {
+  color: var(--sw-subtle);
+}
+.sw-rich-text-table-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  flex-basis: 100%;
+}
+.sw-rich-text-document,
+.sw-rich-text-source textarea {
+  min-height: 280px;
+  max-height: 520px;
+  overflow: auto;
+  padding: 18px;
+  font-family: var(--sw-font-sans);
+  font-size: var(--sw-font-size-14);
+  line-height: 1.8;
+  color: var(--sw-ink);
+  outline: none;
+  overflow-wrap: anywhere;
+}
+.sw-rich-text-document:focus-visible,
+.sw-rich-text-source textarea:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--sw-focus);
+}
+.sw-rich-text-document > :first-child {
+  margin-top: 0;
+}
+.sw-rich-text-document > :last-child {
+  margin-bottom: 0;
+}
+.sw-rich-text-document p {
+  margin: 0 0 1em;
+}
+.sw-rich-text-document p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: var(--sw-subtle);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+.sw-rich-text-document :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--sw-ink);
+  line-height: 1.4;
+  font-weight: 650;
+  margin: 1em 0 0.5em;
+}
+.sw-rich-text-document h1 {
+  font-size: 1.8em;
+}
+.sw-rich-text-document h2 {
+  font-size: 1.5em;
+}
+.sw-rich-text-document h3 {
+  font-size: 1.25em;
+}
+.sw-rich-text-document a {
+  color: var(--sw-accent);
+  text-decoration: underline;
+  cursor: text;
+}
+.sw-rich-text-document :is(ul, ol) {
+  padding-left: 1.6em;
+  margin: 0.5em 0 1em;
+}
+.sw-rich-text-document ul {
+  list-style: disc;
+}
+.sw-rich-text-document ol {
+  list-style: decimal;
+}
+.sw-rich-text-document li > p {
+  margin-bottom: 0.3em;
+}
+.sw-rich-text-document blockquote {
+  border-left: 3px solid var(--sw-accent);
+  margin: 1em 0;
+  padding: 4px 16px;
+  color: var(--sw-secondary);
+}
+.sw-rich-text-document pre,
+.sw-rich-text-document code {
+  background: var(--sw-surface-subtle);
+  border-radius: var(--sw-radius-8);
+}
+.sw-rich-text-document pre {
+  padding: 14px;
+  overflow: auto;
+}
+.sw-rich-text-document code {
+  font-family: monospace;
+}
+.sw-rich-text-document img {
+  max-width: 100%;
+  height: auto;
+}
+.sw-rich-text-document figure {
+  margin: 1em 0;
+  max-width: 100%;
+}
+.sw-rich-text-document figure.image {
+  margin-inline: auto;
+}
+.sw-rich-text-document figcaption {
+  color: var(--sw-secondary);
+  font-size: 0.9em;
+  text-align: center;
+}
+.sw-rich-text-document table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+  margin: 1em 0;
+}
+.sw-rich-text-document :is(th, td) {
+  border: 1px solid var(--sw-border-strong);
+  padding: 8px;
+  min-width: 40px;
+  vertical-align: top;
+  position: relative;
+}
+.sw-rich-text-document th {
+  background: var(--sw-surface-subtle);
+  font-weight: 650;
+}
+.sw-rich-text-document .selectedCell::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--sw-accent-100);
+  opacity: 0.5;
+  pointer-events: none;
+}
+.sw-rich-text-document .ProseMirror-selectednode {
+  outline: 2px solid var(--sw-focus);
+}
+.sw-rich-text-media {
+  padding: 14px;
+  background: var(--sw-surface-subtle);
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-8);
+}
+.sw-rich-text-source label {
+  display: block;
+  padding: 10px 18px 0;
+  color: var(--sw-secondary);
+  font-size: var(--sw-font-size-12);
+}
+.sw-rich-text-source textarea {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  border: 0;
+  resize: vertical;
+  background: var(--sw-surface);
+  font-family: monospace;
+}
+[data-accessibility='enhanced'] .sw-rich-text-toolbar .MuiIconButton-root {
+  min-width: 44px;
+  min-height: 44px;
+}
+@media (max-width: 600px) {
+  .sw-rich-text-document,
+  .sw-rich-text-source textarea {
+    padding: 14px;
+    min-height: 240px;
+  }
+}

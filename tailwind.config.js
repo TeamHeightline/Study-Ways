@@ -1,5 +1,6 @@
 const plugin = require('tailwindcss/plugin');
 const {
+  defaultTheme,
   colors,
   themes,
   spacing,
@@ -48,11 +49,9 @@ module.exports = {
   },
   plugins: [
     plugin(({ addBase }) => {
-      const definitions = {};
+      const definitions = { ':root': themeVariables(defaultTheme) };
       for (const [id, definition] of Object.entries(themes)) {
-        definitions[
-          id === 'sage' ? `:root, [data-theme="${id}"]` : `[data-theme="${id}"]`
-        ] = themeVariables(definition);
+        definitions[`[data-theme="${id}"]`] = themeVariables(definition);
       }
       addBase(definitions);
     }),

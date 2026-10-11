@@ -16,6 +16,7 @@ test('changing the active theme mounts decorative artwork and restores the origi
   global.IS_REACT_ACT_ENVIRONMENT = true;
   localStorage.clear();
   const store = createThemeTestStore();
+  store.dispatch(themeActions.themeChanged('sage'));
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);

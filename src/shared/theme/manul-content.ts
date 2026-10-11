@@ -233,28 +233,6 @@ export function getManulContext(pathname: string): ManulContext {
 }
 
 // Visible names belong to the illustration pack; routes and standard names stay stable.
-export const manulNavigation: Record<string, string> = {
-  '/courses': 'Тропы познания',
-  '/ai-course': 'Манул-навигатор',
-  '/cards': 'Кладовая знаний',
-  '/all-questions': 'Задачки на лапку',
-  '/recent-cards': 'Следы лап',
-  '/bookmarks': 'Под лапой',
-  '/selfstatistic': 'Успехи манула',
-  '/editor': 'Мастерская манула',
-};
-
-export function getThemedNavigationLabel(
-  path: string,
-  original: string,
-  illustrationPack?: string,
-): string {
-  return illustrationPack === 'manul' &&
-    Object.prototype.hasOwnProperty.call(manulNavigation, path)
-    ? manulNavigation[path]
-    : original;
-}
-
 export interface ManulThought {
   quote: string;
   variant: Variant;

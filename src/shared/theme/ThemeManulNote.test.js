@@ -45,6 +45,7 @@ test('a note cycles three stable thoughts, resets on context change, refreshes o
   localStorage.clear();
   const random = jest.spyOn(Math, 'random').mockReturnValue(0.25);
   const store = createThemeTestStore();
+  store.dispatch(themeActions.themeChanged('sage'));
   const container = document.createElement('div');
   document.body.appendChild(container);
   let root = createRoot(container);

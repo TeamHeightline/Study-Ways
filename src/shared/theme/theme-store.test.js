@@ -54,14 +54,20 @@ test('dispatching a theme change updates document, MUI, persistence and Redux su
     ],
   ).toBe('167 139 250');
 });
-test('restores saved themes and rejects removed themes and inherited keys', () => {
+test('defaults to the striped theme, restores saved choices and rejects unknown keys', () => {
+  expect(restoreTheme()).toBe('manul');
+  const initial = createThemeTestStore();
+  expect(readTheme(initial).definition.label).toBe('Полосатая');
+  expect(document.documentElement.dataset.illustrations).toBe('manul');
+  localStorage.setItem(THEME_STORAGE_KEY, 'sage');
+  expect(restoreTheme()).toBe('sage');
   localStorage.setItem(THEME_STORAGE_KEY, 'forest');
   expect(restoreTheme()).toBe('forest');
   localStorage.setItem(THEME_STORAGE_KEY, 'removed');
   const store = createThemeTestStore();
   store.dispatch(themeActions.themeChanged('unknown'));
   store.dispatch(themeActions.themeChanged('__proto__'));
-  expect(store.getState().theme.id).toBe('sage');
+  expect(store.getState().theme.id).toBe('manul');
 });
 test('theme changes work without browser storage', () => {
   jest.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {

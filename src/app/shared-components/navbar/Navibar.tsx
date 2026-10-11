@@ -20,11 +20,7 @@ import {
 import PersonalMenu from './PersonalMenu';
 import { LoginButton } from './LoginButton';
 import { ThemeSelector } from '../../../shared/theme/ThemeSelector';
-import {
-  getManulContext,
-  getThemedNavigationLabel,
-} from '../../../shared/theme/manul-content';
-import { useThemeSettings } from '../../../global-theme';
+import { getManulContext } from '../../../shared/theme/manul-content';
 import {
   ThemeCompanion,
   ThemeIllustration,
@@ -48,8 +44,6 @@ const personal = [
 ];
 
 export const Navibar = () => {
-  const ThemeStoreObject = useThemeSettings();
-
   const session = useUserSession();
   const haveStatus = (roles: string[]) => roles.includes(session.role);
   const { loginWithPopup, isLoading, isAuthenticated } = useAuth0();
@@ -70,34 +64,22 @@ export const Navibar = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const cardId = Number(location.pathname.match(/^\/card\/(\d+)\/?$/)?.[1]);
-  const navLabel = (item: { to: string; label: string }) =>
-    getThemedNavigationLabel(
-      item.to,
-      item.label,
-      ThemeStoreObject.definition.illustrations,
-    );
   const currentLink = [...links, ...personal].find(item =>
     location.pathname.startsWith(item.to),
   );
-  const title = currentLink ? navLabel(currentLink) : 'Пространство обучения';
+  const title = currentLink?.label || 'Пространство обучения';
   const renderLinks = (items: typeof personal) =>
     items.map(item => (
       <NavLink
         key={item.to}
         to={item.to}
-        title={navLabel(item) !== item.label ? item.label : undefined}
-        aria-label={
-          navLabel(item) !== item.label
-            ? `${navLabel(item)} — ${item.label}`
-            : undefined
-        }
         onClick={() => setOpen(false)}
         className={({ isActive }) =>
           `sw-nav-link ${isActive ? 'is-active' : ''}`
         }
       >
         {item.icon}
-        <span>{navLabel(item)}</span>
+        <span>{item.label}</span>
         {'badge' in item && <small>AI</small>}
       </NavLink>
     ));

@@ -100,7 +100,8 @@ const colors = {
   'cover-blue': '#e2eaf0',
   'art-blue': '#8eaab9',
 };
-const defaultTheme = {
+const DEFAULT_THEME = 'manul';
+const baseTheme = {
   label: 'Шалфей',
   illustrations: 'none',
   accessibility: /** @type {'standard' | 'enhanced'} */ ('standard'),
@@ -111,14 +112,15 @@ const defaultTheme = {
   fontScale: 1,
 };
 const definitions = require('./themes.json');
-/** @type {Record<string, typeof defaultTheme>} */
+/** @type {Record<string, typeof baseTheme>} */
 const themes = {};
 Object.keys(definitions).forEach(id => {
   const definition = definitions[id];
-  themes[id] = Object.assign({}, defaultTheme, definition, {
+  themes[id] = Object.assign({}, baseTheme, definition, {
     colors: Object.assign({}, colors, definition.colors),
   });
 });
+const defaultTheme = themes[DEFAULT_THEME];
 const spacing = Object.fromEntries(
   [
     0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25, 3.5,
@@ -180,6 +182,7 @@ function themeVariables(definition = defaultTheme) {
   return variables;
 }
 module.exports = {
+  DEFAULT_THEME,
   colors,
   defaultTheme,
   themes,

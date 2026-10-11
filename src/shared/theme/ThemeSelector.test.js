@@ -43,7 +43,7 @@ test('every theme can be selected and restored', async () => {
     ['midnight', 'Полночь'],
     ['high-contrast', 'Высокий контраст'],
     ['high-contrast-dark', 'Высокий контраст · тёмный'],
-    ['manul', 'Манулья'],
+    ['manul', 'Полосатая'],
     ['sage', 'Шалфей'],
   ]) {
     await act(async () => container.querySelector('button').click());
@@ -66,20 +66,20 @@ test('menu supports keyboard navigation, selection, Escape and focus restoration
   const trigger = container.querySelector('button');
   trigger.focus();
   await act(async () => trigger.click());
-  expect(document.activeElement).toBe(choice('Шалфей'));
+  expect(document.activeElement).toBe(choice('Полосатая'));
   await act(async () =>
     document.activeElement.dispatchEvent(
       new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }),
     ),
   );
-  expect(document.activeElement).toBe(choice('Тёмный лес'));
+  expect(document.activeElement).toBe(choice('Шалфей'));
   await act(async () =>
     document.activeElement.dispatchEvent(
       new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }),
     ),
   );
   await finishTransition();
-  expect(store.getState().theme.id).toBe('forest');
+  expect(store.getState().theme.id).toBe('sage');
   expect(document.activeElement).toBe(trigger);
   await act(async () => trigger.click());
   await act(async () =>
@@ -88,6 +88,6 @@ test('menu supports keyboard navigation, selection, Escape and focus restoration
     ),
   );
   await finishTransition();
-  expect(store.getState().theme.id).toBe('forest');
+  expect(store.getState().theme.id).toBe('sage');
   expect(document.activeElement).toBe(trigger);
 });

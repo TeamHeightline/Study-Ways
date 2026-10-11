@@ -1,6 +1,6 @@
 import { createTheme } from '@mui/material/styles';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { colors, defaultTheme, themes } from './theme-tokens';
+import { colors, DEFAULT_THEME, defaultTheme, themes } from './theme-tokens';
 export interface ThemeDefinition {
   label: string;
   illustrations?: string;
@@ -13,7 +13,7 @@ export interface ThemeDefinition {
 }
 
 export const THEME_STORAGE_KEY = 'studyways.theme';
-export const DEFAULT_THEME = 'sage';
+export { DEFAULT_THEME } from './theme-tokens';
 
 export function restoreTheme() {
   try {

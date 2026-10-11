@@ -3,8 +3,6 @@
 import React from 'react';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { DndProvider } from 'react-dnd';
 import { configure } from 'mobx';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -36,11 +34,9 @@ const AppWithAllProviders = observer(() => (
         <ThemeProvider theme={ThemeStoreObject.theme}>
           <CssBaseline />
           {/* <style>{'body {background-color: #0A1929}'}</style>*/}
-          <DndProvider backend={HTML5Backend}>
-            <div>
-              <App />
-            </div>
-          </DndProvider>
+          <div>
+            <App />
+          </div>
         </ThemeProvider>
       </Auth0Provider>
     </Provider>

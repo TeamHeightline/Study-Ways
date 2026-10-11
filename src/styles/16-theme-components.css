@@ -130,14 +130,14 @@
   @apply tw-text-danger-600;
 }
 
-/* Ant Design sets its own black heading color; rich text must follow the page. */
+/* Rich text follows the active page palette. */
 :is([data-color-scheme='dark'], [data-accessibility='enhanced'])
-  :is(.ck-content, .sw-material-description)
+  :is(.sw-rich-text-document, .sw-material-description)
   :is(h1, h2, h3, h4, h5, h6) {
   color: var(--sw-ink);
 }
 :is([data-color-scheme='dark'], [data-accessibility='enhanced'])
-  :is(.ck-content, .sw-material-description)
+  :is(.sw-rich-text-document, .sw-material-description)
   a {
   color: var(--sw-accent);
   text-decoration: underline;

@@ -296,41 +296,6 @@
   line-height: 1.8;
   color: var(--sw-subtle);
 }
-.sw-cedit-rich-text-frame {
-  border: 1px solid var(--sw-border);
-  border-radius: var(--sw-radius-12);
-  overflow: hidden;
-}
-.sw-cedit-rich-text .ck-editor {
-  --ck-color-toolbar-background: var(--sw-surface-subtle);
-  --ck-color-base-background: var(--sw-surface);
-  --ck-color-base-border: var(--sw-border-subtle);
-  --ck-color-focus-border: var(--sw-focus);
-  --ck-color-button-on-background: var(--sw-accent-150);
-  --ck-color-button-on-color: var(--sw-accent-700);
-}
-.sw-cedit-rich-text .ck.ck-editor__top .ck-sticky-panel .ck-toolbar {
-  border: 0;
-  border-bottom: 1px solid var(--sw-border-subtle);
-  padding: 6px;
-  border-radius: 0;
-}
-.sw-cedit-rich-text .ck.ck-toolbar .ck-toolbar__items {
-  flex-wrap: wrap;
-}
-.sw-cedit-rich-text .ck.ck-editor__main > .ck-editor__editable {
-  min-height: 260px;
-  max-height: 520px;
-  height: auto;
-  border: 0;
-  padding: 8px 18px;
-  font-size: var(--sw-font-size-14);
-  line-height: 1.8;
-  color: var(--sw-neutral-800);
-}
-.sw-cedit-rich-text .ck.ck-editor__editable.ck-focused {
-  box-shadow: inset 0 0 0 1px var(--sw-accent-500);
-}
 .sw-cedit-bottom-panel.MuiPaper-root {
   margin-top: 22px;
 }
@@ -465,10 +430,6 @@
   }
   .sw-cedit .MuiToggleButtonGroup-root {
     gap: 5px;
-  }
-  .sw-cedit-rich-text .ck.ck-editor__main > .ck-editor__editable {
-    min-height: 220px;
-    padding: 6px 12px;
   }
   .sw-cedit-dialog.MuiPaper-root {
     margin: 16px;

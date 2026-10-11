@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button';
 import React, { useEffect, useRef, useState } from 'react';
-import { NodeModel } from '@minoru/react-dnd-treeview';
+import { ThemeTreeNode } from './tree-model';
 import {
   useCreateThemeMutation,
   useSaveThemeMutation,
@@ -31,14 +31,15 @@ function ThemeEditor() {
   const themes = useGetConnectedThemesQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
-  const [treeData, setTreeData] = useState<NodeModel[] | undefined>();
+  const [treeData, setTreeData] = useState<ThemeTreeNode[] | undefined>();
   const [activeEditMode, setActiveEditMode] = useState<editingModes>(
     editingModes.EditTheme,
   );
   const [activeEditText, setActiveEditText] = useState<string>('');
   const [isOpenTextField, setIsOpenTextField] = useState<boolean>(false);
   const [selectedThemeID, setSelectedThemeID] = useState<string | undefined>();
-  const [manualUpdate, setManualUpdate] = useState<boolean>(false);
+  const [moving, setMoving] = useState(false);
+  const [orderRetry, setOrderRetry] = useState(0);
   const sequenceDataForSave = treeData?.map(theme => theme.id).join(',');
   const [lastSavedSequenceData, setLSSD] = useState<string>();
 
@@ -46,8 +47,12 @@ function ThemeEditor() {
     useSaveThemeMutation();
   const [createTheme, { isLoading: create_theme_loading }] =
     useCreateThemeMutation();
-  const [saveThemeOrder] = useSaveThemeOrderMutation();
+  const [saveThemeOrder, { isLoading: savingOrder }] =
+    useSaveThemeOrderMutation();
+  const busy =
+    moving || savingOrder || update_theme_loading || create_theme_loading;
   const [saveError, setSaveError] = useState(false);
+  const [orderError, setOrderError] = useState(false);
   const orderQueue = useRef(Promise.resolve());
 
   function onButtonsClickHandler(buttonType: editingModes) {
@@ -81,7 +86,13 @@ function ThemeEditor() {
   }
 
   async function onSaveButtonClickHandler() {
-    if (!activeEditText.trim() || !selectedThemeID) return;
+    if (
+      busy ||
+      !activeEditText.trim() ||
+      (activeEditMode !== editingModes.CreateThemeOnSameLevel &&
+        !selectedThemeID)
+    )
+      return;
     setSaveError(false);
     const parentId =
       activeEditMode === editingModes.CreateSubTheme
@@ -112,7 +123,6 @@ function ThemeEditor() {
             id: String(theme.id),
             parent: parentId ? String(parentId) : 0,
             text: activeEditText,
-            droppable: true,
           },
         ]);
         setActiveEditText('');
@@ -133,11 +143,10 @@ function ThemeEditor() {
   // Refetches update the shared selectors without overwriting this editor's draft.
   useEffect(() => {
     if (treeData === undefined && themes.data) {
-      const initialTree: NodeModel[] = themes.data.map(theme => ({
+      const initialTree: ThemeTreeNode[] = themes.data.map(theme => ({
         id: String(theme.id),
         parent: theme.parentId === null ? 0 : String(theme.parentId),
         text: theme.text,
-        droppable: true,
       }));
       setTreeData(initialTree);
       setLSSD(initialTree.map(theme => theme.id).join(','));
@@ -156,11 +165,12 @@ function ThemeEditor() {
         try {
           const saved = await saveThemeOrder(ids).unwrap();
           setLSSD(saved.sequence);
+          setOrderError(false);
         } catch {
-          setSaveError(true);
+          setOrderError(true);
         }
       });
-  }, [sequenceDataForSave]);
+  }, [sequenceDataForSave, orderRetry]);
 
   if (treeData === undefined) {
     if (themes.isError)
@@ -183,10 +193,27 @@ function ThemeEditor() {
         md: 8,
       }}
     >
-      {saveError && (
-        <Alert severity="error" onClose={() => setSaveError(false)}>
-          Не удалось сохранить темы. Проверьте права доступа и повторите
-          действие.
+      {(saveError || orderError) && (
+        <Alert
+          severity="error"
+          onClose={orderError ? undefined : () => setSaveError(false)}
+          action={
+            orderError && (
+              <Button
+                disabled={busy}
+                onClick={() => {
+                  setSaveError(false);
+                  setOrderRetry(value => value + 1);
+                }}
+              >
+                Повторить порядок
+              </Button>
+            )
+          }
+        >
+          {orderError
+            ? 'Не удалось сохранить порядок тем. Повторите попытку.'
+            : 'Не удалось сохранить темы. Проверьте права доступа и повторите действие.'}
         </Alert>
       )}
       <ThemeTreeView
@@ -195,7 +222,8 @@ function ThemeEditor() {
           setTreeData,
           selectedThemeID,
           setSelectedThemeID,
-          manualUpdate,
+          disabled: busy,
+          onBusyChange: setMoving,
         }}
       />
       <Grid
@@ -211,7 +239,7 @@ function ThemeEditor() {
             variant="extended"
             color="primary"
             onClick={() => onButtonsClickHandler(editingModes.EditTheme)}
-            disabled={!selectedThemeID}
+            disabled={busy || !selectedThemeID}
           >
             <SettingsIcon /> Переименовать
           </Fab>
@@ -223,9 +251,10 @@ function ThemeEditor() {
             onClick={() =>
               onButtonsClickHandler(editingModes.CreateThemeOnSameLevel)
             }
-            disabled={!selectedThemeID}
+            disabled={busy}
           >
-            <AddIcon /> Добавить тему рядом
+            <AddIcon />{' '}
+            {selectedThemeID ? 'Добавить тему рядом' : 'Добавить тему'}
           </Fab>
         </Grid>
         <Grid>
@@ -233,7 +262,7 @@ function ThemeEditor() {
             variant="extended"
             color="primary"
             onClick={() => onButtonsClickHandler(editingModes.CreateSubTheme)}
-            disabled={!selectedThemeID}
+            disabled={busy || !selectedThemeID}
           >
             <SubdirectoryArrowRightIcon /> Добавить подтему
           </Fab>
@@ -242,6 +271,7 @@ function ThemeEditor() {
       <Collapse in={isOpenTextField} style={{ marginTop: 6 }}>
         <TextField
           fullWidth
+          disabled={busy}
           value={activeEditText}
           label={
             activeEditMode === editingModes.EditTheme
@@ -261,7 +291,7 @@ function ThemeEditor() {
         >
           <Button
             loading={update_theme_loading || create_theme_loading}
-            disabled={!activeEditText}
+            disabled={busy || !activeEditText.trim()}
             variant="contained"
             onClick={() => onSaveButtonClickHandler()}
           >

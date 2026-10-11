@@ -11,9 +11,7 @@ import { saveCard } from '../API/save-card';
 import axiosClient from '../../../../../Shared/ServerLayer/QueryLayer/config';
 import EditCardUI from './EditCardUI';
 
-
-jest.mock('@ckeditor/ckeditor5-react', () => ({ CKEditor: () => null }));
-jest.mock('@ckeditor/ckeditor5-build-classic', () => ({}));
+jest.mock('./ui-rich-text-editor', () => ({ UiRichTextEditor: () => null }));
 
 jest.mock(
   '../../../../../Shared/Store/UserStore/utils/HaveStatus',

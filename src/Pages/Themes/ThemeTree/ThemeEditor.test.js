@@ -212,3 +212,40 @@ test('creating a sibling root keeps the numeric tree root and refreshes the shar
     }),
   );
 });
+
+test('a failed order save stays in the draft and can be retried', async () => {
+  await render();
+  axiosClient.request.mockRejectedValueOnce(new Error('Unavailable'));
+  await click('Переместить темы');
+  expect(container.querySelector('[role="alert"]').textContent).toContain(
+    'Не удалось сохранить порядок',
+  );
+  expect(container.querySelector('[data-testid="draft"]').textContent).toBe(
+    'Оптика,Физика',
+  );
+  await click('Повторить порядок');
+  expect(
+    axiosClient.request.mock.calls.filter(([args]) =>
+      args.url.endsWith('/theme-order'),
+    ),
+  ).toHaveLength(2);
+  expect(container.querySelector('[role="alert"]')).toBeNull();
+});
+
+test('an empty hierarchy can create its first root without a selection', async () => {
+  axiosClient.request.mockResolvedValueOnce({ data: [] });
+  await render();
+  await click('Добавить тему');
+  await enterText('Физика');
+  await click('Создать тему');
+  expect(axiosClient.request).toHaveBeenCalledWith(
+    expect.objectContaining({
+      url: '/page/write/themes',
+      method: 'POST',
+      data: { text: 'Физика', parentId: null },
+    }),
+  );
+  expect(container.querySelector('[data-testid="draft"]').textContent).toBe(
+    'Физика',
+  );
+});

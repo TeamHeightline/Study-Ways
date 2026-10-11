@@ -26,7 +26,6 @@
     "global.d.ts"
   ],
   "exclude": [
-    "src/ckeditor5-custom-build",
     "node_modules",
     "dev_server.js"
   ]

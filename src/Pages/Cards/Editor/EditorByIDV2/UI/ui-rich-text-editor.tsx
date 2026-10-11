@@ -1,30 +1,29 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { observer } from 'mobx-react';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { Skeleton } from '@mui/material';
 import { CESObject } from '../Store/CardEditorStorage';
-export const UiRichTextEditor = observer(() => (
-  <div className="sw-cedit-rich-text">
-    <div className="sw-cedit-rich-text-frame">
-      <CKEditor
+
+const RichTextEditor = lazy(
+  () => import('../../../../../Shared/RichTextEditor/RichTextEditor'),
+);
+
+export const UiRichTextEditor = observer(() => {
+  const text = CESObject.getField('text', '');
+  return (
+    <Suspense
+      fallback={
+        <Skeleton
+          variant="rounded"
+          height={340}
+          aria-label="Загрузка редактора"
+        />
+      }
+    >
+      <RichTextEditor
         key={CESObject.getField('id', '')}
-        editor={ClassicEditor}
-        config={{
-          placeholder:
-            'Напишите описание карточки, добавьте примеры и пояснения…',
-        }}
-        data={
-          CESObject.getField('text', '') === 'Описание карточки'
-            ? ''
-            : CESObject.getField('text', '')
-        }
-        onChange={(_, editor) =>
-          CESObject.changeFieldByValue('text', editor.getData())
-        }
+        value={text === 'Описание карточки' ? '' : String(text)}
+        onChange={html => CESObject.changeFieldByValue('text', html)}
       />
-    </div>
-    <p className="sw-cedit-field-note">
-      Вставить текст без исходного оформления: Ctrl + Shift + V.
-    </p>
-  </div>
-));
+    </Suspense>
+  );
+});

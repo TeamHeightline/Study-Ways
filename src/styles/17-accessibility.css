@@ -76,14 +76,6 @@
   color: var(--sw-secondary);
   border: 2px dashed var(--sw-border);
 }
-[data-accessibility='enhanced'] .ck-content {
-  font-size: 18px;
-  line-height: 1.8;
-}
-[data-accessibility='enhanced'] .ck.ck-button {
-  min-height: 40px;
-  min-width: 40px;
-}
 @media (max-width: 800px) {
   [data-accessibility='enhanced'] .sw-main {
     padding-top: calc(var(--sw-topbar-mobile-height) + var(--sw-space-5));

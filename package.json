@@ -8,20 +8,27 @@
   },
   "private": true,
   "engines": {
-    "node": "v16.15.0",
-    "npm": "8.5.5"
+    "node": ">=20",
+    "npm": ">=8.5.5"
   },
   "dependencies": {
     "@auth0/auth0-react": "1.10.2",
-    "@ckeditor/ckeditor5-build-classic": "34.2.0",
-    "@ckeditor/ckeditor5-react": "5.0.2",
     "@dagrejs/dagre": "^1.1.4",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
-    "@minoru/react-dnd-treeview": "2.0.2",
     "@mui/icons-material": "^9.5.0",
     "@mui/material": "^9.5.0",
+    "@mui/system": "^9.5.0",
+    "@mui/x-tree-view": "^9.15.0",
     "@reduxjs/toolkit": "^1.8.3",
+    "@tiptap/core": "^3.31.4",
+    "@tiptap/extension-image": "^3.31.4",
+    "@tiptap/extension-placeholder": "^3.31.4",
+    "@tiptap/extension-table": "^3.31.4",
+    "@tiptap/markdown": "^3.31.4",
+    "@tiptap/pm": "^3.31.4",
+    "@tiptap/react": "^3.31.4",
+    "@tiptap/starter-kit": "^3.31.4",
     "@xyflow/react": "^12.3.1",
     "axios": "^0.27.2",
     "chart.js": "^4.5.1",
@@ -33,10 +40,9 @@
     "mobx-utils": "^6.0.5",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.3.1",
-    "react-dnd": "16.0.1",
-    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
+    "react-is": "18.3.1",
     "react-player": "^2.10.1",
     "react-redux": "^8.0.2",
     "react-responsive": "^9.0.0-beta.10",
@@ -44,10 +50,9 @@
     "react-scripts": "5.0.1",
     "recombee-js-api-client": "^4.0.0",
     "serve": "^14.0.1",
-    "typescript": "^4.9.5",
+    "typescript": "~5.9.3",
     "web-vitals": "^2.1.4",
-    "xlsx": "^0.18.5",
-    "react-is": "18.3.1"
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "serve -s build",
@@ -58,9 +63,6 @@
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\""
   },
-  "ignore": [
-    "/src/plugins/ckeditor-mathtype/ckeditor5/"
-  ],
   "browserslist": {
     "production": [
       ">0.2%",
@@ -87,6 +89,15 @@
     ]
   },
   "overrides": {
-    "react-is": "$react-is"
+    "react-is": "$react-is",
+    "react-scripts": {
+      "typescript": "$typescript"
+    }
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\](?!(?:marked|@tiptap)[/\\\\]).+\\.(js|jsx|mjs|cjs|ts|tsx)$",
+      "^.+\\.module\\.(css|sass|scss)$"
+    ]
   }
 }

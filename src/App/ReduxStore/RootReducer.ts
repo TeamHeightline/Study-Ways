@@ -1,3 +1,4 @@
+import answerEditorReducer from '../../Pages/Question/Editor/answers-editor/edit-answer-by-id/model/answer-editor-slice';
 import cardEditorReducer from '../../Pages/Cards/Editor/EditorByIDV2/model/card-editor-slice';
 import { resetSession } from '../../Shared/Store/UserStore/session-lifecycle';
 import ExamPlayerReducer from '../../Pages/Exam/ExamByUid/redux-store/ExamPlayerSlice';
@@ -28,6 +29,7 @@ const appReducer = combineReducers({
   cardBookmarks: cardBookmarksSlice,
   profile: profileSlice,
   cardEditor: cardEditorReducer,
+  answerEditor: answerEditorReducer,
 });
 
 // Local drafts and legacy Redux page data must not survive a change of account.

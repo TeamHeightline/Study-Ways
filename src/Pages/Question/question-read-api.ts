@@ -15,6 +15,7 @@ export interface QuestionPreview {
   questionImage: string | null;
 }
 export interface QuestionEditorData {
+  createdById: number | null;
   id: string;
   text: string;
   numberOfShowingAnswers: number;
@@ -113,6 +114,7 @@ export const {
   useGetQuestionPreviewQuery,
   useGetReviewAnswersQuery,
   useLazyGetQuestionEditorDataQuery,
+  useGetQuestionEditorDataQuery,
   useGetEditorAnswerQuery,
   useGetQuestionPlayerDataQuery,
 } = questionReadApi;

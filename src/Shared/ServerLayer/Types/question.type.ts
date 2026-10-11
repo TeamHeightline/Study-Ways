@@ -74,7 +74,7 @@ export interface ReviewAnswer {
 }
 
 export interface EditorAnswer extends ReviewAnswer {
-  question: { id: string };
+  question: { id: string; createdById?: number | null };
   checkQueue: number;
   hardLevelOfAnswer: AnswerDifficulty;
   isDeleted: boolean;

@@ -13,7 +13,7 @@ import { ImageForQuestion } from './ui-image-for-question';
 import { QuestionSrc } from './ui-question-src';
 import { SavingNotification } from './ui-saving-notification';
 import { UiQuestionPreview } from './ui-question-preview';
-import { AnswersEditor } from '../../AnswersEditor/EditAnswerByID/UI/AnswersEditor';
+import { AnswersEditor } from '../../answers-editor/edit-answer-by-id/ui/AnswersEditor';
 import UiAdditionalActions from './ui-additional-actions';
 import ConnectedThemeSelector from './ui-connected-theme-selector';
 import UIQuestionStatistic from './ui-statistic';
@@ -160,7 +160,13 @@ export const EditQuestionByID = observer(
               </Paper>
             </div>
             <UiQuestionPreview />
-            <AnswersEditor />
+            <AnswersEditor
+              key={`${userId}:${store.selectedQuestionID}`}
+              questionId={store.selectedQuestionID}
+              numberOfShowingAnswers={Number(
+                store.selectedQuestionNumberOfShowingAnswers,
+              )}
+            />
           </>
         )}
       </div>

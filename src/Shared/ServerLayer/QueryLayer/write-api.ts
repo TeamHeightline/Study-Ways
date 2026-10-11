@@ -47,6 +47,7 @@ const questionTags = [
   'QuestionEditor',
   'AnswerEditor',
   'AnswerReports',
+  'AnswerStatistics',
 ] as const;
 const courseTags = [
   'Course',
@@ -353,7 +354,11 @@ export const writeApi = studyWaysApi
           method: 'POST',
           data,
         }),
-        invalidatesTags: success(['SelfStatistic', 'Statistic']),
+        invalidatesTags: success([
+          'SelfStatistic',
+          'Statistic',
+          'AnswerStatistics',
+        ]),
       }),
       uploadMaterialImage: builder.mutation<
         { image: string },

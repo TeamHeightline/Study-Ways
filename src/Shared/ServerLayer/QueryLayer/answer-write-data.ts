@@ -1,10 +1,10 @@
 import type { WrittenAnswer } from './write-api';
 import type { EditorAnswer } from '../../../Pages/Question/question-read-api';
 
-export function answerWriteData(answer: any) {
+export function answerWriteData(answer: EditorAnswer) {
   return {
     text: answer.text ?? '',
-    is_true: answer.isTrue === true || answer.isTrue === 'true',
+    is_true: answer.isTrue,
     help_textV1: answer.helpTextv1 ?? null,
     help_textV2: answer.helpTextv2 ?? null,
     help_textV3: answer.helpTextv3 ?? null,

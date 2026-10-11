@@ -4,9 +4,7 @@ import {
   executeQueuedMutation,
 } from '../../../../../Shared/ServerLayer/QueryLayer/execute-mutation';
 import { writeApi } from '../../../../../Shared/ServerLayer/QueryLayer/write-api';
-import { writtenAnswerData } from '../../../../../Shared/ServerLayer/QueryLayer/answer-write-data';
-import { EditorAnswer, QuestionEditorData } from '../../../question-read-api';
-import { Answer, answerStoreType } from './AnswersStorage';
+import { QuestionEditorData } from '../../../question-read-api';
 import haveStatus from '../../../../../Shared/Store/UserStore/utils/HaveStatus';
 import { FILE_URL, SERVER_BASE_URL } from '../../../../../settings';
 
@@ -51,81 +49,6 @@ class QuestionEditor {
 
   selectedConnectedTheme?: string;
 
-  registeredAnswersID = new Set();
-
-  registerAnswerID(answerID: string) {
-    this.registeredAnswersID.add(answerID);
-  }
-
-  removeAnswerID(answerID: string) {
-    if (this.registeredAnswersID.has(answerID)) {
-      this.registeredAnswersID.delete(answerID);
-    }
-    if (this.registeredRequireAnswersID.has(answerID)) {
-      this.registeredRequireAnswersID.delete(answerID);
-    }
-    if (this.registeredOnlyExamAnswersID.has(answerID)) {
-      this.registeredOnlyExamAnswersID.delete(answerID);
-    }
-  }
-
-  // Статистика по ответам
-  get NumberOfAllAnswers() {
-    return this.registeredAnswersID.size;
-  }
-
-  registeredRequireAnswersID = new Set();
-
-  addOrDeleterRequiredAnswerID(
-    isRequired: boolean | undefined,
-    answer_ID: string | undefined,
-  ) {
-    if (answer_ID) {
-      if (isRequired) {
-        this.registeredRequireAnswersID.add(answer_ID);
-      } else {
-        if (this.registeredRequireAnswersID.has(answer_ID)) {
-          this.registeredRequireAnswersID.delete(answer_ID);
-        }
-      }
-    }
-  }
-
-  get NumberOfRequiredAnswers() {
-    return this.registeredRequireAnswersID.size;
-  }
-
-  get ErrorRequiredAnswerSoMuch() {
-    return (
-      Number(this.NumberOfRequiredAnswers) >=
-      Number(this.selectedQuestionNumberOfShowingAnswers)
-    );
-  }
-
-  registeredOnlyExamAnswersID = new Set();
-
-  addOrDeleteOnlyExamAnswersID(
-    onlyForExam: boolean | undefined,
-    answer_ID: string | undefined,
-  ) {
-    if (answer_ID) {
-      if (onlyForExam) {
-        this.registeredOnlyExamAnswersID.add(answer_ID);
-      } else {
-        if (this.registeredOnlyExamAnswersID.has(answer_ID)) {
-          this.registeredOnlyExamAnswersID.delete(answer_ID);
-        }
-      }
-    }
-  }
-
-  get NumberOfAnswersInTrainingMode() {
-    return (
-      Number(this.NumberOfAllAnswers) -
-      Number(this.registeredOnlyExamAnswersID.size)
-    );
-  }
-
   // ----------------------------------------------------------------
 
   // Флаг, указывающий на то, использовать превью или нет
@@ -168,11 +91,6 @@ class QuestionEditor {
 
             this.selectedConnectedTheme = question_data?.connectedTheme?.id;
 
-            if (question_data) {
-              this.answers_id_array = question_data.answers.map(
-                answer => answer.id,
-              );
-            }
             const __QuestionAuthors = question_data.author.map(author =>
               String(author.id),
             );
@@ -186,16 +104,6 @@ class QuestionEditor {
               ? __QuestionThemes
               : [];
 
-            if (question_data.answers) {
-              const __Answers: Answer[] = [];
-              [...question_data.answers]
-                .sort((a, b) => Number(a.id) - Number(b.id))
-                .filter((answer: EditorAnswer) => !answer.isDeleted)
-                .map((answer: EditorAnswer) =>
-                  __Answers.push(new Answer(this, answer)),
-                );
-              this.answers = __Answers;
-            }
             this.questionHasBeenSelected = true;
             this.loadingQuestionData = false;
           });
@@ -212,14 +120,6 @@ class QuestionEditor {
         );
     }
   }
-
-  answers_id_array: string[] = [];
-
-  get answersIDForUI() {
-    return toJS(this.answers_id_array).sort();
-  }
-
-  // Геттер, нужен чтобы можно было без преобразований использовать allQuestionsData
 
   deliverFromServerImageURL() {
     const questionID = this.selectedQuestionID;
@@ -296,7 +196,6 @@ class QuestionEditor {
                 : variantsOfStateOfSave.ERROR;
             }
             if (response.id) this.invalidateQuestionData?.(id);
-            this.simpleUpdateFlag = true;
           }),
         )
         .catch(
@@ -360,13 +259,6 @@ class QuestionEditor {
     return this.selectedQuestionImageURL.slice(70).split('?')[0];
   }
 
-  // Раздел ответов ----------------------------------------------------------
-  answers: answerStoreType[] = [];
-
-  // Флаг который позволяет игнорировать пересоздание сторов для ответов в случае если это просто обновление
-  // ответа
-  simpleUpdateFlag = false;
-
   // флаг блокировки закрытия вопроса, если не сохранен вопрос или какой-лбо из его ответов
   get unsavedFlag() {
     return !(this.stateOfSave === variantsOfStateOfSave.SAVED);
@@ -400,36 +292,8 @@ class QuestionEditor {
     }
   };
 
-  addCreatedAnswerToAnswersObjectArray = (answer: EditorAnswer) => {
-    this.answers_id_array.push(String(answer.id));
-    this.answers.push(new Answer(this, answer));
-  };
-
-  // Создаем новый ответ
-  async createNewAnswer() {
-    const questionId = this.selectedQuestionID;
-    try {
-      const answer = await executeMutation(
-        writeApi.endpoints.createAnswer.initiate({ questionId }),
-      );
-      runInAction(() => {
-        if (questionId === this.selectedQuestionID)
-          this.addCreatedAnswerToAnswersObjectArray(writtenAnswerData(answer));
-      });
-    } catch {
-      runInAction(() => {
-        this.stateOfSave = variantsOfStateOfSave.ERROR;
-      });
-    }
-  }
-
   clearAllStatisticData() {
-    this.registeredAnswersID = new Set();
-    this.registeredRequireAnswersID = new Set();
-    this.registeredOnlyExamAnswersID = new Set();
     this.loadingQuestionData = true;
-    this.answers_id_array = [];
-    this.answers = [];
   }
 }
 

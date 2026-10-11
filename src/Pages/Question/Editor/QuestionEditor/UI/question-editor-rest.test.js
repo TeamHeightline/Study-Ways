@@ -7,6 +7,7 @@ import { createRoot } from 'react-dom/client';
 import { Simulate } from 'react-dom/test-utils';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+import answerEditorReducer from '../../answers-editor/edit-answer-by-id/model/answer-editor-slice';
 import { MemoryRouter } from 'react-router-dom';
 import { runInAction } from 'mobx';
 import { studyWaysApi } from '../../../../../Shared/ServerLayer/QueryLayer/api';
@@ -22,6 +23,7 @@ jest.mock('../../../../../App/ReduxStore/RootStore', () => ({
     getState: () => mockStore.getState(),
   },
   useAppDispatch: () => require('react-redux').useDispatch(),
+  useAppSelector: require('react-redux').useSelector,
 }));
 
 jest.mock('../../../../../Shared/ServerLayer/QueryLayer/config', () => ({
@@ -33,15 +35,15 @@ jest.mock('./ui-connected-theme-selector', () => () => null);
 jest.mock('./ui-statistic', () => () => null);
 jest.mock('./ui-question-preview', () => ({ UiQuestionPreview: () => null }));
 jest.mock(
-  '../../AnswersEditor/EditAnswerByID/UI/answer-preview',
+  '../../answers-editor/edit-answer-by-id/ui/answer-preview',
   () => () => null,
 );
 
 const act = React.act || legacyAct;
-let container, root, reduxStore;
+let container, root, reduxStore, createdAnswer;
 const answer = (id = 21) => ({
   id: String(id),
-  question: { id: '42' },
+  question: { id: '42', createdById: 7 },
   text: `Ответ ${id}`,
   isTrue: true,
   helpTextv1: 'Лёгкая подсказка',
@@ -57,6 +59,7 @@ const answer = (id = 21) => ({
   image: 'answer.png',
 });
 const data = (id = 42) => ({
+  createdById: 7,
   id: String(id),
   text: `Вопрос ${id}`,
   numberOfShowingAnswers: 8,
@@ -64,7 +67,7 @@ const data = (id = 42) => ({
   author: [],
   theme: [],
   image: 'q.png',
-  answers: [answer(21), answer(22)],
+  answers: [answer(21), answer(22), ...(createdAnswer ? [answer(23)] : [])],
 });
 const button = text =>
   [...container.querySelectorAll('button')].find(item =>
@@ -83,35 +86,39 @@ async function render(id = '42') {
 }
 beforeEach(async () => {
   activateAuthSession();
+  createdAnswer = false;
   global.IS_REACT_ACT_ENVIRONMENT = true;
   jest.useFakeTimers();
   axiosClient.get.mockResolvedValue({ data: [] });
   axiosClient.post.mockResolvedValue({ data: { id: 42 } });
   axiosClient.request.mockImplementation(
     async ({ url, method, data: body }) => ({
-      data:
-        method === 'PUT'
-          ? { ...body, id: Number(url.split('/').at(-1)), question_id: 42 }
-          : method === 'POST'
-            ? {
-                id: 23,
-                question_id: 42,
-                text: 'Новый ответ',
-                is_true: true,
-                help_textV1: '',
-                help_textV2: '',
-                help_textV3: '',
-                check_queue: 1,
-                hard_level_of_answer: 'MEDIUM',
-                is_deleted: false,
-                is_invisible: false,
-                is_required: false,
-                is_image_deleted: false,
-                only_for_exam: false,
-              }
-            : url.includes('/answers/')
-              ? answer(Number(url.split('/')[4]))
-              : data(Number(url.split('/')[3])),
+      data: url.includes('/answer-report-by-id/')
+        ? []
+        : url.includes('/answer-statistics/')
+          ? null
+          : method === 'PUT'
+            ? { ...body, id: Number(url.split('/').at(-1)), question_id: 42 }
+            : method === 'POST'
+              ? {
+                  id: 23,
+                  question_id: 42,
+                  text: 'Новый ответ',
+                  is_true: true,
+                  help_textV1: '',
+                  help_textV2: '',
+                  help_textV3: '',
+                  check_queue: 1,
+                  hard_level_of_answer: 'MEDIUM',
+                  is_deleted: false,
+                  is_invisible: false,
+                  is_required: false,
+                  is_image_deleted: false,
+                  only_for_exam: false,
+                }
+              : url.includes('/answers/')
+                ? answer(Number(url.split('/')[4]))
+                : data(Number(url.split('/')[3])),
     }),
   );
   runInAction(() => {
@@ -119,7 +126,10 @@ beforeEach(async () => {
     editor.clearAllStatisticData();
   });
   reduxStore = mockStore = configureStore({
-    reducer: { [studyWaysApi.reducerPath]: studyWaysApi.reducer },
+    reducer: {
+      [studyWaysApi.reducerPath]: studyWaysApi.reducer,
+      answerEditor: answerEditorReducer,
+    },
     middleware: getDefault => getDefault().concat(studyWaysApi.middleware),
   });
   await setTestUser(reduxStore, {
@@ -147,10 +157,17 @@ test('loads all editor answers in one REST batch without auto-saving initial dat
   await render();
   await act(async () => jest.advanceTimersByTime(2000));
   expect(editor.questionHasBeenSelected).toBe(true);
-  expect(editor.NumberOfAllAnswers).toBe(2);
-  expect(editor.NumberOfRequiredAnswers).toBe(1);
+  expect(
+    [...container.querySelectorAll('.sw-qedit-answer-summary strong')].map(
+      node => node.textContent,
+    ),
+  ).toEqual(['2', '1', '2']);
   expect(container.querySelectorAll('article.sw-qedit-answer')).toHaveLength(2);
-  expect(axiosClient.request).toHaveBeenCalledTimes(1);
+  expect(
+    axiosClient.request.mock.calls.filter(([args]) =>
+      args.url.startsWith('/page/question-read/'),
+    ),
+  ).toHaveLength(1);
   expect(axiosClient.request.mock.calls[0][0].url).toBe(
     '/page/question-read/42/editor',
   );
@@ -224,6 +241,7 @@ test('editing the question saves through the existing writer and invalidates pre
 
 test('a newly created answer uses the mutation response without an individual read', async () => {
   await render();
+  createdAnswer = true;
   await act(async () => button('Добавить ответ').click());
   expect(
     axiosClient.request.mock.calls

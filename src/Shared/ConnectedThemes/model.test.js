@@ -3,7 +3,6 @@ import {
   parseThemeId,
   themeSearchUrl,
   getThemeDescendantIds,
-  toThemeTreeData,
 } from './model';
 
 const themes = [
@@ -13,13 +12,6 @@ const themes = [
   { id: 4, text: 'Механика', parentId: 1 },
   { id: 5, text: 'Другой корень', parentId: null },
 ];
-
-test('selectors keep server order, string values and a numeric root sentinel', () => {
-  expect(toThemeTreeData([themes[1], themes[0]])).toEqual([
-    { id: '2', value: '2', title: 'Оптика', pId: '1' },
-    { id: '1', value: '1', title: 'Физика', pId: 0 },
-  ]);
-});
 
 test('AI filters include only the selected theme and all descendants for numeric or string IDs', () => {
   for (const id of [1, '1'])

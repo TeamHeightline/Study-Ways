@@ -23,7 +23,6 @@ import { MainCardPublicView } from '../../Pages/Cards/Page/MainCardPublicView';
 import { CSSObject } from '../../Pages/Cards/Selector/Store/CardSelectorStore';
 import { AISObject } from '../../Pages/Cards/Page/AISearch/Store/AISearch';
 
-jest.mock('antd/es/tree-select', () => require('antd/lib/tree-select'));
 jest.mock('../ServerLayer/QueryLayer/config', () => ({ request: jest.fn() }));
 
 jest.mock('../Store/UserStore/UserStore', () => ({
@@ -107,14 +106,8 @@ const button = text =>
     node => node.textContent === text,
   );
 const themeTitle = text =>
-  [...document.querySelectorAll('.ant-select-tree-title')].find(
+  [...document.querySelectorAll('[data-theme-text]')].find(
     node => node.textContent === text,
-  );
-const expand = text =>
-  click(
-    themeTitle(text)
-      .closest('.ant-select-tree-treenode')
-      .querySelector('.ant-select-tree-switcher'),
   );
 const searchCalls = () =>
   axiosClient.request.mock.calls
@@ -209,9 +202,7 @@ test('a breadcrumb opens filtered REST search with the selected theme and clears
       link => link.textContent === 'Оптика',
     ),
   );
-  expect(
-    container.querySelector('.ant-select-selection-item').textContent,
-  ).toBe('Оптика');
+  expect(container.querySelector('[role=combobox]').value).toBe('Оптика');
   expect(searchCalls()).toHaveLength(1);
   expect(searchCalls()[0].params).toMatchObject({
     page: 1,
@@ -227,9 +218,7 @@ test('a breadcrumb opens filtered REST search with the selected theme and clears
   );
   expect(searchCalls().at(-1).params.themeId).toBeUndefined();
   await click(button('Назад'));
-  expect(
-    container.querySelector('.ant-select-selection-item').textContent,
-  ).toBe('Оптика');
+  expect(container.querySelector('[role=combobox]').value).toBe('Оптика');
 });
 
 test('switching search modes and changing the AI selection preserves all descendants in the URL-selected filter', async () => {
@@ -245,20 +234,14 @@ test('switching search modes and changing the AI selection preserves all descend
     '/cards?searchType=AISearch&theme=11',
   );
   expect(AISObject.themeWithPatentIDArray).toEqual(['11', '12', '13']);
-  await act(async () =>
-    container
-      .querySelector('.ant-select-selector')
-      .dispatchEvent(new MouseEvent('mousedown', { bubbles: true })),
-  );
+  await click(container.querySelector('[aria-label="Открыть темы"]'));
   await click(themeTitle('Физика'));
   expect(container.querySelector('output').textContent).toBe(
     '/cards?searchType=AISearch&theme=10',
   );
   expect(AISObject.themeWithPatentIDArray).toEqual(['10', '11', '12', '13']);
   await click(button('Обычный поиск'));
-  expect(
-    container.querySelector('.ant-select-selection-item').textContent,
-  ).toBe('Физика');
+  expect(container.querySelector('[role=combobox]').value).toBe('Физика');
   expect(searchCalls().at(-1).params.themeId).toBe(10);
   expect(
     axiosClient.request.mock.calls.filter(

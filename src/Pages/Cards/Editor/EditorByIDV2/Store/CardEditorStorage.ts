@@ -1,7 +1,6 @@
 import { action, makeAutoObservable, reaction, runInAction, toJS } from 'mobx';
 import { computedFn } from 'mobx-utils';
 import { SERVER_BASE_URL } from '../../../../../settings';
-import message from 'antd/es/message';
 import 'js-video-url-parser/lib/provider/youtube';
 import urlParser from 'js-video-url-parser';
 import { executeMutation } from '../../../../../Shared/ServerLayer/QueryLayer/execute-mutation';
@@ -163,29 +162,20 @@ export class CardEditorStorage {
   }
 
   // Загрузка изображения для карточки
-  handleUploadImage(e, card_id) {
-    executeMutation(
+  async handleUploadImage(file: File, cardId: number) {
+    const result = await executeMutation(
       writeApi.endpoints.uploadMaterialImage.initiate({
         kind: 'card',
-        id: Number(card_id),
-        file: e.file,
+        id: cardId,
+        file,
       }),
-    )
-      .then(
-        action(result => {
-          this.update_image_counter = this.update_image_counter + 1;
-          // console.log('Success:', result);
-          message.success(`${e.file.name} успешно загружен.`);
-          this.image_url = `${FILE_URL}/${result.image}`;
-          this.invalidateCardData?.(Number(card_id));
-        }),
-      )
-      .catch(
-        action(error => {
-          console.error('Error:', error);
-          message.error(`${e.file.name} не удалось загрузить`);
-        }),
-      );
+    );
+    runInAction(() => {
+      if (Number(this.card_object?.id) !== cardId) return;
+      this.update_image_counter += 1;
+      this.image_url = `${FILE_URL}/${result.image}`;
+      this.invalidateCardData?.(cardId);
+    });
   }
 
   // Получение с сервера изображения ------------------------------------------------

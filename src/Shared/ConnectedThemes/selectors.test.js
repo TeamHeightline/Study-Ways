@@ -1,5 +1,5 @@
 import React from 'react';
-import { act as legacyAct } from 'react-dom/test-utils';
+import { act as legacyAct, Simulate } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
@@ -16,7 +16,6 @@ import { QuestionEditorStorage } from '../../Pages/Question/Editor/QuestionEdito
 import { AISObject } from '../../Pages/Cards/Page/AISearch/Store/AISearch';
 import { getAutocompleteCardDataAsync } from '../../Pages/Cards/Page/AISearch/Store/Query';
 
-jest.mock('antd/es/tree-select', () => require('antd/lib/tree-select'));
 jest.mock('../ServerLayer/QueryLayer/config', () => ({ request: jest.fn() }));
 jest.mock('../../Pages/Cards/Selector/Store/CardSelectorStore', () => ({
   CSSObject: require('mobx').makeAutoObservable({
@@ -66,15 +65,13 @@ const mouseDown = element =>
   );
 const click = element => act(async () => element.click());
 const title = text =>
-  [...document.querySelectorAll('.ant-select-tree-title')].find(
+  [...document.querySelectorAll('[data-theme-text]')].find(
     node => node.textContent === text,
   );
 const expand = text =>
-  click(
-    title(text)
-      .closest('.ant-select-tree-treenode')
-      .querySelector('.ant-select-tree-switcher'),
-  );
+  click(document.querySelector(`[aria-label="Развернуть «${text}»"]`));
+const open = () =>
+  click(container.querySelector('[aria-label="Открыть темы"]'));
 
 beforeEach(() => {
   global.IS_REACT_ACT_ENVIRONMENT = true;
@@ -149,9 +146,13 @@ test('all selectors share one lazy REST read and loading never changes saved sel
   expect(axiosClient.request.mock.calls[0][0]).toMatchObject({
     url: '/page/connected-themes',
   });
-  expect(container.querySelectorAll('.ant-select-disabled')).toHaveLength(4);
+  expect(container.querySelectorAll('[role=combobox]:disabled')).toHaveLength(
+    4,
+  );
   await act(async () => finish({ data: themes }));
-  expect(container.querySelectorAll('.ant-select-disabled')).toHaveLength(0);
+  expect(container.querySelectorAll('[role=combobox]:disabled')).toHaveLength(
+    0,
+  );
   expect(CESObject.changeFieldByValue).not.toHaveBeenCalled();
   expect(CESObject.card_object.connectedTheme).toEqual([12]);
   expect(QuestionEditorStorage.selectedConnectedTheme).toBe('11');
@@ -167,21 +168,19 @@ test('all selectors share one lazy REST read and loading never changes saved sel
 
 test('ordinary search can select a nested theme and clear it', async () => {
   await render(<ConnectedThemes />);
-  await mouseDown(container.querySelector('.ant-select-selector'));
+  await open();
   await expand('Физика');
   await expand('Оптика');
   await click(title('Волны'));
   expect(CSSObject.cardConnectedTheme).toBe(12);
-  expect(
-    container.querySelector('.ant-select-selection-item').textContent,
-  ).toBe('Волны');
+  expect(container.querySelector('[role=combobox]').value).toBe('Волны');
   await click(container.querySelector('[aria-label="Сбросить тему"]'));
   expect(CSSObject.cardConnectedTheme).toBeUndefined();
 });
 
 test('card editor saves multiple string IDs while question editor saves a single ID', async () => {
   await render(<UiConnectedThemeSelector />);
-  await mouseDown(container.querySelector('.ant-select-selector'));
+  await open();
   await expand('Физика');
   await expand('Оптика');
   await click(title('Волны'));
@@ -191,7 +190,7 @@ test('card editor saves multiple string IDs while question editor saves a single
     ['12', '20'],
   );
   await render(<ConnectedThemeSelector />);
-  await mouseDown(container.querySelector('.ant-select-selector'));
+  await open();
   await expand('Физика');
   await click(title('Оптика'));
   expect(QuestionEditorStorage.selectedConnectedTheme).toBe('11');
@@ -200,7 +199,7 @@ test('card editor saves multiple string IDs while question editor saves a single
 
 test('AI selection and cache refresh include newly added descendants and clear the filter', async () => {
   await render(<AIThemeFilter />);
-  await mouseDown(container.querySelector('.ant-select-selector'));
+  await open();
   await click(title('Физика'));
   expect(AISObject.themeWithPatentIDArray).toEqual(['10', '11', '12']);
   axiosClient.request.mockResolvedValue({
@@ -219,13 +218,81 @@ test('failed requests expose a working retry instead of permanently disabling se
   axiosClient.request.mockRejectedValueOnce(new Error('Offline'));
   await render(<ConnectedThemeSelector />);
   expect(container.textContent).toContain('Не удалось загрузить темы');
-  expect(container.querySelector('.ant-select-disabled')).not.toBeNull();
+  expect(container.querySelector('[role=combobox]:disabled')).not.toBeNull();
   await click(
     [...container.querySelectorAll('button')].find(
       node => node.textContent === 'Повторить',
     ),
   );
-  expect(container.querySelector('.ant-select-disabled')).toBeNull();
+  expect(container.querySelector('[role=combobox]:disabled')).toBeNull();
   expect(container.textContent).not.toContain('Не удалось загрузить темы');
   expect(axiosClient.request).toHaveBeenCalledTimes(2);
+});
+
+test('search finds a collapsed descendant and keeps its ancestors visible', async () => {
+  await render(<ConnectedThemeSelector />);
+  const field = container.querySelector('[role=combobox]');
+  await open();
+  await act(async () => {
+    Simulate.change(field, { target: { value: 'волны' } });
+  });
+  expect(
+    [...document.querySelectorAll('[data-theme-id]')].map(
+      node => node.dataset.themeId,
+    ),
+  ).toEqual(['10', '11', '12']);
+  await click(title('Волны'));
+  expect(QuestionEditorStorage.selectedConnectedTheme).toBe('12');
+  await open();
+  expect(title('Волны')).toBeDefined();
+  await click(container.querySelector('[aria-label="Сбросить тему"]'));
+  expect(QuestionEditorStorage.selectedConnectedTheme).toBeUndefined();
+});
+
+test('keyboard navigation expands branches and selects a deeply nested theme', async () => {
+  await render(<ConnectedThemeSelector />);
+  const field = container.querySelector('[role=combobox]');
+  await act(async () => field.focus());
+  const press = key => act(async () => Simulate.keyDown(field, { key }));
+  await press('ArrowDown');
+  await press('ArrowRight');
+  await press('ArrowDown');
+  await press('ArrowRight');
+  await press('ArrowDown');
+  await press('Enter');
+  expect(QuestionEditorStorage.selectedConnectedTheme).toBe('12');
+});
+
+test('removing one selected chip and clearing the rest preserves independent multi-selection', async () => {
+  runInAction(() => {
+    CESObject.card_object.connectedTheme = [12, 20];
+  });
+  await render(<UiConnectedThemeSelector />);
+  expect(
+    [...container.querySelectorAll('.MuiChip-label')].map(
+      node => node.textContent,
+    ),
+  ).toEqual(['Волны', 'Механика']);
+  await act(async () =>
+    Simulate.click(container.querySelector('.MuiChip-deleteIcon')),
+  );
+  expect(CESObject.card_object.connectedTheme).toEqual(['20']);
+  await click(container.querySelector('[aria-label="Сбросить тему"]'));
+  expect(CESObject.card_object.connectedTheme).toEqual([]);
+});
+
+test('closing search with Escape and reopening keeps the visible query and its results in sync', async () => {
+  await render(<ConnectedThemeSelector />);
+  const field = container.querySelector('[role=combobox]');
+  await act(async () => field.focus());
+  await act(async () => Simulate.change(field, { target: { value: 'волны' } }));
+  await act(async () => Simulate.keyDown(field, { key: 'Escape' }));
+  expect(document.querySelector('[role=listbox]')).toBeNull();
+  await open();
+  expect(field.value).toBe('волны');
+  expect(
+    [...document.querySelectorAll('[data-theme-id]')].map(
+      node => node.dataset.themeId,
+    ),
+  ).toEqual(['10', '11', '12']);
 });

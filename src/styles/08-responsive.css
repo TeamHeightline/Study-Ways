@@ -298,15 +298,6 @@
   .sw-standard-search {
     @apply tw-mt-2;
   }
-  .sw-theme-dropdown {
-    @apply tw-w-[calc(100vw_-_28px)] tw-min-w-0 tw-max-w-none;
-  }
-  .sw-theme-dropdown .ant-select-tree-treenode {
-    @apply tw-min-h-9.5;
-  }
-  .sw-theme-dropdown .ant-select-tree {
-    @apply tw-text-ui-12;
-  }
   .sw-search-filters,
   .sw-standard-search + .sw-search-filters {
     @apply tw-grid-cols-[1fr] !tw-gap-2.5 !tw-pl-0 !tw-pr-0;

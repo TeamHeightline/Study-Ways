@@ -28,8 +28,7 @@
 [data-accessibility='enhanced'] .sw-theme-trigger.MuiIconButton-root,
 [data-accessibility='enhanced'] .MuiIconButton-root,
 [data-accessibility='enhanced'] .MuiButton-root,
-[data-accessibility='enhanced'] .MuiToggleButton-root,
-[data-accessibility='enhanced'] .ant-btn {
+[data-accessibility='enhanced'] .MuiToggleButton-root {
   min-height: 44px;
 }
 [data-accessibility='enhanced'] .sw-theme-trigger.MuiIconButton-root,
@@ -77,14 +76,6 @@
   color: var(--sw-secondary);
   border: 2px dashed var(--sw-border);
 }
-[data-accessibility='enhanced']
-  .ant-select:not(.ant-select-customize-input)
-  .ant-select-selector,
-[data-accessibility='enhanced'] .ant-input,
-[data-accessibility='enhanced'] .ant-picker {
-  border-width: 2px;
-  min-height: 44px;
-}
 [data-accessibility='enhanced'] .ck-content {
   font-size: 18px;
   line-height: 1.8;
@@ -115,22 +106,6 @@
   [data-accessibility='enhanced'] .sw-account {
     @apply tw-gap-1;
   }
-}
-
-[data-accessibility='enhanced']
-  :is(
-    .ant-select,
-    .ant-select-tree,
-    .ant-select-dropdown,
-    .ant-input,
-    .ant-picker
-  ) {
-  font-size: var(--sw-font-size-14);
-  line-height: 1.5;
-}
-[data-accessibility='enhanced']
-  :is(.ant-select-item, .ant-select-tree-treenode, .ant-tree-treenode) {
-  min-height: 44px;
 }
 
 [data-accessibility='enhanced'] *,

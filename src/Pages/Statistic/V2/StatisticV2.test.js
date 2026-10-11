@@ -38,17 +38,6 @@ jest.mock('./show-statistic-for-selected-questions/ShowStatisticTable', () => ({
     </>
   ),
 }));
-jest.mock('@mui/x-date-pickers/DateTimePicker', () => ({
-  DateTimePicker: ({ label, value, onChange }) => (
-    <input
-      aria-label={label}
-      value={value?.toISOString() ?? ''}
-      onChange={event =>
-        onChange(event.target.value ? new Date(event.target.value) : null)
-      }
-    />
-  ),
-}));
 
 const act = React.act || legacyAct;
 let root, container, store, auth;
@@ -275,4 +264,19 @@ test('switching accounts resets filters and never shows the previous account cac
     finish({ data: { ids: [999], activePage: 1, numPages: 1 } }),
   );
   expect(attempts().textContent).toBe('999');
+});
+
+test('local date and time are sent as an ISO instant and reset pagination', async () => {
+  await render();
+  await act(async () => pageTwo().click());
+  await fill(
+    container.querySelector('input[type="datetime-local"]'),
+    '2026-10-11T13:45',
+  );
+  expect(calls().at(-1).params).toEqual(
+    expect.objectContaining({
+      page: 1,
+      afterTime: new Date('2026-10-11T13:45').toISOString(),
+    }),
+  );
 });

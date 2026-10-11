@@ -242,15 +242,6 @@
   display: grid;
   gap: 20px;
 }
-.sw-cedit-image-material .ant-upload.ant-upload-drag {
-  border: 1px dashed var(--sw-border-strong);
-  border-radius: var(--sw-radius-12);
-  background: var(--sw-surface-subtle);
-  overflow: hidden;
-}
-.sw-cedit-image-material .ant-upload.ant-upload-drag .ant-upload-btn {
-  padding: 24px 18px;
-}
 .sw-cedit-image-material img {
   display: block;
   max-width: 100%;
@@ -283,34 +274,6 @@
 }
 .sw-cedit-upload-icon svg {
   font-size: var(--sw-font-size-28);
-}
-.sw-cedit-theme > label {
-  display: block;
-  font-size: var(--sw-font-size-11);
-  color: var(--sw-neutral-500);
-  margin-bottom: 9px;
-}
-.sw-cedit-theme .ant-select-selector {
-  min-height: 42px;
-  border: 1px solid var(--sw-border) !important;
-  border-radius: var(--sw-radius-10) !important;
-  padding: 5px 10px !important;
-}
-.sw-cedit-theme .ant-select {
-  font-size: var(--sw-font-size-12);
-}
-.sw-cedit-theme .ant-select-selection-item {
-  border-radius: var(--sw-radius-5);
-  background: var(--sw-accent-100);
-  border-color: var(--sw-border);
-  color: var(--sw-accent-600);
-}
-.sw-cedit-theme .ant-select-selection-placeholder {
-  font-size: var(--sw-font-size-11);
-}
-.sw-cedit-theme-dropdown .ant-select-tree {
-  color: var(--sw-neutral-700);
-  font-size: var(--sw-font-size-12);
 }
 .sw-cedit-setting-block {
   margin-top: 26px;

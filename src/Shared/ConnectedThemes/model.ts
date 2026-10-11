@@ -41,15 +41,6 @@ export function getThemePaths(
   return paths;
 }
 
-export function toThemeTreeData(themes: readonly ConnectedTheme[]) {
-  return themes.map(theme => ({
-    id: String(theme.id),
-    value: String(theme.id),
-    title: theme.text,
-    pId: theme.parentId === null ? 0 : String(theme.parentId),
-  }));
-}
-
 // Iterative traversal handles deep trees and prevents repeated IDs or loops
 // from malformed historical data from breaking the search filter.
 export function getThemeDescendantIds(

@@ -14,7 +14,6 @@ import {
   Switch,
   TextField,
 } from '@mui/material';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 import { RequireLogInAlert } from '../../../App/SharedComponents/Notifications/RequireLogInAlert';
 import { ShowStatisticTable } from './show-statistic-for-selected-questions/ShowStatisticTable';
@@ -28,6 +27,13 @@ function todayStart() {
   const date = new Date();
   date.setHours(0, 0, 0, 0);
   return date;
+}
+
+function localDateTime(date: Date | null) {
+  if (!date || !Number.isFinite(date.getTime())) return '';
+  return new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+    .toISOString()
+    .slice(0, 16);
 }
 
 function LoadingStatistic() {
@@ -103,19 +109,22 @@ function StatisticContent({ userId }: { userId: number }) {
             }
           />
           <div>
-            <DateTimePicker
+            <TextField
+              type="datetime-local"
+              size="small"
+              fullWidth
               label="Результаты начиная с"
-              value={filters.afterTime}
-              onChange={value =>
+              InputLabelProps={{ shrink: true }}
+              inputProps={{ 'aria-label': 'Результаты начиная с' }}
+              value={localDateTime(filters.afterTime)}
+              onChange={event => {
+                const value = event.target.value;
                 setFilters(current => ({
                   ...current,
-                  afterTime: value === null ? null : new Date(Number(value)),
+                  afterTime: value ? new Date(value) : null,
                   page: 1,
-                }))
-              }
-              renderInput={params => (
-                <TextField {...params} size="small" fullWidth />
-              )}
+                }));
+              }}
             />
           </div>
         </div>

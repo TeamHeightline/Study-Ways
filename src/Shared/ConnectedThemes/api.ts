@@ -1,6 +1,5 @@
-import { useMemo } from 'react';
 import { studyWaysApi } from '../ServerLayer/QueryLayer/api';
-import { ConnectedTheme, toThemeTreeData } from './model';
+import { ConnectedTheme } from './model';
 
 export const connectedThemesApi = studyWaysApi
   .enhanceEndpoints({ addTagTypes: ['ConnectedThemes'] })
@@ -14,12 +13,3 @@ export const connectedThemesApi = studyWaysApi
   });
 
 export const { useGetConnectedThemesQuery } = connectedThemesApi;
-
-export function useConnectedThemeOptions() {
-  const query = useGetConnectedThemesQuery();
-  const treeData = useMemo(
-    () => toThemeTreeData(query.data ?? []),
-    [query.data],
-  );
-  return { ...query, treeData };
-}

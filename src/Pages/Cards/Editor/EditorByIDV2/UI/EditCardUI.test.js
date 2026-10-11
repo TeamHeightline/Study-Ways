@@ -11,9 +11,6 @@ import { saveCard } from '../API/save-card';
 import axiosClient from '../../../../../Shared/ServerLayer/QueryLayer/config';
 import EditCardUI from './EditCardUI';
 
-jest.mock('antd/es/message', () => ({ success: jest.fn(), error: jest.fn() }));
-jest.mock('antd/es/upload', () => require('antd/lib/upload'));
-jest.mock('antd/es/tree-select', () => require('antd/lib/tree-select'));
 
 jest.mock('@ckeditor/ckeditor5-react', () => ({ CKEditor: () => null }));
 jest.mock('@ckeditor/ckeditor5-build-classic', () => ({}));

@@ -1,5 +1,5 @@
 import { Paper } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import UIExamSelector from './ui-exam-selector';
 import { Route, Routes } from 'react-router-dom';
 import ExamEditorByURL from '../../ExamByURL/ExamByURL';

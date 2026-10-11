@@ -1,5 +1,5 @@
 import { Box, IconButton, Slider, Stack } from '@mui/material';
-import { StackProps } from '@mui/material/Stack/Stack';
+import { StackProps } from '@mui/material/Stack';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import React from 'react';
@@ -17,7 +17,10 @@ export default function Stepper({
   courseData,
   ...props
 }: ICourseSliderProps) {
-  const pageCount = Math.max(1, ...(courseData.course_data || []).map(line => line.SameLine?.length || 0));
+  const pageCount = Math.max(
+    1,
+    ...(courseData.course_data || []).map(line => line.SameLine?.length || 0),
+  );
   if (pageCount <= 1) return null;
   return (
     <Box sx={{ p: 1 }} {...props}>
@@ -27,7 +30,6 @@ export default function Stepper({
         page={activePage}
         onChange={(event, page) => setActivePage(page)}
         color="primary"
-        
       />
     </Box>
   );

@@ -1,5 +1,5 @@
 import { Paper, Stack, Typography } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import { useSelector } from 'react-redux';
 import {
   RootState,
@@ -24,7 +24,11 @@ export default function UIExamName({ ...props }: IUIExamNameProps) {
 
   return (
     <Paper elevation={0} {...props}>
-      <Stack alignItems={'center'}>
+      <Stack
+        sx={{
+          alignItems: 'center',
+        }}
+      >
         <Typography variant={isMobile ? 'body1' : 'h2'}>{examName}</Typography>
       </Stack>
     </Paper>

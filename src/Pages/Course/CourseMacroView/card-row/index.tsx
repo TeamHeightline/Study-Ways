@@ -1,5 +1,5 @@
 import { CoursePageCard } from '../../course-materials-api';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import CardItem from './card-element/card-element';
 import React from 'react';
 import { positionDataI } from '../../CourseMicroView/V2/Store/CourseMicroStoreByID';

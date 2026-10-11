@@ -3,7 +3,7 @@ import { UserStorage } from '../../../../Shared/Store/UserStore/UserStore';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { observer } from 'mobx-react';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import { Grid, Paper, Stack, Typography } from '@mui/material';
 import { CardByIDStore } from '../Store/CardByIDStore';
 import CardMicroView from '../../CardMicroView';
@@ -36,7 +36,14 @@ const SimilarCards = observer(
         </Stack>
         <Grid container className="sw-material-related-grid">
           {similarCardsID?.map(cardID => (
-            <Grid item xs={12} sm={6} md={'auto'} key={cardID}>
+            <Grid
+              key={cardID}
+              size={{
+                xs: 12,
+                sm: 6,
+                md: 'auto',
+              }}
+            >
               <CardMicroView
                 cardID={Number(cardID)}
                 onClick={onCardClick(cardID)}

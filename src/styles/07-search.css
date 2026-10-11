@@ -53,10 +53,12 @@
   transform: translateY(-2px);
   box-shadow: 0 7px 14px rgb(var(--sw-shadow-rgb) / 0.1216);
 }
-.sw-search-panel > .MuiGrid-item > .MuiStack-root {
+.sw-search-panel > .MuiGrid-root:not(.MuiGrid-container) > .MuiStack-root {
   @apply tw-gap-2.5;
 }
-.sw-search-panel > .MuiGrid-item > .MuiStack-root:last-child {
+.sw-search-panel
+  > .MuiGrid-root:not(.MuiGrid-container)
+  > .MuiStack-root:last-child {
   @apply tw-pt-1 tw-pr-0 tw-pb-0 tw-pl-0;
 }
 .sw-search-panel .MuiFormControl-root {
@@ -72,7 +74,7 @@
 .sw-standard-search {
   @apply tw-mt-3.5 tw-mr-auto tw-mb-0 tw-ml-auto;
 }
-.sw-standard-search .MuiGrid-item {
+.sw-standard-search .MuiGrid-root:not(.MuiGrid-container) {
   @apply tw-max-w-[720px];
 }
 .sw-search-filters {

@@ -1,5 +1,5 @@
 import { Paper, ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 
 type IUIStudentsAccessTypeProps = PaperProps;
 

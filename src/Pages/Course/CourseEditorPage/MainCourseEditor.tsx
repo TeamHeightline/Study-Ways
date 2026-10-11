@@ -184,23 +184,25 @@ const MainCourseEditor = observer(function MainCourseEditor() {
           value={search}
           onChange={event => setSearch(event.target.value)}
           disabled={initialLoading}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchRoundedIcon />
-              </InputAdornment>
-            ),
-            endAdornment: search ? (
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="Очистить поиск курсов"
-                  size="small"
-                  onClick={() => setSearch('')}
-                >
-                  <CloseRoundedIcon />
-                </IconButton>
-              </InputAdornment>
-            ) : undefined,
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchRoundedIcon />
+                </InputAdornment>
+              ),
+              endAdornment: search ? (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="Очистить поиск курсов"
+                    size="small"
+                    onClick={() => setSearch('')}
+                  >
+                    <CloseRoundedIcon />
+                  </IconButton>
+                </InputAdornment>
+              ) : undefined,
+            },
           }}
         />
         <span>

@@ -22,7 +22,7 @@ const CardTitleWithId = observer(
         placement="top-start"
         enterDelay={350}
         describeChild
-        componentsProps={{
+        slotProps={{
           tooltip: {
             sx: {
               maxWidth: 520,

@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 
 interface ICourseTitleProps extends BoxProps {
   courseData: any;

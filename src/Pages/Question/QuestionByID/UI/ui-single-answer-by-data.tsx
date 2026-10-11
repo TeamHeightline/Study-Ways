@@ -1,5 +1,5 @@
 import { Box, Card, CardActionArea, Typography } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import { observer } from 'mobx-react';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
@@ -25,9 +25,20 @@ const UISingleAnswerByData = observer(
     ...props
   }: IUISingleAnswerByDataProps) => (
     <Box {...props}>
-      <Card className={`sw-answer-card ${isSelected ? 'is-selected' : 'is-unselected'}`} variant="outlined" onClick={onAnswerClick}>
+      <Card
+        className={`sw-answer-card ${isSelected ? 'is-selected' : 'is-unselected'}`}
+        variant="outlined"
+        onClick={onAnswerClick}
+      >
         <CardActionArea className="sw-answer-card-action">
-          <div className="sw-answer-choice-indicator">{isSelected ? <CheckCircleRoundedIcon /> : <RadioButtonUncheckedRoundedIcon />}<span>{isSelected ? 'Выбрано' : 'Не выбрано'}</span></div>
+          <div className="sw-answer-choice-indicator">
+            {isSelected ? (
+              <CheckCircleRoundedIcon />
+            ) : (
+              <RadioButtonUncheckedRoundedIcon />
+            )}
+            <span>{isSelected ? 'Выбрано' : 'Не выбрано'}</span>
+          </div>
           {!isImageDeleted && imageURL && (
             <CardMedia
               component="img"
@@ -38,7 +49,13 @@ const UISingleAnswerByData = observer(
           )}
           {text && (
             <CardContent className="sw-answer-content">
-              <Typography className="sw-answer-text" variant="body1" component="p">{text}</Typography>
+              <Typography
+                className="sw-answer-text"
+                variant="body1"
+                component="p"
+              >
+                {text}
+              </Typography>
             </CardContent>
           )}
         </CardActionArea>

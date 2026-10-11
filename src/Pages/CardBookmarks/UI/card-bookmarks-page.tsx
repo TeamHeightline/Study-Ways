@@ -1,6 +1,6 @@
 import { ThemeManulNote } from '../../../Shared/Theme/ThemeManulNote';
 import { Box, CircularProgress, Grid, Stack, Typography } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 import { useEffect } from 'react';
 import { loadCardBookmarks } from '../Store/async-actions';
@@ -38,7 +38,11 @@ export default function CardBookmarksPage({
 
   if (is_loading_card_bookmarks) {
     return (
-      <Stack alignItems={'center'}>
+      <Stack
+        sx={{
+          alignItems: 'center',
+        }}
+      >
         <CircularProgress />
       </Stack>
     );
@@ -46,7 +50,12 @@ export default function CardBookmarksPage({
 
   return (
     <Box className="sw-learning-page sw-bookmarks-page" {...props}>
-      <Stack className="sw-card-library-heading" alignItems="flex-start">
+      <Stack
+        className="sw-card-library-heading"
+        sx={{
+          alignItems: 'flex-start',
+        }}
+      >
         <Typography className="sw-card-library-title" variant={'h3'}>
           Карточки, добавленные в закладки
         </Typography>
@@ -56,10 +65,19 @@ export default function CardBookmarksPage({
         className="sw-card-library-grid"
         container
         spacing={2}
-        justifyContent="center"
+        sx={{
+          justifyContent: 'center',
+        }}
       >
         {card_bookmarks_id_array?.map((card_id, index) => (
-          <Grid item xs={12} sm={6} md="auto" key={`${index}_${card_id}`}>
+          <Grid
+            key={`${index}_${card_id}`}
+            size={{
+              xs: 12,
+              sm: 6,
+              md: 'auto',
+            }}
+          >
             <CardMicroView
               cardID={card_id}
               onClick={() => {

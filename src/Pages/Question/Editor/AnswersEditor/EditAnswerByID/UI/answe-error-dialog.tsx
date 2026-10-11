@@ -9,7 +9,6 @@ import {
   IconButton,
   BoxProps,
 } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
 import DoneRoundedIcon from '@mui/icons-material/DoneRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { EditAnswerByIdStore } from '../Store/edit-answer-by-id-store';
@@ -28,7 +27,9 @@ const AnswerErrorDialog = observer(
       fullWidth
       maxWidth="sm"
       aria-labelledby={`qedit-reports-title-${store.answer_id}`}
-      PaperProps={{ className: 'sw-qedit-dialog' }}
+      slotProps={{
+        paper: { className: 'sw-qedit-dialog' },
+      }}
     >
       <DialogTitle id={`qedit-reports-title-${store.answer_id}`}>
         Замечания к ответу
@@ -52,7 +53,7 @@ const AnswerErrorDialog = observer(
                 <span>{name}</span>
                 <span>{message.createdAt?.slice(0, 10)}</span>
               </div>
-              <LoadingButton
+              <Button
                 startIcon={<DoneRoundedIcon />}
                 loading={message.id === store.updatingAnswerErrorMessageID}
                 onClick={() => store.onCloseAnswerReportClick(message.id)}
@@ -60,7 +61,7 @@ const AnswerErrorDialog = observer(
                 size="small"
               >
                 Отметить обработанным
-              </LoadingButton>
+              </Button>
             </article>
           );
         })}

@@ -1,5 +1,5 @@
 import { Alert, CircularProgress, Paper, Stack } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import {
@@ -43,7 +43,11 @@ export default function QuestionPlayer({ ...props }: IQuestionPlayerProps) {
 
   if (loading_question_data || await_statistic_save) {
     return (
-      <Stack alignItems={'center'}>
+      <Stack
+        sx={{
+          alignItems: 'center',
+        }}
+      >
         <CircularProgress />
       </Stack>
     );

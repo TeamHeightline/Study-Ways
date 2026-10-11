@@ -1,5 +1,5 @@
 import { Box, Card, Typography } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import React from 'react';
 import { CoursePageCard } from '../../../course-materials-api';
 import urlParser from 'js-video-url-parser';

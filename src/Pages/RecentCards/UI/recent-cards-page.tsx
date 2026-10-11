@@ -1,6 +1,6 @@
 import { ThemeManulNote } from '../../../Shared/Theme/ThemeManulNote';
 import { Box, Typography } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import { useEffect } from 'react';
 import { observer } from 'mobx-react';
 import {

@@ -82,8 +82,12 @@ export function CardMicroViewByData({
           }}
         >
           <Stack
-            sx={{ p: 2, flexGrow: 1, height: 340 }}
-            justifyContent={'space-between'}
+            sx={{
+              justifyContent: 'space-between',
+              p: 2,
+              flexGrow: 1,
+              height: 340,
+            }}
           >
             <Box>
               <Skeleton
@@ -198,8 +202,11 @@ export function CardMicroViewByData({
             <Box sx={{ height: '100%' }}>
               <Stack
                 direction={'column'}
-                justifyContent="space-between"
-                sx={{ p: 1, height: '170px' }}
+                sx={{
+                  justifyContent: 'space-between',
+                  p: 1,
+                  height: '170px',
+                }}
               >
                 <Box
                   sx={{

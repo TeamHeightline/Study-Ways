@@ -13,7 +13,6 @@ import {
 } from '@mui/material';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import { LoadingButton } from '@mui/lab';
 import {
   useAppDispatch,
   useAppSelector,
@@ -59,7 +58,9 @@ export default function UICreateNewQuestionDialog(props: BoxProps) {
         fullWidth
         maxWidth="xs"
         aria-labelledby="qedit-create-title"
-        PaperProps={{ className: 'sw-qedit-dialog' }}
+        slotProps={{
+          paper: { className: 'sw-qedit-dialog' },
+        }}
       >
         <DialogTitle id="qedit-create-title">
           Новый вопрос
@@ -90,7 +91,7 @@ export default function UICreateNewQuestionDialog(props: BoxProps) {
           >
             Отмена
           </Button>
-          <LoadingButton
+          <Button
             variant="contained"
             disableElevation
             loading={page.is_new_question_now_creating}
@@ -98,7 +99,7 @@ export default function UICreateNewQuestionDialog(props: BoxProps) {
             startIcon={<AddRoundedIcon />}
           >
             Создать вопрос
-          </LoadingButton>
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>

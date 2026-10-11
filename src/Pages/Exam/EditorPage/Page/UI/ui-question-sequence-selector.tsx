@@ -104,12 +104,14 @@ const UIQuestionSequenceSelector = observer(
               label="Поиск серии вопросов"
               value={search}
               onChange={event => setSearch(event.target.value)}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchRoundedIcon />
-                  </InputAdornment>
-                ),
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchRoundedIcon />
+                    </InputAdornment>
+                  ),
+                },
               }}
             />
             {error && (

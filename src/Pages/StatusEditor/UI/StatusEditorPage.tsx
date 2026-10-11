@@ -1,5 +1,5 @@
 import { Button, CircularProgress, Paper, Skeleton } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import RefreshRoundedIcon from '@mui/icons-material/RefreshRounded';
 import PeopleOutlineRoundedIcon from '@mui/icons-material/PeopleOutlineRounded';
 import { useEffect, useMemo, useState } from 'react';

@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import { Card, CardActionArea, Stack, Typography } from '@mui/material';
 import { CardByIDStore } from '../Store/CardByIDStore';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
@@ -45,7 +45,6 @@ const CardImage = observer(({ card_store, ...props }: ICardImageProps) => {
           sx={{
             width: '100%',
             height: '100%',
-
           }}
           onClick={goToRemoteResource}
         />
@@ -63,8 +62,10 @@ const CardImage = observer(({ card_store, ...props }: ICardImageProps) => {
           <Stack
             direction={'row'}
             spacing={2}
-            alignItems={'center'}
-            justifyContent={'center'}
+            sx={{
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
           >
             <FileOpenIcon sx={{ fontSize: 80 }} />
           </Stack>

@@ -322,7 +322,12 @@ export default function CoursePage() {
           </div>
         )}
         {!error && !loading && currentData && currentData.numPages > 1 && (
-          <Stack alignItems="center" sx={{ mt: 3 }}>
+          <Stack
+            sx={{
+              alignItems: 'center',
+              mt: 3,
+            }}
+          >
             <Pagination
               page={currentData.activePage}
               count={currentData.numPages}

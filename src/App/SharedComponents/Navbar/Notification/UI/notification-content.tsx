@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../ReduxStore/RootStore';
 import CardMicroView from '../../../../../Pages/Cards/CardMicroView';

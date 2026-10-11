@@ -1,7 +1,7 @@
 import { useCoursePageMaterials } from '../course-materials-api';
 import { Alert } from '@mui/material';
 import { Box, Card, Divider, Grid, Stack, Chip, Button } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosClient from '../../../Shared/ServerLayer/QueryLayer/config';
@@ -126,7 +126,13 @@ export default function CourseMacroView({
             <AccountTreeOutlined fontSize="small" /> ПУТЬ ОБУЧЕНИЯ{' '}
             <Chip label={`${filledLevels.length} уровней`} size="small" />
           </Box>
-          <Stack direction={'row'} spacing={1} alignItems="center">
+          <Stack
+            direction={'row'}
+            spacing={1}
+            sx={{
+              alignItems: 'center',
+            }}
+          >
             <Image
               courseData={courseData}
               courseID={courseID}

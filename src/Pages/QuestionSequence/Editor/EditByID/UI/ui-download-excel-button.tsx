@@ -1,5 +1,5 @@
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import { Button, Paper } from '@mui/material';
 import { getExcelDownloadUrl } from '../../../../../Shared/ServerLayer/QueryLayer/statistic.query';
 import { useSequenceEditor } from '../store/sequence-editor-context';

@@ -40,7 +40,9 @@
 .sw-material-body .sw-card-content-grid {
   @apply tw-grid tw-grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] tw-gap-7 tw-w-full tw-m-0;
 }
-.sw-material-body .sw-card-content-grid > .MuiGrid-item {
+.sw-material-body
+  .sw-card-content-grid
+  > .MuiGrid-root:not(.MuiGrid-container) {
   @apply tw-p-0 tw-max-w-none tw-w-full;
 }
 .sw-material-media {
@@ -158,10 +160,10 @@
 .sw-material-related-grid {
   @apply !tw-grid tw-grid-cols-[repeat(auto-fill,minmax(260px,1fr))] tw-gap-5 !tw-w-full !tw-m-0;
 }
-.sw-material-related-grid > .MuiGrid-item {
+.sw-material-related-grid > .MuiGrid-root:not(.MuiGrid-container) {
   @apply tw-min-w-0 !tw-max-w-none tw-w-full !tw-p-0;
 }
-.sw-material-related-grid > .MuiGrid-item > * {
+.sw-material-related-grid > .MuiGrid-root:not(.MuiGrid-container) > * {
   @apply tw-max-w-full tw-w-full;
 }
 .sw-material-body .sw-course-reference {

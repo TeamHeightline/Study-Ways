@@ -1,5 +1,5 @@
 import { Box, IconButton, InputBase, Paper, Stack } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import SearchIcon from '@mui/icons-material/Search';
 import {
   useAppDispatch,
@@ -12,9 +12,7 @@ type IUISearchProps = BoxProps;
 
 export default function UISearch({ ...props }: IUISearchProps) {
   const dispatch = useAppDispatch();
-  const search_string = useAppSelector(
-    (state) => state.coursePage.search_string,
-  );
+  const search_string = useAppSelector(state => state.coursePage.search_string);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearchString(e.target.value));
@@ -25,7 +23,11 @@ export default function UISearch({ ...props }: IUISearchProps) {
 
   return (
     <Box {...props}>
-      <Stack alignItems={'center'}>
+      <Stack
+        sx={{
+          alignItems: 'center',
+        }}
+      >
         <Paper
           component="form"
           sx={{

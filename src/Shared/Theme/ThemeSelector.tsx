@@ -38,10 +38,14 @@ export const ThemeSelector = observer(
           onClose={() => setAnchor(null)}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-          PaperProps={{ className: 'sw-theme-menu' }}
-          MenuListProps={{
-            'aria-label': 'Оформление',
-            subheader: <ListSubheader disableSticky>Оформление</ListSubheader>,
+          slotProps={{
+            paper: { className: 'sw-theme-menu' },
+            list: {
+              'aria-label': 'Оформление',
+              subheader: (
+                <ListSubheader disableSticky>Оформление</ListSubheader>
+              ),
+            },
           }}
         >
           {store.availableThemes.map(theme => (

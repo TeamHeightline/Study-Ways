@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import { Paper, TextField } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeExamName } from '../redux-store/examEditorSlice';
@@ -17,7 +17,7 @@ const ExamName = observer(({ ...props }: IExamNameProps) => {
     <Paper elevation={0} {...props}>
       <TextField
         value={examName || ''}
-        onChange={(e) => dispatch(changeExamName(e.target.value))}
+        onChange={e => dispatch(changeExamName(e.target.value))}
         fullWidth
         variant="outlined"
         multiline

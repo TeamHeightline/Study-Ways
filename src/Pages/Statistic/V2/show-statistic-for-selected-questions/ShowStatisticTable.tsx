@@ -8,7 +8,7 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableBody from '@mui/material/TableBody';
 import { DetailStatisticByID } from '../../../DetailStatistic/UI/DetailStatisticByID';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import { Stack } from '@mui/material';
 
 interface IShowStatisticTableProps extends PaperProps {
@@ -56,7 +56,7 @@ export const ShowStatisticTable = observer(
             </TableRow>
           </TableHead>
           <TableBody>
-            {attempt_id_array.map((attempt_id) => (
+            {attempt_id_array.map(attempt_id => (
               <DetailStatisticByID
                 attempt_id={attempt_id}
                 key={`attempt_by_id: ${attempt_id}`}

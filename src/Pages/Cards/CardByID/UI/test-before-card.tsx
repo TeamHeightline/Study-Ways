@@ -1,7 +1,7 @@
 import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded';
 import { observer } from 'mobx-react';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import {
   Alert,
   Paper,
@@ -45,9 +45,21 @@ const TestBeforeCard = observer(
 
     return (
       <Paper elevation={0} {...props} className="sw-material-test-prompt">
-        <div className="sw-material-test-icon"><TaskAltRoundedIcon /></div>
-        <div className="sw-material-test-copy"><Typography component="h2">Проверьте себя перед просмотром</Typography><Typography>Узнайте, насколько хорошо вы знакомы с темой.</Typography></div>
-        <div className="sw-material-test-actions"><Button variant="contained" disableElevation onClick={onGoToTest}>Пройти тест</Button><Button onClick={closeAlert}>Скрыть</Button></div>
+        <div className="sw-material-test-icon">
+          <TaskAltRoundedIcon />
+        </div>
+        <div className="sw-material-test-copy">
+          <Typography component="h2">
+            Проверьте себя перед просмотром
+          </Typography>
+          <Typography>Узнайте, насколько хорошо вы знакомы с темой.</Typography>
+        </div>
+        <div className="sw-material-test-actions">
+          <Button variant="contained" disableElevation onClick={onGoToTest}>
+            Пройти тест
+          </Button>
+          <Button onClick={closeAlert}>Скрыть</Button>
+        </div>
       </Paper>
     );
   },

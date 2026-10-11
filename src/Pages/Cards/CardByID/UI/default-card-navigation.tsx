@@ -9,8 +9,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useNavigate } from 'react-router-dom';
 import { CardByIDStore } from '../Store/CardByIDStore';
 
-interface IDefaultCardNavigationProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+interface IDefaultCardNavigationProps extends React.HTMLAttributes<HTMLDivElement> {
   card_store: CardByIDStore;
 }
 
@@ -28,10 +27,11 @@ const DefaultCardNavigation = observer(
       <div {...props}>
         <Stack
           direction={'row'}
-          justifyContent="space-between"
-          alignItems={'center'}
+          sx={{
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
         >
-
           {isAdmin && (
             <IconButton size="large" onClick={openCardForEdit}>
               <EditIcon fontSize="inherit" />

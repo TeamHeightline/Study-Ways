@@ -23,7 +23,6 @@ export default function UIStartAndFinishTime(props: BoxProps) {
             key={field}
             type="datetime-local"
             label={field === 'start_at' ? 'Начало' : 'Конец'}
-            InputLabelProps={{ shrink: true }}
             disabled={!exam?.is_enable_start_and_finish_time}
             value={localTime(exam?.[field])}
             onChange={event => {
@@ -36,6 +35,9 @@ export default function UIStartAndFinishTime(props: BoxProps) {
                     changeExamDate({ field, value: date.toISOString() }),
                   );
               }
+            }}
+            slotProps={{
+              inputLabel: { shrink: true },
             }}
           />
         ))}

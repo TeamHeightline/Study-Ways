@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import { Paper } from '@mui/material';
 import { CardByIDStore } from '../Store/CardByIDStore';
 import useWindowDimensions from '../../../../Shared/CustomHooks/useWindowDimensions';
@@ -22,7 +22,10 @@ const CardDescription = observer(
         {...props}
       >
         {description && (
-          <><h2>О материале</h2><div dangerouslySetInnerHTML={{ __html: description }} /></>
+          <>
+            <h2>О материале</h2>
+            <div dangerouslySetInnerHTML={{ __html: description }} />
+          </>
         )}
       </Paper>
     );

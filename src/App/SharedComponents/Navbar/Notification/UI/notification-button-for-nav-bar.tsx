@@ -1,5 +1,5 @@
 import { Badge, Box, IconButton, Paper, Popover, Tooltip } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import { RootState, useAppDispatch } from '../../../../ReduxStore/RootStore';
 import { useEffect, useState } from 'react';
@@ -42,7 +42,7 @@ export default function NotificationButtonForNavbar({
         scenario: 'On-open-suggestion',
       }),
       (err, matches) => {
-        const cardsID = matches?.recomms?.map((recomm) => recomm.id);
+        const cardsID = matches?.recomms?.map(recomm => recomm.id);
         if (cardsID) {
           const notification: INotificationFormat = {
             text: 'Рекомендованные карточки',
@@ -58,7 +58,7 @@ export default function NotificationButtonForNavbar({
     <Box {...props}>
       <Tooltip title={'Уведомления'}>
         <IconButton
-          onClick={(event) => {
+          onClick={event => {
             setAnchorElement(event.currentTarget);
             dispatch(openNotificationWindow());
           }}

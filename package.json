@@ -19,9 +19,8 @@
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@minoru/react-dnd-treeview": "2.0.2",
-    "@mui/icons-material": "5.8.4",
-    "@mui/lab": "5.0.0-alpha.92",
-    "@mui/material": "^5.9.2",
+    "@mui/icons-material": "^9.5.0",
+    "@mui/material": "^9.5.0",
     "@reduxjs/toolkit": "^1.8.3",
     "@xyflow/react": "^12.3.1",
     "axios": "^0.27.2",
@@ -45,14 +44,15 @@
     "react-scripts": "5.0.1",
     "recombee-js-api-client": "^4.0.0",
     "serve": "^14.0.1",
-    "typescript": "^4.7.4",
+    "typescript": "^4.9.5",
     "web-vitals": "^2.1.4",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "react-is": "18.3.1"
   },
   "scripts": {
     "start": "serve -s build",
     "dev": "react-scripts start",
-    "build": "TSC_COMPILE_ON_ERROR=true react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
@@ -85,5 +85,8 @@
       "src/*",
       "!src/test.js"
     ]
+  },
+  "overrides": {
+    "react-is": "$react-is"
   }
 }

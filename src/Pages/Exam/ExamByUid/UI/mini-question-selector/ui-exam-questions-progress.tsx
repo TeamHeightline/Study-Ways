@@ -1,5 +1,5 @@
 import { Card, Grid, Paper, Typography } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import { useDispatch, useSelector } from 'react-redux';
 import UIQuestionButtonFactory from './ui-question-button-factory';
 import { changeSelectedQuestionId } from '../../redux-store/ExamPlayerSlice';
@@ -23,7 +23,7 @@ export default function UIExamQuestionProgress({
     (state: RootState) => state?.examPlayer?.selected_question_id,
   );
   const remaining_minutes = useAppSelector(
-    (state) => state.examPlayer?.remaining_minutes,
+    state => state.examPlayer?.remaining_minutes,
   );
 
   const dispatch = useDispatch();
@@ -62,7 +62,13 @@ export default function UIExamQuestionProgress({
         variant={'outlined'}
         sx={{ p: 2, maxWidth: 440, mt: 2, zoom: '115%' }}
       >
-        <Grid container spacing={2} justifyContent={'evenly'}>
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            justifyContent: 'evenly',
+          }}
+        >
           {questionStatuses?.map((questionStatus, index) => (
             <UIQuestionButtonFactory
               questionIndex={index}

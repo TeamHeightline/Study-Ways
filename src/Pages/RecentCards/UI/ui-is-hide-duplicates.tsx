@@ -1,5 +1,5 @@
 import { Box, Checkbox, FormControlLabel, Stack } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import {
   useAppDispatch,
   useAppSelector,
@@ -14,16 +14,20 @@ export default function UIIsHideDuplicates({
   const dispatch = useAppDispatch();
 
   const is_hide_duplicates = useAppSelector(
-    (state) => state.recentCards.is_hide_duplicates,
+    state => state.recentCards.is_hide_duplicates,
   );
 
-  const changeIsHideDuplicates = (e) => {
+  const changeIsHideDuplicates = e => {
     dispatch(setIsHideDuplicates(e.target.checked));
   };
 
   return (
-      <Box className="sw-card-library-filter" {...props}>
-      <Stack alignItems={'end'}>
+    <Box className="sw-card-library-filter" {...props}>
+      <Stack
+        sx={{
+          alignItems: 'end',
+        }}
+      >
         <FormControlLabel
           control={
             <Checkbox

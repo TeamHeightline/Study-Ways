@@ -1,5 +1,5 @@
 import { Box, Paper, Stack, Table, TableContainer } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadExamResultsAsync } from '../redux-store/async-actions';
@@ -43,21 +43,31 @@ export default function Index({ exam_id, ...props }: IExamResultsByIDProps) {
       <Stack
         className="sw-exam-results-toolbar"
         direction={'row'}
-        justifyContent="space-between"
-        alignItems={'end'}
-        sx={{ mb: 1 }}
+        sx={{
+          justifyContent: 'space-between',
+          alignItems: 'end',
+          mb: 1,
+        }}
       >
         <Stack direction={'column'} sx={{ gap: 2 }}>
           <UiExcelExport />
           <UiJSONExport />
         </Stack>
-        <Stack alignItems="start">
+        <Stack
+          sx={{
+            alignItems: 'start',
+          }}
+        >
           <UIAutoUpdateFlag />
           <ShowResultsBySumFlag />
         </Stack>
       </Stack>
       <TableContainer component={Paper} className="sw-exam-summary-container">
-        <Table size="small" className="sw-exam-summary-table" aria-label="Результаты участников экзамена">
+        <Table
+          size="small"
+          className="sw-exam-summary-table"
+          aria-label="Результаты участников экзамена"
+        >
           <UiExamTableHead />
           <UIExamsResultsTableBody />
         </Table>

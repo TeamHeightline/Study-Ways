@@ -11,7 +11,11 @@ type IPagesProps = React.HTMLAttributes<HTMLDivElement> & {
 export const Pages = observer(
   ({ activePage, count, ...props }: IPagesProps) => (
     <div {...props}>
-      <Stack alignItems={'center'}>
+      <Stack
+        sx={{
+          alignItems: 'center',
+        }}
+      >
         <Pagination
           page={activePage}
           count={count}

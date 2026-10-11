@@ -29,7 +29,9 @@ const UICreateErrorReportDialog = observer(
       maxWidth="sm"
       aria-labelledby={`review-report-title-${answerStore.answerID}`}
       aria-describedby={`review-report-description-${answerStore.answerID}`}
-      PaperProps={{ className: 'sw-review-report-dialog' }}
+      slotProps={{
+        paper: { className: 'sw-review-report-dialog' },
+      }}
     >
       <DialogTitle id={`review-report-title-${answerStore.answerID}`}>
         Замечание к ответу

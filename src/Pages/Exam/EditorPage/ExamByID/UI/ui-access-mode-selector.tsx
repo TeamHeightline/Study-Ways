@@ -1,5 +1,5 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import {
@@ -25,7 +25,7 @@ export default function UIAccessModeSelector({
         <Select
           label="Тип доступа"
           value={accessMode || 'open'}
-          onChange={(e) => {
+          onChange={e => {
             const newValue = e.target.value as typeof accessMode;
             if (newValue) {
               dispatch(changeAccessMode(newValue));

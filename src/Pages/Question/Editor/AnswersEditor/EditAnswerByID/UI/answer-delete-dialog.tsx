@@ -24,7 +24,9 @@ const AnswerDeleteDialog = observer(
       fullWidth
       maxWidth="xs"
       aria-labelledby={`qedit-delete-title-${store.answer_id}`}
-      PaperProps={{ className: 'sw-qedit-dialog' }}
+      slotProps={{
+        paper: { className: 'sw-qedit-dialog' },
+      }}
     >
       <DialogTitle id={`qedit-delete-title-${store.answer_id}`}>
         Удалить вариант ответа?

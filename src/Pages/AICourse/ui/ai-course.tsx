@@ -17,9 +17,11 @@ export const AiCourse = observer(() => {
   if (!isSearchButtonClicked) {
     return (
       <Stack
-        sx={{ height: '80dvh' }}
-        alignItems={'center'}
-        justifyContent={'center'}
+        sx={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '80dvh',
+        }}
       >
         <AnimatedTitle />
         <Search />
@@ -31,9 +33,11 @@ export const AiCourse = observer(() => {
   if (!isDefaultCardsLoaded) {
     return (
       <Stack
-        sx={{ height: '90dvh' }}
-        alignItems={'center'}
-        justifyContent={'center'}
+        sx={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '90dvh',
+        }}
       >
         <CircularProgress />
       </Stack>
@@ -42,7 +46,13 @@ export const AiCourse = observer(() => {
 
   return (
     <Box className="sw-ai-workspace" sx={{ overflowX: 'hidden' }}>
-      <Stack justifyContent={'center'} alignItems={'center'} sx={{ p: 1 }}>
+      <Stack
+        sx={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          p: 1,
+        }}
+      >
         <Search />
       </Stack>
       <Fade in timeout={1000}>

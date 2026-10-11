@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import React from 'react';
 import OpenInNewRoundedIcon from '@mui/icons-material/OpenInNewRounded';
 import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
@@ -22,9 +22,23 @@ export default function LinkElement({
     navigate(formattedLink);
   }
 
-  return <Box {...props} className="sw-course-link-tile" sx={size} onClick={handleClickOnLink} role="link" tabIndex={0} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') handleClickOnLink(); }}>
-    <span className="sw-course-link-icon"><LinkRoundedIcon /></span>
-    <span className="sw-course-link-label">Следующий курс</span>
-    <OpenInNewRoundedIcon className="sw-course-link-arrow" />
-  </Box>;
+  return (
+    <Box
+      {...props}
+      className="sw-course-link-tile"
+      sx={size}
+      onClick={handleClickOnLink}
+      role="link"
+      tabIndex={0}
+      onKeyDown={event => {
+        if (event.key === 'Enter' || event.key === ' ') handleClickOnLink();
+      }}
+    >
+      <span className="sw-course-link-icon">
+        <LinkRoundedIcon />
+      </span>
+      <span className="sw-course-link-label">Следующий курс</span>
+      <OpenInNewRoundedIcon className="sw-course-link-arrow" />
+    </Box>
+  );
 }

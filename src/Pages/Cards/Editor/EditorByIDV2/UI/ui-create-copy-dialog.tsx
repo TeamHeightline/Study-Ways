@@ -12,7 +12,6 @@ import {
 } from '@mui/material';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded';
-import { LoadingButton } from '@mui/lab';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CESObject } from '../Store/CardEditorStorage';
 const UICreateCopyDialog = observer(() => {
@@ -46,7 +45,9 @@ const UICreateCopyDialog = observer(() => {
       onClose={close}
       fullWidth
       maxWidth="xs"
-      PaperProps={{ className: 'sw-cedit-dialog' }}
+      slotProps={{
+        paper: { className: 'sw-cedit-dialog' },
+      }}
     >
       <DialogTitle>
         Создать копию карточки
@@ -73,14 +74,14 @@ const UICreateCopyDialog = observer(() => {
         <Button disabled={CESObject.isPendingCreateCopy} onClick={close}>
           Отмена
         </Button>
-        <LoadingButton
+        <Button
           variant="contained"
           startIcon={<ContentCopyRoundedIcon />}
           loading={CESObject.isPendingCreateCopy}
           onClick={create}
         >
           Создать копию
-        </LoadingButton>
+        </Button>
       </DialogActions>
     </Dialog>
   );

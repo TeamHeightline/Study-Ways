@@ -21,9 +21,11 @@ export const UiTestInCard = observer(() => {
         size="small"
         type="number"
         label="ID вопроса после ресурса"
-        inputProps={{ min: 1 }}
         value={CESObject.getField('test_in_card_id', '') || ''}
         onChange={CESObject.changeField('test_in_card_id')}
+        slotProps={{
+          htmlInput: { min: 1 },
+        }}
       />
       {isFetching && !question && <Skeleton height={70} />}
       {isError && (

@@ -1,3 +1,4 @@
+import Button from '@mui/material/Button';
 import React, { useEffect, useRef, useState } from 'react';
 import { NodeModel } from '@minoru/react-dnd-treeview';
 import {
@@ -17,7 +18,6 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import AddIcon from '@mui/icons-material/Add';
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 import { ThemeTreeView } from './ThemeTreeView';
-import { LoadingButton } from '@mui/lab';
 import { useGetConnectedThemesQuery } from '../../../Shared/ConnectedThemes/api';
 import { ThemeLoadError } from '../../../Shared/ConnectedThemes/ThemeLoadError';
 
@@ -166,13 +166,23 @@ function ThemeEditor() {
     if (themes.isError)
       return <ThemeLoadError isError refetch={themes.refetch} />;
     return (
-      <Grid container justifyContent="center">
+      <Grid
+        container
+        sx={{
+          justifyContent: 'center',
+        }}
+      >
         <CircularProgress />
       </Grid>
     );
   }
   return (
-    <Grid item xs={12} md={8}>
+    <Grid
+      size={{
+        xs: 12,
+        md: 8,
+      }}
+    >
       {saveError && (
         <Alert severity="error" onClose={() => setSaveError(false)}>
           Не удалось сохранить темы. Проверьте права доступа и повторите
@@ -190,11 +200,13 @@ function ThemeEditor() {
       />
       <Grid
         container
-        justifyContent={'end'}
         spacing={2}
         style={{ marginTop: 1 }}
+        sx={{
+          justifyContent: 'end',
+        }}
       >
-        <Grid item>
+        <Grid>
           <Fab
             variant="extended"
             color="primary"
@@ -204,7 +216,7 @@ function ThemeEditor() {
             <SettingsIcon /> Переименовать
           </Fab>
         </Grid>
-        <Grid item>
+        <Grid>
           <Fab
             variant="extended"
             color="primary"
@@ -216,7 +228,7 @@ function ThemeEditor() {
             <AddIcon /> Добавить тему рядом
           </Fab>
         </Grid>
-        <Grid item>
+        <Grid>
           <Fab
             variant="extended"
             color="primary"
@@ -240,8 +252,14 @@ function ThemeEditor() {
           }
           onChange={(e: any) => setActiveEditText(e.target.value)}
         />
-        <Grid container justifyContent="end" style={{ marginTop: 6 }}>
-          <LoadingButton
+        <Grid
+          container
+          style={{ marginTop: 6 }}
+          sx={{
+            justifyContent: 'end',
+          }}
+        >
+          <Button
             loading={update_theme_loading || create_theme_loading}
             disabled={!activeEditText}
             variant="contained"
@@ -252,7 +270,7 @@ function ThemeEditor() {
               : activeEditMode === editingModes.CreateSubTheme
                 ? 'Создать подтему'
                 : 'Создать тему'}
-          </LoadingButton>
+          </Button>
         </Grid>
       </Collapse>
     </Grid>

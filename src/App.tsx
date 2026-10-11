@@ -24,7 +24,13 @@ const App = observer(() => {
 
   if (isLoading) {
     return (
-      <Grid container justifyContent={'center'} sx={{ pt: 4 }}>
+      <Grid
+        container
+        sx={{
+          justifyContent: 'center',
+          pt: 4,
+        }}
+      >
         <SeoData />
         <CircularProgress />
       </Grid>

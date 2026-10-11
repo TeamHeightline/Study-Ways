@@ -22,9 +22,9 @@ const GoToTestDialog = observer(({ card_store }: IProps) => {
 
   return (
     <Stack
-      alignItems={'center'}
-      justifyContent={'center'}
       sx={{
+        alignItems: 'center',
+        justifyContent: 'center',
         width: '100%',
         height: { xs: 200, md: 540 },
         backgroundColor: 'rgba(50, 50, 50, 0.96)',

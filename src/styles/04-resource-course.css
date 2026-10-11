@@ -15,7 +15,7 @@
 .sw-card-content-grid {
   align-items: start;
 }
-.sw-card-content-grid > .MuiGrid-item {
+.sw-card-content-grid > .MuiGrid-root:not(.MuiGrid-container) {
   @apply tw-min-w-0;
 }
 .sw-card-details {

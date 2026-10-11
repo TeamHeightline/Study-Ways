@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import { Box, Grid, Paper, Stack } from '@mui/material';
 import CardMainContent from './card-main-content';
 import { CardByIDStore } from '../Store/CardByIDStore';
@@ -23,13 +23,24 @@ const CardContentAndDescription = observer(
 
     return (
       <Paper elevation={0} {...props} className="sw-material-body">
-        <Grid container className="sw-card-content-grid" spacing={{ xs: 2, md: 5 }}>
-          <Grid item xs={12} md={6}>
+        <Grid
+          container
+          className="sw-card-content-grid"
+          spacing={{ xs: 2, md: 5 }}
+        >
+          <Grid
+            size={{
+              xs: 12,
+              md: 6,
+            }}
+          >
             <CardMainContent card_store={card_store} />
             <Stack
               direction={'row'}
-              alignItems={'center'}
-              justifyContent={'space-between'}
+              sx={{
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
             >
               <CardViews card_id={card_store.id} />
               <Box>
@@ -41,7 +52,12 @@ const CardContentAndDescription = observer(
               </Box>
             </Stack>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid
+            size={{
+              xs: 12,
+              md: 6,
+            }}
+          >
             <Stack className="sw-card-details" direction={'column'} spacing={2}>
               <TestBeforeCard card_store={card_store} />
               <CardGoToResource card_store={card_store} />

@@ -22,23 +22,25 @@ export default function UIUserSearch() {
         placeholder="Имя, фамилия, email или ID"
         value={search}
         onChange={event => dispatch(changeSearchString(event.target.value))}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchRoundedIcon />
-            </InputAdornment>
-          ),
-          endAdornment: search ? (
-            <InputAdornment position="end">
-              <IconButton
-                size="small"
-                aria-label="Очистить поиск пользователей"
-                onClick={() => dispatch(changeSearchString(''))}
-              >
-                <CloseRoundedIcon />
-              </IconButton>
-            </InputAdornment>
-          ) : undefined,
+        slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchRoundedIcon />
+              </InputAdornment>
+            ),
+            endAdornment: search ? (
+              <InputAdornment position="end">
+                <IconButton
+                  size="small"
+                  aria-label="Очистить поиск пользователей"
+                  onClick={() => dispatch(changeSearchString(''))}
+                >
+                  <CloseRoundedIcon />
+                </IconButton>
+              </InputAdornment>
+            ) : undefined,
+          },
         }}
       />
       <span>Поиск по имени, email, номеру и учебному заведению</span>

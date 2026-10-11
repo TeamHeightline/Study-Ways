@@ -1,4 +1,4 @@
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import { useSelector } from 'react-redux';
 import UIMiniSelectedQuestion from './ui-mini-selected-question';
 import { IQuestionStatus } from '../../redux-store/InitialState';

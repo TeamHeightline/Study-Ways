@@ -1,5 +1,5 @@
 import { Box, Button } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import { observer } from 'mobx-react';
 import React from 'react';
 import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded';

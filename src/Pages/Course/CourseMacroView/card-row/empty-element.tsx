@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 
 interface IEmptyElementProps extends BoxProps {
   size: any;

@@ -292,7 +292,9 @@
   .sw-search-submit {
     @apply tw-w-11 tw-h-11;
   }
-  .sw-search-panel > .MuiGrid-item > .MuiStack-root:last-child {
+  .sw-search-panel
+    > .MuiGrid-root:not(.MuiGrid-container)
+    > .MuiStack-root:last-child {
     @apply tw-gap-2.5;
   }
   .sw-standard-search {

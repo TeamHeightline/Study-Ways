@@ -4,9 +4,10 @@ import {
   Divider,
   ListItemIcon,
   MenuItem,
+  MenuList,
   Popover,
 } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import React from 'react';
 import { UserStorage } from '../../../Shared/Store/UserStore/UserStore';
 import { useNavigate } from 'react-router-dom';
@@ -48,7 +49,7 @@ export default function PersonalMenu({ ...props }: IPersonalMenuProps) {
           horizontal: 'left',
         }}
       >
-        <Box sx={{ py: 1 }}>
+        <MenuList autoFocusItem sx={{ py: 1 }}>
           <MenuItem
             disabled={!UserStorage.isLogin}
             onClick={() => {
@@ -75,7 +76,7 @@ export default function PersonalMenu({ ...props }: IPersonalMenuProps) {
             </ListItemIcon>
             Выйти
           </MenuItem>
-        </Box>
+        </MenuList>
       </Popover>
     </Box>
   );

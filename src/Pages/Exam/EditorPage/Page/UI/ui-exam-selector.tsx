@@ -9,7 +9,7 @@ import {
   TextField,
   Tooltip,
 } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import { useEffect, useMemo, useState } from 'react';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
@@ -113,23 +113,25 @@ export default function UIExamSelector({
           placeholder="Название, серия вопросов или номер"
           value={search}
           onChange={event => setSearch(event.target.value)}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchRoundedIcon />
-              </InputAdornment>
-            ),
-            endAdornment: search ? (
-              <InputAdornment position="end">
-                <IconButton
-                  size="small"
-                  aria-label="Очистить поиск экзаменов"
-                  onClick={() => setSearch('')}
-                >
-                  <CloseRoundedIcon />
-                </IconButton>
-              </InputAdornment>
-            ) : undefined,
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchRoundedIcon />
+                </InputAdornment>
+              ),
+              endAdornment: search ? (
+                <InputAdornment position="end">
+                  <IconButton
+                    size="small"
+                    aria-label="Очистить поиск экзаменов"
+                    onClick={() => setSearch('')}
+                  >
+                    <CloseRoundedIcon />
+                  </IconButton>
+                </InputAdornment>
+              ) : undefined,
+            },
           }}
         />
         <div>

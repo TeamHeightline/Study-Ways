@@ -172,29 +172,34 @@ export function ThemeSelect({
           toggle(option, event.key === 'ArrowRight');
         }
       }}
-      PopperComponent={ThemePopper}
       clearText="Сбросить тему"
       openText="Открыть темы"
       closeText="Закрыть темы"
       noOptionsText="Темы не найдены"
       loadingText="Загружаем темы…"
-      renderTags={(values, getTagProps) =>
-        values.map((option, index) => {
-          const { key, ...props } = getTagProps({ index });
-          return (
-            <Chip
-              key={key}
-              {...props}
-              label={option.text}
-              size="small"
-              sx={{
-                maxWidth: '100%',
-                bgcolor: 'var(--sw-accent-100)',
-                color: 'var(--sw-ink)',
-              }}
-            />
-          );
-        })
+      renderValue={
+        multiple
+          ? (values, getItemProps) =>
+              (Array.isArray(values) ? values : []).map((option, index) => {
+                const { key, ...props } = {
+                  key: option.id,
+                  ...getItemProps({ index }),
+                };
+                return (
+                  <Chip
+                    key={key}
+                    {...props}
+                    label={option.text}
+                    size="small"
+                    sx={{
+                      maxWidth: '100%',
+                      bgcolor: 'var(--sw-accent-100)',
+                      color: 'var(--sw-ink)',
+                    }}
+                  />
+                );
+              })
+          : undefined
       }
       renderOption={(props, option, { selected: checked }) => (
         <li
@@ -231,8 +236,10 @@ export function ThemeSelect({
               tabIndex={-1}
               disableRipple
               size="small"
-              inputProps={{ 'aria-hidden': true, readOnly: true }}
               sx={{ p: 0.5, mr: 0.5 }}
+              slotProps={{
+                input: { 'aria-hidden': true, readOnly: true },
+              }}
             />
           )}
           <Box sx={{ minWidth: 0 }}>
@@ -260,20 +267,24 @@ export function ThemeSelect({
           {...params}
           label={label}
           placeholder={placeholder}
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <>
-                {loading && (
-                  <CircularProgress
-                    color="inherit"
-                    size={18}
-                    aria-label="Загрузка тем"
-                  />
-                )}
-                {params.InputProps.endAdornment}
-              </>
-            ),
+          slotProps={{
+            ...params.slotProps,
+
+            input: {
+              ...params.slotProps.input,
+              endAdornment: (
+                <>
+                  {loading && (
+                    <CircularProgress
+                      color="inherit"
+                      size={18}
+                      aria-label="Загрузка тем"
+                    />
+                  )}
+                  {params.slotProps.input.endAdornment}
+                </>
+              ),
+            },
           }}
         />
       )}
@@ -288,6 +299,9 @@ export function ThemeSelect({
         '& .MuiOutlinedInput-notchedOutline': {
           borderColor: 'var(--sw-border-strong)',
         },
+      }}
+      slots={{
+        popper: ThemePopper,
       }}
     />
   );

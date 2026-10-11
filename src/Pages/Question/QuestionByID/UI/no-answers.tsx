@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react';
-import { Alert } from '@mui/lab';
+import { Alert } from '@mui/material';
 import { AlertTitle, Button, Stack } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +12,11 @@ export const NoAnswers = observer(() => {
   }
 
   return (
-    <Stack alignItems={'center'}>
+    <Stack
+      sx={{
+        alignItems: 'center',
+      }}
+    >
       <div style={{ maxWidth: 600 }}>
         <Alert severity={'warning'}>
           <AlertTitle>Внимание</AlertTitle>К сожалению для этого вопроса нет

@@ -77,7 +77,11 @@ const ExamByUIDPge = observer(({ ...props }) => {
   ]);
   if (!UserStorage.isLogin) {
     return (
-      <Stack alignItems="center">
+      <Stack
+        sx={{
+          alignItems: 'center',
+        }}
+      >
         <CircularProgress />
       </Stack>
     );

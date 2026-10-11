@@ -1,5 +1,5 @@
 import { Grid, Paper } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import Card from '@mui/material/Card';
 import React from 'react';
 import { isMobileHook } from '../../../../../Shared/CustomHooks/isMobileHook';
@@ -27,7 +27,12 @@ export default function UIQuestion({ ...props }: IUIQuestionProps) {
           width: '100%',
         }}
       >
-        <Grid container justifyContent={'center'}>
+        <Grid
+          container
+          sx={{
+            justifyContent: 'center',
+          }}
+        >
           <UIQuestionImage />
           <UIQuestionText />
         </Grid>

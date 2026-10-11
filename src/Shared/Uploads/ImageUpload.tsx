@@ -150,7 +150,13 @@ export function ImageUpload({
           </span>
         )}
         {uploading ? (
-          <Stack direction="row" alignItems="center" spacing={1}>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{
+              alignItems: 'center',
+            }}
+          >
             <CircularProgress size={20} aria-label="Загрузка изображения" />
             <Typography component="span" role="status">
               Загружаем изображение…

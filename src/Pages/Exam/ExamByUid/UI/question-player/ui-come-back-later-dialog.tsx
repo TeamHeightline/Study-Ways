@@ -6,7 +6,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveDetailStatisticThunk } from '../../redux-store/AsyncActions';
@@ -27,13 +27,13 @@ export default function UiComebackLaterDialog({
 }: IUiComebackLaterDialogProps) {
   const store = useSelector((state: RootState) => state?.examPlayer);
   const remaining_attempts = useAppSelector(
-    (state) => state.examPlayer?.remaining_attempts,
+    state => state.examPlayer?.remaining_attempts,
   );
   const is_enable_max_question_attempts = useAppSelector(
-    (state) => state.examPlayer?.exam_data?.is_enable_max_question_attempts,
+    state => state.examPlayer?.exam_data?.is_enable_max_question_attempts,
   );
   const remaining_minutes = useAppSelector(
-    (state) => state.examPlayer?.remaining_minutes,
+    state => state.examPlayer?.remaining_minutes,
   );
 
   const dispatch: any = useDispatch();

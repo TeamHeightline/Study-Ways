@@ -5,7 +5,7 @@ import {
   SwipeableDrawer,
   Typography,
 } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
@@ -50,11 +50,13 @@ const CardHistoryDrawer = observer((props: BoxProps) => {
         onOpen={() => setIsOpen(true)}
         onClose={closeHistoryDrawer}
         anchor={isMobile ? 'bottom' : 'right'}
-        PaperProps={{
-          className: `sw-history-drawer${isMobile ? ' is-mobile' : ''}`,
-          role: 'dialog',
-          'aria-modal': true,
-          'aria-labelledby': 'card-history-title',
+        slotProps={{
+          paper: {
+            className: `sw-history-drawer${isMobile ? ' is-mobile' : ''}`,
+            role: 'dialog',
+            'aria-modal': true,
+            'aria-labelledby': 'card-history-title',
+          },
         }}
       >
         <header className="sw-history-drawer-heading">

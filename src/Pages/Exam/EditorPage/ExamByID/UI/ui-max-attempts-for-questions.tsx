@@ -1,5 +1,5 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import {
   RootState,
   useAppDispatch,
@@ -29,7 +29,7 @@ export default function UIMaxAttemptsForQuestions({
         <Select
           label="Максимальное количество попыток"
           value={max_question_attempts}
-          onChange={(e) => {
+          onChange={e => {
             if (e.target.value >= 0 && e.target.value <= 30) {
               dispatch(changeMaxQuestionAttempts(Number(e.target.value)));
             }

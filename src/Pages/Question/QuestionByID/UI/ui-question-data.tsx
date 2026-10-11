@@ -31,9 +31,9 @@ export default function UiQuestionData(props: any) {
   return (
     <Paper className="sw-question-panel" elevation={0}>
       {(!isMobile || props.ignoreAspectRatio) && (
-          <Card
-            className="sw-question-panel-card"
-            variant="outlined"
+        <Card
+          className="sw-question-panel-card"
+          variant="outlined"
           sx={{
             padding: 0,
             minHeight: { xs: '100%', md: 510 },
@@ -41,9 +41,21 @@ export default function UiQuestionData(props: any) {
             width: '100%',
           }}
         >
-          <Grid className="sw-question-player-grid" container justifyContent={'center'}>
+          <Grid
+            className="sw-question-player-grid"
+            container
+            sx={{
+              justifyContent: 'center',
+            }}
+          >
             {props.questionImgUrl && (
-              <Grid item xs={12} md={7} className="sw-question-media-cell">
+              <Grid
+                className="sw-question-media-cell"
+                size={{
+                  xs: 12,
+                  md: 7,
+                }}
+              >
                 <CardMedia
                   className="sw-question-media"
                   style={{
@@ -55,16 +67,26 @@ export default function UiQuestionData(props: any) {
               </Grid>
             )}
             <Grid
-              item
-              xs={12}
-              md={props.questionImgUrl ? 5 : 12}
               className="sw-question-copy-cell"
-              sx={{ width: '100%' }}
+              size={{
+                xs: 12,
+                md: props.questionImgUrl ? 5 : 12,
+              }}
             >
               <CardContent className="sw-question-copy" sx={{ height: '100%' }}>
-                <Grid sx={{ height: '100%' }} container alignItems="center">
-                  <Grid item xs={12} spacing={2}>
-                    <Typography className="sw-question-copy-title" component="h5" variant="h5">
+                <Grid
+                  container
+                  sx={{
+                    alignItems: 'center',
+                    height: '100%',
+                  }}
+                >
+                  <Grid spacing={2} size={12}>
+                    <Typography
+                      className="sw-question-copy-title"
+                      component="h5"
+                      variant="h5"
+                    >
                       Вопрос
                     </Typography>
                     <Typography
@@ -94,7 +116,7 @@ export default function UiQuestionData(props: any) {
                         disabled={disableCheckButton}
                         variant="contained"
                         color="primary"
-                        onClick={(e) => {
+                        onClick={e => {
                           props.onClick1(e);
                           setDisableCheckButton(true);
                           setTimeout(setDisableCheckButton, 1000, false);
@@ -124,7 +146,7 @@ export default function UiQuestionData(props: any) {
           control={
             <Checkbox
               checked={props.isNotUseScrollbar}
-              onChange={(e) => props.setIsNotUseScrollbar(e.target.checked)}
+              onChange={e => props.setIsNotUseScrollbar(e.target.checked)}
               color="primary"
             />
           }

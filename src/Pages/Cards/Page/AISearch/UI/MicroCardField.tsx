@@ -14,18 +14,21 @@ export const MicoCardsField = observer(
       <Grid
         container
         spacing={2}
-        justifyContent="center"
-        sx={{ p: { xs: 1, md: 0 } }}
+        sx={{
+          justifyContent: 'center',
+          p: { xs: 1, md: 0 },
+        }}
       >
-        {cards_id?.map((card_id) => (
+        {cards_id?.map(card_id => (
           <Grid
-            item
             key={`${card_id}CardKey`}
-            xs={12}
-            sm={6}
-            md={'auto'}
             onClick={() => {
               onCardSelect(card_id);
+            }}
+            size={{
+              xs: 12,
+              sm: 6,
+              md: 'auto',
             }}
           >
             <CardMicroView cardID={Number(card_id)} onChange={() => void 0} />

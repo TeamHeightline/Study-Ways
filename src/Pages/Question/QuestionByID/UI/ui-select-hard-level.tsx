@@ -7,7 +7,7 @@ import {
   Select,
   Typography,
 } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import { observer } from 'mobx-react';
 import React from 'react';
 import { QuestionPlayerStore } from '../Store/QuestionPlayerStore';
@@ -21,11 +21,18 @@ const UISelectHardLevel = observer(
     <Box {...props}>
       <Grid
         container
-        justifyContent="center"
-        alignItems="center"
-        sx={{ height: { xs: '100% - 100px', md: '100% - 300px' } }}
+        sx={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: { xs: '100% - 100px', md: '100% - 300px' },
+        }}
       >
-        <Grid item xs={12} md={3}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 3,
+          }}
+        >
           <Card variant="elevation" elevation={3} style={{ padding: 12 }}>
             <Typography align={'center'} variant="h5" component={'span'}>
               Перед началом вопроса выберите уровень сложности:
@@ -34,7 +41,7 @@ const UISelectHardLevel = observer(
               style={{ marginTop: 12 }}
               defaultValue={'0'}
               fullWidth
-              onChange={(e) =>
+              onChange={e =>
                 questionStore?.changeHardLevelOfHelpText(e.target.value)
               }
               variant="outlined"

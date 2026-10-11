@@ -11,7 +11,6 @@ import {
   RadioGroup,
   Snackbar,
 } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
@@ -135,7 +134,9 @@ export default function UIStatusEditDialog() {
                       value={value}
                       disabled={pending}
                       size="small"
-                      inputProps={{ 'aria-label': label }}
+                      slotProps={{
+                        input: { 'aria-label': label },
+                      }}
                     />
                   </label>
                 ))}
@@ -161,7 +162,7 @@ export default function UIStatusEditDialog() {
                 <Button onClick={close} disabled={pending}>
                   Отмена
                 </Button>
-                <LoadingButton
+                <Button
                   variant="contained"
                   loading={pending}
                   disabled={!changed}
@@ -169,7 +170,7 @@ export default function UIStatusEditDialog() {
                   startIcon={<CheckRoundedIcon />}
                 >
                   Сохранить
-                </LoadingButton>
+                </Button>
               </div>
             </DialogActions>
           </>

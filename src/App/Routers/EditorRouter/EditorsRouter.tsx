@@ -31,7 +31,13 @@ export const EditorsRouter = observer(() => {
                 element={
                   <Suspense
                     fallback={
-                      <Grid container justifyContent={'center'} sx={{ pt: 4 }}>
+                      <Grid
+                        container
+                        sx={{
+                          justifyContent: 'center',
+                          pt: 4,
+                        }}
+                      >
                         <CircularProgress />
                       </Grid>
                     }

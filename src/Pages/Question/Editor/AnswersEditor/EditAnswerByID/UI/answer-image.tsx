@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import React, { useState } from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import {
   Button,
   Dialog,
@@ -32,7 +32,12 @@ const AnswerImage = observer(
     const isImageDeleted = answer_object.answer_object?.isImageDeleted;
     return (
       <Paper elevation={0} {...props} className="sw-qedit-answer-media">
-        <Stack direction={'row'} alignItems={'center'}>
+        <Stack
+          direction={'row'}
+          sx={{
+            alignItems: 'center',
+          }}
+        >
           <Button
             size={'small'}
             color="primary"
@@ -75,7 +80,9 @@ const AnswerImage = observer(
           onClose={closeDeleteDialog}
           fullWidth
           maxWidth="xs"
-          PaperProps={{ className: 'sw-qedit-dialog' }}
+          slotProps={{
+            paper: { className: 'sw-qedit-dialog' },
+          }}
         >
           <DialogTitle>{'Удалить изображение для ответа?'}</DialogTitle>
           <DialogContent>

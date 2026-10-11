@@ -1,5 +1,5 @@
 import { Box, Popover } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import CardMicroView from '../../../Cards/CardMicroView';
 import React from 'react';
 

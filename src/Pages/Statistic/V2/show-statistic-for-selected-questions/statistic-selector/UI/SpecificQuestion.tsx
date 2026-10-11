@@ -50,17 +50,6 @@ export const SpecificQuestion = ({
         openText="Выбрать вопрос"
         closeText="Закрыть список"
         clearText="Все вопросы"
-        ListboxProps={{ style: { maxHeight: 340, padding: 6 } }}
-        componentsProps={{
-          paper: {
-            sx: {
-              borderRadius: 2,
-              border: '1px solid var(--sw-border)',
-              boxShadow: '0 10px 28px rgb(var(--sw-shadow-rgb) / 0.13)',
-              mt: 0.75,
-            },
-          },
-        }}
         renderOption={(optionProps, option) => (
           <li
             {...optionProps}
@@ -100,6 +89,18 @@ export const SpecificQuestion = ({
             placeholder="Номер или текст вопроса"
           />
         )}
+        slotProps={{
+          listbox: { style: { maxHeight: 340, padding: 6 } },
+
+          paper: {
+            sx: {
+              borderRadius: 2,
+              border: '1px solid var(--sw-border)',
+              boxShadow: '0 10px 28px rgb(var(--sw-shadow-rgb) / 0.13)',
+              mt: 0.75,
+            },
+          },
+        }}
       />
     </div>
   );

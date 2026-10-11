@@ -1,5 +1,5 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import ArchitectureIcon from '@mui/icons-material/Architecture';
 import FunctionsIcon from '@mui/icons-material/Functions';
 import SchoolIcon from '@mui/icons-material/School';

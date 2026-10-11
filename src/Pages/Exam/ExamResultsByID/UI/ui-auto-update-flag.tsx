@@ -1,5 +1,5 @@
 import { FormControlLabel, Paper, Switch } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import { useState } from 'react';
 import { useInterval } from './use-interval';
 import { useDispatch, useSelector } from 'react-redux';

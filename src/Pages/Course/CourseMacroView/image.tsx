@@ -1,5 +1,5 @@
 import { Box, Card } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 
 interface ICourseImageProps extends BoxProps {
   courseData: any;

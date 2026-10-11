@@ -220,23 +220,25 @@ const QuestionSequenceMainEditor = observer(
             placeholder="Название, описание или номер"
             value={search}
             onChange={event => setSearch(event.target.value)}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchRoundedIcon />
-                </InputAdornment>
-              ),
-              endAdornment: search ? (
-                <InputAdornment position="end">
-                  <IconButton
-                    size="small"
-                    aria-label="Очистить поиск серий"
-                    onClick={() => setSearch('')}
-                  >
-                    <CloseRoundedIcon />
-                  </IconButton>
-                </InputAdornment>
-              ) : undefined,
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchRoundedIcon />
+                  </InputAdornment>
+                ),
+                endAdornment: search ? (
+                  <InputAdornment position="end">
+                    <IconButton
+                      size="small"
+                      aria-label="Очистить поиск серий"
+                      onClick={() => setSearch('')}
+                    >
+                      <CloseRoundedIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ) : undefined,
+              },
             }}
           />
           <div>

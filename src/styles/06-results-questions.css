@@ -185,7 +185,7 @@
     @apply tw-w-full;
   }
 }
-.sw-results-chart .MuiGrid-item {
+.sw-results-chart .MuiGrid-root:not(.MuiGrid-container) {
   @apply tw-min-w-0;
 }
 .sw-results-chart .MuiChart-root {
@@ -217,7 +217,7 @@
   .sw-results-chart {
     @apply tw-pt-2.5 tw-pr-1.5 tw-pb-0.5 tw-pl-1.5;
   }
-  .sw-results-chart .MuiGrid-item {
+  .sw-results-chart .MuiGrid-root:not(.MuiGrid-container) {
     @apply tw-w-full tw-max-w-full tw-basis-full;
   }
   .sw-results-chart-canvas {
@@ -482,7 +482,7 @@
   .sw-card-library-title {
     @apply !tw-text-ui-19;
   }
-  .sw-card-library-grid > .MuiGrid-item {
+  .sw-card-library-grid > .MuiGrid-root:not(.MuiGrid-container) {
     @apply !tw-p-1.75;
   }
   .sw-card-library-filter {

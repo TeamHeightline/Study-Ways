@@ -4,7 +4,7 @@ import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { isMobileHook } from '../../../../../Shared/CustomHooks/isMobileHook';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { ButtonProps } from '@mui/material/Button/Button';
+import { ButtonProps } from '@mui/material/Button';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../../App/ReduxStore/RootStore';
 

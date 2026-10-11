@@ -1,5 +1,5 @@
 import { Box, Checkbox, FormControlLabel } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import React from 'react';
 import {
   RootState,

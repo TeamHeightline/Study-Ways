@@ -134,7 +134,9 @@ const CardEditorDialog = observer(
       }}
       fullWidth
       maxWidth="lg"
-      PaperProps={{ className: 'sw-coedit-dialog sw-coedit-card-dialog' }}
+      slotProps={{
+        paper: { className: 'sw-coedit-dialog sw-coedit-card-dialog' },
+      }}
     >
       <DialogTitle>
         Редактор карточки
@@ -498,7 +500,9 @@ function CourseEditor({
         onClose={() => setLibraryOpen(false)}
         fullWidth
         maxWidth="lg"
-        PaperProps={{ className: 'sw-coedit-dialog' }}
+        slotProps={{
+          paper: { className: 'sw-coedit-dialog' },
+        }}
       >
         <DialogTitle>
           Библиотека карточек

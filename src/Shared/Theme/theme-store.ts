@@ -98,6 +98,16 @@ export class ThemeStore {
       },
       shape: { borderRadius: 12 * (this.definition.radiusScale ?? 1) },
       components: {
+        MuiGrid: {
+          styleOverrides: {
+            root: {
+              // Preserve full-width containers inside centered flex layouts.
+              variants: [
+                { props: { container: true }, style: { width: '100%' } },
+              ],
+            },
+          },
+        },
         MuiPaper: { styleOverrides: { root: { backgroundImage: 'none' } } },
         MuiTooltip: {
           styleOverrides: {

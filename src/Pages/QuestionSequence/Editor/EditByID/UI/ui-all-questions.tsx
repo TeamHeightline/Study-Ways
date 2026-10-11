@@ -1,5 +1,5 @@
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import { Button, Grid, Paper } from '@mui/material';
 import { useSequenceEditor } from '../store/sequence-editor-context';
 import UIQuestionMiniViewByData from './ui-question-mini-view-by-data';

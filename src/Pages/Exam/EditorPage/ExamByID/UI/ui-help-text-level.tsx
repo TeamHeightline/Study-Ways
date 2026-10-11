@@ -1,5 +1,5 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import {
   RootState,
   useAppDispatch,
@@ -26,7 +26,7 @@ export default function UIHelpTextLevel({ ...props }: IUIHelpTextLevelProps) {
         <Select
           label="Уровень подсказки"
           value={help_text_level}
-          onChange={(event) => {
+          onChange={event => {
             if (
               event.target.value == 0 ||
               event.target.value == 1 ||

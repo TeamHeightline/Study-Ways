@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import {
   FormControl,
   InputLabel,
@@ -29,14 +29,24 @@ const UIDuration = observer(({ ...props }: IUIDurationProps) => {
   return (
     <Paper elevation={0} {...props}>
       <Stack direction={'row'} spacing={1} className="sw-exam-duration">
-        <Stack alignItems={'center'}>
-          <Typography textAlign={'center'}>Длительность экзамена</Typography>
+        <Stack
+          sx={{
+            alignItems: 'center',
+          }}
+        >
+          <Typography
+            sx={{
+              textAlign: 'center',
+            }}
+          >
+            Длительность экзамена
+          </Typography>
         </Stack>
         <FormControl fullWidth>
           <InputLabel>Часы</InputLabel>
           <Select
             value={hours}
-            onChange={(e) => {
+            onChange={e => {
               dispatch(
                 changeExamMinutes(Number(e.target.value) * 60 + minutes),
               );
@@ -44,7 +54,7 @@ const UIDuration = observer(({ ...props }: IUIDurationProps) => {
             id="select-exam-hours"
             label="Часы"
           >
-            {[...Array(4).keys()].map((i) => (
+            {[...Array(4).keys()].map(i => (
               <MenuItem value={i} key={i}>
                 {i}
               </MenuItem>
@@ -57,11 +67,11 @@ const UIDuration = observer(({ ...props }: IUIDurationProps) => {
             value={minutes}
             id="select-exam-minutes"
             label="Минуты"
-            onChange={(e) => {
+            onChange={e => {
               dispatch(changeExamMinutes(Number(e.target.value) + hours * 60));
             }}
           >
-            {[...Array(60).keys()].map((i) => (
+            {[...Array(60).keys()].map(i => (
               <MenuItem value={i} key={i}>
                 {i}
               </MenuItem>

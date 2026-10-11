@@ -1,5 +1,5 @@
 import { Chip, Grid } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 
 interface IUIMiniSelectedQuestionProps extends PaperProps {
@@ -13,7 +13,7 @@ export default function UIMiniSelectedQuestion({
   ...props
 }: IUIMiniSelectedQuestionProps) {
   return (
-    <Grid item xs={4}>
+    <Grid size={4}>
       <Chip
         label={`Вопрос ${questionIndex}`}
         color={'primary'}

@@ -1,5 +1,5 @@
 import { Button, Grid, Stack } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import React, { useState } from 'react';
@@ -24,10 +24,10 @@ export default function UIQuestionText({ ...props }: IUIQuestionTextProps) {
     (state: RootState) => state?.examPlayer?.selected_question_data?.text,
   );
   const remaining_attempts = useAppSelector(
-    (state) => state.examPlayer?.remaining_attempts,
+    state => state.examPlayer?.remaining_attempts,
   );
   const is_enable_max_question_attempts = useAppSelector(
-    (state) => state.examPlayer?.exam_data?.is_enable_max_question_attempts,
+    state => state.examPlayer?.exam_data?.is_enable_max_question_attempts,
   );
 
   function checkError() {
@@ -36,13 +36,13 @@ export default function UIQuestionText({ ...props }: IUIQuestionTextProps) {
 
   return (
     <Grid
-      item
-      xs={12}
-      md={6}
       style={{
         height: isMobile ? '100%' : 500,
-        width: '100%',
         minHeight: isMobile ? window.innerWidth - 100 : 500,
+      }}
+      size={{
+        xs: 12,
+        md: 6,
       }}
     >
       <UiComebackLaterDialog
@@ -50,8 +50,14 @@ export default function UIQuestionText({ ...props }: IUIQuestionTextProps) {
         setIsOpenComeBackLaterDialog={setIsOpenComeBackLaterDialog}
       />
       <CardContent sx={{ height: '100%' }}>
-        <Grid sx={{ height: '100%' }} container alignItems="center">
-          <Grid item xs={12} spacing={2}>
+        <Grid
+          container
+          sx={{
+            alignItems: 'center',
+            height: '100%',
+          }}
+        >
+          <Grid spacing={2} size={12}>
             <Typography component="h5" variant="h5">
               Вопрос
             </Typography>
@@ -68,7 +74,7 @@ export default function UIQuestionText({ ...props }: IUIQuestionTextProps) {
                 disabled={disableCheckButton}
                 variant="contained"
                 color="primary"
-                onClick={(e) => {
+                onClick={e => {
                   // props.onClick1(e)
                   checkError();
                   setDisableCheckButton(true);

@@ -1,5 +1,5 @@
 import { Collapse, TableCell, TableRow } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import { ShowStatisticTable } from '../../../Statistic/V2/show-statistic-for-selected-questions/ShowStatisticTable';
 import React from 'react';
 import { IExamResult } from '../../../../Shared/ServerLayer/Types/exam.types';
@@ -16,7 +16,7 @@ export default function UIExamEachAttemptTable({
 }: IUIExamEachAttemptTableProps) {
   const attempt_id_array: number[] = [];
 
-  exam_result?.question_statuses.forEach((questionStatus) => {
+  exam_result?.question_statuses.forEach(questionStatus => {
     if (questionStatus.statistic_id) {
       attempt_id_array.push(Number(questionStatus.statistic_id));
     }
@@ -34,7 +34,9 @@ export default function UIExamEachAttemptTable({
           unmountOnExit
           sx={{ overflowX: 'auto' }}
         >
-          <div className="sw-exam-detail-content"><ShowStatisticTable attempt_id_array={attempt_id_array} /></div>
+          <div className="sw-exam-detail-content">
+            <ShowStatisticTable attempt_id_array={attempt_id_array} />
+          </div>
         </Collapse>
       </TableCell>
     </TableRow>

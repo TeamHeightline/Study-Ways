@@ -8,7 +8,6 @@ import {
   IconButton,
   TextField,
 } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 import { useNavigate } from 'react-router-dom';
@@ -103,7 +102,7 @@ export default function UICreateExamDialog() {
             <Button onClick={close} disabled={pending}>
               Отмена
             </Button>
-            <LoadingButton
+            <Button
               type="submit"
               variant="contained"
               loading={pending}
@@ -111,7 +110,7 @@ export default function UICreateExamDialog() {
               endIcon={<ArrowForwardRoundedIcon />}
             >
               Создать
-            </LoadingButton>
+            </Button>
           </div>
         </DialogActions>
       </form>

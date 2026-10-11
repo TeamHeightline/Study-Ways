@@ -170,7 +170,9 @@ export default function EditCourseItem({
         onClose={() => setOpen(false)}
         fullWidth
         maxWidth={choosing ? 'lg' : 'sm'}
-        PaperProps={{ className: 'sw-coedit-dialog' }}
+        slotProps={{
+          paper: { className: 'sw-coedit-dialog' },
+        }}
       >
         <DialogTitle>
           <div>

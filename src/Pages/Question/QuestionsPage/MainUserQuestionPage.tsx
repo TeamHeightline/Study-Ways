@@ -24,7 +24,11 @@ export const MainUserQuestionPage = observer(() => {
 
   if (!QuestionPageStorage.dataHasBeenDelivered) {
     return (
-      <Stack alignItems={'center'}>
+      <Stack
+        sx={{
+          alignItems: 'center',
+        }}
+      >
         <CircularProgress />
       </Stack>
     );
@@ -32,7 +36,12 @@ export const MainUserQuestionPage = observer(() => {
 
   return (
     <div>
-      <Stack direction={'column'} alignItems={'center'}>
+      <Stack
+        direction={'column'}
+        sx={{
+          alignItems: 'center',
+        }}
+      >
         <Typography className="sw-question-heading" variant={'h4'}>
           Выберите вопрос
         </Typography>
@@ -41,17 +50,20 @@ export const MainUserQuestionPage = observer(() => {
       <Grid
         container
         spacing={2}
-        justifyContent="space-between"
-        sx={{ mt: 1, p: 1 }}
+        sx={{
+          justifyContent: 'space-between',
+          mt: 1,
+          p: 1,
+        }}
       >
         {toJS(QuestionPageStorage.questionsData).map(question => (
           <Grid
-            item
             key={question.id}
-            sx={{ width: '100%' }}
-            xs={12}
-            md={4}
-            lg={3}
+            size={{
+              xs: 12,
+              md: 4,
+              lg: 3,
+            }}
           >
             <Card className="sw-question-card">
               <CardActionArea

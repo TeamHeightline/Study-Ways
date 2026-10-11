@@ -1,5 +1,5 @@
 import { Alert } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../../App/ReduxStore/RootStore';

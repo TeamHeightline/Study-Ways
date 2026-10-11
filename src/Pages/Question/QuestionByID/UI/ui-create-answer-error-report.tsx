@@ -9,7 +9,7 @@ import {
   Stack,
   TextField,
 } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import { observer } from 'mobx-react';
 import { QuestionPlayerStore } from '../Store/QuestionPlayerStore';
 import UISingleAnswerByData from './ui-single-answer-by-data';
@@ -43,7 +43,12 @@ const UiCreateAnswerErrorReport = observer(
             <DialogContentText>
               Опишите максимально развернуто в чем состоит ошибка
             </DialogContentText>
-            <Stack alignItems={'center'} sx={{ mt: 2 }}>
+            <Stack
+              sx={{
+                alignItems: 'center',
+                mt: 2,
+              }}
+            >
               <UISingleAnswerByData
                 text={selectedAnswer.answerText}
                 imageURL={selectedAnswer.answerImageUrl}

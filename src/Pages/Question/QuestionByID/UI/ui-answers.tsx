@@ -1,5 +1,5 @@
 import { Box, Stack } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import { observer } from 'mobx-react';
 import React from 'react';
 import { QuestionPlayerStore } from '../Store/QuestionPlayerStore';

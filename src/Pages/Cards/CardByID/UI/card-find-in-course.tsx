@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import React from 'react';
 import { skipToken } from '@reduxjs/toolkit/query';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import { Alert, AlertTitle, Button, Paper } from '@mui/material';
 import { CardByIDStore } from '../Store/CardByIDStore';
 import { useNavigate } from 'react-router-dom';

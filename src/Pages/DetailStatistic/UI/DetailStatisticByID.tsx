@@ -47,7 +47,14 @@ export const DetailStatisticByID = observer(
       return (
         <TableRow>
           <TableCell colSpan={10}>
-            <Stack direction="row" spacing={2} alignItems="center" role="alert">
+            <Stack
+              direction="row"
+              spacing={2}
+              role="alert"
+              sx={{
+                alignItems: 'center',
+              }}
+            >
               <span>Не удалось загрузить результат №{attempt_id}.</span>
               <Button
                 onClick={() => statisticByIDStore.loadAttemptFromServer()}
@@ -95,7 +102,13 @@ export const DetailStatisticByID = observer(
             {statisticByIDStore.dataForRow.username}
           </TableCell>
           <TableCell sx={{ color: textColor }}>
-            <Stack direction={'row'} justifyContent={'end'} spacing={2}>
+            <Stack
+              direction={'row'}
+              spacing={2}
+              sx={{
+                justifyContent: 'end',
+              }}
+            >
               <div>{statisticByIDStore.dataForRow.profileName}</div>
               {statisticByIDStore.dataForRow.avatarSrc && (
                 <Avatar

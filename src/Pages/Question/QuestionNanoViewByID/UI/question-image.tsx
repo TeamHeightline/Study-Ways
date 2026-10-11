@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import { Card, Popover } from '@mui/material';
 import { NanoQuestionStoreType } from '../Store/question-nano-view-by-id-store';
 import CardMedia from '@mui/material/CardMedia';

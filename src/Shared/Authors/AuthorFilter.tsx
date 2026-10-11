@@ -141,14 +141,18 @@ export function AuthorFilter({
               </>
             ) : undefined
           }
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <>
-                {isFetching && <CircularProgress size={16} color="inherit" />}
-                {params.InputProps.endAdornment}
-              </>
-            ),
+          slotProps={{
+            ...params.slotProps,
+
+            input: {
+              ...params.slotProps.input,
+              endAdornment: (
+                <>
+                  {isFetching && <CircularProgress size={16} color="inherit" />}
+                  {params.slotProps.input.endAdornment}
+                </>
+              ),
+            },
           }}
         />
       )}

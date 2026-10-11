@@ -1,5 +1,5 @@
 import { Paper, Checkbox, FormControlLabel } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import {
   Chart as ChartJS,
   CategoryScale,

@@ -66,7 +66,11 @@ export const QuestionByID = observer((props: any) => {
 
   if (!questionStore?.isDataLoaded) {
     return (
-      <Stack alignItems={'center'}>
+      <Stack
+        sx={{
+          alignItems: 'center',
+        }}
+      >
         <CircularProgress />
       </Stack>
     );

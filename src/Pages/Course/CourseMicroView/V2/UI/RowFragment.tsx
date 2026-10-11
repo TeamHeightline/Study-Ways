@@ -41,7 +41,7 @@ const RowFragment = observer(({ CRI, courseStore }: RowFragmentI) => {
   const navigate = useNavigate();
   const isMobile = isMobileHook();
   const card_hash_map = useAppSelector(
-    (state) => state.cardMicroView.card_hash_map,
+    state => state.cardMicroView.card_hash_map,
   );
 
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -74,15 +74,17 @@ const RowFragment = observer(({ CRI, courseStore }: RowFragmentI) => {
           {hoveredItemID &&
             String(hoveredItemID)
               ?.split(',')
-              ?.map((cardID) => <CardMicroView cardID={Number(cardID)} />)}
+              ?.map(cardID => <CardMicroView cardID={Number(cardID)} />)}
         </div>
       </Popover>
 
       <Stack
         direction={'row'}
-        sx={{ px: 1.5 }}
-        alignItems={'center'}
         spacing={2}
+        sx={{
+          alignItems: 'center',
+          px: 1.5,
+        }}
       >
         <Box
           sx={{
@@ -140,7 +142,7 @@ const RowFragment = observer(({ CRI, courseStore }: RowFragmentI) => {
 
               return (
                 <IconButton
-                  onMouseEnter={(e) => {
+                  onMouseEnter={e => {
                     if (!isMobile && !is_course_link_cell) {
                       setHoveredItemID(String(element?.CourseElement?.id));
                       if (CRI) {

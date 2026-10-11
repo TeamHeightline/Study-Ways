@@ -1,5 +1,5 @@
 import { Box, IconButton, InputAdornment, TextField } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import { useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
@@ -39,18 +39,22 @@ export default function UIPassword({ ...props }: IUIPasswordProps) {
           dispatch(changeOriginalPassword(e.target.value));
         }}
         disabled={!is_enable_password_check}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton
-                aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
-                onClick={handleClickShowPassword}
-                edge="end"
-              >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          ),
+        slotProps={{
+          input: {
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label={
+                    showPassword ? 'Скрыть пароль' : 'Показать пароль'
+                  }
+                  onClick={handleClickShowPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          },
         }}
       />
     </Box>

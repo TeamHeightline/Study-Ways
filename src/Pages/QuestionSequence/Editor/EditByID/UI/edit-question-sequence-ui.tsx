@@ -1,7 +1,7 @@
 import { SequenceEditorProvider } from '../store/sequence-editor-context';
 import { useGetQuestionSequenceQuery } from '../../../question-sequences-api';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import {
   Alert,
   Button,
@@ -41,7 +41,12 @@ const SequenceEditorContent = ({
           <Typography variant="h5" component="h1">
             Редактор серии вопросов
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography
+            variant="body2"
+            sx={{
+              color: 'text.secondary',
+            }}
+          >
             Настройте серию и соберите вопросы для обучения или экзамена.
           </Typography>
         </div>
@@ -98,7 +103,12 @@ const SequenceEditorContent = ({
             {editQSStore.qsData?.sequence_data?.sequence?.length || 0}
           </span>
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography
+          variant="body2"
+          sx={{
+            color: 'text.secondary',
+          }}
+        >
           Нажмите на карточку, чтобы посмотреть вопрос.
         </Typography>
         {!editQSStore.qsData?.sequence_data?.sequence?.length && (
@@ -110,7 +120,12 @@ const SequenceEditorContent = ({
       </section>
       <section className="sw-sequence-section">
         <Typography variant="h6">Добавить вопросы</Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography
+          variant="body2"
+          sx={{
+            color: 'text.secondary',
+          }}
+        >
           Найдите подходящие вопросы по автору и теме.
         </Typography>
         <div className="sw-sequence-filters">

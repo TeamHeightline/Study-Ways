@@ -17,7 +17,15 @@ interface IProps {
 export default function MultipleCards(props: IProps) {
   const { numberOfElements, size } = props;
   return (
-    <Stack justifyContent={'center'} alignItems={'center'} sx={size}>
+    <Stack
+      sx={[
+        {
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+        ...(Array.isArray(size) ? size : [size]),
+      ]}
+    >
       {numberOfElements > 1 && (
         <Box>
           {numberOfElements === 2 ? (

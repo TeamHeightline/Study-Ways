@@ -26,13 +26,27 @@ export const AISearchString = observer(
     }
 
     return (
-      <Grid className="sw-search-panel" container justifyContent={'center'}>
-        <Grid item xs={12} md={8} sx={{ pb: 2, p: { xs: 1, md: 0 } }}>
+      <Grid
+        className="sw-search-panel"
+        container
+        sx={{
+          justifyContent: 'center',
+        }}
+      >
+        <Grid
+          sx={{ pb: 2, p: { xs: 1, md: 0 } }}
+          size={{
+            xs: 12,
+            md: 8,
+          }}
+        >
           <Stack
             direction={'row'}
             spacing={2}
-            sx={{ width: '100%' }}
-            alignItems={'center'}
+            sx={{
+              alignItems: 'center',
+              width: '100%',
+            }}
           >
             <Autocomplete
               id="card-search"

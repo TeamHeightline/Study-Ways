@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import { Chip, Paper } from '@mui/material';
 import { EditAnswerByIdStore } from '../Store/edit-answer-by-id-store';
 import SchoolIcon from '@mui/icons-material/School';

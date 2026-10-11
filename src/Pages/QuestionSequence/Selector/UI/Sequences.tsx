@@ -33,15 +33,24 @@ export const Sequences = observer(
         {isFetching && !data && <Skeleton height={180} />}
         <Grid
           container
-          item
-          xs={12}
-          sx={{ pt: 2, pl: 6, pr: 2 }}
           rowSpacing={3}
-          justifyContent={'space-evenly'}
           columnSpacing={8}
+          size={12}
+          sx={{
+            justifyContent: 'space-evenly',
+            pt: 2,
+            pl: 6,
+            pr: 2,
+          }}
         >
           {data?.map(sequence => (
-            <Grid item xs={12} md={4} key={sequence.id}>
+            <Grid
+              key={sequence.id}
+              size={{
+                xs: 12,
+                md: 4,
+              }}
+            >
               <Card variant="outlined" key={`${sequence?.id}SequenceKey`}>
                 <CardActionArea
                   onClick={() => {

@@ -1,4 +1,4 @@
-import Paper from '@mui/material/Paper/Paper';
+import Paper from '@mui/material/Paper';
 import { observer } from 'mobx-react';
 import React from 'react';
 import { CardSelector } from '../../Selector/UI/CardSelector';
@@ -26,7 +26,7 @@ export const EditorPage = observer(({ ...props }: IEditorPageProps) => {
               style={{ paddingTop: 24 }}
               showCreateNewCard={true}
               mode={'onlyCreatedByMe'}
-              onCardSelect={(card_id) => navigate(`card/${card_id}`)}
+              onCardSelect={card_id => navigate(`card/${card_id}`)}
             />
           }
         />

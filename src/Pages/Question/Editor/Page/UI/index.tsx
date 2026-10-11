@@ -87,14 +87,16 @@ export const Index = observer(() => {
           placeholder="Текст или номер вопроса"
           value={search}
           onChange={event => setSearch(event.target.value)}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchRoundedIcon />
-              </InputAdornment>
-            ),
-          }}
           className="sw-qedit-search"
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchRoundedIcon />
+                </InputAdornment>
+              ),
+            },
+          }}
         />
         <AuthorSelector />
         <UIOrderingByCreatedAt />

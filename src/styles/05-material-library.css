@@ -296,7 +296,7 @@
 .sw-card-library-grid {
   @apply tw-w-full !tw-m-0;
 }
-.sw-card-library-grid > .MuiGrid-item {
+.sw-card-library-grid > .MuiGrid-root:not(.MuiGrid-container) {
   @apply tw-flex tw-justify-center !tw-p-2;
 }
 .sw-card-library-grid .sw-mini-card {

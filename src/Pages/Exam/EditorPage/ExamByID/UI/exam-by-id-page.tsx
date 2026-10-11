@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import React, { useEffect } from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import {
   Alert,
   Button,
@@ -66,7 +66,11 @@ const ExamByID = observer(({ exam_id, ...props }: IExamByIDProps) => {
     );
   if (Number(loadedExamDataID) !== Number(exam_id)) {
     return (
-      <Stack alignItems={'center'}>
+      <Stack
+        sx={{
+          alignItems: 'center',
+        }}
+      >
         <CircularProgress />
       </Stack>
     );
@@ -79,7 +83,12 @@ const ExamByID = observer(({ exam_id, ...props }: IExamByIDProps) => {
           <Typography variant="h5" component="h1">
             Редактор экзамена
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography
+            variant="body2"
+            sx={{
+              color: 'text.secondary',
+            }}
+          >
             Содержание, правила прохождения и доступ для участников.
           </Typography>
         </div>
@@ -91,7 +100,12 @@ const ExamByID = observer(({ exam_id, ...props }: IExamByIDProps) => {
             <span>01</span>
             <div>
               <Typography variant="h6">Об экзамене</Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                sx={{
+                  color: 'text.secondary',
+                }}
+              >
                 Название, длительность и серия вопросов.
               </Typography>
             </div>
@@ -107,7 +121,12 @@ const ExamByID = observer(({ exam_id, ...props }: IExamByIDProps) => {
             <span>02</span>
             <div>
               <Typography variant="h6">Правила прохождения</Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                sx={{
+                  color: 'text.secondary',
+                }}
+              >
                 Подсказки и количество попыток на вопрос.
               </Typography>
             </div>
@@ -126,7 +145,12 @@ const ExamByID = observer(({ exam_id, ...props }: IExamByIDProps) => {
             <span>03</span>
             <div>
               <Typography variant="h6">Доступ к экзамену</Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                sx={{
+                  color: 'text.secondary',
+                }}
+              >
                 Управляйте доступом и защитой паролем.
               </Typography>
             </div>
@@ -146,7 +170,12 @@ const ExamByID = observer(({ exam_id, ...props }: IExamByIDProps) => {
             <span>04</span>
             <div>
               <Typography variant="h6">Ссылки для участников</Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                sx={{
+                  color: 'text.secondary',
+                }}
+              >
                 Откройте экзамен или отправьте ссылку ученикам.
               </Typography>
             </div>
@@ -156,7 +185,13 @@ const ExamByID = observer(({ exam_id, ...props }: IExamByIDProps) => {
       </div>
       <section className="sw-exam-results">
         <Typography variant="h6">Результаты экзамена</Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+        <Typography
+          variant="body2"
+          sx={{
+            color: 'text.secondary',
+            mb: 2,
+          }}
+        >
           Статистика прохождения и выгрузка результатов.
         </Typography>
         {exam_id && <Index exam_id={Number(exam_id)} />}

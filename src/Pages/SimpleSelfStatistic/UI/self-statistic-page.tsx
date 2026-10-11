@@ -18,7 +18,13 @@ type ISelfStatisticPageProps = React.HTMLAttributes<HTMLDivElement>;
 
 function LoadingStatistic() {
   return (
-    <Stack alignItems="center" sx={{ py: 4 }} role="status">
+    <Stack
+      role="status"
+      sx={{
+        alignItems: 'center',
+        py: 4,
+      }}
+    >
       <CircularProgress aria-label="Загрузка статистики" />
     </Stack>
   );
@@ -55,7 +61,12 @@ function SelfStatisticResults({ userId }: { userId: number }) {
         stickyHeader
         pageChanger={
           currentData.numPages > 1 ? (
-            <Stack alignItems="center" sx={{ py: 2 }}>
+            <Stack
+              sx={{
+                alignItems: 'center',
+                py: 2,
+              }}
+            >
               <Pagination
                 page={currentData.activePage}
                 count={currentData.numPages}

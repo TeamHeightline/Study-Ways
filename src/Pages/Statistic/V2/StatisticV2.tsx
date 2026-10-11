@@ -38,7 +38,13 @@ function localDateTime(date: Date | null) {
 
 function LoadingStatistic() {
   return (
-    <Stack alignItems="center" role="status" sx={{ py: 4 }}>
+    <Stack
+      role="status"
+      sx={{
+        alignItems: 'center',
+        py: 4,
+      }}
+    >
       <CircularProgress aria-label="Загрузка статистики" />
     </Stack>
   );
@@ -91,12 +97,14 @@ function StatisticContent({ userId }: { userId: number }) {
               label="Имя пользователя"
               value={nameInput}
               onChange={event => setNameInput(event.target.value)}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <AccountCircle />
-                  </InputAdornment>
-                ),
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <AccountCircle />
+                    </InputAdornment>
+                  ),
+                },
               }}
             />
           </div>
@@ -114,8 +122,6 @@ function StatisticContent({ userId }: { userId: number }) {
               size="small"
               fullWidth
               label="Результаты начиная с"
-              InputLabelProps={{ shrink: true }}
-              inputProps={{ 'aria-label': 'Результаты начиная с' }}
               value={localDateTime(filters.afterTime)}
               onChange={event => {
                 const value = event.target.value;
@@ -124,6 +130,10 @@ function StatisticContent({ userId }: { userId: number }) {
                   afterTime: value ? new Date(value) : null,
                   page: 1,
                 }));
+              }}
+              slotProps={{
+                htmlInput: { 'aria-label': 'Результаты начиная с' },
+                inputLabel: { shrink: true },
               }}
             />
           </div>
@@ -187,7 +197,12 @@ function StatisticContent({ userId }: { userId: number }) {
                 attempt_id_array={data.ids}
                 pageChanger={
                   data.numPages > 1 ? (
-                    <Stack alignItems="center" sx={{ py: 2 }}>
+                    <Stack
+                      sx={{
+                        alignItems: 'center',
+                        py: 2,
+                      }}
+                    >
                       <Pagination
                         page={data.activePage}
                         count={data.numPages}

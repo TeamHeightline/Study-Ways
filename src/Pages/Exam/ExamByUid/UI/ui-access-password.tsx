@@ -1,5 +1,5 @@
 import { Alert, Box, Button, Stack, TextField } from '@mui/material';
-import { BoxProps } from '@mui/material/Box/Box';
+import { BoxProps } from '@mui/material/Box';
 import {
   useAppDispatch,
   useAppSelector,
@@ -29,7 +29,11 @@ export default function UIAccessPassword({ ...props }: IUIAccessPasswordProps) {
   };
   return (
     <Box {...props}>
-      <Stack alignItems={'center'}>
+      <Stack
+        sx={{
+          alignItems: 'center',
+        }}
+      >
         <Box
           component="form"
           sx={{ maxWidth: 400 }}

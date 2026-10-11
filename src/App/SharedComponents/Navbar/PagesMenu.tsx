@@ -1,14 +1,14 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import {
   Badge,
-  Box,
   Button,
   Divider,
   IconButton,
   ListItemIcon,
   MenuItem,
+  MenuList,
   Popover,
   Tooltip,
 } from '@mui/material';
@@ -57,7 +57,7 @@ const PagesMenu = observer(({ ...props }: INavbarMenuProps) => {
           horizontal: 'left',
         }}
       >
-        <Box sx={{ py: 1 }}>
+        <MenuList autoFocusItem sx={{ py: 1 }}>
           <MenuItem
             onClick={() => {
               handleClose();
@@ -124,7 +124,7 @@ const PagesMenu = observer(({ ...props }: INavbarMenuProps) => {
             </ListItemIcon>
             Редакторы
           </MenuItem>
-        </Box>
+        </MenuList>
       </Popover>
     </>
   );

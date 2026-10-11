@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import { Button, ButtonGroup, Paper } from '@mui/material';
 import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
@@ -29,7 +29,7 @@ const CardAuthorNavigation = observer(
 
     const navigate = useNavigate();
 
-    const goToCard = (cardID) => {
+    const goToCard = cardID => {
       navigate(`/card/${cardID}`);
     };
     if (!isShowNavigation) {

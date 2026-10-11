@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { CardByIDStore } from '../Store/CardByIDStore';
 import GoBackButton from './go-back-button';
 import TitleAndNavigation from './title-and-navigation';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import CardContentAndDescription from './card-content-and-description';
 
 import CourseMicroView from '../../../Course/CourseMicroView/V2/UI/CourseMicroView';

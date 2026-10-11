@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import CardMedia from '@mui/material/CardMedia';
 import React from 'react';
 import { isMobileHook } from '../../../../../Shared/CustomHooks/isMobileHook';
@@ -21,7 +21,12 @@ export default function UIQuestionImage({ ...props }: IUIQuestionImageProps) {
   }
 
   return (
-    <Grid item xs={12} md={6}>
+    <Grid
+      size={{
+        xs: 12,
+        md: 6,
+      }}
+    >
       <CardMedia
         style={{
           height: isMobile ? window.innerWidth - 100 : 500,

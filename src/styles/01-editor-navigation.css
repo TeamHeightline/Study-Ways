@@ -54,7 +54,9 @@
 .sw-question-editor-list > .MuiGrid-container {
   @apply !tw-mt-0;
 }
-.sw-question-editor-list > .MuiGrid-container > .MuiGrid-item {
+.sw-question-editor-list
+  > .MuiGrid-container
+  > .MuiGrid-root:not(.MuiGrid-container) {
   @apply tw-max-w-full tw-basis-full;
 }
 .sw-question-editor-filters {
@@ -67,7 +69,7 @@
 .sw-question-editor-grid {
   @apply !tw-grid tw-grid-cols-[repeat(auto-fill,minmax(240px,1fr))] tw-gap-4.5 !tw-w-full !tw-m-0 tw-py-2 tw-px-0;
 }
-.sw-question-editor-grid > .MuiGrid-item {
+.sw-question-editor-grid > .MuiGrid-root:not(.MuiGrid-container) {
   @apply !tw-w-full tw-min-w-0 !tw-max-w-none !tw-p-0;
 }
 .sw-question-editor-grid .sw-question-card {
@@ -97,7 +99,7 @@
 .sw-themes-editor > .MuiGrid-container {
   @apply !tw-pl-0;
 }
-.sw-themes-editor > .MuiGrid-container > .MuiGrid-item {
+.sw-themes-editor > .MuiGrid-container > .MuiGrid-root:not(.MuiGrid-container) {
   @apply tw-basis-full tw-max-w-full;
 }
 .sw-themes-editor .MuiCard-root {

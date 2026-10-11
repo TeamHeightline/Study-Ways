@@ -1,5 +1,5 @@
 import React from 'react';
-import { PaperProps } from '@mui/material/Paper/Paper';
+import { PaperProps } from '@mui/material/Paper';
 import { Dialog, Paper } from '@mui/material';
 import { useSequenceEditor } from '../store/sequence-editor-context';
 import CheckQuestionByID from '../../../../CheckQuestion/CheckQuestionByID/UI/check-question-by-id';

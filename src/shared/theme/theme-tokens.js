@@ -165,7 +165,7 @@ function themeVariables(definition = defaultTheme) {
       definition.accessibility === 'enhanced' ? '76px' : '64px',
   });
   Object.keys(spacing).forEach(name => {
-    variables[`--sw-space-${name.replace('./', '_')}`] = spacing[name];
+    variables[`--sw-space-${name.replace('.', '_')}`] = spacing[name];
   });
   radii.forEach(size => {
     variables[`--sw-radius-${size}`] =

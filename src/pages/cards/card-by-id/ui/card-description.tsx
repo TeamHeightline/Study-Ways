@@ -1,0 +1,28 @@
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper';
+import { Paper } from '@mui/material';
+import { CardByIDStore } from '../store/CardByIDStore';
+import useWindowDimensions from '../../../../shared/custom-hooks/useWindowDimensions';
+interface ICardDescriptionProps extends PaperProps {
+  card_store: CardByIDStore;
+}
+const CardDescription = ({ card_store, ...props }: ICardDescriptionProps) => {
+  const { width } = useWindowDimensions();
+  const description = card_store?.card_data?.text;
+  return (
+    <Paper
+      className="sw-material-description"
+      elevation={0}
+      sx={{ maxWidth: width, overflow: 'auto' }}
+      {...props}
+    >
+      {description && (
+        <>
+          <h2>О материале</h2>
+          <div dangerouslySetInnerHTML={{ __html: description }} />
+        </>
+      )}
+    </Paper>
+  );
+};
+export default CardDescription;

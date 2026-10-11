@@ -1,10 +1,10 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { setAccessToken } from './Shared/ServerLayer/QueryLayer/config';
-import { getAuthSessionVersion } from './Shared/ServerLayer/QueryLayer/auth-session';
+import { setAccessToken } from './shared/server-layer/query-layer/config';
+import { getAuthSessionVersion } from './shared/server-layer/query-layer/auth-session';
 import { useEffect, useState } from 'react';
-import { userApi } from './Shared/Store/UserStore/user-session';
-import { clearUserSession } from './Shared/Store/UserStore/session-lifecycle';
-import { useAppDispatch } from './App/ReduxStore/RootStore';
+import { userApi } from './shared/store/user-store/user-session';
+import { clearUserSession } from './shared/store/user-store/session-lifecycle';
+import { useAppDispatch } from './app/redux-store/RootStore';
 
 export default function AppHook() {
   const { isLoading, isAuthenticated, getAccessTokenSilently, user } =

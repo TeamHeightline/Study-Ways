@@ -1,0 +1,23 @@
+import React from 'react';
+import { PaperProps } from '@mui/material/Paper';
+import { Helmet } from 'react-helmet';
+import { CardByIDStore } from '../store/CardByIDStore';
+interface ICardBrowserIndexingProps extends PaperProps {
+  card_store: CardByIDStore;
+}
+const CardBrowserIndexing = ({
+  card_store,
+  ...props
+}: ICardBrowserIndexingProps) => (
+  <>
+    <Helmet>
+      <title>{card_store.card_data?.title}</title>
+      <meta name="description" content={card_store?.card_data?.text} />
+      <meta name="twitter:title" content={card_store.card_data?.title} />
+      <meta name="twitter:description" content={card_store?.card_data?.text} />
+      <meta property="og:title" content={card_store.card_data?.title} />
+      <meta property="og:description" content={card_store?.card_data?.text} />
+    </Helmet>
+  </>
+);
+export default CardBrowserIndexing;

@@ -6,7 +6,7 @@ const {
   radii,
   fontSizes,
   themeVariables,
-} = require('./src/Shared/Theme/theme-tokens');
+} = require('./src/shared/theme/theme-tokens');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {

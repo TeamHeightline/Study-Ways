@@ -1,0 +1,68 @@
+import { loadExamOnOpenData } from '../../../../shared/server-layer/query-layer/exam.query';
+import { loadQuestionByID } from '../../../../shared/server-layer/query-layer/question.query';
+import { createDetailStatistic } from '../../../../shared/server-layer/query-layer/detail-statistic.query';
+import { selectUserSession } from '../../../../shared/store/user-store/user-session';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { initialState } from './InitialState';
+import axiosClient from '../../../../shared/server-layer/query-layer/config';
+
+const emptyStatistic = {
+  numberOfPasses: 0,
+  ArrayForShowAnswerPoints: [],
+  ArrayForShowWrongAnswers: [],
+};
+
+export const loadExamDataThunk = createAsyncThunk(
+  'examPlayer/loadExamData',
+  async (examUID: string) =>
+    axiosClient.get(`page/exam-player/exam-data/uid/${examUID}`),
+);
+
+export const loadQuestionDataThunk = createAsyncThunk(
+  'examPlayer/loadQuestionData',
+  async (selectedQuestionID: number) =>
+    loadQuestionByID(String(selectedQuestionID)),
+);
+
+export const openExamPageThunk = createAsyncThunk(
+  'examPlayer/openExamPage',
+  async (
+    input: string | { uid: string; password?: string },
+    { rejectWithValue },
+  ) => {
+    try {
+      return await loadExamOnOpenData(
+        typeof input === 'string' ? input : input.uid,
+        typeof input === 'string' ? undefined : input.password,
+      );
+    } catch (error) {
+      return rejectWithValue(
+        (error as any)?.data?.message || 'Не удалось открыть экзамен',
+      );
+    }
+  },
+);
+
+export const saveDetailStatisticThunk = createAsyncThunk(
+  'examPlayer/saveDetailStatistic',
+  async (store: typeof initialState, { getState }) => {
+    if (store.selected_question_id) {
+      return createDetailStatistic({
+        question_id: Number(store.selected_question_id),
+        user_name: selectUserSession(
+          getState() as Parameters<typeof selectUserSession>[0],
+        ).username,
+        is_login: true,
+        question_has_been_completed: store.is_question_completed,
+        statistic: store.statistic || emptyStatistic,
+        is_useExamMode: true,
+        max_sum_of_answers_point: store.max_sum_of_points,
+        question_sequence_id: undefined,
+        answers_id_array:
+          store.selected_question_data?.usertests_answer?.map(
+            answer => answer.id,
+          ) || [],
+      });
+    }
+  },
+);

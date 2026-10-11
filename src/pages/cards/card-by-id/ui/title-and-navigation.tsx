@@ -1,0 +1,49 @@
+import React from 'react';
+import { CardByIDStore } from '../store/CardByIDStore';
+import DefaultCardNavigation from './default-card-navigation';
+import { Stack } from '@mui/material';
+import CardTitleWithId from './card-title-with-id';
+import CardCopyright from './card-copyright';
+import CardTheme from './card-theme';
+import CourseMicroView from '../../../course/course-micro-view/v2/ui/CourseMicroView';
+import { PaperProps } from '@mui/material/Paper';
+import Paper from '@mui/material/Paper';
+import { isMobileHook } from '../../../../shared/custom-hooks/isMobileHook';
+import { CardAuthor } from './card-author';
+interface ITitleAndNavigationProps extends PaperProps {
+  course_navigation?: ReturnType<typeof CourseMicroView>;
+  card_store: CardByIDStore;
+  is_hidden_navigation?: boolean;
+}
+const TitleAndNavigation = ({
+  course_navigation,
+  card_store,
+  is_hidden_navigation = false,
+  ...props
+}: ITitleAndNavigationProps) => {
+  const isMobile = isMobileHook();
+  const openFromCourse = !!course_navigation;
+  return (
+    <Paper elevation={0} {...props} className="sw-material-header">
+      <Stack
+        direction={openFromCourse && !isMobile ? 'row' : 'column'}
+        spacing={2}
+      >
+        {openFromCourse
+          ? course_navigation
+          : !is_hidden_navigation && (
+              <DefaultCardNavigation card_store={card_store} />
+            )}
+        <Stack direction={'column'} className="sw-material-heading">
+          <CardTheme card_store={card_store} />
+          <CardTitleWithId card_store={card_store} />
+          <CardAuthor card_store={card_store} />
+          <Stack direction={{ xs: 'column', md: 'row' }} spacing={1}>
+            <CardCopyright card_store={card_store} />
+          </Stack>
+        </Stack>
+      </Stack>
+    </Paper>
+  );
+};
+export default TitleAndNavigation;

@@ -3,23 +3,17 @@
 // 22 января - проект переписывается на новую архитектуру, селекторы выделены в независимый слой, вся логика в сторах
 // 8 июня - проект уже как минимум месяц пишется исключительно на Redux, MobX оказался плохим выбором
 // 27 марта 2024 - решил, что буду улучшать проект по 10 минут каждый рабочий день
-
 import React from 'react';
 import './App.css';
-import { Navibar } from './App/SharedComponents/Navbar/Navibar';
-
+import { Navibar } from './app/shared-components/navbar/Navibar';
 import { BrowserRouter as Router } from 'react-router-dom';
-
-import { observer } from 'mobx-react';
 import { CircularProgress, Grid } from '@mui/material';
 import SeoData from './seo-data';
-import AppRoutes from './App/Routers/PublicRouter';
+import AppRoutes from './app/routers/public-router';
 import AppHook from './app.hook';
 import { RouterWrapper } from './router-wrapper';
-
-const App = observer(() => {
+const App = () => {
   const { isLoading } = AppHook();
-
   if (isLoading) {
     return (
       <Grid
@@ -34,7 +28,6 @@ const App = observer(() => {
       </Grid>
     );
   }
-
   return (
     <>
       <Router>
@@ -46,5 +39,5 @@ const App = observer(() => {
       </Router>
     </>
   );
-});
+};
 export default App;

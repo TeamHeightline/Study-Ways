@@ -1,11 +1,8 @@
-import { observer } from 'mobx-react';
 import React from 'react';
 import { PaperProps } from '@mui/material/Paper';
 import { Helmet } from 'react-helmet';
-
 type ISeoDataProps = PaperProps;
-
-const SeoData = observer(({ ...props }: ISeoDataProps) => (
+const SeoData = ({ ...props }: ISeoDataProps) => (
   <>
     <Helmet>
       <meta
@@ -21,6 +18,5 @@ const SeoData = observer(({ ...props }: ISeoDataProps) => (
       <meta property="og:locale" content="ru" />
     </Helmet>
   </>
-));
-
+);
 export default SeoData;

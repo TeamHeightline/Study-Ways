@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   useSaveCourseMutation,
   useUploadMaterialImageMutation,
 } from '../../../shared/server-layer/query-layer/write-api';
-import { FILE_URL } from '../../../settings';
 import {
   Alert,
   Button,
@@ -42,7 +41,7 @@ import {
   previewLink,
 } from './course-data';
 import { useCourseDraft } from './use-course-draft';
-import { SERVER_BASE_URL } from '../../../settings';
+import { courseImageUrl } from '../course-image-url';
 import { cardEditorHref } from '../../cards/shared/card-edit-link';
 import { CardSelector } from '../../cards/selector/ui/CardSelector';
 import './course-editor.css';
@@ -115,6 +114,7 @@ export default function EditCourseByID({ course_id, onChange }: Props) {
         lines: normalizeCourseData(data.course_data),
       }}
       save={save}
+      imagePath={data.cards_cardcourseimage?.image}
       onBack={onChange ? () => onChange('goBack') : undefined}
     />
   );
@@ -123,11 +123,13 @@ export default function EditCourseByID({ course_id, onChange }: Props) {
 function CourseEditor({
   id,
   initial,
+  imagePath,
   save,
   onBack,
 }: {
   id: string | number;
   initial: CourseDraft;
+  imagePath?: string | null;
   save: Parameters<typeof useCourseDraft>[2];
   onBack?: () => void;
 }) {
@@ -140,7 +142,17 @@ function CourseEditor({
   const [page, setPage] = useState(1);
   const [levelMenu, setLevelMenu] = useState<HTMLElement | null>(null);
   const [libraryOpen, setLibraryOpen] = useState(false);
-  const [image, setImage] = useState('');
+  const [uploadedImage, setUploadedImage] = useState<{
+    path: string;
+    version: number;
+  } | null>(null);
+  const image = courseImageUrl(
+    id,
+    uploadedImage?.path ?? imagePath,
+    uploadedImage?.version,
+  );
+  const [failedImage, setFailedImage] = useState('');
+  const hasImage = image !== failedImage;
   const [imageBusy, setImageBusy] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [backBusy, setBackBusy] = useState(false);
@@ -162,16 +174,6 @@ function CourseEditor({
     }
     setBackBusy(false);
   };
-  useEffect(() => {
-    const controller = new AbortController();
-    fetch(`${SERVER_BASE_URL}/cardfiles/course?id=${id}`, {
-      signal: controller.signal,
-    })
-      .then(response => response.json())
-      .then(result => setImage(result?.[0]?.image || ''))
-      .catch(() => void 0);
-    return () => controller.abort();
-  }, [id]);
   const [uploadMaterialImage] = useUploadMaterialImageMutation();
   const uploadImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -185,7 +187,7 @@ function CourseEditor({
         id: Number(id),
         file,
       }).unwrap();
-      setImage(`${FILE_URL}/${result.image}`);
+      setUploadedImage({ path: result.image, version: Date.now() });
     } catch {
       setImageError(true);
     } finally {
@@ -286,11 +288,11 @@ function CourseEditor({
         </div>
         <div className="sw-coedit-cover">
           <div className="sw-coedit-cover-image">
-            {image ? (
+            {hasImage ? (
               <img
                 src={image}
                 alt="Обложка курса"
-                onError={() => setImage('')}
+                onError={() => setFailedImage(image)}
               />
             ) : (
               <ImageOutlinedIcon />
@@ -317,7 +319,7 @@ function CourseEditor({
               disabled={imageBusy}
               onClick={() => fileInput.current?.click()}
             >
-              {image ? 'Заменить' : 'Загрузить'}
+              {hasImage ? 'Заменить' : 'Загрузить'}
             </Button>
             {imageError && (
               <span role="alert" className="sw-coedit-upload-error">

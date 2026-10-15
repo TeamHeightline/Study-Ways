@@ -10,10 +10,8 @@ import {
   TextField,
   ToggleButton,
   ToggleButtonGroup,
-  Tooltip,
 } from '@mui/material';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
 import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
@@ -21,7 +19,10 @@ import PlayCircleOutlineRoundedIcon from '@mui/icons-material/PlayCircleOutlineR
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
-import { FILE_URL } from '../../../settings';
+import { cardImageUrl } from '../../cards/shared/card-image-url';
+import { CardEditLink } from '../../cards/shared/card-edit-link';
+import { CardHoverPreview } from '../../cards/shared/card-hover-preview';
+import TuneRoundedIcon from '@mui/icons-material/TuneRounded';
 import { useGetCourseCardPreviewQuery } from '../course-api';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { CardSelector } from '../../cards/selector/ui/CardSelector';
@@ -32,14 +33,12 @@ interface Props {
   item_position: number;
   level: number;
   updateItem: (item: CourseElementData) => void;
-  editCard: (id: string) => void;
 }
 export default function EditCourseItem({
   item_data: item,
   item_position,
   level,
   updateItem,
-  editCard,
 }: Props) {
   const [image, setImage] = useState('');
   const [open, setOpen] = useState(false);
@@ -54,14 +53,15 @@ export default function EditCourseItem({
     error,
   } = useGetCourseCardPreviewQuery(
     link || !ids.length ? skipToken : Number(ids[0]),
+    { refetchOnFocus: true },
   );
   useEffect(() => {
     setImage(
-      card?.cards_cardimage?.image
-        ? `${FILE_URL}/${card.cards_cardimage.image}`
+      card && Number(card.card_content_type) !== 0
+        ? cardImageUrl(card.id, card.cards_cardimage?.image)
         : '',
     );
-  }, [card?.cards_cardimage?.image]);
+  }, [card?.id, card?.card_content_type, card?.cards_cardimage?.image]);
   const configure = () => {
     setDraft({ ...item });
     setChoosing(false);
@@ -105,63 +105,65 @@ export default function EditCourseItem({
     <div
       className={`sw-coedit-cell ${filled ? 'is-filled' : 'is-empty'} ${link ? 'is-link' : ''}`}
     >
-      <button
-        type="button"
-        className="sw-coedit-cell-open"
-        onClick={configure}
-        aria-label={`Настроить позицию ${item_position + 1}, уровень ${level}`}
-      >
-        <span className="sw-coedit-position">
-          {String(item_position + 1).padStart(2, '0')}
-        </span>
-        {filled ? (
-          <>
-            <div className="sw-coedit-cell-cover">
-              {image && !link && ids.length === 1 ? (
-                <img src={image} alt="" onError={() => setImage('')} />
-              ) : link ? (
-                <LinkRoundedIcon />
-              ) : ids.length > 1 ? (
-                <CollectionsBookmarkOutlinedIcon />
-              ) : contentType === 0 ? (
-                <PlayCircleOutlineRoundedIcon />
-              ) : (
-                <ImageOutlinedIcon />
-              )}
-              <span className="sw-coedit-cell-edit">
-                <EditOutlinedIcon />
-              </span>
-            </div>
-            <span className="sw-coedit-cell-title">{title}</span>
-            {(error || (!loading && !link && !card)) && (
-              <span className="sw-coedit-cell-error">
-                Не удалось загрузить карточку
-              </span>
-            )}
-          </>
-        ) : (
-          <span className="sw-coedit-add-content">
-            <AddRoundedIcon />
-            <strong>Добавить материал</strong>
-            <small>Карточка или переход</small>
+      <CardHoverPreview ids={link ? [] : ids}>
+        <button
+          type="button"
+          className="sw-coedit-cell-open"
+          onClick={configure}
+          aria-label={`Настроить позицию ${item_position + 1}, уровень ${level}`}
+        >
+          <span className="sw-coedit-position">
+            {String(item_position + 1).padStart(2, '0')}
           </span>
-        )}
-      </button>
+          {filled ? (
+            <>
+              <div className="sw-coedit-cell-cover">
+                {image && !link && ids.length === 1 ? (
+                  <img src={image} alt="" onError={() => setImage('')} />
+                ) : link ? (
+                  <LinkRoundedIcon />
+                ) : ids.length > 1 ? (
+                  <CollectionsBookmarkOutlinedIcon />
+                ) : contentType === 0 ? (
+                  <PlayCircleOutlineRoundedIcon />
+                ) : (
+                  <ImageOutlinedIcon />
+                )}
+                <span className="sw-coedit-cell-edit">
+                  <TuneRoundedIcon />
+                </span>
+              </div>
+              <span className="sw-coedit-cell-title">{title}</span>
+              {(error || (!loading && !link && !card)) && (
+                <span className="sw-coedit-cell-error">
+                  Не удалось загрузить карточку
+                </span>
+              )}
+            </>
+          ) : (
+            <span className="sw-coedit-add-content">
+              <AddRoundedIcon />
+              <strong>Добавить материал</strong>
+              <small>Карточка или переход</small>
+            </span>
+          )}
+        </button>
+      </CardHoverPreview>
       {filled && (
         <footer className="sw-coedit-cell-footer">
           <span title={link ? item.course_link : ids.join(', ')}>
             {link ? 'Связь с курсом' : `№ ${ids.join(', ')}`}
           </span>
-          {!link && ids.length === 1 && (
-            <Tooltip title="Редактировать карточку">
-              <IconButton
-                size="small"
-                aria-label={`Редактировать карточку ${ids[0]}`}
-                onClick={() => editCard(ids[0])}
-              >
-                <EditOutlinedIcon />
-              </IconButton>
-            </Tooltip>
+          {!link && (
+            <div className="sw-coedit-card-links">
+              {ids.map(id => (
+                <CardEditLink
+                  key={id}
+                  id={Number(id)}
+                  ownerId={id === ids[0] ? card?.created_by_id : undefined}
+                />
+              ))}
+            </div>
           )}
         </footer>
       )}

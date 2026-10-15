@@ -20,6 +20,7 @@ export const UiRichTextEditor = () => {
       }
     >
       <RichTextEditor
+        visualOnly
         key={editor.draft.id ?? ''}
         value={text === 'Описание карточки' ? '' : String(text)}
         onChange={html => editor.changeFieldByValue('text', html)}

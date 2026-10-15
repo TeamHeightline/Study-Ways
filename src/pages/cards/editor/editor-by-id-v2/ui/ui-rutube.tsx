@@ -21,7 +21,7 @@ export const UiRutube = () => {
         helperText={
           value && !valid
             ? 'Укажите ссылку на видео, Shorts или встроенный плеер Rutube.'
-            : 'Основная видеоссылка: YouTube или Rutube. Новая ссылка заменит текущую.'
+            : undefined
         }
       />
       <div className="sw-cedit-video-preview">

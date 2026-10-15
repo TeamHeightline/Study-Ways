@@ -8,7 +8,7 @@ import {
   useSetCardBookmarkMutation,
   useSetCardRatingMutation,
 } from '../../../../shared/server-layer/query-layer/write-api';
-import { FILE_URL } from '../../../../settings';
+import { cardImageUrl } from '../../shared/card-image-url';
 import { ICardData } from '../types/card-data';
 interface CardViewState {
   is_test_in_card_closed: boolean;
@@ -61,11 +61,7 @@ export function useCardView(
     id,
     card_data,
     testElementRef,
-    cardImageURLForUI: image
-      ? FILE_URL + '/' + image
-      : card_data?.id
-        ? FILE_URL + '/cards-images/card/' + card_data.id
-        : '',
+    cardImageURLForUI: card_data?.id ? cardImageUrl(card_data.id, image) : '',
     loadCardData: reload,
     setView: (patch: Partial<CardViewState>) =>
       dispatch(slice.actions.changed({ key, patch })),

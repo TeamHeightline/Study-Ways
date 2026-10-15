@@ -18,7 +18,6 @@ import {
   Paper,
   Skeleton,
   TextField,
-  Tooltip,
 } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
@@ -44,11 +43,10 @@ import {
 } from './course-data';
 import { useCourseDraft } from './use-course-draft';
 import { SERVER_BASE_URL } from '../../../settings';
-import { EditCardByID } from '../../cards/editor/editor-by-id-v2/ui/EditCardByID';
+import { cardEditorHref } from '../../cards/shared/card-edit-link';
 import { CardSelector } from '../../cards/selector/ui/CardSelector';
 import './course-editor.css';
-import { courseApi, useGetCourseQuery } from '../course-api';
-import { useAppDispatch } from '../../../app/redux-store/RootStore';
+import { useGetCourseQuery } from '../course-api';
 import { skipToken } from '@reduxjs/toolkit/query';
 
 export { CourseLines } from './course-data';
@@ -61,7 +59,6 @@ interface Props {
 export default function EditCourseByID({ course_id, onChange }: Props) {
   const { id } = useParams();
   const courseId = course_id ?? id;
-  const dispatch = useAppDispatch();
   const numericId = Number(courseId);
   const {
     currentData: data,
@@ -123,52 +120,6 @@ export default function EditCourseByID({ course_id, onChange }: Props) {
   );
 }
 
-const CardEditorDialog = ({
-  id,
-  onClose,
-}: {
-  id?: string;
-  onClose: () => void;
-}) => {
-  const [isSaved, setIsSaved] = useState(true);
-  useEffect(() => setIsSaved(true), [id]);
-  return (
-    <Dialog
-      open={!!id}
-      onClose={() => {
-        if (isSaved) onClose();
-      }}
-      fullWidth
-      maxWidth="lg"
-      slotProps={{
-        paper: { className: 'sw-coedit-dialog sw-coedit-card-dialog' },
-      }}
-    >
-      <DialogTitle>
-        Редактор карточки
-        <Tooltip
-          title={
-            isSaved ? 'Вернуться к курсу' : 'Дождитесь сохранения карточки'
-          }
-        >
-          <span>
-            <IconButton
-              aria-label="Вернуться к курсу"
-              disabled={!isSaved}
-              onClick={onClose}
-            >
-              <CloseRoundedIcon />
-            </IconButton>
-          </span>
-        </Tooltip>
-      </DialogTitle>
-      <DialogContent>
-        {id && <EditCardByID id={id} onSaveStateChange={setIsSaved} />}
-      </DialogContent>
-    </Dialog>
-  );
-};
-
 function CourseEditor({
   id,
   initial,
@@ -188,7 +139,6 @@ function CourseEditor({
   );
   const [page, setPage] = useState(1);
   const [levelMenu, setLevelMenu] = useState<HTMLElement | null>(null);
-  const [cardId, setCardId] = useState<string>();
   const [libraryOpen, setLibraryOpen] = useState(false);
   const [image, setImage] = useState('');
   const [imageBusy, setImageBusy] = useState(false);
@@ -278,14 +228,7 @@ function CourseEditor({
       </nav>
       <header className="sw-coedit-heading">
         <div className="sw-card-library-heading">
-          <span className="sw-coedit-kicker">
-            <LayersOutlinedIcon />
-            МНОГОУРОВНЕВЫЙ КУРС · №{id}
-          </span>
-          <h1 className="sw-card-library-title">Редактор курса</h1>
-          <p>
-            Соберите путь обучения: от первых знаний до глубокого понимания.
-          </p>
+          <h1 className="sw-card-library-title">Курс №{id}</h1>
         </div>
         <div className={`sw-coedit-save-state is-${saveState}`} role="status">
           {saveState === 'saved' ? (
@@ -358,7 +301,6 @@ function CourseEditor({
           </div>
           <div>
             <h2>Обложка курса</h2>
-            <p>Изображение для каталога</p>
             <input
               ref={fileInput}
               type="file"
@@ -392,10 +334,6 @@ function CourseEditor({
         <header className="sw-coedit-map-heading">
           <div>
             <h2>Карта курса</h2>
-            <p>
-              По горизонтали — движение по теме, по вертикали — уровни
-              изложения.
-            </p>
           </div>
           <div className="sw-coedit-map-actions">
             <Button
@@ -430,10 +368,6 @@ function CourseEditor({
         <div className="sw-coedit-page-bar">
           <div>
             <span>Страница {page}</span>
-            <small>
-              {draft.lines[0]?.SameLine[page - 1]?.CourseFragment.length || 10}{' '}
-              позиций на каждом уровне
-            </small>
           </div>
           <Pagination
             page={page}
@@ -459,7 +393,6 @@ function CourseEditor({
                   row={line}
                   lIndex={index}
                   openPageIndex={page}
-                  editCard={setCardId}
                   updateCourseRow={next =>
                     replaceLines(lines =>
                       lines.map((row, rowIndex) =>
@@ -520,21 +453,20 @@ function CourseEditor({
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          <p className="sw-coedit-library-note">
-            Откройте карточку для редактирования или создайте новый материал.
-            Чтобы добавить её в курс, выберите нужную позицию на карте.
-          </p>
           <CardSelector
             mode="onlyCreatedByMe"
             showCreateNewCard
             onCardSelect={value => {
               setLibraryOpen(false);
-              setCardId(String(value));
+              window.open(
+                cardEditorHref(value),
+                '_blank',
+                'noopener,noreferrer',
+              );
             }}
           />
         </DialogContent>
       </Dialog>
-      <CardEditorDialog id={cardId} onClose={() => setCardId(undefined)} />
     </div>
   );
 }

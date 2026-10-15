@@ -1,7 +1,7 @@
 .sw-coedit {
   min-width: 0;
   color: var(--sw-accent-950);
-  padding: 28px;
+  padding: 16px;
   border: 1px solid var(--sw-border);
   border-radius: var(--sw-radius-18);
   background: var(--sw-surface-subtle);
@@ -26,7 +26,7 @@
   flex-wrap: wrap;
 }
 .sw-coedit-navigation {
-  margin-bottom: 28px;
+  margin-bottom: 12px;
 }
 .sw-coedit-navigation > .MuiButton-root {
   color: var(--sw-neutral-600);
@@ -36,36 +36,18 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 24px;
-  margin-bottom: 28px;
+  gap: 14px;
+  margin-bottom: 12px;
 }
 .sw-coedit-heading .sw-card-library-heading {
   min-width: 0;
   flex: 1;
   margin: 0;
 }
-.sw-coedit-kicker {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: var(--sw-font-size-10);
-  letter-spacing: 1px;
-  color: var(--sw-neutral-500);
-  margin-bottom: 14px;
-}
-.sw-coedit-kicker svg {
-  font-size: var(--sw-font-size-16);
-}
 .sw-coedit-heading h1 {
   font-size: var(--sw-font-size-30);
   color: var(--sw-accent-800);
   margin: 0;
-}
-.sw-coedit-heading p {
-  font-size: var(--sw-font-size-12);
-  line-height: 1.8;
-  color: var(--sw-neutral-500);
-  margin: 10px 0 0;
 }
 .sw-coedit-save-state {
   display: inline-flex;
@@ -95,8 +77,8 @@
 .sw-coedit-details.MuiPaper-root {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(300px, 0.55fr);
-  gap: 28px;
-  padding: 24px;
+  gap: 16px;
+  padding: 16px;
   border: 1px solid var(--sw-border);
   border-radius: var(--sw-radius-16);
   background: var(--sw-surface);
@@ -104,7 +86,7 @@
 .sw-coedit-details-copy {
   min-width: 0;
   display: grid;
-  gap: 24px;
+  gap: 14px;
   align-content: center;
 }
 .sw-coedit .MuiOutlinedInput-root,
@@ -148,15 +130,15 @@
 .sw-coedit-cover {
   display: flex;
   align-items: center;
-  gap: 18px;
-  padding-left: 28px;
+  gap: 12px;
+  padding-left: 16px;
   border-left: 1px solid var(--sw-border-subtle);
   min-width: 0;
 }
 .sw-coedit-cover-image {
-  flex: 0 0 112px;
-  width: 112px;
-  height: 112px;
+  flex: 0 0 80px;
+  width: 80px;
+  height: 80px;
   display: grid;
   place-items: center;
   border-radius: var(--sw-radius-12);
@@ -179,11 +161,6 @@
   color: var(--sw-accent-600);
   margin: 0;
 }
-.sw-coedit-cover p {
-  font-size: var(--sw-font-size-11);
-  color: var(--sw-subtle);
-  margin: 7px 0 12px;
-}
 .sw-coedit-upload-error {
   display: block;
   font-size: var(--sw-font-size-10);
@@ -192,14 +169,14 @@
 }
 .sw-coedit-map.MuiPaper-root {
   min-width: 0;
-  margin-top: 24px;
+  margin-top: 14px;
   border: 1px solid var(--sw-border);
   border-radius: var(--sw-radius-16);
   overflow: hidden;
   background: var(--sw-surface);
 }
 .sw-coedit-map-heading {
-  padding: 24px;
+  padding: 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -212,19 +189,13 @@
   font-size: var(--sw-font-size-18);
   font-weight: 650;
 }
-.sw-coedit-map-heading p {
-  margin: 6px 0 0;
-  font-size: var(--sw-font-size-11);
-  line-height: 1.8;
-  color: var(--sw-subtle);
-}
 .sw-coedit-map-actions {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
 }
 .sw-coedit-page-bar {
-  padding: 14px 24px;
+  padding: 10px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -263,7 +234,7 @@
 .sw-coedit-board {
   overflow-x: auto;
   overscroll-behavior-x: contain;
-  padding: 22px 24px 6px;
+  padding: 14px 16px 4px;
   background: radial-gradient(var(--sw-border-subtle) 0.8px, transparent 0.8px)
     0 0 / 16px 16px var(--sw-surface-subtle);
   scrollbar-color: var(--sw-accent-300) var(--sw-neutral-100);
@@ -275,7 +246,7 @@
 }
 .sw-coedit-lane {
   width: max-content;
-  padding-bottom: 22px;
+  padding-bottom: 14px;
 }
 .sw-coedit-lane-label {
   position: sticky;
@@ -285,7 +256,7 @@
   gap: 10px;
   width: max-content;
   padding: 6px 10px 6px 0;
-  margin-bottom: 14px;
+  margin-bottom: 8px;
   background: var(--sw-surface-subtle);
   border-radius: var(--sw-radius-10);
 }
@@ -313,7 +284,7 @@
 }
 .sw-coedit-track {
   display: flex;
-  gap: 18px;
+  gap: 12px;
   width: max-content;
 }
 .sw-coedit-cell {
@@ -475,7 +446,7 @@
   display: flex;
   align-items: center;
   gap: 20px;
-  padding: 16px 24px;
+  padding: 10px 16px;
   font-size: var(--sw-font-size-10);
   color: var(--sw-subtle);
   flex-wrap: wrap;
@@ -528,8 +499,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 18px;
-  padding: 22px 24px;
+  gap: 12px;
+  padding: 16px;
   font-size: var(--sw-font-size-19);
   font-weight: 650;
   color: var(--sw-accent-800);
@@ -545,10 +516,10 @@
   color: var(--sw-subtle);
 }
 .sw-coedit-dialog .MuiDialogContent-root {
-  padding: 0 24px 24px;
+  padding: 0 16px 16px;
 }
 .sw-coedit-dialog .MuiDialogActions-root {
-  padding: 16px 24px;
+  padding: 10px 16px;
   background: var(--sw-surface-subtle);
   border-top: 1px solid var(--sw-border-subtle);
   gap: 6px;
@@ -558,7 +529,7 @@
 }
 .sw-coedit-cell-form {
   display: grid;
-  gap: 24px;
+  gap: 14px;
   padding-top: 8px;
 }
 .sw-coedit-cell-form > .MuiButton-root {
@@ -592,27 +563,12 @@
   line-height: 1.8;
   margin: 8px 0 0;
 }
-.sw-coedit-library-note {
-  font-size: var(--sw-font-size-12);
-  line-height: 1.8;
-  color: var(--sw-subtle);
-  margin: 0 0 18px;
-}
 .sw-coedit-dialog .sw-search-filters {
   flex-wrap: wrap;
   gap: 16px;
 }
 .sw-coedit-dialog .sw-search-filters > * {
   min-width: 0;
-}
-.sw-coedit-card-dialog .sw-cedit-workspace {
-  border: 0;
-  padding: 8px 0 0;
-  background: var(--sw-surface);
-}
-.sw-coedit-card-dialog .sw-cedit-back,
-.sw-coedit-card-dialog .sw-cedit-navigation {
-  display: none;
 }
 @media (max-width: 1150px) {
   .sw-coedit-details.MuiPaper-root {
@@ -644,7 +600,7 @@
   }
   .sw-coedit-heading {
     flex-direction: column;
-    gap: 18px;
+    gap: 12px;
   }
   .sw-coedit-map-heading {
     align-items: flex-start;
@@ -656,7 +612,7 @@
     border-radius: var(--sw-radius-14);
   }
   .sw-coedit-navigation {
-    margin-bottom: 24px;
+    margin-bottom: 12px;
     gap: 14px;
   }
   .sw-coedit-navigation > div {
@@ -668,12 +624,8 @@
   .sw-coedit-heading h1 {
     font-size: var(--sw-font-size-25);
   }
-  .sw-coedit-kicker {
-    font-size: var(--sw-font-size-8);
-    letter-spacing: 0.6px;
-  }
   .sw-coedit-details.MuiPaper-root {
-    padding: 18px;
+    padding: 12px;
     border-radius: var(--sw-radius-13);
   }
   .sw-coedit-stats > span {
@@ -684,8 +636,8 @@
     font-size: var(--sw-font-size-20);
   }
   .sw-coedit-map-heading {
-    padding: 18px;
-    gap: 18px;
+    padding: 12px;
+    gap: 12px;
   }
   .sw-coedit-map-actions {
     gap: 8px;
@@ -707,7 +659,7 @@
     font-size: var(--sw-font-size-9);
   }
   .sw-coedit-board {
-    padding: 18px 18px 4px;
+    padding: 12px 12px 4px;
   }
   .sw-coedit-map-footer {
     padding: 14px 18px;
@@ -723,7 +675,7 @@
     width: calc(100% - 28px);
   }
   .sw-coedit-dialog .MuiDialogTitle-root {
-    padding: 18px;
+    padding: 12px;
     font-size: var(--sw-font-size-17);
   }
   .sw-coedit-dialog .MuiDialogContent-root {
@@ -741,4 +693,33 @@
     padding-left: 0;
     padding-right: 0;
   }
+}
+
+.sw-coedit-heading .sw-card-library-heading::before {
+  display: none;
+}
+.sw-coedit-heading h1 {
+  font-size: var(--sw-font-size-26);
+}
+.sw-coedit-cover h2 {
+  margin-bottom: 8px;
+}
+.sw-coedit-cell-footer {
+  min-height: 36px;
+  height: auto;
+  gap: 6px;
+}
+.sw-coedit-cell-footer > span {
+  color: var(--sw-accent-800);
+  font-size: var(--sw-font-size-14);
+  font-weight: 700;
+}
+.sw-coedit-card-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.sw-coedit-card-links .sw-card-edit-link {
+  width: 28px;
+  height: 28px;
 }

@@ -30,18 +30,15 @@ import { SaveNotification } from './save-notification';
 function SectionHeading({
   icon,
   title,
-  text,
 }: {
   icon: React.ReactNode;
   title: string;
-  text: string;
 }) {
   return (
     <header className="sw-cedit-section-heading">
       <span>{icon}</span>
       <div>
         <Typography component="h2">{title}</Typography>
-        <Typography component="p">{text}</Typography>
       </div>
     </header>
   );
@@ -75,45 +72,48 @@ const EditCardUI = (props: React.HTMLAttributes<HTMLDivElement>) => {
           <Typography component="h1" className="sw-card-library-title">
             Карточка №{editor.draft.id}
           </Typography>
-          <Typography component="p" className="sw-cedit-description">
-            Подготовьте материал, настройте вопросы и свяжите карточку с темами.
-            Изменения сохраняются автоматически.
-          </Typography>
         </div>
         <SaveNotification />
       </header>
+      <Paper
+        component="section"
+        elevation={0}
+        className="sw-cedit-panel sw-cedit-summary"
+      >
+        <UiTitle />
+        <div className="sw-cedit-metadata">
+          <UiConnectedThemeSelector />
+          <HardLevel />
+        </div>
+      </Paper>
       <div className="sw-cedit-grid">
-        <Paper component="section" elevation={0} className="sw-cedit-panel">
-          <SectionHeading
-            icon={<NotesRoundedIcon />}
-            title="Содержание карточки"
-            text="Название и основной материал для ученика"
-          />
-          <div className="sw-cedit-fields">
-            <UiTitle />
-            <UiCMenu />
-            {(editor.draft.card_content_type ?? 0) === 0 ? (
-              <UiVideo />
-            ) : (
-              <UiUploadImage />
-            )}
-          </div>
-        </Paper>
-        <div className="sw-cedit-sidebar">
+        <div className="sw-cedit-main">
+          <Paper
+            component="section"
+            elevation={0}
+            className="sw-cedit-panel sw-cedit-media-panel"
+            aria-label="Материал карточки"
+          >
+            <div className="sw-cedit-fields">
+              {(editor.draft.card_content_type ?? 0) === 0 ? (
+                <UiVideo />
+              ) : (
+                <>
+                  <UiCMenu />
+                  <UiUploadImage />
+                </>
+              )}
+            </div>
+          </Paper>
           <Paper
             component="aside"
             elevation={0}
-            className="sw-cedit-panel sw-cedit-settings"
+            className="sw-cedit-panel sw-cedit-copyright-panel"
           >
             <SectionHeading
               icon={<TuneRoundedIcon />}
-              title="Параметры карточки"
-              text="Для кого и к каким темам относится материал"
+              title="Авторские права"
             />
-            <div className="sw-cedit-fields">
-              <HardLevel />
-              <UiConnectedThemeSelector />
-            </div>
             <div className="sw-cedit-setting-block">
               <FormControlLabel
                 control={
@@ -127,15 +127,30 @@ const EditCardUI = (props: React.HTMLAttributes<HTMLDivElement>) => {
                 }
                 label="Указать авторские права"
               />
-              <p>Укажите автора или источник материала.</p>
               <UiCopyRight />
             </div>
           </Paper>
-          <Paper component="section" elevation={0} className="sw-cedit-panel">
+        </div>
+        <div className="sw-cedit-sidebar">
+          <Paper
+            component="section"
+            elevation={0}
+            className="sw-cedit-panel sw-cedit-description-panel"
+          >
+            <SectionHeading
+              icon={<NotesRoundedIcon />}
+              title="Описание и пояснения"
+            />
+            <UiRichTextEditor />
+          </Paper>
+          <Paper
+            component="section"
+            elevation={0}
+            className="sw-cedit-panel sw-cedit-question-panel"
+          >
             <SectionHeading
               icon={<QuizOutlinedIcon />}
               title="Вопросы к карточке"
-              text="Проверьте знания до и после изучения материала"
             />
             <div className="sw-cedit-questions">
               <div className="sw-cedit-question-block">
@@ -153,7 +168,6 @@ const EditCardUI = (props: React.HTMLAttributes<HTMLDivElement>) => {
                   }
                   label="Вопрос перед ресурсом"
                 />
-                <p>Поможет оценить знания перед изучением материала.</p>
                 <Collapse
                   in={!!(editor.draft.is_card_use_test_before_card ?? false)}
                   unmountOnExit
@@ -176,7 +190,6 @@ const EditCardUI = (props: React.HTMLAttributes<HTMLDivElement>) => {
                   }
                   label="Вопрос после ресурса"
                 />
-                <p>Поможет закрепить знания после изучения материала.</p>
                 <Collapse
                   in={!!(editor.draft.is_card_use_test_in_card ?? false)}
                   unmountOnExit
@@ -188,18 +201,6 @@ const EditCardUI = (props: React.HTMLAttributes<HTMLDivElement>) => {
           </Paper>
         </div>
       </div>
-      <Paper
-        component="section"
-        elevation={0}
-        className="sw-cedit-panel sw-cedit-bottom-panel"
-      >
-        <SectionHeading
-          icon={<NotesRoundedIcon />}
-          title="Описание и пояснения"
-          text="Добавьте текст, примеры и необходимые пояснения"
-        />
-        <UiRichTextEditor />
-      </Paper>
     </div>
   );
 };

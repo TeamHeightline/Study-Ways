@@ -7,14 +7,12 @@ interface Props {
   openPageIndex: number;
   lIndex: number;
   updateCourseRow: (row: ICourseLine) => void;
-  editCard: (id: string) => void;
 }
 export default function CourseRow({
   row,
   openPageIndex,
   lIndex,
   updateCourseRow,
-  editCard,
 }: Props) {
   const fragment = row.SameLine[openPageIndex - 1];
   if (!fragment) return null;
@@ -43,7 +41,6 @@ export default function CourseRow({
         key={`${lIndex}-${openPageIndex}`}
         fragment={fragment}
         level={lIndex + 1}
-        editCard={editCard}
         updateFragment={update}
       />
     </section>

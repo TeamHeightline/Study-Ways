@@ -1,5 +1,6 @@
 import { installThemePersistence } from '../../shared/theme/theme-store';
 import { configureStore } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query';
 import { RootReducer } from './RootReducer';
 
 import { studyWaysApi } from '../../shared/server-layer/query-layer/api';
@@ -12,6 +13,7 @@ const reduxStore = configureStore({
     }).concat(studyWaysApi.middleware),
 });
 
+setupListeners(reduxStore.dispatch);
 installThemePersistence(reduxStore);
 export default reduxStore;
 export type AppDispatch = typeof reduxStore.dispatch;

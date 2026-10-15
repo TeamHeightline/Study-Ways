@@ -110,7 +110,7 @@ export default function CardRow({
                 activePage={activePage}
                 courseID={courseID}
                 viewedCardIDs={viewedCardIDs}
-                cardData={materials[String(item.id).trim()]}
+                cardData={materials[String(item.id).split(',')[0].trim()]}
                 loading={materialsLoading}
               />
             )}

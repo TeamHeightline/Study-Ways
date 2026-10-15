@@ -285,3 +285,16 @@
     @apply tw-col-[1/-1];
   }
 }
+
+.sw-material .sw-course-card-edit {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 2;
+}
+.sw-course-card-number {
+  display: block;
+  color: var(--sw-accent-800);
+  font-size: var(--sw-font-size-16);
+  line-height: 1.4;
+}

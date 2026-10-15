@@ -1,0 +1,97 @@
+.sw-card-edit-link.MuiIconButton-root {
+  color: var(--sw-accent-700);
+  background: var(--sw-surface);
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-8);
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+}
+.sw-card-edit-link.MuiIconButton-root:hover {
+  background: var(--sw-accent-100);
+}
+.sw-card-edit-link.Mui-focusVisible {
+  outline: 2px solid var(--sw-focus);
+  outline-offset: 2px;
+}
+.sw-card-number {
+  font-size: var(--sw-font-size-24);
+  font-weight: 750;
+  line-height: 1.2;
+  color: var(--sw-accent-800);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.sw-card-preview-tooltip.MuiTooltip-tooltip {
+  max-width: min(480px, calc(100vw - 24px));
+  max-height: min(640px, calc(100dvh - 32px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0;
+  color: var(--sw-ink);
+  background: var(--sw-surface);
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-12);
+  box-shadow: 0 8px 28px rgb(var(--sw-shadow-rgb) / 0.18);
+}
+.sw-card-preview-tooltip .MuiTooltip-arrow {
+  color: var(--sw-surface);
+}
+.sw-card-preview {
+  padding: 16px;
+  font-size: var(--sw-font-size-13);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.sw-card-preview + .sw-card-preview {
+  border-top: 1px solid var(--sw-border);
+}
+.sw-card-preview header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.sw-card-preview h3 {
+  font-size: var(--sw-font-size-16);
+  margin: 10px 0;
+  line-height: 1.45;
+}
+.sw-card-preview dl {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 4px 12px;
+  margin: 12px 0;
+}
+.sw-card-preview dt {
+  color: var(--sw-neutral-500);
+}
+.sw-card-preview dd {
+  margin: 0;
+}
+.sw-card-preview img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: var(--sw-radius-8);
+}
+.sw-card-preview img[hidden] {
+  display: none;
+}
+.sw-card-preview h4 {
+  margin: 12px 0 4px;
+  font-size: inherit;
+}
+.sw-card-preview p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+.sw-card-preview-links {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+}
+.sw-card-preview a {
+  color: var(--sw-accent-700);
+  text-decoration: underline;
+}

@@ -4,6 +4,7 @@ import { studyWaysApi } from '../../shared/server-layer/query-layer/api';
 export interface CoursePageCard {
   id: number;
   title: string;
+  created_by_id?: number | null;
   card_content_type: number;
   video_url: string | null;
   cards_cardimage: { image: string } | null;
@@ -41,6 +42,7 @@ export function useCoursePageMaterials(
   const query = courseMaterialsApi.useGetCoursePageCardsQuery(
     { courseId, page },
     {
+      refetchOnFocus: true,
       skip:
         !enabled ||
         !Number.isInteger(courseId) ||

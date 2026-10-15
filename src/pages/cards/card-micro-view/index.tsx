@@ -26,7 +26,8 @@ import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import ReactPlayer from 'react-player';
 import { useGetCardPreviewsQuery } from './store/api';
 import { CardType } from './store/type';
-import { FILE_URL } from '../../../settings';
+import { cardImageUrl } from '../shared/card-image-url';
+import { CardEditLink } from '../shared/card-edit-link';
 import { parseRutubeUrl } from '../../../shared/video/rutube';
 
 interface ICardMicroViewProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -41,6 +42,7 @@ export default function CardMicroView({
   ...props
 }: ICardMicroViewProps) {
   const { cardData } = useGetCardPreviewsQuery(undefined, {
+    refetchOnFocus: true,
     selectFromResult: ({ data }) => ({
       cardData: data?.[String(cardID)] ?? null,
     }),
@@ -141,6 +143,11 @@ export function CardMicroViewByData({
           onChange && onChange(cardID);
         }}
       >
+        <CardEditLink
+          id={cardID}
+          ownerId={card_data.created_by_id}
+          className="sw-mini-edit"
+        />
         <CardActionArea
           className="sw-mini-card-action"
           sx={{ height: '100%', p: 2 }}
@@ -197,7 +204,7 @@ export function CardMicroViewByData({
                     borderRadius: '24px',
                   }}
                   onError={() => void 0}
-                  image={`${FILE_URL}/${card_data?.cards_cardimage?.image}`}
+                  image={cardImageUrl(cardID, card_data.cards_cardimage?.image)}
                 />
               )}
             </Box>
@@ -223,7 +230,9 @@ export function CardMicroViewByData({
                     className="sw-mini-meta"
                     sx={{ display: 'flex', alignItems: 'center' }}
                   >
-                    ID: {card_data?.id}
+                    <strong className="sw-card-number sw-mini-number">
+                      №{card_data.id}
+                    </strong>
                     {Number(card_data.card_content_type) === 0 && (
                       <Chip
                         id={'video-icon'}

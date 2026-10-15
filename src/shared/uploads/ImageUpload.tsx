@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Alert,
   Box,
@@ -30,6 +30,8 @@ export function ImageUpload({
   const input = useRef<HTMLInputElement>(null);
   const busy = useRef(false);
   const dragDepth = useRef(0);
+  const [previewFailed, setPreviewFailed] = useState(false);
+  useEffect(() => setPreviewFailed(false), [imageUrl]);
   const [uploading, setUploading] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [error, setError] = useState('');
@@ -125,7 +127,7 @@ export function ImageUpload({
           display: 'flex',
           flexDirection: 'column',
           width: '100%',
-          p: 3,
+          p: 1.5,
           border: '1px dashed',
           borderColor: dragging
             ? 'var(--sw-accent)'
@@ -142,8 +144,13 @@ export function ImageUpload({
           '&.Mui-disabled': { opacity: 0.7 },
         }}
       >
-        {imageUrl ? (
-          <Box component="img" src={imageUrl} alt="Изображение карточки" />
+        {imageUrl && !previewFailed ? (
+          <Box
+            component="img"
+            src={imageUrl}
+            alt="Изображение карточки"
+            onError={() => setPreviewFailed(true)}
+          />
         ) : (
           <span className="sw-cedit-upload-icon">
             <AddPhotoAlternateOutlinedIcon />
@@ -179,6 +186,11 @@ export function ImageUpload({
           до 10 МБ.
         </Typography>
       </ButtonBase>
+      {previewFailed && (
+        <Alert severity="warning">
+          Не удалось открыть изображение. Можно выбрать другой файл.
+        </Alert>
+      )}
       {error && (
         <Alert
           severity="error"

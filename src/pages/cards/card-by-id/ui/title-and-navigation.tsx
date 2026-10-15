@@ -1,6 +1,5 @@
 import React from 'react';
 import { CardByIDStore } from '../store/CardByIDStore';
-import DefaultCardNavigation from './default-card-navigation';
 import { Stack } from '@mui/material';
 import CardTitleWithId from './card-title-with-id';
 import CardCopyright from './card-copyright';
@@ -29,11 +28,7 @@ const TitleAndNavigation = ({
         direction={openFromCourse && !isMobile ? 'row' : 'column'}
         spacing={2}
       >
-        {openFromCourse
-          ? course_navigation
-          : !is_hidden_navigation && (
-              <DefaultCardNavigation card_store={card_store} />
-            )}
+        {openFromCourse && !is_hidden_navigation && course_navigation}
         <Stack direction={'column'} className="sw-material-heading">
           <CardTheme card_store={card_store} />
           <CardTitleWithId card_store={card_store} />

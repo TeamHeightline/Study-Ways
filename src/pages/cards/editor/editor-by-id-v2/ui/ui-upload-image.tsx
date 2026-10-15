@@ -24,7 +24,7 @@ export const UiUploadImage = () => {
           helperText={
             !editor.isUrlValid
               ? 'Введите полную ссылку, начинающуюся с https:// или http://'
-              : 'Ученик сможет открыть материал по этой ссылке.'
+              : undefined
           }
         />
       )}

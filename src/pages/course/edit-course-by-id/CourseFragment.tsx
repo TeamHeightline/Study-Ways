@@ -6,13 +6,11 @@ interface Props {
   fragment: CourseFragmentData;
   level: number;
   updateFragment: (fragment: CourseFragmentData) => void;
-  editCard: (id: string) => void;
 }
 export default function CourseFragment({
   fragment,
   level,
   updateFragment,
-  editCard,
 }: Props) {
   const update = (index: number, value: CourseElementData) =>
     updateFragment({
@@ -29,7 +27,6 @@ export default function CourseFragment({
           item_data={item}
           item_position={index}
           level={level}
-          editCard={editCard}
           updateItem={value => update(index, value)}
         />
       ))}

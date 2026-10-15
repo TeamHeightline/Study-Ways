@@ -21,9 +21,6 @@ export const UiConnectedThemeSelector = () => {
         placeholder="Выберите одну или несколько тем"
       />
       <ThemeLoadError isError={themes.isError} refetch={themes.refetch} />
-      <p className="sw-cedit-field-note">
-        Карточка появится в выбранных темах.
-      </p>
     </div>
   );
 };

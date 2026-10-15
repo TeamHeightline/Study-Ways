@@ -329,3 +329,8 @@
     padding: 6px 9px;
   }
 }
+
+.sw-mobile-tree-edit.sw-card-edit-link {
+  width: 28px;
+  height: 28px;
+}

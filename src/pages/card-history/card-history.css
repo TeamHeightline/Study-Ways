@@ -359,3 +359,16 @@
     font-size: var(--sw-font-size-13);
   }
 }
+
+.sw-history-entry-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.sw-history-entry-row .sw-history-entry {
+  flex: 1;
+  min-width: 0;
+}
+.sw-history-entry-meta .sw-history-number {
+  font-size: var(--sw-font-size-18);
+}

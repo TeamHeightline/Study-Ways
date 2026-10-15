@@ -16,6 +16,11 @@ import { editableDefaults } from '../model/types';
 import { EditCardByID } from './EditCardByID';
 
 jest.mock('./ui-rich-text-editor', () => ({ UiRichTextEditor: () => null }));
+jest.mock('react-player', () => ({
+  __esModule: true,
+  default: ({ url }) =>
+    require('react').createElement('div', { 'data-video-url': url }),
+}));
 jest.mock('../../../../../app/redux-store/RootStore', () => ({
   useAppDispatch: () => require('react-redux').useDispatch(),
   useAppSelector: require('react-redux').useSelector,
@@ -224,7 +229,7 @@ test('failed saves expose a retry and preserve unsaved edits', async () => {
 test('Rutube links save through RTK Query and reopen in the matching tab', async () => {
   cards.set(812, { ...card(), card_content_type: 0 });
   await render();
-  await act(async () => button('Rutube').click());
+  await selectOption('Видеоплатформа', 'Rutube');
   const url = 'https://rutube.ru/video/0123456789abcdef0123456789abcdef/';
   await fill('Ссылка на видео Rutube', url);
   expect(container.querySelector('iframe').src).toBe(
@@ -234,9 +239,7 @@ test('Rutube links save through RTK Query and reopen in the matching tab', async
   expect(calls().at(-1).data.video_url).toBe(url);
   await act(async () => root.render(null));
   await render();
-  expect(
-    container.querySelector('[value="Rutube"]').getAttribute('aria-pressed'),
-  ).toBe('true');
+  expect(container.querySelector('input[value="Rutube"]')).not.toBeNull();
 });
 
 test('edits made during a save survive invalidation and are persisted in order', async () => {
@@ -440,4 +443,75 @@ test('a failed older save does not leave newer edits stuck in a pending state', 
   ]);
   expect(draft().saveState).toBe('saved');
   expect(draft().draft.title).toBe('Последняя версия');
+});
+
+test('legacy images without a database relation remain visible when editing', async () => {
+  cards.set(812, { ...card(), cards_cardimage: null });
+  await render();
+  expect(container.querySelector('img').src).toContain(
+    '/cards-images/card/812',
+  );
+  expect(
+    container.querySelector('button[aria-label="Заменить изображение"]'),
+  ).not.toBeNull();
+  expect(container.textContent).not.toContain('Для кого и к каким темам');
+  await flush();
+  expect(calls()).toHaveLength(0);
+});
+
+async function selectOption(label, option) {
+  const control = [...container.querySelectorAll('[role="combobox"]')].find(
+    node =>
+      (node.getAttribute('aria-labelledby') || '')
+        .split(' ')
+        .some(id => document.getElementById(id)?.textContent === label),
+  );
+  await act(async () => Simulate.mouseDown(control, { button: 0 }));
+  await act(async () =>
+    [...document.querySelectorAll('[role="option"]')]
+      .find(node => node.textContent === option)
+      .click(),
+  );
+}
+
+test('material selector saves a numeric type while preserving video links', async () => {
+  cards.set(812, {
+    ...card(),
+    card_content_type: 0,
+    video_url: 'https://www.youtube.com/watch?v=Q0_WXvufBco',
+    vk_video_url: 'https://vkvideo.ru/video1_2',
+  });
+  await render();
+  await selectOption('Тип материала', 'Изображение');
+  await flush();
+  expect(calls().at(-1).data).toMatchObject({
+    card_content_type: 2,
+    video_url: 'https://www.youtube.com/watch?v=Q0_WXvufBco',
+    vk_video_url: 'https://vkvideo.ru/video1_2',
+  });
+  expect(
+    container.querySelector('button[aria-label="Заменить изображение"]'),
+  ).not.toBeNull();
+});
+
+test('video platform selector keeps alternate links and only saves actual text edits', async () => {
+  cards.set(812, {
+    ...card(),
+    card_content_type: 0,
+    video_url: 'https://www.youtube.com/watch?v=Q0_WXvufBco',
+    vk_video_url: 'https://vkvideo.ru/video1_2',
+  });
+  await render();
+  await selectOption('Видеоплатформа', 'YouTube');
+  await flush();
+  expect(calls()).toHaveLength(0);
+  await fill(
+    'Ссылка на видео YouTube',
+    'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  );
+  await flush();
+  expect(calls().at(-1).data).toMatchObject({
+    video_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    vk_video_url: 'https://vkvideo.ru/video1_2',
+  });
 });

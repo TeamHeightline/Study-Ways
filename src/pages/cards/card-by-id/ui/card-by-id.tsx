@@ -34,6 +34,7 @@ const CardByID = ({
   const { width } = useWindowDimensions();
   const query = useGetCardQuery(
     card_id && Number.isInteger(card_id) && card_id > 0 ? card_id : skipToken,
+    { refetchOnFocus: true },
   );
   const userId = session.recommendationUserId;
   const cardStorage = useCardView(

@@ -97,6 +97,7 @@
   box-shadow: 0 10px 22px rgb(var(--sw-shadow-rgb) / 0.1255) !important;
 }
 .sw-mini-card {
+  @apply tw-relative;
   @apply !tw-w-[340px] tw-max-w-full !tw-h-[360px];
   border: 1px solid var(--sw-neutral-200) !important;
   @apply !tw-rounded-ui-20;
@@ -301,4 +302,14 @@
 }
 .sw-card-library-grid .sw-mini-card {
   @apply !tw-w-[340px] tw-max-w-full;
+}
+
+.sw-mini-card .sw-mini-edit {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  z-index: 2;
+}
+.sw-mini-meta .sw-mini-number {
+  font-size: var(--sw-font-size-18);
 }

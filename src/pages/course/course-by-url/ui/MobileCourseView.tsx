@@ -1,7 +1,10 @@
+import { CardEditLink } from '../../../cards/shared/card-edit-link';
+import { cardImageUrl } from '../../../cards/shared/card-image-url';
 import {
   CoursePageCard as Material,
   useCoursePageMaterials,
 } from '../../course-materials-api';
+import { CardHoverPreview } from '../../../cards/shared/card-hover-preview';
 import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Alert, Button, Skeleton } from '@mui/material';
 import {
@@ -18,7 +21,10 @@ import {
 import { useNavigate } from 'react-router-dom';
 import axiosClient from '../../../../shared/server-layer/query-layer/config';
 import { positionDataI } from '../../course-micro-view/v2/store/CourseMicroStoreByID';
-import { cardIDs, normalizeCourseData } from '../../edit-course-by-id/course-data';
+import {
+  cardIDs,
+  normalizeCourseData,
+} from '../../edit-course-by-id/course-data';
 import {
   MobileCourseNode,
   courseNodes,
@@ -67,8 +73,8 @@ function MaterialCover({
         ? youtube && youtube.provider === 'youtube'
           ? `https://img.youtube.com/vi/${youtube.id}/hqdefault.jpg`
           : ''
-        : data?.cards_cardimage?.image
-          ? `https://storage.googleapis.com/study-ways-files/${data.cards_cardimage.image}`
+        : data
+          ? cardImageUrl(data.id, data.cards_cardimage?.image)
           : ''
       : '';
   const [failed, setFailed] = useState(false);
@@ -481,34 +487,60 @@ export default function MobileCourseView({
                     node.index === selected.selectedIndex;
                   const title = materialTitle(node, materials);
                   return (
-                    <button
-                      key={keyOf(node)}
-                      className={`sw-mobile-tree-node${active ? ' is-current' : ''}${viewed.has(keyOf(node)) ? ' is-viewed' : ''}${node.item.type === 'course-link' ? ' is-link' : ''}`}
-                      style={{
-                        left: node.index * COLUMN + LEFT,
-                        top: (node.row - firstRow) * ROW + TOP,
-                        width: NODE_WIDTH,
-                        height: NODE_HEIGHT,
-                      }}
-                      aria-label={`Уровень ${node.row + 1}: ${title}`}
-                      aria-current={active ? 'step' : undefined}
-                      onClick={() => choose(node)}
-                    >
-                      <MaterialCover
-                        node={node}
-                        data={materials[cardIDs(node.item.id)[0]]}
-                      />
-                      <strong>{title}</strong>
-                      <small>
-                        {active
-                          ? 'Сейчас изучаете'
-                          : node.item.type === 'course-link'
-                            ? 'Открыть курс →'
-                            : viewed.has(keyOf(node))
-                              ? 'Просмотрено'
-                              : 'Открыть материал'}
-                      </small>
-                    </button>
+                    <React.Fragment key={keyOf(node)}>
+                      <CardHoverPreview
+                        ids={
+                          node.item.type === 'course-link'
+                            ? []
+                            : cardIDs(node.item.id)
+                        }
+                      >
+                        <button
+                          className={`sw-mobile-tree-node${active ? ' is-current' : ''}${viewed.has(keyOf(node)) ? ' is-viewed' : ''}${node.item.type === 'course-link' ? ' is-link' : ''}`}
+                          style={{
+                            left: node.index * COLUMN + LEFT,
+                            top: (node.row - firstRow) * ROW + TOP,
+                            width: NODE_WIDTH,
+                            height: NODE_HEIGHT,
+                          }}
+                          aria-label={`Уровень ${node.row + 1}: ${title}`}
+                          aria-current={active ? 'step' : undefined}
+                          onClick={() => choose(node)}
+                        >
+                          <MaterialCover
+                            node={node}
+                            data={materials[cardIDs(node.item.id)[0]]}
+                          />
+                          <strong>{title}</strong>
+                          <small>
+                            {active
+                              ? 'Сейчас изучаете'
+                              : node.item.type === 'course-link'
+                                ? 'Открыть курс →'
+                                : viewed.has(keyOf(node))
+                                  ? 'Просмотрено'
+                                  : 'Открыть материал'}
+                          </small>
+                        </button>
+                      </CardHoverPreview>
+                      {node.item.type !== 'course-link' &&
+                        cardIDs(node.item.id).length === 1 && (
+                          <CardEditLink
+                            id={Number(cardIDs(node.item.id)[0])}
+                            ownerId={
+                              materials[cardIDs(node.item.id)[0]]?.created_by_id
+                            }
+                            className="sw-mobile-tree-edit"
+                            style={{
+                              position: 'absolute',
+                              zIndex: 2,
+                              left:
+                                node.index * COLUMN + LEFT + NODE_WIDTH - 34,
+                              top: (node.row - firstRow) * ROW + TOP + 4,
+                            }}
+                          />
+                        )}
+                    </React.Fragment>
                   );
                 })}
               </div>

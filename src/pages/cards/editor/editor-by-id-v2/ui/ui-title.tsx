@@ -9,7 +9,7 @@ export const UiTitle = () => {
       placeholder="Дайте материалу понятное название"
       fullWidth
       multiline
-      minRows={2}
+      minRows={1}
       maxRows={4}
       value={
         (editor.draft.title ?? '') === 'Название карточки по умолчанию'

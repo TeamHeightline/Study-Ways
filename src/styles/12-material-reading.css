@@ -18,13 +18,6 @@
   overflow-wrap: anywhere;
   @apply !tw-mb-1.5;
 }
-.sw-material-title .MuiChip-root {
-  vertical-align: middle;
-  @apply tw-text-ui-11;
-  background: var(--sw-accent-100);
-  border-color: var(--sw-accent-200);
-  @apply tw-text-accent-600 tw-font-medium;
-}
 .sw-material-heading > div:not(h1) {
   @apply tw-text-neutral-600 tw-text-ui-13;
 }
@@ -266,5 +259,30 @@
   }
   .sw-material-test-link-icon {
     @apply tw-w-9 tw-h-9;
+  }
+}
+
+.sw-material-title-row {
+  @apply tw-flex tw-items-start tw-gap-4 tw-flex-wrap;
+}
+.sw-material-title-row .sw-material-title {
+  @apply tw-flex-1 tw-min-w-0 tw-whitespace-normal tw-overflow-visible tw-text-clip;
+}
+.sw-material-identity {
+  @apply tw-flex tw-items-center tw-gap-3 tw-shrink-0;
+}
+.sw-material-identity .sw-material-number {
+  font-size: var(--sw-font-size-34);
+}
+.sw-material-identity .sw-card-edit-link {
+  width: 36px;
+  height: 36px;
+}
+@media (max-width: 600px) {
+  .sw-material-title-row .sw-material-title {
+    flex-basis: 100%;
+  }
+  .sw-material-identity .sw-material-number {
+    font-size: var(--sw-font-size-28);
   }
 }

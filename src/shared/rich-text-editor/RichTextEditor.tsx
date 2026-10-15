@@ -30,11 +30,20 @@ import { richTextExtensions, validEditorURL } from './extensions';
 import './rich-text-editor.css';
 
 type Mode = 'visual' | 'markdown' | 'html';
-type Props = { value: string; onChange: (html: string) => void };
+type Props = {
+  value: string;
+  onChange: (html: string) => void;
+  visualOnly?: boolean;
+};
 
-export default function RichTextEditor({ value, onChange }: Props) {
+export default function RichTextEditor({
+  value,
+  onChange,
+  visualOnly = false,
+}: Props) {
   const id = useId();
-  const [mode, setMode] = useState<Mode>('visual');
+  const [selectedMode, setMode] = useState<Mode>('visual');
+  const mode = visualOnly ? 'visual' : selectedMode;
   const [source, setSource] = useState('');
   const [dialog, setDialog] = useState<'link' | 'image' | null>(null);
   const [url, setURL] = useState('');
@@ -70,7 +79,7 @@ export default function RichTextEditor({ value, onChange }: Props) {
   }, [editor, value, mode]);
 
   function changeMode(next: Mode | null) {
-    if (!next || !editor || next === mode) return;
+    if (visualOnly || !next || !editor || next === mode) return;
     // Viewing another representation never rewrites the saved HTML.
     setSource(next === 'markdown' ? editor.getMarkdown() : lastValue.current);
     setMode(next);
@@ -156,19 +165,21 @@ export default function RichTextEditor({ value, onChange }: Props) {
   return (
     <div className="sw-rich-text">
       <div className="sw-rich-text-frame">
-        <div className="sw-rich-text-modes">
-          <ToggleButtonGroup
-            size="small"
-            exclusive
-            value={mode}
-            onChange={(_, next) => changeMode(next)}
-            aria-label="Режим редактора"
-          >
-            <ToggleButton value="visual">Визуальный</ToggleButton>
-            <ToggleButton value="markdown">Markdown</ToggleButton>
-            <ToggleButton value="html">HTML</ToggleButton>
-          </ToggleButtonGroup>
-        </div>
+        {!visualOnly && (
+          <div className="sw-rich-text-modes">
+            <ToggleButtonGroup
+              size="small"
+              exclusive
+              value={mode}
+              onChange={(_, next) => changeMode(next)}
+              aria-label="Режим редактора"
+            >
+              <ToggleButton value="visual">Визуальный</ToggleButton>
+              <ToggleButton value="markdown">Markdown</ToggleButton>
+              <ToggleButton value="html">HTML</ToggleButton>
+            </ToggleButtonGroup>
+          </div>
+        )}
         <div hidden={mode !== 'visual'}>
           <div
             className="sw-rich-text-toolbar"
@@ -328,13 +339,15 @@ export default function RichTextEditor({ value, onChange }: Props) {
           </div>
         )}
       </div>
-      <p className="sw-cedit-field-note">
-        {mode === 'visual'
-          ? 'Вставить текст без исходного оформления: Ctrl + Shift + V.'
-          : mode === 'markdown'
-            ? 'Поддерживаются заголовки, списки, ссылки, изображения и таблицы. Сложные блоки сохраняются как HTML.'
-            : 'Поддерживаются стандартные элементы текста, ссылки, изображения и таблицы.'}
-      </p>
+      {!visualOnly && (
+        <p className="sw-cedit-field-note">
+          {mode === 'visual'
+            ? 'Вставить текст без исходного оформления: Ctrl + Shift + V.'
+            : mode === 'markdown'
+              ? 'Поддерживаются заголовки, списки, ссылки, изображения и таблицы. Сложные блоки сохраняются как HTML.'
+              : 'Поддерживаются стандартные элементы текста, ссылки, изображения и таблицы.'}
+        </p>
+      )}
       <Dialog
         open={dialog !== null}
         onClose={() => setDialog(null)}

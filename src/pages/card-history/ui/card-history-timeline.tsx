@@ -9,6 +9,7 @@ import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import { Link } from 'react-router-dom';
 import { useCardPreviewMap } from '../../cards/card-micro-view/store/api';
 import '../card-history.css';
+import { CardEditLink } from '../../cards/shared/card-edit-link';
 
 interface CardHistoryTimelineProps {
   cardIDs: number[];
@@ -105,34 +106,42 @@ export default function CardHistoryTimeline({
                 {index === 0 ? 'Последний просмотр' : 'Ранее'}
               </span>
             )}
-            <ButtonBase
-              component={Link}
-              to={`/card/${id}`}
-              onClick={onOpenCard}
-              className="sw-history-entry"
-            >
-              <span
-                className={`sw-history-type-icon type-${card?.card_content_type ?? 'unknown'}`}
-                aria-hidden="true"
+            <div className="sw-history-entry-row">
+              <ButtonBase
+                component={Link}
+                to={`/card/${id}`}
+                onClick={onOpenCard}
+                className="sw-history-entry"
               >
-                <Icon />
-              </span>
-              <span className="sw-history-entry-copy">
-                <span className="sw-history-entry-meta">
-                  <span>{label}</span>
-                  <span>№{id}</span>
+                <span
+                  className={`sw-history-type-icon type-${card?.card_content_type ?? 'unknown'}`}
+                  aria-hidden="true"
+                >
+                  <Icon />
                 </span>
-                <Typography component="span" className="sw-history-entry-title">
-                  {card?.title?.trim() || `Карточка №${id}`}
-                </Typography>
-                {(theme || author) && (
-                  <span className="sw-history-entry-description">
-                    {[theme, author].filter(Boolean).join(' · ')}
+                <span className="sw-history-entry-copy">
+                  <span className="sw-history-entry-meta">
+                    <span>{label}</span>
+                    <strong className="sw-card-number sw-history-number">
+                      №{id}
+                    </strong>
                   </span>
-                )}
-              </span>
-              <ArrowForwardRoundedIcon className="sw-history-entry-arrow" />
-            </ButtonBase>
+                  <Typography
+                    component="span"
+                    className="sw-history-entry-title"
+                  >
+                    {card?.title?.trim() || `Карточка №${id}`}
+                  </Typography>
+                  {(theme || author) && (
+                    <span className="sw-history-entry-description">
+                      {[theme, author].filter(Boolean).join(' · ')}
+                    </span>
+                  )}
+                </span>
+                <ArrowForwardRoundedIcon className="sw-history-entry-arrow" />
+              </ButtonBase>
+              <CardEditLink id={id} ownerId={card?.created_by_id} />
+            </div>
           </li>
         );
       })}

@@ -23,7 +23,7 @@ import {
 } from '../../../../../shared/server-layer/query-layer/auth-session';
 import { selectUserSession } from '../../../../../shared/store/user-store/user-session';
 import { serializeWrite } from '../../../../../shared/server-layer/query-layer/write-queue';
-import { FILE_URL } from '../../../../../settings';
+import { cardImageUrl } from '../../../shared/card-image-url';
 import { cardWriteData } from './types';
 import {
   attachDraft,
@@ -151,10 +151,11 @@ export function useCardEditorController(key: string, userId: number) {
       isUrlValid = false;
     }
   }
-  const imagePath = entry.imagePath;
-  const imageUrl = imagePath
-    ? `${/^https?:\/\//.test(imagePath) ? imagePath : `${FILE_URL}/${imagePath}`}${imagePath.includes('?') ? '&' : '?'}v=${entry.imageVersion}`
-    : undefined;
+  const imageUrl = cardImageUrl(
+    entry.draft.id,
+    entry.imagePath,
+    entry.imageVersion,
+  );
   const changeFieldByValue = (
     field: CardField,
     value: CardFieldChange['value'],

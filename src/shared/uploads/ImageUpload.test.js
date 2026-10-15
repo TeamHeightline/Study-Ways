@@ -93,3 +93,16 @@ test('drag and drop uploads images and rejects unsupported, oversized and multip
   expect(host.textContent).toContain('Выберите одно изображение.');
   expect(upload).not.toHaveBeenCalled();
 });
+
+test('a failed preview reports a loading problem and recovers when its source changes', async () => {
+  const upload = jest.fn();
+  await render(upload);
+  await act(async () => Simulate.error(host.querySelector('img')));
+  expect(host.textContent).toContain('Не удалось открыть изображение');
+  expect(host.querySelector('img')).toBeNull();
+  await act(async () =>
+    root.render(<ImageUpload imageUrl="/new.png" onUpload={upload} />),
+  );
+  expect(host.querySelector('img').getAttribute('src')).toBe('/new.png');
+  expect(host.textContent).not.toContain('Не удалось открыть изображение');
+});

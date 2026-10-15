@@ -282,9 +282,6 @@ function CourseEditor({
             <span>
               <strong>{stats.cards}</strong>Карточек
             </span>
-            <span>
-              <strong>{stats.links}</strong>Переходов
-            </span>
           </div>
         </div>
         <div className="sw-coedit-cover">

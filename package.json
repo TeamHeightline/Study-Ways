@@ -86,9 +86,9 @@
     ]
   },
   "overrides": {
-    "react-is": "$react-is",
+    "react-is": "18.3.1",
     "react-scripts": {
-      "typescript": "$typescript"
+      "typescript": "~5.9.3"
     }
   },
   "jest": {

@@ -7,6 +7,7 @@ import AnswerHelpTextV2 from './answer-help-text-v2';
 import AnswerHelpTextV3 from './answer-help-text-v3';
 import AnswerImage from './answer-image';
 import AnswerHardLevel from './answer-hard-level';
+import AnswerCheckQueue from './answer-check-queue';
 import AnswerIsTrue from './answer-is-true';
 import AnswerIsRequired from './answer-is-required';
 import AnswerOnlyInExam from './answer-only-in-exam';
@@ -33,6 +34,7 @@ const AnswerContent = ({ answer_object: store }: AnswerContentProps) => (
         <div className="sw-qedit-answer-options">
           <AnswerIsTrue answer_object={store} />
           <AnswerHardLevel answer_object={store} />
+          <AnswerCheckQueue answer_object={store} />
         </div>
         <div className="sw-qedit-answer-checkboxes">
           <AnswerIsRequired answer_object={store} />

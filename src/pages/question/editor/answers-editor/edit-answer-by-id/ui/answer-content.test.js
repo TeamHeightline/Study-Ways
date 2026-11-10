@@ -1,5 +1,5 @@
 import React from 'react';
-import { act as legacyAct } from 'react-dom/test-utils';
+import { act as legacyAct, Simulate } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
@@ -167,6 +167,7 @@ beforeEach(async () => {
           ...records.get(id),
           text: result.text,
           isDeleted: result.is_deleted,
+          checkQueue: result.check_queue,
         });
         return { data: result };
       }
@@ -453,3 +454,41 @@ test('successful saves update shared cache even when the subsequent refetch fail
   expect(cached.data.answers[0].question.createdById).toBe(7);
   expect(draft().saveState).toBe('saved');
 });
+
+test.each([3, 0])(
+  'check order loads the existing value and saves %s through REST',
+  async value => {
+    await render();
+    await act(async () => button('Настройки и подсказки').click());
+    let field = container.querySelector('#answer-check-queue-21');
+    expect(field.value).toBe('10');
+    await act(async () =>
+      Simulate.change(field, { target: { value: String(value) } }),
+    );
+    expect(draft().draft.checkQueue).toBe(value);
+    await flush();
+    expect(calls('PUT')).toHaveLength(1);
+    expect(calls('PUT')[0].url).toBe('/page/write/answers/21');
+    expect(calls('PUT')[0].data.check_queue).toBe(value);
+    await act(async () => button('Свернуть редактор').click());
+    await act(async () => button('Настройки и подсказки').click());
+    expect(container.querySelector('#answer-check-queue-21').value).toBe(
+      String(value),
+    );
+  },
+);
+
+test.each(['', '-1', '1.5', '1000001'])(
+  'invalid check order %s is never sent to REST',
+  async value => {
+    await render();
+    await act(async () => button('Настройки и подсказки').click());
+    const field = container.querySelector('#answer-check-queue-21');
+    await act(async () => Simulate.change(field, { target: { value } }));
+    await flush();
+    expect(draft().draft.checkQueue).toBe(10);
+    expect(calls('PUT')).toHaveLength(0);
+    await act(async () => Simulate.blur(field));
+    expect(field.value).toBe('10');
+  },
+);

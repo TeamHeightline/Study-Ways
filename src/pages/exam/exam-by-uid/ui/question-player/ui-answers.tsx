@@ -26,34 +26,43 @@ export default function UIAnswers({ ...props }: IUIAnswersProps) {
     dispatch(changeSelectedAnswersId(id));
   };
   return (
-    <div style={{ overflowX: 'scroll' }}>
+    <div style={{ overflowX: 'auto', minWidth: 0, maxWidth: '100%' }}>
       {answersArray && (
         <Stack
           direction={isMobile ? 'column' : 'row'}
           spacing={2}
           sx={{
-            width: isMobile ? '' : answersArray?.length * 410,
-            height: isMobile ? answersArray?.length * 410 : '',
+            width: isMobile ? '100%' : 'max-content',
+            alignItems: 'stretch',
             pt: 2,
             pb: 4,
           }}
         >
-          {answersArray.map((answer, aIndex) => (
+          {answersArray.map(answer => (
             <Card
-              key={aIndex}
+              key={answer.id}
               variant="outlined"
               sx={{
                 backgroundColor: selectedAnswersID?.includes(answer?.id)
                   ? 'var(--sw-accent)'
                   : '',
-                width: 385,
-                height: 400,
-              }}
-              onClick={() => {
-                selectOrDeselectAnswer(answer.id);
+                width: isMobile ? '100%' : 385,
+                minWidth: 0,
+                flexShrink: 0,
+                display: 'flex',
               }}
             >
-              <CardActionArea sx={{ height: '100%' }}>
+              <CardActionArea
+                aria-pressed={selectedAnswersID?.includes(answer.id) ?? false}
+                onClick={() => selectOrDeselectAnswer(answer.id)}
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'stretch',
+                  justifyContent: 'flex-start',
+                  minWidth: 0,
+                }}
+              >
                 {!answer.is_image_deleted &&
                   answer?.usertests_answerimage?.image && (
                     <CardMedia
@@ -63,16 +72,19 @@ export default function UIAnswers({ ...props }: IUIAnswersProps) {
                           : 1,
                         height: answer?.text ? 240 : 400,
                       }}
-                      // className={answer?.answerText ? classes.media : classes.fullHeightMedia}
                       image={`${FILE_URL}/${answer?.usertests_answerimage?.image}`}
                     />
                   )}
                 {answer?.text && (
-                  <CardContent sx={{ mb: 5 }}>
+                  <CardContent sx={{ minWidth: 0 }}>
                     <Typography
                       variant="body1"
                       color="textSecondary"
-                      sx={{ pb: 5 }}
+                      sx={{
+                        whiteSpace: 'pre-wrap',
+                        overflowWrap: 'anywhere',
+                        wordBreak: 'normal',
+                      }}
                     >
                       {answer?.text}
                     </Typography>

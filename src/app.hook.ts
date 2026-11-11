@@ -27,11 +27,13 @@ export default function AppHook() {
             return;
         }
         getAccessTokenSilently({
+            // @ts-ignore Legacy Auth0 option shape.
             audience: 'sw-backend-identifier',
             scope: 'read:current_user',
         })
             .then(async token => {
                 if (!isCurrent()) return;
+                // @ts-ignore Auth0 overload infers a verbose response for the legacy options.
                 setAccessToken(token);
                 request = dispatch(
                     userApi.endpoints.getCurrentUser.initiate(undefined, {

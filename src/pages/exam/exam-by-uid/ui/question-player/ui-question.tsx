@@ -1,42 +1,46 @@
-import { Grid, Paper } from '@mui/material';
-import { PaperProps } from '@mui/material/Paper';
-import Card from '@mui/material/Card';
-import React from 'react';
-import { isMobileHook } from '../../../../../shared/custom-hooks/isMobileHook';
-import UIQuestionImage from './ui-question-image';
-import UIQuestionText from './ui-question-text';
+import React, { useState } from 'react';
+import { Box, PaperProps, Typography } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState } from '../../../../../app/redux-store/RootStore';
+import { FILE_URL } from '../../../../../settings';
+import { checkAnswers } from '../../redux-store/ExamPlayerSlice';
+import QuestionPanel from '../../../../../shared/question-player/ui/question-panel';
+import QuestionActions from '../../../../../shared/question-player/ui/question-actions';
+import UiComebackLaterDialog from './ui-come-back-later-dialog';
 
-type IUIQuestionProps = PaperProps;
-
-export default function UIQuestion({ ...props }: IUIQuestionProps) {
-  const isMobile = isMobileHook();
-  window.addEventListener('keydown', function (e) {
-    if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) {
-      e.preventDefault();
-    }
-  });
-
+export default function UIQuestion(props: PaperProps) {
+  const state = useSelector((state: RootState) => state.examPlayer);
+  const dispatch = useDispatch();
+  const [defeatOpen, setDefeatOpen] = useState(false);
+  const path = state.selected_question_data?.usertests_questionimage?.image;
   return (
-    <Paper elevation={0} {...props}>
-      <Card
-        variant="outlined"
-        sx={{
-          padding: 0,
-          maxHeight: isMobile ? '100%' : 510,
-          overflowY: 'auto',
-          width: '100%',
-        }}
+    <Box {...props}>
+      <QuestionPanel
+        text={state.selected_question_data?.text ?? ''}
+        imageUrl={
+          path
+            ? /^https?:\/\//i.test(path)
+              ? path
+              : `${FILE_URL}/${path.replace(/^\/+/, '')}`
+            : ''
+        }
+        actions={
+          <QuestionActions
+            onCheck={() => dispatch(checkAnswers())}
+            onGiveUp={() => setDefeatOpen(true)}
+          />
+        }
       >
-        <Grid
-          container
-          sx={{
-            justifyContent: 'center',
-          }}
-        >
-          <UIQuestionImage />
-          <UIQuestionText />
-        </Grid>
-      </Card>
-    </Paper>
+        {state.exam_data?.is_enable_max_question_attempts && (
+          <Typography sx={{ mt: 1.5 }} color="text.secondary">
+            Осталось попыток: {state.remaining_attempts}
+          </Typography>
+        )}
+      </QuestionPanel>
+      <UiComebackLaterDialog
+        isOpenComeBackLaterDialog={defeatOpen}
+        setIsOpenComeBackLaterDialog={setDefeatOpen}
+      />
+    </Box>
   );
 }

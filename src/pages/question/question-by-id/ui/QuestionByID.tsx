@@ -81,14 +81,7 @@ export const QuestionByID = (props: any) => {
   return (
     <Box>
       <UiQuestionData
-        ignoreAspectRatio={true}
-        onChange1={e => {
-          questionStore?.changeHardLevelOfHelpText(e.target.value);
-        }}
         onClick1={() => questionStore?.checkErrors()}
-        height={window.innerHeight}
-        width={window.innerWidth - 100}
-        urlHasBeenPassed={true}
         questionText={questionStore?.questionText}
         questionImgUrl={questionStore?.questionImageUrl}
         onAcceptDefeat={() => questionStore.onAcceptDefeat()}

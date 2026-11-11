@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { BoxProps } from '@mui/material/Box';
 import { QuestionPlayerStore } from '../store/QuestionPlayerStore';
-import UISingleAnswerByData from './ui-single-answer-by-data';
+import UISingleAnswerByData from '../../../../shared/question-player/ui/answer-card';
 import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
 interface ICreateErrorInAnswerReportProps extends BoxProps {

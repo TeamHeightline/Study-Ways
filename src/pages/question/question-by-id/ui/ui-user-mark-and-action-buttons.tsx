@@ -5,7 +5,6 @@ import React from 'react';
 import { QuestionPlayerStore } from '../store/QuestionPlayerStore';
 interface IUIUserMarkAndActionButtonsProps extends BoxProps {
   questionStore: QuestionPlayerStore;
-  answerID: number;
   answerIndex: number;
 }
 const UIUserMarkAndActionButtons = ({

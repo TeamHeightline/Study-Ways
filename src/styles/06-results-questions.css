@@ -324,6 +324,7 @@
 .sw-question-copy-text {
   @apply !tw-text-muted !tw-text-ui-16 !tw-leading-[1.7];
   overflow-wrap: anywhere;
+  white-space: pre-wrap;
 }
 .sw-question-copy .MuiButton-root {
   @apply tw-min-h-[43px] tw-rounded-ui-10 tw-font-bold tw-normal-case;
@@ -339,7 +340,7 @@
   @apply tw-w-max tw-min-w-full tw-items-stretch;
 }
 .sw-answer-card {
-  @apply tw-relative tw-flex tw-w-[385px] tw-h-[420px] tw-min-h-[420px];
+  @apply tw-relative tw-flex tw-w-[385px] tw-h-auto tw-min-h-[420px];
   border: 1px solid var(--sw-border) !important;
   @apply !tw-rounded-ui-16;
   background: var(--sw-surface) !important;
@@ -368,7 +369,7 @@
   @apply tw-text-accent-700;
 }
 .sw-answer-card-action {
-  @apply tw-relative !tw-flex tw-flex-col tw-items-stretch tw-w-full tw-h-full tw-min-h-[420px] !tw-text-ink tw-overflow-hidden;
+  @apply tw-relative !tw-flex tw-flex-col tw-items-stretch tw-w-full tw-h-auto tw-min-h-0 tw-justify-start !tw-text-ink tw-overflow-hidden;
 }
 .sw-answer-choice-indicator {
   @apply tw-flex tw-items-center tw-gap-1.75 tw-min-h-10.5 tw-py-1.75 tw-px-3.5 tw-text-neutral-500;
@@ -389,15 +390,19 @@
   background-repeat: no-repeat;
 }
 .sw-answer-content {
-  @apply tw-flex-1 tw-min-h-0 !tw-pt-4 !tw-pr-4 !tw-pb-4.75 !tw-pl-4 !tw-overflow-hidden;
+  @apply tw-flex-1 tw-min-h-0 !tw-pt-4 !tw-pr-4 !tw-pb-4.75 !tw-pl-4 !tw-overflow-visible;
 }
 .sw-answer-text {
-  display: -webkit-box;
-  @apply !tw-text-ink !tw-text-ui-14 !tw-leading-[1.55] tw-overflow-hidden;
+  @apply tw-block !tw-text-ink !tw-text-ui-14 !tw-leading-[1.7] tw-whitespace-pre-wrap;
   overflow-wrap: anywhere;
-  @apply tw-text-ellipsis;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 7;
+  word-break: normal;
+}
+.sw-answer-option {
+  min-width: 0;
+  max-width: 100%;
+}
+.sw-answer-option.is-full-width .sw-answer-card {
+  width: 100%;
 }
 .sw-answer-card.is-unselected .sw-answer-text {
   @apply !tw-text-secondary;
@@ -452,7 +457,7 @@
     @apply tw-pt-3 tw-pr-1.5 tw-pb-5 tw-pl-1.5;
   }
   .sw-answer-card {
-    @apply tw-w-[min(385px,calc(100vw_-_44px))] tw-h-[420px] tw-min-h-[420px];
+    @apply tw-w-[min(385px,calc(100vw_-_44px))] tw-h-auto tw-min-h-[420px];
   }
   .sw-answer-media {
     @apply !tw-h-[190px] tw-basis-[190px];
@@ -520,4 +525,48 @@
 }
 .sw-search-mode-switch .MuiToggleButton-root:hover {
   background: var(--sw-accent-100);
+}
+
+.sw-player-answers {
+  @apply tw-grid tw-grid-cols-1 tw-items-start tw-gap-4 tw-min-w-0 tw-p-4;
+}
+.sw-player-answer {
+  @apply tw-min-w-0;
+}
+@media (min-width: 900px) {
+  .sw-player-answers {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1536px) {
+  .sw-player-answers {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.sw-answer-card .sw-answer-card-action {
+  justify-content: flex-start;
+  align-items: stretch;
+  flex: 1;
+  min-width: 0;
+}
+.sw-answer-choice-indicator {
+  flex-shrink: 0;
+  justify-content: center;
+}
+.sw-answer-image-area {
+  position: relative;
+  min-width: 0;
+  flex-shrink: 0;
+  background: var(--sw-accent-100);
+}
+.sw-answer-card.is-image-only .sw-answer-image-area {
+  flex: 1 1 0;
+  min-height: 0;
+}
+.sw-answer-card.is-image-only .sw-answer-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100% !important;
 }
